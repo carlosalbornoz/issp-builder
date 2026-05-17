@@ -382,7 +382,7 @@ export default function LandingPage() {
           <p className="text-xs text-gray-600">
             Want to contribute?{" "}
             This is a volunteer-led, open-source initiative.{" "}
-            <a href="mailto:carlosantonio.albornoz@gmail.com" className="text-gray-400 hover:text-gray-200 underline underline-offset-2 transition-colors">
+            <a href="mailto:issp-builder@carlosanton.io" className="text-gray-400 hover:text-gray-200 underline underline-offset-2 transition-colors">
               Get in touch.
             </a>
           </p>

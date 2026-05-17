@@ -142,4 +142,4 @@ The current version uses server-side storage and authentication. A [local-first 
 
 This is a volunteer project. If you work in government ICT, at DICT, or care about civic tech and transparency in the Philippines — contributions, feedback, and collaboration are welcome.
 
-Open an issue or reach out at [carlosantonio.albornoz@gmail.com](mailto:carlosantonio.albornoz@gmail.com).
+Open an issue or reach out at [issp-builder@carlosanton.io](mailto:issp-builder@carlosanton.io).
