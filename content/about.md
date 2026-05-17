@@ -26,6 +26,26 @@ ISSP data is public-interest data. These plans describe what agencies intend to 
 
 I think we can do better than that.
 
+## The harder conversation
+
+We're entering what everyone is calling the age of AI — agentic systems, autonomous workflows, and a dozen other buzzwords. Strip away the hype and the practical reality is simple: ICT spending in government is going to increase, significantly, for a long time. That makes what DICT does — and how it does it — more consequential than ever.
+
+Here's the uncomfortable truth: a lot of government systems cost millions of pesos and barely work. I say this not as someone looking in from the outside, but as someone who has worked with and around these systems. The budget requests are submitted, the contracts are awarded, the ribbons are cut — and then the system handles 50 concurrent users before falling over. Some of these projects run into the hundreds of millions.
+
+DICT should be the bastion of transparency on this. The mandate is already there in the eGov Act. ISSP data is one window into the picture — it won't fix everything, but making it structured, searchable, and publicly comparable is a foundation. If budget requests are visible and comparable across agencies and years, accountability follows.
+
+## On talent, compensation, and what it actually takes
+
+I'll say this plainly: if the government wants world-class ICT, it needs to hire and properly pay world-class talent.
+
+I personally know government developers classified at SG-15 who could build circles around most of the private sector. The talent is there. What isn't always there is the recognition, the compensation, and the career trajectory that makes staying in government feel worth it long-term. That's a problem worth naming.
+
+This platform is also an invitation — to other developers, architects, and ICT officers who are still inside government, *lingkod bayani* through and through. Your perspective is irreplaceable. You know which processes are broken. You know which systems are ghost projects. You know where the actual bottlenecks are, not just the ones that show up in audit reports.
+
+Initiatives like BetterGov have done important work getting the ball rolling from the outside. But those of us on the inside have something different to offer: we know the internal workflows, the procurement constraints, the organizational dynamics, and — most importantly — what would actually help.
+
+If any of that resonates, reach out.
+
 ## How it unfolds — three phases
 
 **Phase 1 — ISSP Builder** *(live now)*
