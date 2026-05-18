@@ -425,29 +425,85 @@ src/
         ├── generate-pdf.ts            ← Puppeteer wrapper (two-PDF merge)
         └── render-issp-html.ts        ← Full ISSP HTML renderer
 
+content/
+├── about.md                           ← About page source (edit here, remark renders it)
+└── privacy.md                         ← Privacy page source
+
 public/
 ├── demo/
 │   └── ncwtr-issp-2026-2028.issp     ← NCWTR sample (all 4 parts)
+├── uacs/
+│   └── index.html                    ← Static UACS explorer (1,266 entries)
 └── uacs_active.min.json
 ```
 
 ---
 
-## 13. Landing Page
+## 13. Public Pages
 
+### Landing Page
 | File | Role |
 |---|---|
 | `src/app/page.tsx` | Full landing page — local-first copy, no sign-in |
 | `src/app/layout.tsx` | Root layout with `<Toaster>` from Sonner |
 
-**Key copy decisions (local-first):**
-- No "Sign In" — replaced with "Open Editor"
-- Hero subtitle: "No account. No server. Works in your browser — save progress as a file, export to PDF when ready."
-- CTAs link to `/editor`, not `/login`
+**Key copy decisions:**
+- No "Sign In" — replaced with "Open Editor" / "Start Building" (both link to `/editor`)
+- Hero: "ISSP compliance, finally structured."
+- Subtitle: "No account. No server. Works in your browser — save progress as a file, export to PDF when ready."
+- Features section: ISSP Creator (Live) + ISSP Repository + Budget Dashboard (On the Roadmap)
+- MITHI checklist replaces fake compliance bars
+
+### About Page (`/about`)
+| File | Role |
+|---|---|
+| `src/app/about/page.tsx` | Renders `content/about.md` server-side via `remark` |
+| `content/about.md` | Source of truth — edit markdown here to update the page |
+
+Editorial/blog style (Substack/Medium aesthetic). First paragraph has lede treatment. Content:
+- Author's personal story and frustration with the ISSP process
+- "The harder conversation" — AI/ICT spend era and transparency mandate
+- "On talent, compensation, and what it actually takes" — SG-15 developer point, lingkod bayani ethos
+
+### Privacy Page (`/privacy`)
+| File | Role |
+|---|---|
+| `src/app/privacy/page.tsx` | Renders `content/privacy.md` server-side via `remark` |
+| `content/privacy.md` | Privacy architecture blog post |
+
+Same editorial style as About. Content: 7 Privacy by Design principles mapping, local-first rationale, file format spec, optional AES-256-GCM encryption design.
+
+The underlying architecture document is also at `docs/privacy-architecture.md`.
+
+### UACS Explorer (`/uacs`)
+| File | Role |
+|---|---|
+| `public/uacs/index.html` | Static UACS explorer (1,266 entries, filterable) |
+| `next.config.ts` | Redirect: `/uacs` → `/uacs/index.html` |
+
+Also linked via tooltip + ExternalLink icon on UACS Code column headers in Part IV tables.
+
+### Attribution
+Footer present in:
+- Documents list page (`src/app/(dashboard)/...`)
+- Editor sidebar (`src/components/editor/editor-sidebar.tsx`)
+
+Text: "Made with ❤ para sa bayan · Carlos Antonio Albornoz · [@carlosanton.io](https://instagram.com/carlosanton.io)"
 
 ---
 
-## 14. Post-Launch Roadmap
+## 14. GitHub
+
+| Detail | Value |
+|---|---|
+| Remote | `git@github.com:carlosalbornoz/issp-builder` (private) |
+| Branch | `main` |
+| Initial push | 2026-05-18, 142 files, ~60,874 lines |
+| Git user | Carlos Antonio Albornoz / `carlosantonio.albornoz@gmail.com` |
+
+---
+
+## 15. Post-Launch Roadmap
 
 > Deferred until after initial local-first launch and DICT/MITHI consultation.
 

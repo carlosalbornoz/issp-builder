@@ -56,6 +56,7 @@ export interface Part1Data {
   cioUnit: string;
   cioEmail: string;
   cioContact: string;
+  focalSameAsCio: boolean;
   focalName: string;
   focalPosition: string;
   focalUnit: string;
@@ -70,6 +71,7 @@ export interface Part1Data {
 export interface StrategicConcern {
   id: string;
   outcomeIds: string[];
+  criticalSystem: string;
   concern: string;
   currentStrategy: string;
   desiredStrategy: string;

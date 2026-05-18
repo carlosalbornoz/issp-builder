@@ -32,6 +32,7 @@ interface Part1BData {
   cioUnit: string;
   cioEmail: string;
   cioContact: string;
+  focalSameAsCio: boolean;
   focalName: string;
   focalPosition: string;
   focalUnit: string;
@@ -48,6 +49,7 @@ const DEFAULT_HC: HumanCapital = {
 
 const DEFAULT_DATA: Part1BData = {
   cioName: "", cioPosition: "", cioUnit: "", cioEmail: "", cioContact: "",
+  focalSameAsCio: false,
   focalName: "", focalPosition: "", focalUnit: "", focalEmail: "", focalContact: "",
   humanCapital: DEFAULT_HC,
 };
@@ -168,8 +170,6 @@ export function Part1BForm({
 }: {
   initialData: Part1BData | null;
 }) {
-  const [focalSameAsCio, setFocalSameAsCio] = useState(false);
-
   const [data, setData] = useState<Part1BData>(() => {
     if (!initialData) return DEFAULT_DATA;
     // Deep-merge saved humanCapital with DEFAULT_HC so any missing nested
@@ -189,7 +189,7 @@ export function Part1BForm({
         nonIt: { ...DEFAULT_HC.outsourced.nonIt, ...(saved.outsourced?.nonIt ?? {}) },
       },
     };
-    return { ...initialData, humanCapital: merged };
+    return { ...initialData, focalSameAsCio: initialData.focalSameAsCio ?? false, humanCapital: merged };
   });
   const { status, debouncedSave } = useLocalSave("part1");
 
@@ -213,15 +213,17 @@ export function Part1BForm({
   }
 
   function handleSameAsCio(checked: boolean) {
-    setFocalSameAsCio(checked);
     if (checked) {
       update({
+        focalSameAsCio: true,
         focalName: data.cioName,
         focalPosition: data.cioPosition,
         focalUnit: data.cioUnit,
         focalEmail: data.cioEmail,
         focalContact: data.cioContact,
       });
+    } else {
+      update({ focalSameAsCio: false });
     }
   }
 
@@ -281,7 +283,7 @@ export function Part1BForm({
               <p className="text-sm font-semibold text-muted-foreground">ISSP Focal Person</p>
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <Checkbox
-                  checked={focalSameAsCio}
+                  checked={data.focalSameAsCio}
                   onCheckedChange={(v) => handleSameAsCio(v === true)}
                 />
                 <span className="text-xs text-muted-foreground">
@@ -289,11 +291,11 @@ export function Part1BForm({
                 </span>
               </label>
             </div>
-            <div className={cn(focalSameAsCio && "opacity-50 pointer-events-none")}>
+            <div className={cn(data.focalSameAsCio && "opacity-50 pointer-events-none")}>
               <PersonFields
                 prefix="focal"
                 title=""
-                data={focalSameAsCio ? {
+                data={data.focalSameAsCio ? {
                   name: data.cioName,
                   position: data.cioPosition,
                   unit: data.cioUnit,

@@ -21,6 +21,7 @@ export default function Part1BPage() {
         cioUnit: doc.part1.cioUnit,
         cioEmail: doc.part1.cioEmail,
         cioContact: doc.part1.cioContact,
+        focalSameAsCio: doc.part1.focalSameAsCio,
         focalName: doc.part1.focalName,
         focalPosition: doc.part1.focalPosition,
         focalUnit: doc.part1.focalUnit,

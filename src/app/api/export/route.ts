@@ -34,27 +34,39 @@ function mapStrategicConcerns(
   });
 }
 
-const SA_KEYS = ["publicInvestment", "nationalCybersecurity", "eGovMasterPlan", "convergenceBudgeting"] as const;
-const HA_KEYS = ["nationalPrioritization", "resourceOptimization", "interoperability", "crossAgency", "scalability"] as const;
+const SA_KNOWN = [
+  "Public Investment Program",
+  "National Cybersecurity Plan",
+  "E-Government Master Plan",
+  "Program Convergence Budgeting",
+] as const;
+
+const HA_KNOWN = [
+  "National Prioritization",
+  "Resource Optimization",
+  "Interoperability Framework",
+  "Cross-Agency Collaboration",
+  "Scalability and Sustainability",
+] as const;
 
 function mapProject(proj: IctProject, crossAgency = false): IsspData["part3"]["internalProjects"][number] {
   const saArr = proj.strategicAlignment ?? [];
   const haArr = proj.harmonizationFramework ?? [];
 
   const strategicAlignment: Record<string, boolean | string> = {
-    publicInvestment: saArr.includes("publicInvestment"),
-    nationalCybersecurity: saArr.includes("nationalCybersecurity"),
-    eGovMasterPlan: saArr.includes("eGovMasterPlan"),
-    convergenceBudgeting: saArr.includes("convergenceBudgeting"),
-    others: saArr.find((s) => !(SA_KEYS as readonly string[]).includes(s)) ?? "",
+    publicInvestment: saArr.includes("Public Investment Program"),
+    nationalCybersecurity: saArr.includes("National Cybersecurity Plan"),
+    eGovMasterPlan: saArr.includes("E-Government Master Plan"),
+    convergenceBudgeting: saArr.includes("Program Convergence Budgeting"),
+    others: saArr.find((s) => !(SA_KNOWN as readonly string[]).includes(s)) ?? "",
   };
 
   const harmonization: Record<string, boolean> = {
-    nationalPrioritization: haArr.includes("nationalPrioritization"),
-    resourceOptimization: haArr.includes("resourceOptimization"),
-    interoperability: haArr.includes("interoperability"),
-    crossAgency: haArr.includes("crossAgency"),
-    scalability: haArr.includes("scalability"),
+    nationalPrioritization: haArr.includes("National Prioritization"),
+    resourceOptimization: haArr.includes("Resource Optimization"),
+    interoperability: haArr.includes("Interoperability Framework"),
+    crossAgency: haArr.includes("Cross-Agency Collaboration"),
+    scalability: haArr.includes("Scalability and Sustainability"),
   };
 
   return {

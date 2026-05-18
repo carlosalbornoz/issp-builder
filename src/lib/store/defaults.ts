@@ -67,6 +67,7 @@ export function makeDefaultPart1(): Part1Data {
     legalBasis: "", mandateFunction: "",
     visionStatement: "", missionStatement: "", orgOutcomes: [],
     cioName: "", cioPosition: "", cioUnit: "", cioEmail: "", cioContact: "",
+    focalSameAsCio: false,
     focalName: "", focalPosition: "", focalUnit: "", focalEmail: "", focalContact: "",
     humanCapital: makeHumanCapital(),
     stakeholders: [],

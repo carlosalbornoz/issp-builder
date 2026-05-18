@@ -49,6 +49,7 @@ export default async function Part1BPage({
           cioUnit: doc.part1.cioUnit,
           cioEmail: doc.part1.cioEmail,
           cioContact: doc.part1.cioContact,
+          focalSameAsCio: false,
           focalName: doc.part1.focalName,
           focalPosition: doc.part1.focalPosition,
           focalUnit: doc.part1.focalUnit,

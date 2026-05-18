@@ -1,7 +1,7 @@
 /**
  * Exports the seeded NCWTR ISSP document as a .issp file.
- * Output: public/samples/NCWTR-ISSP-2026-2028.issp
- * 
+ * Output: public/demo/ncwtr-issp-2026-2028.issp
+ *
  * Run: node scripts/export-sample-issp.js
  */
 
@@ -82,6 +82,7 @@ const issp = {
     cioUnit: p1?.cioUnit ?? '',
     cioEmail: p1?.cioEmail ?? '',
     cioContact: p1?.cioContact ?? '',
+    focalSameAsCio: false,
     focalName: p1?.focalName ?? '',
     focalPosition: p1?.focalPosition ?? '',
     focalUnit: p1?.focalUnit ?? '',
@@ -116,7 +117,7 @@ const issp = {
   },
 };
 
-const outPath = path.join(__dirname, '../public/samples/NCWTR-ISSP-2026-2028.issp');
+const outPath = path.join(__dirname, '../public/demo/ncwtr-issp-2026-2028.issp');
 fs.writeFileSync(outPath, JSON.stringify(issp, null, 2), 'utf-8');
 console.log('Written:', outPath);
 console.log('Size:', (fs.statSync(outPath).size / 1024).toFixed(1), 'KB');

@@ -46,7 +46,12 @@
 | PDF: Two-PDF + pdf-lib merge (cover without header/footer) | ✅ Done |
 | PDF: Part IV UACS grouping, subtotals, grand totals | ✅ Done |
 | PDF: Project title brackets removed from Part IV section headers | ✅ Done |
-| Landing page at `/` (public) | ✅ Done |
+| Landing page at `/` (public) — local-first redesign, no sign-in, MITHI checklist | ✅ Done |
+| About page at `/about` — editorial/blog style, `content/about.md` via remark | ✅ Done |
+| Privacy page at `/privacy` — privacy architecture blog post, `content/privacy.md` | ✅ Done |
+| UACS Explorer at `/uacs` — static HTML, next.config.ts redirect | ✅ Done |
+| Attribution in editor sidebar + documents footer | ✅ Done |
+| Initial GitHub push to `carlosalbornoz/issp-builder` | ✅ Done |
 | Sonner toast library (`<Toaster>` in root layout) | ✅ Done |
 
 ---

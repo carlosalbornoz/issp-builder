@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "fileType": "issp-main",
-  "exportedAt": "2026-05-18T04:48:40.914Z",
+  "exportedAt": "2026-05-18T06:53:20.906Z",
   "tool": "issp-platform",
   "title": "NCWTR Information Systems Strategic Plan 2026–2028",
   "startYear": 2026,
@@ -9,8 +9,8 @@
   "status": "DRAFT",
   "scope": "AGENCY_WITH_REGIONAL",
   "amendmentNumber": 0,
-  "createdAt": "2026-05-18 04:48:40",
-  "updatedAt": "2026-05-18 04:48:40",
+  "createdAt": "2026-05-18 06:53:18",
+  "updatedAt": "2026-05-18 06:53:18",
   "agency": {
     "name": "National Commission on Waiting Time Reduction",
     "acronym": "NCWTR",
@@ -57,6 +57,7 @@
     "cioUnit": "Information and Communications Technology Division",
     "cioEmail": "cio@ncwtr.gov.ph",
     "cioContact": "+63 2 8888 1234",
+    "focalSameAsCio": false,
     "focalName": "Ms. Luzviminda R. Padayao",
     "focalPosition": "Chief Administrative Officer / ISSP Focal Person",
     "focalUnit": "Administrative and Finance Division",
@@ -96,49 +97,49 @@
     },
     "stakeholders": [
       {
-        "id": "c4556530b9c32db410d8b19",
+        "id": "cf8fbd27380de929622154d",
         "name": "General Public",
         "transactions": "Filing of complaints regarding excessive government waiting times; requesting queue compliance certificates",
         "complexity": "Simple"
       },
       {
-        "id": "c2ac24af59c33199d3e9744",
+        "id": "c9f452e56c6bde254b931b5",
         "name": "National Government Agencies (NGAs)",
         "transactions": "Submission of monthly queue time reports; compliance audits; receipt of improvement directives",
         "complexity": "Complex"
       },
       {
-        "id": "ca1ce5d1f442f322d2bec08",
+        "id": "c9a2bf972a2b82dba0398a5",
         "name": "Local Government Units (LGUs)",
         "transactions": "Enrollment in NCWTR monitoring program; submission of barangay-level service delivery data",
         "complexity": "Complex"
       },
       {
-        "id": "c6798135ee9dc0439a1039a",
+        "id": "c727cdf4e075f529bacb66c",
         "name": "Anti-Red Tape Authority (ARTA)",
         "transactions": "Joint policy formulation; referral of non-compliant agencies; data sharing on citizen feedback",
         "complexity": "Highly Technical"
       },
       {
-        "id": "cf45c2111fb482f7f5b982c",
+        "id": "c2eb02d323149e536e3f4dc",
         "name": "Civil Service Commission (CSC)",
         "transactions": "Coordination on service delivery standards; sharing of HR data; joint training programs",
         "complexity": "Complex"
       },
       {
-        "id": "cda273ae042cfe0a14106a7",
+        "id": "c854803e3e73484937f87ea",
         "name": "Commission on Audit (COA)",
         "transactions": "Annual audit of NCWTR operations, ICT expenditures, and fund utilization",
         "complexity": "Highly Technical"
       },
       {
-        "id": "c691007168d850b8c0cdfc9",
+        "id": "c0c0db413dc1b4389ddba72",
         "name": "Congress of the Philippines",
         "transactions": "Budget deliberations; legislative oversight; submission of annual reports and performance reviews",
         "complexity": "Simple"
       },
       {
-        "id": "ce23a77cbc483d2254fcc20",
+        "id": "c1b7495d048acfbfeae6d2e",
         "name": "Department of Information and Communications Technology (DICT)",
         "transactions": "Technical assistance for ICT projects; government cloud services; cybersecurity advisories",
         "complexity": "Highly Technical"
@@ -148,7 +149,7 @@
   "part2": {
     "strategicConcerns": [
       {
-        "id": "ca6189e0894a5925e94a6cc",
+        "id": "c280f2547ac24e23dac8a1f",
         "outcomeIds": [
           "oo-1"
         ],
@@ -158,7 +159,7 @@
         "desiredStrategy": "Develop and deploy a cloud-based Unified Queue Monitoring Platform (UQMP) with a RESTful API for direct data submission by monitored agencies, real-time dashboards, automated report generation, and a mobile app for field validation officers — eliminating the need for manual re-encoding and the three Windows XP computers."
       },
       {
-        "id": "c8d295b9055ae105871caa8",
+        "id": "c82b1b7adcc1e09dc61aa9c",
         "outcomeIds": [
           "oo-1"
         ],
@@ -168,7 +169,7 @@
         "desiredStrategy": "Launch the Citizen Feedback and Complaints Portal (CFCP) — a web and mobile platform allowing citizens to file complaints, track status in real time, and receive SMS notifications. Integration with UQMP will enable automatic cross-referencing of complaints against monitored agency queue data."
       },
       {
-        "id": "caf7b2a25486f02c89379d5",
+        "id": "cbe7864c2ff4434350aba4c",
         "outcomeIds": [
           "oo-2"
         ],
@@ -178,7 +179,7 @@
         "desiredStrategy": "Deploy the Regional Compliance Module of the UQMP, with standardized data fields, automated roll-up to the national dashboard, and mandatory digital submission replacing the corkboard system."
       },
       {
-        "id": "cf9f2cfa934a10c4de14a7c",
+        "id": "c5de02b7401590bf452bc57",
         "outcomeIds": [
           "oo-3"
         ],
@@ -592,12 +593,12 @@
           "ps-cfcp"
         ],
         "strategicAlignment": [
-          "Digital Philippines",
-          "Ease of Doing Business"
+          "E-Government Master Plan",
+          "National Cybersecurity Plan"
         ],
-        "harmonization": [
-          "DICT ICT Harmonization",
-          "Government Cloud Program"
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Interoperability Framework"
         ],
         "duration": "2026–2027",
         "year1Deliverables": "System design and architecture finalized; API specifications published; development contract awarded; UQMP v1.0 beta released for NCR pilot; eCLAS replacement module (CFCP) launched in public beta",
@@ -615,11 +616,12 @@
         "projectType": "Infrastructure",
         "linkedSystemIds": [],
         "strategicAlignment": [
-          "Digital Philippines",
-          "Regional Development Agenda"
+          "Public Investment Program",
+          "E-Government Master Plan"
         ],
-        "harmonization": [
-          "DICT National Broadband Plan"
+        "harmonizationFramework": [
+          "Resource Optimization",
+          "Scalability and Sustainability"
         ],
         "duration": "2026",
         "year1Deliverables": "ISP contracts awarded; fiber installations completed in 12 regional offices; fixed wireless deployed in 3 isolated offices; all connections tested and certified",
@@ -639,12 +641,12 @@
           "ps-ihrps"
         ],
         "strategicAlignment": [
-          "Good Governance",
-          "Digital Philippines"
+          "Program Convergence Budgeting",
+          "E-Government Master Plan"
         ],
-        "harmonization": [
-          "CSC HRMIS Integration Program",
-          "DBM eBudget Rollout"
+        "harmonizationFramework": [
+          "Cross-Agency Collaboration",
+          "Scalability and Sustainability"
         ],
         "duration": "2026",
         "year1Deliverables": "iHRPS vendor selected; data migration from 47 Excel workbooks completed (including recovery and verification of USB records); system deployed and Go-Live achieved; CSC and DBM integration operational",
@@ -662,7 +664,7 @@
         "projectType": "IS-Driven",
         "rows": [
           {
-            "id": "c12b78fbb828f0f29e6f140",
+            "id": "cdd811ce8b3e36f87b30df1",
             "hierarchy": "Intermediate Outcome",
             "indicator": "% of monitored agencies submitting queue data via UQMP API (vs. email/Excel)",
             "baseline": "0%",
@@ -673,7 +675,7 @@
             "responsibility": "ICT Division / Monitoring Division"
           },
           {
-            "id": "cc3ef3dcca5f85159915832",
+            "id": "c5b63cce9183c6a509ae6ea",
             "hierarchy": "Immediate Outcome",
             "indicator": "Monthly national queue report generation time (calendar days)",
             "baseline": "21 days",
@@ -684,7 +686,7 @@
             "responsibility": "ICT Division"
           },
           {
-            "id": "c8d9b1d1cde7ee975f39df7",
+            "id": "c67d67368908148205307a9",
             "hierarchy": "Output",
             "indicator": "CFCP citizen complaint submissions (online vs. fax)",
             "baseline": "0% online / 100% fax",
@@ -695,7 +697,7 @@
             "responsibility": "Complaints Management Division"
           },
           {
-            "id": "c60c1025b75f85cd4473749",
+            "id": "ceb589ec53407cf3baea399",
             "hierarchy": "Output",
             "indicator": "Number of legacy Windows XP NQMS workstations operational",
             "baseline": "3",
@@ -712,7 +714,7 @@
         "projectType": "Infrastructure",
         "rows": [
           {
-            "id": "c15e8de6ee405b4f7575250",
+            "id": "cf393af50610a2a7f7111dd",
             "hierarchy": "Intermediate Outcome",
             "indicator": "Average internet connection speed across NCWTR regional offices (Mbps)",
             "baseline": "8.3 Mbps average (5 fiber, 9 DSL 5-10 Mbps, 3 LTE ~7 Mbps)",
@@ -723,7 +725,7 @@
             "responsibility": "ICT Division — Infrastructure Section"
           },
           {
-            "id": "c4fa1b0969b0b19d2b76900",
+            "id": "cb53cd67140442f3cd51ac4",
             "hierarchy": "Immediate Outcome",
             "indicator": "UQMP data upload time per regional office (minutes)",
             "baseline": "~25 minutes (DSL offices)",
@@ -734,7 +736,7 @@
             "responsibility": "ICT Division"
           },
           {
-            "id": "c786aa09749356e6de68ea3",
+            "id": "ccae22961e4640c996bf9b9",
             "hierarchy": "Output",
             "indicator": "Number of regional offices with ≥100 Mbps dedicated connection",
             "baseline": "5",
@@ -751,7 +753,7 @@
         "projectType": "IS-Driven",
         "rows": [
           {
-            "id": "c250f1174aae21b62bd8b13",
+            "id": "cfdb31a5ca7d5440fec5cfa",
             "hierarchy": "Intermediate Outcome",
             "indicator": "% of NCWTR employee records fully migrated and verified in iHRPS",
             "baseline": "0%",
@@ -762,7 +764,7 @@
             "responsibility": "Human Resources Division"
           },
           {
-            "id": "c554c6463245085fbe170cc",
+            "id": "cc1afbe0f8f41b24ab16b69",
             "hierarchy": "Immediate Outcome",
             "indicator": "Number of active Excel workbooks used for HR management",
             "baseline": "47",
@@ -773,7 +775,7 @@
             "responsibility": "ICT Division / Human Resources Division"
           },
           {
-            "id": "cfc2c4789af575113de5384",
+            "id": "c8224d355bf22d7a97095f6",
             "hierarchy": "Output",
             "indicator": "% of regional offices with iHRPS access and active usage",
             "baseline": "0%",
@@ -792,7 +794,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "5tugwtl",
+            "id": "6hvky9v",
             "item": "Desktop computers (replacement — retiring XP units)",
             "office": "ICT Division",
             "uacsCode": "5060405003",
@@ -802,7 +804,7 @@
             "unitCost": 45000
           },
           {
-            "id": "tqpqxl3",
+            "id": "po4xzzw",
             "item": "Network switches and cabling — Central Office LAN refresh",
             "office": "ICT Division",
             "uacsCode": "5060405003",
@@ -812,7 +814,7 @@
             "unitCost": 380000
           },
           {
-            "id": "7ntb4i4",
+            "id": "2q0jzbn",
             "item": "Rack-mounted UPS for server room",
             "office": "ICT Division",
             "uacsCode": "5060405003",
@@ -822,7 +824,7 @@
             "unitCost": 95000
           },
           {
-            "id": "xie688f",
+            "id": "alqidqb",
             "item": "Enterprise antivirus and endpoint protection licenses (3-year)",
             "office": "ICT Division",
             "uacsCode": "5060405015",
@@ -834,7 +836,7 @@
         ],
         "mooe": [
           {
-            "id": "0n5gm3l",
+            "id": "z5qqaqw",
             "item": "Internet subscription — Central Office (1 Gbps fiber)",
             "office": "ICT Division",
             "uacsCode": "5020503000",
@@ -844,7 +846,7 @@
             "unitCost": 28000
           },
           {
-            "id": "pl4tx7e",
+            "id": "dyrn2o4",
             "item": "ICT office supplies (printer cartridges, cables, peripherals)",
             "office": "ICT Division",
             "uacsCode": "5020301001",
@@ -854,7 +856,7 @@
             "unitCost": 180000
           },
           {
-            "id": "8li4ipf",
+            "id": "k7lb5r0",
             "item": "ICT consultancy — UQMP requirements analysis and architecture design",
             "office": "ICT Division",
             "uacsCode": "5021103001",
@@ -870,7 +872,7 @@
           "projectTitle": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
           "capitalOutlay": [
             {
-              "id": "519h3a8",
+              "id": "3ga0nh4",
               "item": "UQMP and CFCP system development (outsourced — Year 1 milestone)",
               "office": "ICT Division",
               "uacsCode": "5060405015",
@@ -882,7 +884,7 @@
           ],
           "mooe": [
             {
-              "id": "482uwdq",
+              "id": "endx3fj",
               "item": "GovCloud PH hosting — UQMP/CFCP beta environment (12 months)",
               "office": "ICT Division",
               "uacsCode": "5020503000",
@@ -892,7 +894,7 @@
               "unitCost": 45000
             },
             {
-              "id": "41eokmj",
+              "id": "daxxbig",
               "item": "Project management — SIKAP implementation team",
               "office": "ICT Division",
               "uacsCode": "5021103001",
@@ -907,7 +909,7 @@
           "projectTitle": "Project BILIS — Broadband Infrastructure for Linked Information Systems",
           "capitalOutlay": [
             {
-              "id": "r5q8br6",
+              "id": "l6t4qth",
               "item": "Government-grade routers with failover — 15 regional offices",
               "office": "ICT Division — Infrastructure Section",
               "uacsCode": "5060405003",
@@ -917,7 +919,7 @@
               "unitCost": 85000
             },
             {
-              "id": "6ec52u0",
+              "id": "aexyrmb",
               "item": "Fixed wireless broadband equipment — 3 geographically isolated regional offices",
               "office": "ICT Division — Infrastructure Section",
               "uacsCode": "5060405003",
@@ -929,7 +931,7 @@
           ],
           "mooe": [
             {
-              "id": "0jwww9v",
+              "id": "ole4air",
               "item": "Fiber ISP subscription — 12 regional office upgrades (100 Mbps, 12 months)",
               "office": "ICT Division",
               "uacsCode": "5020503000",
@@ -939,7 +941,7 @@
               "unitCost": 18500
             },
             {
-              "id": "o64b6l5",
+              "id": "qxqkkcg",
               "item": "Fixed wireless broadband subscription — 3 isolated regional offices (12 months)",
               "office": "ICT Division",
               "uacsCode": "5020503000",
@@ -954,7 +956,7 @@
           "projectTitle": "Project HANDA — Human Resource and Administrative Network for Departmental Automation",
           "capitalOutlay": [
             {
-              "id": "67twhds",
+              "id": "94ldz8t",
               "item": "iHRPS SaaS license — initial 1-year subscription (agency-wide)",
               "office": "Human Resources Division",
               "uacsCode": "5060405015",
@@ -966,7 +968,7 @@
           ],
           "mooe": [
             {
-              "id": "qy07bu4",
+              "id": "h83f44b",
               "item": "Data migration consultancy — AHRIS to iHRPS (Excel workbook extraction and mapping)",
               "office": "Human Resources Division",
               "uacsCode": "5021103001",
@@ -976,7 +978,7 @@
               "unitCost": 380000
             },
             {
-              "id": "pwvzv46",
+              "id": "vi2a9hk",
               "item": "ICT training — iHRPS user training for all 17 regional offices and Central Office HR staff",
               "office": "Human Resources Division",
               "uacsCode": "5020201001",
@@ -992,7 +994,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "1ahudiw",
+            "id": "zpirri8",
             "item": "Annual software maintenance — ROMS regional instances (pre-decommission)",
             "office": "ICT Division",
             "uacsCode": "5020503000",
@@ -1008,7 +1010,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "rf38y4r",
+            "id": "anv76ca",
             "item": "Laptops for field validation officers — 17 regional offices (1 each)",
             "office": "ICT Division",
             "uacsCode": "5060405003",
@@ -1018,7 +1020,7 @@
             "unitCost": 52000
           },
           {
-            "id": "xkiocso",
+            "id": "ltmflpb",
             "item": "Central Office server decommission and disposal — Windows Server 2012 R2 units",
             "office": "ICT Division",
             "uacsCode": "5060405003",
@@ -1030,7 +1032,7 @@
         ],
         "mooe": [
           {
-            "id": "336gyjr",
+            "id": "9k8wie5",
             "item": "Internet subscription — Central Office (1 Gbps fiber, continued)",
             "office": "ICT Division",
             "uacsCode": "5020503000",
@@ -1040,7 +1042,7 @@
             "unitCost": 28000
           },
           {
-            "id": "mak87ga",
+            "id": "9ihejeu",
             "item": "ICT office supplies",
             "office": "ICT Division",
             "uacsCode": "5020301001",
@@ -1056,7 +1058,7 @@
           "projectTitle": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
           "capitalOutlay": [
             {
-              "id": "t2wb4tz",
+              "id": "xmy42aa",
               "item": "UQMP v2.0 national deployment — development completion and rollout (Year 2 milestone)",
               "office": "ICT Division",
               "uacsCode": "5060405015",
@@ -1068,7 +1070,7 @@
           ],
           "mooe": [
             {
-              "id": "6nsa786",
+              "id": "45rinih",
               "item": "GovCloud PH hosting — UQMP/CFCP production environment (12 months)",
               "office": "ICT Division",
               "uacsCode": "5020503000",
@@ -1078,7 +1080,7 @@
               "unitCost": 68000
             },
             {
-              "id": "r8brzwd",
+              "id": "92mtsf7",
               "item": "Monitored agency onboarding support — API integration assistance (60% target)",
               "office": "ICT Division",
               "uacsCode": "5021103001",
@@ -1088,7 +1090,7 @@
               "unitCost": 360000
             },
             {
-              "id": "3eyxqpu",
+              "id": "c7fqy3x",
               "item": "CFCP SMS notification service (DICT gateway — estimated 500K SMS/year)",
               "office": "ICT Division",
               "uacsCode": "5020502001",
@@ -1104,7 +1106,7 @@
           "capitalOutlay": [],
           "mooe": [
             {
-              "id": "67woa8b",
+              "id": "ldqwh0h",
               "item": "Fiber ISP subscription — 12 regional offices (100 Mbps, Year 2 full year)",
               "office": "ICT Division",
               "uacsCode": "5020503000",
@@ -1114,7 +1116,7 @@
               "unitCost": 18500
             },
             {
-              "id": "bbl82b2",
+              "id": "oba5au5",
               "item": "Fixed wireless broadband — 3 isolated offices (Year 2 full year)",
               "office": "ICT Division",
               "uacsCode": "5020503000",
@@ -1130,7 +1132,7 @@
           "capitalOutlay": [],
           "mooe": [
             {
-              "id": "j9vp21f",
+              "id": "bwx8n7h",
               "item": "iHRPS SaaS license — Year 2 renewal",
               "office": "Human Resources Division",
               "uacsCode": "5021103001",
@@ -1140,7 +1142,7 @@
               "unitCost": 1200000
             },
             {
-              "id": "1mnep0g",
+              "id": "zlaap2f",
               "item": "iHRPS self-service portal rollout — regional office training and support",
               "office": "Human Resources Division",
               "uacsCode": "5020201001",
@@ -1156,7 +1158,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "iwptfdz",
+            "id": "ettlnjd",
             "item": "Cybersecurity vulnerability assessment — annual (Central Office and 5 pilot regional offices)",
             "office": "ICT Division",
             "uacsCode": "5021103001",
@@ -1172,7 +1174,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "7p8klcj",
+            "id": "nj14rpu",
             "item": "UQMP analytics server upgrade — Central Office (dedicated on-prem analytics node)",
             "office": "ICT Division",
             "uacsCode": "5060405003",
@@ -1184,7 +1186,7 @@
         ],
         "mooe": [
           {
-            "id": "4mrao1o",
+            "id": "vgp2wpn",
             "item": "Internet subscription — Central Office (1 Gbps, continued)",
             "office": "ICT Division",
             "uacsCode": "5020503000",
@@ -1194,7 +1196,7 @@
             "unitCost": 28000
           },
           {
-            "id": "im9vo8v",
+            "id": "ugbyv5s",
             "item": "ICT office supplies",
             "office": "ICT Division",
             "uacsCode": "5020301001",
@@ -1211,7 +1213,7 @@
           "capitalOutlay": [],
           "mooe": [
             {
-              "id": "lnmo208",
+              "id": "mi32nlg",
               "item": "GovCloud PH hosting — UQMP/CFCP production (12 months, full load)",
               "office": "ICT Division",
               "uacsCode": "5020503000",
@@ -1221,7 +1223,7 @@
               "unitCost": 72000
             },
             {
-              "id": "99a98vu",
+              "id": "daszwvp",
               "item": "UQMP system maintenance and enhancement (Year 3 — 100% agency onboarding drive)",
               "office": "ICT Division",
               "uacsCode": "5021103001",
@@ -1231,7 +1233,7 @@
               "unitCost": 480000
             },
             {
-              "id": "egupak0",
+              "id": "qmr9huo",
               "item": "Ceremonial decommissioning of NQMS and XP workstations — event logistics",
               "office": "ICT Division",
               "uacsCode": "5020201002",
@@ -1247,7 +1249,7 @@
           "capitalOutlay": [],
           "mooe": [
             {
-              "id": "9bftef1",
+              "id": "fmemlfk",
               "item": "Fiber ISP subscription — all 12 upgraded offices (100 Mbps, Year 3)",
               "office": "ICT Division",
               "uacsCode": "5020503000",
@@ -1257,7 +1259,7 @@
               "unitCost": 18500
             },
             {
-              "id": "u1nloau",
+              "id": "c58xfvo",
               "item": "Fixed wireless broadband — 3 isolated offices (Year 3)",
               "office": "ICT Division",
               "uacsCode": "5020503000",
@@ -1273,7 +1275,7 @@
           "capitalOutlay": [],
           "mooe": [
             {
-              "id": "g8l635e",
+              "id": "tcgxut2",
               "item": "iHRPS SaaS license — Year 3 renewal",
               "office": "Human Resources Division",
               "uacsCode": "5021103001",
@@ -1283,7 +1285,7 @@
               "unitCost": 1200000
             },
             {
-              "id": "bnn874r",
+              "id": "8kpdzl6",
               "item": "iHRPS system administration training — succession planning documentation",
               "office": "Human Resources Division",
               "uacsCode": "5020201001",
@@ -1299,7 +1301,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "sb8wg03",
+            "id": "39gaa2q",
             "item": "Annual cybersecurity vulnerability assessment — all 17 regional offices",
             "office": "ICT Division",
             "uacsCode": "5021103001",
@@ -1309,7 +1311,7 @@
             "unitCost": 680000
           },
           {
-            "id": "sindqva",
+            "id": "6w2efdg",
             "item": "CFCP SMS notification service — Year 3 (estimated 1.2M SMS)",
             "office": "ICT Division",
             "uacsCode": "5020502001",
