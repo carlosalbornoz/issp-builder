@@ -7,7 +7,6 @@ import {
   FolderOpen,
   FileText,
   AlertTriangle,
-  RotateCcw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -242,15 +241,9 @@ const PART_CARDS = [
 ];
 
 function OverviewView() {
-  const { doc, clearDoc } = useIsspStore();
-  const [confirmClear, setConfirmClear] = useState(false);
+  const { doc } = useIsspStore();
 
   if (!doc) return null;
-
-  async function handleClear() {
-    await clearDoc();
-    setConfirmClear(false);
-  }
 
   return (
     <div className="space-y-8">
@@ -289,37 +282,6 @@ function OverviewView() {
             </ul>
           </div>
         ))}
-      </div>
-
-      {/* Danger zone */}
-      <div className="rounded-xl border border-dashed border-muted-foreground/20 px-5 py-4">
-        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-          Document
-        </p>
-        {confirmClear ? (
-          <div className="flex items-center gap-3">
-            <p className="text-sm text-destructive">
-              This will clear the document from your browser. Make sure you&apos;ve saved the file
-              first.
-            </p>
-            <Button size="sm" variant="destructive" onClick={handleClear}>
-              Clear
-            </Button>
-            <Button size="sm" variant="outline" onClick={() => setConfirmClear(false)}>
-              Cancel
-            </Button>
-          </div>
-        ) : (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-muted-foreground gap-2 hover:text-destructive"
-            onClick={() => setConfirmClear(true)}
-          >
-            <RotateCcw className="h-4 w-4" />
-            Start Over / Load Different ISSP
-          </Button>
-        )}
       </div>
     </div>
   );

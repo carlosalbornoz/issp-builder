@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -17,6 +16,7 @@ import {
   Loader2,
   Check,
   Settings2,
+  RotateCcw,
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
 import { IsspPropertiesDialog } from "./issp-properties-dialog";
@@ -121,7 +121,7 @@ export function EditorSidebar({
   collapsed: boolean;
   onToggle: () => void;
 }) {
-  const { doc, saveToFile, fileSavedAt, unsavedToFile } = useIsspStore();
+  const { doc, saveToFile, fileSavedAt, unsavedToFile, clearDoc } = useIsspStore();
   const now = useNow();
   const pathname = usePathname();
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
@@ -129,6 +129,12 @@ export function EditorSidebar({
   );
   const [propsOpen, setPropsOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [confirmClear, setConfirmClear] = useState(false);
+
+  async function handleClear() {
+    await clearDoc();
+    setConfirmClear(false);
+  }
 
   async function handleExportPdf() {
     if (!doc || exporting) return;
@@ -170,11 +176,15 @@ export function EditorSidebar({
     <aside className="flex h-full w-72 flex-col border-r bg-card overflow-hidden">
       {/* Header */}
       <div className="border-b">
-        <div className="flex items-center justify-between px-3 pt-3 pb-2">
+        <div className="flex items-center justify-between px-3 py-2">
           <span className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
             ISSP Editor
           </span>
           <div className="flex items-center gap-1">
+            <span className="text-xs text-muted-foreground mr-1">
+              {doc.agency.acronym || doc.agency.name} · {doc.startYear}–{doc.endYear}
+              {doc.amendmentNumber > 0 && ` · A${doc.amendmentNumber}`}
+            </span>
             <Button
               size="icon"
               variant="ghost"
@@ -186,21 +196,35 @@ export function EditorSidebar({
             </Button>
           </div>
         </div>
-        <div className="px-4 pb-3">
-          <p className="text-sm font-semibold leading-tight truncate">{doc.title}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            {doc.startYear}–{doc.endYear} · {doc.agency.acronym || doc.agency.name}
+      </div>
+
+      {/* Start Over */}
+      {confirmClear ? (
+        <div className="px-3 py-2.5 border-b bg-destructive/5 space-y-2">
+          <p className="text-xs text-destructive leading-snug">
+            This will clear the document from your browser. Make sure you&apos;ve saved the file first.
           </p>
-          <div className="mt-2 flex flex-wrap gap-1">
-            <Badge variant="secondary" className="text-xs">Draft</Badge>
-            {doc.amendmentNumber > 0 && (
-              <Badge variant="outline" className="text-xs">
-                Amend #{doc.amendmentNumber}
-              </Badge>
-            )}
+          <div className="flex gap-2">
+            <Button size="sm" variant="destructive" className="h-7 text-xs px-3" onClick={handleClear}>
+              Clear
+            </Button>
+            <Button size="sm" variant="outline" className="h-7 text-xs px-3" onClick={() => setConfirmClear(false)}>
+              Cancel
+            </Button>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="border-b">
+          <button
+            type="button"
+            onClick={() => setConfirmClear(true)}
+            className="flex w-full items-center gap-2 px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+          >
+            <RotateCcw className="h-3 w-3 shrink-0" />
+            Start Over / Load Different ISSP
+          </button>
+        </div>
+      )}
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-2 py-2 space-y-0.5">
