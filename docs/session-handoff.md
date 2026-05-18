@@ -365,7 +365,19 @@ Standalone public module at `/annex1`. Full plan in `docs/annex1-implementation-
 
 ---
 
-## 11. Running the App
+## 11. Custom Skills (`.claude/skills/`)
+
+Project-level Claude Code skills — invoked with `/skill-name` or auto-loaded by Claude when the description matches.
+
+| Skill | Path | Invocation | Purpose |
+|---|---|---|---|
+| `schema-change` | `.claude/skills/schema-change/SKILL.md` | Auto + `/schema-change` | Standardized 11-step checklist for any IDB/JSON or Prisma schema change — ensures types, defaults, forms, pages, seed, demo file, PDF export, and docs all stay in sync |
+
+**When to expect `schema-change` to activate:** Any prompt that adds, removes, or renames a field on `IsspDocument`, `Part1Data`–`Part4Data`, or any sub-type (e.g. `IctProject`, `StrategicConcern`).
+
+---
+
+## 12. Running the App
 
 ```bash
 cd /root/apps/issp
@@ -390,7 +402,7 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 
 ---
 
-## 12. File Tree (Key Files Only)
+## 13. File Tree (Key Files Only)
 
 ```
 src/
@@ -443,7 +455,7 @@ public/
 
 ---
 
-## 13. Public Pages
+## 14. Public Pages
 
 ### Landing Page
 | File | Role |
@@ -496,7 +508,7 @@ Text: "Made with ❤ para sa bayan · Carlos Antonio Albornoz · [@carlosanton.i
 
 ---
 
-## 14. GitHub
+## 15. GitHub
 
 | Detail | Value |
 |---|---|
@@ -507,7 +519,7 @@ Text: "Made with ❤ para sa bayan · Carlos Antonio Albornoz · [@carlosanton.i
 
 ---
 
-## 15. Post-Launch Roadmap
+## 16. Post-Launch Roadmap
 
 > Deferred until after initial local-first launch and DICT/MITHI consultation.
 
