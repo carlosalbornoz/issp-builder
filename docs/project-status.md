@@ -82,6 +82,7 @@
 | `focalSameAsCio` checkbox resets on page reload | Added `focalSameAsCio: boolean` to `Part1Data` type + defaults; form now reads/writes from store instead of session-only `useState` |
 | Seed projects used stale alignment labels and wrong field name (`harmonization`) | `prisma/seed.js` — updated to use correct DICT 2026 option labels and `harmonizationFramework` key; demo file regenerated |
 | Export script writing to `public/samples/` (unused path) | `scripts/export-sample-issp.js` — output path corrected to `public/demo/`; `public/samples/` folder removed |
+| Hydration mismatch on `<time>` in `/about` and `/privacy` | gray-matter parses unquoted YAML dates as `Date` objects; `as string` doesn't convert at runtime — coerce to `"YYYY-MM-DD"` via `.toISOString().slice(0,10)`; also fixed `formatDate` to use local-time constructor `new Date(y, m-1, d)` to avoid UTC→local timezone shift |
 
 ---
 

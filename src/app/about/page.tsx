@@ -26,14 +26,15 @@ async function getAboutContent() {
   return {
     title: data.title as string,
     author: data.author as string,
-    date: data.date as string,
+    date: data.date instanceof Date ? data.date.toISOString().slice(0, 10) : String(data.date),
     html: processed.toString(),
     readingTime: `${readingMins} min read`,
   };
 }
 
 function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("en-US", {
+  const [y, m, d] = date.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
