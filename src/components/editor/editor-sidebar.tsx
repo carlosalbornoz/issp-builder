@@ -8,17 +8,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
-  AlertCircle,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
   Download,
+  FileOutput,
   LogOut,
   Loader2,
   Check,
+  Settings2,
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
-import type { SaveStatus } from "@/lib/store";
+import { IsspPropertiesDialog } from "./issp-properties-dialog";
 
 function formatTimeAgo(isoString: string, now: number): string {
   const diff = now - new Date(isoString).getTime();
@@ -120,12 +121,38 @@ export function EditorSidebar({
   collapsed: boolean;
   onToggle: () => void;
 }) {
-  const { doc, saveToFile, saveStatus, fileSavedAt, unsavedToFile } = useIsspStore();
+  const { doc, saveToFile, fileSavedAt, unsavedToFile } = useIsspStore();
   const now = useNow();
   const pathname = usePathname();
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set(NAV_SECTIONS.map((s) => s.label))
   );
+  const [propsOpen, setPropsOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
+  async function handleExportPdf() {
+    if (!doc || exporting) return;
+    setExporting(true);
+    try {
+      const res = await fetch("/api/export", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(doc),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${doc.agency.acronym}-ISSP-${doc.startYear}-${doc.endYear}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("PDF export failed:", err);
+    } finally {
+      setExporting(false);
+    }
+  }
 
   if (collapsed) return <CollapsedSidebar onToggle={onToggle} />;
   if (!doc) return null;
@@ -241,7 +268,7 @@ export function EditorSidebar({
         })}
       </nav>
 
-      {/* Footer: Save to File */}
+      {/* Footer */}
       <div className="px-3 py-3 border-t space-y-2">
         {/* File save status row */}
         <div className="flex items-center justify-between text-[10px]">
@@ -274,6 +301,33 @@ export function EditorSidebar({
           <Download className="h-4 w-4" />
           {unsavedToFile ? "Save changes to file" : "Download .issp file"}
         </Button>
+
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="justify-start gap-2 text-xs"
+            onClick={() => setPropsOpen(true)}
+          >
+            <Settings2 className="h-3.5 w-3.5" />
+            Properties
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="justify-start gap-2 text-xs"
+            onClick={handleExportPdf}
+            disabled={exporting}
+          >
+            {exporting ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <FileOutput className="h-3.5 w-3.5" />
+            )}
+            Export PDF
+          </Button>
+        </div>
+
         <p className="text-[10px] text-muted-foreground/40 leading-relaxed select-none text-center">
           made with ❤️ <em>para sa bayan</em>
           {" · "}
@@ -295,6 +349,8 @@ export function EditorSidebar({
           Exit Editor
         </Link>
       </div>
+
+      <IsspPropertiesDialog open={propsOpen} onClose={() => setPropsOpen(false)} />
     </aside>
   );
 }
