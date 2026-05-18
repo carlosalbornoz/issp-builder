@@ -369,10 +369,34 @@ function pageHeader(_issp: IsspData): string {
 
 // ─── Cover Page ───────────────────────────────────────────────────────────────
 
+function renderScopeTree(scopeKey: string): string {
+  const s = scopeKey;
+  const deptWide        = s === "DEPARTMENT_WIDE";
+  const deptCo          = s === "DEPARTMENT_CENTRAL_ONLY" || s === "CENTRAL_ONLY";
+  const deptCoOnly      = s === "DEPARTMENT_CENTRAL_ONLY" || s === "CENTRAL_ONLY";
+  const agencyWide      = ["WITH_REGIONAL","AGENCY_WITH_REGIONAL","WITH_BUREAUS","AGENCY_WIDE","AGENCY_CENTRAL_ONLY","OTHER_GOVERNMENT_ENTITY"].includes(s);
+  const agencyCoOnly    = s === "AGENCY_CENTRAL_ONLY";
+  const agencyRegional  = s === "WITH_REGIONAL" || s === "AGENCY_WITH_REGIONAL";
+  const agencyBureaus   = s === "WITH_BUREAUS";
+  const otherGov        = s === "OTHER_GOVERNMENT_ENTITY";
+  const lgu             = s === "LGU_SCOPE";
+  return `
+    <span class="cover-scope-item">${chk(deptWide)} Department-Wide</span>
+    <span class="cover-scope-item">${chk(deptCo)} Department - Central Office / Head Office</span>
+    <span class="cover-scope-sub">${chk(deptCoOnly)} Central Office only</span>
+    <span class="cover-scope-sub">${chk(false)} With Regional Offices / Field Offices &nbsp;&nbsp; ${chk(false)} With Bureaus</span>
+    <span class="cover-scope-item">${chk(agencyWide)} Agency-Wide</span>
+    <span class="cover-scope-sub">${chk(agencyCoOnly)} Central Office only</span>
+    <span class="cover-scope-sub">${chk(agencyRegional)} With Regional Offices / Field Offices</span>
+    <span class="cover-scope-sub">${chk(agencyBureaus)} With Bureaus / Attached Agencies</span>
+    <span class="cover-scope-sub">${chk(otherGov)} Other Government Entity</span>
+    <span class="cover-scope-item">${chk(lgu)} LGU</span>
+  `;
+}
+
 function renderCover(issp: IsspData): string {
   const isAmendment = issp.amendmentNumber > 0;
   const amendOrdinal = ["", "1st", "2nd", "3rd"][issp.amendmentNumber] ?? `${issp.amendmentNumber}th`;
-  const scope = scopeLabel(issp.scope);
 
   const coverLogoHtml = issp.agency.logoSrc
     ? `<img src="${issp.agency.logoSrc}" style="height:40px;width:auto;object-fit:contain;margin-bottom:3mm;" />`
@@ -397,7 +421,7 @@ function renderCover(issp: IsspData): string {
       </div>
       <div class="cover-scope">
         <div class="cover-scope-title">Scope</div>
-        ${scope.includes("Department-Wide") || scope.includes("Agency-Wide") ? `<span class="cover-scope-item">☑ ${esc(scope)}</span>` : `<span class="cover-scope-item">☐ Department-Wide</span><span class="cover-scope-item">☑ ${esc(scope)}</span>`}
+        ${renderScopeTree(issp.scope)}
       </div>
     </div>
 
