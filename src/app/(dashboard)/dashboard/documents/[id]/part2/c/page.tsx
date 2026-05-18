@@ -24,5 +24,5 @@ export default async function Part2CPage({
     ? JSON.parse(doc.part2.informationSystems || "[]")
     : [];
 
-  return <Part2CForm docId={id} initialData={informationSystems} />;
+  return <Part2CForm initialData={informationSystems} />;
 }

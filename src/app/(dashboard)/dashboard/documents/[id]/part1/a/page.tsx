@@ -32,7 +32,6 @@ export default async function Part1APage({
 
   return (
     <Part1AForm
-      docId={id}
       agencyType={doc.agency.type}
       initialData={part1Data}
     />

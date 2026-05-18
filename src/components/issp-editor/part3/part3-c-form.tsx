@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2 } from "lucide-react";
 
 interface HCRow {
@@ -33,17 +33,12 @@ function generateId() {
 }
 
 export function Part3CForm({
-  docId,
   initialData,
 }: {
-  docId: string;
   initialData: HCRow[];
 }) {
   const [rows, setRows] = useState<HCRow[]>(initialData);
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part3`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part3");
 
   const update = useCallback(
     (next: HCRow[]) => {
@@ -230,10 +225,10 @@ export function Part3CForm({
       </Card>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/b`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/b" />}>
           ← Enterprise Architecture
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/d`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part3/d" />}>
           Next: Proposed IS →
         </Button>
       </div>

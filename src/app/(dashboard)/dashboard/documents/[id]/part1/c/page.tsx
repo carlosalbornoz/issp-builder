@@ -24,5 +24,5 @@ export default async function Part1CPage({
     ? JSON.parse(doc.part1.stakeholders || "[]")
     : [];
 
-  return <Part1CForm docId={id} initialData={stakeholders} />;
+  return <Part1CForm initialData={stakeholders} />;
 }

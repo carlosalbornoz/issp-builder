@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { CheckCircle2, XCircle, MinusCircle, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -280,11 +280,9 @@ function ProgramCard({
 // ─── Main form ─────────────────────────────────────────────────────────────────
 
 export function Part2DForm({
-  docId,
   agencyType,
   initialData,
 }: {
-  docId: string;
   agencyType: AgencyType;
   initialData: Partial<EgpChecklist>;
 }) {
@@ -293,10 +291,7 @@ export function Part2DForm({
     ...initialData,
   });
 
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part2`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part2");
 
   const update = useCallback(
     (next: EgpChecklist) => {
@@ -387,11 +382,11 @@ export function Part2DForm({
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part2/c`} />}
+          nativeButton={false} render={<a href="/editor/part2/c" />}
         >
           ← IS Inventory
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/a`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part3/a" />}>
           Next: Part III - Proposed Strategy →
         </Button>
       </div>

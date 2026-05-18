@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 
@@ -165,18 +165,16 @@ function ChecklistSection({
   );
 }
 
-export function Part3AForm({ docId, initialData }: { docId: string; initialData: Part3AData }) {
+export function Part3AForm({ initialData }: { initialData: Part3AData }) {
   const [networkDesc, setNetworkDesc] = useState(initialData.proposedNetworkDesc);
   const [controls, setControls] = useState<CyberControls>(initialData.proposedCybersecControls);
 
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part3`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part3");
 
   const triggerSave = useCallback(
     (desc: string, ctrl: CyberControls) => {
-      debouncedSave({ proposedNetworkDesc: desc, proposedCybersecControls: ctrl });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      debouncedSave({ proposedNetworkDesc: desc, proposedCybersecControls: ctrl as any });
     },
     [debouncedSave]
   );
@@ -257,10 +255,10 @@ export function Part3AForm({ docId, initialData }: { docId: string; initialData:
       </Card>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part2/d`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part2/d" />}>
           ← Part II-D: E-Gov Programs
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/b`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part3/b" />}>
           Next: Enterprise Architecture →
         </Button>
       </div>

@@ -9,11 +9,9 @@ import { LayoutDashboard, Upload } from "lucide-react";
 // We handle the diagram path display only; actual upload would need file handling.
 
 export function Part3BForm({
-  docId,
-  initialDiagramPath,
+  initialDiagramDataUrl,
 }: {
-  docId: string;
-  initialDiagramPath: string | null;
+  initialDiagramDataUrl: string | null;
 }) {
   return (
     <div className="space-y-8">
@@ -71,10 +69,10 @@ export function Part3BForm({
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
               <Upload className="h-6 w-6 text-muted-foreground" />
             </div>
-            {initialDiagramPath ? (
+            {initialDiagramDataUrl ? (
               <div className="space-y-1">
-                <p className="text-sm font-medium">Diagram attached</p>
-                <p className="text-xs text-muted-foreground">{initialDiagramPath}</p>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={initialDiagramDataUrl} alt="Enterprise Architecture Diagram" className="w-full max-h-[480px] object-contain" />
               </div>
             ) : (
               <div className="space-y-1">
@@ -93,10 +91,10 @@ export function Part3BForm({
       </Card>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/a`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/a" />}>
           ← Proposed Infrastructure
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/c`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part3/c" />}>
           Next: Proposed Human Capital →
         </Button>
       </div>

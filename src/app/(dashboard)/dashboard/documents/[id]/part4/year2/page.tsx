@@ -44,7 +44,6 @@ export default async function Part4Year2Page({
 
   return (
     <Part4YearForm
-      docId={id}
       year={doc.startYear + 1}
       yearKey="year2"
       initialData={year2Data ?? {

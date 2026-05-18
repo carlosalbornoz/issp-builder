@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, ChevronDown, ChevronRight, Sparkles, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -112,7 +112,6 @@ function SystemCard({
   index,
   isLinked,
   isNew,
-  docId,
   onUpdate,
   onRemove,
 }: {
@@ -120,7 +119,6 @@ function SystemCard({
   index: number;
   isLinked: boolean;
   isNew: boolean;
-  docId: string;
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
@@ -401,7 +399,7 @@ function SystemCard({
             variant="ghost"
             size="sm"
             nativeButton={false}
-            render={<a href={`/dashboard/documents/${docId}/part3/e1`} />}
+            render={<a href="/editor/part3/e1" />}
             className="shrink-0 text-xs text-blue-700 hover:text-blue-900 hover:bg-blue-100 h-7 px-2"
           >
             Go to Part III-E →
@@ -415,20 +413,15 @@ function SystemCard({
 // ─── Main form ─────────────────────────────────────────────────────────────────
 
 export function Part3DForm({
-  docId,
   initialSystems,
   existingProjectIds,
 }: {
-  docId: string;
   initialSystems: ProposedSystem[];
   existingProjectIds: string[];
 }) {
   const [systems, setSystems] = useState<ProposedSystem[]>(initialSystems);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part3`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part3");
 
   const update = useCallback(
     (next: ProposedSystem[]) => {
@@ -516,7 +509,6 @@ export function Part3DForm({
             index={idx}
             isLinked={existingProjectIds.includes(sys.linkedProjectId)}
             isNew={newlyAddedIds.has(sys.id)}
-            docId={docId}
             onUpdate={(field, value) => updateSystem(sys.id, field, value)}
             onRemove={() => removeSystem(sys.id)}
           />
@@ -524,10 +516,10 @@ export function Part3DForm({
       </div>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/c`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/c" />}>
           ← Proposed Human Capital
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/e1`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part3/e1" />}>
           Next: Internal Projects →
         </Button>
       </div>

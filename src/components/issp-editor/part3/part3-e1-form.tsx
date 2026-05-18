@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import {
   Plus,
   Trash2,
@@ -98,7 +98,6 @@ const FUNDING_OPTIONS = [
 // ─── Project Card ─────────────────────────────────────────────────────────────
 
 function ProjectCard({
-  docId,
   project,
   index,
   proposedSystems,
@@ -106,7 +105,6 @@ function ProjectCard({
   onUpdate,
   onRemove,
 }: {
-  docId: string;
   project: IctProject;
   index: number;
   proposedSystems: ProposedSystem[];
@@ -278,7 +276,7 @@ function ProjectCard({
               {proposedSystems.length === 0 ? (
                 <p className="text-xs text-muted-foreground">
                   No proposed systems defined yet.{" "}
-                  <a href={`/dashboard/documents/${docId}/part3/d`} className="text-primary hover:underline">
+                  <a href="/editor/part3/d" className="text-primary hover:underline">
                     Add systems in Part III-D →
                   </a>
                 </p>
@@ -431,13 +429,11 @@ function ProjectCard({
 // ─── Shared project list ───────────────────────────────────────────────────────
 
 function ProjectList({
-  docId,
   proposedSystems,
   initialProjects,
   isCrossAgency,
   onSave,
 }: {
-  docId: string;
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
   isCrossAgency: boolean;
@@ -508,7 +504,6 @@ function ProjectList({
         {projects.map((project, idx) => (
           <ProjectCard
             key={project.id}
-            docId={docId}
             project={project}
             index={idx}
             proposedSystems={proposedSystems}
@@ -525,18 +520,13 @@ function ProjectList({
 // ─── E.1 — Internal Projects ───────────────────────────────────────────────────
 
 export function Part3E1Form({
-  docId,
   proposedSystems,
   initialProjects,
 }: {
-  docId: string;
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
 }) {
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part3`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part3");
 
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ internalProjects: projects }),
@@ -559,7 +549,6 @@ export function Part3E1Form({
       </div>
 
       <ProjectList
-        docId={docId}
         proposedSystems={proposedSystems}
         initialProjects={initialProjects}
         isCrossAgency={false}
@@ -567,10 +556,10 @@ export function Part3E1Form({
       />
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/d`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/d" />}>
           ← Proposed IS
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/e2`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part3/e2" />}>
           Next: Cross-Agency Projects →
         </Button>
       </div>
@@ -581,18 +570,13 @@ export function Part3E1Form({
 // ─── E.2 — Cross-Agency Projects ──────────────────────────────────────────────
 
 export function Part3E2Form({
-  docId,
   proposedSystems,
   initialProjects,
 }: {
-  docId: string;
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
 }) {
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part3`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part3");
 
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ crossAgencyProjects: projects }),
@@ -615,7 +599,6 @@ export function Part3E2Form({
       </div>
 
       <ProjectList
-        docId={docId}
         proposedSystems={proposedSystems}
         initialProjects={initialProjects}
         isCrossAgency={true}
@@ -623,10 +606,10 @@ export function Part3E2Form({
       />
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/e1`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/e1" />}>
           ← Internal Projects
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/f`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part3/f" />}>
           Next: Performance Framework →
         </Button>
       </div>

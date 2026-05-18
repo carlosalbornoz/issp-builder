@@ -22,7 +22,7 @@ function BrowserMockup() {
           <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
         </div>
         <div className="flex-1 bg-white border border-gray-200 rounded px-2.5 py-0.5 text-[11px] text-gray-400 font-mono truncate ml-1">
-          app.issp.ph/dashboard/documents/ncwtr-2026/part2/c
+          app.issp.ph/editor/part2/c
         </div>
       </div>
       <Image
@@ -43,7 +43,7 @@ function BrowserMockup() {
 const LIVE_FEATURE = {
   icon: FileText,
   title: "ISSP Creator / Editor",
-  body: "A guided, part-by-part editor for agency ICT strategic plans — structured to the DICT 2026 template across all four parts. Draft, collaborate, and export to PDF in one place. No blank-slate Word documents.",
+  body: "A guided, part-by-part editor for agency ICT strategic plans — structured to the DICT 2026 template across all four parts. Works entirely in your browser with no account required. Save progress as a .issp file, export to PDF when ready.",
 };
 
 const ROADMAP_FEATURES = [
@@ -123,10 +123,10 @@ export default function LandingPage() {
               Privacy
             </Link>
             <Link
-              href="/login"
+              href="/editor"
               className="inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-md border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors"
             >
-              Sign In <ArrowRight className="w-3 h-3" />
+              Open Editor <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
         </div>
@@ -156,17 +156,17 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-sm text-gray-500 leading-relaxed mb-7">
-              A volunteer-built platform that turns the DICT ISSP template into a guided, collaborative editor —
-              and makes the resulting data visible to everyone.
+              A volunteer-built tool that turns the DICT ISSP template into a guided, part-by-part editor.
+              No account. No server. Works in your browser — save progress as a file, export to PDF when ready.
             </p>
 
             <div className="flex items-center justify-center gap-3 flex-wrap">
               <Link
-                href="/login"
+                href="/editor"
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-semibold text-white transition-opacity hover:opacity-90"
                 style={{ background: "#0038A8" }}
               >
-                Get Started <ArrowRight className="w-3.5 h-3.5" />
+                Start Building <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <a
                 href="#features"
@@ -258,7 +258,7 @@ export default function LandingPage() {
               </div>
               <p className="text-xs text-gray-500 leading-relaxed mb-4 max-w-2xl">{LIVE_FEATURE.body}</p>
               <Link
-                href="/login"
+                href="/editor"
                 className="inline-flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-80"
                 style={{ color: "#0038A8" }}
               >
@@ -362,15 +362,15 @@ export default function LandingPage() {
             Ready to build your agency&apos;s ISSP?
           </h2>
           <p className="text-sm text-gray-400 max-w-md mx-auto mb-7 leading-relaxed">
-            Free to use. No procurement committee required. Built on the official DICT 2026 template.
+            Free to use. No account required. No procurement committee. Built on the official DICT 2026 template.
           </p>
           <div className="flex items-center justify-center gap-3 flex-wrap mb-6">
             <Link
-              href="/login"
+              href="/editor"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-semibold text-white transition-opacity hover:opacity-90"
               style={{ background: "#0038A8" }}
             >
-              Get Started <ArrowRight className="w-3.5 h-3.5" />
+              Start Building <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <a
               href="#features"
@@ -402,7 +402,7 @@ export default function LandingPage() {
             <span className="text-xs text-gray-500">ISSP Platform — Open source. Built by volunteers.</span>
           </div>
           <div className="flex items-center gap-4 text-xs text-gray-400">
-            <Link href="/login" className="hover:text-gray-700 transition-colors">Sign In</Link>
+            <Link href="/editor" className="hover:text-gray-700 transition-colors">Open Editor</Link>
             <span className="text-gray-200" aria-hidden>·</span>
             <a href="#features" className="hover:text-gray-700 transition-colors">Features</a>
             <span className="text-gray-200" aria-hidden>·</span>

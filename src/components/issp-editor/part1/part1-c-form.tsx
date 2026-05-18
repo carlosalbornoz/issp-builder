@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical } from "lucide-react";
 
 interface Stakeholder {
@@ -24,7 +24,6 @@ interface Stakeholder {
 }
 
 interface Part1CFormProps {
-  docId: string;
   initialData: Stakeholder[];
 }
 
@@ -44,13 +43,10 @@ const COMPLEXITY_COLORS: Record<string, string> = {
   "Highly Technical": "bg-red-100 text-red-800",
 };
 
-export function Part1CForm({ docId, initialData }: Part1CFormProps) {
+export function Part1CForm({ initialData }: Part1CFormProps) {
   const [stakeholders, setStakeholders] = useState<Stakeholder[]>(initialData);
 
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part1`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part1");
 
   const update = useCallback(
     (next: Stakeholder[]) => {
@@ -287,10 +283,10 @@ export function Part1CForm({ docId, initialData }: Part1CFormProps) {
 
       {/* Bottom nav */}
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part1/b`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part1/b" />}>
           ← Organization Structure
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part2/a`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part2/a" />}>
           Next: Part II - Strategic Concerns →
         </Button>
       </div>

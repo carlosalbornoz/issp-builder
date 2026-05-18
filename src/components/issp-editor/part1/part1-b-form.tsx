@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { Info } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
@@ -164,9 +164,8 @@ function calcTotal(
 }
 
 export function Part1BForm({
-  docId, initialData,
+  initialData,
 }: {
-  docId: string;
   initialData: Part1BData | null;
 }) {
   const [focalSameAsCio, setFocalSameAsCio] = useState(false);
@@ -192,7 +191,7 @@ export function Part1BForm({
     };
     return { ...initialData, humanCapital: merged };
   });
-  const { status, debouncedSave } = useAutoSave({ url: `/api/issp/documents/${docId}/part1`, method: "PUT" });
+  const { status, debouncedSave } = useLocalSave("part1");
 
   const update = useCallback(
     (updates: Partial<Part1BData>) => {
@@ -428,10 +427,10 @@ export function Part1BForm({
 
       {/* Bottom nav */}
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part1/a`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part1/a" />}>
           ← Mandate, Vision &amp; Mission
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part1/c`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part1/c" />}>
           Next: Stakeholder Analysis →
         </Button>
       </div>

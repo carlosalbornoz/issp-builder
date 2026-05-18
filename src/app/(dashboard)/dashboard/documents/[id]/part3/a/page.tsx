@@ -19,7 +19,6 @@ export default async function Part3APage({ params }: { params: Promise<{ id: str
 
   return (
     <Part3AForm
-      docId={id}
       initialData={{
         proposedNetworkDesc: doc.part3?.proposedNetworkDesc ?? "",
         proposedCybersecControls: JSON.parse(doc.part3?.proposedCybersecControls ?? "{}"),

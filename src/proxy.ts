@@ -11,6 +11,9 @@ export const proxy = auth((req) => {
   const isAboutPage = pathname === "/about";
   const isPrivacyPage = pathname === "/privacy";
   const isApiRoute = pathname.startsWith("/api");
+  // Local-first routes — no auth required
+  const isEditorRoute = pathname === "/editor" || pathname.startsWith("/editor/");
+  const isAnnex1Route = pathname === "/annex1" || pathname.startsWith("/annex1/");
 
   // Allow API routes through
   if (isApiRoute) return NextResponse.next();
@@ -18,9 +21,12 @@ export const proxy = auth((req) => {
   // Allow static assets
   if (pathname.startsWith("/_next")) return NextResponse.next();
 
-  // Landing page: unauthenticated users see it; authenticated users go to dashboard
+  // Local-first editor and Annex 1 — always public, no auth check
+  if (isEditorRoute || isAnnex1Route) return NextResponse.next();
+
+  // Landing page: unauthenticated users see it; authenticated users go to /editor
   if (isLandingPage) {
-    if (isLoggedIn) return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+    if (isLoggedIn) return NextResponse.redirect(new URL("/editor", req.nextUrl));
     return NextResponse.next();
   }
 
@@ -42,5 +48,5 @@ export const proxy = auth((req) => {
 });
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|uploads|screenshots).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|uploads|screenshots|demo).*)"],
 };

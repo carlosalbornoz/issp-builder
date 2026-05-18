@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
 import { ChevronDown, UploadCloud, X, ImageIcon, Trash2 } from "lucide-react";
 
@@ -75,7 +75,7 @@ const DEFAULT_CYBER: CyberGroup = {
 
 interface NetworkDiagram {
   id: string;
-  path: string;
+  dataUrl: string;
   title: string;
 }
 
@@ -86,7 +86,6 @@ interface Part2BData {
 }
 
 interface Part2BFormProps {
-  docId: string;
   initialData: Part2BData | null;
 }
 
@@ -240,7 +239,7 @@ function ChecklistGroup({
 
 // ─── Main form ─────────────────────────────────────────────────────────────────
 
-export function Part2BForm({ docId, initialData }: Part2BFormProps) {
+export function Part2BForm({ initialData }: Part2BFormProps) {
   const [networkDescription, setNetworkDescription] = useState(
     initialData?.networkDescription ?? ""
   );
@@ -251,52 +250,48 @@ export function Part2BForm({ docId, initialData }: Part2BFormProps) {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const patchDiagrams = useCallback(async (updated: NetworkDiagram[]) => {
-    setDiagrams(updated);
-    await fetch(`/api/issp/documents/${docId}/upload-diagram`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ diagrams: updated }),
-    });
-  }, [docId]);
+  const { status, debouncedSave } = useLocalSave("part2");
 
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const saveDiagrams = useCallback(
+    (updated: NetworkDiagram[]) => {
+      setDiagrams(updated);
+      debouncedSave({ networkDiagrams: updated });
+    },
+    [debouncedSave]
+  );
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadError(null);
     setUploading(true);
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("title", "");
-      const res = await fetch(`/api/issp/documents/${docId}/upload-diagram`, {
-        method: "POST",
-        body: fd,
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? "Upload failed");
-      setDiagrams((prev) => [...prev, json]);
-    } catch (err) {
-      setUploadError(err instanceof Error ? err.message : "Upload failed");
-    } finally {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      const newDiagram: NetworkDiagram = {
+        id: Math.random().toString(36).slice(2, 10),
+        dataUrl,
+        title: "",
+      };
+      saveDiagrams([...diagrams, newDiagram]);
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
-    }
+    };
+    reader.onerror = () => {
+      setUploadError("Failed to read file");
+      setUploading(false);
+    };
+    reader.readAsDataURL(file);
   }
 
-  async function handleRemoveDiagram(diagramId: string) {
-    await fetch(`/api/issp/documents/${docId}/upload-diagram`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ diagramId }),
-    });
-    setDiagrams((prev) => prev.filter((d) => d.id !== diagramId));
+  function handleRemoveDiagram(diagramId: string) {
+    saveDiagrams(diagrams.filter((d) => d.id !== diagramId));
   }
 
   function handleTitleChange(diagramId: string, title: string) {
-    const updated = diagrams.map((d) => d.id === diagramId ? { ...d, title } : d);
-    patchDiagrams(updated);
+    saveDiagrams(diagrams.map((d) => (d.id === diagramId ? { ...d, title } : d)));
   }
+
   const [controls, setControls] = useState<CyberGroup>(() => {
     const saved = initialData?.cybersecurityControls;
     if (!saved) return DEFAULT_CYBER;
@@ -309,11 +304,6 @@ export function Part2BForm({ docId, initialData }: Part2BFormProps) {
       application: { ...DEFAULT_CYBER.application, ...saved.application },
       other:       { ...DEFAULT_CYBER.other,       ...saved.other },
     };
-  });
-
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part2`,
-    method: "PUT",
   });
 
   const triggerSave = useCallback(
@@ -419,7 +409,7 @@ export function Part2BForm({ docId, initialData }: Part2BFormProps) {
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={diagram.path}
+                      src={diagram.dataUrl}
                       alt={diagram.title || `Network diagram ${idx + 1}`}
                       className="w-full max-h-[480px] object-contain bg-white p-3"
                     />
@@ -488,11 +478,11 @@ export function Part2BForm({ docId, initialData }: Part2BFormProps) {
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part2/a`} />}
+          nativeButton={false} render={<a href="/editor/part2/a" />}
         >
           ← Strategic Concerns
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part2/c`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part2/c" />}>
           Next: IS Inventory →
         </Button>
       </div>

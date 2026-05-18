@@ -16,7 +16,6 @@ export default async function Part3DPage({ params }: { params: Promise<{ id: str
 
   return (
     <Part3DForm
-      docId={id}
       initialSystems={JSON.parse(doc.part3?.proposedSystems ?? "[]")}
       existingProjectIds={[
         ...JSON.parse(doc.part3?.internalProjects ?? "[]").map((p: { id: string }) => p.id),

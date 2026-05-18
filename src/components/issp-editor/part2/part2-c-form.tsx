@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, ChevronDown, ChevronRight, Server } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -446,18 +446,13 @@ function ISCard({
 // ─── Main form ─────────────────────────────────────────────────────────────────
 
 export function Part2CForm({
-  docId,
   initialData,
 }: {
-  docId: string;
   initialData: InformationSystem[];
 }) {
   const [systems, setSystems] = useState<InformationSystem[]>(initialData);
 
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part2`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part2");
 
   const update = useCallback(
     (next: InformationSystem[]) => {
@@ -553,11 +548,11 @@ export function Part2CForm({
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part2/b`} />}
+          nativeButton={false} render={<a href="/editor/part2/b" />}
         >
           ← Network &amp; Cybersecurity
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part2/d`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part2/d" />}>
           Next: E-Gov Programs →
         </Button>
       </div>

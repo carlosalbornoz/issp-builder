@@ -285,5 +285,5 @@ export default async function Part4SummaryPage({
     grandTotals: years.map(yearTotal) as [number, number, number],
   };
 
-  return <Part4Summary docId={id} data={data} />;
+  return <Part4Summary data={data} />;
 }

@@ -821,7 +821,7 @@ function renderPart2(issp: IsspData): string {
       ? `<p style="font-style:italic;">No network diagrams uploaded.</p>`
       : diagrams.map((d, i) => `<div class="avoid-break" style="margin-bottom:5mm;">
           <p style="font-weight:bold;margin-bottom:2mm;">${esc(d.title || `Network Diagram ${i + 1}`)}</p>
-          <img src="${baseUrl}${d.path}" style="max-width:100%;max-height:120mm;object-fit:contain;display:block;" alt="${esc(d.title || `Diagram ${i + 1}`)}" />
+          <img src="${d.path.startsWith("data:") ? d.path : baseUrl + d.path}" style="max-width:100%;max-height:120mm;object-fit:contain;display:block;" alt="${esc(d.title || `Diagram ${i + 1}`)}" />
         </div>`).join("")
     }
     ${p.networkDescription ? `<p style="margin-top:3mm;">${nl2br(p.networkDescription)}</p>` : ""}
@@ -1092,7 +1092,7 @@ function renderYearTable(year: YearBudget, yearNum: number, yearLabel: number, i
     if (!pb) return "";
     const t = sumLines(pb.capitalOutlay) + sumLines(pb.mooe);
     grandTotal += t;
-    return coMooeSection(`[${esc(proj.title)}]`, pb.capitalOutlay, pb.mooe);
+    return coMooeSection(esc(proj.title), pb.capitalOutlay, pb.mooe);
   });
 
   // Cross-agency projects
@@ -1101,7 +1101,7 @@ function renderYearTable(year: YearBudget, yearNum: number, yearLabel: number, i
     if (!pb) return "";
     const t = sumLines(pb.capitalOutlay) + sumLines(pb.mooe);
     grandTotal += t;
-    return coMooeSection(`[${esc(proj.title)}]`, pb.capitalOutlay, pb.mooe);
+    return coMooeSection(esc(proj.title), pb.capitalOutlay, pb.mooe);
   });
 
   // Continuing costs

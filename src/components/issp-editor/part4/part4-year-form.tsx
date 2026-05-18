@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { UacsCombobox } from "@/components/issp-editor/uacs-combobox";
 import { Plus, Trash2, Info, ExternalLink } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
@@ -38,7 +38,6 @@ export interface YearBudget {
 }
 
 interface Part4YearFormProps {
-  docId: string;
   year: number;
   yearKey: "year1" | "year2" | "year3";
   initialData: YearBudget;
@@ -341,7 +340,6 @@ const EMPTY_BUDGET = (): YearBudget => ({
 });
 
 export function Part4YearForm({
-  docId,
   year,
   yearKey,
   initialData,
@@ -363,10 +361,7 @@ export function Part4YearForm({
     return { ...base, ...initialData, internalProjects: ip, crossAgencyProjects: cp };
   });
 
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part4`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part4");
 
   const save = useCallback(
     (next: YearBudget) => {
@@ -452,7 +447,7 @@ export function Part4YearForm({
         <div className="rounded-lg border border-dashed bg-muted/20 p-6 text-center text-sm text-muted-foreground">
           <p>No Internal ICT Projects defined in Part III-E.1.</p>
           <a
-            href={`/dashboard/documents/${docId}/part3/e1`}
+            href="/editor/part3/e1"
             className="mt-1 inline-block font-medium text-primary hover:underline"
           >
             Add projects in Part III-E.1 →
@@ -590,10 +585,10 @@ export function Part4YearForm({
             <a
               href={
                 yearKey === "year1"
-                  ? `/dashboard/documents/${docId}/part3/f`
+                  ? "/editor/part3/f"
                   : yearKey === "year2"
-                  ? `/dashboard/documents/${docId}/part4/year1`
-                  : `/dashboard/documents/${docId}/part4/year2`
+                  ? "/editor/part4/year1"
+                  : "/editor/part4/year2"
               }
             />
           }
@@ -611,8 +606,8 @@ export function Part4YearForm({
             <a
               href={
                 yearKey === "year3"
-                  ? `/dashboard/documents/${docId}/part4/summary`
-                  : `/dashboard/documents/${docId}/part4/${yearKey === "year1" ? "year2" : "year3"}`
+                  ? "/editor/part4/summary"
+                  : `/editor/part4/${yearKey === "year1" ? "year2" : "year3"}`
               }
             />
           }

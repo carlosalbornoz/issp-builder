@@ -35,7 +35,6 @@ export default async function Part3FPage({ params }: { params: Promise<{ id: str
 
   return (
     <Part3FForm
-      docId={id}
       allProjects={allProjects}
       initialFramework={JSON.parse(doc.part3?.performanceFramework ?? "{}")}
     />

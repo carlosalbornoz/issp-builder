@@ -30,7 +30,6 @@ export default async function Part2APage({
 
   return (
     <Part2AForm
-      docId={id}
       orgOutcomes={orgOutcomes}
       initialData={strategicConcerns}
     />

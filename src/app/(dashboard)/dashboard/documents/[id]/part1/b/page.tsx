@@ -59,5 +59,5 @@ export default async function Part1BPage({
       })()
     : null;
 
-  return <Part1BForm docId={id} initialData={part1Data} />;
+  return <Part1BForm initialData={part1Data} />;
 }

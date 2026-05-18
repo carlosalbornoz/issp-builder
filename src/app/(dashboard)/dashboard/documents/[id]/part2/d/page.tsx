@@ -29,7 +29,6 @@ export default async function Part2DPage({
 
   return (
     <Part2DForm
-      docId={id}
       agencyType={doc.agency.type}
       initialData={egpChecklist}
     />

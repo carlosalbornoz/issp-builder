@@ -241,10 +241,8 @@ function ConsistencyBanner({
 // ─── Main component ────────────────────────────────────────────────────────────
 
 export function Part4Summary({
-  docId,
   data,
 }: {
-  docId: string;
   data: Part4SummaryData;
 }) {
   const b1TotalsRow = data.b1.find((r) => r.isTotal);
@@ -314,10 +312,10 @@ export function Part4Summary({
 
       {/* Navigation */}
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part4/year3`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part4/year3" />}>
           ← Year 3 Breakdown
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}`} />}>
+        <Button nativeButton={false} render={<a href="/editor" />}>
           Back to Overview →
         </Button>
       </div>

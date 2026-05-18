@@ -20,7 +20,6 @@ export default async function Part3E1Page({ params }: { params: Promise<{ id: st
 
   return (
     <Part3E1Form
-      docId={id}
       proposedSystems={JSON.parse(doc.part3?.proposedSystems ?? "[]")}
       initialProjects={JSON.parse(doc.part3?.internalProjects ?? "[]")}
     />

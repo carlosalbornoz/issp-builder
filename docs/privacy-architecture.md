@@ -1,9 +1,40 @@
 # Privacy Architecture Notes
-## ISSP Builder — Local-First Redesign Brainstorm
+## ISSP Builder — Local-First Redesign
 
-> **Status:** Brainstorming / planning notes only. No code changes made yet.  
-> **Last updated:** 2026-05-17  
-> **Context:** As the platform is intended for use by government agencies, it must be aligned with RA 10173 (Data Privacy Act), RA 10175 / E-Gov Act IRR provisions, and the principle of Privacy by Design. This document captures the architectural thinking and UX patterns being considered before any implementation begins.
+> **Status:** Decisions finalized 2026-05-18. Implementation not yet started.
+> **Last updated:** 2026-05-18  
+> **Context:** As the platform is intended for use by government agencies, it must be aligned with RA 10173 (Data Privacy Act), RA 10175 / E-Gov Act IRR provisions, and the principle of Privacy by Design.
+
+---
+
+## Resolved Decisions (2026-05-18)
+
+| Question | Decision |
+|---|---|
+| Collaboration model | File-based first. Server-side scaffolding kept in code (not deleted) for future re-activation. No parallel "team mode" for now. |
+| Multi-document support | **One active document** in IndexedDB at a time. Multiple periods handled by maintaining separate `.issp` files on the filesystem. |
+| Network diagrams | **Base64 embedded** inside the `.issp` JSON. `FileReader` API converts uploads client-side. No separate file references. |
+| Transition plan | **Hard cutover** — user-facing app fully switches to local-first. Server-side routes (Prisma, auth, CRUD APIs) stay in code but are not linked from the UI. NCWTR seed data becomes a downloadable demo `.issp` file. |
+| Route structure | New **`/editor`** route (no auth required). Old `/dashboard/**` stays dormant. Landing page `→` `/editor`. |
+| File versioning | **Current state only.** No embedded history. Users manage versions via filesystem (save multiple `.issp` files). |
+| Agency identity | Anonymous — no server-side identity. Agency name/acronym in the document is sufficient. |
+| PDF export | Refactored to `POST /api/export` accepting full ISSP JSON in body, no session. Add `Origin` header check for CSRF protection. |
+
+## Build Phases
+
+| Phase | Work |
+|---|---|
+| A | `src/lib/store/` — IndexedDB wrapper + TypeScript types |
+| B | `/editor` route + "Start New / Load from file" landing state (no auth) |
+| C | Refactor all Part I–IV pages to read/write from IndexedDB instead of server API |
+| D | "Save to File" + "Load from File" UX in editor header |
+| E | Diagram upload → base64 (replace server-side `upload-diagram` route) |
+| F | PDF export → `POST /api/export`, no session required |
+| G | Demo `.issp` file (NCWTR data) + middleware relaxation + landing page update |
+
+Critical path: **A → B → C → D**. Phases E, F, G can follow in any order.
+
+---
 
 ---
 

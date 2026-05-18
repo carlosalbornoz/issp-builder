@@ -16,7 +16,6 @@ export default async function Part3CPage({ params }: { params: Promise<{ id: str
 
   return (
     <Part3CForm
-      docId={id}
       initialData={JSON.parse(doc.part3?.proposedHumanCapital ?? "[]")}
     />
   );

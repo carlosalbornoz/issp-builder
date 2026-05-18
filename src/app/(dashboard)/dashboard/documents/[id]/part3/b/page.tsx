@@ -14,5 +14,5 @@ export default async function Part3BPage({ params }: { params: Promise<{ id: str
   });
   if (!doc) notFound();
 
-  return <Part3BForm docId={id} initialDiagramPath={doc.part3?.enterpriseArchDiagram ?? null} />;
+  return <Part3BForm initialDiagramDataUrl={null} />;
 }

@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, BarChart3, FolderKanban } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -229,11 +229,9 @@ function ProjectKpiTable({
 // ─── Main form ─────────────────────────────────────────────────────────────────
 
 export function Part3FForm({
-  docId,
   allProjects,
   initialFramework,
 }: {
-  docId: string;
   allProjects: ProjectSummary[];
   initialFramework: PerformanceFramework;
 }) {
@@ -252,10 +250,7 @@ export function Part3FForm({
     return init;
   });
 
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part3`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part3");
 
   const update = useCallback(
     (next: PerformanceFramework) => {
@@ -308,7 +303,7 @@ export function Part3FForm({
           <BarChart3 className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
           <p className="text-sm text-muted-foreground mb-1">No ICT projects defined yet.</p>
           <p className="text-xs">
-            <a href={`/dashboard/documents/${docId}/part3/e1`} className="text-primary hover:underline">
+            <a href="/editor/part3/e1" className="text-primary hover:underline">
               Add projects in Part III-E →
             </a>
           </p>
@@ -333,10 +328,10 @@ export function Part3FForm({
       )}
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part3/e2`} />}>
+        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/e2" />}>
           ← Cross-Agency Projects
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part4`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part4/year1" />}>
           Next: Part IV - Resource Requirements →
         </Button>
       </div>

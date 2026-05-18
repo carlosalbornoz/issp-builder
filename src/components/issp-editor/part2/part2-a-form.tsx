@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical, Info } from "lucide-react";
 
 interface OrgOutcome {
@@ -33,7 +33,6 @@ interface StrategicConcern {
 }
 
 interface Part2AFormProps {
-  docId: string;
   orgOutcomes: OrgOutcome[];
   initialData: StrategicConcern[];
 }
@@ -49,13 +48,10 @@ const DEFAULT_CONCERN: Omit<StrategicConcern, "id"> = {
   desiredStrategy: "",
 };
 
-export function Part2AForm({ docId, orgOutcomes, initialData }: Part2AFormProps) {
+export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
   const [concerns, setConcerns] = useState<StrategicConcern[]>(initialData);
 
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part2`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part2");
 
   const update = useCallback(
     (next: StrategicConcern[]) => {
@@ -123,7 +119,7 @@ export function Part2AForm({ docId, orgOutcomes, initialData }: Part2AFormProps)
         <div className="rounded-lg border border-dashed bg-muted/20 p-4 text-sm text-muted-foreground text-center">
           <p>No Organizational Outcomes defined in Part I-A yet.</p>
           <a
-            href={`/dashboard/documents/${docId}/part1/a`}
+            href="/editor/part1/a"
             className="text-primary hover:underline font-medium"
           >
             Add outcomes in Part I-A →
@@ -242,11 +238,11 @@ export function Part2AForm({ docId, orgOutcomes, initialData }: Part2AFormProps)
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part1/c`} />}
+          nativeButton={false} render={<a href="/editor/part1/c" />}
         >
           ← Part I-C: Stakeholders
         </Button>
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part2/b`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part2/b" />}>
           Next: Network &amp; Cybersecurity →
         </Button>
       </div>

@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
-import { useAutoSave } from "@/hooks/use-auto-save";
+import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronRight, Info } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 
@@ -28,7 +28,6 @@ interface Part1AData {
 }
 
 interface Part1AFormProps {
-  docId: string;
   agencyType: AgencyType;
   initialData: Part1AData | null;
 }
@@ -94,14 +93,11 @@ function FormField({
   );
 }
 
-export function Part1AForm({ docId, agencyType, initialData }: Part1AFormProps) {
+export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
   const [data, setData] = useState<Part1AData>(initialData ?? DEFAULT_DATA);
   const [expandedOOs, setExpandedOOs] = useState<Set<string>>(new Set());
 
-  const { status, debouncedSave } = useAutoSave({
-    url: `/api/issp/documents/${docId}/part1`,
-    method: "PUT",
-  });
+  const { status, debouncedSave } = useLocalSave("part1");
 
   const update = useCallback(
     <K extends keyof Part1AData>(key: K, value: Part1AData[K]) => {
@@ -409,7 +405,7 @@ export function Part1AForm({ docId, agencyType, initialData }: Part1AFormProps) 
       {/* Bottom nav */}
       <div className="flex items-center justify-between pt-4 border-t">
         <div />
-        <Button nativeButton={false} render={<a href={`/dashboard/documents/${docId}/part1/b`} />}>
+        <Button nativeButton={false} render={<a href="/editor/part1/b" />}>
           Next: Organization Structure →
         </Button>
       </div>
