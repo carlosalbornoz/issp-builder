@@ -2,7 +2,7 @@
 
 A civic technology platform for Philippine government agencies to draft, validate, and export their **Information Systems Strategic Plan (ISSP)** — as required by DICT under the eGov Act (RA 10175 IRR).
 
-Built by a volunteer. Open source. Intended as an interim solution while DICT develops an official tool.
+Built by a volunteer. Open source. No account required.
 
 ---
 
@@ -21,7 +21,19 @@ A structured, guided web editor aligned to the **DICT 2026 ISSP template** acros
 - **Part III** — Proposed ICT Strategy (proposed infrastructure, enterprise architecture, human capital, proposed IS, internal and cross-agency projects, performance framework)
 - **Part IV** — Resource Requirements (year 1–3 UACS-coded budget breakdowns, summary of investments)
 
-The editor autosaves as you work and exports a PDF aligned to DICT's uniformity rules (Palatino/P052, A4 landscape, 1-inch margins, running headers, cover page).
+The editor **works entirely in your browser** — no login, no server-side storage. Your ISSP data lives in IndexedDB and is exported to a `.issp` file you keep on your own computer. When you're ready, export to PDF aligned to DICT's uniformity rules (Palatino/P052, A4 landscape, 1-inch margins, running headers, cover page).
+
+---
+
+## Quick start
+
+```bash
+npm install
+npm run dev
+# Open http://localhost:3000/editor — no login required
+```
+
+To try the tool immediately, download the [NCWTR demo file](public/demo/ncwtr-issp-2026-2028.issp) from the editor splash screen.
 
 ---
 
@@ -29,14 +41,15 @@ The editor autosaves as you work and exports a PDF aligned to DICT's uniformity 
 
 | Phase | Feature | Status |
 |---|---|---|
-| 1–6 | ISSP Builder (Parts I–IV) + PDF export | ✅ Live |
+| 1–6 | ISSP Builder (Parts I–IV) + PDF export | ✅ Done |
+| Local-first | No login, IndexedDB + `.issp` file format, stateless PDF | ✅ Done |
+| Phase E | Diagram upload (base64, client-side) | 🔵 Next |
+| Phase 7 | Polish & validation (progress tracking, pre-export checks, review mode) | 🔵 Planned |
 | Annex 1 | Standalone ICT Asset Inventory module for regional/field offices | 🔵 Planned |
-| 7 | Polish & validation (progress tracking, submit workflow, review mode) | 🔵 Planned |
-| 8 | ISSP Repository — searchable public archive of agency ISSPs | 🔵 Planned |
-| 9 | ICT Budget Dashboard — ISSP budget requests vs. DBM actual releases | 🔵 Planned |
-| — | Local-first rearchitecture (no login, IndexedDB + `.issp` file format) | 🔵 Planned |
+| Phase 8 | ISSP Repository — searchable public archive of agency ISSPs | 🔵 Planned |
+| Phase 9 | ICT Budget Dashboard — ISSP budget requests vs. DBM actual releases | 🔵 Planned |
 
-See [`docs/project-status.md`](docs/project-status.md) for detailed status and [`docs/privacy-architecture.md`](docs/privacy-architecture.md) for the privacy-by-design direction.
+See [`docs/project-status.md`](docs/project-status.md) for detailed status.
 
 ---
 
@@ -44,77 +57,51 @@ See [`docs/project-status.md`](docs/project-status.md) for detailed status and [
 
 | Layer | Choice |
 |---|---|
-| Framework | Next.js 16 (App Router, TypeScript) |
-| Database | SQLite via Prisma 7 |
-| Auth | NextAuth.js v5 |
-| UI | Tailwind CSS 4 + Base UI |
+| Framework | Next.js 16 (App Router, TypeScript, Turbopack) |
+| Persistence | IndexedDB via `idb-keyval` |
+| UI | Tailwind CSS 4 + shadcn/ui |
+| Toasts | Sonner |
 | PDF | Puppeteer + pdf-lib |
 | Font (PDF) | P052 / URW Palladio (Palatino clone) |
 
 ---
 
-## Getting started
+## Prerequisites (for PDF export)
 
-### Prerequisites
-
-- Node.js 24+
-- npm 11+
-- `fonts-urw-base35` installed system-wide (required for PDF font rendering)
-
-### Setup
+PDF generation runs server-side via Puppeteer. On Linux you'll need:
 
 ```bash
-# Install dependencies
-npm install
+# Chrome dependencies
+apt-get install -y libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 \
+  libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2t64 \
+  libpango-1.0-0 libpangocairo-1.0-0 libcairo2 libnss3 libnspr4
 
-# Generate Prisma client
-npx prisma generate
-
-# Create and seed the database
-node prisma/seed.js
-
-# Start the dev server
-npm run dev
-# → http://localhost:3000
+# P052 font (Palatino clone used in the PDF)
+apt-get install -y fonts-urw-base35 && fc-cache -f
 ```
-
-### Environment
-
-Create a `.env` file at the project root:
-
-```env
-DATABASE_URL="file:./dev.db"
-AUTH_SECRET="change-this-in-production"
-```
-
-### Seed credentials
-
-The seed data uses a fictitious agency — **NCWTR** (National Commission on Waiting Time Reduction) — with a fully populated ISSP across all four parts.
-
-| Email | Password | Role |
-|---|---|---|
-| cio@ncwtr.gov.ph | password123 | CIO |
-| focal@ncwtr.gov.ph | password123 | ISSP Focal Person |
-| admin@ncwtr.gov.ph | password123 | Admin |
 
 ---
 
 ## Project structure
 
 ```
-├── content/            # Markdown source for public blog pages (About, Privacy)
-├── docs/               # Architecture notes, implementation plans, session handoff
-├── prisma/             # Schema, migrations, seed data
+├── docs/               # Architecture notes, session handoff, implementation plans
 ├── public/
-│   ├── samples/        # Sample .issp export file (NCWTR)
-│   └── screenshots/    # App screenshots (used in landing page hero)
+│   ├── demo/           # NCWTR sample .issp file (all 4 parts populated)
+│   └── uacs_active.min.json
 ├── references/         # DICT 2026 ISSP template PDFs + guidelines markdown
-├── scripts/            # One-off migration and export scripts
 ├── src/
-│   ├── app/            # Next.js App Router pages and API routes
-│   ├── components/     # UI components (editor forms, layout, shadcn/base-ui)
-│   ├── hooks/          # useAutoSave and other custom hooks
-│   └── lib/            # Auth, DB client, PDF generator, utilities
+│   ├── app/
+│   │   ├── editor/     # Local-first editor (public, no auth) — Parts I–IV
+│   │   ├── api/export/ # POST /api/export — stateless PDF generation
+│   │   └── (dashboard)/# Dormant server-side routes (preserved for future)
+│   ├── components/
+│   │   ├── editor/     # EditorShell, EditorSidebar
+│   │   └── issp-editor/# All Part I–IV form components
+│   ├── hooks/          # useFileSaveReminder, useLocalSave
+│   └── lib/
+│       ├── store/      # IndexedDB store — IsspDocument types + context
+│       └── pdf/        # Puppeteer wrapper + full ISSP HTML renderer
 └── uacs/               # UACS budget classification codes (1,253 entries)
 ```
 
@@ -124,17 +111,17 @@ The seed data uses a fictitious agency — **NCWTR** (National Commission on Wai
 
 | Doc | Purpose |
 |---|---|
-| [`docs/project-status.md`](docs/project-status.md) | Full feature list, known bugs, tech stack, setup |
-| [`docs/session-handoff.md`](docs/session-handoff.md) | Architectural patterns and continuation guide |
-| [`docs/privacy-architecture.md`](docs/privacy-architecture.md) | Local-first redesign plan, PIA outline, VAPT scope |
+| [`docs/project-status.md`](docs/project-status.md) | Full feature list, known bugs, tech stack |
+| [`docs/session-handoff.md`](docs/session-handoff.md) | Architecture reference and continuation guide |
+| [`docs/privacy-architecture.md`](docs/privacy-architecture.md) | Local-first design decisions and privacy notes |
 | [`docs/annex1-implementation-plan.md`](docs/annex1-implementation-plan.md) | Annex 1 standalone module design |
 | [`references/ISSP_Guidelines_2026.md`](references/ISSP_Guidelines_2026.md) | Structured extraction of the DICT 2026 ISSP template |
 
 ---
 
-## Privacy note
+## Privacy
 
-The current version uses server-side storage and authentication. A [local-first rearchitecture](docs/privacy-architecture.md) is planned before wider agency adoption — the goal is for the platform to never hold agency data server-side, aligning with RA 10173 (Data Privacy Act) Privacy by Design principles.
+This tool is **local-first by design** — your agency's ISSP data never leaves your browser. Everything is stored in IndexedDB and exported to a `.issp` file on your own computer. The server only receives data when you click "Export PDF", and it processes that data statelessly without persisting it. This aligns with RA 10173 (Data Privacy Act) Privacy by Design principles.
 
 ---
 
