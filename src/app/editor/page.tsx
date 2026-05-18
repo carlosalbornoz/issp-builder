@@ -300,7 +300,7 @@ function NewIsspDialog({ open, onClose }: { open: boolean; onClose: () => void }
     onClose();
   }
 
-  const isValid = form.agencyName.trim().length > 0 && form.agencyAcronym.trim().length > 0;
+  const isValid = form.agencyName.trim().length > 0 && form.agencyAcronym.trim().length > 0 && form.agencyHeadName.trim().length > 0;
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
@@ -380,7 +380,7 @@ function IsspPropertiesDialog({ open, onClose }: { open: boolean; onClose: () =>
     onClose();
   }
 
-  const isValid = form.agencyName.trim().length > 0 && form.agencyAcronym.trim().length > 0;
+  const isValid = form.agencyName.trim().length > 0 && form.agencyAcronym.trim().length > 0 && form.agencyHeadName.trim().length > 0;
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
@@ -606,9 +606,6 @@ function OverviewView() {
             {doc.amendmentNumber === 0
               ? "Regular ISSP"
               : `Amendment #${doc.amendmentNumber}`}
-            {doc.agencyHeadName && (
-              <> · Approved by {doc.agencyHeadName}</>
-            )}
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
