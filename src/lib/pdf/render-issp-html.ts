@@ -417,7 +417,7 @@ function renderCover(issp: IsspData): string {
       <div class="cover-sig-block">
         <div style="font-weight:bold;margin-bottom:2mm;">PREPARED BY:</div>
         <div class="cover-sig-line"></div>
-        <div class="cover-sig-label">Name &amp; Signature of Chief Information Officer<br>${esc(issp.part1.cioName)}</div>
+        <div class="cover-sig-label">${esc(issp.part1.cioName)}<br>Name &amp; Signature of Chief Information Officer</div>
       </div>
       <div class="cover-scope">
         <div class="cover-scope-title">Scope</div>
