@@ -69,7 +69,7 @@ export interface Part1Data {
 
 export interface StrategicConcern {
   id: string;
-  outcomeId: string;
+  outcomeIds: string[];
   concern: string;
   currentStrategy: string;
   desiredStrategy: string;

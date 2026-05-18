@@ -69,6 +69,10 @@
 | PDF: running header on cover page | Two-PDF + pdf-lib merge strategy |
 | PDF: Fund Source column too wide | `fundSourceAbbr()` helper shows abbreviated form |
 | PDF: cover logo was emoji placeholder | Embeds agency logo base64 data URI |
+| Part II-A form layout overlapping and tight | Moved Select component into main card body and applied truncation |
+| Part II-A data model mismatch with DICT 2026 | Overhauled `StrategicConcern` state to include `criticalSystem`, multi-select `outcomeIds`, and renamed fields to match 2026 template |
+| Part I-C React warning "Each child in a list should have a unique key prop" | Added fallback UUID generation `crypto.randomUUID()` for stakeholders lacking an ID in `part1-c-form.tsx` and generated `cuid()` directly in `prisma/seed.js` |
+| `export-sample-issp.js` outputting unreadable nested JSON | Refactored export script to output flat `IsspDocument` type with `fileType: "issp-main"` so demo files load correctly |
 
 ---
 

@@ -4,10 +4,10 @@ import { Check, Loader2, AlertCircle, Clock } from "lucide-react";
 type SaveStatus = "saved" | "saving" | "unsaved" | "error";
 
 const CONFIG = {
-  saved:   { icon: Check,        label: "Saved",           color: "text-green-600",        spin: false },
-  saving:  { icon: Loader2,      label: "Saving...",       color: "text-muted-foreground",  spin: true  },
-  unsaved: { icon: Clock,        label: "Unsaved changes", color: "text-amber-600",         spin: false },
-  error:   { icon: AlertCircle,  label: "Save failed",     color: "text-destructive",       spin: false },
+  saved:   { icon: Check,        label: "Local draft saved", color: "text-muted-foreground", spin: false },
+  saving:  { icon: Loader2,      label: "Saving draft...",   color: "text-muted-foreground", spin: true  },
+  unsaved: { icon: Clock,        label: "Unsaved changes",   color: "text-amber-600",        spin: false },
+  error:   { icon: AlertCircle,  label: "Save failed",       color: "text-destructive",      spin: false },
 };
 
 export function SaveStatusIndicator({ status }: { status: SaveStatus }) {

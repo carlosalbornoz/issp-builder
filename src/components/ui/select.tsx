@@ -6,11 +6,11 @@ import { Select as SelectPrimitive } from "@base-ui/react/select"
 import { cn } from "@/lib/utils"
 import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react"
 
-type SelectItemType = { value: string; label?: string | React.ReactNode; [key: string]: any };
+type SelectItemType = { value: string; label?: string | React.ReactNode; [key: string]: unknown };
 
 const SelectContext = React.createContext<{ items?: SelectItemType[] }>({});
 
-function Select({ items, children, ...props }: SelectPrimitive.Root.Props & { items?: SelectItemType[] }) {
+function Select({ items, children, ...props }: SelectPrimitive.Root.Props<any, any> & { items?: SelectItemType[] }) {
   return (
     <SelectContext.Provider value={{ items }}>
       <SelectPrimitive.Root {...props}>
@@ -40,6 +40,16 @@ function SelectValue({ className, children, placeholder, ...props }: SelectPrimi
     >
       {children || ((value: any) => {
         if (value === null || value === undefined || value === '') return placeholder;
+        if (Array.isArray(value)) {
+          if (value.length === 0) return placeholder;
+          if (context.items) {
+            return value.map(v => {
+              const matched = context.items?.find(i => i.value === v);
+              return matched && matched.label ? matched.label : String(v);
+            }).join(', ');
+          }
+          return value.join(', ');
+        }
         if (context.items) {
           const matched = context.items.find(i => i.value === value);
           if (matched && matched.label) return matched.label;
@@ -144,8 +154,8 @@ function SelectItem({
       )}
       {...props}
     >
-      <SelectPrimitive.ItemText className="flex flex-1 shrink-0 gap-2 whitespace-nowrap">
-        {children}
+      <SelectPrimitive.ItemText className="flex flex-1 min-w-0 gap-2 truncate">
+        <span className="truncate">{children}</span>
       </SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator
         render={

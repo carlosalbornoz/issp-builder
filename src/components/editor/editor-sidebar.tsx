@@ -83,21 +83,6 @@ const NAV_SECTIONS = [
   },
 ];
 
-// ─── Save status pill ─────────────────────────────────────────────────────────
-
-function SavePill({ status }: { status: SaveStatus }) {
-  if (status === "idle") return null;
-  return (
-    <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
-      {status === "saving" ? (
-        <Loader2 className="h-3 w-3 animate-spin" />
-      ) : (
-        <Check className="h-3 w-3 text-green-500" />
-      )}
-      {status === "saving" ? "Saving…" : "Saved"}
-    </span>
-  );
-}
 
 // ─── Collapsed sidebar ────────────────────────────────────────────────────────
 
@@ -163,7 +148,6 @@ export function EditorSidebar({
             ISSP Editor
           </span>
           <div className="flex items-center gap-1">
-            <SavePill status={saveStatus} />
             <Button
               size="icon"
               variant="ghost"
@@ -262,9 +246,12 @@ export function EditorSidebar({
         {/* File save status row */}
         <div className="flex items-center justify-between text-[10px]">
           {unsavedToFile ? (
-            <span className="flex items-center gap-1 text-amber-600">
-              <AlertCircle className="h-3 w-3 shrink-0" />
-              Unsaved changes
+            <span className="flex items-center gap-1 text-amber-600 font-medium">
+              <span className="relative flex h-2 w-2 mx-0.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+              </span>
+              File out of sync
             </span>
           ) : (
             <span className="flex items-center gap-1 text-green-600">
@@ -285,7 +272,7 @@ export function EditorSidebar({
           onClick={saveToFile}
         >
           <Download className="h-4 w-4" />
-          Save to File
+          {unsavedToFile ? "Save changes to file" : "Download .issp file"}
         </Button>
         <p className="text-[10px] text-muted-foreground/40 leading-relaxed select-none text-center">
           made with ❤️ <em>para sa bayan</em>

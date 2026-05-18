@@ -121,41 +121,49 @@ async function main() {
 
   const stakeholders = [
     {
+      id: cuid(),
       name: "General Public",
       transactions: "Filing of complaints regarding excessive government waiting times; requesting queue compliance certificates",
       complexity: "Simple"
     },
     {
+      id: cuid(),
       name: "National Government Agencies (NGAs)",
       transactions: "Submission of monthly queue time reports; compliance audits; receipt of improvement directives",
       complexity: "Complex"
     },
     {
+      id: cuid(),
       name: "Local Government Units (LGUs)",
       transactions: "Enrollment in NCWTR monitoring program; submission of barangay-level service delivery data",
       complexity: "Complex"
     },
     {
+      id: cuid(),
       name: "Anti-Red Tape Authority (ARTA)",
       transactions: "Joint policy formulation; referral of non-compliant agencies; data sharing on citizen feedback",
       complexity: "Highly Technical"
     },
     {
+      id: cuid(),
       name: "Civil Service Commission (CSC)",
       transactions: "Coordination on service delivery standards; sharing of HR data; joint training programs",
       complexity: "Complex"
     },
     {
+      id: cuid(),
       name: "Commission on Audit (COA)",
       transactions: "Annual audit of NCWTR operations, ICT expenditures, and fund utilization",
       complexity: "Highly Technical"
     },
     {
+      id: cuid(),
       name: "Congress of the Philippines",
       transactions: "Budget deliberations; legislative oversight; submission of annual reports and performance reviews",
       complexity: "Simple"
     },
     {
+      id: cuid(),
       name: "Department of Information and Communications Technology (DICT)",
       transactions: "Technical assistance for ICT projects; government cloud services; cybersecurity advisories",
       complexity: "Highly Technical"
@@ -215,28 +223,36 @@ async function main() {
 
   const strategicConcerns = [
     {
-      ooSoMfo: "OO 1 — Reduced average citizen waiting time across monitored offices",
+      id: cuid(),
+      outcomeIds: ["oo-1"],
       criticalSystem: "National Queue Monitoring System (NQMS)",
-      problem: "The NQMS, built on Visual Basic 6 in 2009 and running exclusively on three Windows XP computers in the Monitoring Division, requires manual data entry from 847 monitored agencies. Each agency submits a monthly Excel file via email attachment, which NCWTR staff then re-encodes by hand into NQMS. Processing the monthly national report takes approximately three weeks, meaning the data published in any given month is already outdated. The system crashes an average of 4.7 times per week, with the last full system restoration requiring 11 working days, three printed manuals, and a retired contractor who was contacted through his nephew.",
-      intendedIctUse: "Develop and deploy a cloud-based Unified Queue Monitoring Platform (UQMP) with a RESTful API for direct data submission by monitored agencies, real-time dashboards, automated report generation, and a mobile app for field validation officers — eliminating the need for manual re-encoding and the three Windows XP computers."
+      concern: "The NQMS, built on Visual Basic 6 in 2009 and running exclusively on three Windows XP computers in the Monitoring Division, requires manual data entry from 847 monitored agencies. Each agency submits a monthly Excel file via email attachment, which NCWTR staff then re-encodes by hand into NQMS. Processing the monthly national report takes approximately three weeks, meaning the data published in any given month is already outdated. The system crashes an average of 4.7 times per week, with the last full system restoration requiring 11 working days, three printed manuals, and a retired contractor who was contacted through his nephew.",
+      currentStrategy: "",
+      desiredStrategy: "Develop and deploy a cloud-based Unified Queue Monitoring Platform (UQMP) with a RESTful API for direct data submission by monitored agencies, real-time dashboards, automated report generation, and a mobile app for field validation officers — eliminating the need for manual re-encoding and the three Windows XP computers."
     },
     {
-      ooSoMfo: "OO 1 — Reduced average citizen waiting time across monitored offices",
+      id: cuid(),
+      outcomeIds: ["oo-1"],
       criticalSystem: "Electronic Complaints Logging and Archival System (eCLAS)",
-      problem: "Despite its optimistic name, eCLAS's primary input mechanism remains a fax machine — specifically, the only functioning fax machine in the NCR, which is shared with three other divisions and also used to order office supplies. Citizens who wish to file a complaint must download a PDF from the NCWTR website, print it, fill it out in triplicate (blue ink only), and mail or personally deliver it to the Central Office. Walk-in complainants join a queue — average wait time: 47 minutes — to file complaints about excessive government waiting times. Online complaint submission was proposed in 2018, funded in 2020, procured in 2021, and is currently in User Acceptance Testing.",
-      intendedIctUse: "Launch the Citizen Feedback and Complaints Portal (CFCP) — a web and mobile platform allowing citizens to file complaints, track status in real time, and receive SMS notifications. Integration with UQMP will enable automatic cross-referencing of complaints against monitored agency queue data."
+      concern: "Despite its optimistic name, eCLAS's primary input mechanism remains a fax machine — specifically, the only functioning fax machine in the NCR, which is shared with three other divisions and also used to order office supplies. Citizens who wish to file a complaint must download a PDF from the NCWTR website, print it, fill it out in triplicate (blue ink only), and mail or personally deliver it to the Central Office. Walk-in complainants join a queue — average wait time: 47 minutes — to file complaints about excessive government waiting times. Online complaint submission was proposed in 2018, funded in 2020, procured in 2021, and is currently in User Acceptance Testing.",
+      currentStrategy: "",
+      desiredStrategy: "Launch the Citizen Feedback and Complaints Portal (CFCP) — a web and mobile platform allowing citizens to file complaints, track status in real time, and receive SMS notifications. Integration with UQMP will enable automatic cross-referencing of complaints against monitored agency queue data."
     },
     {
-      ooSoMfo: "OO 2 — Increased compliance rate of agencies with NCWTR queuing standards",
+      id: cuid(),
+      outcomeIds: ["oo-2"],
       criticalSystem: "Regional Compliance Tracking (manual — per regional office)",
-      problem: "Each of the 17 regional offices maintains its own compliance tracking system, which in practice means 17 different Excel workbook formats, 17 different naming conventions, and 17 different definitions of 'compliant.' One regional office (not to be named, but located in a province starting with 'P') tracks compliance using a physical corkboard with color-coded index cards. Consolidating regional reports for the monthly national compliance index requires a dedicated staff member to manually reconcile data formats — a process that takes four days and results in an average of 23 conflicting data points per report.",
-      intendedIctUse: "Deploy the Regional Compliance Module of the UQMP, with standardized data fields, automated roll-up to the national dashboard, and mandatory digital submission replacing the corkboard system."
+      concern: "Each of the 17 regional offices maintains its own compliance tracking system, which in practice means 17 different Excel workbook formats, 17 different naming conventions, and 17 different definitions of 'compliant.' One regional office (not to be named, but located in a province starting with 'P') tracks compliance using a physical corkboard with color-coded index cards. Consolidating regional reports for the monthly national compliance index requires a dedicated staff member to manually reconcile data formats — a process that takes four days and results in an average of 23 conflicting data points per report.",
+      currentStrategy: "",
+      desiredStrategy: "Deploy the Regional Compliance Module of the UQMP, with standardized data fields, automated roll-up to the national dashboard, and mandatory digital submission replacing the corkboard system."
     },
     {
-      ooSoMfo: "OO 3 — Improved NCWTR organizational efficiency and inter-office coordination",
+      id: cuid(),
+      outcomeIds: ["oo-3"],
       criticalSystem: "Agency Human Resources Information System (AHRIS — 47 Excel Workbooks)",
-      problem: "NCWTR's human resources data resides in a collection of 47 Microsoft Excel workbooks, the oldest dating to 2009 (Excel 2003 format, requiring a compatibility pack). The workbooks are stored on a shared network drive accessible only from the Central Office, making remote HR management impossible for all 17 regional offices. Employee records for three staff members hired between 2020 and 2022 were found in a folder labelled 'TEMPORARY — DO NOT DELETE' on a USB flash drive discovered in a desk drawer during an office clean-up drive. Three knowledge-transfer attempts have failed — the most recent trainee resigned mid-handover.",
-      intendedIctUse: "Procure and configure a modern, cloud-based Human Resources Information System (iHRPS) integrated with CSC's HRMIS and DBM's eBudget systems, accessible to all regional and field offices."
+      concern: "NCWTR's human resources data resides in a collection of 47 Microsoft Excel workbooks, the oldest dating to 2009 (Excel 2003 format, requiring a compatibility pack). The workbooks are stored on a shared network drive accessible only from the Central Office, making remote HR management impossible for all 17 regional offices. Employee records for three staff members hired between 2020 and 2022 were found in a folder labelled 'TEMPORARY — DO NOT DELETE' on a USB flash drive discovered in a desk drawer during an office clean-up drive. Three knowledge-transfer attempts have failed — the most recent trainee resigned mid-handover.",
+      currentStrategy: "",
+      desiredStrategy: "Procure and configure a modern, cloud-based Human Resources Information System (iHRPS) integrated with CSC's HRMIS and DBM's eBudget systems, accessible to all regional and field offices."
     }
   ];
 

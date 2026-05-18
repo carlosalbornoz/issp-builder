@@ -25,8 +25,9 @@ interface OrgOutcome {
 
 interface StrategicConcern {
   id: string;
-  /** OrgOutcome id, or "general" */
-  outcomeId: string;
+  /** OrgOutcome ids, or "general" */
+  outcomeIds: string[];
+  criticalSystem: string;
   concern: string;
   currentStrategy: string;
   desiredStrategy: string;
@@ -42,14 +43,21 @@ function generateId() {
 }
 
 const DEFAULT_CONCERN: Omit<StrategicConcern, "id"> = {
-  outcomeId: "general",
+  outcomeIds: ["general"],
+  criticalSystem: "",
   concern: "",
   currentStrategy: "",
   desiredStrategy: "",
 };
 
 export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
-  const [concerns, setConcerns] = useState<StrategicConcern[]>(initialData);
+  const [concerns, setConcerns] = useState<StrategicConcern[]>(() => {
+    // Migrate old single outcomeId to new outcomeIds array
+    return initialData.map((c: any) => ({
+      ...c,
+      outcomeIds: Array.isArray(c.outcomeIds) ? c.outcomeIds : (c.outcomeId ? [c.outcomeId] : []),
+    }));
+  });
 
   const { status, debouncedSave } = useLocalSave("part2");
 
@@ -86,7 +94,7 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
   return (
     <div className="space-y-8">
       {/* Page header */}
-      <div className="flex items-start justify-between">
+      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 mb-1">
             Part II · Section A
@@ -163,27 +171,6 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
                 <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mr-auto">
                   Concern #{idx + 1}
                 </span>
-                <div className="flex-1 max-w-xs">
-                  <Select
-                    items={[{value: "general", label: "General / Agency-Wide"}, ...orgOutcomes.map(oo => ({value: oo.id, label: oo.name}))]}
-                    value={concern.outcomeId}
-                    onValueChange={(v: string | null) =>
-                      v && updateConcern(concern.id, "outcomeId", v)
-                    }
-                  >
-                    <SelectTrigger className="h-7 text-xs">
-                      <SelectValue placeholder="Link to outcome…" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="general">General / Agency-Wide</SelectItem>
-                      {orgOutcomes.map((oo, i) => (
-                        <SelectItem key={oo.id} value={oo.id}>
-                          {oo.name || `Outcome ${i + 1}`}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -198,29 +185,50 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
               {/* Concern body */}
               <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-1.5 md:col-span-3">
-                  <Label className="text-sm font-medium">Strategic ICT Concern</Label>
+                  <Label className="text-sm font-medium">Linked Organizational Outcome</Label>
+                  <Select
+                    multiple
+                    items={[{value: "general", label: "General / Agency-Wide"}, ...orgOutcomes.map(oo => ({value: oo.id, label: oo.name}))]}
+                    value={concern.outcomeIds}
+                    onValueChange={(v: string[] | null) =>
+                      updateConcern(concern.id, "outcomeIds", v || [])
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select outcome…" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="general">General / Agency-Wide</SelectItem>
+                      {orgOutcomes.map((oo, i) => (
+                        <SelectItem key={oo.id} value={oo.id}>
+                          {oo.name || `Outcome ${i + 1}`}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5 md:col-span-3">
+                  <Label className="text-sm font-medium">Critical Management, Operating, or Business System</Label>
                   <Input
-                    placeholder="Describe the ICT concern or challenge..."
-                    value={concern.concern}
-                    onChange={(e) => updateConcern(concern.id, "concern", e.target.value)}
+                    placeholder="Describe actual operations/activities performed..."
+                    value={concern.criticalSystem || ""}
+                    onChange={(e) => updateConcern(concern.id, "criticalSystem", e.target.value)}
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-sm font-medium">Current ICT Strategy</Label>
+                <div className="space-y-1.5 md:col-span-3">
+                  <Label className="text-sm font-medium">Problem / Strategic Concern</Label>
                   <Textarea
-                    placeholder="What is currently in place to address this concern..."
-                    value={concern.currentStrategy}
-                    onChange={(e) =>
-                      updateConcern(concern.id, "currentStrategy", e.target.value)
-                    }
+                    placeholder="Barriers/obstacles that hinder or delay performance..."
+                    value={concern.concern}
+                    onChange={(e) => updateConcern(concern.id, "concern", e.target.value)}
                     rows={3}
                     className="resize-none"
                   />
                 </div>
-                <div className="space-y-1.5 md:col-span-2">
-                  <Label className="text-sm font-medium">Desired ICT Strategy</Label>
+                <div className="space-y-1.5 md:col-span-3">
+                  <Label className="text-sm font-medium">Intended Use of ICT</Label>
                   <Textarea
-                    placeholder="What ICT strategy will be pursued in this ISSP period..."
+                    placeholder="ICT solution to address identified problems. Will it improve efficiency?"
                     value={concern.desiredStrategy}
                     onChange={(e) =>
                       updateConcern(concern.id, "desiredStrategy", e.target.value)

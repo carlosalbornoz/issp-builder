@@ -14,12 +14,24 @@ function mapStrategicConcerns(
   concerns: IsspDocument["part2"]["strategicConcerns"],
   outcomeMap: Record<string, string>
 ): IsspData["part2"]["strategicConcerns"] {
-  return concerns.map((sc) => ({
-    ooSoMfo: outcomeMap[sc.outcomeId] ?? sc.outcomeId,
-    criticalSystem: "",
-    problem: sc.concern,
-    intendedIctUse: sc.desiredStrategy,
-  }));
+  return concerns.map((sc: any) => {
+    // Backward compatibility: handle both new outcomeIds and old outcomeId
+    const ids = Array.isArray(sc.outcomeIds) && sc.outcomeIds.length > 0 
+      ? sc.outcomeIds 
+      : (sc.outcomeId ? [sc.outcomeId] : []);
+    
+    const labels = ids.map((id: string) => outcomeMap[id] ?? id);
+    const ooSoMfoText = labels.length > 1 
+      ? labels.map((l: string) => `• ${l}`).join("\n") 
+      : (labels[0] || "");
+
+    return {
+      ooSoMfo: ooSoMfoText,
+      criticalSystem: sc.criticalSystem || "",
+      problem: sc.concern,
+      intendedIctUse: sc.desiredStrategy,
+    };
+  });
 }
 
 const SA_KEYS = ["publicInvestment", "nationalCybersecurity", "eGovMasterPlan", "convergenceBudgeting"] as const;
