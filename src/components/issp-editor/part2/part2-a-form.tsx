@@ -165,6 +165,7 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
                 </span>
                 <div className="flex-1 max-w-xs">
                   <Select
+                    items={[{value: "general", label: "General / Agency-Wide"}, ...orgOutcomes.map(oo => ({value: oo.id, label: oo.name}))]}
                     value={concern.outcomeId}
                     onValueChange={(v: string | null) =>
                       v && updateConcern(concern.id, "outcomeId", v)

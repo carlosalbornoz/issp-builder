@@ -206,6 +206,10 @@ function ProjectCard({
         <div className="space-y-1.5">
           <Label className="text-xs text-muted-foreground uppercase tracking-wide">Project Type</Label>
           <Select
+            items={[
+              { value: "IS_DRIVEN", label: "IS-Driven (linked to a proposed IS)" },
+              { value: "STANDALONE", label: "Standalone (infrastructure only)" }
+            ]}
             value={project.projectType}
             onValueChange={(v: string | null) => v && onUpdate("projectType", v)}
           >
@@ -371,6 +375,7 @@ function ProjectCard({
             <div className="space-y-1.5">
               <Label className="text-xs text-muted-foreground uppercase tracking-wide">Funding Source</Label>
               <Select
+                items={FUNDING_OPTIONS.map(o => ({ value: o, label: o }))}
                 value={project.fundingSource}
                 onValueChange={(v: string | null) => v && onUpdate("fundingSource", v)}
               >

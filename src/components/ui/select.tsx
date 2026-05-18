@@ -6,7 +6,19 @@ import { Select as SelectPrimitive } from "@base-ui/react/select"
 import { cn } from "@/lib/utils"
 import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react"
 
-const Select = SelectPrimitive.Root
+type SelectItemType = { value: string; label?: string | React.ReactNode; [key: string]: any };
+
+const SelectContext = React.createContext<{ items?: SelectItemType[] }>({});
+
+function Select({ items, children, ...props }: SelectPrimitive.Root.Props & { items?: SelectItemType[] }) {
+  return (
+    <SelectContext.Provider value={{ items }}>
+      <SelectPrimitive.Root {...props}>
+        {children}
+      </SelectPrimitive.Root>
+    </SelectContext.Provider>
+  )
+}
 
 function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
   return (
@@ -18,13 +30,23 @@ function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
   )
 }
 
-function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
+function SelectValue({ className, children, placeholder, ...props }: SelectPrimitive.Value.Props) {
+  const context = React.useContext(SelectContext);
   return (
     <SelectPrimitive.Value
       data-slot="select-value"
       className={cn("flex flex-1 text-left", className)}
       {...props}
-    />
+    >
+      {children || ((value: any) => {
+        if (value === null || value === undefined || value === '') return placeholder;
+        if (context.items) {
+          const matched = context.items.find(i => i.value === value);
+          if (matched && matched.label) return matched.label;
+        }
+        return String(value);
+      })}
+    </SelectPrimitive.Value>
   )
 }
 

@@ -179,6 +179,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                     </td>
                     <td className="border px-2 py-1">
                       <Select
+                        items={COMPLEXITY_OPTIONS}
                         value={s.complexity}
                         onValueChange={(v: string | null) => v && updateStakeholder(s.id, "complexity", v)}
                       >
@@ -260,6 +261,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                 <div className="space-y-1.5">
                   <Label className="text-xs">Complexity</Label>
                   <Select
+                    items={COMPLEXITY_OPTIONS}
                     value={s.complexity}
                     onValueChange={(v: string | null) => v && updateStakeholder(s.id, "complexity", v)}
                   >

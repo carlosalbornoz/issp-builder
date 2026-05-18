@@ -167,6 +167,7 @@ function NewIsspDialog({
               <div className="space-y-1.5">
                 <Label htmlFor="agencyType">Agency Type</Label>
                 <Select
+                  items={AGENCY_TYPES}
                   value={form.agencyType}
                   onValueChange={(v: string | null) =>
                     v && set("agencyType", v as AgencyType)
@@ -234,6 +235,7 @@ function NewIsspDialog({
               <div className="space-y-1.5">
                 <Label htmlFor="scope">ISSP Scope</Label>
                 <Select
+                  items={SCOPE_OPTIONS}
                   value={form.scope}
                   onValueChange={(v: string | null) =>
                     v && set("scope", v as IsspScope)
@@ -255,6 +257,7 @@ function NewIsspDialog({
               <div className="space-y-1.5">
                 <Label htmlFor="amendment">Document Type</Label>
                 <Select
+                  items={[0, 1, 2, 3].map(n => ({ value: String(n), label: AMENDMENT_LABELS[n] }))}
                   value={String(form.amendmentNumber)}
                   onValueChange={(v: string | null) =>
                     v && set("amendmentNumber", parseInt(v))
