@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import {
   FilePlus2,
@@ -11,6 +11,7 @@ import {
   RotateCcw,
   FileOutput,
   Loader2,
+  Settings2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -65,9 +66,9 @@ const AMENDMENT_LABELS: Record<number, string> = {
   3: "Amendment 3",
 };
 
-// ─── New ISSP dialog ──────────────────────────────────────────────────────────
+// ─── Shared form shape ────────────────────────────────────────────────────────
 
-interface NewIsspForm {
+interface IsspForm {
   agencyName: string;
   agencyAcronym: string;
   agencyType: AgencyType;
@@ -80,7 +81,7 @@ interface NewIsspForm {
 
 const CURRENT_YEAR = new Date().getFullYear();
 
-const BLANK_FORM: NewIsspForm = {
+const BLANK_FORM: IsspForm = {
   agencyName: "",
   agencyAcronym: "",
   agencyType: "NGA",
@@ -91,20 +92,190 @@ const BLANK_FORM: NewIsspForm = {
   amendmentNumber: 0,
 };
 
-function NewIsspDialog({
-  open,
-  onClose,
+// ─── Shared form fields component ────────────────────────────────────────────
+
+function IsspFormFields({
+  form,
+  set,
+  endYear,
+  idPrefix = "",
 }: {
-  open: boolean;
-  onClose: () => void;
+  form: IsspForm;
+  set: <K extends keyof IsspForm>(key: K, value: IsspForm[K]) => void;
+  endYear: number;
+  idPrefix?: string;
 }) {
+  const id = (name: string) => `${idPrefix}${name}`;
+  return (
+    <div className="space-y-4 py-1">
+      {/* Agency */}
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+          Agency
+        </p>
+        <div className="space-y-3">
+          <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
+            <div className="space-y-1.5">
+              <Label htmlFor={id("agencyName")}>Agency Name</Label>
+              <Input
+                id={id("agencyName")}
+                placeholder="e.g., Department of Information and Communications Technology"
+                value={form.agencyName}
+                onChange={(e) => set("agencyName", e.target.value)}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor={id("agencyAcronym")}>Acronym</Label>
+              <Input
+                id={id("agencyAcronym")}
+                placeholder="e.g., DICT"
+                className="w-28 uppercase"
+                value={form.agencyAcronym}
+                onChange={(e) => set("agencyAcronym", e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor={id("agencyType")}>Agency Type</Label>
+            <Select
+              items={AGENCY_TYPES}
+              value={form.agencyType}
+              onValueChange={(v: string | null) =>
+                v && set("agencyType", v as AgencyType)
+              }
+            >
+              <SelectTrigger id={id("agencyType")}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {AGENCY_TYPES.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor={id("agencyWebsite")}>
+              Website URL{" "}
+              <span className="text-muted-foreground font-normal">(optional)</span>
+            </Label>
+            <Input
+              id={id("agencyWebsite")}
+              type="url"
+              placeholder="e.g., https://dict.gov.ph"
+              value={form.agencyWebsite}
+              onChange={(e) => set("agencyWebsite", e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor={id("agencyHeadName")}>
+              Agency Head Name{" "}
+              <span className="text-muted-foreground font-normal">(optional)</span>
+            </Label>
+            <Input
+              id={id("agencyHeadName")}
+              placeholder="e.g., Secretary Juan dela Cruz"
+              value={form.agencyHeadName}
+              onChange={(e) => set("agencyHeadName", e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Coverage Period */}
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+          Coverage Period
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1.5">
+            <Label htmlFor={id("startYear")}>Start Year</Label>
+            <Input
+              id={id("startYear")}
+              type="number"
+              min={2020}
+              max={2040}
+              value={form.startYear}
+              onChange={(e) => set("startYear", parseInt(e.target.value) || CURRENT_YEAR)}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label>End Year</Label>
+            <Input value={endYear} readOnly className="bg-muted cursor-not-allowed" />
+          </div>
+        </div>
+      </div>
+
+      {/* Scope & Type */}
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+          Scope & Type
+        </p>
+        <div className="space-y-3">
+          <div className="space-y-1.5">
+            <Label htmlFor={id("scope")}>ISSP Scope</Label>
+            <Select
+              items={SCOPE_OPTIONS}
+              value={form.scope}
+              onValueChange={(v: string | null) =>
+                v && set("scope", v as IsspScope)
+              }
+            >
+              <SelectTrigger id={id("scope")}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SCOPE_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor={id("amendment")}>Document Type</Label>
+            <Select
+              items={[0, 1, 2, 3].map((n) => ({ value: String(n), label: AMENDMENT_LABELS[n] }))}
+              value={String(form.amendmentNumber)}
+              onValueChange={(v: string | null) =>
+                v && set("amendmentNumber", parseInt(v))
+              }
+            >
+              <SelectTrigger id={id("amendment")}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {[0, 1, 2, 3].map((n) => (
+                  <SelectItem key={n} value={String(n)}>
+                    {AMENDMENT_LABELS[n]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── New ISSP dialog ──────────────────────────────────────────────────────────
+
+function NewIsspDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { createNew } = useIsspStore();
-  const [form, setForm] = useState<NewIsspForm>(BLANK_FORM);
+  const [form, setForm] = useState<IsspForm>(BLANK_FORM);
 
   const endYear = form.startYear + 2;
   const title = `${form.agencyAcronym || form.agencyName ? (form.agencyAcronym || form.agencyName) + " " : ""}Information Systems Strategic Plan ${form.startYear}–${endYear}`;
 
-  function set<K extends keyof NewIsspForm>(key: K, value: NewIsspForm[K]) {
+  function set<K extends keyof IsspForm>(key: K, value: IsspForm[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -138,181 +309,99 @@ function NewIsspDialog({
           <DialogTitle>New ISSP</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4 py-1">
-          {/* Agency info */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-              Agency
+        <IsspFormFields form={form} set={set} endYear={endYear} idPrefix="new-" />
+
+        {isValid && (
+          <div className="rounded-lg bg-muted/50 px-4 py-3 text-xs text-muted-foreground space-y-0.5">
+            <p className="font-medium text-foreground text-sm leading-snug">{title}</p>
+            <p>
+              {form.startYear}–{endYear} · {SCOPE_LABELS[form.scope]} ·{" "}
+              {AMENDMENT_LABELS[form.amendmentNumber]}
             </p>
-            <div className="space-y-3">
-              <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
-                <div className="space-y-1.5">
-                  <Label htmlFor="agencyName">Agency Name</Label>
-                  <Input
-                    id="agencyName"
-                    placeholder="e.g., Department of Information and Communications Technology"
-                    value={form.agencyName}
-                    onChange={(e) => set("agencyName", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="agencyAcronym">Acronym</Label>
-                  <Input
-                    id="agencyAcronym"
-                    placeholder="e.g., DICT"
-                    className="w-28 uppercase"
-                    value={form.agencyAcronym}
-                    onChange={(e) => set("agencyAcronym", e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="agencyType">Agency Type</Label>
-                <Select
-                  items={AGENCY_TYPES}
-                  value={form.agencyType}
-                  onValueChange={(v: string | null) =>
-                    v && set("agencyType", v as AgencyType)
-                  }
-                >
-                  <SelectTrigger id="agencyType">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {AGENCY_TYPES.map((opt) => (
-                      <SelectItem key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="agencyWebsite">
-                  Website URL{" "}
-                  <span className="text-muted-foreground font-normal">(optional)</span>
-                </Label>
-                <Input
-                  id="agencyWebsite"
-                  type="url"
-                  placeholder="e.g., https://dict.gov.ph"
-                  value={form.agencyWebsite}
-                  onChange={(e) => set("agencyWebsite", e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="agencyHeadName">
-                  Agency Head Name{" "}
-                  <span className="text-muted-foreground font-normal">(optional)</span>
-                </Label>
-                <Input
-                  id="agencyHeadName"
-                  placeholder="e.g., Secretary Juan dela Cruz"
-                  value={form.agencyHeadName}
-                  onChange={(e) => set("agencyHeadName", e.target.value)}
-                />
-              </div>
-            </div>
           </div>
+        )}
 
-          {/* ISSP period */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-              Coverage Period
-            </p>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1.5">
-                <Label htmlFor="startYear">Start Year</Label>
-                <Input
-                  id="startYear"
-                  type="number"
-                  min={2020}
-                  max={2040}
-                  value={form.startYear}
-                  onChange={(e) => set("startYear", parseInt(e.target.value) || CURRENT_YEAR)}
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label>End Year</Label>
-                <Input value={endYear} readOnly className="bg-muted cursor-not-allowed" />
-              </div>
-            </div>
-          </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button onClick={handleCreate} disabled={!isValid}>Create ISSP</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
-          {/* Scope & amendment */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-              Scope & Type
-            </p>
-            <div className="space-y-3">
-              <div className="space-y-1.5">
-                <Label htmlFor="scope">ISSP Scope</Label>
-                <Select
-                  items={SCOPE_OPTIONS}
-                  value={form.scope}
-                  onValueChange={(v: string | null) =>
-                    v && set("scope", v as IsspScope)
-                  }
-                >
-                  <SelectTrigger id="scope">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {SCOPE_OPTIONS.map((opt) => (
-                      <SelectItem key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+// ─── ISSP Properties dialog ───────────────────────────────────────────────────
 
-              <div className="space-y-1.5">
-                <Label htmlFor="amendment">Document Type</Label>
-                <Select
-                  items={[0, 1, 2, 3].map(n => ({ value: String(n), label: AMENDMENT_LABELS[n] }))}
-                  value={String(form.amendmentNumber)}
-                  onValueChange={(v: string | null) =>
-                    v && set("amendmentNumber", parseInt(v))
-                  }
-                >
-                  <SelectTrigger id="amendment">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {[0, 1, 2, 3].map((n) => (
-                      <SelectItem key={n} value={String(n)}>
-                        {AMENDMENT_LABELS[n]}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </div>
+function IsspPropertiesDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { doc, update } = useIsspStore();
+  const [form, setForm] = useState<IsspForm>(BLANK_FORM);
 
-          {/* Preview */}
-          {isValid && (
-            <div className="rounded-lg bg-muted/50 px-4 py-3 text-xs text-muted-foreground space-y-0.5">
-              <p className="font-medium text-foreground text-sm leading-snug">{title}</p>
-              <p>
-                {form.startYear}–{endYear} · {SCOPE_LABELS[form.scope]} ·{" "}
-                {AMENDMENT_LABELS[form.amendmentNumber]}
-              </p>
-            </div>
-          )}
+  // Pre-fill from doc whenever dialog opens
+  useEffect(() => {
+    if (open && doc) {
+      setForm({
+        agencyName: doc.agency.name,
+        agencyAcronym: doc.agency.acronym,
+        agencyType: doc.agency.type as AgencyType,
+        agencyWebsite: doc.agency.websiteUrl ?? "",
+        agencyHeadName: doc.agencyHeadName ?? "",
+        startYear: doc.startYear,
+        scope: doc.scope,
+        amendmentNumber: doc.amendmentNumber,
+      });
+    }
+  }, [open, doc]);
+
+  const endYear = form.startYear + 2;
+  const title = `${form.agencyAcronym || form.agencyName ? (form.agencyAcronym || form.agencyName) + " " : ""}Information Systems Strategic Plan ${form.startYear}–${endYear}`;
+
+  function set<K extends keyof IsspForm>(key: K, value: IsspForm[K]) {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  }
+
+  function handleSave() {
+    if (!form.agencyName.trim() || !form.agencyAcronym.trim()) return;
+    update((prev) => ({
+      ...prev,
+      title,
+      startYear: form.startYear,
+      endYear,
+      amendmentNumber: form.amendmentNumber,
+      scope: form.scope,
+      agencyHeadName: form.agencyHeadName.trim(),
+      agency: {
+        ...prev.agency,
+        name: form.agencyName.trim(),
+        acronym: form.agencyAcronym.trim().toUpperCase(),
+        type: form.agencyType as AgencyType,
+        websiteUrl: form.agencyWebsite.trim(),
+      },
+    }));
+    onClose();
+  }
+
+  const isValid = form.agencyName.trim().length > 0 && form.agencyAcronym.trim().length > 0;
+
+  return (
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>ISSP Properties</DialogTitle>
+        </DialogHeader>
+
+        <IsspFormFields form={form} set={set} endYear={endYear} idPrefix="props-" />
+
+        <div className="rounded-lg bg-muted/50 px-4 py-3 text-xs text-muted-foreground space-y-0.5">
+          <p className="font-medium text-foreground text-sm leading-snug">{title}</p>
+          <p>
+            {form.startYear}–{endYear} · {SCOPE_LABELS[form.scope]} ·{" "}
+            {AMENDMENT_LABELS[form.amendmentNumber]}
+          </p>
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button onClick={handleCreate} disabled={!isValid}>
-            Create ISSP
-          </Button>
+          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button onClick={handleSave} disabled={!isValid}>Save Changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -333,14 +422,12 @@ function SplashView() {
     setLoadError(null);
     const result = await loadFromFile(file);
     if (!result.success) setLoadError(result.error ?? "Unknown error");
-    // Reset input so the same file can be re-selected if needed
     e.target.value = "";
   }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-6">
       <div className="w-full max-w-md space-y-8">
-        {/* Logo mark */}
         <div className="text-center space-y-2">
           <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 mb-2">
             <FileText className="h-7 w-7 text-primary" />
@@ -351,7 +438,6 @@ function SplashView() {
           </p>
         </div>
 
-        {/* Action cards */}
         <div className="grid gap-3">
           <button
             type="button"
@@ -394,7 +480,6 @@ function SplashView() {
           />
         </div>
 
-        {/* Load error */}
         {loadError && (
           <div className="flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
             <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
@@ -402,7 +487,6 @@ function SplashView() {
           </div>
         )}
 
-        {/* Demo link */}
         <p className="text-center text-xs text-muted-foreground">
           Want to see a sample?{" "}
           <a
@@ -472,9 +556,10 @@ const PART_CARDS = [
 ];
 
 function OverviewView() {
-  const { doc, update, saveToFile, clearDoc } = useIsspStore();
+  const { doc, saveToFile, clearDoc } = useIsspStore();
   const [confirmClear, setConfirmClear] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [propsOpen, setPropsOpen] = useState(false);
 
   async function handleExportPdf() {
     if (!doc || exporting) return;
@@ -521,19 +606,16 @@ function OverviewView() {
             {doc.amendmentNumber === 0
               ? "Regular ISSP"
               : `Amendment #${doc.amendmentNumber}`}
+            {doc.agencyHeadName && (
+              <> · Approved by {doc.agencyHeadName}</>
+            )}
           </p>
-          <div className="flex items-center gap-2 mt-3">
-            <Label htmlFor="agencyHeadName" className="text-xs text-muted-foreground shrink-0">Agency Head</Label>
-            <Input
-              id="agencyHeadName"
-              className="h-7 text-sm w-72"
-              placeholder="e.g. Secretary Juan dela Cruz"
-              value={doc.agencyHeadName}
-              onChange={(e) => update((prev) => ({ ...prev, agencyHeadName: e.target.value }))}
-            />
-          </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
+          <Button variant="outline" size="sm" className="gap-2" onClick={() => setPropsOpen(true)}>
+            <Settings2 className="h-4 w-4" />
+            Properties
+          </Button>
           <Button variant="outline" className="gap-2" onClick={saveToFile}>
             <Download className="h-4 w-4" />
             Save to File
@@ -608,6 +690,8 @@ function OverviewView() {
           </Button>
         )}
       </div>
+
+      <IsspPropertiesDialog open={propsOpen} onClose={() => setPropsOpen(false)} />
     </div>
   );
 }
@@ -617,7 +701,6 @@ function OverviewView() {
 export default function EditorPage() {
   const { doc, loading } = useIsspStore();
 
-  // EditorShell in layout shows a spinner while loading — nothing to render here
   if (loading) return null;
 
   if (!doc) return <SplashView />;
