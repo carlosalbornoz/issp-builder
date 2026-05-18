@@ -248,12 +248,7 @@ function OverviewView() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
-          {doc.agency.acronym || doc.agency.name} · {doc.startYear}–{doc.endYear}
-        </p>
-        <h1 className="text-2xl font-bold tracking-tight leading-tight">{doc.title}</h1>
-      </div>
+      <h1 className="text-2xl font-bold tracking-tight leading-tight">{doc.title}</h1>
 
       {/* Part cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

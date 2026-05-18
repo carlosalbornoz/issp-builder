@@ -214,15 +214,16 @@ export function EditorSidebar({
           </div>
         </div>
       ) : (
-        <div className="border-b">
-          <button
-            type="button"
+        <div className="px-3 py-2 border-b">
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full justify-start gap-2 text-xs"
             onClick={() => setConfirmClear(true)}
-            className="flex w-full items-center gap-2 px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
           >
-            <RotateCcw className="h-3 w-3 shrink-0" />
+            <RotateCcw className="h-3.5 w-3.5" />
             Start Over / Load Different ISSP
-          </button>
+          </Button>
         </div>
       )}
 
