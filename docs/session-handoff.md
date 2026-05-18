@@ -83,6 +83,9 @@ clearDoc()                        // clears IDB + resets state
 replace(doc)                      // replaces doc (used by loadFromFile)
 ```
 
+**`Part1Data` notable fields:**
+- `focalSameAsCio: boolean` — persisted to IDB; when true, focal person fields mirror CIO and are disabled in the form. Initialized from `initialData.focalSameAsCio ?? false` for backward compat with older `.issp` files.
+
 **`IsspDocument` envelope:**
 ```typescript
 interface IsspDocument {
@@ -149,8 +152,8 @@ Each page reads from `useIsspStore()` and calls `update(patcher)` on change. The
 | `part3.performanceFramework[k].rows[].baseline` | `.baselineData` | — |
 | `part3.performanceFramework[k].rows[].year1/2/3Target` | `.targets.year1/2/3` | — |
 | `part3.performanceFramework[k].rows[].responsibleUnit` | `.responsibility` | — |
-| `part3.internalProjects[].strategicAlignment` (string[]) | `.strategicAlignment` (Record) | Array values matched against option labels |
-| `part3.internalProjects[].harmonizationFramework` (string[]) | `.harmonization` (Record) | Same |
+| `part3.internalProjects[].strategicAlignment` (string[]) | `.strategicAlignment` (Record) | `.includes()` checks exact DICT label strings (e.g. `"E-Government Master Plan"`) |
+| `part3.internalProjects[].harmonizationFramework` (string[]) | `.harmonization` (Record) | Same — exact label strings (e.g. `"Interoperability Framework"`) |
 | `CyberControls` (typed fields) | `CyberGroup` (Record<string, boolean>) | Same key names — cast at runtime |
 
 ---
@@ -336,6 +339,8 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 
 The file is downloadable from the editor splash screen: "Download NCWTR demo file".
 
+Regenerated via `node scripts/export-sample-issp.js` (reads from seeded DB, writes to `public/demo/`). After any seed change, re-run the script to keep the demo file in sync.
+
 ---
 
 ## 10. Pending / Next Session Work
@@ -357,7 +362,6 @@ Standalone public module at `/annex1`. Full plan in `docs/annex1-implementation-
 ### 🔵 PDF — Known Remaining Gaps
 - TOC page numbers are static (hardcoded) — no two-pass render
 - Network diagrams render inline (not full-page each)
-- Strategic alignment / harmonization checkboxes in the rendered PDF may be all unchecked if the stored string values don't exactly match the render function's expected keys (a known loose coupling between form labels and the `IsspData` schema)
 
 ---
 

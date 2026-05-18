@@ -78,6 +78,10 @@
 | Part II-A data model mismatch with DICT 2026 | Overhauled `StrategicConcern` state to include `criticalSystem`, multi-select `outcomeIds`, and renamed fields to match 2026 template |
 | Part I-C React warning "Each child in a list should have a unique key prop" | Added fallback UUID generation `crypto.randomUUID()` for stakeholders lacking an ID in `part1-c-form.tsx` and generated `cuid()` directly in `prisma/seed.js` |
 | `export-sample-issp.js` outputting unreadable nested JSON | Refactored export script to output flat `IsspDocument` type with `fileType: "issp-main"` so demo files load correctly |
+| Strategic alignment / harmonization checkboxes all unchecked in PDF | `api/export/route.ts` — export route was checking camelCase keys against label strings; fixed to match what the form stores |
+| `focalSameAsCio` checkbox resets on page reload | Added `focalSameAsCio: boolean` to `Part1Data` type + defaults; form now reads/writes from store instead of session-only `useState` |
+| Seed projects used stale alignment labels and wrong field name (`harmonization`) | `prisma/seed.js` — updated to use correct DICT 2026 option labels and `harmonizationFramework` key; demo file regenerated |
+| Export script writing to `public/samples/` (unused path) | `scripts/export-sample-issp.js` — output path corrected to `public/demo/`; `public/samples/` folder removed |
 
 ---
 
@@ -206,6 +210,9 @@ npx tsc --noEmit
 ---
 
 ## Next Up
+
+### Phase E — Diagram Upload (base64)
+Proper upload UI for Part II-B (network diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text-only. Architecture: file input → base64 data URL → `networkDiagrams[].dataUrl`. PDF export already handles it.
 
 ### Phase 7 — Polish & Validation
 - Section-level completion tracking (% per part, shown in sidebar or overview)
