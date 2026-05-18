@@ -315,10 +315,14 @@ const CSS = `
   .subsection-heading {
     font-size: 11pt; font-weight: bold; text-transform: uppercase;
     margin: 4mm 0 2mm 0;
+    padding-left: 6mm;
     page-break-after: avoid;
   }
   .field-label { font-weight: bold; }
   .field-value { margin-bottom: 3mm; }
+
+  /* ── Subsection body indent (matches heading's padding-left) ── */
+  .subsection-block { padding-left: 6mm; }
 
   /* ── Bullet list ── */
   ul.template-list { margin: 2mm 0 2mm 8mm; }
@@ -521,29 +525,29 @@ function renderPart1(issp: IsspData): string {
     <div class="section-heading">A. Mandate, Vision, Mission, and Organizational Outcome</div>
 
     <div class="subsection-heading">A.1. Mandate</div>
-    <ul class="template-list">
+    <div class="subsection-block"><ul class="template-list">
       <li><span class="field-label">Legal Basis:</span> ${esc(p.legalBasis)}</li>
       <li><span class="field-label">Function:</span> ${nl2br(p.mandateFunction)}</li>
-    </ul>
+    </ul></div>
 
     <div class="subsection-heading">A.2. Vision Statement</div>
-    <p class="field-value">${nl2br(p.visionStatement)}</p>
+    <div class="subsection-block"><p class="field-value">${nl2br(p.visionStatement)}</p></div>
 
     <div class="subsection-heading">A.3. Mission Statement</div>
-    <p class="field-value">${nl2br(p.missionStatement)}</p>
+    <div class="subsection-block"><p class="field-value">${nl2br(p.missionStatement)}</p></div>
 
     <div class="subsection-heading">A.4. ${esc(oo)}</div>
-    ${p.orgOutcomes.length === 0 ? "<p><em>None specified.</em></p>" :
+    <div class="subsection-block">${p.orgOutcomes.length === 0 ? "<p><em>None specified.</em></p>" :
       p.orgOutcomes.map((oo, i) => `<div class="avoid-break" style="margin-bottom:3mm;">
         <p style="font-weight:bold;">${i + 1}. ${esc(oo.name)}</p>
         ${oo.programs?.length ? `<ul class="template-list">${oo.programs.map(pg => `<li>${esc(pg)}</li>`).join("")}</ul>` : ""}
       </div>`).join("")
-    }
+    }</div>
 
     <div class="section-heading">B. Organizational Structure</div>
 
     <div class="subsection-heading">B.1. Chief Information Officer (CIO)</div>
-    <ul class="template-list">
+    <div class="subsection-block"><ul class="template-list">
       <li><span class="field-label">Name of CIO:</span> ${esc(p.cioName)}</li>
       <li><span class="field-label">Plantilla Position:</span> ${esc(p.cioPosition)}</li>
       <li><span class="field-label">Organizational Unit:</span> ${esc(p.cioUnit)}</li>
@@ -558,10 +562,10 @@ function renderPart1(issp: IsspData): string {
       <li><span class="field-label">Organizational Unit:</span> ${esc(p.focalUnit)}</li>
       <li><span class="field-label">E-mail Address:</span> ${esc(p.focalEmail)}</li>
       <li><span class="field-label">Contact Number/s:</span> ${esc(p.focalContact)}</li>
-    </ul>
+    </ul></div>
 
     <div class="subsection-heading">B.2. Human Capital</div>
-    <table>
+    <div class="subsection-block"><table>
       <thead>
         <tr>
           <th rowspan="2" style="width:30%">Employment Status</th>
@@ -583,7 +587,7 @@ function renderPart1(issp: IsspData): string {
           <td style="text-align:center;">${femaleGrand}</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
 
     <div class="section-heading">C. Stakeholder Analysis</div>
     <table>
@@ -817,17 +821,17 @@ function renderPart2(issp: IsspData): string {
 
     <div class="section-heading">B. Existing Network Infrastructure</div>
     <div class="subsection-heading">B1. LAN/WAN Set-Up Including Connectivity Type and Bandwidth</div>
-    ${diagrams.length === 0
+    <div class="subsection-block">${diagrams.length === 0
       ? `<p style="font-style:italic;">No network diagrams uploaded.</p>`
       : diagrams.map((d, i) => `<div class="avoid-break" style="margin-bottom:5mm;">
           <p style="font-weight:bold;margin-bottom:2mm;">${esc(d.title || `Network Diagram ${i + 1}`)}</p>
           <img src="${d.path.startsWith("data:") ? d.path : baseUrl + d.path}" style="max-width:100%;max-height:120mm;object-fit:contain;display:block;" alt="${esc(d.title || `Diagram ${i + 1}`)}" />
         </div>`).join("")
     }
-    ${p.networkDescription ? `<p style="margin-top:3mm;">${nl2br(p.networkDescription)}</p>` : ""}
+    ${p.networkDescription ? `<p style="margin-top:3mm;">${nl2br(p.networkDescription)}</p>` : ""}</div>
 
     <div class="subsection-heading" style="margin-top:6mm;">B2. Cybersecurity Control Checklist</div>
-    ${renderCyberTable(p.cybersecurityControls)}
+    <div class="subsection-block">${renderCyberTable(p.cybersecurityControls)}</div>
 
     <div class="section-heading page-break">C. Existing/Operational Information Systems (IS) Inventory</div>
     ${pageHeader(issp)}
@@ -915,13 +919,13 @@ function renderPart3(issp: IsspData): string {
 
     <div class="section-heading">A. Proposed Network Infrastructure</div>
     <div class="subsection-heading">A.1. LAN/WAN Set-Up Including Connectivity Type and Bandwidth</div>
-    ${p.proposedNetworkDesc
+    <div class="subsection-block">${p.proposedNetworkDesc
       ? `<p>${nl2br(p.proposedNetworkDesc)}</p>`
       : `<p style="font-style:italic;">No proposed network description specified.</p>`
-    }
+    }</div>
 
     <div class="subsection-heading" style="margin-top:4mm;">A.2. Cybersecurity Control Checklist</div>
-    ${renderCyberTable(p.proposedCybersecControls)}
+    <div class="subsection-block">${renderCyberTable(p.proposedCybersecControls)}</div>
 
     <div class="section-heading page-break">B. Enterprise Architecture</div>
     ${pageHeader(issp)}
@@ -963,20 +967,20 @@ function renderPart3(issp: IsspData): string {
     ${pageHeader(issp)}
 
     <div class="subsection-heading">E.1. Internal ICT Projects</div>
-    ${p.internalProjects.length === 0
+    <div class="subsection-block">${p.internalProjects.length === 0
       ? `<p style="font-style:italic;">No internal ICT projects specified.</p>`
       : p.internalProjects.map(proj => renderProjectCard(proj, false)).join("")
-    }
+    }</div>
 
     ${p.crossAgencyProjects.length > 0 ? `
     <div class="subsection-heading" style="margin-top:6mm;">E.2. Cross-Agency ICT Projects</div>
-    ${p.crossAgencyProjects.map(proj => renderProjectCard(proj, true)).join("")}
+    <div class="subsection-block">${p.crossAgencyProjects.map(proj => renderProjectCard(proj, true)).join("")}</div>
     ` : ""}
 
     <div class="section-heading page-break">F. Performance Measurement Framework</div>
     ${pageHeader(issp)}
     <div class="subsection-heading">F.1. Internal ICT Projects</div>
-    ${allProjects.filter(pr => pr.type === "internal").map(proj => {
+    <div class="subsection-block">${allProjects.filter(pr => pr.type === "internal").map(proj => {
       const entry = perfEntries.find(e => e.projectTitle === proj.title) ??
         issp.part3.performanceFramework[proj.id];
       if (!entry) return `<p style="font-style:italic;">No KPI data for ${esc(proj.title)}.</p>`;
@@ -1005,11 +1009,11 @@ function renderPart3(issp: IsspData): string {
           </tbody>
         </table>
       </div>`;
-    }).join("")}
+    }).join("")}</div>
 
     ${allProjects.filter(pr => pr.type === "cross-agency").length > 0 ? `
     <div class="subsection-heading" style="margin-top:6mm;">F.2. Cross-Agency ICT Projects</div>
-    ${allProjects.filter(pr => pr.type === "cross-agency").map(proj => {
+    <div class="subsection-block">${allProjects.filter(pr => pr.type === "cross-agency").map(proj => {
       const entry = perfEntries.find(e => e.projectTitle === proj.title) ??
         issp.part3.performanceFramework[proj.id];
       if (!entry) return `<p style="font-style:italic;">No KPI data for ${esc(proj.title)}.</p>`;
@@ -1038,7 +1042,7 @@ function renderPart3(issp: IsspData): string {
           </tbody>
         </table>
       </div>`;
-    }).join("")}
+    }).join("")}</div>
     ` : ""}
   </div>`;
 }
@@ -1240,7 +1244,7 @@ function renderPart4(issp: IsspData): string {
         ${i === 0 ? "Part IV. Resource Requirements<br><span style=\"font-size:13pt\">A. Detailed Resource Deployment and Cost Breakdown</span>" : ""}
       </div>
       <div class="subsection-heading">A.${i + 1}. [${label}]</div>
-      ${renderYearTable(p[key], i + 1, label, internalProjects, crossAgencyProjects)}
+      <div class="subsection-block">${renderYearTable(p[key], i + 1, label, internalProjects, crossAgencyProjects)}</div>
     </div>`).join("")}
 
     <div class="page-break">
