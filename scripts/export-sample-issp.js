@@ -62,6 +62,7 @@ const issp = {
   status: doc.status,
   scope: doc.scope,
   amendmentNumber: doc.amendmentNumber ?? 0,
+  agencyHeadName: 'Chairperson Maria Celeste R. Villanueva',
   createdAt: doc.createdAt ?? new Date().toISOString(),
   updatedAt: doc.updatedAt ?? new Date().toISOString(),
   agency: {

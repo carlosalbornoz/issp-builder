@@ -320,6 +320,7 @@ export interface IsspDocument {
   endYear: number;
   amendmentNumber: number;
   scope: IsspScope;
+  agencyHeadName: string;
   agency: AgencyInfo;
   part1: Part1Data;
   part2: Part2Data;

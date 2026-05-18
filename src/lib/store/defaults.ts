@@ -115,6 +115,7 @@ export interface NewDocOptions {
   endYear: number;
   amendmentNumber: number;
   scope: IsspScope;
+  agencyHeadName: string;
   agency: AgencyInfo;
 }
 
@@ -130,6 +131,7 @@ export function createEmptyDocument(opts: NewDocOptions): IsspDocument {
     endYear: opts.endYear,
     amendmentNumber: opts.amendmentNumber,
     scope: opts.scope,
+    agencyHeadName: opts.agencyHeadName,
     agency: opts.agency,
     part1: makeDefaultPart1(),
     part2: makeDefaultPart2(),

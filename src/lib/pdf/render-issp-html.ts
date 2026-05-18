@@ -157,6 +157,7 @@ export interface IsspData {
   status: string;
   scope: string;
   amendmentNumber: number;
+  agencyHeadName: string;
   agency: Agency;
   part1: Part1;
   part2: Part2;
@@ -429,8 +430,9 @@ function renderCover(issp: IsspData): string {
     <div class="cover-sigs" style="margin-top:10mm;">
       <div class="cover-sig-block">
         <div style="font-weight:bold;margin-bottom:2mm;">APPROVED BY:</div>
-        <div class="cover-sig-line"></div>
-        <div class="cover-sig-label">Name &amp; Signature of Agency Head</div>
+        <div style="margin-top:12mm;text-align:center;">${esc(issp.agencyHeadName)}</div>
+        <div class="cover-sig-line" style="margin-top:0;"></div>
+        <div class="cover-sig-label" style="text-align:center;">Name &amp; Signature of Agency Head</div>
       </div>
     </div>
   </div>`;

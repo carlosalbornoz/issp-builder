@@ -72,6 +72,7 @@ interface NewIsspForm {
   agencyAcronym: string;
   agencyType: AgencyType;
   agencyWebsite: string;
+  agencyHeadName: string;
   startYear: number;
   scope: IsspScope;
   amendmentNumber: number;
@@ -84,6 +85,7 @@ const BLANK_FORM: NewIsspForm = {
   agencyAcronym: "",
   agencyType: "NGA",
   agencyWebsite: "",
+  agencyHeadName: "",
   startYear: CURRENT_YEAR,
   scope: "AGENCY_WIDE",
   amendmentNumber: 0,
@@ -114,6 +116,7 @@ function NewIsspDialog({
       endYear,
       amendmentNumber: form.amendmentNumber,
       scope: form.scope,
+      agencyHeadName: form.agencyHeadName.trim(),
       agency: {
         name: form.agencyName.trim(),
         acronym: form.agencyAcronym.trim().toUpperCase(),
@@ -197,6 +200,19 @@ function NewIsspDialog({
                   placeholder="e.g., https://dict.gov.ph"
                   value={form.agencyWebsite}
                   onChange={(e) => set("agencyWebsite", e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="agencyHeadName">
+                  Agency Head Name{" "}
+                  <span className="text-muted-foreground font-normal">(optional)</span>
+                </Label>
+                <Input
+                  id="agencyHeadName"
+                  placeholder="e.g., Secretary Juan dela Cruz"
+                  value={form.agencyHeadName}
+                  onChange={(e) => set("agencyHeadName", e.target.value)}
                 />
               </div>
             </div>
@@ -456,7 +472,7 @@ const PART_CARDS = [
 ];
 
 function OverviewView() {
-  const { doc, saveToFile, clearDoc } = useIsspStore();
+  const { doc, update, saveToFile, clearDoc } = useIsspStore();
   const [confirmClear, setConfirmClear] = useState(false);
   const [exporting, setExporting] = useState(false);
 
@@ -506,6 +522,16 @@ function OverviewView() {
               ? "Regular ISSP"
               : `Amendment #${doc.amendmentNumber}`}
           </p>
+          <div className="flex items-center gap-2 mt-3">
+            <Label htmlFor="agencyHeadName" className="text-xs text-muted-foreground shrink-0">Agency Head</Label>
+            <Input
+              id="agencyHeadName"
+              className="h-7 text-sm w-72"
+              placeholder="e.g. Secretary Juan dela Cruz"
+              value={doc.agencyHeadName}
+              onChange={(e) => update((prev) => ({ ...prev, agencyHeadName: e.target.value }))}
+            />
+          </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <Button variant="outline" className="gap-2" onClick={saveToFile}>

@@ -59,6 +59,7 @@ export async function GET(
     status: doc.status,
     scope: doc.scope,
     amendmentNumber: doc.amendmentNumber,
+    agencyHeadName: "",
 
     agency: {
       name: doc.agency.name,

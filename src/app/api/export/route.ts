@@ -145,6 +145,7 @@ function toRenderData(doc: IsspDocument): IsspData {
     status: "DRAFT",
     scope: doc.scope,
     amendmentNumber: doc.amendmentNumber,
+    agencyHeadName: doc.agencyHeadName ?? "",
 
     agency: {
       name: agency.name,
