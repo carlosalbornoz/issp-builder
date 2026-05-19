@@ -65,6 +65,7 @@ export function UacsCombobox({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Fetch on open (with loading state shown in dropdown)
   useEffect(() => {
     if (open && allCodes.length === 0) {
       setLoading(true);
@@ -74,6 +75,14 @@ export function UacsCombobox({
       });
     }
   }, [open, allCodes.length]);
+
+  // Eager-fetch when a value is pre-filled (e.g. doc loaded from file) so
+  // the label resolves without the user having to open the dropdown first
+  useEffect(() => {
+    if (value && allCodes.length === 0) {
+      loadUacs().then(setAllCodes);
+    }
+  }, [value, allCodes.length]);
 
   const computePos = useCallback(() => {
     if (!triggerRef.current) return;
