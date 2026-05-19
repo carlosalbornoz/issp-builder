@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280, initial-scale=1">
+<title>Year 1 breakdown · ISSP Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --bg: #FAFAF7;
+    --surface: #FFFFFF;
+    --surface-2: #F2F1EC;
+    --surface-3: #EAE8E1;
+
+    --ink: #18181B;
+    --ink-2: #52525B;
+    --ink-3: #8A8A8E;
+    --ink-4: #B5B5B7;
+
+    --border: #E5E3DC;
+    --border-subtle: #EFEDE5;
+    --border-strong: #D4D2C9;
+
+    --part-1: #2563EB;
+    --part-2: #C2680C;
+    --part-3: #15803D;
+    --part-4: #6D28D9;
+
+    --status-done: #15803D;
+    --status-progress: #C2680C;
+    --status-empty: #D4D4D8;
+    --status-issue: #B91C1C;
+
+    --info-bg: #EFF4FE;
+    --info-bg-strong: #DDE7FC;
+    --info-fg: #1D4ED8;
+    --info-border: #CADCFA;
+
+    --danger-bg: #FCEDEA;
+    --danger-fg: #B91C1C;
+
+    --success-bg: #E7F6EC;
+    --success-fg: #15803D;
+    --success-border: #BDE5C8;
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-ui: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  html, body { height: 100%; margin: 0; }
+
+  body {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--info-bg-strong); }
+
+  /* App shell */
+  .app {
+    display: grid;
+    grid-template-columns: 288px 1fr;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ============== Sidebar ============== */
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  .sb-header {
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .sb-brand { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .sb-brand-name {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .sb-brand-doc {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: var(--ink-3);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s var(--ease), color 0.15s var(--ease);
+  }
+  .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+  .icon-btn svg { display: block; }
+
+  .sb-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 10px 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  .sb-scroll::-webkit-scrollbar { width: 8px; }
+  .sb-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .sb-overview-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    color: var(--ink-2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 4px 4px 8px;
+    transition: background 0.15s var(--ease), color 0.15s var(--ease);
+  }
+  .sb-overview-link:hover { background: var(--surface-2); color: var(--ink); }
+  .sb-overview-link svg { flex-shrink: 0; opacity: 0.6; }
+
+  .sb-part { margin-top: 6px; }
+  .sb-part-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px 7px 8px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    user-select: none;
+    transition: background 0.12s var(--ease);
+    width: 100%;
+    background: none;
+    border: none;
+    color: inherit;
+    text-align: left;
+    font-family: inherit;
+  }
+  .sb-part-header:hover { background: var(--surface-2); }
+  .sb-part-bar {
+    width: 3px;
+    height: 16px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .sb-part-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-2);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+  .sb-part-title {
+    font-size: 12px;
+    color: var(--ink-2);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sb-part-count {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--ink-3);
+    flex-shrink: 0;
+  }
+  .sb-part-chev {
+    color: var(--ink-3);
+    transition: transform 0.18s var(--ease);
+    flex-shrink: 0;
+  }
+  .sb-part[data-state="collapsed"] .sb-part-chev { transform: rotate(-90deg); }
+  .sb-part[data-state="collapsed"] .sb-part-items { display: none; }
+
+  .sb-part-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin: 2px 0 4px;
+    padding-left: 14px;
+  }
+
+  .sb-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 12.5px;
+    transition: background 0.12s var(--ease);
+    position: relative;
+  }
+  .sb-item:hover { background: var(--surface-2); }
+  .sb-item[data-status="empty"] { color: var(--ink-3); }
+  .sb-item[data-current="true"] {
+    background: var(--ink);
+    color: var(--surface);
+    font-weight: 500;
+  }
+  .sb-item[data-current="true"]:hover { background: #2A2A2E; }
+  .sb-item[data-current="true"] .dot[data-status="done"] { background: #4ADE80; }
+  .sb-item[data-current="true"] .dot[data-status="progress"] { background: #FBBF24; }
+  .sb-item[data-current="true"] .dot[data-status="empty"] { background: #71717A; }
+
+  .sb-item-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .sb-item-issue {
+    font-size: 9.5px;
+    font-weight: 500;
+    color: var(--status-issue);
+    background: var(--danger-bg);
+    padding: 1px 5px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--status-empty);
+  }
+  .dot[data-status="done"] { background: var(--status-done); }
+  .dot[data-status="progress"] { background: var(--status-progress); }
+  .dot[data-status="empty"] { background: var(--status-empty); }
+
+  /* Sidebar footer (reused from Overview) */
+  .sb-footer {
+    border-top: 1px solid var(--border-subtle);
+    padding: 10px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sb-save-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+    padding: 4px 2px;
+  }
+  .sb-save-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .sb-save-status .pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--status-done);
+    position: relative;
+  }
+  .sb-save-status .pulse::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid var(--status-done);
+    opacity: 0.3;
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.35; }
+    70% { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+
+  .sb-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.12s var(--ease), border-color 0.12s var(--ease);
+    text-decoration: none;
+  }
+  .btn:hover { background: var(--surface-2); border-color: var(--border-strong); }
+  .btn.primary {
+    background: var(--ink);
+    color: var(--surface);
+    border-color: var(--ink);
+  }
+  .btn.primary:hover { background: #2A2A2E; border-color: #2A2A2E; }
+
+  .sb-exit {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-3);
+    text-decoration: none;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    transition: color 0.12s var(--ease);
+  }
+  .sb-exit:hover { color: var(--ink); }
+
+  /* ============== Main ============== */
+  .main {
+    overflow-y: auto;
+    position: relative;
+  }
+  .main::-webkit-scrollbar { width: 10px; }
+  .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+  .main::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(to bottom, var(--bg) 80%, rgba(250, 250, 247, 0));
+    padding: 18px 36px 12px;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 10;
+  }
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--surface);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-mono);
+  }
+
+  .content {
+    padding: 0 56px 80px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  /* ===== Section header ===== */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a {
+    color: var(--ink-2);
+    text-decoration: none;
+    padding: 2px 6px;
+    margin: 0 -6px;
+    border-radius: 4px;
+    transition: background 0.12s var(--ease), color 0.12s var(--ease);
+  }
+  .breadcrumb a:hover { background: var(--surface-2); color: var(--ink); }
+  .breadcrumb .crumb-sep { color: var(--ink-4); }
+  .breadcrumb .current { color: var(--ink); font-weight: 500; padding: 2px 6px; }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: flex-start;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 22px;
+  }
+  .section-head-left .h-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 144, 'SOFT' 30;
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .section-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+    border-radius: 12px;
+    background: #FEF3C7;
+    color: #92400E;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .section-status .dot { background: var(--status-progress); width: 6px; height: 6px; }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin: 0;
+    max-width: 620px;
+    line-height: 1.55;
+  }
+
+  .stat-block {
+    text-align: right;
+    min-width: 200px;
+  }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 96;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-caption {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    margin-top: 6px;
+    font-family: var(--font-mono);
+  }
+
+  /* ===== Info callout ===== */
+  .callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--info-bg);
+    border: 1px solid var(--info-border);
+    border-radius: var(--radius);
+    margin-bottom: 28px;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .callout-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--info-fg);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 13px;
+    font-style: italic;
+  }
+  .callout-text strong {
+    font-weight: 500;
+    color: var(--info-fg);
+  }
+
+  /* ===== Subsection card ===== */
+  .subsection {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .sub-head {
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .sub-head-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .sub-letter {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-2);
+    letter-spacing: 0.04em;
+  }
+  .sub-title {
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 24;
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+  .sub-desc {
+    font-size: 13px;
+    color: var(--ink-3);
+    margin: 0;
+  }
+
+  /* Table group inside subsection */
+  .tbl-group { padding: 14px 22px 18px; }
+  .tbl-group + .tbl-group {
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 18px;
+  }
+
+  .tbl-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .tbl-head h3 {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    background: var(--surface-2);
+    color: var(--ink-2);
+  }
+  .tag.co { background: #E6F1FB; color: #1D4ED8; }
+  .tag.mooe { background: #F5EFFA; color: #6D28D9; }
+  .tbl-count {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+  }
+  .tbl-head .spacer { flex: 1; }
+  .tbl-subtotal {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .tbl-subtotal .label {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    color: var(--ink-3);
+    margin-right: 8px;
+    font-size: 12px;
+  }
+
+  .add-row-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border: 1px dashed var(--border-strong);
+    background: transparent;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 12px;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: all 0.12s var(--ease);
+  }
+  .add-row-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+    background: var(--surface-2);
+  }
+  .add-row-btn svg { color: var(--ink-3); }
+  .add-row-btn:hover svg { color: var(--ink); }
+
+  /* Tables */
+  .data-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    table-layout: fixed;
+  }
+  .data-tbl thead th {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-3);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--surface-2);
+  }
+  .data-tbl thead th.num { text-align: right; }
+  .data-tbl thead th .link-arrow {
+    display: inline-flex;
+    margin-left: 4px;
+    color: var(--ink-3);
+    cursor: pointer;
+  }
+  .data-tbl thead th .link-arrow:hover { color: var(--info-fg); }
+
+  .data-tbl tbody td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--ink);
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .data-tbl tbody tr {
+    transition: background 0.12s var(--ease);
+    position: relative;
+  }
+  .data-tbl tbody tr:hover { background: #FAFAF6; }
+  .data-tbl tbody tr:hover .row-actions { opacity: 1; }
+
+  .data-tbl td.num {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  .data-tbl td.mono {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink);
+  }
+  .data-tbl td.uacs {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .data-tbl td.uacs:hover { background: var(--info-bg); color: var(--info-fg); }
+  .data-tbl td.unit-cost {
+    text-align: right;
+    font-family: var(--font-mono);
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .data-tbl td.total-cell {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .data-tbl tfoot td {
+    padding: 12px 10px;
+    border-top: 1px solid var(--border);
+    background: var(--surface-2);
+    font-weight: 500;
+    color: var(--ink);
+    font-size: 13px;
+  }
+  .data-tbl tfoot .label-cell { text-align: right; color: var(--ink-2); font-weight: 400; }
+  .data-tbl tfoot .total-cell {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Column widths */
+  .col-item { width: 28%; }
+  .col-office { width: 14%; }
+  .col-uacs { width: 13%; }
+  .col-fund { width: 16%; }
+  .col-target { width: 8%; }
+  .col-unit { width: 10%; }
+  .col-total { width: 11%; }
+
+  .row-actions {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    display: flex;
+    gap: 2px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 2px;
+    transition: opacity 0.12s var(--ease);
+    z-index: 2;
+  }
+  .row-actions button {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+  }
+  .row-actions button:hover { background: var(--surface-2); color: var(--ink); }
+  .row-actions button.danger:hover { background: var(--danger-bg); color: var(--danger-fg); }
+
+  /* Subsection total */
+  .sub-total {
+    padding: 14px 22px;
+    background: linear-gradient(to right, var(--surface-2), transparent);
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .sub-total-label {
+    font-size: 12px;
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+  .sub-total-value {
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 48;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Collapsed subsection strip */
+  .sub-collapsed {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color 0.12s var(--ease), background 0.12s var(--ease);
+  }
+  .sub-collapsed:hover { border-color: var(--border-strong); background: #FCFBF7; }
+  .sub-collapsed .sub-letter { flex-shrink: 0; }
+  .sub-collapsed .sub-title-line {
+    flex: 1;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .sub-collapsed .sub-items-meta {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+  }
+  .sub-collapsed .sub-amount {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .sub-collapsed .chev {
+    color: var(--ink-3);
+    margin-left: 4px;
+  }
+
+  /* Year grand total */
+  .year-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 26px;
+    background: var(--ink);
+    color: var(--surface);
+    border-radius: var(--radius-lg);
+    margin-top: 24px;
+  }
+  .year-total .y-left .y-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 4px;
+  }
+  .year-total .y-left .y-sub {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .year-total .y-amount {
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 144;
+    font-size: 34px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  /* ===== Section footer ===== */
+  .section-footer {
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border-subtle);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .mark-done {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 10px 12px;
+    border: 1.5px solid var(--ink);
+    background: var(--surface);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+    transition: all 0.15s var(--ease);
+  }
+  .mark-done:hover {
+    background: var(--ink);
+    color: var(--surface);
+  }
+  .mark-done .check-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s var(--ease);
+  }
+  .mark-done:hover .check-circle {
+    background: var(--surface);
+    border-color: var(--surface);
+  }
+  .mark-done .check-circle svg { opacity: 0; transition: opacity 0.15s var(--ease); }
+  .mark-done:hover .check-circle svg { opacity: 1; color: var(--ink); }
+  .mark-done[data-checked="true"] {
+    background: var(--success-fg);
+    border-color: var(--success-fg);
+    color: white;
+  }
+  .mark-done[data-checked="true"] .check-circle {
+    background: white;
+    border-color: white;
+  }
+  .mark-done[data-checked="true"] .check-circle svg { opacity: 1; color: var(--success-fg); }
+
+  .mark-done-hint {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    margin-top: 6px;
+    font-family: var(--font-mono);
+  }
+  .mark-done-wrap { display: flex; flex-direction: column; }
+
+  .section-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 13px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--ink-2);
+    font-size: 13px;
+    transition: all 0.12s var(--ease);
+    max-width: 220px;
+  }
+  .nav-link:hover {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+    color: var(--ink);
+  }
+  .nav-link .nav-tag {
+    font-size: 10.5px;
+    font-family: var(--font-mono);
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 1px;
+  }
+  .nav-link .nav-name {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+  }
+  .nav-link.next {
+    background: var(--ink);
+    color: var(--surface);
+    border-color: var(--ink);
+  }
+  .nav-link.next .nav-tag { color: rgba(255, 255, 255, 0.55); }
+  .nav-link.next .nav-name { color: var(--surface); }
+  .nav-link.next:hover { background: #2A2A2E; border-color: #2A2A2E; }
+  .nav-link .arrow {
+    flex-shrink: 0;
+    color: var(--ink-3);
+    transition: transform 0.18s var(--ease), color 0.15s var(--ease);
+  }
+  .nav-link:hover .arrow { color: var(--ink); }
+  .nav-link.next .arrow { color: rgba(255, 255, 255, 0.7); }
+  .nav-link.prev:hover .arrow { transform: translateX(-3px); }
+  .nav-link.next:hover .arrow { transform: translateX(3px); color: var(--surface); }
+</style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" aria-label="Document navigation">
+      <div class="sb-header">
+        <div class="sb-brand">
+          <div class="sb-brand-name">ISSP editor</div>
+          <div class="sb-brand-doc">NCWTR · 2026–2028</div>
+        </div>
+        <button class="icon-btn" aria-label="Collapse sidebar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <div class="sb-scroll">
+        <a href="#" class="sb-overview-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+          Overview
+        </a>
+
+        <!-- Part I collapsed -->
+        <div class="sb-part" data-state="collapsed">
+          <button class="sb-part-header" type="button" aria-expanded="false">
+            <span class="sb-part-bar" style="background: var(--part-1);"></span>
+            <span class="sb-part-num">Part I</span>
+            <span class="sb-part-title">Agency profile</span>
+            <span class="sb-part-count">3/3</span>
+            <svg class="sb-part-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="sb-part-items"></div>
+        </div>
+
+        <!-- Part II collapsed -->
+        <div class="sb-part" data-state="collapsed">
+          <button class="sb-part-header" type="button" aria-expanded="false">
+            <span class="sb-part-bar" style="background: var(--part-2);"></span>
+            <span class="sb-part-num">Part II</span>
+            <span class="sb-part-title">Current ICT assessment</span>
+            <span class="sb-part-count">3/4</span>
+            <svg class="sb-part-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="sb-part-items"></div>
+        </div>
+
+        <!-- Part III collapsed -->
+        <div class="sb-part" data-state="collapsed">
+          <button class="sb-part-header" type="button" aria-expanded="false">
+            <span class="sb-part-bar" style="background: var(--part-3);"></span>
+            <span class="sb-part-num">Part III</span>
+            <span class="sb-part-title">Proposed ICT strategy</span>
+            <span class="sb-part-count">4/7</span>
+            <svg class="sb-part-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="sb-part-items"></div>
+        </div>
+
+        <!-- Part IV expanded with active current item -->
+        <div class="sb-part" data-state="expanded">
+          <button class="sb-part-header" type="button" aria-expanded="true">
+            <span class="sb-part-bar" style="background: var(--part-4);"></span>
+            <span class="sb-part-num">Part IV</span>
+            <span class="sb-part-title">Resource requirements</span>
+            <span class="sb-part-count">0/4</span>
+            <svg class="sb-part-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="sb-part-items">
+            <a href="#" class="sb-item" data-status="progress" data-current="true">
+              <span class="dot" data-status="progress"></span>
+              <span class="sb-item-label">Year 1 breakdown</span>
+            </a>
+            <a href="#" class="sb-item" data-status="empty">
+              <span class="dot" data-status="empty"></span>
+              <span class="sb-item-label">Year 2 breakdown</span>
+            </a>
+            <a href="#" class="sb-item" data-status="empty">
+              <span class="dot" data-status="empty"></span>
+              <span class="sb-item-label">Year 3 breakdown</span>
+            </a>
+            <a href="#" class="sb-item" data-status="empty">
+              <span class="dot" data-status="empty"></span>
+              <span class="sb-item-label">Summary of investments</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-footer">
+        <div class="sb-save-row">
+          <span class="sb-save-status">
+            <span class="pulse"></span>
+            Saved 2 min ago
+          </span>
+          <button class="icon-btn" aria-label="More actions">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
+          </button>
+        </div>
+        <div class="sb-actions">
+          <a href="#" class="btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Properties
+          </a>
+          <a href="#" class="btn primary">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            Export PDF
+          </a>
+        </div>
+        <a href="#" class="sb-exit">Exit editor</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+      <div class="topbar">
+        <button class="avatar" aria-label="Account">CA</button>
+      </div>
+
+      <div class="content">
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+          <a href="#">Overview</a>
+          <span class="crumb-sep">›</span>
+          <a href="#">Part IV — Resource requirements</a>
+          <span class="crumb-sep">›</span>
+          <span class="current">Year 1 breakdown</span>
+        </div>
+
+        <!-- Section head -->
+        <div class="section-head">
+          <div class="section-head-left">
+            <div class="h-row">
+              <h1 class="section-title">Year 1 breakdown — 2026</h1>
+              <span class="section-status"><span class="dot"></span>In progress</span>
+            </div>
+            <p class="section-desc">Enter all ICT expenditures for 2026 across the four expense categories. Totals are computed automatically as you fill each row.</p>
+          </div>
+          <div class="stat-block">
+            <div class="stat-label">Year total</div>
+            <div class="stat-value">₱20,972,000</div>
+            <div class="stat-caption">Last edited 1 hr ago</div>
+          </div>
+        </div>
+
+        <!-- Callout -->
+        <div class="callout">
+          <span class="callout-icon">i</span>
+          <div class="callout-text">
+            <strong>Capital outlay (CO)</strong> covers assets over ₱50,000 with a useful life beyond one year. <strong>MOOE</strong> covers recurring costs and items under ₱50,000. Use the UACS combobox in each row to select the correct accounting code.
+          </div>
+        </div>
+
+        <!-- Subsection A: expanded -->
+        <section class="subsection">
+          <div class="sub-head">
+            <div class="sub-head-row">
+              <span class="sub-letter">A</span>
+              <h2 class="sub-title">Office productivity & general ICT</h2>
+            </div>
+            <p class="sub-desc">Agency-wide ICT expenses not tied to a specific project.</p>
+          </div>
+
+          <!-- Capital Outlay -->
+          <div class="tbl-group">
+            <div class="tbl-head">
+              <h3>Capital outlay <span class="tag co">CO</span></h3>
+              <span class="tbl-count">4 items</span>
+              <span class="spacer"></span>
+              <span class="tbl-subtotal"><span class="label">Subtotal</span>₱2,115,000.00</span>
+              <button class="add-row-btn">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add row
+              </button>
+            </div>
+
+            <table class="data-tbl">
+              <colgroup>
+                <col class="col-item"><col class="col-office"><col class="col-uacs">
+                <col class="col-fund"><col class="col-target"><col class="col-unit"><col class="col-total">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Item / description</th>
+                  <th>Office</th>
+                  <th>UACS code <a class="link-arrow" title="Open UACS reference"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a></th>
+                  <th>Fund source</th>
+                  <th class="num">Qty</th>
+                  <th class="num">Unit cost</th>
+                  <th class="num">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td title="Desktop computers (replacement units)">Desktop computers (replacement units)</td>
+                  <td>ICT Division</td>
+                  <td class="uacs">5060405003</td>
+                  <td>GAA</td>
+                  <td class="num">25</td>
+                  <td class="unit-cost">45,000.00</td>
+                  <td class="total-cell">₱1,125,000.00</td>
+                  <span class="row-actions">
+                    <button title="Duplicate row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                    <button class="danger" title="Delete row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                  </span>
+                </tr>
+                <tr>
+                  <td title="Network switches and cabling — server room refresh">Network switches and cabling — server room refresh</td>
+                  <td>ICT Division</td>
+                  <td class="uacs">5060405003</td>
+                  <td>GAA</td>
+                  <td class="num">1</td>
+                  <td class="unit-cost">380,000.00</td>
+                  <td class="total-cell">₱380,000.00</td>
+                  <span class="row-actions">
+                    <button title="Duplicate row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                    <button class="danger" title="Delete row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                  </span>
+                </tr>
+                <tr>
+                  <td title="Rack-mounted UPS for server room">Rack-mounted UPS for server room</td>
+                  <td>ICT Division</td>
+                  <td class="uacs">5060405003</td>
+                  <td>GAA</td>
+                  <td class="num">2</td>
+                  <td class="unit-cost">95,000.00</td>
+                  <td class="total-cell">₱190,000.00</td>
+                  <span class="row-actions">
+                    <button title="Duplicate row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                    <button class="danger" title="Delete row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                  </span>
+                </tr>
+                <tr>
+                  <td title="Enterprise antivirus and endpoint protection license">Enterprise antivirus and endpoint protection</td>
+                  <td>ICT Division</td>
+                  <td class="uacs">5060405015</td>
+                  <td>GAA</td>
+                  <td class="num">1</td>
+                  <td class="unit-cost">420,000.00</td>
+                  <td class="total-cell">₱420,000.00</td>
+                  <span class="row-actions">
+                    <button title="Duplicate row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                    <button class="danger" title="Delete row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                  </span>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="6" class="label-cell">Capital outlay subtotal</td>
+                  <td class="total-cell">₱2,115,000.00</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- MOOE -->
+          <div class="tbl-group">
+            <div class="tbl-head">
+              <h3>Maintenance & operating expenses <span class="tag mooe">MOOE</span></h3>
+              <span class="tbl-count">3 items</span>
+              <span class="spacer"></span>
+              <span class="tbl-subtotal"><span class="label">Subtotal</span>₱1,366,000.00</span>
+              <button class="add-row-btn">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add row
+              </button>
+            </div>
+
+            <table class="data-tbl">
+              <colgroup>
+                <col class="col-item"><col class="col-office"><col class="col-uacs">
+                <col class="col-fund"><col class="col-target"><col class="col-unit"><col class="col-total">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Item / description</th>
+                  <th>Office</th>
+                  <th>UACS code <a class="link-arrow"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a></th>
+                  <th>Fund source</th>
+                  <th class="num">Qty</th>
+                  <th class="num">Unit cost</th>
+                  <th class="num">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td title="Internet subscription — Central Office">Internet subscription — Central Office</td>
+                  <td>ICT Division</td>
+                  <td class="uacs">5020503000</td>
+                  <td>GAA</td>
+                  <td class="num">12</td>
+                  <td class="unit-cost">28,000.00</td>
+                  <td class="total-cell">₱336,000.00</td>
+                  <span class="row-actions">
+                    <button title="Duplicate row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                    <button class="danger" title="Delete row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                  </span>
+                </tr>
+                <tr>
+                  <td title="ICT office supplies (printer cartridges, toner)">ICT office supplies (printer cartridges, toner)</td>
+                  <td>ICT Division</td>
+                  <td class="uacs">5020301001</td>
+                  <td>GAA</td>
+                  <td class="num">1</td>
+                  <td class="unit-cost">180,000.00</td>
+                  <td class="total-cell">₱180,000.00</td>
+                  <span class="row-actions">
+                    <button title="Duplicate row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                    <button class="danger" title="Delete row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                  </span>
+                </tr>
+                <tr>
+                  <td title="ICT consultancy — UQMP required engagement">ICT consultancy — UQMP engagement</td>
+                  <td>ICT Division</td>
+                  <td class="uacs">5021103001</td>
+                  <td>GAA</td>
+                  <td class="num">1</td>
+                  <td class="unit-cost">850,000.00</td>
+                  <td class="total-cell">₱850,000.00</td>
+                  <span class="row-actions">
+                    <button title="Duplicate row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                    <button class="danger" title="Delete row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                  </span>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="6" class="label-cell">MOOE subtotal</td>
+                  <td class="total-cell">₱1,366,000.00</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- Subsection total -->
+          <div class="sub-total">
+            <span class="sub-total-label">Section A total</span>
+            <span class="sub-total-value">₱3,481,000.00</span>
+          </div>
+        </section>
+
+        <!-- Collapsed subsections -->
+        <div class="sub-collapsed">
+          <span class="sub-letter">B</span>
+          <span class="sub-title-line">Infrastructure & networking</span>
+          <span class="sub-items-meta">6 items · 2 CO · 4 MOOE</span>
+          <span class="sub-amount">₱8,420,000.00</span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </div>
+
+        <div class="sub-collapsed">
+          <span class="sub-letter">C</span>
+          <span class="sub-title-line">Application development</span>
+          <span class="sub-items-meta">5 items · 1 CO · 4 MOOE</span>
+          <span class="sub-amount">₱5,150,000.00</span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </div>
+
+        <div class="sub-collapsed">
+          <span class="sub-letter">D</span>
+          <span class="sub-title-line">Cybersecurity & data protection</span>
+          <span class="sub-items-meta">4 items · 2 CO · 2 MOOE</span>
+          <span class="sub-amount">₱3,921,000.00</span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </div>
+
+        <!-- Year grand total -->
+        <div class="year-total">
+          <div class="y-left">
+            <div class="y-label">Year 2026 — grand total</div>
+            <div class="y-sub">Sum of all sections · 19 line items</div>
+          </div>
+          <div class="y-amount">₱20,972,000.00</div>
+        </div>
+
+        <!-- Section footer -->
+        <div class="section-footer">
+          <div class="mark-done-wrap">
+            <button class="mark-done" id="markDoneBtn" data-checked="false">
+              <span class="check-circle">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <span class="mark-done-text">Mark this section as done</span>
+            </button>
+            <div class="mark-done-hint" id="markDoneHint">0 validation issues · ready to complete</div>
+          </div>
+
+          <div class="section-nav">
+            <a href="#" class="nav-link prev">
+              <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <span>
+                <span class="nav-tag">Previous · Part III</span>
+                <span class="nav-name">F. Performance framework</span>
+              </span>
+            </a>
+            <a href="#" class="nav-link next">
+              <span>
+                <span class="nav-tag">Next · Part IV</span>
+                <span class="nav-name">Year 2 breakdown</span>
+              </span>
+              <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+<script>
+  // Expand/collapse Part sections in sidebar
+  document.querySelectorAll('.sb-part-header').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const part = btn.closest('.sb-part');
+      const expanded = part.dataset.state === 'expanded';
+      part.dataset.state = expanded ? 'collapsed' : 'expanded';
+      btn.setAttribute('aria-expanded', String(!expanded));
+    });
+  });
+
+  // Mark as done toggle
+  const markBtn = document.getElementById('markDoneBtn');
+  const markText = markBtn.querySelector('.mark-done-text');
+  const markHint = document.getElementById('markDoneHint');
+  markBtn.addEventListener('click', () => {
+    const checked = markBtn.dataset.checked === 'true';
+    markBtn.dataset.checked = String(!checked);
+    if (!checked) {
+      markText.textContent = 'Section marked as done';
+      markHint.textContent = 'Marked just now · click to undo';
+    } else {
+      markText.textContent = 'Mark this section as done';
+      markHint.textContent = '0 validation issues · ready to complete';
+    }
+  });
+
+  // Add row demo (no-op visual)
+  document.querySelectorAll('.add-row-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => { e.preventDefault(); });
+  });
+</script>
+</body>
+</html>

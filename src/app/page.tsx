@@ -6,10 +6,24 @@ import matter from "gray-matter";
 import type { Metadata } from "next";
 import HomePageClient from "@/components/home/home-page-client";
 
+const SITE_URL = "https://apps.carlosanton.io/issp";
+
 export const metadata: Metadata = {
   title: "ISSP Platform — ISSP compliance, finally structured.",
   description:
     "A volunteer-built tool that turns the DICT ISSP template into a guided, part-by-part editor. No account. No server. Works in your browser.",
+  openGraph: {
+    title: "ISSP Builder — ISSP compliance, finally structured.",
+    description:
+      "Free, browser-based ISSP editor for Philippine government agencies. Aligned to the DICT 2026 template. No account, no server — your data never leaves your device.",
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ISSP Builder — ISSP compliance, finally structured.",
+    description:
+      "Free, browser-based ISSP editor for Philippine government agencies. Aligned to the DICT 2026 template. No account, no server — your data never leaves your device.",
+  },
 };
 
 async function readContentHtml(slug: string): Promise<string> {

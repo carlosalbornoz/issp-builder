@@ -21,6 +21,9 @@ export const proxy = auth((req) => {
   // Allow static assets
   if (pathname.startsWith("/_next")) return NextResponse.next();
 
+  // OG/Twitter image generation routes — must be public for social scrapers
+  if (pathname === "/opengraph-image" || pathname === "/twitter-image") return NextResponse.next();
+
   // Local-first editor and Annex 1 — always public, no auth check
   if (isEditorRoute || isAnnex1Route) return NextResponse.next();
 

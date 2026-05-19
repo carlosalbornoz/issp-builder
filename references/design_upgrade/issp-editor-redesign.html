@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280, initial-scale=1">
+<title>ISSP Editor · NCWTR 2026–2028</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    /* Surfaces */
+    --bg: #FAFAF7;
+    --surface: #FFFFFF;
+    --surface-2: #F2F1EC;
+    --surface-3: #EAE8E1;
+
+    /* Ink */
+    --ink: #18181B;
+    --ink-2: #52525B;
+    --ink-3: #8A8A8E;
+    --ink-4: #B5B5B7;
+
+    /* Borders */
+    --border: #E5E3DC;
+    --border-subtle: #EFEDE5;
+    --border-strong: #D4D2C9;
+
+    /* Part identity (refined from the original four colors) */
+    --part-1: #2563EB; /* Part I — blue */
+    --part-2: #C2680C; /* Part II — amber */
+    --part-3: #15803D; /* Part III — green */
+    --part-4: #6D28D9; /* Part IV — purple */
+
+    /* Status */
+    --status-done: #15803D;
+    --status-progress: #C2680C;
+    --status-empty: #D4D4D8;
+    --status-issue: #B91C1C;
+
+    /* Info accent */
+    --info-bg: #EFF4FE;
+    --info-bg-strong: #DDE7FC;
+    --info-fg: #1D4ED8;
+    --info-border: #CADCFA;
+
+    /* Danger */
+    --danger-bg: #FCEDEA;
+    --danger-fg: #B91C1C;
+
+    /* Type */
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-ui: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+    /* Geometry */
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  html, body { height: 100%; margin: 0; }
+
+  body {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--info-bg-strong); }
+
+  /* ========= App shell ========= */
+  .app {
+    display: grid;
+    grid-template-columns: 288px 1fr;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ========= Sidebar ========= */
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  .sb-header {
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .sb-brand { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .sb-brand-name {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .sb-brand-doc {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: var(--ink-3);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s var(--ease), color 0.15s var(--ease);
+  }
+  .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+  .icon-btn svg { display: block; }
+
+  .sb-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 10px 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  .sb-scroll::-webkit-scrollbar { width: 8px; }
+  .sb-scroll::-webkit-scrollbar-track { background: transparent; }
+  .sb-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .sb-scroll::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+  /* Overview link (active section) */
+  .sb-overview-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: var(--surface);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 4px 4px 8px;
+    transition: background 0.18s var(--ease);
+  }
+  .sb-overview-link:hover { background: #2A2A2E; }
+  .sb-overview-link svg { flex-shrink: 0; opacity: 0.85; }
+
+  /* Part block */
+  .sb-part { margin-top: 6px; }
+
+  .sb-part-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px 7px 8px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    user-select: none;
+    transition: background 0.12s var(--ease);
+    width: 100%;
+    background: none;
+    border: none;
+    color: inherit;
+    text-align: left;
+    font-family: inherit;
+  }
+  .sb-part-header:hover { background: var(--surface-2); }
+
+  .sb-part-bar {
+    width: 3px;
+    height: 16px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .sb-part-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-2);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+  .sb-part-title {
+    font-size: 12px;
+    color: var(--ink-2);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sb-part-count {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--ink-3);
+    flex-shrink: 0;
+  }
+  .sb-part-chev {
+    color: var(--ink-3);
+    transition: transform 0.18s var(--ease);
+    flex-shrink: 0;
+  }
+  .sb-part[data-state="collapsed"] .sb-part-chev { transform: rotate(-90deg); }
+  .sb-part[data-state="collapsed"] .sb-part-items { display: none; }
+
+  .sb-part-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin: 2px 0 4px;
+    padding-left: 14px;
+  }
+
+  .sb-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 12.5px;
+    transition: background 0.12s var(--ease);
+    position: relative;
+  }
+  .sb-item:hover { background: var(--surface-2); }
+  .sb-item[data-status="empty"] { color: var(--ink-3); }
+  .sb-item[data-current="true"] {
+    background: var(--info-bg);
+    color: var(--info-fg);
+    font-weight: 500;
+  }
+  .sb-item[data-current="true"]:hover { background: var(--info-bg-strong); }
+
+  .sb-item-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .sb-item-issue {
+    font-size: 9.5px;
+    font-weight: 500;
+    color: var(--status-issue);
+    background: var(--danger-bg);
+    padding: 1px 5px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  /* Status dot */
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--status-empty);
+  }
+  .dot[data-status="done"] { background: var(--status-done); }
+  .dot[data-status="progress"] { background: var(--status-progress); }
+  .dot[data-status="empty"] { background: var(--status-empty); }
+
+  /* Sidebar footer */
+  .sb-footer {
+    border-top: 1px solid var(--border-subtle);
+    padding: 10px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sb-save-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+    padding: 4px 2px;
+  }
+  .sb-save-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .sb-save-status .pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--status-done);
+    position: relative;
+  }
+  .sb-save-status .pulse::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid var(--status-done);
+    opacity: 0.3;
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.35; }
+    70% { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+
+  .sb-kebab-wrap { position: relative; }
+  .sb-kebab-menu {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(24, 24, 27, 0.08), 0 2px 6px rgba(24, 24, 27, 0.04);
+    min-width: 220px;
+    padding: 6px;
+    z-index: 50;
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    transition: opacity 0.15s var(--ease), transform 0.15s var(--ease);
+  }
+  .sb-kebab-wrap[data-open="true"] .sb-kebab-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .sb-kebab-menu .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    font-size: 13px;
+    color: var(--ink);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .sb-kebab-menu .menu-item:hover { background: var(--surface-2); }
+  .sb-kebab-menu .menu-item svg { color: var(--ink-3); flex-shrink: 0; }
+  .sb-kebab-menu .menu-sep {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: 4px 6px;
+  }
+  .sb-kebab-menu .menu-item.danger { color: var(--danger-fg); }
+  .sb-kebab-menu .menu-item.danger svg { color: var(--danger-fg); }
+  .sb-kebab-menu .menu-item.danger:hover { background: var(--danger-bg); }
+
+  .sb-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.12s var(--ease), border-color 0.12s var(--ease);
+    text-decoration: none;
+  }
+  .btn:hover { background: var(--surface-2); border-color: var(--border-strong); }
+  .btn.primary {
+    background: var(--ink);
+    color: var(--surface);
+    border-color: var(--ink);
+  }
+  .btn.primary:hover { background: #2A2A2E; border-color: #2A2A2E; }
+
+  .sb-exit {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-3);
+    text-decoration: none;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    transition: color 0.12s var(--ease);
+  }
+  .sb-exit:hover { color: var(--ink); }
+
+  /* ========= Main content ========= */
+  .main {
+    overflow-y: auto;
+    position: relative;
+    padding: 0;
+  }
+  .main::-webkit-scrollbar { width: 10px; }
+  .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+  .main::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(to bottom, var(--bg) 80%, rgba(250, 250, 247, 0));
+    padding: 18px 36px 12px;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 10;
+  }
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--surface);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-mono);
+    position: relative;
+  }
+  .avatar:hover::after {
+    content: 'Carlos Anton';
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    padding: 5px 9px;
+    background: var(--ink);
+    color: var(--surface);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-ui);
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0;
+    white-space: nowrap;
+    z-index: 20;
+  }
+
+  .content {
+    padding: 0 56px 64px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Metadata strip */
+  .meta-strip {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    margin: 4px 0 22px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 4px 8px;
+    margin: 0 -8px;
+    border-radius: var(--radius-sm);
+    transition: background 0.12s var(--ease);
+  }
+  .meta-item:hover { background: var(--surface-2); }
+  .meta-item .label { color: var(--ink-3); }
+  .meta-item svg { color: var(--ink-3); }
+  .meta-dot { width: 4px; height: 4px; background: var(--ink-4); border-radius: 50%; flex-shrink: 0; }
+
+  .meta-agency-code {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    background: var(--surface-2);
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    background: var(--surface-2);
+    color: var(--ink);
+  }
+  .status-pill .dot { width: 6px; height: 6px; }
+  .status-pill[data-status="draft"] { background: #FEF3C7; color: #92400E; }
+  .status-pill[data-status="draft"] .dot { background: #D97706; }
+
+  .meta-strip .spacer { flex: 1; }
+
+  /* Title + completion header */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 36px;
+    align-items: flex-end;
+    margin-bottom: 28px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 144, 'SOFT' 30;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 0;
+    max-width: 640px;
+  }
+  .hero-completion {
+    min-width: 220px;
+    text-align: right;
+  }
+  .hero-completion .pct {
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 96;
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+    display: inline-block;
+  }
+  .hero-completion .pct-suffix {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-left: 6px;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--surface-3);
+    border-radius: 2px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--status-done);
+    border-radius: 2px;
+    width: 0;
+    animation: fill-bar 1.2s var(--ease) 0.3s forwards;
+  }
+  @keyframes fill-bar { to { width: var(--target-width, 61%); } }
+
+  .hero-completion .caption {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+
+  /* Continue editing card */
+  .continue-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--info-bg);
+    border: 1px solid var(--info-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 28px;
+    transition: background 0.15s var(--ease), border-color 0.15s var(--ease);
+  }
+  .continue-card:hover { background: var(--info-bg-strong); }
+  .continue-card .play-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--info-fg);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .continue-card .text { flex: 1; min-width: 0; }
+  .continue-card .small {
+    font-size: 11.5px;
+    color: var(--info-fg);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+  }
+  .continue-card .big {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .continue-card .big .crumb {
+    color: var(--ink-2);
+    margin-right: 6px;
+    font-weight: 400;
+  }
+  .continue-card .when {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+  .continue-card .arrow {
+    color: var(--info-fg);
+    transition: transform 0.2s var(--ease);
+    flex-shrink: 0;
+  }
+  .continue-card:hover .arrow { transform: translateX(3px); }
+
+  /* Part card grid */
+  .part-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .part-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px 16px 22px;
+    overflow: hidden;
+    transition: border-color 0.15s var(--ease);
+    opacity: 0;
+    transform: translateY(8px);
+    animation: card-in 0.5s var(--ease) forwards;
+  }
+  .part-card:hover { border-color: var(--border-strong); }
+  .part-card:nth-child(1) { animation-delay: 0.05s; }
+  .part-card:nth-child(2) { animation-delay: 0.12s; }
+  .part-card:nth-child(3) { animation-delay: 0.19s; }
+  .part-card:nth-child(4) { animation-delay: 0.26s; }
+  @keyframes card-in { to { opacity: 1; transform: translateY(0); } }
+
+  .part-card .accent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+  }
+
+  .part-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .part-head .left {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .part-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-2);
+    letter-spacing: 0.04em;
+  }
+  .part-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .part-status {
+    font-size: 11.5px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .part-status[data-state="done"] { color: var(--status-done); }
+  .part-status[data-state="progress"] { color: var(--status-progress); }
+  .part-status[data-state="issues"] { color: var(--status-issue); }
+
+  .part-title {
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 24;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+    margin: 0 0 12px;
+  }
+
+  .sub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sub-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px;
+    margin: 0 -8px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.12s var(--ease);
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .sub-row:hover { background: var(--surface-2); }
+  .sub-row[data-status="empty"] { color: var(--ink-3); }
+  .sub-row[data-current="true"] {
+    background: var(--info-bg);
+    color: var(--ink);
+  }
+  .sub-row[data-current="true"]:hover { background: var(--info-bg-strong); }
+  .sub-row[data-current="true"] .sub-label { font-weight: 500; }
+  .sub-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sub-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    flex-shrink: 0;
+  }
+  .sub-issue {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--status-issue);
+    flex-shrink: 0;
+  }
+
+  /* Footer note */
+  .footer-note {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--ink-3);
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .footer-note .heart { color: #DC2626; }
+  .footer-note a { color: var(--ink-2); text-decoration: none; border-bottom: 1px dotted var(--ink-4); }
+  .footer-note a:hover { color: var(--ink); }
+
+  /* Subtle entrance for sidebar */
+  .sb-part { opacity: 0; transform: translateX(-4px); animation: sb-in 0.4s var(--ease) forwards; }
+  .sb-part:nth-child(2) { animation-delay: 0.06s; }
+  .sb-part:nth-child(3) { animation-delay: 0.10s; }
+  .sb-part:nth-child(4) { animation-delay: 0.14s; }
+  .sb-part:nth-child(5) { animation-delay: 0.18s; }
+  @keyframes sb-in { to { opacity: 1; transform: translateX(0); } }
+</style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- ========= SIDEBAR ========= -->
+    <aside class="sidebar" aria-label="Document navigation">
+      <div class="sb-header">
+        <div class="sb-brand">
+          <div class="sb-brand-name">ISSP editor</div>
+          <div class="sb-brand-doc">NCWTR · 2026–2028</div>
+        </div>
+        <button class="icon-btn" aria-label="Collapse sidebar" title="Collapse sidebar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <div class="sb-scroll">
+        <a href="#" class="sb-overview-link" aria-current="page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+          Overview
+        </a>
+
+        <!-- Part I -->
+        <div class="sb-part" data-state="expanded">
+          <button class="sb-part-header" type="button" aria-expanded="true">
+            <span class="sb-part-bar" style="background: var(--part-1);"></span>
+            <span class="sb-part-num">Part I</span>
+            <span class="sb-part-title">Agency profile</span>
+            <span class="sb-part-count">3/3</span>
+            <svg class="sb-part-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="sb-part-items">
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">A. Mandate, vision & mission</span>
+            </a>
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">B. Organization structure</span>
+            </a>
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">C. Stakeholder analysis</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Part II -->
+        <div class="sb-part" data-state="expanded">
+          <button class="sb-part-header" type="button" aria-expanded="true">
+            <span class="sb-part-bar" style="background: var(--part-2);"></span>
+            <span class="sb-part-num">Part II</span>
+            <span class="sb-part-title">Current ICT assessment</span>
+            <span class="sb-part-count">3/4</span>
+            <svg class="sb-part-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="sb-part-items">
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">A. Strategic concerns</span>
+            </a>
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">B. Network & cybersecurity</span>
+            </a>
+            <a href="#" class="sb-item" data-status="progress">
+              <span class="dot" data-status="progress"></span>
+              <span class="sb-item-label">C. IS inventory</span>
+            </a>
+            <a href="#" class="sb-item" data-status="empty">
+              <span class="dot" data-status="empty"></span>
+              <span class="sb-item-label">D. E-government programs</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Part III -->
+        <div class="sb-part" data-state="expanded">
+          <button class="sb-part-header" type="button" aria-expanded="true">
+            <span class="sb-part-bar" style="background: var(--part-3);"></span>
+            <span class="sb-part-num">Part III</span>
+            <span class="sb-part-title">Proposed ICT strategy</span>
+            <span class="sb-part-count">4/7</span>
+            <svg class="sb-part-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="sb-part-items">
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">A. Proposed infrastructure</span>
+            </a>
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">B. Enterprise architecture</span>
+            </a>
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">C. Proposed human capital</span>
+            </a>
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">D. Proposed IS</span>
+            </a>
+            <a href="#" class="sb-item" data-status="progress" data-current="true">
+              <span class="dot" data-status="progress"></span>
+              <span class="sb-item-label">E.1 Internal projects</span>
+            </a>
+            <a href="#" class="sb-item" data-status="empty">
+              <span class="dot" data-status="empty"></span>
+              <span class="sb-item-label">E.2 Cross-agency projects</span>
+            </a>
+            <a href="#" class="sb-item" data-status="empty">
+              <span class="dot" data-status="empty"></span>
+              <span class="sb-item-label">F. Performance framework</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Part IV -->
+        <div class="sb-part" data-state="expanded">
+          <button class="sb-part-header" type="button" aria-expanded="true">
+            <span class="sb-part-bar" style="background: var(--part-4);"></span>
+            <span class="sb-part-num">Part IV</span>
+            <span class="sb-part-title">Resource requirements</span>
+            <span class="sb-part-count">1/4</span>
+            <svg class="sb-part-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="sb-part-items">
+            <a href="#" class="sb-item" data-status="done">
+              <span class="dot" data-status="done"></span>
+              <span class="sb-item-label">Year 1 breakdown</span>
+            </a>
+            <a href="#" class="sb-item" data-status="progress">
+              <span class="dot" data-status="progress"></span>
+              <span class="sb-item-label">Year 2 breakdown</span>
+              <span class="sb-item-issue">1</span>
+            </a>
+            <a href="#" class="sb-item" data-status="empty">
+              <span class="dot" data-status="empty"></span>
+              <span class="sb-item-label">Year 3 breakdown</span>
+            </a>
+            <a href="#" class="sb-item" data-status="empty">
+              <span class="dot" data-status="empty"></span>
+              <span class="sb-item-label">Summary of investments</span>
+              <span class="sb-item-issue">1</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-footer">
+        <div class="sb-save-row">
+          <span class="sb-save-status">
+            <span class="pulse"></span>
+            Saved 1 hr ago
+          </span>
+          <div class="sb-kebab-wrap" id="kebab">
+            <button class="icon-btn" id="kebabBtn" aria-label="More document actions" title="More actions">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
+            </button>
+            <div class="sb-kebab-menu" role="menu">
+              <a href="#" class="menu-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Download .issp file
+              </a>
+              <a href="#" class="menu-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Load different ISSP…
+              </a>
+              <div class="menu-sep"></div>
+              <a href="#" class="menu-item danger">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                Start over…
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="sb-actions">
+          <a href="#" class="btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Properties
+          </a>
+          <a href="#" class="btn primary">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            Export PDF
+          </a>
+        </div>
+
+        <a href="#" class="sb-exit">Exit editor</a>
+      </div>
+    </aside>
+
+    <!-- ========= MAIN ========= -->
+    <main class="main">
+      <div class="topbar">
+        <button class="avatar" aria-label="Account">CA</button>
+      </div>
+
+      <div class="content">
+
+        <!-- Metadata strip -->
+        <div class="meta-strip">
+          <div class="meta-item">
+            <span class="label">Agency</span>
+            <span class="meta-agency-code">NCWTR</span>
+          </div>
+          <span class="meta-dot"></span>
+          <div class="meta-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>2026–2028</span>
+          </div>
+          <span class="meta-dot"></span>
+          <div class="meta-item">
+            <span class="status-pill" data-status="draft">
+              <span class="dot"></span>
+              Draft
+            </span>
+          </div>
+          <div class="spacer"></div>
+          <div class="meta-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="22" x2="4" y2="15"></line><path d="M4 15V2c4 0 6 2 10 2s6-2 10-2v13c-4 0-6 2-10 2s-6-2-10-2z"></path></svg>
+            <span>DICT submission — Aug 31, 2026</span>
+          </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="hero">
+          <h1 class="hero-title">NCWTR Information Systems Strategic Plan 2026–2028</h1>
+          <div class="hero-completion">
+            <span class="pct">61%</span><span class="pct-suffix">complete</span>
+            <div class="progress-track">
+              <div class="progress-fill" style="--target-width: 61.1%;"></div>
+            </div>
+            <div class="caption">11 of 18 sections done</div>
+          </div>
+        </div>
+
+        <!-- Continue editing -->
+        <a href="#" class="continue-card">
+          <span class="play-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+          </span>
+          <div class="text">
+            <div class="small">Continue where you left off</div>
+            <div class="big"><span class="crumb">Part III ›</span>E.1 Internal projects</div>
+          </div>
+          <span class="when">Edited 1 hr ago</span>
+          <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+
+        <!-- Part grid -->
+        <div class="part-grid">
+
+          <!-- Part I -->
+          <div class="part-card">
+            <div class="accent" style="background: var(--part-1);"></div>
+            <div class="part-head">
+              <div class="left">
+                <span class="part-num">Part I</span>
+                <span class="part-count">3 of 3</span>
+              </div>
+              <span class="part-status" data-state="done">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Done
+              </span>
+            </div>
+            <h2 class="part-title">Agency profile & strategic context</h2>
+            <div class="sub-list">
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">A. Mandate, vision & mission</span>
+                <span class="sub-meta">2d</span>
+              </a>
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">B. Organization structure</span>
+                <span class="sub-meta">2d</span>
+              </a>
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">C. Stakeholder analysis</span>
+                <span class="sub-meta">3d</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Part II -->
+          <div class="part-card">
+            <div class="accent" style="background: var(--part-2);"></div>
+            <div class="part-head">
+              <div class="left">
+                <span class="part-num">Part II</span>
+                <span class="part-count">3 of 4</span>
+              </div>
+              <span class="part-status" data-state="progress">In progress</span>
+            </div>
+            <h2 class="part-title">Current ICT assessment</h2>
+            <div class="sub-list">
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">A. Strategic concerns</span>
+                <span class="sub-meta">1d</span>
+              </a>
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">B. Network & cybersecurity</span>
+                <span class="sub-meta">1d</span>
+              </a>
+              <a href="#" class="sub-row" data-status="progress">
+                <span class="dot" data-status="progress"></span>
+                <span class="sub-label">C. IS inventory</span>
+                <span class="sub-meta">3h</span>
+              </a>
+              <a href="#" class="sub-row" data-status="empty">
+                <span class="dot" data-status="empty"></span>
+                <span class="sub-label">D. E-government programs</span>
+                <span class="sub-meta">—</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Part III -->
+          <div class="part-card">
+            <div class="accent" style="background: var(--part-3);"></div>
+            <div class="part-head">
+              <div class="left">
+                <span class="part-num">Part III</span>
+                <span class="part-count">4 of 7</span>
+              </div>
+              <span class="part-status" data-state="progress">In progress</span>
+            </div>
+            <h2 class="part-title">Proposed ICT strategy</h2>
+            <div class="sub-list">
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">A. Proposed infrastructure</span>
+                <span class="sub-meta">4d</span>
+              </a>
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">B. Enterprise architecture</span>
+                <span class="sub-meta">3d</span>
+              </a>
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">C. Proposed human capital</span>
+                <span class="sub-meta">3d</span>
+              </a>
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">D. Proposed IS</span>
+                <span class="sub-meta">2d</span>
+              </a>
+              <a href="#" class="sub-row" data-status="progress" data-current="true">
+                <span class="dot" data-status="progress"></span>
+                <span class="sub-label">E.1 Internal projects</span>
+                <span class="sub-meta">1h</span>
+              </a>
+              <a href="#" class="sub-row" data-status="empty">
+                <span class="dot" data-status="empty"></span>
+                <span class="sub-label">E.2 Cross-agency projects</span>
+                <span class="sub-meta">—</span>
+              </a>
+              <a href="#" class="sub-row" data-status="empty">
+                <span class="dot" data-status="empty"></span>
+                <span class="sub-label">F. Performance framework</span>
+                <span class="sub-meta">—</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Part IV -->
+          <div class="part-card">
+            <div class="accent" style="background: var(--part-4);"></div>
+            <div class="part-head">
+              <div class="left">
+                <span class="part-num">Part IV</span>
+                <span class="part-count">1 of 4</span>
+              </div>
+              <span class="part-status" data-state="issues">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                2 issues
+              </span>
+            </div>
+            <h2 class="part-title">Resource requirements</h2>
+            <div class="sub-list">
+              <a href="#" class="sub-row" data-status="done">
+                <span class="dot" data-status="done"></span>
+                <span class="sub-label">Year 1 breakdown</span>
+                <span class="sub-meta">5d</span>
+              </a>
+              <a href="#" class="sub-row" data-status="progress">
+                <span class="dot" data-status="progress"></span>
+                <span class="sub-label">Year 2 breakdown</span>
+                <span class="sub-issue">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                  1
+                </span>
+              </a>
+              <a href="#" class="sub-row" data-status="empty">
+                <span class="dot" data-status="empty"></span>
+                <span class="sub-label">Year 3 breakdown</span>
+                <span class="sub-meta">—</span>
+              </a>
+              <a href="#" class="sub-row" data-status="empty">
+                <span class="dot" data-status="empty"></span>
+                <span class="sub-label">Summary of investments</span>
+                <span class="sub-issue">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                  1
+                </span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer-note">
+          made with <span class="heart">♥</span> <em>para sa bayan</em> · <a href="#">@carlosanton.io</a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+<script>
+  // Expand / collapse Part sections in sidebar
+  document.querySelectorAll('.sb-part-header').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const part = btn.closest('.sb-part');
+      const expanded = part.dataset.state === 'expanded';
+      part.dataset.state = expanded ? 'collapsed' : 'expanded';
+      btn.setAttribute('aria-expanded', String(!expanded));
+    });
+  });
+
+  // Kebab menu open/close
+  const kebab = document.getElementById('kebab');
+  const kebabBtn = document.getElementById('kebabBtn');
+  kebabBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = kebab.dataset.open === 'true';
+    kebab.dataset.open = String(!open);
+  });
+  document.addEventListener('click', (e) => {
+    if (!kebab.contains(e.target)) kebab.dataset.open = 'false';
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') kebab.dataset.open = 'false';
+  });
+</script>
+</body>
+</html>

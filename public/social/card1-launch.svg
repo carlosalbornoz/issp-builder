@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D1B3E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0A2463;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FCD116;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5A623;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1080" height="1080" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid texture overlay -->
+  <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+    <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  </pattern>
+  <rect width="1080" height="1080" fill="url(#grid)"/>
+
+  <!-- Top gold accent bar -->
+  <rect x="0" y="0" width="1080" height="6" fill="url(#accentGrad)"/>
+
+  <!-- Left accent line -->
+  <rect x="80" y="180" width="4" height="300" fill="url(#accentGrad)" rx="2"/>
+
+  <!-- EYEBROW label -->
+  <text x="108" y="213" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="6" fill="#FCD116" text-transform="uppercase">VOLUNTEER-BUILT · OPEN SOURCE</text>
+
+  <!-- Main headline -->
+  <text x="108" y="310" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="96" font-weight="900" fill="#FFFFFF">ISSP</text>
+  <text x="108" y="415" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="96" font-weight="900" fill="#FFFFFF">Builder</text>
+
+  <!-- Tagline -->
+  <text x="108" y="490" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="34" font-weight="400" fill="rgba(255,255,255,0.75)">The compliance tool the government</text>
+  <text x="108" y="533" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="34" font-weight="400" fill="rgba(255,255,255,0.75)">hasn't built yet.</text>
+
+  <!-- Divider -->
+  <line x1="108" y1="568" x2="600" y2="568" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+  <!-- Feature pills row -->
+  <!-- Pill 1: No login -->
+  <rect x="108" y="592" width="180" height="44" rx="22" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="198" y="619" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">No login</text>
+
+  <!-- Pill 2: Works offline -->
+  <rect x="304" y="592" width="205" height="44" rx="22" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="406" y="619" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">Works offline</text>
+
+  <!-- Pill 3: DICT 2026 -->
+  <rect x="525" y="592" width="230" height="44" rx="22" fill="rgba(252,209,22,0.15)" stroke="rgba(252,209,22,0.4)" stroke-width="1"/>
+  <text x="640" y="619" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="18" font-weight="700" fill="#FCD116" text-anchor="middle">DICT 2026 aligned</text>
+
+  <!-- Pill 4: Free -->
+  <rect x="770" y="592" width="100" height="44" rx="22" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="820" y="619" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">Free</text>
+
+  <!-- Large decorative quote / story text -->
+  <text x="108" y="720" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="400" font-style="italic" fill="rgba(255,255,255,0.55)">"DICT mandated new ISSP standards in 2025.</text>
+  <text x="108" y="758" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="400" font-style="italic" fill="rgba(255,255,255,0.55)">The official tools were promised 'soon.'</text>
+  <text x="108" y="796" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" font-style="italic" fill="rgba(252,209,22,0.85)">It is now May 2026. So I built one."</text>
+
+  <!-- Bottom section divider -->
+  <line x1="0" y1="870" x2="1080" y2="870" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Phase roadmap footer -->
+  <!-- Phase 1 -->
+  <circle cx="150" cy="930" r="14" fill="#FCD116"/>
+  <text x="150" y="935" font-family="system-ui, Arial, sans-serif" font-size="14" font-weight="900" fill="#0D1B3E" text-anchor="middle">1</text>
+  <text x="178" y="922" font-family="system-ui, Arial, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">ISSP Editor</text>
+  <text x="178" y="942" font-family="system-ui, Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.5)">Live now</text>
+
+  <!-- Phase connector -->
+  <line x1="310" y1="930" x2="380" y2="930" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <!-- Phase 2 -->
+  <circle cx="400" cy="930" r="14" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+  <text x="400" y="935" font-family="system-ui, Arial, sans-serif" font-size="14" font-weight="900" fill="rgba(255,255,255,0.6)" text-anchor="middle">2</text>
+  <text x="428" y="922" font-family="system-ui, Arial, sans-serif" font-size="16" font-weight="700" fill="rgba(255,255,255,0.6)">ISSP Repository</text>
+  <text x="428" y="942" font-family="system-ui, Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.35)">Coming soon</text>
+
+  <!-- Phase connector -->
+  <line x1="600" y1="930" x2="670" y2="930" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <!-- Phase 3 -->
+  <circle cx="690" cy="930" r="14" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+  <text x="690" y="935" font-family="system-ui, Arial, sans-serif" font-size="14" font-weight="900" fill="rgba(255,255,255,0.6)" text-anchor="middle">3</text>
+  <text x="718" y="922" font-family="system-ui, Arial, sans-serif" font-size="16" font-weight="700" fill="rgba(255,255,255,0.6)">Budget Dashboard</text>
+  <text x="718" y="942" font-family="system-ui, Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.35)">Coming soon</text>
+
+  <!-- Domain attribution -->
+  <text x="1000" y="935" font-family="system-ui, Arial, sans-serif" font-size="18" font-weight="700" fill="rgba(255,255,255,0.4)" text-anchor="end">carlosanton.io</text>
+  <text x="1000" y="958" font-family="system-ui, Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.25)" text-anchor="end">#LingkodBayani</text>
+</svg>

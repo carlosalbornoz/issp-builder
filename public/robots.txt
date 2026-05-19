@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Allow social media scrapers for link previews
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F8FAFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EEF2FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D1B3E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1A3272;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1080" height="1080" fill="url(#bg2)"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="1080" height="6" fill="#FCD116"/>
+
+  <!-- Header section -->
+  <rect x="0" y="6" width="1080" height="160" fill="#0D1B3E"/>
+
+  <!-- Header text -->
+  <text x="80" y="68" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5" fill="rgba(252,209,22,0.9)">WHAT IT DOES</text>
+  <text x="80" y="130" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="52" font-weight="900" fill="#FFFFFF">Built for the actual workflow.</text>
+
+  <!-- Feature cards grid: 2x2 -->
+
+  <!-- Card 1: No account, no server -->
+  <rect x="60" y="200" width="460" height="200" rx="16" fill="url(#cardGrad)"/>
+  <!-- Icon circle -->
+  <circle cx="120" cy="280" r="36" fill="rgba(252,209,22,0.15)"/>
+  <text x="120" y="290" font-family="system-ui, Arial, sans-serif" font-size="32" text-anchor="middle" fill="#FCD116">🔒</text>
+  <text x="175" y="258" font-family="system-ui, Arial, sans-serif" font-size="24" font-weight="800" fill="#FFFFFF">No account. No server.</text>
+  <text x="175" y="288" font-family="system-ui, Arial, sans-serif" font-size="17" fill="rgba(255,255,255,0.65)">Everything stays in your browser.</text>
+  <text x="175" y="312" font-family="system-ui, Arial, sans-serif" font-size="17" fill="rgba(255,255,255,0.65)">Your data never leaves your device.</text>
+  <!-- Pill label -->
+  <rect x="175" y="348" width="175" height="32" rx="16" fill="rgba(252,209,22,0.2)" stroke="rgba(252,209,22,0.4)" stroke-width="1"/>
+  <text x="262" y="369" font-family="system-ui, Arial, sans-serif" font-size="14" font-weight="700" fill="#FCD116" text-anchor="middle">IndexedDB · Local-first</text>
+
+  <!-- Card 2: DICT 2026 aligned -->
+  <rect x="560" y="200" width="460" height="200" rx="16" fill="url(#cardGrad)"/>
+  <circle cx="620" cy="280" r="36" fill="rgba(252,209,22,0.15)"/>
+  <text x="620" y="290" font-family="system-ui, Arial, sans-serif" font-size="32" text-anchor="middle" fill="#FCD116">📋</text>
+  <text x="675" y="258" font-family="system-ui, Arial, sans-serif" font-size="24" font-weight="800" fill="#FFFFFF">DICT 2026 Template</text>
+  <text x="675" y="288" font-family="system-ui, Arial, sans-serif" font-size="17" fill="rgba(255,255,255,0.65)">All 4 Parts. Every section. Guided</text>
+  <text x="675" y="312" font-family="system-ui, Arial, sans-serif" font-size="17" fill="rgba(255,255,255,0.65)">fields aligned to the official template.</text>
+  <rect x="675" y="348" width="195" height="32" rx="16" fill="rgba(252,209,22,0.2)" stroke="rgba(252,209,22,0.4)" stroke-width="1"/>
+  <text x="772" y="369" font-family="system-ui, Arial, sans-serif" font-size="14" font-weight="700" fill="#FCD116" text-anchor="middle">DC HRA-001 s. 2025</text>
+
+  <!-- Card 3: PDF Export -->
+  <rect x="60" y="432" width="460" height="200" rx="16" fill="url(#cardGrad)"/>
+  <circle cx="120" cy="512" r="36" fill="rgba(252,209,22,0.15)"/>
+  <text x="120" y="522" font-family="system-ui, Arial, sans-serif" font-size="32" text-anchor="middle" fill="#FCD116">📄</text>
+  <text x="175" y="490" font-family="system-ui, Arial, sans-serif" font-size="24" font-weight="800" fill="#FFFFFF">One-click PDF Export</text>
+  <text x="175" y="520" font-family="system-ui, Arial, sans-serif" font-size="17" fill="rgba(255,255,255,0.65)">Generates a submission-ready PDF</text>
+  <text x="175" y="544" font-family="system-ui, Arial, sans-serif" font-size="17" fill="rgba(255,255,255,0.65)">matching the official DICT format.</text>
+  <rect x="175" y="580" width="185" height="32" rx="16" fill="rgba(252,209,22,0.2)" stroke="rgba(252,209,22,0.4)" stroke-width="1"/>
+  <text x="267" y="601" font-family="system-ui, Arial, sans-serif" font-size="14" font-weight="700" fill="#FCD116" text-anchor="middle">Budget tables · All annexes</text>
+
+  <!-- Card 4: Save/Load -->
+  <rect x="560" y="432" width="460" height="200" rx="16" fill="url(#cardGrad)"/>
+  <circle cx="620" cy="512" r="36" fill="rgba(252,209,22,0.15)"/>
+  <text x="620" y="522" font-family="system-ui, Arial, sans-serif" font-size="32" text-anchor="middle" fill="#FCD116">💾</text>
+  <text x="675" y="490" font-family="system-ui, Arial, sans-serif" font-size="24" font-weight="800" fill="#FFFFFF">Save &amp; Load as .issp</text>
+  <text x="675" y="520" font-family="system-ui, Arial, sans-serif" font-size="17" fill="rgba(255,255,255,0.65)">Your work is portable. Save a file,</text>
+  <text x="675" y="544" font-family="system-ui, Arial, sans-serif" font-size="17" fill="rgba(255,255,255,0.65)">come back later, share with your team.</text>
+  <rect x="675" y="580" width="175" height="32" rx="16" fill="rgba(252,209,22,0.2)" stroke="rgba(252,209,22,0.4)" stroke-width="1"/>
+  <text x="762" y="601" font-family="system-ui, Arial, sans-serif" font-size="14" font-weight="700" fill="#FCD116" text-anchor="middle">JSON · Portable · Offline</text>
+
+  <!-- Who it's for section -->
+  <rect x="60" y="668" width="960" height="110" rx="16" fill="#0D1B3E" opacity="0.08"/>
+  <rect x="60" y="668" width="4" height="110" rx="2" fill="#FCD116"/>
+  <text x="88" y="712" font-family="system-ui, Arial, sans-serif" font-size="20" font-weight="800" fill="#0D1B3E">Built for government ICT officers, planning officers, and MIS divisions</text>
+  <text x="88" y="744" font-family="system-ui, Arial, sans-serif" font-size="17" fill="#444">who need to submit an ISSP under the 2026 DICT template — right now, without waiting for official tooling.</text>
+  <text x="88" y="768" font-family="system-ui, Arial, sans-serif" font-size="17" fill="#444"></text>
+
+  <!-- Footer -->
+  <line x1="60" y1="820" x2="1020" y2="820" stroke="#CBD5E0" stroke-width="1"/>
+
+  <!-- Stats row -->
+  <text x="60" y="870" font-family="system-ui, Arial, sans-serif" font-size="22" font-weight="900" fill="#0D1B3E">4</text>
+  <text x="82" y="870" font-family="system-ui, Arial, sans-serif" font-size="17" fill="#555"> ISSP Parts</text>
+
+  <text x="220" y="870" font-family="system-ui, Arial, sans-serif" font-size="22" font-weight="900" fill="#0D1B3E">100%</text>
+  <text x="280" y="870" font-family="system-ui, Arial, sans-serif" font-size="17" fill="#555"> Browser-based</text>
+
+  <text x="460" y="870" font-family="system-ui, Arial, sans-serif" font-size="22" font-weight="900" fill="#0D1B3E">₱0</text>
+  <text x="490" y="870" font-family="system-ui, Arial, sans-serif" font-size="17" fill="#555"> Cost</text>
+
+  <text x="600" y="870" font-family="system-ui, Arial, sans-serif" font-size="22" font-weight="900" fill="#0D1B3E">Open</text>
+  <text x="660" y="870" font-family="system-ui, Arial, sans-serif" font-size="17" fill="#555"> Source</text>
+
+  <!-- Branding -->
+  <text x="1020" y="870" font-family="system-ui, Arial, sans-serif" font-size="17" font-weight="700" fill="#0D1B3E" text-anchor="end">ISSP Builder · carlosanton.io</text>
+
+  <!-- Bottom strip -->
+  <rect x="0" y="1060" width="1080" height="20" fill="#0D1B3E"/>
+  <text x="540" y="1075" font-family="system-ui, Arial, sans-serif" font-size="12" font-weight="600" fill="rgba(255,255,255,0.5)" text-anchor="middle">Made with ❤ para sa bayan</text>
+</svg>
