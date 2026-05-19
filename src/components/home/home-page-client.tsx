@@ -271,14 +271,6 @@ export default function HomePageClient({
             >
               Privacy
             </button>
-            <a
-              href="https://github.com/carlosalbornoz/issp-builder"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors hidden sm:block"
-            >
-              Source
-            </a>
           </nav>
         </div>
       </header>
@@ -620,9 +612,14 @@ export default function HomePageClient({
             <span className="text-xs text-gray-500">ISSP Platform — Open source. Built by Carlos Antonio Albornoz (and his AI Agents).</span>
           </div>
           <div className="flex items-center gap-4 text-xs text-gray-400">
-            <button onClick={() => setAboutOpen(true)} className="hover:text-gray-700 transition-colors">About</button>
-            <span className="text-gray-200" aria-hidden>·</span>
-            <button onClick={() => setPrivacyOpen(true)} className="hover:text-gray-700 transition-colors">Privacy</button>
+            <a
+              href="https://github.com/carlosalbornoz/issp-builder"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-700 transition-colors"
+            >
+              View on GitHub
+            </a>
           </div>
         </div>
       </footer>
