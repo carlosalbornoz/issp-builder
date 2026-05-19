@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -382,11 +383,11 @@ export function Part2DForm({
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<a href="/editor/part2/c" />}
+          nativeButton={false} render={<Link href="/editor/part2/c" />}
         >
           ← IS Inventory
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part3/a" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part3/a" />}>
           Next: Part III - Proposed Strategy →
         </Button>
       </div>

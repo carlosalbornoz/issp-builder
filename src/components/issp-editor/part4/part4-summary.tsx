@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -312,10 +313,10 @@ export function Part4Summary({
 
       {/* Navigation */}
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href="/editor/part4/year3" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part4/year3" />}>
           ← Year 3 Breakdown
         </Button>
-        <Button nativeButton={false} render={<a href="/editor" />}>
+        <Button nativeButton={false} render={<Link href="/editor" />}>
           Back to Overview →
         </Button>
       </div>

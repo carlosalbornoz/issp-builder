@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -290,10 +291,10 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
 
       {/* Bottom nav */}
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href="/editor/part1/b" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part1/b" />}>
           ← Organization Structure
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part2/a" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part2/a" />}>
           Next: Part II - Strategic Concerns →
         </Button>
       </div>

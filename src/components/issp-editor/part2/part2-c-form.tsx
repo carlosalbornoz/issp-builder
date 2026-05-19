@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -548,11 +549,11 @@ export function Part2CForm({
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<a href="/editor/part2/b" />}
+          nativeButton={false} render={<Link href="/editor/part2/b" />}
         >
           ← Network &amp; Cybersecurity
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part2/d" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part2/d" />}>
           Next: E-Gov Programs →
         </Button>
       </div>

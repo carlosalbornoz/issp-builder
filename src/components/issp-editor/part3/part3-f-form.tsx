@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -303,9 +304,9 @@ export function Part3FForm({
           <BarChart3 className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
           <p className="text-sm text-muted-foreground mb-1">No ICT projects defined yet.</p>
           <p className="text-xs">
-            <a href="/editor/part3/e1" className="text-primary hover:underline">
+            <Link href="/editor/part3/e1" className="text-primary hover:underline">
               Add projects in Part III-E →
-            </a>
+            </Link>
           </p>
         </div>
       ) : (
@@ -328,10 +329,10 @@ export function Part3FForm({
       )}
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/e2" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/e2" />}>
           ← Cross-Agency Projects
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part4/year1" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part4/year1" />}>
           Next: Part IV - Resource Requirements →
         </Button>
       </div>

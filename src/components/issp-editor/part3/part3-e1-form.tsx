@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -280,9 +281,9 @@ function ProjectCard({
               {proposedSystems.length === 0 ? (
                 <p className="text-xs text-muted-foreground">
                   No proposed systems defined yet.{" "}
-                  <a href="/editor/part3/d" className="text-primary hover:underline">
+                  <Link href="/editor/part3/d" className="text-primary hover:underline">
                     Add systems in Part III-D →
-                  </a>
+                  </Link>
                 </p>
               ) : (
                 <div className="flex flex-wrap gap-2">
@@ -561,10 +562,10 @@ export function Part3E1Form({
       />
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/d" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/d" />}>
           ← Proposed IS
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part3/e2" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part3/e2" />}>
           Next: Cross-Agency Projects →
         </Button>
       </div>
@@ -611,10 +612,10 @@ export function Part3E2Form({
       />
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/e1" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/e1" />}>
           ← Internal Projects
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part3/f" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part3/f" />}>
           Next: Performance Framework →
         </Button>
       </div>

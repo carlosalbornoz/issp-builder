@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -126,12 +127,12 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
       {orgOutcomes.length === 0 && (
         <div className="rounded-lg border border-dashed bg-muted/20 p-4 text-sm text-muted-foreground text-center">
           <p>No Organizational Outcomes defined in Part I-A yet.</p>
-          <a
+          <Link
             href="/editor/part1/a"
             className="text-primary hover:underline font-medium"
           >
             Add outcomes in Part I-A →
-          </a>
+          </Link>
         </div>
       )}
 
@@ -247,11 +248,11 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<a href="/editor/part1/c" />}
+          nativeButton={false} render={<Link href="/editor/part1/c" />}
         >
           ← Part I-C: Stakeholders
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part2/b" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part2/b" />}>
           Next: Network &amp; Cybersecurity →
         </Button>
       </div>

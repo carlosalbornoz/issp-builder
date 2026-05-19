@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -446,12 +447,12 @@ export function Part4YearForm({
       {internalProjects.length === 0 ? (
         <div className="rounded-lg border border-dashed bg-muted/20 p-6 text-center text-sm text-muted-foreground">
           <p>No Internal ICT Projects defined in Part III-E.1.</p>
-          <a
+          <Link
             href="/editor/part3/e1"
             className="mt-1 inline-block font-medium text-primary hover:underline"
           >
             Add projects in Part III-E.1 →
-          </a>
+          </Link>
         </div>
       ) : (
         internalProjects.map((proj, idx) => {
@@ -582,7 +583,7 @@ export function Part4YearForm({
           variant="outline"
           nativeButton={false}
           render={
-            <a
+            <Link
               href={
                 yearKey === "year1"
                   ? "/editor/part3/f"
@@ -603,7 +604,7 @@ export function Part4YearForm({
         <Button
           nativeButton={false}
           render={
-            <a
+            <Link
               href={
                 yearKey === "year3"
                   ? "/editor/part4/summary"

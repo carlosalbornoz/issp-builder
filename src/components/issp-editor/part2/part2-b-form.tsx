@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -478,11 +479,11 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<a href="/editor/part2/a" />}
+          nativeButton={false} render={<Link href="/editor/part2/a" />}
         >
           ← Strategic Concerns
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part2/c" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part2/c" />}>
           Next: IS Inventory →
         </Button>
       </div>

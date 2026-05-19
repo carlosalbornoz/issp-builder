@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -255,10 +256,10 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
       </Card>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href="/editor/part2/d" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part2/d" />}>
           ← Part II-D: E-Gov Programs
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part3/b" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part3/b" />}>
           Next: Enterprise Architecture →
         </Button>
       </div>

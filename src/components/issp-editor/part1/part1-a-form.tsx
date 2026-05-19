@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -405,7 +406,7 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
       {/* Bottom nav */}
       <div className="flex items-center justify-between pt-4 border-t">
         <div />
-        <Button nativeButton={false} render={<a href="/editor/part1/b" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part1/b" />}>
           Next: Organization Structure →
         </Button>
       </div>

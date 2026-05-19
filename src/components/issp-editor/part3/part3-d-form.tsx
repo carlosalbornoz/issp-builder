@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -399,7 +400,7 @@ function SystemCard({
             variant="ghost"
             size="sm"
             nativeButton={false}
-            render={<a href="/editor/part3/e1" />}
+            render={<Link href="/editor/part3/e1" />}
             className="shrink-0 text-xs text-blue-700 hover:text-blue-900 hover:bg-blue-100 h-7 px-2"
           >
             Go to Part III-E →
@@ -516,10 +517,10 @@ export function Part3DForm({
       </div>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/c" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/c" />}>
           ← Proposed Human Capital
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part3/e1" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part3/e1" />}>
           Next: Internal Projects →
         </Button>
       </div>

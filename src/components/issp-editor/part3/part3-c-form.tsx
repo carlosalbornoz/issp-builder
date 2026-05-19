@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -235,10 +236,10 @@ export function Part3CForm({
       </Card>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/b" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/b" />}>
           ← Enterprise Architecture
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part3/d" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part3/d" />}>
           Next: Proposed IS →
         </Button>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
@@ -91,10 +92,10 @@ export function Part3BForm({
       </Card>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<a href="/editor/part3/a" />}>
+        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/a" />}>
           ← Proposed Infrastructure
         </Button>
-        <Button nativeButton={false} render={<a href="/editor/part3/c" />}>
+        <Button nativeButton={false} render={<Link href="/editor/part3/c" />}>
           Next: Proposed Human Capital →
         </Button>
       </div>
