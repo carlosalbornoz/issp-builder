@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/",
+        destination: "/issp",
+        permanent: false,
+        basePath: false,
+      },
+      {
         source: "/uacs",
         destination: "/uacs/index.html",
         permanent: false,
