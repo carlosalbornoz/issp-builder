@@ -16,7 +16,7 @@ The process is exactly what you'd expect from a government compliance exercise: 
 
 I built this originally for my current agency. To be completely honest, the immediate trigger was a MITHI advisory requiring agencies to re-submit their ISSPs under new coverage requirements. We needed to move fast, and the usual Word template workflow wasn't going to cut it.
 
-In May 2025, DICT issued Department Circular No. HRA-001 s. 2025, which mandated all government agencies to adopt unified ISSP standards. Secretary Aguda was quoted saying *"the full suite of ISSP standards and related tools to support the transition is set to be available soon."* ([PNA, May 1, 2025](https://www.pna.gov.ph/articles/1249217))
+In May 2025, DICT issued Department Circular No. HRA-001 s. 2025, which mandated all government agencies to adopt unified ISSP standards. There is a quote in [this article](https://www.pna.gov.ph/articles/1249217) saying *"the full suite of ISSP standards and related tools to support the transition is set to be available soon."*
 
 It is now May 2026. The tools are still not publicly available.
 
