@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "",
-  serverExternalPackages: ["puppeteer", "puppeteer-core"],
   images: {
     deviceSizes: [640, 750, 828, 1080, 1200, 1400, 1920, 2048, 3840],
   },
