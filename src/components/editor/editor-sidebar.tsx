@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -124,6 +124,7 @@ export function EditorSidebar({
   const { doc, saveToFile, fileSavedAt, unsavedToFile, clearDoc } = useIsspStore();
   const now = useNow();
   const pathname = usePathname();
+  const router = useRouter();
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set(NAV_SECTIONS.map((s) => s.label))
   );
@@ -134,6 +135,7 @@ export function EditorSidebar({
   async function handleClear() {
     await clearDoc();
     setConfirmClear(false);
+    router.push("/");
   }
 
   async function handleExportPdf() {
