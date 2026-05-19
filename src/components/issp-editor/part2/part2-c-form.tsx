@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -451,6 +452,7 @@ export function Part2CForm({
 }: {
   initialData: InformationSystem[];
 }) {
+  const router = useRouter();
   const [systems, setSystems] = useState<InformationSystem[]>(initialData);
 
   const { status, debouncedSave } = useLocalSave("part2");
@@ -549,11 +551,11 @@ export function Part2CForm({
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<Link href="/editor/part2/b" />}
+          onClick={() => router.push("/editor/part2/b")}
         >
           ← Network &amp; Cybersecurity
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part2/d" />}>
+        <Button onClick={() => router.push("/editor/part2/d")}>
           Next: E-Gov Programs →
         </Button>
       </div>

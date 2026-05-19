@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -113,7 +114,8 @@ function ProjectCard({
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
-  const [expanded, setExpanded] = useState(true);
+  const router = useRouter();
+    const [expanded, setExpanded] = useState(true);
 
   const linkedSystems = proposedSystems.filter((s) =>
     project.linkedSystemIds.includes(s.id)
@@ -532,6 +534,7 @@ export function Part3E1Form({
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
 }) {
+  const router = useRouter();
   const { status, debouncedSave } = useLocalSave("part3");
 
   const save = useCallback(
@@ -562,10 +565,10 @@ export function Part3E1Form({
       />
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/d" />}>
+        <Button variant="outline" onClick={() => router.push("/editor/part3/d")}>
           ← Proposed IS
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part3/e2" />}>
+        <Button onClick={() => router.push("/editor/part3/e2")}>
           Next: Cross-Agency Projects →
         </Button>
       </div>
@@ -582,6 +585,7 @@ export function Part3E2Form({
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
 }) {
+  const router = useRouter();
   const { status, debouncedSave } = useLocalSave("part3");
 
   const save = useCallback(
@@ -612,10 +616,10 @@ export function Part3E2Form({
       />
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/e1" />}>
+        <Button variant="outline" onClick={() => router.push("/editor/part3/e1")}>
           ← Internal Projects
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part3/f" />}>
+        <Button onClick={() => router.push("/editor/part3/f")}>
           Next: Performance Framework →
         </Button>
       </div>

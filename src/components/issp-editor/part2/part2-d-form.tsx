@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
@@ -287,7 +288,8 @@ export function Part2DForm({
   agencyType: AgencyType;
   initialData: Partial<EgpChecklist>;
 }) {
-  const [checklist, setChecklist] = useState<EgpChecklist>({
+  const router = useRouter();
+    const [checklist, setChecklist] = useState<EgpChecklist>({
     ...DEFAULT_CHECKLIST,
     ...initialData,
   });
@@ -383,11 +385,11 @@ export function Part2DForm({
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<Link href="/editor/part2/c" />}
+          onClick={() => router.push("/editor/part2/c")}
         >
           ← IS Inventory
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part3/a" />}>
+        <Button onClick={() => router.push("/editor/part3/a")}>
           Next: Part III - Proposed Strategy →
         </Button>
       </div>

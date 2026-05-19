@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -95,7 +96,8 @@ function FormField({
 }
 
 export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
-  const [data, setData] = useState<Part1AData>(initialData ?? DEFAULT_DATA);
+  const router = useRouter();
+    const [data, setData] = useState<Part1AData>(initialData ?? DEFAULT_DATA);
   const [expandedOOs, setExpandedOOs] = useState<Set<string>>(new Set());
 
   const { status, debouncedSave } = useLocalSave("part1");
@@ -406,7 +408,7 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
       {/* Bottom nav */}
       <div className="flex items-center justify-between pt-4 border-t">
         <div />
-        <Button nativeButton={false} render={<Link href="/editor/part1/b" />}>
+        <Button onClick={() => router.push("/editor/part1/b")}>
           Next: Organization Structure →
         </Button>
       </div>

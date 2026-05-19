@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ export function Part3BForm({
 }: {
   initialDiagramDataUrl: string | null;
 }) {
+  const router = useRouter();
   return (
     <div className="space-y-8">
       <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
@@ -92,10 +94,10 @@ export function Part3BForm({
       </Card>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/a" />}>
+        <Button variant="outline" onClick={() => router.push("/editor/part3/a")}>
           ← Proposed Infrastructure
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part3/c" />}>
+        <Button onClick={() => router.push("/editor/part3/c")}>
           Next: Proposed Human Capital →
         </Button>
       </div>

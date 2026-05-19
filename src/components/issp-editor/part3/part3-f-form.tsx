@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -236,6 +237,7 @@ export function Part3FForm({
   allProjects: ProjectSummary[];
   initialFramework: PerformanceFramework;
 }) {
+  const router = useRouter();
   // Initialize framework, ensuring an entry per project
   const [framework, setFramework] = useState<PerformanceFramework>(() => {
     const init: PerformanceFramework = { ...initialFramework };
@@ -329,10 +331,10 @@ export function Part3FForm({
       )}
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/e2" />}>
+        <Button variant="outline" onClick={() => router.push("/editor/part3/e2")}>
           ← Cross-Agency Projects
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part4/year1" />}>
+        <Button onClick={() => router.push("/editor/part4/year1")}>
           Next: Part IV - Resource Requirements →
         </Button>
       </div>

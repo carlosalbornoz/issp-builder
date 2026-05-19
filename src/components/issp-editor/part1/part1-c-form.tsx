@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
@@ -45,7 +46,8 @@ const COMPLEXITY_COLORS: Record<string, string> = {
 };
 
 export function Part1CForm({ initialData }: Part1CFormProps) {
-  const [stakeholders, setStakeholders] = useState<Stakeholder[]>(() => {
+  const router = useRouter();
+    const [stakeholders, setStakeholders] = useState<Stakeholder[]>(() => {
     return initialData.map((s) => ({
       ...s,
       id: s.id || crypto.randomUUID(),
@@ -291,10 +293,10 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
 
       {/* Bottom nav */}
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part1/b" />}>
+        <Button variant="outline" onClick={() => router.push("/editor/part1/b")}>
           ← Organization Structure
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part2/a" />}>
+        <Button onClick={() => router.push("/editor/part2/a")}>
           Next: Part II - Strategic Concerns →
         </Button>
       </div>

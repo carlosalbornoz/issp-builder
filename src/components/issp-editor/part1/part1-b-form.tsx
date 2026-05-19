@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
@@ -171,7 +172,8 @@ export function Part1BForm({
 }: {
   initialData: Part1BData | null;
 }) {
-  const [data, setData] = useState<Part1BData>(() => {
+  const router = useRouter();
+    const [data, setData] = useState<Part1BData>(() => {
     if (!initialData) return DEFAULT_DATA;
     // Deep-merge saved humanCapital with DEFAULT_HC so any missing nested
     // keys (e.g. old docs without the it/nonIt sub-objects) always resolve.
@@ -430,10 +432,10 @@ export function Part1BForm({
 
       {/* Bottom nav */}
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part1/a" />}>
+        <Button variant="outline" onClick={() => router.push("/editor/part1/a")}>
           ← Mandate, Vision &amp; Mission
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part1/c" />}>
+        <Button onClick={() => router.push("/editor/part1/c")}>
           Next: Stakeholder Analysis →
         </Button>
       </div>

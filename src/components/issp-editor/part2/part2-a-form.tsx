@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -52,7 +53,8 @@ const DEFAULT_CONCERN: Omit<StrategicConcern, "id"> = {
 };
 
 export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
-  const [concerns, setConcerns] = useState<StrategicConcern[]>(() => {
+  const router = useRouter();
+    const [concerns, setConcerns] = useState<StrategicConcern[]>(() => {
     // Migrate old single outcomeId to new outcomeIds array
     return initialData.map((c: any) => ({
       ...c,
@@ -248,11 +250,11 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<Link href="/editor/part1/c" />}
+          onClick={() => router.push("/editor/part1/c")}
         >
           ← Part I-C: Stakeholders
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part2/b" />}>
+        <Button onClick={() => router.push("/editor/part2/b")}>
           Next: Network &amp; Cybersecurity →
         </Button>
       </div>

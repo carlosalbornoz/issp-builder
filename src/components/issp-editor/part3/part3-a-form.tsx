@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Textarea } from "@/components/ui/textarea";
@@ -167,6 +168,7 @@ function ChecklistSection({
 }
 
 export function Part3AForm({ initialData }: { initialData: Part3AData }) {
+  const router = useRouter();
   const [networkDesc, setNetworkDesc] = useState(initialData.proposedNetworkDesc);
   const [controls, setControls] = useState<CyberControls>(initialData.proposedCybersecControls);
 
@@ -256,10 +258,10 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
       </Card>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part2/d" />}>
+        <Button variant="outline" onClick={() => router.push("/editor/part2/d")}>
           ← Part II-D: E-Gov Programs
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part3/b" />}>
+        <Button onClick={() => router.push("/editor/part3/b")}>
           Next: Enterprise Architecture →
         </Button>
       </div>

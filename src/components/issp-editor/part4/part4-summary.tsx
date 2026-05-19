@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, CheckCircle2 } from "lucide-react";
@@ -57,6 +58,7 @@ function SummaryTable({
   rows: SummaryRow[];
   yearLabels: [string, string, string];
 }) {
+  const router = useRouter();
   return (
     <div className="space-y-3">
       <div>
@@ -246,6 +248,7 @@ export function Part4Summary({
 }: {
   data: Part4SummaryData;
 }) {
+  const router = useRouter();
   const b1TotalsRow = data.b1.find((r) => r.isTotal);
   const b2TotalsRow = data.b2.find((r) => r.isTotal);
   const b3TotalsRow = data.b3.find((r) => r.isTotal);
@@ -313,7 +316,7 @@ export function Part4Summary({
 
       {/* Navigation */}
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part4/year3" />}>
+        <Button variant="outline" onClick={() => router.push("/editor/part4/year3")}>
           ← Year 3 Breakdown
         </Button>
         <Button nativeButton={false} render={<Link href="/editor" />}>

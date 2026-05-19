@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -347,7 +348,8 @@ export function Part4YearForm({
   internalProjects,
   crossAgencyProjects,
 }: Part4YearFormProps) {
-  const [budget, setBudget] = useState<YearBudget>(() => {
+  const router = useRouter();
+    const [budget, setBudget] = useState<YearBudget>(() => {
     const base = EMPTY_BUDGET();
     if (!initialData) return base;
     // Ensure all project slots exist
@@ -581,18 +583,11 @@ export function Part4YearForm({
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false}
-          render={
-            <Link
-              href={
-                yearKey === "year1"
+          onClick={() => router.push(yearKey === "year1"
                   ? "/editor/part3/f"
                   : yearKey === "year2"
                   ? "/editor/part4/year1"
-                  : "/editor/part4/year2"
-              }
-            />
-          }
+                  : "/editor/part4/year2")}
         >
           ←{" "}
           {yearKey === "year1"

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
@@ -241,6 +242,7 @@ function ChecklistGroup({
 // ─── Main form ─────────────────────────────────────────────────────────────────
 
 export function Part2BForm({ initialData }: Part2BFormProps) {
+  const router = useRouter();
   const [networkDescription, setNetworkDescription] = useState(
     initialData?.networkDescription ?? ""
   );
@@ -479,11 +481,11 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
       <div className="flex items-center justify-between pt-4 border-t">
         <Button
           variant="outline"
-          nativeButton={false} render={<Link href="/editor/part2/a" />}
+          onClick={() => router.push("/editor/part2/a")}
         >
           ← Strategic Concerns
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part2/c" />}>
+        <Button onClick={() => router.push("/editor/part2/c")}>
           Next: IS Inventory →
         </Button>
       </div>

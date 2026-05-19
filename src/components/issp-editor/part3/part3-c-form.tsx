@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,8 @@ export function Part3CForm({
 }: {
   initialData: HCRow[] | any[];
 }) {
-  const [rows, setRows] = useState<HCRow[]>(
+  const router = useRouter();
+    const [rows, setRows] = useState<HCRow[]>(
     (initialData as any[]).map((r) => ({
       id: r.id ?? generateId(),
       position: r.position ?? "",
@@ -236,10 +238,10 @@ export function Part3CForm({
       </Card>
 
       <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" nativeButton={false} render={<Link href="/editor/part3/b" />}>
+        <Button variant="outline" onClick={() => router.push("/editor/part3/b")}>
           ← Enterprise Architecture
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor/part3/d" />}>
+        <Button onClick={() => router.push("/editor/part3/d")}>
           Next: Proposed IS →
         </Button>
       </div>
