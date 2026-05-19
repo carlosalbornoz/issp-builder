@@ -29,7 +29,7 @@ interface UacsComboboxProps {
 let _uacsData: UacsEntry[] | null = null;
 async function loadUacs(): Promise<UacsEntry[]> {
   if (_uacsData) return _uacsData;
-  const res = await fetch("/uacs_active.min.json");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs_active.min.json`);
   _uacsData = await res.json();
   return _uacsData!;
 }
