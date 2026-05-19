@@ -6,7 +6,9 @@ author: Carlos Antonio Albornoz
 
 ## Who I am
 
-I've been writing ISSPs for two years now — at two different agencies — and I've always been frustrated with how we actually fill these things out.
+I've spent more than five years working in government — the majority of that as a Job Order or Contract of Service employee. If you've worked in government long enough, you know what that means: you do the work, you carry the institutional knowledge, and you mostly do it without the plantilla, the benefits, or the job security that regular employees have. It's a strange place to be, and it gives you a particular kind of perspective on how things actually get done versus how they're supposed to get done.
+
+Part of that work has been writing ISSPs — across two different agencies — and I've always been frustrated with how we actually fill these things out.
 
 The process is exactly what you'd expect from a government compliance exercise: update each section manually, maintain a separate spreadsheet for the budget tables, copy numbers back and forth into the Word document, and hope nothing drifts out of sync before the submission deadline. It's tedious, error-prone, and honestly a bit demoralizing when you know the ISSP is supposed to be a genuine strategic document — not just a checkbox.
 
@@ -14,7 +16,11 @@ The process is exactly what you'd expect from a government compliance exercise: 
 
 I built this originally for my current agency. To be completely honest, the immediate trigger was a MITHI advisory requiring agencies to re-submit their ISSPs under new coverage requirements. We needed to move fast, and the usual Word template workflow wasn't going to cut it.
 
-Part of the eGov Act (RA 10175 IRR) actually mandates that DICT will build an official tool or platform to help agencies craft their ISSPs. That's great — but in the meantime, there's a real gap. This platform is meant to be an interim solution, and I genuinely hope DICT can look at it, contribute inputs, or even use it as a starting point.
+In May 2025, DICT issued Department Circular No. HRA-001 s. 2025, which mandated all government agencies to adopt unified ISSP standards. Secretary Aguda was quoted saying *"the full suite of ISSP standards and related tools to support the transition is set to be available soon."* ([PNA, May 1, 2025](https://www.pna.gov.ph/articles/1249217))
+
+It is now May 2026. The tools are still not publicly available.
+
+This platform isn't a replacement for whatever DICT eventually releases — it's what exists right now, while agencies still need to submit ISSPs and the official tooling hasn't arrived yet. I genuinely hope DICT eventually builds something better and more official. In the meantime, this is here.
 
 ## The bigger picture
 
