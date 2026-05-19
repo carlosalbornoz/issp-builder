@@ -35,9 +35,16 @@ function generateId() {
 export function Part3CForm({
   initialData,
 }: {
-  initialData: HCRow[];
+  initialData: HCRow[] | any[];
 }) {
-  const [rows, setRows] = useState<HCRow[]>(initialData);
+  const [rows, setRows] = useState<HCRow[]>(
+    (initialData as any[]).map((r) => ({
+      id: r.id ?? generateId(),
+      position: r.position ?? "",
+      employmentStatus: (r.employmentStatus?.toUpperCase() ?? "") as HCRow["employmentStatus"],
+      quantity: r.quantity ?? r.physicalCount ?? 1,
+    }))
+  );
   const { status, debouncedSave } = useLocalSave("part3");
 
   const update = useCallback(
@@ -169,7 +176,10 @@ export function Part3CForm({
                         min={1}
                         className="w-full rounded px-2 py-1.5 text-sm text-center bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
                         value={row.quantity}
-                        onChange={(e) => updateRow(row.id, "quantity", Number(e.target.value))}
+                        onChange={(e) => {
+                          const v = parseInt(e.target.value, 10);
+                          updateRow(row.id, "quantity", isNaN(v) ? 0 : v);
+                        }}
                       />
                     </td>
                     <td className="border px-2 py-2 text-center">
