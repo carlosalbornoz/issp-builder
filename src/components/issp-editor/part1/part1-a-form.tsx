@@ -97,7 +97,7 @@ function FormField({
 
 export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
   const router = useRouter();
-    const [data, setData] = useState<Part1AData>(initialData ?? DEFAULT_DATA);
+  const [data, setData] = useState<Part1AData>(initialData ?? DEFAULT_DATA);
   const [expandedOOs, setExpandedOOs] = useState<Set<string>>(new Set());
 
   const { status, debouncedSave } = useLocalSave("part1");

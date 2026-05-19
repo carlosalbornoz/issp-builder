@@ -40,7 +40,7 @@ export function Part3CForm({
   initialData: HCRow[] | any[];
 }) {
   const router = useRouter();
-    const [rows, setRows] = useState<HCRow[]>(
+  const [rows, setRows] = useState<HCRow[]>(
     (initialData as any[]).map((r) => ({
       id: r.id ?? generateId(),
       position: r.position ?? "",

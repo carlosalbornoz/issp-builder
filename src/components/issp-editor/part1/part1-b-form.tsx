@@ -173,7 +173,7 @@ export function Part1BForm({
   initialData: Part1BData | null;
 }) {
   const router = useRouter();
-    const [data, setData] = useState<Part1BData>(() => {
+  const [data, setData] = useState<Part1BData>(() => {
     if (!initialData) return DEFAULT_DATA;
     // Deep-merge saved humanCapital with DEFAULT_HC so any missing nested
     // keys (e.g. old docs without the it/nonIt sub-objects) always resolve.

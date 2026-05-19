@@ -54,7 +54,7 @@ const DEFAULT_CONCERN: Omit<StrategicConcern, "id"> = {
 
 export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
   const router = useRouter();
-    const [concerns, setConcerns] = useState<StrategicConcern[]>(() => {
+  const [concerns, setConcerns] = useState<StrategicConcern[]>(() => {
     // Migrate old single outcomeId to new outcomeIds array
     return initialData.map((c: any) => ({
       ...c,

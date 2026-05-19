@@ -47,7 +47,7 @@ const COMPLEXITY_COLORS: Record<string, string> = {
 
 export function Part1CForm({ initialData }: Part1CFormProps) {
   const router = useRouter();
-    const [stakeholders, setStakeholders] = useState<Stakeholder[]>(() => {
+  const [stakeholders, setStakeholders] = useState<Stakeholder[]>(() => {
     return initialData.map((s) => ({
       ...s,
       id: s.id || crypto.randomUUID(),

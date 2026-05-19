@@ -289,7 +289,7 @@ export function Part2DForm({
   initialData: Partial<EgpChecklist>;
 }) {
   const router = useRouter();
-    const [checklist, setChecklist] = useState<EgpChecklist>({
+  const [checklist, setChecklist] = useState<EgpChecklist>({
     ...DEFAULT_CHECKLIST,
     ...initialData,
   });

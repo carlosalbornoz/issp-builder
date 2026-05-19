@@ -114,8 +114,7 @@ function ProjectCard({
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
-  const router = useRouter();
-    const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(true);
 
   const linkedSystems = proposedSystems.filter((s) =>
     project.linkedSystemIds.includes(s.id)

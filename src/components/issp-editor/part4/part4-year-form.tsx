@@ -349,7 +349,7 @@ export function Part4YearForm({
   crossAgencyProjects,
 }: Part4YearFormProps) {
   const router = useRouter();
-    const [budget, setBudget] = useState<YearBudget>(() => {
+  const [budget, setBudget] = useState<YearBudget>(() => {
     const base = EMPTY_BUDGET();
     if (!initialData) return base;
     // Ensure all project slots exist
