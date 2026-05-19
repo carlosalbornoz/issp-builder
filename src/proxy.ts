@@ -14,6 +14,7 @@ export const proxy = auth((req) => {
   // Local-first routes — no auth required
   const isEditorRoute = pathname === "/editor" || pathname.startsWith("/editor/");
   const isAnnex1Route = pathname === "/annex1" || pathname.startsWith("/annex1/");
+  const isUacsRoute = pathname === "/uacs" || pathname.startsWith("/uacs/");
 
   // Allow API routes through
   if (isApiRoute) return NextResponse.next();
@@ -24,8 +25,8 @@ export const proxy = auth((req) => {
   // OG/Twitter image generation routes — must be public for social scrapers
   if (pathname === "/opengraph-image" || pathname === "/twitter-image") return NextResponse.next();
 
-  // Local-first editor and Annex 1 — always public, no auth check
-  if (isEditorRoute || isAnnex1Route) return NextResponse.next();
+  // Local-first editor, Annex 1, and UACS explorer — always public, no auth check
+  if (isEditorRoute || isAnnex1Route || isUacsRoute) return NextResponse.next();
 
   // Landing page: unauthenticated users see it; authenticated users go to /editor
   if (isLandingPage) {
@@ -51,5 +52,5 @@ export const proxy = auth((req) => {
 });
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|uploads|screenshots|demo).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|uploads|screenshots|demo|uacs).*)"],
 };
