@@ -265,6 +265,36 @@ pageHeader(_issp)   // intentionally returns "" — Puppeteer headerTemplate han
 
 ## 7. Critical Patterns
 
+### ⚠️ ALWAYS prefix static asset paths with `NEXT_PUBLIC_BASE_PATH`
+
+The app is deployed at `/issp` (set via `NEXT_PUBLIC_BASE_PATH="/issp"` in `.env.production`). Any hardcoded absolute path that doesn't include this prefix will **silently 404 or fail** in production while working fine in local dev.
+
+**Rule: every `fetch()`, `<a href>`, `<img src>`, or any other absolute path that references a file in `public/` must be written as:**
+
+```ts
+`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/your-file.json`
+```
+
+`NEXT_PUBLIC_BASE_PATH` is baked into client bundles at build time — it resolves to `/issp` in production and `""` in dev. Never hardcode `/issp` directly; always use the env var.
+
+**Things that DO handle basePath automatically (no prefix needed):**
+- `next/link` `<Link href="/some-page">` — Next.js prepends basePath automatically
+- `useRouter().push("/some-page")` — same, router adds basePath
+- `next/image` `<Image src="/...">` — handled by Next.js
+
+**Things that do NOT handle basePath automatically (always add prefix):**
+- `fetch("/some-file.json")` — plain browser fetch, knows nothing about basePath
+- `<a href="/some-path">` — plain HTML anchor
+- `window.location.href = "/..."` — direct browser navigation
+- Any URL string passed to a third-party library
+
+**Past bugs caused by missing this:**
+- UACS combobox stuck on "Loading codes…" (`fetch("/uacs_active.min.json")`)
+- UACS Explorer link 404ing (`<a href="/uacs">`)
+- All editor nav buttons 404ing (`render={<a href="/editor/...">}`)
+
+
+
 ### Store update pattern (all form pages)
 ```tsx
 const { doc, update } = useIsspStore();
