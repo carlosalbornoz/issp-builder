@@ -75,33 +75,6 @@ const MITHI_CHECKLIST = [
   "Budget breakdown aligned to UACS coding structure",
 ] as const;
 
-// ── Browser chrome wrapper ────────────────────────────────────────────────────
-
-function BrowserMockup() {
-  return (
-    <div className="rounded-t-xl border border-b-0 border-gray-200 overflow-hidden shadow-xl shadow-gray-200/50 ring-1 ring-gray-200/40">
-      <div className="bg-gray-100 border-b border-gray-200 px-3 py-2 flex items-center gap-2">
-        <div className="flex gap-1.5 flex-shrink-0">
-          <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
-          <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
-          <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
-        </div>
-        <div className="flex-1 bg-white border border-gray-200 rounded px-2.5 py-0.5 text-[11px] text-gray-400 font-mono truncate ml-1">
-          app.issp.ph/editor/part2/c
-        </div>
-      </div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/screenshots/issp-builder.png`}
-        alt="ISSP Builder — IS Inventory section showing structured agency ICT data"
-        width={1400}
-        height={900}
-        className="w-full block"
-      />
-    </div>
-  );
-}
-
 // ── NCWTR intro modal ─────────────────────────────────────────────────────────
 
 function NcwtrIntroModal({
@@ -286,12 +259,6 @@ export default function HomePageClient({
             </span>
           </div>
           <nav className="flex items-center gap-1">
-            <a
-              href="#features"
-              className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors hidden sm:block"
-            >
-              Features
-            </a>
             <button
               onClick={() => setAboutOpen(true)}
               className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
@@ -317,8 +284,8 @@ export default function HomePageClient({
       </header>
 
       {/* ── Splash hero ── */}
-      <section className="bg-gray-50/50 border-b border-gray-100 py-14">
-        <div className="max-w-md mx-auto px-6">
+      <section className="bg-gray-50/50 border-b border-gray-100 min-h-[calc(100vh-3.5rem)] flex items-center">
+        <div className="w-full max-w-md mx-auto px-6 py-14">
 
           {/* Branding */}
           <div className="text-center space-y-1.5 mb-8">
@@ -419,13 +386,6 @@ export default function HomePageClient({
           <p className="mt-8 text-center text-xs text-gray-400">
             Free to use · No account required · Local-first, works in your browser
           </p>
-        </div>
-      </section>
-
-      {/* ── App preview / mockup ── */}
-      <section className="bg-gray-50/30 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 pt-10 pb-0">
-          <BrowserMockup />
         </div>
       </section>
 
@@ -660,8 +620,6 @@ export default function HomePageClient({
             <span className="text-xs text-gray-500">ISSP Platform — Open source. Built by Carlos Antonio Albornoz (and his AI Agents).</span>
           </div>
           <div className="flex items-center gap-4 text-xs text-gray-400">
-            <a href="#features" className="hover:text-gray-700 transition-colors">Features</a>
-            <span className="text-gray-200" aria-hidden>·</span>
             <button onClick={() => setAboutOpen(true)} className="hover:text-gray-700 transition-colors">About</button>
             <span className="text-gray-200" aria-hidden>·</span>
             <button onClick={() => setPrivacyOpen(true)} className="hover:text-gray-700 transition-colors">Privacy</button>
