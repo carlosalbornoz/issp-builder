@@ -1,4 +1,3 @@
-import { IsspStoreProvider } from "@/lib/store";
 import { EditorShell } from "@/components/editor/editor-shell";
 
 export const metadata = {
@@ -6,9 +5,5 @@ export const metadata = {
 };
 
 export default function EditorLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <IsspStoreProvider>
-      <EditorShell>{children}</EditorShell>
-    </IsspStoreProvider>
-  );
+  return <EditorShell>{children}</EditorShell>;
 }
