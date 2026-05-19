@@ -114,6 +114,11 @@ export default async function AboutPage() {
         {/* Divider */}
         <div className="border-t border-gray-100 mb-10" />
 
+        {/* Disclaimer */}
+        <div className="prose-disclaimer mb-8">
+          The thoughts here are my own and reflect my personal experience and opinion only — they do not represent the views of any organization I am or have been affiliated with. AI helped me turn these thoughts into words.
+        </div>
+
         {/* Prose body */}
         <div className="prose-article" dangerouslySetInnerHTML={{ __html: html }} />
 

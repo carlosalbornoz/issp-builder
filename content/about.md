@@ -4,10 +4,6 @@ date: 2026-05-17
 author: Carlos Antonio Albornoz
 ---
 
-<div class="prose-disclaimer">
-The thoughts here are my own and reflect my personal experience and opinion only — they do not represent the views of any organization I am or have been affiliated with. AI helped me turn these thoughts into words.
-</div>
-
 ## Who I am
 
 I've been writing ISSPs for two years now — at two different agencies — and I've always been frustrated with how we actually fill these things out.

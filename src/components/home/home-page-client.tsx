@@ -208,6 +208,9 @@ function ContentModal({
           <DialogTitle className="text-base font-semibold">{title}</DialogTitle>
         </DialogHeader>
         <div className="overflow-y-auto px-6 py-5">
+          <div className="prose-disclaimer mb-5">
+            The thoughts here are my own and reflect my personal experience and opinion only — they do not represent the views of any organization I am or have been affiliated with. AI helped me turn these thoughts into words.
+          </div>
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: html }} />
         </div>
       </DialogContent>
