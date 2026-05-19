@@ -423,10 +423,6 @@ export default function HomePageClient({
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               Three tools. One mission.
             </h2>
-            <p className="text-sm text-gray-500 max-w-xl">
-              Built to close the gap between what DICT requires and what agencies can
-              actually produce and share.
-            </p>
           </div>
 
           {/* Live feature */}
