@@ -48,7 +48,7 @@ I personally know government developers classified at SG-15 who could build circ
 
 This platform is also an invitation — to other developers, architects, and ICT officers who are still inside government, *lingkod bayani* through and through. Your perspective is irreplaceable. You know which processes are broken. You know which systems are ghost projects. You know where the actual bottlenecks are, not just the ones that show up in audit reports.
 
-Initiatives like BetterGov have done important work getting the ball rolling from the outside. But those of us on the inside have something different to offer: we know the internal workflows, the procurement constraints, the organizational dynamics, and — most importantly — what would actually help.
+Initiatives like [BetterGov](https://bettergov.ph/) have done important work getting the ball rolling from the outside. But those of us on the inside have something different to offer: we know the internal workflows, the procurement constraints, the organizational dynamics, and — most importantly — what would actually help.
 
 If any of that resonates, reach out.
 
