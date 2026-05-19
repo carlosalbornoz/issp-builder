@@ -293,6 +293,27 @@ const controls = {
 };
 ```
 
+### Public route allowlist (`src/proxy.ts`)
+
+`src/proxy.ts` is the Next.js 16 middleware (renamed from `middleware.ts`). Any route not explicitly allowed will be redirected to `/login` for unauthenticated users.
+
+Current public routes:
+```
+/_next/static, /_next/image   — static assets (via matcher exclusion)
+/favicon.ico, /uploads, /screenshots, /demo, /uacs  — static files (via matcher exclusion)
+/opengraph-image, /twitter-image   — OG image routes
+/api/*                        — all API routes
+/editor, /editor/*            — local-first editor
+/annex1, /annex1/*            — Annex 1 module
+/uacs, /uacs/*                — UACS Explorer static HTML
+/                             — landing page
+/about, /privacy              — public editorial pages
+```
+
+**When adding a new public route** (static file, public page, or unauthenticated feature), add it to BOTH:
+1. The `matcher` exclusion regex (for static files served from `public/`)
+2. The explicit check in the proxy function body (for Next.js routes)
+
 ### Editor nav button pattern
 
 All form nav buttons (Previous / Next at the bottom of every form page) use:

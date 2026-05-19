@@ -89,6 +89,7 @@
 | LIPAD system missing from demo ISSP | Demo file referenced LIPAD in the sample modal but had no data entry. Added `is-lipad` (G2G, Cloud, Outsourced, 52 users, integrated with NQMS) |
 | Editor nav buttons 404 in production (missing `/issp` prefix) | All 15 form nav buttons used `render={<a href="...">}` (plain HTML anchor) which bypasses Next.js routing and doesn't prepend the `/issp` basePath. Converted all to `onClick={() => router.push("...")}` using `useRouter()` from `next/navigation` — the router's `addBasePath()` prepends the basePath at runtime |
 | `pm2 restart` silently failing — old code still serving | A stale `next-server` process held port 3100; every `pm2 restart` got `EADDRINUSE` and the new process never bound. Must check `ss -tlnp \| grep 3100` and `kill <pid>` before restarting pm2 after a build |
+| UACS Explorer redirecting to `/login` | `src/proxy.ts` (Next.js 16 middleware) was missing `/uacs` from the public allowlist. Added `isUacsRoute` check and `uacs` to the matcher exclusion — same pattern as `isEditorRoute` |
 
 ---
 
