@@ -597,16 +597,11 @@ export function Part4YearForm({
             : `Year ${year - 1}`}
         </Button>
         <Button
-          nativeButton={false}
-          render={
-            <Link
-              href={
-                yearKey === "year3"
-                  ? "/editor/part4/summary"
-                  : `/editor/part4/${yearKey === "year1" ? "year2" : "year3"}`
-              }
-            />
-          }
+          onClick={() => router.push(
+            yearKey === "year3"
+              ? "/editor/part4/summary"
+              : `/editor/part4/${yearKey === "year1" ? "year2" : "year3"}`
+          )}
         >
           {yearKey === "year3" ? "Summary of Investments →" : `Year ${year + 1} →`}
         </Button>

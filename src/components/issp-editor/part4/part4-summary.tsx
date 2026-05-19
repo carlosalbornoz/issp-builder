@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -319,7 +318,7 @@ export function Part4Summary({
         <Button variant="outline" onClick={() => router.push("/editor/part4/year3")}>
           ← Year 3 Breakdown
         </Button>
-        <Button nativeButton={false} render={<Link href="/editor" />}>
+        <Button onClick={() => router.push("/editor")}>
           Back to Overview →
         </Button>
       </div>
