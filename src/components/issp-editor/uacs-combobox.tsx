@@ -25,13 +25,18 @@ interface UacsComboboxProps {
   className?: string;
 }
 
-// Lazy-load once, then cache
+// Singleton fetch — all instances share one in-flight request and resolve together
 let _uacsData: UacsEntry[] | null = null;
-async function loadUacs(): Promise<UacsEntry[]> {
-  if (_uacsData) return _uacsData;
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs_active.min.json`);
-  _uacsData = await res.json();
-  return _uacsData!;
+let _uacsPromise: Promise<UacsEntry[]> | null = null;
+
+function loadUacs(): Promise<UacsEntry[]> {
+  if (_uacsData) return Promise.resolve(_uacsData);
+  if (!_uacsPromise) {
+    _uacsPromise = fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs_active.min.json`)
+      .then((r) => r.json())
+      .then((data: UacsEntry[]) => { _uacsData = data; return data; });
+  }
+  return _uacsPromise;
 }
 
 function applyContext(codes: UacsEntry[], context: ContextFilter): UacsEntry[] {
