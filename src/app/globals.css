@@ -243,6 +243,17 @@
   font-style: italic;
 }
 
+.prose-disclaimer {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 2rem;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
 /* HTML comment nodes don't render, but TODO placeholders in the markdown
    will appear as visible text if accidentally left in — style them */
 .prose-article code {

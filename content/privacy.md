@@ -4,6 +4,10 @@ date: 2026-05-17
 author: Carlos Antonio Albornoz
 ---
 
+<div class="prose-disclaimer">
+The thoughts here are my own and reflect my personal experience and opinion only — they do not represent the views of any organization I am or have been affiliated with. AI helped me turn these thoughts into words.
+</div>
+
 ## The problem I didn't want to ignore
 
 When I first built this tool, I built it the way most web apps are built: sign up, log in, data goes to a server, server stores it in a database.
