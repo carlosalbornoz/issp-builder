@@ -50,7 +50,7 @@ This platform is also an invitation — to other developers, architects, and ICT
 
 Initiatives like [BetterGov](https://bettergov.ph/) have done important work getting the ball rolling from the outside. But those of us on the inside have something different to offer: we know the internal workflows, the procurement constraints, the organizational dynamics, and — most importantly — what would actually help.
 
-If any of that resonates, reach out.
+If any of that resonates, [reach out](mailto:issp-builder@carlosanton.io).
 
 ## How it unfolds — three phases
 
@@ -70,4 +70,4 @@ The final phase connects ISSP budget requests to actual DBM releases, visualized
 
 ---
 
-*This is a volunteer project. It's open source. If you work in government ICT, at DICT, or just care about this kind of transparency work — I'd love to hear from you.*
+*This is a volunteer project. It's open source. If you work in government ICT, at DICT, or just care about this kind of transparency work — [I'd love to hear from you](mailto:issp-builder@carlosanton.io).*
