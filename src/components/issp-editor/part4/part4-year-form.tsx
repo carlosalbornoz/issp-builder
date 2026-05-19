@@ -242,7 +242,7 @@ function LineTable({
                       <TooltipTrigger
                         render={
                           <a
-                            href="/uacs"
+                            href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1 hover:text-primary transition-colors"
