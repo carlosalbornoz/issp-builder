@@ -134,9 +134,10 @@ function buildB4(years: [YearBudget, YearBudget, YearBudget]): UacsRow[] {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Part4SummaryPage() {
-  const { doc } = useIsspStore();
+  const { doc, loading } = useIsspStore();
   const router = useRouter();
 
+  if (loading) return null;
   if (!doc) {
     router.replace("/editor");
     return null;

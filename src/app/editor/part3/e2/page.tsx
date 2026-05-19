@@ -5,9 +5,10 @@ import { useIsspStore } from "@/lib/store";
 import { Part3E2Form } from "@/components/issp-editor/part3/part3-e1-form";
 
 export default function Part3E2Page() {
-  const { doc } = useIsspStore();
+  const { doc, loading } = useIsspStore();
   const router = useRouter();
 
+  if (loading) return null;
   if (!doc) {
     router.replace("/editor");
     return null;

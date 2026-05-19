@@ -91,6 +91,7 @@
 | `pm2 restart` silently failing — old code still serving | A stale `next-server` process held port 3100; every `pm2 restart` got `EADDRINUSE` and the new process never bound. Must check `ss -tlnp \| grep 3100` and `kill <pid>` before restarting pm2 after a build |
 | UACS Explorer redirecting to `/login` | `src/proxy.ts` (Next.js 16 middleware) was missing `/uacs` from the public allowlist. Added `isUacsRoute` check and `uacs` to the matcher exclusion — same pattern as `isEditorRoute` |
 | UACS combobox stuck on "Loading codes…" | `fetch("/uacs_active.min.json")` was missing the `/issp` basePath prefix. Fixed to `fetch(\`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs_active.min.json\`)` |
+| Form pages redirect to `/editor` on hard refresh | All 17 form sub-pages (`part1/a` through `part4/year3`) had `if (!doc) redirect` but never checked `loading`. On page refresh, `doc` is null while IDB loads → premature redirect. Fixed: added `const { doc, loading } = useIsspStore()` + `if (loading) return null` guard before the redirect check in all 18 form pages (17 via script + `part4/summary` manually). |
 
 ---
 

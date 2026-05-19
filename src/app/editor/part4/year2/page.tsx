@@ -5,9 +5,10 @@ import { useIsspStore } from "@/lib/store";
 import { Part4YearForm } from "@/components/issp-editor/part4/part4-year-form";
 
 export default function Part4Year2Page() {
-  const { doc } = useIsspStore();
+  const { doc, loading } = useIsspStore();
   const router = useRouter();
 
+  if (loading) return null;
   if (!doc) {
     router.replace("/editor");
     return null;
