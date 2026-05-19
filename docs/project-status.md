@@ -83,6 +83,12 @@
 | Seed projects used stale alignment labels and wrong field name (`harmonization`) | `prisma/seed.js` — updated to use correct DICT 2026 option labels and `harmonizationFramework` key; demo file regenerated |
 | Export script writing to `public/samples/` (unused path) | `scripts/export-sample-issp.js` — output path corrected to `public/demo/`; `public/samples/` folder removed |
 | Hydration mismatch on `<time>` in `/about` and `/privacy` | gray-matter parses unquoted YAML dates as `Date` objects; `as string` doesn't convert at runtime — coerce to `"YYYY-MM-DD"` via `.toISOString().slice(0,10)`; also fixed `formatDate` to use local-time constructor `new Date(y, m-1, d)` to avoid UTC→local timezone shift |
+| Part III-C NaN in quantity field | `parseInt` + `isNaN` guard in `onChange`; seeded data was using `physicalCount` (renamed to `quantity`) — normalised in `useState` initialiser with `r.quantity ?? r.physicalCount ?? 1` |
+| Part III-C all rows updating simultaneously | Seeded rows had no `id` field — all `undefined === undefined` in `updateRow`. Fixed by generating IDs on mount: `r.id ?? generateId()` |
+| Demo ISSP schema mismatches (Part II/III) | Multiple field renames unsynced with editor: IS `interoperability` shape, `piaConducted→piaCompleted`, `projectType→projectCategory`, KPI `responsibility→responsibleUnit`, all IS/proposed-system enum values (plain labels → code values). All corrected in `public/demo/ncwtr-issp-2026-2028.issp` |
+| LIPAD system missing from demo ISSP | Demo file referenced LIPAD in the sample modal but had no data entry. Added `is-lipad` (G2G, Cloud, Outsourced, 52 users, integrated with NQMS) |
+| Editor nav buttons 404 in production (missing `/issp` prefix) | All 15 form nav buttons used `render={<a href="...">}` (plain HTML anchor) which bypasses Next.js routing and doesn't prepend the `/issp` basePath. Converted all to `onClick={() => router.push("...")}` using `useRouter()` from `next/navigation` — the router's `addBasePath()` prepends the basePath at runtime |
+| `pm2 restart` silently failing — old code still serving | A stale `next-server` process held port 3100; every `pm2 restart` got `EADDRINUSE` and the new process never bound. Must check `ss -tlnp \| grep 3100` and `kill <pid>` before restarting pm2 after a build |
 
 ---
 

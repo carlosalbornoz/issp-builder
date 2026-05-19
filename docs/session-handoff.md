@@ -1,6 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-18  
+> **Last updated:** 2026-05-19  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -293,6 +293,19 @@ const controls = {
 };
 ```
 
+### Editor nav button pattern
+
+All form nav buttons (Previous / Next at the bottom of every form page) use:
+```tsx
+const router = useRouter(); // from "next/navigation" — in the main exported component only
+
+<Button onClick={() => router.push("/editor/part3/b")}>Next →</Button>
+```
+
+**Do NOT use** `render={<a href="...">}` (plain HTML anchor) or `nativeButton={false} render={<Link href="...">}` for these buttons. Both approaches bypass Next.js routing and fail to prepend the `/issp` basePath in production. The `useRouter().push()` call internally calls `addBasePath()` which correctly prepends `/issp`.
+
+`useRouter()` must be called in the **main exported component function**, not in sub-components (e.g. `ProjectCard`, `SystemCard`, `SummaryTable`) that don't have nav buttons.
+
 ### Part IV section lettering
 ```
 A = Office Productivity
@@ -335,11 +348,16 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 **Period:** 2026–2028  
 **Projects:** SIKAP (₱24.5M), BILIS (₱9.8M), HANDA (₱4.2M)  
 **Proposed IS:** UQMP, CFCP, iHRPS  
-**Existing IS:** NQMS (Windows XP/VB6), eCLAS (fax machines), ROMS (17 instances), AHRIS (47 Excel workbooks)
+**Existing IS:** NQMS (Windows XP/VB6), eCLAS (fax machines), ROMS (17 instances), AHRIS (47 Excel workbooks), LIPAD (G2G, cloud, outsourced — pilot)
 
 The file is downloadable from the editor splash screen: "Download NCWTR demo file".
 
-Regenerated via `node scripts/export-sample-issp.js` (reads from seeded DB, writes to `public/demo/`). After any seed change, re-run the script to keep the demo file in sync.
+> **Important:** The demo file is hand-maintained JSON — it is NOT regenerated from the seed DB. Edit `public/demo/ncwtr-issp-2026-2028.issp` directly. All field names must match what the editor form components actually read (see `src/lib/store/types.ts`). Key things that have broken before:
+> - `physicalCount` was renamed to `quantity` in Part III-C — the file now uses `quantity`
+> - IS `interoperability` is an object `{integrated, internalSystems, externalSystems, ...}` not `{hasInteroperability, systems}`
+> - IS/proposed system enum values must be code values (e.g. `"G2G"` not `"Government-to-Government"`)
+> - Performance framework rows use `responsibleUnit` not `responsibility`
+> - `projectCategory` not `projectType` for project classification in Part III-F
 
 ---
 
@@ -391,6 +409,25 @@ node prisma/seed.js               # Wipe + reseed NCWTR data
 node scripts/backfill-parts.js   # Create missing Part records for old docs
 npx prisma generate               # Regenerate client after schema changes
 ```
+
+### Production deployment (apps.carlosanton.io/issp)
+
+```bash
+npm run build
+pm2 restart issp --update-env
+```
+
+**Before every restart, check for stale processes:**
+```bash
+ss -tlnp | grep 3100
+# If a process other than the current pm2 pid is listed:
+kill <old-pid>
+pm2 restart issp --update-env
+```
+
+A stale `next-server` process can hold port 3100 after an interrupted session. `pm2 restart` will silently fail with `EADDRINUSE` — the new process starts but immediately dies, and the old pre-build code keeps serving. The pm2 status shows "online" (for the sh wrapper) but `ss` reveals the actual listening pid.
+
+`NEXT_PUBLIC_BASE_PATH="/issp"` is in `.env.production` and is baked into client bundles at build time — no need to set it in pm2 env.
 
 ### Puppeteer / Chrome dependencies
 Chrome 148 is installed at `/root/.cache/puppeteer/chrome/linux-148.0.7778.167/chrome-linux64/chrome`.
