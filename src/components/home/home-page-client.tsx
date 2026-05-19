@@ -304,6 +304,14 @@ export default function HomePageClient({
             >
               Privacy
             </button>
+            <a
+              href="https://github.com/carlosalbornoz/issp-builder"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors hidden sm:block"
+            >
+              Source
+            </a>
           </nav>
         </div>
       </header>
@@ -615,7 +623,7 @@ export default function HomePageClient({
               Start Building <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button
-              onClick={handleLoadSample}
+              onClick={() => setSampleIntroOpen(true)}
               disabled={sampleLoading}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium text-gray-400 border border-gray-700 hover:border-gray-500 hover:text-gray-200 transition-colors disabled:opacity-50"
             >
