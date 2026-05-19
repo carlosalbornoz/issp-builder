@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import {
   FilePlus2,
   FolderOpen,
@@ -91,13 +90,13 @@ function BrowserMockup() {
           app.issp.ph/editor/part2/c
         </div>
       </div>
-      <Image
-        src="/screenshots/issp-builder.png"
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/screenshots/issp-builder.png`}
         alt="ISSP Builder — IS Inventory section showing structured agency ICT data"
         width={1400}
         height={900}
         className="w-full block"
-        priority
       />
     </div>
   );
