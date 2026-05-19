@@ -140,7 +140,8 @@ export function EditorSidebar({
     if (!doc || exporting) return;
     setExporting(true);
     try {
-      const res = await fetch("/api/export", {
+      const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+      const res = await fetch(`${base}/api/export`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(doc),
