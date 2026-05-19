@@ -463,20 +463,24 @@ npx prisma generate               # Regenerate client after schema changes
 
 ### Production deployment (apps.carlosanton.io/issp)
 
+> ⚠️ **Always kill the stale process before restarting.** Skipping step 2 is the #1 cause of "fix deployed but nothing changed" — pm2 silently fails with `EADDRINUSE`, the new process dies immediately, and the old pre-build code keeps serving. `pm2 status` shows "online" (for the sh wrapper) so it looks fine, but `ss` reveals the actual listening pid hasn't changed.
+
 ```bash
+# 1. Build
 npm run build
-pm2 restart issp --update-env
-```
 
-**Before every restart, check for stale processes:**
-```bash
+# 2. Kill the old next-server process (do this every time, no exceptions)
 ss -tlnp | grep 3100
-# If a process other than the current pm2 pid is listed:
-kill <old-pid>
+kill <pid shown above>
+
+# 3. Restart pm2
 pm2 restart issp --update-env
 ```
 
-A stale `next-server` process can hold port 3100 after an interrupted session. `pm2 restart` will silently fail with `EADDRINUSE` — the new process starts but immediately dies, and the old pre-build code keeps serving. The pm2 status shows "online" (for the sh wrapper) but `ss` reveals the actual listening pid.
+One-liner for step 2+3 (safe to run even if no stale process exists):
+```bash
+ss -tlnp | grep 3100 | grep -oP 'pid=\K[0-9]+' | xargs -r kill; sleep 0.5; pm2 restart issp --update-env
+```
 
 `NEXT_PUBLIC_BASE_PATH="/issp"` is in `.env.production` and is baked into client bundles at build time — no need to set it in pm2 env.
 
