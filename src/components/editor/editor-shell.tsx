@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
 import { useFileSaveReminder } from "@/hooks/use-file-save-reminder";
@@ -9,6 +10,11 @@ import { EditorSidebar } from "./editor-sidebar";
 export function EditorShell({ children }: { children: React.ReactNode }) {
   const { loading, doc, unsavedToFile, saveToFile } = useIsspStore();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !doc) router.replace("/");
+  }, [loading, doc, router]);
 
   // Warn before closing/navigating away when there are unsaved file changes
   useEffect(() => {
@@ -33,9 +39,13 @@ export function EditorShell({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // No document in store — bare layout for the splash page
+  // No document — redirect to homepage is in flight, show nothing
   if (!doc) {
-    return <main className="min-h-screen bg-background">{children}</main>;
+    return (
+      <div className="flex h-screen items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
   }
 
   // Document loaded — full editor layout with collapsible sidebar
