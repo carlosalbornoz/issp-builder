@@ -38,6 +38,8 @@ export async function PUT(
 
   // Serialize JSON fields
   const data: Record<string, unknown> = { ...body };
+  delete data.id;
+  delete data.isspDocId;
   const jsonFields = ["strategicConcerns", "cybersecurityControls", "informationSystems", "egpChecklist"];
   for (const field of jsonFields) {
     if (data[field] !== undefined && typeof data[field] !== "string") {

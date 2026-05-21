@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useState, useCallback, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
-import { ChevronDown, UploadCloud, X, ImageIcon, Trash2 } from "lucide-react";
+import { ChevronDown, UploadCloud, ImageIcon, Trash2 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

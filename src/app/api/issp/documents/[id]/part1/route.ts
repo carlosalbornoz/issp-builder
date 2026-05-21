@@ -39,6 +39,8 @@ export async function PUT(
 
   // Serialize JSON fields
   const data: Record<string, unknown> = { ...body };
+  delete data.id;
+  delete data.isspDocId;
   if (data.orgOutcomes && typeof data.orgOutcomes !== "string") {
     data.orgOutcomes = JSON.stringify(data.orgOutcomes);
   }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,10 +36,12 @@ function generateId() {
 export function Part3CForm({
   initialData,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialData: HCRow[] | any[];
 }) {
   const router = useRouter();
   const [rows, setRows] = useState<HCRow[]>(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (initialData as any[]).map((r) => ({
       id: r.id ?? generateId(),
       position: r.position ?? "",

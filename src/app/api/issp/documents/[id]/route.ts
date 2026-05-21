@@ -35,6 +35,7 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await request.json();
+  const { title, startYear, endYear, scope, amendmentNumber } = body;
 
   // Verify ownership
   const existing = await db.isspDocument.findFirst({
@@ -44,7 +45,7 @@ export async function PATCH(
 
   const doc = await db.isspDocument.update({
     where: { id },
-    data: body,
+    data: { title, startYear, endYear, scope, amendmentNumber },
   });
 
   return Response.json(doc);

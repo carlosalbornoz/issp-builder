@@ -10,6 +10,7 @@ type SelectItemType = { value: string; label?: string | React.ReactNode; [key: s
 
 const SelectContext = React.createContext<{ items?: SelectItemType[] }>({});
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Select({ items, children, ...props }: SelectPrimitive.Root.Props<any, any> & { items?: SelectItemType[] }) {
   return (
     <SelectContext.Provider value={{ items }}>
@@ -38,6 +39,7 @@ function SelectValue({ className, children, placeholder, ...props }: SelectPrimi
       className={cn("flex flex-1 text-left", className)}
       {...props}
     >
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {children || ((value: any) => {
         if (value === null || value === undefined || value === '') return placeholder;
         if (Array.isArray(value)) {

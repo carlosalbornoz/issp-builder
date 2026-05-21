@@ -14,6 +14,7 @@ function mapStrategicConcerns(
   concerns: IsspDocument["part2"]["strategicConcerns"],
   outcomeMap: Record<string, string>
 ): IsspData["part2"]["strategicConcerns"] {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return concerns.map((sc: any) => {
     // Backward compatibility: handle both new outcomeIds and old outcomeId
     const ids = Array.isArray(sc.outcomeIds) && sc.outcomeIds.length > 0 
@@ -39,14 +40,6 @@ const SA_KNOWN = [
   "National Cybersecurity Plan",
   "E-Government Master Plan",
   "Program Convergence Budgeting",
-] as const;
-
-const HA_KNOWN = [
-  "National Prioritization",
-  "Resource Optimization",
-  "Interoperability Framework",
-  "Cross-Agency Collaboration",
-  "Scalability and Sustainability",
 ] as const;
 
 function mapProject(proj: IctProject, crossAgency = false): IsspData["part3"]["internalProjects"][number] {
@@ -292,7 +285,8 @@ export async function POST(req: Request) {
     endYear: doc.endYear,
   });
 
-  const filename = `${doc.agency.acronym}-ISSP-${doc.startYear}-${doc.endYear}.pdf`;
+  const safeAcronym = (doc.agency.acronym ?? "AGENCY").replace(/[^\w\-]/g, "_");
+  const filename = `${safeAcronym}-ISSP-${doc.startYear}-${doc.endYear}.pdf`;
 
   return new Response(new Uint8Array(pdf), {
     headers: {

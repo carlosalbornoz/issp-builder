@@ -265,6 +265,7 @@ export function IsspPropertiesDialog({
 
   useEffect(() => {
     if (open && doc) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setForm({
         agencyName: doc.agency.name,
         agencyAcronym: doc.agency.acronym,

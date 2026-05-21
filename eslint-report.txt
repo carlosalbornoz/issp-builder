@@ -1,0 +1,117 @@
+
+/root/apps/issp/prisma/seed.js
+  4:18  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  5:16  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  6:25  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/root/apps/issp/scripts/backfill-parts.js
+  1:18  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/root/apps/issp/scripts/export-sample-issp.js
+   8:18  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+   9:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  10:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/root/apps/issp/scripts/migrate-part4-columns.js
+  1:18  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/root/apps/issp/src/app/api/export/route.ts
+  17:28  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+  44:7   warning  'HA_KNOWN' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/editor/issp-properties-dialog.tsx
+  268:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/root/apps/issp/src/components/editor/issp-properties-dialog.tsx:268:7
+  266 |   useEffect(() => {
+  267 |     if (open && doc) {
+> 268 |       setForm({
+      |       ^^^^^^^ Avoid calling setState() directly within an effect
+  269 |         agencyName: doc.agency.name,
+  270 |         agencyAcronym: doc.agency.acronym,
+  271 |         agencyType: doc.agency.type as AgencyType,  react-hooks/set-state-in-effect
+
+/root/apps/issp/src/components/issp-editor/part1/part1-a-form.tsx
+  4:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/issp-editor/part1/part1-b-form.tsx
+  4:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/issp-editor/part1/part1-c-form.tsx
+  4:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/issp-editor/part2/part2-a-form.tsx
+  59:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/apps/issp/src/components/issp-editor/part2/part2-b-form.tsx
+   4:8   warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+  13:36  warning  'X' is defined but never used     @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/issp-editor/part2/part2-c-form.tsx
+  4:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/issp-editor/part2/part2-d-form.tsx
+  4:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/issp-editor/part3/part3-a-form.tsx
+  4:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/issp-editor/part3/part3-b-form.tsx
+  4:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/issp-editor/part3/part3-c-form.tsx
+   4:8   warning  'Link' is defined but never used          @typescript-eslint/no-unused-vars
+  40:26  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  44:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/apps/issp/src/components/issp-editor/part3/part3-d-form.tsx
+  4:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+/root/apps/issp/src/components/issp-editor/uacs-combobox.tsx
+  76:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/root/apps/issp/src/components/issp-editor/uacs-combobox.tsx:76:7
+  74 |   useEffect(() => {
+  75 |     if (open && allCodes.length === 0) {
+> 76 |       setLoading(true);
+     |       ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  77 |       loadUacs().then((data) => {
+  78 |         setAllCodes(data);
+  79 |         setLoading(false);  react-hooks/set-state-in-effect
+
+/root/apps/issp/src/components/ui/select.tsx
+  13:75  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:80  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  41:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/root/apps/issp/src/hooks/use-file-save-reminder.ts
+  11:3  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/root/apps/issp/src/hooks/use-file-save-reminder.ts:11:3
+   9 |   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  10 |   const onSaveRef = useRef(onSave);
+> 11 |   onSaveRef.current = onSave;
+     |   ^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  12 |
+  13 |   useEffect(() => {
+  14 |     if (timerRef.current) {  react-hooks/refs
+
+/root/apps/issp/src/lib/pdf/render-issp-html.ts
+  197:10  warning  'scopeLabel' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 31 problems (18 errors, 13 warnings)
+

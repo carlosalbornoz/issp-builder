@@ -194,21 +194,6 @@ function chk(v: boolean | undefined): string {
   return v ? "☑" : "☐";
 }
 
-function scopeLabel(scope: string): string {
-  const map: Record<string, string> = {
-    DEPARTMENT_WIDE: "Department-Wide",
-    DEPARTMENT_CENTRAL_ONLY: "Department — Central Office Only",
-    CENTRAL_ONLY: "Central Office Only",
-    WITH_REGIONAL: "Agency-Wide — With Regional Offices / Field Offices",
-    AGENCY_WITH_REGIONAL: "Agency-Wide — With Regional Offices / Field Offices",
-    WITH_BUREAUS: "Agency-Wide — With Bureaus / Attached Agencies",
-    AGENCY_WIDE: "Agency-Wide",
-    AGENCY_CENTRAL_ONLY: "Agency-Wide — Central Office Only",
-    OTHER_GOVERNMENT_ENTITY: "Other Government Entity",
-    LGU_SCOPE: "LGU",
-  };
-  return map[scope] ?? scope;
-}
 
 function ooLabel(agencyType: string): string {
   if (agencyType === "GOCC") return "Strategic Objectives (SO)";

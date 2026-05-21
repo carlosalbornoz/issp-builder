@@ -51,6 +51,8 @@ export async function PUT(
   if (!doc) return Response.json({ error: "Not found" }, { status: 404 });
 
   const data: Record<string, unknown> = { ...body };
+  delete data.id;
+  delete data.isspDocId;
   for (const field of JSON_FIELDS) {
     if (data[field] !== undefined && typeof data[field] !== "string") {
       data[field] = JSON.stringify(data[field]);

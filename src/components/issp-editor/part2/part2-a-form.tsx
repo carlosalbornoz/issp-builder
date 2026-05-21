@@ -56,6 +56,7 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
   const router = useRouter();
   const [concerns, setConcerns] = useState<StrategicConcern[]>(() => {
     // Migrate old single outcomeId to new outcomeIds array
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return initialData.map((c: any) => ({
       ...c,
       outcomeIds: Array.isArray(c.outcomeIds) ? c.outcomeIds : (c.outcomeId ? [c.outcomeId] : []),

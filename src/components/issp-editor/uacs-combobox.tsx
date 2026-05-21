@@ -73,6 +73,7 @@ export function UacsCombobox({
   // Fetch on open (with loading state shown in dropdown)
   useEffect(() => {
     if (open && allCodes.length === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoading(true);
       loadUacs().then((data) => {
         setAllCodes(data);

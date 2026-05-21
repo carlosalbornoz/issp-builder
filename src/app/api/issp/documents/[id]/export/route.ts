@@ -138,7 +138,8 @@ export async function GET(
     endYear: doc.endYear,
   });
 
-  const filename = `${doc.agency.acronym}-ISSP-${doc.startYear}-${doc.endYear}.pdf`;
+  const safeAcronym = (doc.agency.acronym ?? "AGENCY").replace(/[^\w\-]/g, "_");
+  const filename = `${safeAcronym}-ISSP-${doc.startYear}-${doc.endYear}.pdf`;
 
   return new Response(new Uint8Array(pdf), {
     headers: {

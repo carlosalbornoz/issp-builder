@@ -8,7 +8,9 @@ const REMINDER_DELAY_MS = 10 * 60 * 1000; // 10 minutes
 export function useFileSaveReminder(unsavedToFile: boolean, onSave: () => void) {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const onSaveRef = useRef(onSave);
-  onSaveRef.current = onSave;
+  useEffect(() => {
+    onSaveRef.current = onSave;
+  }, [onSave]);
 
   useEffect(() => {
     if (timerRef.current) {
