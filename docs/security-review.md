@@ -8,13 +8,12 @@
 
 ## Executive Summary
 
-The app has a solid baseline: all API routes check session auth, agency-scoped queries prevent cross-tenant access, and passwords are bcrypt-hashed. However, five issues require action before this can be considered production-hardened:
+The app has a solid baseline: all API routes check session auth, agency-scoped queries prevent cross-tenant access, and passwords are bcrypt-hashed.
 
-1. The `AUTH_SECRET` in `.env` is a known placeholder — **must be rotated**.
-2. The `PATCH /api/issp/documents/[id]` route passes raw request body to Prisma — **mass assignment vulnerability**.
-3. The `POST /api/export` route generates PDFs without authentication — **unauthenticated compute sink**.
-4. The `apps.carlosanton.io` nginx vhost is missing several security headers present on the other vhosts.
-5. No login rate limiting — brute-force attacks are unconstrained.
+**Session 2026-05-21:** Mass assignment vulnerabilities (F2, F3), missing nginx security headers (F5, F12), and Content-Disposition injection (F7) have all been fixed and deployed. Two issues remain open and require action:
+
+1. The `AUTH_SECRET` in `.env` is a known placeholder — **must be rotated** (CRITICAL).
+2. No login rate limiting — brute-force attacks are unconstrained (MEDIUM).
 
 ---
 
@@ -22,18 +21,18 @@ The app has a solid baseline: all API routes check session auth, agency-scoped q
 
 | # | Severity | Title | Status |
 |---|----------|-------|--------|
-| 1 | CRITICAL | Weak default AUTH_SECRET | Open — manual action required |
-| 2 | HIGH | Mass assignment in PATCH document route | **Fixed** |
-| 3 | HIGH | Mass assignment in PUT part1/2/3/4 routes | **Fixed** |
-| 4 | HIGH | Unauthenticated PDF export endpoint | Accepted (by design) |
-| 5 | MEDIUM | Missing security headers on apps.carlosanton.io | **Fixed** |
-| 6 | MEDIUM | No login rate limiting | Open |
-| 7 | MEDIUM | Content-Disposition header injection risk | **Fixed** |
-| 8 | MEDIUM | No Next.js middleware — auth is per-handler only | Open |
-| 9 | LOW | SVG uploads served as static files | Open |
-| 10 | LOW | Uploaded diagrams accessible without auth | Open |
+| 1 | CRITICAL | Weak default AUTH_SECRET | **Open — manual action required** |
+| 2 | HIGH | Mass assignment in PATCH document route | ✅ Fixed — commit cb7d0cd |
+| 3 | HIGH | Mass assignment in PUT part1/2/3/4 routes | ✅ Fixed — commit cb7d0cd |
+| 4 | HIGH | Unauthenticated PDF export endpoint | ✅ Accepted (by design — local-first architecture) |
+| 5 | MEDIUM | Missing security headers on apps.carlosanton.io | ✅ Fixed — nginx, live |
+| 6 | MEDIUM | No login rate limiting | **Open** |
+| 7 | MEDIUM | Content-Disposition header injection risk | ✅ Fixed — commit cb7d0cd |
+| 8 | MEDIUM | proxy.ts doesn't cover API routes (defence-in-depth gap) | **Open** |
+| 9 | LOW | SVG uploads allowed without sanitization | Open — dormant route |
+| 10 | LOW | Uploaded diagrams accessible without auth | Open — dormant route |
 | 11 | LOW | allowedDevOrigins leaks internal IP in prod config | Open |
-| 12 | INFO | No Permissions-Policy header anywhere | **Fixed** (nginx) |
+| 12 | INFO | No Permissions-Policy header anywhere | ✅ Fixed — apps.carlosanton.io nginx, live |
 
 ---
 
@@ -238,37 +237,32 @@ Or use RFC 5987 encoding: `filename*=UTF-8''${encodeURIComponent(filename)}`.
 
 ---
 
-### FINDING 8 — MEDIUM: No Next.js middleware — auth is purely per-handler
+### FINDING 8 — MEDIUM: proxy.ts doesn't cover API routes (defence-in-depth gap)
 
-**File:** No `src/middleware.ts` exists.
+**File:** `src/proxy.ts`
 
-**Risk:** Next.js middleware (runs at the edge before any route handler) is the standard defence-in-depth layer for auth. Without it, any new API route or page added without an explicit `auth()` check is publicly accessible. There is currently no automated protection against forgotten auth checks.
+**Note:** In Next.js 16, the middleware file was renamed from `middleware.ts` to `proxy.ts`. This project correctly uses `src/proxy.ts` as its proxy/middleware.
 
-**Fix:** Add `src/middleware.ts` to protect all dashboard and API routes:
+**Current state:** `proxy.ts` protects page routes (redirects unauthenticated users to `/login` for dashboard routes) but explicitly passes all `/api` routes through without an auth check:
 
 ```ts
-import { auth } from "@/lib/auth.config";
-import { NextResponse } from "next/server";
-
-export default auth((req) => {
-  const isAuthed = !!req.auth;
-  const isApiRoute = req.nextUrl.pathname.startsWith("/api/issp");
-  const isDashboard = req.nextUrl.pathname.startsWith("/dashboard");
-  const isLogin = req.nextUrl.pathname.startsWith("/login");
-
-  if ((isApiRoute || isDashboard) && !isAuthed) {
-    if (isApiRoute) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-  return NextResponse.next();
-});
-
-export const config = {
-  matcher: ["/api/issp/:path*", "/dashboard/:path*"],
-};
+// Allow API routes through
+if (isApiRoute) return NextResponse.next();
 ```
 
-Note: Keep `/api/auth/:path*` out of the matcher so the sign-in route itself is not protected.
+**Risk:** The dormant server-side API routes (`/api/issp/documents/**`) each perform their own `auth()` check — so they are individually protected. However, any new API route added without an explicit auth check would be publicly accessible with no safety net. Defence-in-depth is missing at the proxy layer for the API.
+
+**Fix:** Remove the blanket API passthrough and let the proxy enforce auth on `/api/issp/**` routes, while keeping `/api/auth/**` and `/api/export` public:
+
+```ts
+// In proxy.ts — replace the blanket API passthrough with:
+const isAuthApi = pathname.startsWith("/api/auth");
+const isExportApi = pathname === "/api/export";   // intentionally public
+if (isAuthApi || isExportApi) return NextResponse.next();
+if (pathname.startsWith("/api/issp") && !isLoggedIn) {
+  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+}
+```
 
 ---
 
@@ -276,13 +270,15 @@ Note: Keep `/api/auth/:path*` out of the matcher so the sign-in route itself is 
 
 **File:** `src/app/api/issp/documents/[id]/upload-diagram/route.ts:11`
 
+> **Note:** This route is part of the dormant server-side architecture and is not reachable from the active local-first editor. Address if/when the server-side mode is reactivated.
+
 ```ts
 const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp", "image/svg+xml"];
 ```
 
-**Risk:** SVG files are XML and can contain `<script>` tags. When rendered in an `<img>` tag (as this app does) most browsers neutralize script execution, but if a browser renders the SVG inline or the file is opened directly via URL, XSS is possible. Uploaded files are stored at `/public/uploads/{docId}/` and served as static assets — any user who knows the URL can access them without authentication.
+**Risk:** SVG files are XML and can contain `<script>` tags. When rendered in an `<img>` tag most browsers neutralize script execution, but if a browser renders the SVG inline or the file is opened directly via URL, XSS is possible. Uploaded files are stored at `/public/uploads/{docId}/` and served as static assets without authentication.
 
-**Fix (minimal):** If SVGs are only ever rendered as `<img>` sources, the risk is low. To eliminate it entirely, either:
+**Fix (minimal):** Either:
 a. Remove SVG from `ALLOWED_TYPES`, or
 b. Sanitize uploaded SVGs with a library like `dompurify` (server-side) before saving.
 
@@ -292,21 +288,13 @@ b. Sanitize uploaded SVGs with a library like `dompurify` (server-side) before s
 
 **File:** `public/uploads/` — served as Next.js static assets
 
+> **Note:** This only applies to the dormant server-side architecture. In the active local-first editor, network diagrams are stored as base64 data URLs inside the `.issp` file on the user's device — no server-side uploads occur. Address if/when the server-side mode is reactivated.
+
 Any file uploaded to `public/uploads/{docId}/{filename}` is publicly accessible at `https://apps.carlosanton.io/issp/uploads/{docId}/{filename}` without authentication.
 
 **Risk:** ISSP network diagrams may contain sensitive infrastructure information. An unauthenticated party who discovers or guesses a URL can download them.
 
-**Fix:** Move uploads outside the `public/` directory (e.g., `data/uploads/`) and serve them through an authenticated API route:
-
-```ts
-// GET /api/uploads/[docId]/[filename]
-const session = await auth();
-if (!session) return new Response("Unauthorized", { status: 401 });
-// verify docId belongs to session.user.agencyId
-// then stream the file
-```
-
-Nginx would need to be updated to not cache these paths, and the diagram `path` storage format would change from a public URL to a logical path.
+**Fix:** Move uploads outside the `public/` directory (e.g., `data/uploads/`) and serve them through an authenticated API route that verifies `docId` belongs to the session user's agency.
 
 ---
 
@@ -332,9 +320,9 @@ allowedDevOrigins: process.env.NODE_ENV === "development" ? ["100.111.159.52"] :
 
 **Scope:** All nginx vhosts
 
-Permissions-Policy restricts browser feature access (camera, microphone, geolocation) for embedded frames and the page itself. It is not currently set on any vhost.
+Permissions-Policy restricts browser feature access (camera, microphone, geolocation) for embedded frames and the page itself.
 
-**Fix:** Add to all server blocks:
+**Status:** Added to `apps.carlosanton.io` (the main app vhost) on 2026-05-21. Not yet added to `vps.carlosanton.io` and `carlosanton.io` — low priority as those vhosts don't serve the app.
 
 ```nginx
 add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()" always;
@@ -356,14 +344,35 @@ add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment
 
 ---
 
-## Remediation Priority
+## Remediation Summary
 
-| Priority | Findings | Action |
-|----------|----------|--------|
-| Do now | **1** | Rotate AUTH_SECRET — run `openssl rand -base64 32`, set in production env |
-| This sprint | **6, 8** | Add nginx rate limiting on auth endpoint; add `src/middleware.ts` |
-| Backlog | **9, 10, 11** | SVG sanitization policy; serve uploads via auth route; move dev IP to .env.local |
+### Completed (2026-05-21)
+
+| Finding | Fix | Where |
+|---------|-----|-------|
+| F2 — Mass assignment PATCH route | Whitelist `title, startYear, endYear, scope, amendmentNumber` | commit cb7d0cd |
+| F3 — Mass assignment PUT part routes | Strip `id` and `isspDocId` before Prisma update | commit cb7d0cd |
+| F4 — Unauthenticated /api/export | Accepted as by design (local-first architecture) | — |
+| F5 — Missing nginx security headers | Added X-XSS-Protection, Referrer-Policy, Permissions-Policy, CSP | nginx live |
+| F7 — Content-Disposition injection | Sanitize acronym with `/[^\w\-]/g → "_"` | commit cb7d0cd |
+| F12 — No Permissions-Policy | Added to apps.carlosanton.io | nginx live |
+
+### Open — Action Required
+
+| Priority | Finding | Action |
+|----------|---------|--------|
+| **Do now** | **F1 — AUTH_SECRET** | `openssl rand -base64 32` → set in PM2 env or server environment, never in git |
+| This sprint | **F6 — No rate limiting** | Add `limit_req_zone` to nginx.conf + `limit_req` on `/issp/api/auth` location |
+| This sprint | **F8 — proxy.ts API gap** | Add auth enforcement for `/api/issp/**` in `proxy.ts`, keep `/api/auth` and `/api/export` public |
+
+### Backlog (low priority / dormant)
+
+| Finding | Note |
+|---------|------|
+| F9 — SVG uploads | Dormant route; address when server-side mode reactivated |
+| F10 — Unauthenticated diagram URLs | Dormant route; same condition |
+| F11 — Internal IP in next.config.ts | Move `allowedDevOrigins` behind `NODE_ENV` check |
 
 ---
 
-*This document should be updated after each finding is remediated.*
+*Last updated: 2026-05-21*
