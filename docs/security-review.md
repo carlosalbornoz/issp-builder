@@ -10,10 +10,11 @@
 
 The app has a solid baseline: all API routes check session auth, agency-scoped queries prevent cross-tenant access, and passwords are bcrypt-hashed.
 
-**Session 2026-05-21:** Mass assignment vulnerabilities (F2, F3), missing nginx security headers (F5, F12), and Content-Disposition injection (F7) have all been fixed and deployed. Two issues remain open and require action:
+**Session 2026-05-21:** Mass assignment vulnerabilities (F2, F3), missing nginx security headers (F5, F12), and Content-Disposition injection (F7) have all been fixed and deployed. One actionable issue remains:
 
-1. The `AUTH_SECRET` in `.env` is a known placeholder — **must be rotated** (CRITICAL).
-2. No login rate limiting — brute-force attacks are unconstrained (MEDIUM).
+1. No login rate limiting on the auth endpoint — **brute-force attacks are unconstrained** (MEDIUM).
+
+The `AUTH_SECRET` placeholder (F1) is deferred — server-side auth is dormant in the current local-first architecture. Rotate it before reactivating server-side login.
 
 ---
 
@@ -50,15 +51,15 @@ AUTH_SECRET="issp-builder-secret-change-in-production"
 
 **Risk:** NextAuth signs JWT session tokens with this secret. Anyone who knows the secret can forge valid session tokens, impersonate any user, and access any agency's data. This string is effectively public (it's a common placeholder pattern).
 
-**Fix:** Generate a strong secret and set it before any production exposure.
+**Current exposure:** Low — the server-side auth system (NextAuth, dashboard routes, Prisma DB) is dormant. The active local-first editor requires no login and issues no JWT sessions. There are no real sessions to forge against.
+
+**Action required before reactivating server-side mode:** Rotate the secret and replace it in the production environment before any users log in through the server-side flow.
 
 ```bash
 openssl rand -base64 32
 ```
 
-Set the output as `AUTH_SECRET` in the production environment (PM2 ecosystem file or server env, never committed to git). Rotate all existing sessions after changing it.
-
-**Verify:** `grep AUTH_SECRET .env` must never show a placeholder or guessable value.
+Set in the PM2 ecosystem file or server environment — never committed to git. Rotate all existing sessions after changing it.
 
 ---
 
@@ -361,7 +362,7 @@ add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment
 
 | Priority | Finding | Action |
 |----------|---------|--------|
-| **Do now** | **F1 — AUTH_SECRET** | `openssl rand -base64 32` → set in PM2 env or server environment, never in git |
+| Deferred | **F1 — AUTH_SECRET** | Server-side auth is dormant (local-first architecture, no active logins). Rotate before reactivating server-side mode: `openssl rand -base64 32` → PM2 env, never in git |
 | This sprint | **F6 — No rate limiting** | Add `limit_req_zone` to nginx.conf + `limit_req` on `/issp/api/auth` location |
 | This sprint | **F8 — proxy.ts API gap** | Add auth enforcement for `/api/issp/**` in `proxy.ts`, keep `/api/auth` and `/api/export` public |
 
