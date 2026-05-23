@@ -273,17 +273,6 @@ export function Part3FForm({
       title="Performance Framework"
       description="Define key performance indicators (KPIs) for each ICT project to track outcomes over the plan period."
     >
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section F
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Performance Framework</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Define KPIs and targets for each ICT project. Track baseline and 3-year targets.
-          </p>
-        </div>
-      </div>
 
       {/* Summary */}
       <div className="flex flex-wrap gap-3">

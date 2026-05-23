@@ -194,17 +194,6 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
       title="Proposed Infrastructure"
       description="Describe the proposed network infrastructure and cybersecurity controls for the plan period."
     >
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section A
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Proposed Infrastructure</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Describe the proposed network changes and new cybersecurity controls to be implemented.
-          </p>
-        </div>
-      </div>
 
       {/* A.1 Network */}
       <Card>

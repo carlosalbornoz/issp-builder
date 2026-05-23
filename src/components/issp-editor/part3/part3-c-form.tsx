@@ -81,17 +81,6 @@ export function Part3CForm({
       title="Proposed ICT Human Capital"
       description="List the ICT human capital requirements needed over the plan period."
     >
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section C
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Proposed ICT Human Capital</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            List the ICT positions to be filled or created during the ISSP period.
-          </p>
-        </div>
-      </div>
 
       {/* Summary cards */}
       <div className="flex flex-wrap gap-3">

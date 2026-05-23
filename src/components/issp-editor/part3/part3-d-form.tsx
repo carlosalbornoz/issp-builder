@@ -449,18 +449,6 @@ export function Part3DForm({
       title="Proposed Information Systems"
       description="Define the proposed information systems to be developed, acquired, or enhanced. Projects are created in Part III-E."
     >
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section D
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Proposed Information Systems</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Define each new, enhanced, or replaced information system planned for this ISSP period.
-            Projects are created in Part III-E.
-          </p>
-        </div>
-      </div>
 
       {/* Summary */}
       <div className="flex flex-wrap gap-3">
