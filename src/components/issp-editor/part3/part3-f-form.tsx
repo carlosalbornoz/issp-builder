@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, BarChart3, FolderKanban } from "lucide-react";
 
@@ -253,7 +252,7 @@ export function Part3FForm({
     return init;
   });
 
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3");
 
   const update = useCallback(
     (next: PerformanceFramework) => {
@@ -281,7 +280,6 @@ export function Part3FForm({
             Define KPIs and targets for each ICT project. Track baseline and 3-year targets.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* Summary */}

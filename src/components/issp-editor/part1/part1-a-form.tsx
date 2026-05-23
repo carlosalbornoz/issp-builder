@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronRight, Info } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
@@ -99,7 +98,7 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
   const [data, setData] = useState<Part1AData>(initialData ?? DEFAULT_DATA);
   const [expandedOOs, setExpandedOOs] = useState<Set<string>>(new Set());
 
-  const { status, debouncedSave } = useLocalSave("part1");
+  const { debouncedSave } = useLocalSave("part1");
 
   const update = useCallback(
     <K extends keyof Part1AData>(key: K, value: Part1AData[K]) => {
@@ -184,7 +183,6 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
             Provide the legal basis and strategic direction of your agency.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* A.1 Mandate */}

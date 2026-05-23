@@ -1,6 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-19  
+> **Last updated:** 2026-05-23 (session 2)  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -50,14 +50,90 @@ A web platform for Philippine government agencies to create, fill, validate, and
 | Auth (dormant) | NextAuth.js v5 beta | 5.0.0-beta.31` |
 | UI Components | shadcn/ui + Tailwind CSS 4 | 4.x |
 | Toasts | Sonner (`<Toaster>` in `src/app/layout.tsx`) | — |
-| Font (app) | Inter via `next/font/google` | — |
+| Font (display) | **Fraunces** (opsz variable) via `next/font/google` → `--font-display` | Headings, part titles, doc title |
+| Font (UI) | **IBM Plex Sans** (400/500/600) via `next/font/google` → `--font-sans` | Body, labels, UI chrome |
+| Font (mono) | **IBM Plex Mono** (400/500) via `next/font/google` → `--font-mono` | Code, UACS fields |
 | Font (PDF) | **P052** (URW Palladio, Palatino clone) | Installed via `apt-get install fonts-urw-base35` |
 | PDF | **Puppeteer** | 25.0.2; Chrome 148.0.7778.167 at `/root/.cache/puppeteer/chrome/...` |
 | PDF merge | pdf-lib | — |
 
 ---
 
-## 3. Local-First Architecture
+## 3. UI Refresh (Branch: `ui-refresh`) — Phases 1–4 Done
+
+Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references/design_upgrade/`.
+
+### Phases complete
+
+| Phase | Work | Status |
+|---|---|---|
+| 0 | Reconnaissance — `docs/ui-recon-notes.md` | ✅ Done |
+| 1 | Data model — `sectionMeta`, `planStatus`, `submissionTarget`, `schemaVersion` | ✅ Done |
+| 2 | Shared primitives — `StatusDot`, `RelativeTime`, `CompletionBar`, `PlanStatusPill` | ✅ Done |
+| 3 | Font + color tokens — Fraunces / IBM Plex Sans / IBM Plex Mono; warm palette | ✅ Done |
+| 4 | Overview redesign — dashboard with status, completion bar, continue card, part cards | ✅ Done |
+| 5 | Sidebar refinements — status dots on all leaf nav items, kebab menu, save status | ✅ Done |
+| 5b | `SaveStatusIndicator` removed from all 14 Part I–IV forms — sidebar is sole save indicator | ✅ Done |
+| 6 | SectionShell — shared section chrome, MarkAsDone, 18-section migration | 🔜 Next |
+
+### Design tokens (warm palette — `src/app/globals.css`)
+
+| Token | Value | Used for |
+|---|---|---|
+| `--background` | `#FAFAF7` | Page background |
+| `--card` | `#FFFFFF` | Card / popover surfaces |
+| `--secondary` | `#F2F1EC` | Sidebar background |
+| `--accent` | `#EAE8E1` | Hover states |
+| `--border` | `#E5E3DC` | All borders |
+| `--foreground` | `#18181B` | Primary text |
+| `--muted-foreground` | `#52525B` | Secondary text |
+| `--primary` | `#18181B` | Primary buttons |
+| Active item (sidebar) | `#D4D2C9` | Selected nav items |
+
+### Part colors (from `src/lib/sections.ts`)
+
+| Part | Hex | Use |
+|---|---|---|
+| I | `#2563EB` | Left strip, status accents |
+| II | `#C2680C` | Left strip, status accents |
+| III | `#15803D` | Left strip, status accents |
+| IV | `#6D28D9` | Left strip, status accents |
+
+### New files added in UI refresh
+
+| File | Purpose |
+|---|---|
+| `src/lib/sections.ts` | Single source of truth: `PARTS`, `ALL_SECTIONS`, `TOTAL_SECTIONS`, `computeStatus()`, `computePartStatus()`, `findContinueTarget()` |
+| `src/components/ui/status-dot.tsx` | 7px colored circle: green=done, amber=in_progress, gray=empty |
+| `src/components/ui/relative-time.tsx` | Compact relative timestamps: `1m`, `3h`, `2d`; `—` for null |
+| `src/components/ui/completion-bar.tsx` | 4px green fill bar + optional `N% · X of Y` label |
+| `src/components/ui/plan-status-pill.tsx` | Draft/For review/Submitted colored pill |
+| `src/components/editor/overview/plan-metadata-strip.tsx` | Agency pill + period + plan status + deadline (right-aligned) |
+| `src/components/editor/overview/overview-header.tsx` | Doc title (Fraunces 3xl) + completion bar |
+| `src/components/editor/overview/continue-editing-card.tsx` | Blue info card — routes to last-edited section or Part I/A |
+| `src/components/editor/overview/part-card.tsx` | 3px color strip + section list with StatusDot + RelativeTime |
+
+### `sectionMeta` and status model
+
+`IsspDocument.sectionMeta` is a `Record<string, SectionMeta>` keyed by section ID (e.g. `"part1/a"`, `"part4/year1"`).
+
+```typescript
+interface SectionMeta {
+  userMarkedDone: boolean;   // set by MarkAsDone button (Phase 6)
+  lastEditedAt: string | null; // ISO string; set on content change (Phase 6)
+}
+
+// Derived status (never stored):
+// "done"        → userMarkedDone === true
+// "in_progress" → lastEditedAt !== null
+// "empty"       → no metadata OR lastEditedAt === null
+```
+
+**Content-sniffing migration** (`deriveMetaFromContent` in `src/lib/store/index.tsx`): runs on every document load (IDB + file). For each section with no `lastEditedAt`, checks whether the section has non-default content and pre-sets `lastEditedAt = doc.updatedAt`. This ensures imported/existing `.issp` files show meaningful status on the Overview immediately.
+
+---
+
+## 4. Local-First Architecture
 
 ### IndexedDB Store (`src/lib/store/`)
 
@@ -93,11 +169,15 @@ interface IsspDocument {
   fileType: "issp-main";
   exportedAt: string;    // updated by saveToFile(); used to compute unsavedToFile
   tool: "issp-platform";
+  schemaVersion?: number;  // 2 = current; absent/1 = legacy; migrated on load
   title: string;
   startYear: number; endYear: number;
   amendmentNumber: number;
   scope: IsspScope;
   agency: AgencyInfo;   // includes logoBase64: string | null
+  planStatus?: "draft" | "for_review" | "submitted";  // default "draft"
+  submissionTarget?: { agency: string; deadline: string | null };  // default DICT/null
+  sectionMeta?: Record<string, { userMarkedDone: boolean; lastEditedAt: string | null }>;
   part1: Part1Data;
   part2: Part2Data;
   part3: Part3Data;
@@ -377,10 +457,15 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 ## 8. Components Reference
 
 ### `src/components/editor/editor-sidebar.tsx`
-- Full sidebar: "ISSP Editor" label (header), collapsible nav sections, Save to File (footer), Exit Editor link (very bottom)
+- Full sidebar: "ISSP Editor" label (header), collapsible nav sections, footer, Exit Editor link (very bottom)
 - Collapsed sidebar: expand toggle, spacer, Exit Editor icon (very bottom)
-- `SavePill` component shows `Loader2` (saving) or `Check` (saved)
-- File status row: amber "Unsaved changes" / green "File up to date" + time-ago timestamp
+- **Nav** imports `PARTS` from `@/lib/sections` — single source of truth for section config; `NAV_SECTIONS` constant removed
+- **Status dots**: every leaf nav item renders `<StatusDot>` computed from `doc.sectionMeta[section.id]`
+- **Footer save status**: "Saving…" (Loader2) / "Unsaved changes" (pulsing amber dot) / "Saved X ago" (green check) — sentence-case
+- **Kebab menu (⋮)** next to the save button: Download .issp · Load different ISSP… (hidden `<input type=file>`) · separator · Start over… (sets `confirmClear`)
+- **Confirm clear**: inline in footer (not at top of sidebar) — only visible when `confirmClear === true`
+- "Start Over / Load Different ISSP" button at top of sidebar is gone; destructive actions now require two clicks via the kebab
+- Background: `bg-secondary` (`#F2F1EC`); selected nav items: `bg-[#D4D2C9]`
 
 ### `src/components/issp-editor/uacs-combobox.tsx`
 - Props: `value`, `onChange(uacs, label)`, `context: "co" | "mooe" | "all"`, `placeholder`
@@ -389,6 +474,15 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 ### `src/components/issp-editor/part4/part4-year-form.tsx`
 - Dynamic section lettering via `alpha(n)`
 - Exports `YearBudget`, `LineItem`, `ProjectBudget` types (re-exported from store types)
+- **Drawer pattern (UX rewrite):** line items are a compact list (description + total + pencil icon on hover); clicking opens a `Sheet` right-panel (`LineItemDrawer`) with all fields laid out at full width
+  - `LineItemDrawer` props: `open`, `item`, `isNew`, `context: "co" | "mooe"`, `onSave`, `onDelete`, `onClose`
+  - Drawer title: "Add/Edit Line Item — Capital Outlay" or "Add/Edit Line Item — Maintenance & Other Operating Expenses"
+  - Drawer description: accurate CO/MOOE descriptions sourced from ISSP Guidelines (MOOE is not defined by peso threshold — it's recurring costs/subscriptions/consumables)
+- **`SectionCard`:** 3px absolute-positioned colored left strip; `color` prop takes hex string; no more Tailwind colorClass
+- **`LineTable`:** header title row and item list share one bordered container; header band is `bg-muted/40`; subtotal row is `bg-muted/50 font-semibold`
+- **Legend strip** in sticky header: colored squares (matching card strips) + "Legend:" label; CO/MOOE badge chips removed (title already spells them out)
+- No more `ColumnWidths`, column resizing, or `localStorage` col-width cache
+- No `SaveStatusIndicator` (removed; sidebar is sole status source)
 
 ---
 
@@ -414,16 +508,26 @@ The file is downloadable from the editor splash screen: "Download NCWTR demo fil
 
 ## 10. Pending / Next Session Work
 
+### 🔜 UI Refresh — Phase 6 (SectionShell)
+Extract shared section chrome into `SectionShell`. All 18 editors migrate to it.
+- Breadcrumb, section header, description, children, footer nav
+- `MarkAsDone` button writes `userMarkedDone` → updates sidebar dots + Overview live
+- `SectionNavLink` prev/next across all 18 sections
+- Note: `SaveStatusIndicator` already removed from all 14 forms this session — skip that step
+- Migration order: Part I → II → III → IV
+
+### ✅ Part IV — Budget form UX rewrite (drawer pattern) — DONE
+Replaced 7-column inline spreadsheet with master list + `Sheet` drawer pattern. See Components Reference → `part4-year-form.tsx` for full details.
+
+### 🟡 Validation & Review (post UI refresh)
+- **Pre-export validation** — required fields, budget-IS linkage, KPI completeness. Client-side, runs before PDF export. Surface issue count per section in the sidebar/overview.
+- **Read-only review mode** — full document view (all parts on one scrollable page or tabbed), useful before submission.
+- **Mobile-responsive improvements** — editor is currently desktop-only.
+
 ### 🔴 Phase E — Diagram Upload (base64 client-side)
 Network diagram upload UI for Part II-B (existing diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text/description-only.
 
 **Architecture:** File input → read as base64 data URL → store in `doc.part2.networkDiagrams[].dataUrl` (already in the type). No server upload needed. The PDF export already handles `dataUrl` values in network diagrams (`path.startsWith("data:")` check in `render-issp-html.ts`).
-
-### 🟡 Phase 7 — Polish & Validation
-- Section-level completion tracking (% per part, shown in sidebar or overview cards)
-- Pre-export validation: required fields, budget-IS linkage, KPI completeness (client-side, runs before PDF export)
-- Read-only review mode (full document view)
-- Mobile-responsive improvements
 
 ### 🔴 Annex 1 — ICT Asset Inventory
 Standalone public module at `/annex1`. Full plan in `docs/annex1-implementation-plan.md`.
@@ -501,7 +605,7 @@ src/
 ├── app/
 │   ├── editor/                        ← Local-first editor (public, no auth)
 │   │   ├── layout.tsx
-│   │   ├── page.tsx                   ← Splash + Overview (has Export PDF button)
+│   │   ├── page.tsx                   ← Splash + Overview dashboard (UI refresh Phase 4)
 │   │   ├── part1/{a,b,c}/page.tsx
 │   │   ├── part2/{a,b,c,d}/page.tsx
 │   │   ├── part3/{a,b,c,d,e1,e2,f}/page.tsx
@@ -513,7 +617,17 @@ src/
 ├── components/
 │   ├── editor/
 │   │   ├── editor-shell.tsx           ← beforeunload + save reminder
-│   │   └── editor-sidebar.tsx         ← Collapsible nav + Save to File + Exit Editor
+│   │   ├── editor-sidebar.tsx         ← Collapsible nav; StatusDot on leaf items; kebab menu; bg-secondary warm
+│   │   └── overview/                  ← UI refresh Phase 4 components
+│   │       ├── plan-metadata-strip.tsx  ← Agency pill + period + status + deadline
+│   │       ├── overview-header.tsx      ← Doc title (Fraunces) + CompletionBar
+│   │       ├── continue-editing-card.tsx ← Blue info card → last-edited section
+│   │       └── part-card.tsx            ← 3px strip + section list with dots
+│   ├── ui/                            ← shadcn/ui + UI refresh primitives
+│   │   ├── status-dot.tsx             ← 7px circle: done/in_progress/empty
+│   │   ├── relative-time.tsx          ← Compact relative timestamps
+│   │   ├── completion-bar.tsx         ← 4px green fill bar
+│   │   └── plan-status-pill.tsx       ← Draft/For review/Submitted pill
 │   └── issp-editor/                   ← All Part I–IV form components
 │       ├── part1/{a,b,c}-form.tsx
 │       ├── part2/{a,b,c,d}-form.tsx
@@ -525,9 +639,10 @@ src/
 │   ├── use-file-save-reminder.ts      ← 10-min Sonner toast
 │   └── use-local-save.ts
 └── lib/
+    ├── sections.ts                    ← PARTS, ALL_SECTIONS, computeStatus(), findContinueTarget()
     ├── store/
-    │   ├── index.tsx                  ← IsspStore context provider
-    │   ├── types.ts                   ← IsspDocument + all sub-types
+    │   ├── index.tsx                  ← IsspStore context + migrateLegacyDoc + deriveMetaFromContent
+    │   ├── types.ts                   ← IsspDocument + all sub-types + SectionMeta/SectionStatus
     │   └── defaults.ts                ← createEmptyDocument(), defaults
     └── pdf/
         ├── generate-pdf.ts            ← Puppeteer wrapper (two-PDF merge)

@@ -6,7 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
@@ -171,7 +170,7 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
   const [networkDesc, setNetworkDesc] = useState(initialData.proposedNetworkDesc);
   const [controls, setControls] = useState<CyberControls>(initialData.proposedCybersecControls);
 
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3");
 
   const triggerSave = useCallback(
     (desc: string, ctrl: CyberControls) => {
@@ -202,7 +201,6 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
             Describe the proposed network changes and new cybersecurity controls to be implemented.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* A.1 Network */}

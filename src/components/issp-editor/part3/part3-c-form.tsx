@@ -12,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2 } from "lucide-react";
 
@@ -49,7 +48,7 @@ export function Part3CForm({
       quantity: r.quantity ?? r.physicalCount ?? 1,
     }))
   );
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3");
 
   const update = useCallback(
     (next: HCRow[]) => {
@@ -89,7 +88,6 @@ export function Part3CForm({
             List the ICT positions to be filled or created during the ISSP period.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* Summary cards */}

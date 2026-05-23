@@ -37,6 +37,23 @@ To try the tool immediately, download the [NCWTR demo file](public/demo/ncwtr-is
 
 ---
 
+## Production deployment
+
+The app is served at `apps.carlosanton.io/issp` via nginx → pm2 on port 3100.
+
+```bash
+# Build
+npm run build
+
+# Restart (kills any stale process first, then restarts pm2)
+ss -tlnp | grep 3100 | grep -oP 'pid=\K[0-9]+' | xargs -r kill; sleep 0.5; pm2 restart issp --update-env
+```
+
+> Port 3000 is dev only (`npm run dev`). The pm2 process `issp` always runs on port 3100.
+> Full deployment notes: [`docs/session-handoff.md` § 12](docs/session-handoff.md).
+
+---
+
 ## Roadmap
 
 | Phase | Feature | Status |
@@ -113,6 +130,7 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 |---|---|
 | [`docs/project-status.md`](docs/project-status.md) | Full feature list, known bugs, tech stack |
 | [`docs/session-handoff.md`](docs/session-handoff.md) | Architecture reference and continuation guide |
+| [`docs/ui-refresh-plan.md`](docs/ui-refresh-plan.md) | UI refresh implementation plan (branch: `ui-refresh`) |
 | [`docs/privacy-architecture.md`](docs/privacy-architecture.md) | Local-first design decisions and privacy notes |
 | [`docs/annex1-implementation-plan.md`](docs/annex1-implementation-plan.md) | Annex 1 standalone module design |
 | [`references/ISSP_Guidelines_2026.md`](references/ISSP_Guidelines_2026.md) | Structured extraction of the DICT 2026 ISSP template |

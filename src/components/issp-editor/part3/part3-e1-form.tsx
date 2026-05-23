@@ -17,7 +17,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import {
   Plus,
@@ -534,7 +533,7 @@ export function Part3E1Form({
   initialProjects: IctProject[];
 }) {
   const router = useRouter();
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3");
 
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ internalProjects: projects }),
@@ -553,7 +552,6 @@ export function Part3E1Form({
             Projects implemented solely by your agency — link IS-driven projects to systems defined in Part III-D.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       <ProjectList
@@ -585,7 +583,7 @@ export function Part3E2Form({
   initialProjects: IctProject[];
 }) {
   const router = useRouter();
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3");
 
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ crossAgencyProjects: projects }),
@@ -604,7 +602,6 @@ export function Part3E2Form({
             Projects involving multiple agencies. Specify the lead and implementing agencies.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       <ProjectList

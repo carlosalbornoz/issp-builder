@@ -6,7 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
 import { ChevronDown, UploadCloud, ImageIcon, Trash2 } from "lucide-react";
@@ -252,7 +251,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { status, debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2");
 
   const saveDiagrams = useCallback(
     (updated: NetworkDiagram[]) => {
@@ -350,7 +349,6 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
             Describe the current network infrastructure and cybersecurity controls in place.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* B.1 Network description */}

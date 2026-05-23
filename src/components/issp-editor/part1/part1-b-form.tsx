@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Info } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -193,7 +192,7 @@ export function Part1BForm({
     };
     return { ...initialData, focalSameAsCio: initialData.focalSameAsCio ?? false, humanCapital: merged };
   });
-  const { status, debouncedSave } = useLocalSave("part1");
+  const { debouncedSave } = useLocalSave("part1");
 
   const update = useCallback(
     (updates: Partial<Part1BData>) => {
@@ -257,7 +256,6 @@ export function Part1BForm({
             CIO details, ISSP Focal Person, and ICT human capital breakdown.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* B.1 Key Personnel */}

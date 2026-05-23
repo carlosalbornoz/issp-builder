@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data } from "./types";
+import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget } from "./types";
 import { createEmptyDocument, type NewDocOptions } from "./defaults";
 import { idbClear, idbLoad, idbSave } from "./idb";
 
@@ -32,6 +32,8 @@ export interface IsspStoreValue {
   updatePart2: (patch: Partial<Part2Data>) => void;
   updatePart3: (patch: Partial<Part3Data>) => void;
   updatePart4: (patch: Partial<Part4Data>) => void;
+  /** Update per-section metadata (userMarkedDone, lastEditedAt). */
+  updateSectionMeta: (sectionId: string, patch: Partial<SectionMeta>) => void;
   /** Replace the entire document (used by loadFromFile). */
   replace: (doc: IsspDocument) => void;
   /** Create a new blank document and load it into the store. */
@@ -42,6 +44,92 @@ export interface IsspStoreValue {
   saveToFile: () => void;
   /** Parse a .issp file and load it into the store. */
   loadFromFile: (file: File) => Promise<{ success: boolean; error?: string }>;
+}
+
+// ─── Migration ────────────────────────────────────────────────────────────────
+
+function hasHeadcount(hc: HumanCapital): boolean {
+  return [hc.plantilla, hc.contractual, hc.outsourced].some(
+    (r) => r.it.male + r.it.female + r.nonIt.male + r.nonIt.female > 0
+  );
+}
+
+function hasCyberContent(c: CyberControls): boolean {
+  return Object.values(c).some((group) =>
+    Object.values(group as Record<string, boolean>).some(Boolean)
+  );
+}
+
+function hasEgpContent(egp: EgpChecklist): boolean {
+  return Object.values(egp).some((p) => p.status !== "not_utilizing");
+}
+
+function hasYearContent(year: YearBudget): boolean {
+  return (
+    year.officeProductivity.capitalOutlay.length > 0 ||
+    year.officeProductivity.mooe.length > 0 ||
+    Object.keys(year.internalProjects).length > 0 ||
+    Object.keys(year.crossAgencyProjects).length > 0 ||
+    year.continuingCosts.mooe.length > 0
+  );
+}
+
+/** Infer in_progress status from content for sections with no lastEditedAt yet. */
+function deriveMetaFromContent(doc: IsspDocument): Record<string, SectionMeta> {
+  const ts = doc.updatedAt;
+  const existing = doc.sectionMeta ?? {};
+  const result: Record<string, SectionMeta> = { ...existing };
+
+  function maybeSet(id: string, hasContent: boolean) {
+    if (hasContent && !existing[id]?.lastEditedAt) {
+      result[id] = { userMarkedDone: existing[id]?.userMarkedDone ?? false, lastEditedAt: ts };
+    }
+  }
+
+  const p1 = doc.part1;
+  const p2 = doc.part2;
+  const p3 = doc.part3;
+  const p4 = doc.part4;
+
+  maybeSet("part1/a", !!(p1.mandateFunction || p1.visionStatement || p1.missionStatement || p1.legalBasis));
+  maybeSet("part1/b", !!(p1.cioName || hasHeadcount(p1.humanCapital)));
+  maybeSet("part1/c", p1.stakeholders.length > 0);
+
+  maybeSet("part2/a", p2.strategicConcerns.length > 0);
+  maybeSet("part2/b", !!(p2.networkDiagrams.length > 0 || p2.networkDescription || hasCyberContent(p2.cybersecurityControls)));
+  maybeSet("part2/c", p2.informationSystems.length > 0);
+  maybeSet("part2/d", hasEgpContent(p2.egpChecklist));
+
+  maybeSet("part3/a", !!(p3.proposedNetworkDataUrl || p3.proposedNetworkDesc || hasCyberContent(p3.proposedCybersecControls)));
+  maybeSet("part3/b", p3.enterpriseArchDataUrl !== null);
+  maybeSet("part3/c", p3.proposedHumanCapital.length > 0);
+  maybeSet("part3/d", p3.proposedSystems.length > 0);
+  maybeSet("part3/e1", p3.internalProjects.length > 0);
+  maybeSet("part3/e2", p3.crossAgencyProjects.length > 0);
+  maybeSet("part3/f", Object.keys(p3.performanceFramework).length > 0);
+
+  const anyYear = hasYearContent(p4.year1) || hasYearContent(p4.year2) || hasYearContent(p4.year3);
+  maybeSet("part4/year1", hasYearContent(p4.year1));
+  maybeSet("part4/year2", hasYearContent(p4.year2));
+  maybeSet("part4/year3", hasYearContent(p4.year3));
+  maybeSet("part4/summary", anyYear);
+
+  return result;
+}
+
+function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
+  const base: IsspDocument =
+    (doc.schemaVersion ?? 1) >= 2
+      ? doc
+      : {
+          ...doc,
+          schemaVersion: 2,
+          planStatus: doc.planStatus ?? "draft",
+          submissionTarget: doc.submissionTarget ?? { agency: "DICT", deadline: null },
+          sectionMeta: doc.sectionMeta ?? {},
+        };
+
+  return { ...base, sectionMeta: deriveMetaFromContent(base) };
 }
 
 // ─── Context ──────────────────────────────────────────────────────────────────
@@ -63,6 +151,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     idbLoad()
+      .then((doc) => doc ? migrateLegacyDoc(doc) : doc)
       .then(setDoc)
       .finally(() => setLoading(false));
     return () => {
@@ -115,6 +204,18 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
   const updatePart4 = useCallback(
     (patch: Partial<Part4Data>) =>
       update((prev) => ({ ...prev, part4: { ...prev.part4, ...patch } })),
+    [update]
+  );
+
+  const updateSectionMeta = useCallback(
+    (sectionId: string, patch: Partial<SectionMeta>) =>
+      update((prev) => ({
+        ...prev,
+        sectionMeta: {
+          ...prev.sectionMeta,
+          [sectionId]: { userMarkedDone: false, lastEditedAt: null, ...prev.sectionMeta?.[sectionId], ...patch },
+        },
+      })),
     [update]
   );
 
@@ -173,7 +274,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
             error: "This file is not a main ISSP document. Make sure you are loading a .issp file created by this tool.",
           };
         }
-        replace(parsed);
+        replace(migrateLegacyDoc(parsed));
         // Treat the file's exportedAt as the last known file save
         setFileSavedAt(parsed.exportedAt);
         return { success: true };
@@ -202,6 +303,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
         updatePart2,
         updatePart3,
         updatePart4,
+        updateSectionMeta,
         replace,
         createNew,
         clearDoc,
@@ -224,5 +326,5 @@ export function useIsspStore(): IsspStoreValue {
 
 // ─── Re-exports ───────────────────────────────────────────────────────────────
 
-export type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, AgencyType, IsspScope, CyberControls, NetworkDiagram } from "./types";
+export type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, AgencyType, IsspScope, CyberControls, NetworkDiagram, SectionMeta, SectionStatus } from "./types";
 export type { NewDocOptions } from "./defaults";

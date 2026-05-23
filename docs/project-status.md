@@ -26,7 +26,7 @@
 | Base UI + Tailwind CSS 4 components | ✅ Done |
 | Auth proxy (route protection via middleware) | ✅ Done |
 | Seed data (NCWTR agency + users + comprehensive ISSP) | ✅ Done |
-| Inter font | ✅ Done |
+| ~~Inter font~~ → replaced by Fraunces + IBM Plex Sans/Mono (UI Refresh Phase 3) | ✅ Done |
 | **Local-first IndexedDB store (`src/lib/store/`)** | ✅ Done |
 | **`/editor` route — public, no auth** | ✅ Done |
 | **All Part I–IV forms wired to IndexedDB store** | ✅ Done |
@@ -53,6 +53,14 @@
 | Attribution in editor sidebar + documents footer | ✅ Done |
 | Initial GitHub push to `carlosalbornoz/issp-builder` | ✅ Done |
 | Sonner toast library (`<Toaster>` in root layout) | ✅ Done |
+| **UI Refresh Phase 1** — `sectionMeta`, `planStatus`, `submissionTarget`, `schemaVersion` data model | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 2** — `StatusDot`, `RelativeTime`, `CompletionBar`, `PlanStatusPill` primitives | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 3** — Fraunces + IBM Plex Sans/Mono fonts; warm `#FAFAF7` palette | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 4** — Overview dashboard: PlanMetadataStrip, OverviewHeader, ContinueEditingCard, PartCard | ✅ Done 2026-05-23 |
+| Content-sniffing migration (`deriveMetaFromContent`) — infers status from existing content on load | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 5** — Sidebar: StatusDot on all leaf items, kebab (⋮) for file actions, improved save status, destructive actions demoted | ✅ Done 2026-05-23 |
+| **SaveStatusIndicator removed** from all 14 Part I–IV forms — sidebar is sole save indicator | ✅ Done 2026-05-23 |
+| **Part IV UX rewrite** — master list + Sheet drawer; SectionCard 3px color strip; LineTable header band; color legend; accurate CO/MOOE descriptions | ✅ Done 2026-05-23 |
 
 ---
 
@@ -137,7 +145,9 @@ Old auth/DB routes remain in the codebase but are not linked from the local-firs
 | Auth (dormant) | NextAuth.js v5 beta | 5.0.0-beta.31 |
 | UI | Tailwind CSS 4 + shadcn/ui components | 4.x |
 | Toasts | Sonner | — |
-| Font (app) | Inter (via next/font/google) | — |
+| Font (display) | Fraunces (opsz variable, via next/font/google) | `--font-display`; headings, doc title |
+| Font (UI) | IBM Plex Sans 400/500/600 (via next/font/google) | `--font-sans`; body, labels, UI chrome |
+| Font (mono) | IBM Plex Mono 400/500 (via next/font/google) | `--font-mono`; UACS fields, code |
 | Font (PDF) | P052 / URW Palladio (Palatino clone) | Installed via `apt-get install fonts-urw-base35` |
 | PDF | Puppeteer + pdf-lib | 25.0.2; Chrome 148.0.7778.167 |
 
@@ -221,22 +231,26 @@ npx tsc --noEmit
 
 ## Next Up
 
-### Phase E — Diagram Upload (base64)
-Proper upload UI for Part II-B (network diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text-only. Architecture: file input → base64 data URL → `networkDiagrams[].dataUrl`. PDF export already handles it.
+### 🔜 UI Refresh Phase 6 — SectionShell
+Extract shared section chrome into a reusable `SectionShell` wrapper. All 18 section editors migrate to it.
+- Breadcrumb, section header + description, `children`, footer prev/next nav
+- `MarkAsDone` button writes `userMarkedDone` → updates sidebar dots + Overview live
+- `SectionNavLink` prev/next across all 18 sections
+- Note: `SaveStatusIndicator` already removed from all 14 forms — skip that step in Phase 6
+- Migration order: Part I → II → III → IV
+- Full spec in `docs/ui-refresh-plan.md` → Phase 6
 
-### Phase 7 — Polish & Validation
-- Section-level completion tracking (% per part, shown in sidebar or overview)
+### 🟡 Validation & Review (post UI refresh)
 - Pre-export validation: required fields, budget-IS linkage, KPI completeness
-- Read-only review mode (full document view before export)
+- Read-only review mode: full document view before submission
 - Mobile-responsive improvements
 
-### Annex 1 — ICT Asset Inventory
+### 🔴 Phase E — Diagram Upload (base64)
+Proper upload UI for Part II-B (network diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text-only. Architecture: file input → base64 data URL → `networkDiagrams[].dataUrl`. PDF export already handles it.
+
+### 🔴 Annex 1 — ICT Asset Inventory
 Standalone public module at `/annex1`. See `docs/annex1-implementation-plan.md`.
 
-### Phase E — Diagram Upload (base64)
-Proper upload UI for Part II-B (network diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text-only.
-
-### PDF — Known Remaining Gaps
+### 🔵 PDF — Known Remaining Gaps
 - TOC page numbers are static (hardcoded) — no two-pass render
 - Network diagrams render inline in Part II-B, not as full dedicated pages
-- Strategic alignment / harmonization checkboxes in Part III-E PDFs are all unchecked when values don't match the exact option labels (freeform strings vs. fixed keys)

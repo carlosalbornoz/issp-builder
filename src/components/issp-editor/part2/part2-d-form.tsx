@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { CheckCircle2, XCircle, MinusCircle, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -293,7 +292,7 @@ export function Part2DForm({
     ...initialData,
   });
 
-  const { status, debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2");
 
   const update = useCallback(
     (next: EgpChecklist) => {
@@ -330,7 +329,6 @@ export function Part2DForm({
             Indicate adoption status for each government-mandated e-government program.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* Summary */}

@@ -15,7 +15,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, ChevronDown, ChevronRight, Sparkles, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -423,7 +422,7 @@ export function Part3DForm({
   const router = useRouter();
   const [systems, setSystems] = useState<ProposedSystem[]>(initialSystems);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3");
 
   const update = useCallback(
     (next: ProposedSystem[]) => {
@@ -460,7 +459,6 @@ export function Part3DForm({
             Projects are created in Part III-E.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* Summary */}

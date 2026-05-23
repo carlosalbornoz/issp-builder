@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical } from "lucide-react";
 
@@ -53,7 +52,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
     }));
   });
 
-  const { status, debouncedSave } = useLocalSave("part1");
+  const { debouncedSave } = useLocalSave("part1");
 
   const update = useCallback(
     (next: Stakeholder[]) => {
@@ -98,7 +97,6 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
             List the key stakeholders of your agency and the transactions/services they use.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* Guide */}

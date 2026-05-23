@@ -16,7 +16,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, ChevronDown, ChevronRight, Server } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -454,7 +453,7 @@ export function Part2CForm({
   const router = useRouter();
   const [systems, setSystems] = useState<InformationSystem[]>(initialData);
 
-  const { status, debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2");
 
   const update = useCallback(
     (next: InformationSystem[]) => {
@@ -491,7 +490,6 @@ export function Part2CForm({
             Enumerate all existing information systems maintained or used by the agency.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* Summary pills */}

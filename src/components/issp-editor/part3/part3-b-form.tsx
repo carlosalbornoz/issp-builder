@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { LayoutDashboard, Upload } from "lucide-react";
 
 // Enterprise Architecture is mostly a diagram upload + guidance.
@@ -27,7 +26,6 @@ export function Part3BForm({
             Provide the agency&apos;s target Enterprise Architecture (EA) framework and diagram.
           </p>
         </div>
-        <SaveStatusIndicator status="saved" />
       </div>
 
       {/* Guidance */}

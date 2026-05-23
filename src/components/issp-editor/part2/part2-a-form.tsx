@@ -15,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical, Info } from "lucide-react";
 
@@ -63,7 +62,7 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
     }));
   });
 
-  const { status, debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2");
 
   const update = useCallback(
     (next: StrategicConcern[]) => {
@@ -108,7 +107,6 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
             Identify ICT-related concerns that affect achievement of organizational outcomes.
           </p>
         </div>
-        <SaveStatusIndicator status={status} />
       </div>
 
       {/* Guide */}
