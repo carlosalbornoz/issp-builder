@@ -3,59 +3,24 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  FilePlus2,
-  FolderOpen,
-  BookOpen,
-  FileText,
-  AlertTriangle,
-  Loader2,
-  Check,
-  BarChart2,
-  Database,
-  LayoutGrid,
-  TrendingUp,
-  ArrowRight,
+  FilePlus2, FolderOpen, BookOpen, FileText, AlertTriangle,
+  Loader2, Check, BarChart2, Database, LayoutGrid, TrendingUp, ArrowRight,
 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useIsspStore } from "@/lib/store";
 import { NewIsspDialog } from "@/components/editor/new-issp-dialog";
 
-// ── Data (kept from original landing page) ────────────────────────────────────
+// ── Data ──────────────────────────────────────────────────────────────────────
 
 const ROADMAP_FEATURES = [
-  {
-    icon: Database,
-    title: "ISSP Repository",
-    body: "A centralized, searchable archive of agency ISSPs — structured data instead of buried PDFs on transparency pages.",
-  },
-  {
-    icon: BarChart2,
-    title: "ICT Budget Dashboard",
-    body: "Visualizing ISSP budget requests vs. actual DBM releases across agencies and years. Fiscal transparency for ICT.",
-  },
+  { icon: Database, title: "ISSP Repository", body: "A centralized, searchable archive of agency ISSPs — structured data instead of buried PDFs on transparency pages." },
+  { icon: BarChart2, title: "ICT Budget Dashboard", body: "Visualizing ISSP budget requests vs. actual DBM releases across agencies and years. Fiscal transparency for ICT." },
 ] as const;
 
 const PAIN_POINTS = [
-  {
-    icon: FolderOpen,
-    title: "Buried in transparency portals",
-    body: "ISSPs are uploaded as PDFs deep in agency websites — no standard structure, no searchability, often years out of date.",
-  },
-  {
-    icon: LayoutGrid,
-    title: "No common structure",
-    body: "Each agency formats their ISSP differently. Comparing plans or validating compliance requires manual effort at scale.",
-  },
-  {
-    icon: TrendingUp,
-    title: "No aggregate view",
-    body: "Budget requests, system inventories, and ICT priorities exist agency by agency — no way to see the full picture.",
-  },
+  { icon: FolderOpen, title: "Buried in transparency portals", body: "ISSPs are uploaded as PDFs deep in agency websites — no standard structure, no searchability, often years out of date." },
+  { icon: LayoutGrid, title: "No common structure", body: "Each agency formats their ISSP differently. Comparing plans or validating compliance requires manual effort at scale." },
+  { icon: TrendingUp, title: "No aggregate view", body: "Budget requests, system inventories, and ICT priorities exist agency by agency — no way to see the full picture." },
 ] as const;
 
 const WHY_POINTS = [
@@ -75,85 +40,34 @@ const MITHI_CHECKLIST = [
   "Budget breakdown aligned to UACS coding structure",
 ] as const;
 
+// Part colors from sections.ts
+const PART_COLORS = ["#2563EB", "#D97706", "#16A34A", "#7C3AED"];
+
 // ── NCWTR intro modal ─────────────────────────────────────────────────────────
 
-function NcwtrIntroModal({
-  open,
-  onClose,
-  onConfirm,
-  loading,
-}: {
-  open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  loading: boolean;
+function NcwtrIntroModal({ open, onClose, onConfirm, loading }: {
+  open: boolean; onClose: () => void; onConfirm: () => void; loading: boolean;
 }) {
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-base leading-snug">
-            Meet the agency in this sample ISSP
-          </DialogTitle>
+          <DialogTitle className="font-display text-lg">Meet the agency in this sample ISSP</DialogTitle>
         </DialogHeader>
-
-        <div className="space-y-4 text-sm text-gray-700 leading-relaxed">
-
-          <div className="rounded-lg bg-gray-50 border border-gray-200 px-4 py-3 space-y-0.5">
-            <p className="font-semibold text-gray-900">
-              National Commission on Waiting Time Reduction
-            </p>
-            <p className="text-xs text-gray-500">NCWTR · National Government Agency</p>
+        <div className="space-y-4 text-sm leading-relaxed text-muted-foreground">
+          <div className="rounded-lg bg-secondary border px-4 py-3 space-y-0.5">
+            <p className="font-semibold text-foreground">National Commission on Waiting Time Reduction</p>
+            <p className="text-xs text-muted-foreground">NCWTR · National Government Agency</p>
           </div>
-
-          <p>
-            The NCWTR is the government body mandated to make sure Filipinos spend less of
-            their lives standing in line at government offices. Their official mission: to
-            eliminate the distinctly Filipino experience of arriving at 7am, getting queue
-            number 847, and being told to &ldquo;come back tomorrow.&rdquo;
-          </p>
-
-          <p>
-            They have a flagship program called{" "}
-            <span className="font-medium">LIPAD</span>{" "}
-            <span className="text-gray-500 text-xs">
-              (Leveraging ICT for Process and Attendance Delays)
-            </span>
-            , a real-time queue monitoring dashboard that has been in{" "}
-            &ldquo;pilot testing&rdquo; since 2021. Progress is ongoing.
-          </p>
-
-          <p>
-            The agency is headed by{" "}
-            <span className="font-medium">Chairperson Maria Celeste R. Villanueva</span>,
-            who once waited 4 hours at the LTO before deciding something needed to be done.
-          </p>
-
-          <p className="text-xs text-gray-400 border-t border-gray-100 pt-3">
-            All names, programs, and data in this sample are entirely fictitious and for
-            demonstration purposes only. Any resemblance to actual government agencies,
-            living or bureaucratic, is coincidental.
-          </p>
+          <p>The NCWTR is the government body mandated to make sure Filipinos spend less of their lives standing in line at government offices. Their official mission: to eliminate the distinctly Filipino experience of arriving at 7am, getting queue number 847, and being told to &ldquo;come back tomorrow.&rdquo;</p>
+          <p>They have a flagship program called <span className="font-medium text-foreground">LIPAD</span>{" "}<span className="text-xs">(Leveraging ICT for Process and Attendance Delays)</span>, a real-time queue monitoring dashboard that has been in &ldquo;pilot testing&rdquo; since 2021.</p>
+          <p className="text-xs text-muted-foreground/70 border-t pt-3">All names, programs, and data in this sample are entirely fictitious and for demonstration purposes only.</p>
         </div>
-
         <div className="flex justify-end gap-2 pt-1">
-          <button
-            onClick={onClose}
-            className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors"
-          >
-            Maybe later
-          </button>
-          <button
-            onClick={onConfirm}
-            disabled={loading}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-            style={{ background: "#0038A8" }}
-          >
-            {loading ? (
-              <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Loading…</>
-            ) : (
-              "Open Sample ISSP"
-            )}
+          <button onClick={onClose} className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">Maybe later</button>
+          <button onClick={onConfirm} disabled={loading}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-opacity disabled:opacity-60">
+            {loading ? <><Loader2 className="w-3.5 h-3.5 animate-spin" />Loading…</> : "Open Sample ISSP"}
           </button>
         </div>
       </DialogContent>
@@ -161,29 +75,15 @@ function NcwtrIntroModal({
   );
 }
 
-// ── Content modal ─────────────────────────────────────────────────────────────
-
-function ContentModal({
-  open,
-  onClose,
-  title,
-  html,
-}: {
-  open: boolean;
-  onClose: () => void;
-  title: string;
-  html: string;
-}) {
+function ContentModal({ open, onClose, title, html }: { open: boolean; onClose: () => void; title: string; html: string; }) {
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="sm:max-w-3xl max-h-[82vh] flex flex-col p-0 gap-0">
-        <DialogHeader className="px-6 pt-5 pb-4 border-b border-gray-100 flex-shrink-0">
+        <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
           <DialogTitle className="text-base font-semibold">{title}</DialogTitle>
         </DialogHeader>
         <div className="overflow-y-auto px-6 py-5">
-          <div className="prose-disclaimer mb-5">
-            The thoughts here are my own and reflect my personal experience and opinion only — they do not represent the views of any organization I am or have been affiliated with. AI helped me turn these thoughts into words.
-          </div>
+          <div className="prose-disclaimer mb-5">The thoughts here are my own and reflect my personal experience and opinion only — they do not represent the views of any organization I am or have been affiliated with. AI helped me turn these thoughts into words.</div>
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: html }} />
         </div>
       </DialogContent>
@@ -191,15 +91,9 @@ function ContentModal({
   );
 }
 
-// ── Main client component ─────────────────────────────────────────────────────
+// ── Main ──────────────────────────────────────────────────────────────────────
 
-export default function HomePageClient({
-  aboutHtml,
-  privacyHtml,
-}: {
-  aboutHtml: string;
-  privacyHtml: string;
-}) {
+export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: string; privacyHtml: string; }) {
   const router = useRouter();
   const { loadFromFile } = useIsspStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -216,11 +110,7 @@ export default function HomePageClient({
     if (!file) return;
     setLoadError(null);
     const result = await loadFromFile(file);
-    if (result.success) {
-      router.push("/editor");
-    } else {
-      setLoadError(result.error ?? "Unknown error");
-    }
+    if (result.success) { router.push("/editor"); } else { setLoadError(result.error ?? "Unknown error"); }
     e.target.value = "";
   }
 
@@ -234,138 +124,95 @@ export default function HomePageClient({
       const blob = await res.blob();
       const file = new File([blob], "ncwtr-issp-2026-2028.issp", { type: "application/json" });
       const result = await loadFromFile(file);
-      if (result.success) {
-        router.push("/editor");
-      } else {
-        setLoadError(result.error ?? "Unknown error");
-      }
-    } catch {
-      setLoadError("Could not load sample file.");
-    } finally {
-      setSampleLoading(false);
-    }
+      if (result.success) { router.push("/editor"); } else { setLoadError(result.error ?? "Unknown error"); }
+    } catch { setLoadError("Could not load sample file."); }
+    finally { setSampleLoading(false); }
   }
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-background text-foreground">
 
-      {/* ── Navigation ── */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+      {/* ── Nav ── */}
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <span className="font-semibold text-sm text-gray-900">ISSP Platform</span>
-            <span className="text-[11px] text-gray-400 italic hidden sm:inline">
-              (does not yet have an official name or acronym)
-            </span>
+            {/* Part-color accent strip */}
+            <div className="flex gap-0.5 mr-1">
+              {PART_COLORS.map((c) => (
+                <span key={c} className="w-1.5 h-4 rounded-full" style={{ background: c }} />
+              ))}
+            </div>
+            <span className="font-display font-semibold text-sm tracking-tight">ISSP Builder</span>
+            <span className="text-[11px] text-muted-foreground italic hidden sm:inline">(does not yet have an official name)</span>
           </div>
           <nav className="flex items-center gap-1">
-            <button
-              onClick={() => setAboutOpen(true)}
-              className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-            >
-              About
-            </button>
-            <button
-              onClick={() => setPrivacyOpen(true)}
-              className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-            >
-              Privacy
-            </button>
+            <button onClick={() => setAboutOpen(true)} className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors">About</button>
+            <button onClick={() => setPrivacyOpen(true)} className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors">Privacy</button>
           </nav>
         </div>
       </header>
 
-      {/* ── Splash hero ── */}
-      <section className="bg-gray-50/50 border-b border-gray-100 min-h-[calc(100vh-3.5rem)] flex items-center">
+      {/* ── Hero ── */}
+      <section className="min-h-[calc(100vh-3.5rem)] flex items-center border-b bg-secondary/40">
         <div className="w-full max-w-md mx-auto px-6 py-14">
 
           {/* Branding */}
-          <div className="text-center space-y-1.5 mb-8">
-            <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 mb-2">
-              <FileText className="h-7 w-7 text-primary" />
+          <div className="text-center space-y-2 mb-10">
+            {/* Part-color dots */}
+            <div className="flex justify-center gap-1.5 mb-4">
+              {PART_COLORS.map((c, i) => (
+                <div key={c} className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: `${c}18` }}>
+                  <span className="text-[10px] font-bold" style={{ color: c }}>P{i + 1}</span>
+                </div>
+              ))}
             </div>
-            <h1 className="text-2xl font-bold tracking-tight">ISSP Builder</h1>
-            <p className="text-sm text-muted-foreground">
-              Build your agency&apos;s 3-year Information Systems Strategic Plan
-            </p>
-            <p className="text-xs text-gray-400">
-              For agency CIOs, ICT focal persons, and government transparency advocates.
-            </p>
+            <h1 className="font-display text-3xl font-bold tracking-tight">ISSP Builder</h1>
+            <p className="text-sm text-muted-foreground">Build your agency&apos;s 3-year Information Systems Strategic Plan</p>
+            <p className="text-xs text-muted-foreground/60">For agency CIOs, ICT focal persons, and government transparency advocates.</p>
           </div>
 
           {/* Action cards */}
           <div className="grid gap-3">
-
-            {/* Sample — primary CTA */}
-            <button
-              type="button"
-              onClick={() => setSampleIntroOpen(true)}
-              disabled={sampleLoading}
-              className="group flex items-start gap-4 rounded-xl border border-primary/20 bg-primary/5 p-5 text-left transition-colors hover:bg-primary/10 hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60 disabled:cursor-not-allowed"
-            >
+            <button type="button" onClick={() => setSampleIntroOpen(true)} disabled={sampleLoading}
+              className="group flex items-start gap-4 rounded-xl border border-primary/20 bg-primary/5 p-5 text-left transition-all hover:bg-primary/10 hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60 disabled:cursor-not-allowed">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/15 transition-colors">
-                {sampleLoading ? (
-                  <Loader2 className="h-5 w-5 text-primary animate-spin" />
-                ) : (
-                  <BookOpen className="h-5 w-5 text-primary" />
-                )}
+                {sampleLoading ? <Loader2 className="h-5 w-5 text-primary animate-spin" /> : <BookOpen className="h-5 w-5 text-primary" />}
               </div>
               <div>
-                <p className="font-semibold text-sm">
-                  {sampleLoading ? "Loading…" : "Explore a sample ISSP"}
-                </p>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  A fully filled-out sample ISSP from a fictitious agency. Good place to start.
-                </p>
+                <p className="font-semibold text-sm">{sampleLoading ? "Loading…" : "Explore a sample ISSP"}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">A fully filled-out sample ISSP from a fictitious agency. Good place to start.</p>
               </div>
             </button>
 
-            {/* Divider */}
             <div className="flex items-center gap-3 py-1">
-              <div className="flex-1 h-px bg-gray-200" />
-              <span className="text-[11px] text-gray-400">or if you&apos;re ready</span>
-              <div className="flex-1 h-px bg-gray-200" />
+              <div className="flex-1 h-px bg-border" />
+              <span className="text-[11px] text-muted-foreground">or if you&apos;re ready</span>
+              <div className="flex-1 h-px bg-border" />
             </div>
 
-            <button
-              type="button"
-              onClick={() => setNewDialogOpen(true)}
-              className="group flex items-start gap-4 rounded-xl border bg-card p-5 text-left transition-colors hover:bg-accent hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted group-hover:bg-muted/70 transition-colors">
+            <button type="button" onClick={() => setNewDialogOpen(true)}
+              className="group flex items-start gap-4 rounded-xl border bg-card p-5 text-left transition-all hover:bg-accent hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary group-hover:bg-muted transition-colors">
                 <FilePlus2 className="h-5 w-5 text-muted-foreground" />
               </div>
               <div>
                 <p className="font-semibold text-sm">Start New ISSP</p>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  Begin a blank ISSP for your agency. You&apos;ll provide agency details and coverage period.
-                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">Begin a blank ISSP for your agency. You&apos;ll provide agency details and coverage period.</p>
               </div>
             </button>
 
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="group flex items-start gap-4 rounded-xl border bg-card p-5 text-left transition-colors hover:bg-accent hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted group-hover:bg-muted/70 transition-colors">
+            <button type="button" onClick={() => fileInputRef.current?.click()}
+              className="group flex items-start gap-4 rounded-xl border bg-card p-5 text-left transition-all hover:bg-accent hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary group-hover:bg-muted transition-colors">
                 <FolderOpen className="h-5 w-5 text-muted-foreground" />
               </div>
               <div>
                 <p className="font-semibold text-sm">Load from File</p>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  Continue editing an ISSP you previously saved as a <code>.issp</code> file.
-                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">Continue editing an ISSP you previously saved as a <code className="text-xs bg-muted px-1 rounded">.issp</code> file.</p>
               </div>
             </button>
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".issp,application/json"
-              className="hidden"
-              onChange={handleFileChange}
-            />
+            <input ref={fileInputRef} type="file" accept=".issp,application/json" className="hidden" onChange={handleFileChange} />
           </div>
 
           {loadError && (
@@ -375,37 +222,30 @@ export default function HomePageClient({
             </div>
           )}
 
-          <p className="mt-8 text-center text-xs text-gray-400">
+          <p className="mt-8 text-center text-xs text-muted-foreground/60">
             Free to use · No account required · Local-first, works in your browser
           </p>
         </div>
       </section>
 
       {/* ── Problem ── */}
-      <section id="problem" className="py-14 border-b border-gray-100">
+      <section id="problem" className="py-16 border-b">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-              The Problem
-            </p>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Government ICT data is hard to find — and harder to use.
-            </h2>
-            <p className="text-sm text-gray-500 max-w-xl">
-              Agencies are required to submit ISSPs. In practice, these documents are scattered,
-              unstructured, or not published at all.
-            </p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">The Problem</p>
+            <h2 className="font-display text-2xl font-bold mb-2">Government ICT data is hard to find — and harder to use.</h2>
+            <p className="text-sm text-muted-foreground max-w-xl">Agencies are required to submit ISSPs. In practice, these documents are scattered, unstructured, or not published at all.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-4">
             {PAIN_POINTS.map((p) => {
               const Icon = p.icon;
               return (
-                <div key={p.title} className="border border-gray-200 rounded-lg p-5">
-                  <div className="w-8 h-8 rounded-md border border-gray-200 flex items-center justify-center mb-4">
-                    <Icon className="w-4 h-4 text-gray-500" />
+                <div key={p.title} className="border rounded-lg p-5 bg-card">
+                  <div className="w-8 h-8 rounded-md border flex items-center justify-center mb-4 bg-secondary">
+                    <Icon className="w-4 h-4 text-muted-foreground" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{p.title}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed">{p.body}</p>
+                  <h3 className="text-sm font-semibold mb-1.5">{p.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{p.body}</p>
                 </div>
               );
             })}
@@ -414,63 +254,43 @@ export default function HomePageClient({
       </section>
 
       {/* ── Features ── */}
-      <section id="features" className="py-14 bg-gray-50/60 border-b border-gray-100">
+      <section id="features" className="py-16 border-b bg-secondary/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-              Platform Features
-            </p>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Three tools. One mission.
-            </h2>
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Platform Features</p>
+            <h2 className="font-display text-2xl font-bold mb-2">Three tools. One mission.</h2>
           </div>
 
-          {/* Live feature */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-4 flex items-start gap-5">
-            <div className="w-9 h-9 rounded-md border border-gray-200 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <FileText className="w-4 h-4 text-gray-600" />
+          <div className="bg-card border rounded-lg p-6 mb-4 flex items-start gap-5">
+            <div className="w-9 h-9 rounded-md border flex items-center justify-center flex-shrink-0 mt-0.5 bg-primary/5">
+              <FileText className="w-4 h-4 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <h3 className="text-sm font-semibold text-gray-900">ISSP Creator / Editor</h3>
-                <span className="inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  Live Now
-                </span>
+                <h3 className="text-sm font-semibold">ISSP Creator / Editor</h3>
+                <span className="inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium bg-green-50 text-green-700 border border-green-200">Live Now</span>
               </div>
-              <p className="text-xs text-gray-500 leading-relaxed mb-4 max-w-2xl">
-                A guided, part-by-part editor for agency ICT strategic plans — structured to the DICT 2026
-                template across all four parts. Works entirely in your browser with no account required.
-                Save progress as a .issp file, export to PDF when ready.
-              </p>
-              <button
-                onClick={() => setNewDialogOpen(true)}
-                className="inline-flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-80"
-                style={{ color: "#0038A8" }}
-              >
+              <p className="text-xs text-muted-foreground leading-relaxed mb-4 max-w-2xl">A guided, part-by-part editor for agency ICT strategic plans — structured to the DICT 2026 template across all four parts. Works entirely in your browser with no account required. Save progress as a .issp file, export to PDF when ready.</p>
+              <button onClick={() => setNewDialogOpen(true)} className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:opacity-70 transition-opacity">
                 Start building your ISSP <ArrowRight className="w-3 h-3" />
               </button>
             </div>
           </div>
 
-          {/* Roadmap */}
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400 mb-3">
-            On the Roadmap
-          </p>
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground mb-3">On the Roadmap</p>
           <div className="grid md:grid-cols-2 gap-4">
             {ROADMAP_FEATURES.map((f) => {
               const Icon = f.icon;
               return (
-                <div key={f.title} className="bg-white/70 border border-gray-200 rounded-lg p-5">
+                <div key={f.title} className="bg-card/60 border rounded-lg p-5">
                   <div className="flex items-start justify-between mb-3">
-                    <div className="w-8 h-8 rounded-md border border-gray-200 flex items-center justify-center">
-                      <Icon className="w-4 h-4 text-gray-400" />
+                    <div className="w-8 h-8 rounded-md border flex items-center justify-center bg-secondary">
+                      <Icon className="w-4 h-4 text-muted-foreground" />
                     </div>
-                    <span className="inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium bg-gray-100 text-gray-400 border border-gray-200">
-                      Coming Soon
-                    </span>
+                    <span className="inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium bg-secondary text-muted-foreground border">Coming Soon</span>
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-500 mb-1.5">{f.title}</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed">{f.body}</p>
+                  <h3 className="text-sm font-semibold text-muted-foreground mb-1.5">{f.title}</h3>
+                  <p className="text-xs text-muted-foreground/70 leading-relaxed">{f.body}</p>
                 </div>
               );
             })}
@@ -478,71 +298,45 @@ export default function HomePageClient({
         </div>
       </section>
 
-      {/* ── Why It Matters ── */}
-      <section id="why" className="py-14 border-b border-gray-100">
+      {/* ── Why ── */}
+      <section id="why" className="py-16 border-b">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
-                Why It Matters
-              </p>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Grounded in law.<br />Built for accountability.
-              </h2>
-              <p className="text-sm text-gray-500 leading-relaxed mb-4">
-                The MITHI framework requires agencies to align ICT investments with national priorities.
-                ISSPs are the vehicle — but without public visibility, compliance becomes a paper exercise.
-              </p>
-              <p className="text-sm text-gray-500 leading-relaxed mb-6">
-                This platform makes ISSP compliance visible: to agencies, to oversight bodies like DICT
-                and DBM, and to the public whose taxes fund these systems.
-              </p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Why It Matters</p>
+              <h2 className="font-display text-2xl font-bold mb-4">Grounded in law.<br />Built for accountability.</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">The MITHI framework requires agencies to align ICT investments with national priorities. ISSPs are the vehicle — but without public visibility, compliance becomes a paper exercise.</p>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6">This platform makes ISSP compliance visible: to agencies, to oversight bodies like DICT and DBM, and to the public whose taxes fund these systems.</p>
               <div className="space-y-2.5">
                 {WHY_POINTS.map((point) => (
                   <div key={point} className="flex items-start gap-2.5">
-                    <div
-                      className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                      style={{ background: "#0038A8" }}
-                    >
-                      <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
+                    <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-primary">
+                      <Check className="w-2.5 h-2.5 text-primary-foreground" strokeWidth={3} />
                     </div>
-                    <span className="text-xs text-gray-600 leading-relaxed">{point}</span>
+                    <span className="text-xs text-muted-foreground leading-relaxed">{point}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="border border-gray-200 rounded-lg overflow-hidden">
-              <div className="px-5 py-4 border-b border-gray-100 bg-gray-50">
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest">
-                  DICT / MITHI Requirements Covered
-                </p>
+            <div className="border rounded-lg overflow-hidden bg-card">
+              <div className="px-5 py-4 border-b bg-secondary">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">DICT / MITHI Requirements Covered</p>
               </div>
               <ul className="p-5 space-y-3">
                 {MITHI_CHECKLIST.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <div
-                      className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                      style={{ background: "#0038A8" }}
-                    >
-                      <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
+                    <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-primary">
+                      <Check className="w-2.5 h-2.5 text-primary-foreground" strokeWidth={3} />
                     </div>
-                    <span className="text-xs text-gray-700 leading-relaxed">{item}</span>
+                    <span className="text-xs leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
-              <div className="px-5 pb-4 border-t border-gray-100 pt-4">
-                <p className="text-[11px] text-gray-400 leading-relaxed">
-                  Requirements coverage is based on this tool&apos;s interpretation of materials available at{" "}
-                  <a
-                    href="https://dict.gov.ph/issp"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline underline-offset-2 hover:text-gray-600 transition-colors"
-                  >
-                    dict.gov.ph/issp
-                  </a>
-                  , including the agency manual posted there. We hope DICT can review this tool and provide feedback to help us improve its accuracy.
+              <div className="px-5 pb-4 border-t pt-4 bg-secondary/30">
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  Requirements coverage is based on this tool&apos;s interpretation of materials at{" "}
+                  <a href="https://dict.gov.ph/issp" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground transition-colors">dict.gov.ph/issp</a>.
                 </p>
               </div>
             </div>
@@ -551,102 +345,56 @@ export default function HomePageClient({
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-14 bg-gray-950">
+      <section className="py-16" style={{ background: "#1C1C1E" }}>
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">
-            Get Started
-          </p>
-          <h2 className="text-2xl font-bold text-white mb-3">
-            Ready to build your agency&apos;s ISSP?
-          </h2>
-          <p className="text-sm text-gray-400 max-w-md mx-auto mb-7 leading-relaxed">
-            Free to use. No account required. No procurement committee. Built on the official DICT 2026 template.
-          </p>
+          <div className="flex justify-center gap-1.5 mb-6">
+            {PART_COLORS.map((c) => (
+              <span key={c} className="w-2 h-2 rounded-full" style={{ background: c }} />
+            ))}
+          </div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-3">Get Started</p>
+          <h2 className="font-display text-2xl font-bold text-white mb-3">Ready to build your agency&apos;s ISSP?</h2>
+          <p className="text-sm text-zinc-400 max-w-md mx-auto mb-7 leading-relaxed">Free to use. No account required. No procurement committee. Built on the official DICT 2026 template.</p>
           <div className="flex items-center justify-center gap-3 flex-wrap mb-6">
-            <button
-              onClick={() => setNewDialogOpen(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-semibold text-white transition-opacity hover:opacity-90"
-              style={{ background: "#0038A8" }}
-            >
+            <button onClick={() => setNewDialogOpen(true)}
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-md text-sm font-semibold bg-white text-zinc-900 hover:bg-zinc-100 transition-colors">
               Start Building <ArrowRight className="w-3.5 h-3.5" />
             </button>
-            <button
-              onClick={() => setSampleIntroOpen(true)}
-              disabled={sampleLoading}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium text-gray-400 border border-gray-700 hover:border-gray-500 hover:text-gray-200 transition-colors disabled:opacity-50"
-            >
-              {sampleLoading ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  Loading…
-                </>
-              ) : (
-                "Open Sample ISSP"
-              )}
+            <button onClick={() => setSampleIntroOpen(true)} disabled={sampleLoading}
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-md text-sm font-medium text-zinc-400 border border-zinc-700 hover:border-zinc-500 hover:text-zinc-200 transition-colors disabled:opacity-50">
+              {sampleLoading ? <><Loader2 className="w-3.5 h-3.5 animate-spin" />Loading…</> : "Open Sample ISSP"}
             </button>
           </div>
-          <p className="text-xs text-gray-600">
-            Want to contribute?{" "}
-            This is a volunteer-led, open-source initiative.{" "}
-            <a href="mailto:issp-builder@carlosanton.io" className="text-gray-400 hover:text-gray-200 underline underline-offset-2 transition-colors">
-              Get in touch.
-            </a>
+          <p className="text-xs text-zinc-600">
+            Want to contribute? This is a volunteer-led, open-source initiative.{" "}
+            <a href="mailto:issp-builder@carlosanton.io" className="text-zinc-400 hover:text-zinc-200 underline underline-offset-2 transition-colors">Get in touch.</a>
           </p>
         </div>
       </section>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-gray-200 bg-white">
+      <footer className="border-t bg-card">
         <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <div
-              className="w-5 h-5 rounded flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0"
-              style={{ background: "#0038A8" }}
-            >
-              PH
+          <div className="flex items-center gap-2.5">
+            <div className="flex gap-0.5">
+              {PART_COLORS.map((c) => (
+                <span key={c} className="w-1 h-3 rounded-full" style={{ background: c }} />
+              ))}
             </div>
-            <span className="text-xs text-gray-500">ISSP Platform — Open source. Built by Carlos Antonio Albornoz (and his AI Agents).</span>
+            <span className="text-xs text-muted-foreground">ISSP Platform — Open source. Built by Carlos Antonio Albornoz (and his AI Agents).</span>
           </div>
-          <div className="flex items-center gap-4 text-xs text-gray-400">
-            <a
-              href="https://github.com/carlosalbornoz/issp-builder"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-gray-700 transition-colors"
-            >
-              View on GitHub
-            </a>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <a href="https://github.com/carlosalbornoz/issp-builder" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">View on GitHub</a>
           </div>
         </div>
       </footer>
 
       {/* ── Dialogs ── */}
-      <NcwtrIntroModal
-        open={sampleIntroOpen}
-        onClose={() => setSampleIntroOpen(false)}
-        onConfirm={() => { setSampleIntroOpen(false); handleLoadSample(); }}
-        loading={sampleLoading}
-      />
-
-      <NewIsspDialog
-        open={newDialogOpen}
-        onClose={() => setNewDialogOpen(false)}
-        onCreated={() => router.push("/editor")}
-      />
-
-      <ContentModal
-        open={aboutOpen}
-        onClose={() => setAboutOpen(false)}
-        title="About this project"
-        html={aboutHtml}
-      />
-
-      <ContentModal
-        open={privacyOpen}
-        onClose={() => setPrivacyOpen(false)}
-        title="Privacy & architecture"
-        html={privacyHtml}
-      />
+      <NcwtrIntroModal open={sampleIntroOpen} onClose={() => setSampleIntroOpen(false)}
+        onConfirm={() => { setSampleIntroOpen(false); handleLoadSample(); }} loading={sampleLoading} />
+      <NewIsspDialog open={newDialogOpen} onClose={() => setNewDialogOpen(false)} onCreated={() => router.push("/editor")} />
+      <ContentModal open={aboutOpen} onClose={() => setAboutOpen(false)} title="About this project" html={aboutHtml} />
+      <ContentModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} title="Privacy & architecture" html={privacyHtml} />
     </div>
   );
 }

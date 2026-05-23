@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
   Select,
@@ -199,32 +198,6 @@ export function Part3CForm({
               </tbody>
             </table>
           </div>
-
-          {/* Add shortcut row */}
-          {rows.length > 0 && (
-            <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
-              <Input
-                placeholder="Quick-add: position name…"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && e.currentTarget.value.trim()) {
-                    update([
-                      ...rows,
-                      {
-                        id: generateId(),
-                        position: e.currentTarget.value.trim(),
-                        employmentStatus: "",
-                        quantity: 1,
-                      },
-                    ]);
-                    e.currentTarget.value = "";
-                  }
-                }}
-              />
-              <Button variant="outline" size="sm" onClick={addRow} className="gap-1">
-                <Plus className="h-3.5 w-3.5" /> Add
-              </Button>
-            </div>
-          )}
         </CardContent>
       </Card>
 
