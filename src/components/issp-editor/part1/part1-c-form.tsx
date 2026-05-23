@@ -51,7 +51,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
     }));
   });
 
-  const { debouncedSave } = useLocalSave("part1");
+  const { debouncedSave } = useLocalSave("part1", "part1/c");
 
   const update = useCallback(
     (next: Stakeholder[]) => {

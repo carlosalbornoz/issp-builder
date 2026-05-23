@@ -1,6 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-23 (session 2)  
+> **Last updated:** 2026-05-23 (session 4)  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -75,7 +75,9 @@ Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references
 | 5 | Sidebar refinements — status dots on all leaf nav items, kebab menu, save status | ✅ Done |
 | 5b | `SaveStatusIndicator` removed from all 14 Part I–IV forms — sidebar is sole save indicator | ✅ Done |
 | 6 | SectionShell — shared section chrome, MarkAsDone, 18-section migration | ✅ Done |
-| 7 | Section body patterns (deferred until Phase 6 in prod) | 🔜 Next |
+| 6b | Phase 6 bug fixes — E.1/E.2 header label; `lastEditedAt` now set on content save (not visit); sidebar save status and button improvements | ✅ Done |
+| 7 | Unsaved changes — content snapshot + field diff | ✅ Done 2026-05-23 |
+| 8 | Section body patterns (deferred until Phase 6 in prod) | 🔜 Deferred |
 
 ### Design tokens (warm palette — `src/app/globals.css`)
 
@@ -121,7 +123,7 @@ Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references
 ```typescript
 interface SectionMeta {
   userMarkedDone: boolean;   // set by MarkAsDone button (Phase 6)
-  lastEditedAt: string | null; // ISO string; set on content change (Phase 6)
+  lastEditedAt: string | null; // ISO string; set by useLocalSave on every content save
 }
 
 // Derived status (never stored):
@@ -129,6 +131,8 @@ interface SectionMeta {
 // "in_progress" → lastEditedAt !== null
 // "empty"       → no metadata OR lastEditedAt === null
 ```
+
+**`lastEditedAt` is set on content save, not on visit.** `useLocalSave(part, sectionId)` calls `updateSectionMeta(sectionId, { lastEditedAt: now })` inside `debouncedSave`, so the status dot only advances when the user actually edits a field. Just opening a section without typing does not mark it `in_progress`.
 
 **Content-sniffing migration** (`deriveMetaFromContent` in `src/lib/store/index.tsx`): runs on every document load (IDB + file). For each section with no `lastEditedAt`, checks whether the section has non-default content and pre-sets `lastEditedAt = doc.updatedAt`. This ensures imported/existing `.issp` files show meaningful status on the Overview immediately.
 
@@ -149,14 +153,15 @@ interface SectionMeta {
 doc: IsspDocument | null          // current document (null = no doc loaded)
 loading: boolean                  // true while IDB is being checked on mount
 saveStatus: "idle" | "saving" | "saved"
-fileSavedAt: string | null        // ISO string; null = never saved to file
-unsavedToFile: boolean            // true when doc.updatedAt > (fileSavedAt ?? doc.createdAt)
+fileSavedAt: string | null        // ISO string; null = never saved to file this session
+savedSnapshot: IsspDocument | null // in-memory copy of doc at last saveToFile/loadFromFile; null on fresh page load
+unsavedToFile: boolean            // content-hash diff vs savedSnapshot; falls back to timestamp on fresh load
 
 update(patcher)                   // debounced: patches doc + saves to IDB
-saveToFile()                      // downloads .issp + updates fileSavedAt
-loadFromFile(file)                // reads .issp file → loads into IDB + state
-createNew(opts)                   // creates blank doc → saves to IDB
-clearDoc()                        // clears IDB + resets state
+saveToFile()                      // downloads .issp + updates fileSavedAt + savedSnapshot
+loadFromFile(file)                // reads .issp file → loads into IDB + state + sets savedSnapshot
+createNew(opts)                   // creates blank doc → saves to IDB + sets savedSnapshot
+clearDoc()                        // clears IDB + resets state + clears savedSnapshot
 replace(doc)                      // replaces doc (used by loadFromFile)
 ```
 
@@ -202,7 +207,7 @@ const unsavedToFile = !!doc && doc.updatedAt > (fileSavedAt ?? doc.createdAt);
 | `src/app/editor/layout.tsx` | Wraps `{children}` in `<EditorShell>` |
 | `src/components/editor/editor-shell.tsx` | Checks `loading`/`doc`; registers `beforeunload` when `unsavedToFile`; calls `useFileSaveReminder` |
 | `src/components/editor/editor-sidebar.tsx` | Collapsible sidebar; "ISSP Editor" label in header; Save to File footer; Exit Editor link at bottom of both collapsed and expanded states |
-| `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer; fires a persistent Sonner toast with "Save to File" action button when `unsavedToFile` stays true |
+| `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer; fires a persistent Sonner toast titled "You have unsaved changes" with a teal "Save changes" action button when `unsavedToFile` stays true |
 
 ### Editor Pages
 
@@ -387,13 +392,31 @@ update((prev) => ({
 }));
 ```
 
-### `unsavedToFile` — how it works
+### `unsavedToFile` — how it works (content-hash-based)
 ```typescript
-// In store: fileSavedAt is React state, not persisted to IDB
-// Set from parsed.exportedAt on loadFromFile()
-// Set to now() on saveToFile()
-const unsavedToFile = !!doc && doc.updatedAt > (fileSavedAt ?? doc.createdAt);
+// savedSnapshot is set on saveToFile(), loadFromFile(), createNew(), clearDoc().
+// It is NOT persisted to IDB — on a fresh page load it is null.
+// docContentHash() strips updatedAt, exportedAt, and sectionMeta.lastEditedAt before comparing.
+
+const unsavedToFile = !doc
+  ? false
+  : savedSnapshot
+  ? docContentHash(doc) !== docContentHash(savedSnapshot)   // accurate: reverts clear the indicator
+  : doc.updatedAt > (fileSavedAt ?? doc.createdAt);        // fallback on fresh page load (no snapshot yet)
 ```
+
+`docContentHash` is defined in `src/lib/store/index.tsx`. It excludes implementation timestamps (`updatedAt`, `exportedAt`, `sectionMeta.lastEditedAt`) but keeps `sectionMeta.userMarkedDone` (intentional user state).
+
+### Form init normalization — a hidden snapshot sync risk
+
+Several forms transform `initialData` in their `useState` initializer before the first save:
+- **Part I-C** — fills missing `stakeholder.id` via `crypto.randomUUID()`
+- **Part II-A** — migrates `outcomeId` → `outcomeIds` array
+- **Part III-C** — uppercases `employmentStatus`, renames `physicalCount→quantity`, fills missing `id`
+
+If the stored file has the old format, the first `debouncedSave` after any edit writes the normalized values. Even after reverting the edit, the stored doc has normalized values ≠ snapshot (old values), causing a permanent false-positive "Unsaved changes".
+
+**Fix (already applied):** `migrateLegacyDoc` normalizes these three patterns idempotently on every load. This ensures the snapshot already contains normalized data at the time it is captured, matching what the form will write. See the schema-change skill for the general rule.
 
 ### JSON field deep-merge — required for cybersecurity controls
 ```tsx
@@ -462,7 +485,9 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 - Collapsed sidebar: expand toggle, spacer, Exit Editor icon (very bottom)
 - **Nav** imports `PARTS` from `@/lib/sections` — single source of truth for section config; `NAV_SECTIONS` constant removed
 - **Status dots**: every leaf nav item renders `<StatusDot>` computed from `doc.sectionMeta[section.id]`
-- **Footer save status**: "Saving…" (Loader2) / "Unsaved changes" (pulsing amber dot) / "Saved X ago" (green check) — sentence-case
+- **Footer save status**: two states only — "Unsaved changes" (clickable, pulsing amber dot) / "Saved X ago" (green check). No "Saving…" spinner (IDB writes are near-instant; showing it then immediately "Unsaved changes" was confusing UX).
+- **"Unsaved changes" is clickable**: toggles an inline list of changed sections computed via `getChangedFields()` (snapshot diff), each as a link with Part color prefix. Below each section link, an indented list of changed field labels (e.g. "Vision Statement", "IS Inventory") is shown when a snapshot is available. Falls back to `lastEditedAt`-based list (no field detail) on fresh browser load.
+- **Save button turns teal** (`bg-teal-600`) when `unsavedToFile` is true; label switches "Download .issp" ↔ "Save changes"
 - **Kebab menu (⋮)** next to the save button: Download .issp · Load different ISSP… (hidden `<input type=file>`) · separator · Start over… (sets `confirmClear`)
 - **Confirm clear**: inline in footer (not at top of sidebar) — only visible when `confirmClear === true`
 - "Start Over / Load Different ISSP" button at top of sidebar is gone; destructive actions now require two clicks via the kebab
@@ -514,12 +539,27 @@ Extracted shared section chrome into `SectionShell` at `src/components/editor/se
 - Breadcrumb (Overview → Part → Section), sticky section header with `StatusDot`, title (Fraunces), description
 - `MarkAsDone` toggle: outlined/filled-green; writes `userMarkedDone` to `sectionMeta` → updates sidebar dot + Overview live
 - `SectionNavLink` prev/next across all 18 sections; last section shows "Return to Overview"
-- `lastEditedAt` updated on section visit (mount) via `updateSectionMeta`
 - `statBlock` prop renders optional top-right stat (used by Part IV year forms to show Year Total)
 - `Callout` component created at `src/components/ui/callout.tsx` (info/tip/warning/danger variants)
 
+**Phase 6b fixes (session 3):**
+- E.1/E.2 header sub-label: `split(".")[0]` → regex `match(/^[A-Z][\d.]*/)`; now shows "Part III · E.1" correctly
+- `lastEditedAt` moved from SectionShell mount effect → `useLocalSave` `debouncedSave`; all 14 form files updated to pass `sectionId`; visiting a section no longer marks it `in_progress`
+- Sidebar: "Saving…" spinner removed; "Unsaved changes" now clickable (shows changed sections inline); Save button turns amber when unsaved
+
 ### ✅ Part IV — Budget form UX rewrite (drawer pattern) — DONE
 Replaced 7-column inline spreadsheet with master list + `Sheet` drawer pattern. See Components Reference → `part4-year-form.tsx` for full details.
+
+### ✅ Unsaved Changes — Content Snapshot + Field Diff — DONE (session 4)
+**Plan + implementation notes:** `docs/unsaved-changes-tracking-plan.md`
+
+Implemented:
+- `savedSnapshot: IsspDocument | null` in store — set on `saveToFile`, `loadFromFile`, `createNew`, cleared on `clearDoc`
+- `docContentHash()` in `src/lib/store/index.tsx` — strips implementation timestamps before comparing
+- `src/lib/section-fields.ts` — new file: `SECTION_FIELDS` map (all 18 sections), `getChangedFields()`
+- Sidebar: snapshot-based section diff with field-level label list; falls back to `lastEditedAt` on fresh browser load
+- `migrateLegacyDoc` normalization for `stakeholders`, `strategicConcerns`, `proposedHumanCapital` — prevents false-positive diffs caused by form init normalization
+- Save button: amber → teal; toast text: consistent "Save changes" / "You have unsaved changes"
 
 ### 🟡 Validation & Review (post UI refresh)
 - **Pre-export validation** — required fields, budget-IS linkage, KPI completeness. Client-side, runs before PDF export. Surface issue count per section in the sidebar/overview.
@@ -546,7 +586,7 @@ Project-level Claude Code skills — invoked with `/skill-name` or auto-loaded b
 
 | Skill | Path | Invocation | Purpose |
 |---|---|---|---|
-| `schema-change` | `.claude/skills/schema-change/SKILL.md` | Auto + `/schema-change` | Standardized 11-step checklist for any IDB/JSON or Prisma schema change — ensures types, defaults, forms, pages, seed, demo file, PDF export, and docs all stay in sync |
+| `schema-change` | `.claude/skills/schema-change/SKILL.md` | Auto + `/schema-change` | Standardized 13-step checklist for any IDB/JSON or Prisma schema change — ensures types, defaults, migration, forms, pages, demo file, PDF export, `SECTION_FIELDS`, and docs all stay in sync. Includes backward compat strategies A/B/C and a pitfall table covering form-init normalization. |
 
 **When to expect `schema-change` to activate:** Any prompt that adds, removes, or renames a field on `IsspDocument`, `Part1Data`–`Part4Data`, or any sub-type (e.g. `IctProject`, `StrategicConcern`).
 
@@ -642,6 +682,7 @@ src/
 │   └── use-local-save.ts
 └── lib/
     ├── sections.ts                    ← PARTS, ALL_SECTIONS, computeStatus(), findContinueTarget()
+    ├── section-fields.ts              ← SECTION_FIELDS map, getChangedFields() — powers sidebar field-level diff
     ├── store/
     │   ├── index.tsx                  ← IsspStore context + migrateLegacyDoc + deriveMetaFromContent
     │   ├── types.ts                   ← IsspDocument + all sub-types + SectionMeta/SectionStatus

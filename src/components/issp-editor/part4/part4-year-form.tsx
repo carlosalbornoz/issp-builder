@@ -447,7 +447,8 @@ export function Part4YearForm({
     return { ...base, ...initialData, internalProjects: ip, crossAgencyProjects: cp };
   });
 
-  const { debouncedSave } = useLocalSave("part4");
+  const sectionId = `part4/${yearKey}` as `part4/${"year1" | "year2" | "year3"}`;
+  const { debouncedSave } = useLocalSave("part4", sectionId);
 
   const save = useCallback(
     (next: YearBudget) => {
@@ -467,8 +468,6 @@ export function Part4YearForm({
       (s, p) => s + sumLines(p.capitalOutlay) + sumLines(p.mooe), 0
     ) +
     sumLines(budget.continuingCosts.mooe);
-
-  const sectionId = `part4/${yearKey}` as `part4/${"year1" | "year2" | "year3"}`;
   const sectionTitle = `Resource Requirements — ${year}`;
   const sectionDesc = `Enter all ICT expenditures for ${year}. Totals are computed automatically.`;
 

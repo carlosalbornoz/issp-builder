@@ -28,7 +28,8 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
-import { PARTS, computeStatus } from "@/lib/sections";
+import { PARTS, computeStatus, type SectionDef, type PartDef } from "@/lib/sections";
+import { getChangedFields, type SectionField } from "@/lib/section-fields";
 import { StatusDot } from "@/components/ui/status-dot";
 import { IsspPropertiesDialog } from "./issp-properties-dialog";
 
@@ -76,7 +77,7 @@ function CollapsedSidebar({ onToggle }: { onToggle: () => void }) {
 // ─── Main sidebar ─────────────────────────────────────────────────────────────
 
 export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
-  const { doc, saveToFile, loadFromFile, fileSavedAt, unsavedToFile, saveStatus, clearDoc } = useIsspStore();
+  const { doc, saveToFile, loadFromFile, fileSavedAt, savedSnapshot, unsavedToFile, clearDoc } = useIsspStore();
   const now = useNow();
   const pathname = usePathname();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -85,6 +86,34 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
   const [propsOpen, setPropsOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [confirmClear, setConfirmClear] = useState(false);
+  const [showChanges, setShowChanges] = useState(false);
+
+  // Sections with content that differs from the last saved file
+  const changedSections: { section: SectionDef; part: PartDef; changedFields: SectionField[] }[] = [];
+  if (doc && unsavedToFile) {
+    if (savedSnapshot) {
+      for (const part of PARTS) {
+        for (const section of part.sections) {
+          const fields = getChangedFields(section.id, doc, savedSnapshot);
+          if (fields.length > 0) {
+            changedSections.push({ section, part, changedFields: fields });
+          }
+        }
+      }
+    } else {
+      // Fallback on fresh browser load (no snapshot yet): use lastEditedAt
+      const meta = doc.sectionMeta ?? {};
+      for (const part of PARTS) {
+        for (const section of part.sections) {
+          const editedAt = meta[section.id]?.lastEditedAt;
+          if (!editedAt) continue;
+          if (!fileSavedAt || editedAt > fileSavedAt) {
+            changedSections.push({ section, part, changedFields: [] });
+          }
+        }
+      }
+    }
+  }
 
   function togglePart(partNum: number) {
     setExpandedParts((prev) => {
@@ -98,6 +127,11 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
   async function handleClear() {
     await clearDoc();
     setConfirmClear(false);
+  }
+
+  function handleSaveToFile() {
+    saveToFile();
+    setShowChanges(false);
   }
 
   async function handleLoadFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -223,19 +257,54 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
       <div className="px-3 py-3 border-t space-y-2">
         {/* Save status */}
         <div className="text-xs">
-          {saveStatus === "saving" ? (
-            <span className="flex items-center gap-1.5 text-muted-foreground">
-              <Loader2 className="h-3 w-3 animate-spin shrink-0" />
-              Saving…
-            </span>
-          ) : unsavedToFile ? (
-            <span className="flex items-center gap-1.5 text-amber-600 font-medium">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
-              </span>
-              Unsaved changes
-            </span>
+          {unsavedToFile ? (
+            <div>
+              <button
+                onClick={() => setShowChanges((v) => !v)}
+                className="flex w-full items-center justify-between text-amber-600 font-medium hover:text-amber-700 transition-colors"
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+                  </span>
+                  Unsaved changes
+                </span>
+                <ChevronDown className={cn("h-3 w-3 transition-transform shrink-0", showChanges ? "" : "-rotate-90")} />
+              </button>
+
+              {showChanges && (
+                <div className="mt-2 space-y-1">
+                  {changedSections.length === 0 ? (
+                    <p className="text-muted-foreground px-1">No specific sections tracked.</p>
+                  ) : (
+                    changedSections.map(({ section, part, changedFields }) => (
+                      <div key={section.id}>
+                        <Link
+                          href={section.href}
+                          onClick={() => setShowChanges(false)}
+                          className="flex items-center gap-1.5 rounded px-1 py-0.5 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors truncate"
+                        >
+                          <span className="font-semibold shrink-0" style={{ color: part.color }}>
+                            {part.part}
+                          </span>
+                          <span className="truncate">{section.label}</span>
+                        </Link>
+                        {changedFields.length > 0 && (
+                          <div className="pl-4 space-y-0.5 mt-0.5">
+                            {changedFields.map((f) => (
+                              <p key={f.key} className="text-[11px] text-muted-foreground/70 px-1 truncate">
+                                {f.label}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
           ) : (
             <span className="flex items-center gap-1.5 text-green-700">
               <Check className="h-3 w-3 shrink-0" />
@@ -266,9 +335,9 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
             {/* Primary save + kebab */}
             <div className="flex gap-1.5">
               <Button
-                variant={unsavedToFile ? "default" : "outline"}
-                className="flex-1 justify-start gap-2 text-sm"
-                onClick={saveToFile}
+                variant="outline"
+                className={`flex-1 justify-start gap-2 text-sm ${unsavedToFile ? "bg-teal-600 hover:bg-teal-700 text-white border-teal-600" : ""}`}
+                onClick={handleSaveToFile}
               >
                 <Download className="h-4 w-4" />
                 {unsavedToFile ? "Save changes" : "Download .issp"}
@@ -281,7 +350,7 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
                   <MoreHorizontal className="h-4 w-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-52">
-                  <DropdownMenuItem onClick={saveToFile}>
+                  <DropdownMenuItem onClick={handleSaveToFile}>
                     <Download className="h-3.5 w-3.5 mr-2" />
                     Download .issp
                   </DropdownMenuItem>

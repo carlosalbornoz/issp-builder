@@ -46,7 +46,7 @@ export function Part3CForm({
       quantity: r.quantity ?? r.physicalCount ?? 1,
     }))
   );
-  const { debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/c");
 
   const update = useCallback(
     (next: HCRow[]) => {

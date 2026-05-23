@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Circle, ChevronLeft, ChevronRight, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -50,13 +50,6 @@ export function SectionShell({
   const status = computeStatus(meta);
   const isDone = meta?.userMarkedDone ?? false;
 
-  // Mark section as visited (sets lastEditedAt) on mount
-  useEffect(() => {
-    if (!doc) return;
-    updateSectionMeta(sectionId, { lastEditedAt: new Date().toISOString() });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sectionId]);
-
   const handleMarkDone = useCallback(
     (done: boolean) => {
       updateSectionMeta(sectionId, { userMarkedDone: done });
@@ -92,7 +85,7 @@ export function SectionShell({
                 className="text-xs font-semibold uppercase tracking-widest"
                 style={{ color: part.color }}
               >
-                Part {part.part} · {section?.label.split(".")[0].trim()}
+                Part {part.part} · {section?.label.match(/^[A-Z][\d.]*/)?.[0]}
               </p>
               <StatusDot status={status} size={7} />
             </div>

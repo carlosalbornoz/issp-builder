@@ -97,7 +97,7 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
   const [data, setData] = useState<Part1AData>(initialData ?? DEFAULT_DATA);
   const [expandedOOs, setExpandedOOs] = useState<Set<string>>(new Set());
 
-  const { debouncedSave } = useLocalSave("part1");
+  const { debouncedSave } = useLocalSave("part1", "part1/a");
 
   const update = useCallback(
     <K extends keyof Part1AData>(key: K, value: Part1AData[K]) => {

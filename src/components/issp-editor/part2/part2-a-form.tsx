@@ -61,7 +61,7 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
     }));
   });
 
-  const { debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2", "part2/a");
 
   const update = useCallback(
     (next: StrategicConcern[]) => {

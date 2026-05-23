@@ -291,7 +291,7 @@ export function Part2DForm({
     ...initialData,
   });
 
-  const { debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2", "part2/d");
 
   const update = useCallback(
     (next: EgpChecklist) => {

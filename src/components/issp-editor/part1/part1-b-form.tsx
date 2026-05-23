@@ -191,7 +191,7 @@ export function Part1BForm({
     };
     return { ...initialData, focalSameAsCio: initialData.focalSameAsCio ?? false, humanCapital: merged };
   });
-  const { debouncedSave } = useLocalSave("part1");
+  const { debouncedSave } = useLocalSave("part1", "part1/b");
 
   const update = useCallback(
     (updates: Partial<Part1BData>) => {

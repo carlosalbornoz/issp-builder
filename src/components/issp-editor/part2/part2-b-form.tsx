@@ -250,7 +250,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2", "part2/b");
 
   const saveDiagrams = useCallback(
     (updated: NetworkDiagram[]) => {

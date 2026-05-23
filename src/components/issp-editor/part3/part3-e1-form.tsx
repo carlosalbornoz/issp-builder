@@ -525,7 +525,7 @@ export function Part3E1Form({
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
 }) {
-  const { debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/e1");
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ internalProjects: projects }),
     [debouncedSave]
@@ -555,7 +555,7 @@ export function Part3E2Form({
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
 }) {
-  const { debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/e2");
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ crossAgencyProjects: projects }),
     [debouncedSave]

@@ -419,7 +419,7 @@ export function Part3DForm({
 }) {
   const [systems, setSystems] = useState<ProposedSystem[]>(initialSystems);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
-  const { debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/d");
 
   const update = useCallback(
     (next: ProposedSystem[]) => {

@@ -452,7 +452,7 @@ export function Part2CForm({
 }) {
   const [systems, setSystems] = useState<InformationSystem[]>(initialData);
 
-  const { debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2", "part2/c");
 
   const update = useCallback(
     (next: InformationSystem[]) => {

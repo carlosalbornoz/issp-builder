@@ -251,7 +251,7 @@ export function Part3FForm({
     return init;
   });
 
-  const { debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/f");
 
   const update = useCallback(
     (next: PerformanceFramework) => {

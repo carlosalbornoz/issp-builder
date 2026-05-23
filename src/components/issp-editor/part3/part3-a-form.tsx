@@ -169,7 +169,7 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
   const [networkDesc, setNetworkDesc] = useState(initialData.proposedNetworkDesc);
   const [controls, setControls] = useState<CyberControls>(initialData.proposedCybersecControls);
 
-  const { debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/a");
 
   const triggerSave = useCallback(
     (desc: string, ctrl: CyberControls) => {

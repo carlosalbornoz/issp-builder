@@ -24,13 +24,16 @@ export function useFileSaveReminder(unsavedToFile: boolean, onSave: () => void) 
     }
 
     timerRef.current = setTimeout(() => {
-      toast("Save your work to a file", {
+      toast("You have unsaved changes", {
         id: "file-save-reminder",
         description:
           "Your edits are stored in this browser, but download a .issp file to keep a permanent backup.",
         action: {
-          label: "Save to File",
+          label: "Save changes",
           onClick: () => onSaveRef.current(),
+        },
+        classNames: {
+          actionButton: "!bg-teal-600 hover:!bg-teal-700 !text-white",
         },
         duration: Infinity,
       });
