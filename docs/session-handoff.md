@@ -74,7 +74,8 @@ Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references
 | 4 | Overview redesign — dashboard with status, completion bar, continue card, part cards | ✅ Done |
 | 5 | Sidebar refinements — status dots on all leaf nav items, kebab menu, save status | ✅ Done |
 | 5b | `SaveStatusIndicator` removed from all 14 Part I–IV forms — sidebar is sole save indicator | ✅ Done |
-| 6 | SectionShell — shared section chrome, MarkAsDone, 18-section migration | 🔜 Next |
+| 6 | SectionShell — shared section chrome, MarkAsDone, 18-section migration | ✅ Done |
+| 7 | Section body patterns (deferred until Phase 6 in prod) | 🔜 Next |
 
 ### Design tokens (warm palette — `src/app/globals.css`)
 
@@ -508,13 +509,14 @@ The file is downloadable from the editor splash screen: "Download NCWTR demo fil
 
 ## 10. Pending / Next Session Work
 
-### 🔜 UI Refresh — Phase 6 (SectionShell)
-Extract shared section chrome into `SectionShell`. All 18 editors migrate to it.
-- Breadcrumb, section header, description, children, footer nav
-- `MarkAsDone` button writes `userMarkedDone` → updates sidebar dots + Overview live
-- `SectionNavLink` prev/next across all 18 sections
-- Note: `SaveStatusIndicator` already removed from all 14 forms this session — skip that step
-- Migration order: Part I → II → III → IV
+### ✅ UI Refresh — Phase 6 (SectionShell) — DONE
+Extracted shared section chrome into `SectionShell` at `src/components/editor/section-shell.tsx`. All 18 editors migrated.
+- Breadcrumb (Overview → Part → Section), sticky section header with `StatusDot`, title (Fraunces), description
+- `MarkAsDone` toggle: outlined/filled-green; writes `userMarkedDone` to `sectionMeta` → updates sidebar dot + Overview live
+- `SectionNavLink` prev/next across all 18 sections; last section shows "Return to Overview"
+- `lastEditedAt` updated on section visit (mount) via `updateSectionMeta`
+- `statBlock` prop renders optional top-right stat (used by Part IV year forms to show Year Total)
+- `Callout` component created at `src/components/ui/callout.tsx` (info/tip/warning/danger variants)
 
 ### ✅ Part IV — Budget form UX rewrite (drawer pattern) — DONE
 Replaced 7-column inline spreadsheet with master list + `Sheet` drawer pattern. See Components Reference → `part4-year-form.tsx` for full details.

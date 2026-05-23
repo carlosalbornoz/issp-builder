@@ -1,12 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, BarChart3, FolderKanban } from "lucide-react";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -236,7 +236,6 @@ export function Part3FForm({
   allProjects: ProjectSummary[];
   initialFramework: PerformanceFramework;
 }) {
-  const router = useRouter();
   // Initialize framework, ensuring an entry per project
   const [framework, setFramework] = useState<PerformanceFramework>(() => {
     const init: PerformanceFramework = { ...initialFramework };
@@ -269,7 +268,11 @@ export function Part3FForm({
   const totalKpis = Object.values(framework).reduce((s, k) => s + k.rows.length, 0);
 
   return (
-    <div className="space-y-8">
+    <SectionShell
+      sectionId="part3/f"
+      title="Performance Framework"
+      description="Define key performance indicators (KPIs) for each ICT project to track outcomes over the plan period."
+    >
       <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
@@ -328,14 +331,6 @@ export function Part3FForm({
         </div>
       )}
 
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part3/e2")}>
-          ← Cross-Agency Projects
-        </Button>
-        <Button onClick={() => router.push("/editor/part4/year1")}>
-          Next: Part IV - Resource Requirements →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

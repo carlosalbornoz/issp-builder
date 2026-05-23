@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical, Info } from "lucide-react";
+import { SectionShell } from "@/components/editor/section-shell";
 
 interface OrgOutcome {
   id: string;
@@ -52,7 +52,6 @@ const DEFAULT_CONCERN: Omit<StrategicConcern, "id"> = {
 };
 
 export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
-  const router = useRouter();
   const [concerns, setConcerns] = useState<StrategicConcern[]>(() => {
     // Migrate old single outcomeId to new outcomeIds array
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -95,19 +94,11 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
   });
 
   return (
-    <div className="space-y-8">
-      {/* Page header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 mb-1">
-            Part II · Section A
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Strategic Concerns</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Identify ICT-related concerns that affect achievement of organizational outcomes.
-          </p>
-        </div>
-      </div>
+    <SectionShell
+      sectionId="part2/a"
+      title="Strategic Concerns"
+      description="Identify ICT-related concerns that affect achievement of organizational outcomes."
+    >
 
       {/* Guide */}
       <div className="rounded-lg border border-amber-200 bg-amber-50/50 p-4 text-sm">
@@ -244,19 +235,6 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
           ))}
         </CardContent>
       </Card>
-
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button
-          variant="outline"
-          onClick={() => router.push("/editor/part1/c")}
-        >
-          ← Part I-C: Stakeholders
-        </Button>
-        <Button onClick={() => router.push("/editor/part2/b")}>
-          Next: Network &amp; Cybersecurity →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

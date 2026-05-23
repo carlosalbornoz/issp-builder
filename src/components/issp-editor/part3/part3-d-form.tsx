@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, ChevronDown, ChevronRight, Sparkles, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -122,7 +123,6 @@ function SystemCard({
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
-  const router = useRouter();
   const [expanded, setExpanded] = useState(true);
 
   return (
@@ -396,14 +396,12 @@ function SystemCard({
             <Link2 className="h-3.5 w-3.5 shrink-0" />
             <span>Ready to plan implementation? Create an ICT project for this system in Part III-E.</span>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.push("/editor/part3/e1")}
-            className="shrink-0 text-xs text-blue-700 hover:text-blue-900 hover:bg-blue-100 h-7 px-2"
+          <Link
+            href="/editor/part3/e1"
+            className="shrink-0 text-xs text-blue-700 hover:text-blue-900 hover:bg-blue-100 h-7 px-2 inline-flex items-center rounded-md"
           >
             Go to Part III-E →
-          </Button>
+          </Link>
         </div>
       )}
     </div>
@@ -419,7 +417,6 @@ export function Part3DForm({
   initialSystems: ProposedSystem[];
   existingProjectIds: string[];
 }) {
-  const router = useRouter();
   const [systems, setSystems] = useState<ProposedSystem[]>(initialSystems);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
   const { debouncedSave } = useLocalSave("part3");
@@ -447,7 +444,11 @@ export function Part3DForm({
   }
 
   return (
-    <div className="space-y-8">
+    <SectionShell
+      sectionId="part3/d"
+      title="Proposed Information Systems"
+      description="Define the proposed information systems to be developed, acquired, or enhanced. Projects are created in Part III-E."
+    >
       <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
@@ -515,14 +516,6 @@ export function Part3DForm({
         ))}
       </div>
 
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part3/c")}>
-          ← Proposed Human Capital
-        </Button>
-        <Button onClick={() => router.push("/editor/part3/e1")}>
-          Next: Internal Projects →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

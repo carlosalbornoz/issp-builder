@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical } from "lucide-react";
+import { SectionShell } from "@/components/editor/section-shell";
 
 interface Stakeholder {
   id: string;
@@ -44,7 +44,6 @@ const COMPLEXITY_COLORS: Record<string, string> = {
 };
 
 export function Part1CForm({ initialData }: Part1CFormProps) {
-  const router = useRouter();
   const [stakeholders, setStakeholders] = useState<Stakeholder[]>(() => {
     return initialData.map((s) => ({
       ...s,
@@ -85,19 +84,11 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Page header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
-            Part I · Section C
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Stakeholder Analysis</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            List the key stakeholders of your agency and the transactions/services they use.
-          </p>
-        </div>
-      </div>
+    <SectionShell
+      sectionId="part1/c"
+      title="Stakeholder Analysis"
+      description="List the key stakeholders of your agency and the transactions/services they use."
+    >
 
       {/* Guide */}
       <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-800">
@@ -288,15 +279,6 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
         </CardContent>
       </Card>
 
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part1/b")}>
-          ← Organization Structure
-        </Button>
-        <Button onClick={() => router.push("/editor/part2/a")}>
-          Next: Part II - Strategic Concerns →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

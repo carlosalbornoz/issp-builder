@@ -4,7 +4,7 @@
 **Owner:** @carlosanton.io
 **Reference mockups:** `references/design_upgrade/issp-editor-redesign.html` (Overview), `references/design_upgrade/issp-section-editor-redesign.html` (Section editor)
 **Source spec:** `references/design_upgrade/ISSP_EDITOR_IMPLEMENTATION_PLAN.md`
-**Status:** Phases 1–5 complete — Phase 6 next
+**Status:** Phases 1–6 complete — Phase 7 (body patterns) deferred
 
 ---
 

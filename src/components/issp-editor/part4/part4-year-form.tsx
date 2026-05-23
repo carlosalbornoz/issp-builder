@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,6 +18,7 @@ import {
 } from "@/components/ui/sheet";
 import { Plus, Trash2, Pencil, ExternalLink } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -433,7 +433,6 @@ export function Part4YearForm({
   internalProjects,
   crossAgencyProjects,
 }: Part4YearFormProps) {
-  const router = useRouter();
   const [budget, setBudget] = useState<YearBudget>(() => {
     const base = EMPTY_BUDGET();
     if (!initialData) return base;
@@ -469,41 +468,32 @@ export function Part4YearForm({
     ) +
     sumLines(budget.continuingCosts.mooe);
 
+  const sectionId = `part4/${yearKey}` as `part4/${"year1" | "year2" | "year3"}`;
+  const sectionTitle = `Resource Requirements — ${year}`;
+  const sectionDesc = `Enter all ICT expenditures for ${year}. Totals are computed automatically.`;
+
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-1">
-            Part IV · Year Breakdown
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Resource Requirements — {year}
-          </h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Enter all ICT expenditures for {year}. Totals are computed automatically.
-          </p>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2.5 text-xs text-muted-foreground">
-            <span className="font-medium text-foreground/50">Legend:</span>
-            {[
-              { color: "#3B82F6", label: "Office Productivity" },
-              { color: "#8B5CF6", label: "Internal Projects" },
-              { color: "#F59E0B", label: "Cross-Agency Projects" },
-              { color: "#F43F5E", label: "Recurring Costs" },
-            ].map(({ color, label }) => (
-              <span key={label} className="flex items-center gap-1.5">
-                <span className="inline-block h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: color }} />
-                {label}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="text-right">
-            <p className="text-xs text-muted-foreground">Year Total</p>
-            <p className="text-lg font-bold text-primary">{php(grandTotal)}</p>
-          </div>
-        </div>
+    <SectionShell
+      sectionId={sectionId}
+      title={sectionTitle}
+      description={sectionDesc}
+      statBlock={{ label: "Year Total", value: php(grandTotal) }}
+    >
+
+      {/* Legend */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground rounded-lg border bg-muted/20 px-4 py-2.5">
+        <span className="font-medium text-foreground/50">Legend:</span>
+        {[
+          { color: "#3B82F6", label: "Office Productivity" },
+          { color: "#8B5CF6", label: "Internal Projects" },
+          { color: "#F59E0B", label: "Cross-Agency Projects" },
+          { color: "#F43F5E", label: "Recurring Costs" },
+        ].map(({ color, label }) => (
+          <span key={label} className="flex items-center gap-1.5">
+            <span className="inline-block h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: color }} />
+            {label}
+          </span>
+        ))}
       </div>
 
       {/* A — Office Productivity */}
@@ -655,38 +645,6 @@ export function Part4YearForm({
         <span className="font-semibold">Grand Total — Year {year}</span>
         <span className="text-xl font-bold text-primary">{php(grandTotal)}</span>
       </div>
-
-      {/* Navigation */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button
-          variant="outline"
-          onClick={() =>
-            router.push(
-              yearKey === "year1"
-                ? "/editor/part3/f"
-                : yearKey === "year2"
-                ? "/editor/part4/year1"
-                : "/editor/part4/year2"
-            )
-          }
-        >
-          ←{" "}
-          {yearKey === "year1"
-            ? "Part III-F: Performance"
-            : `Year ${year - 1}`}
-        </Button>
-        <Button
-          onClick={() =>
-            router.push(
-              yearKey === "year3"
-                ? "/editor/part4/summary"
-                : `/editor/part4/${yearKey === "year1" ? "year2" : "year3"}`
-            )
-          }
-        >
-          {yearKey === "year3" ? "Summary of Investments →" : `Year ${year + 1} →`}
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

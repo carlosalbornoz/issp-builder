@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2 } from "lucide-react";
+import { SectionShell } from "@/components/editor/section-shell";
 
 interface HCRow {
   id: string;
@@ -38,7 +38,6 @@ export function Part3CForm({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialData: HCRow[] | any[];
 }) {
-  const router = useRouter();
   const [rows, setRows] = useState<HCRow[]>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (initialData as any[]).map((r) => ({
@@ -77,7 +76,11 @@ export function Part3CForm({
   const grandTotal = rows.reduce((s, r) => s + r.quantity, 0);
 
   return (
-    <div className="space-y-8">
+    <SectionShell
+      sectionId="part3/c"
+      title="Proposed ICT Human Capital"
+      description="List the ICT human capital requirements needed over the plan period."
+    >
       <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
@@ -236,14 +239,6 @@ export function Part3CForm({
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part3/b")}>
-          ← Enterprise Architecture
-        </Button>
-        <Button onClick={() => router.push("/editor/part3/d")}>
-          Next: Proposed IS →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

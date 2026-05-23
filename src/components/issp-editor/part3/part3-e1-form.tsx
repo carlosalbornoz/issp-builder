@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -18,16 +17,10 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import {
-  Plus,
-  Trash2,
-  ChevronDown,
-  ChevronRight,
-  FolderKanban,
-  Link2,
-} from "lucide-react";
+import { Plus, Trash2, ChevronDown, ChevronRight, FolderKanban, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ProposedSystem } from "./part3-d-form";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -532,44 +525,24 @@ export function Part3E1Form({
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
 }) {
-  const router = useRouter();
   const { debouncedSave } = useLocalSave("part3");
-
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ internalProjects: projects }),
     [debouncedSave]
   );
-
   return (
-    <div className="space-y-8">
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section E.1
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Internal ICT Projects</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Projects implemented solely by your agency — link IS-driven projects to systems defined in Part III-D.
-          </p>
-        </div>
-      </div>
-
+    <SectionShell
+      sectionId="part3/e1"
+      title="Internal ICT Projects"
+      description="Projects implemented solely by your agency — link IS-driven projects to systems defined in Part III-D."
+    >
       <ProjectList
         proposedSystems={proposedSystems}
         initialProjects={initialProjects}
         isCrossAgency={false}
         onSave={save}
       />
-
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part3/d")}>
-          ← Proposed IS
-        </Button>
-        <Button onClick={() => router.push("/editor/part3/e2")}>
-          Next: Cross-Agency Projects →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }
 
@@ -582,43 +555,23 @@ export function Part3E2Form({
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
 }) {
-  const router = useRouter();
   const { debouncedSave } = useLocalSave("part3");
-
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ crossAgencyProjects: projects }),
     [debouncedSave]
   );
-
   return (
-    <div className="space-y-8">
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section E.2
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Cross-Agency ICT Projects</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Projects involving multiple agencies. Specify the lead and implementing agencies.
-          </p>
-        </div>
-      </div>
-
+    <SectionShell
+      sectionId="part3/e2"
+      title="Cross-Agency ICT Projects"
+      description="Projects involving multiple agencies. Specify the lead and implementing agencies."
+    >
       <ProjectList
         proposedSystems={proposedSystems}
         initialProjects={initialProjects}
         isCrossAgency={true}
         onSave={save}
       />
-
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part3/e1")}>
-          ← Internal Projects
-        </Button>
-        <Button onClick={() => router.push("/editor/part3/f")}>
-          Next: Performance Framework →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronRight, Info } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import { SectionShell } from "@/components/editor/section-shell";
 
 type AgencyType = "NGA" | "GOCC" | "LGU" | "OTHER";
 
@@ -94,7 +94,6 @@ function FormField({
 }
 
 export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
-  const router = useRouter();
   const [data, setData] = useState<Part1AData>(initialData ?? DEFAULT_DATA);
   const [expandedOOs, setExpandedOOs] = useState<Set<string>>(new Set());
 
@@ -169,22 +168,11 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
   const ooShort = OO_SHORT[agencyType];
 
   return (
-    <div className="space-y-8">
-      {/* Page header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
-            Part I · Section A
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Mandate, Vision, Mission & Outcomes
-          </h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Provide the legal basis and strategic direction of your agency.
-          </p>
-        </div>
-      </div>
-
+    <SectionShell
+      sectionId="part1/a"
+      title="Mandate, Vision, Mission & Outcomes"
+      description="Provide the legal basis and strategic direction of your agency."
+    >
       {/* A.1 Mandate */}
       <Card>
         <CardHeader className="pb-4">
@@ -402,13 +390,6 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
         </CardContent>
       </Card>
 
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <div />
-        <Button onClick={() => router.push("/editor/part1/b")}>
-          Next: Organization Structure →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }
