@@ -103,7 +103,7 @@ function LineRow({
 
   return (
     <tr className="border-b border-border hover:bg-muted/10 group">
-      <td className={cn(cellCls, "min-w-[260px]")}>
+      <td className={cellCls}>
         <input
           type="text"
           className={inputCls}
@@ -112,7 +112,7 @@ function LineRow({
           onChange={(e) => set("item", e.target.value)}
         />
       </td>
-      <td className={cn(cellCls, "min-w-[140px]")}>
+      <td className={cellCls}>
         <input
           type="text"
           className={inputCls}
@@ -121,14 +121,14 @@ function LineRow({
           onChange={(e) => set("office", e.target.value)}
         />
       </td>
-      <td className={cn(cellCls, "min-w-[260px]")}>
+      <td className={cellCls}>
         <UacsCombobox
           value={line.uacsCode}
           context={context}
           onChange={(uacs, label) => onChange({ ...line, uacsCode: uacs, uacsLabel: label })}
         />
       </td>
-      <td className={cn(cellCls, "min-w-[160px]")}>
+      <td className={cellCls}>
         <select
           className={cn(inputCls, "cursor-pointer")}
           value={line.fundSource}
@@ -140,7 +140,7 @@ function LineRow({
           <option>Other Income Generating Sources</option>
         </select>
       </td>
-      <td className={cn(cellCls, "w-20 text-right")}>
+      <td className={cn(cellCls, "text-right")}>
         <input
           type="number"
           min={1}
@@ -149,7 +149,7 @@ function LineRow({
           onChange={(e) => set("qty", Math.max(1, Number(e.target.value)))}
         />
       </td>
-      <td className={cn(cellCls, "w-32 text-right")}>
+      <td className={cn(cellCls, "text-right")}>
         <input
           type="number"
           min={0}
@@ -159,10 +159,10 @@ function LineRow({
           onChange={(e) => set("unitCost", Number(e.target.value))}
         />
       </td>
-      <td className={cn(cellCls, "w-32 text-right font-medium text-sm bg-muted/30")}>
+      <td className={cn(cellCls, "text-right font-medium text-sm bg-muted/30")}>
         {php(totalLine(line))}
       </td>
-      <td className="px-2 py-1 w-10 text-center border-l border-border">
+      <td className="px-2 py-1 text-center border-l border-border">
         <Button
           variant="ghost"
           size="icon"
@@ -177,6 +177,16 @@ function LineRow({
   );
 }
 
+export interface ColumnWidths {
+  item: number;
+  office: number;
+  uacs: number;
+  fundSource: number;
+  qty: number;
+  unitCost: number;
+  total: number;
+}
+
 // ─── Line Items Table ──────────────────────────────────────────────────────────
 
 function LineTable({
@@ -185,12 +195,16 @@ function LineTable({
   lines,
   onUpdate,
   badge,
+  colWidths,
+  onResize,
 }: {
   title: string;
   context: "co" | "mooe";
   lines: LineItem[];
   onUpdate: (lines: LineItem[]) => void;
   badge?: string;
+  colWidths: ColumnWidths;
+  onResize: (key: keyof ColumnWidths, width: number) => void;
 }) {
   function addLine() {
     onUpdate([...lines, BLANK_LINE()]);
@@ -205,6 +219,27 @@ function LineTable({
   }
 
   const total = sumLines(lines);
+
+  const startResize = (key: keyof ColumnWidths, e: React.MouseEvent) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = colWidths[key];
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const deltaX = moveEvent.clientX - startX;
+      onResize(key, startWidth + deltaX);
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const tableWidth = Object.values(colWidths).reduce((a, b) => a + b, 0) + 50;
 
   return (
     <div className="space-y-2">
@@ -231,37 +266,103 @@ function LineTable({
 
       {lines.length > 0 ? (
         <div className="overflow-x-auto rounded-md border">
-          <table className="w-full text-sm border-collapse">
+          <table className="w-full text-sm border-collapse" style={{ tableLayout: "fixed", width: tableWidth }}>
+            <colgroup>
+              <col style={{ width: colWidths.item }} />
+              <col style={{ width: colWidths.office }} />
+              <col style={{ width: colWidths.uacs }} />
+              <col style={{ width: colWidths.fundSource }} />
+              <col style={{ width: colWidths.qty }} />
+              <col style={{ width: colWidths.unitCost }} />
+              <col style={{ width: colWidths.total }} />
+              <col style={{ width: 50 }} /> {/* action column */}
+            </colgroup>
             <thead>
               <tr className="bg-muted/50 text-xs font-medium text-muted-foreground">
-                <th className="border-r border-b border-border px-3 py-2 text-left">Item / Description</th>
-                <th className="border-r border-b border-border px-3 py-2 text-left">Office Location</th>
-                <th className="border-r border-b border-border px-3 py-2 text-left">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger
-                        render={
-                          <a
-                            href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 hover:text-primary transition-colors"
-                          />
-                        }
-                      >
-                        UACS Code
-                        <ExternalLink className="h-3 w-3 opacity-50" />
-                      </TooltipTrigger>
-                      <TooltipContent side="top">
-                        Browse all UACS codes in the UACS Explorer
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                <th className="border-r border-b border-border px-3 py-2 text-left relative select-none">
+                  Item / Description
+                  <div
+                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
+                    onMouseDown={(e) => startResize("item", e)}
+                  >
+                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
+                  </div>
                 </th>
-                <th className="border-r border-b border-border px-3 py-2 text-left">Fund Source</th>
-                <th className="border-r border-b border-border px-3 py-2 text-right">Physical Target</th>
-                <th className="border-r border-b border-border px-3 py-2 text-right">Unit Cost (₱)</th>
-                <th className="border-r border-b border-border px-3 py-2 text-right bg-muted/30">Total (₱)</th>
+                <th className="border-r border-b border-border px-3 py-2 text-left relative select-none">
+                  Office Location
+                  <div
+                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
+                    onMouseDown={(e) => startResize("office", e)}
+                  >
+                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
+                  </div>
+                </th>
+                <th className="border-r border-b border-border px-3 py-2 text-left relative select-none">
+                  <div className="flex items-center justify-between pr-2">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger
+                          render={
+                            <a
+                              href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 hover:text-primary transition-colors"
+                            />
+                          }
+                        >
+                          UACS Code
+                          <ExternalLink className="h-3 w-3 opacity-50" />
+                        </TooltipTrigger>
+                        <TooltipContent side="top">
+                          Browse all UACS codes in the UACS Explorer
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                  <div
+                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
+                    onMouseDown={(e) => startResize("uacs", e)}
+                  >
+                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
+                  </div>
+                </th>
+                <th className="border-r border-b border-border px-3 py-2 text-left relative select-none">
+                  Fund Source
+                  <div
+                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
+                    onMouseDown={(e) => startResize("fundSource", e)}
+                  >
+                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
+                  </div>
+                </th>
+                <th className="border-r border-b border-border px-3 py-2 text-right relative select-none">
+                  Physical Target
+                  <div
+                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
+                    onMouseDown={(e) => startResize("qty", e)}
+                  >
+                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
+                  </div>
+                </th>
+                <th className="border-r border-b border-border px-3 py-2 text-right relative select-none">
+                  Unit Cost (₱)
+                  <div
+                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
+                    onMouseDown={(e) => startResize("unitCost", e)}
+                  >
+                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
+                  </div>
+                </th>
+                <th className="border-r border-b border-border px-3 py-2 text-right bg-muted/30 relative select-none">
+                  Total (₱)
+                  <div
+                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
+                    onMouseDown={(e) => startResize("total", e)}
+                  >
+                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
+                  </div>
+                </th>
                 <th className="border-b border-border w-10" />
               </tr>
             </thead>
@@ -364,6 +465,36 @@ export function Part4YearForm({
     return { ...base, ...initialData, internalProjects: ip, crossAgencyProjects: cp };
   });
 
+  const [colWidths, setColWidths] = useState<ColumnWidths>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("issp-part4-col-widths");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch {
+          // ignore
+        }
+      }
+    }
+    return {
+      item: 280,
+      office: 140,
+      uacs: 260,
+      fundSource: 160,
+      qty: 90,
+      unitCost: 120,
+      total: 120,
+    };
+  });
+
+  const handleResize = useCallback((key: keyof ColumnWidths, width: number) => {
+    setColWidths((prev) => {
+      const next = { ...prev, [key]: Math.max(60, width) };
+      localStorage.setItem("issp-part4-col-widths", JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
   const { status, debouncedSave } = useLocalSave("part4");
 
   const save = useCallback(
@@ -433,6 +564,8 @@ export function Part4YearForm({
           onUpdate={(lines) =>
             save({ ...budget, officeProductivity: { ...budget.officeProductivity, capitalOutlay: lines } })
           }
+          colWidths={colWidths}
+          onResize={handleResize}
         />
         <LineTable
           title="Maintenance & Other Operating Expenses (MOOE)"
@@ -442,6 +575,8 @@ export function Part4YearForm({
           onUpdate={(lines) =>
             save({ ...budget, officeProductivity: { ...budget.officeProductivity, mooe: lines } })
           }
+          colWidths={colWidths}
+          onResize={handleResize}
         />
       </SectionCard>
 
@@ -485,6 +620,8 @@ export function Part4YearForm({
                     },
                   })
                 }
+                colWidths={colWidths}
+                onResize={handleResize}
               />
               <LineTable
                 title="MOOE"
@@ -500,6 +637,8 @@ export function Part4YearForm({
                     },
                   })
                 }
+                colWidths={colWidths}
+                onResize={handleResize}
               />
             </SectionCard>
           );
@@ -536,6 +675,8 @@ export function Part4YearForm({
                     },
                   })
                 }
+                colWidths={colWidths}
+                onResize={handleResize}
               />
               <LineTable
                 title="MOOE"
@@ -551,6 +692,8 @@ export function Part4YearForm({
                     },
                   })
                 }
+                colWidths={colWidths}
+                onResize={handleResize}
               />
             </SectionCard>
           );
@@ -570,6 +713,8 @@ export function Part4YearForm({
           onUpdate={(lines) =>
             save({ ...budget, continuingCosts: { mooe: lines } })
           }
+          colWidths={colWidths}
+          onResize={handleResize}
         />
       </SectionCard>
 

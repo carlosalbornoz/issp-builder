@@ -296,7 +296,7 @@ export function UacsCombobox({
         type="button"
         onClick={openDropdown}
         className={cn(
-          "flex w-full items-center justify-between rounded-md border bg-background px-3 py-2 text-sm shadow-sm",
+          "flex w-full min-w-0 items-center justify-between rounded-md border bg-background px-3 py-2 text-sm shadow-sm",
           "hover:border-ring focus:outline-none focus:ring-1 focus:ring-ring",
           open && "ring-1 ring-ring border-ring"
         )}
