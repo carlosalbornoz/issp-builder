@@ -1,38 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
+import type { SummaryRow, UacsRow, Part4SummaryData } from "./part4-aggregations";
 
-// ─── Types (mirrored from part4-year-form for import convenience) ─────────────
-
-export interface SummaryRow {
-  label: string;
-  year1: number;
-  year2: number;
-  year3: number;
-  total: number;
-  isTotal?: boolean;
-}
-
-export interface UacsRow {
-  uacsCode: string;
-  uacsLabel: string;
-  year1: number;
-  year2: number;
-  year3: number;
-  total: number;
-}
-
-export interface Part4SummaryData {
-  yearLabels: [string, string, string];
-  b1: SummaryRow[];           // General Summary — category × year
-  b2: SummaryRow[];           // By Fund Source
-  b3: SummaryRow[];           // Statement of Expenditure (CO / MOOE)
-  b4: UacsRow[];              // Object of Expenditure by UACS
-  grandTotals: [number, number, number]; // per year, should match across B.1–B.3
-}
+export type { SummaryRow, UacsRow, Part4SummaryData };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -271,6 +244,7 @@ export function Part4Summary({
       sectionId="part4/summary"
       title="Summary of Investments"
       description="Consolidated 3-year budget view across all ICT expenditure categories."
+      hideMarkDone
     >
 
       <ConsistencyBanner

@@ -4,6 +4,8 @@ export interface SectionDef {
   readonly id: string;
   readonly label: string;
   readonly href: string;
+  /** Read-only sections (e.g. computed summaries) are excluded from status tracking */
+  readonly readOnly?: true;
 }
 
 export interface PartDef {
@@ -50,7 +52,7 @@ export const PARTS: readonly PartDef[] = [
       { id: "part4/year1",   label: "Year 1 Breakdown",       href: "/editor/part4/year1"   },
       { id: "part4/year2",   label: "Year 2 Breakdown",       href: "/editor/part4/year2"   },
       { id: "part4/year3",   label: "Year 3 Breakdown",       href: "/editor/part4/year3"   },
-      { id: "part4/summary", label: "Summary of Investments", href: "/editor/part4/summary" },
+      { id: "part4/summary", label: "Summary of Investments", href: "/editor/part4/summary", readOnly: true },
     ],
   },
 ] as const;
@@ -70,7 +72,9 @@ export function computePartStatus(
   partSections: readonly SectionDef[],
   sectionMeta: Record<string, SectionMeta>
 ): SectionStatus {
-  const statuses = partSections.map((s) => computeStatus(sectionMeta[s.id]));
+  const statuses = partSections
+    .filter((s) => !s.readOnly)
+    .map((s) => computeStatus(sectionMeta[s.id]));
   if (statuses.every((s) => s === "done")) return "done";
   if (statuses.every((s) => s === "empty")) return "empty";
   return "in_progress";

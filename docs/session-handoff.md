@@ -1,6 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-23 (session 5)  
+> **Last updated:** 2026-05-24 (session 6)  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -79,6 +79,43 @@ Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references
 | 7 | Unsaved changes — content snapshot + field diff | ✅ Done 2026-05-23 |
 | 7b | Mobile editor shell — fixed drawer sidebar on mobile; desktop sidebar remains static/collapsible | ✅ Done 2026-05-23 |
 | 8 | Section body patterns | 🔜 Deferred |
+
+### Session 6 — Part IV refactor + read-only section pattern (2026-05-24)
+
+**`part4-aggregations.ts` — shared data layer extracted**
+
+All aggregation logic that was copy-pasted identically in both `editor/part4/summary/page.tsx` and `dashboard/.../part4/summary/page.tsx` (≈130 lines each) is now in one place:
+
+| Symbol | Exported from |
+|---|---|
+| `SummaryRow`, `UacsRow`, `Part4SummaryData` | `part4-aggregations.ts` |
+| `lineTotal`, `sumLines`, `yearTotal` | `part4-aggregations.ts` |
+| `buildB1`, `buildB2`, `buildB3`, `buildB4` | `part4-aggregations.ts` |
+| `FUND_SOURCE_ORDER` | `part4-aggregations.ts` |
+
+`part4-summary.tsx` re-exports the three types for backward compat. Both pages now import build functions from the shared module.
+
+**`SectionShell` — `hideMarkDone` prop**
+
+```tsx
+<SectionShell hideMarkDone ...>
+```
+
+Suppresses the "Mark as done" button from the section footer. Use for computed/read-only sections that have no user inputs. Currently used by `Part4Summary`.
+
+**`SectionDef.readOnly` — sections excluded from status tracking**
+
+```typescript
+// sections.ts
+{ id: "part4/summary", label: "Summary of Investments", href: "...", readOnly: true }
+```
+
+When `readOnly: true`:
+- `computePartStatus` skips the section (Part IV dot reflects only the 3 year forms)
+- `StatusDot` is not rendered in the sidebar, overview (`part-card.tsx`), or the `SectionShell` sticky header
+- "Mark as done" button is automatically suppressed (via `hideMarkDone` on the component)
+
+Reusable for any future computed/summary section.
 
 ### Design tokens (warm palette — `src/app/globals.css`)
 
@@ -503,6 +540,13 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 - Props: `value`, `onChange(uacs, label)`, `context: "co" | "mooe" | "all"`, `placeholder`
 - Lazy-loads `/uacs_active.min.json` on first open
 
+### `src/components/issp-editor/part4/part4-aggregations.ts`
+Pure data layer — no React imports, safe to use in both client and server components.
+- **Types:** `SummaryRow`, `UacsRow`, `Part4SummaryData`
+- **Low-level:** `lineTotal`, `sumLines`, `yearTotal`, `FUND_SOURCE_ORDER`
+- **Build functions:** `buildB1` (category summary), `buildB2` (by fund source), `buildB3` (CO/MOOE), `buildB4` (UACS object of expenditure)
+- Both the local-first editor page (`src/app/editor/part4/summary/page.tsx`) and the server-side dashboard page (`src/app/(dashboard)/dashboard/documents/[id]/part4/summary/page.tsx`) import from here.
+
 ### `src/components/issp-editor/part4/part4-year-form.tsx`
 - Dynamic section lettering via `alpha(n)`
 - Exports `YearBudget`, `LineItem`, `ProjectBudget` types (re-exported from store types)
@@ -546,6 +590,7 @@ Extracted shared section chrome into `SectionShell` at `src/components/editor/se
 - `MarkAsDone` toggle: outlined/filled-green; writes `userMarkedDone` to `sectionMeta` → updates sidebar dot + Overview live
 - `SectionNavLink` prev/next across all 18 sections; last section shows "Return to Overview"
 - `statBlock` prop renders optional top-right stat (used by Part IV year forms to show Year Total)
+- `hideMarkDone` prop suppresses the "Mark as done" footer button — use for computed/read-only sections
 - `Callout` component created at `src/components/ui/callout.tsx` (info/tip/warning/danger variants)
 
 **Phase 6b fixes (session 3):**
@@ -690,13 +735,14 @@ src/
 │       ├── part2/{a,b,c,d}-form.tsx
 │       ├── part3/{a,b,c,d,e1,e2,f}-form.tsx
 │       └── part4/
-│           ├── part4-year-form.tsx    ← dynamic alpha() lettering
-│           └── part4-summary.tsx     ← B.1–B.4 read-only tables
+│           ├── part4-year-form.tsx       ← dynamic alpha() lettering; exports LineItem/YearBudget/ProjectBudget types
+│           ├── part4-aggregations.ts     ← shared data layer: types + build functions (no React)
+│           └── part4-summary.tsx         ← B.1–B.4 read-only display; imports from part4-aggregations
 ├── hooks/
 │   ├── use-file-save-reminder.ts      ← 10-min Sonner toast
 │   └── use-local-save.ts
 └── lib/
-    ├── sections.ts                    ← PARTS, ALL_SECTIONS, computeStatus(), findContinueTarget()
+    ├── sections.ts                    ← PARTS, ALL_SECTIONS, computeStatus(), findContinueTarget(); SectionDef.readOnly flag
     ├── section-fields.ts              ← SECTION_FIELDS map, getChangedFields() — powers sidebar field-level diff
     ├── store/
     │   ├── index.tsx                  ← IsspStore context + migrateLegacyDoc + deriveMetaFromContent

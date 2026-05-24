@@ -40,7 +40,7 @@ export function PartCard({
                 href={section.href}
                 className="flex items-center gap-2.5 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <StatusDot status={status} size={6} className="shrink-0" />
+                {!section.readOnly && <StatusDot status={status} size={6} className="shrink-0" />}
                 <span className="flex-1 truncate">{section.label}</span>
                 <RelativeTime
                   iso={meta?.lastEditedAt}

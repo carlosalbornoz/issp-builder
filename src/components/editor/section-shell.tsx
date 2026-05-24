@@ -18,6 +18,8 @@ export interface SectionShellProps {
   description: string;
   /** Optional stat block rendered top-right of the header */
   statBlock?: { label: string; value: string; caption?: string };
+  /** Suppress the "Mark as done" button — use for read-only summary sections */
+  hideMarkDone?: boolean;
   children: React.ReactNode;
 }
 
@@ -26,6 +28,7 @@ export function SectionShell({
   title,
   description,
   statBlock,
+  hideMarkDone,
   children,
 }: SectionShellProps) {
   const router = useRouter();
@@ -98,7 +101,7 @@ export function SectionShell({
               >
                 Part {part.part}{sectionPrefix ? ` · ${sectionPrefix}` : ""}
               </p>
-              <StatusDot status={status} size={7} />
+              {!section?.readOnly && <StatusDot status={status} size={7} />}
             </div>
             <h1 className="text-2xl font-bold tracking-tight font-display">{title}</h1>
             <p className="text-muted-foreground text-sm mt-1">{description}</p>
@@ -121,7 +124,7 @@ export function SectionShell({
 
       {/* ── Footer ── */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t mt-8">
-        <MarkAsDone isDone={isDone} onChange={handleMarkDone} />
+        {!hideMarkDone && <MarkAsDone isDone={isDone} onChange={handleMarkDone} />}
         <SectionNavButtons
           prevSection={prevSection}
           prevPart={prevPart ?? null}
