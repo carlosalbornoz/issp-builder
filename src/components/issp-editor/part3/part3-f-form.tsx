@@ -1,13 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, BarChart3, FolderKanban } from "lucide-react";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -158,7 +157,7 @@ function ProjectKpiTable({
                   <tr key={row.id} className="hover:bg-muted/10">
                     <td className="border px-1 py-1">
                       <select
-                        className="w-full px-2 py-1.5 text-xs bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full px-2 py-1.5 text-xs bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={row.hierarchy}
                         onChange={(e) => updateRow(row.id, "hierarchy", e.target.value as KpiRow["hierarchy"])}
                       >
@@ -171,7 +170,7 @@ function ProjectKpiTable({
                     <td className="border px-1 py-1">
                       <input
                         type="text"
-                        className="w-full px-2 py-1.5 text-xs bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full px-2 py-1.5 text-xs bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder="e.g., % reduction in processing time"
                         value={row.indicator}
                         onChange={(e) => updateRow(row.id, "indicator", e.target.value)}
@@ -181,7 +180,7 @@ function ProjectKpiTable({
                       <td key={field} className="border px-1 py-1">
                         <input
                           type="text"
-                          className="w-full px-2 py-1.5 text-xs text-center bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                          className="w-full px-2 py-1.5 text-xs text-center bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                           placeholder="—"
                           value={row[field]}
                           onChange={(e) => updateRow(row.id, field, e.target.value)}
@@ -191,7 +190,7 @@ function ProjectKpiTable({
                     <td className="border px-1 py-1">
                       <input
                         type="text"
-                        className="w-full px-2 py-1.5 text-xs bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full px-2 py-1.5 text-xs bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder="e.g., Monthly reports"
                         value={row.dataCollectionMethod}
                         onChange={(e) => updateRow(row.id, "dataCollectionMethod", e.target.value)}
@@ -200,7 +199,7 @@ function ProjectKpiTable({
                     <td className="border px-1 py-1">
                       <input
                         type="text"
-                        className="w-full px-2 py-1.5 text-xs bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full px-2 py-1.5 text-xs bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder="e.g., ICT Division"
                         value={row.responsibleUnit}
                         onChange={(e) => updateRow(row.id, "responsibleUnit", e.target.value)}
@@ -237,7 +236,6 @@ export function Part3FForm({
   allProjects: ProjectSummary[];
   initialFramework: PerformanceFramework;
 }) {
-  const router = useRouter();
   // Initialize framework, ensuring an entry per project
   const [framework, setFramework] = useState<PerformanceFramework>(() => {
     const init: PerformanceFramework = { ...initialFramework };
@@ -253,7 +251,7 @@ export function Part3FForm({
     return init;
   });
 
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/f");
 
   const update = useCallback(
     (next: PerformanceFramework) => {
@@ -270,19 +268,11 @@ export function Part3FForm({
   const totalKpis = Object.values(framework).reduce((s, k) => s + k.rows.length, 0);
 
   return (
-    <div className="space-y-8">
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section F
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Performance Framework</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Define KPIs and targets for each ICT project. Track baseline and 3-year targets.
-          </p>
-        </div>
-        <SaveStatusIndicator status={status} />
-      </div>
+    <SectionShell
+      sectionId="part3/f"
+      title="Performance Framework"
+      description="Define key performance indicators (KPIs) for each ICT project to track outcomes over the plan period."
+    >
 
       {/* Summary */}
       <div className="flex flex-wrap gap-3">
@@ -330,14 +320,6 @@ export function Part3FForm({
         </div>
       )}
 
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part3/e2")}>
-          ← Cross-Agency Projects
-        </Button>
-        <Button onClick={() => router.push("/editor/part4/year1")}>
-          Next: Part IV - Resource Requirements →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

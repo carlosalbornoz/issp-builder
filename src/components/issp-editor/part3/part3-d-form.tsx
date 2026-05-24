@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,10 +15,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, ChevronDown, ChevronRight, Sparkles, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -97,13 +97,13 @@ const STORAGE_OPTIONS = [
   { value: "HYBRID", label: "Hybrid" },
 ];
 const STATUS_OPTIONS = [
-  { value: "FOR_DEVELOPMENT", label: "For Development", color: "bg-blue-100 text-blue-800" },
-  { value: "FOR_ENHANCEMENT", label: "For Enhancement", color: "bg-amber-100 text-amber-800" },
+  { value: "FOR_DEVELOPMENT", label: "For Development", color: "bg-info-bg text-info border border-info-border" },
+  { value: "FOR_ENHANCEMENT", label: "For Enhancement", color: "bg-warning-bg text-warning border border-warning-border" },
 ];
 
 const STATUS_COLOR: Record<string, string> = {
-  FOR_DEVELOPMENT: "bg-blue-100 text-blue-800",
-  FOR_ENHANCEMENT: "bg-amber-100 text-amber-800",
+  FOR_DEVELOPMENT: "bg-info-bg text-info border border-info-border",
+  FOR_ENHANCEMENT: "bg-warning-bg text-warning border border-warning-border",
 };
 
 // ─── System Card ──────────────────────────────────────────────────────────────
@@ -123,7 +123,6 @@ function SystemCard({
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
-  const router = useRouter();
   const [expanded, setExpanded] = useState(true);
 
   return (
@@ -147,7 +146,7 @@ function SystemCard({
               </Badge>
             )}
             {isLinked && (
-              <span className="flex items-center gap-1 text-xs text-green-700 bg-green-100 px-1.5 py-0.5 rounded">
+              <span className="flex items-center gap-1 text-xs text-success bg-success-bg px-1.5 py-0.5 rounded border border-success-border">
                 <Link2 className="h-3 w-3" />
                 Has project
               </span>
@@ -392,19 +391,17 @@ function SystemCard({
 
       {/* Auto-prompt: nudge user to create an ICT project for this new system */}
       {isNew && !isLinked && (
-        <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-blue-50 border-t border-blue-100">
-          <div className="flex items-center gap-2 text-xs text-blue-700">
+        <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-info-bg border-t border-info-border">
+          <div className="flex items-center gap-2 text-xs text-info">
             <Link2 className="h-3.5 w-3.5 shrink-0" />
             <span>Ready to plan implementation? Create an ICT project for this system in Part III-E.</span>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.push("/editor/part3/e1")}
-            className="shrink-0 text-xs text-blue-700 hover:text-blue-900 hover:bg-blue-100 h-7 px-2"
+          <Link
+            href="/editor/part3/e1"
+            className="shrink-0 text-xs text-info hover:opacity-80 hover:bg-info-border h-7 px-2 inline-flex items-center rounded-md"
           >
             Go to Part III-E →
-          </Button>
+          </Link>
         </div>
       )}
     </div>
@@ -420,10 +417,9 @@ export function Part3DForm({
   initialSystems: ProposedSystem[];
   existingProjectIds: string[];
 }) {
-  const router = useRouter();
   const [systems, setSystems] = useState<ProposedSystem[]>(initialSystems);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/d");
 
   const update = useCallback(
     (next: ProposedSystem[]) => {
@@ -448,20 +444,11 @@ export function Part3DForm({
   }
 
   return (
-    <div className="space-y-8">
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section D
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Proposed Information Systems</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Define each new, enhanced, or replaced information system planned for this ISSP period.
-            Projects are created in Part III-E.
-          </p>
-        </div>
-        <SaveStatusIndicator status={status} />
-      </div>
+    <SectionShell
+      sectionId="part3/d"
+      title="Proposed Information Systems"
+      description="Define the proposed information systems to be developed, acquired, or enhanced. Projects are created in Part III-E."
+    >
 
       {/* Summary */}
       <div className="flex flex-wrap gap-3">
@@ -471,7 +458,7 @@ export function Part3DForm({
         </div>
         {STATUS_OPTIONS.map((s) => (
           <div key={s.value} className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-            <span className={cn("text-2xl font-bold", s.value === "FOR_DEVELOPMENT" ? "text-blue-600" : "text-amber-600")}>
+            <span className={cn("text-2xl font-bold", s.value === "FOR_DEVELOPMENT" ? "text-info" : "text-warning")}>
               {systems.filter((sys) => sys.status === s.value).length}
             </span>
             <span className="text-xs text-muted-foreground">{s.label}</span>
@@ -480,7 +467,7 @@ export function Part3DForm({
       </div>
 
       {/* Hint */}
-      <div className="rounded-lg border border-green-200 bg-green-50/50 p-3 text-xs text-green-800">
+      <div className="rounded-lg border border-success-border bg-success-bg p-3 text-xs text-success">
         <strong>Tip:</strong> Define your proposed systems here first, then go to Part III-E to create
         ICT projects that implement them. Each project can link back to one or more systems.
       </div>
@@ -517,14 +504,6 @@ export function Part3DForm({
         ))}
       </div>
 
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part3/c")}>
-          ← Proposed Human Capital
-        </Button>
-        <Button onClick={() => router.push("/editor/part3/e1")}>
-          Next: Internal Projects →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

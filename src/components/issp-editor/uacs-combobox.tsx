@@ -253,7 +253,7 @@ export function UacsCombobox({
           {query.trim() && ictResults.length > 0 && (
             <>
               <div className="px-3 py-1 bg-muted/30 border-b">
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-blue-600">
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-info">
                   ICT — {ictResults.length} match{ictResults.length !== 1 ? "es" : ""}
                 </span>
               </div>
@@ -296,8 +296,8 @@ export function UacsCombobox({
         type="button"
         onClick={openDropdown}
         className={cn(
-          "flex w-full min-w-0 items-center justify-between rounded-md border bg-background px-3 py-2 text-sm shadow-sm",
-          "hover:border-ring focus:outline-none focus:ring-1 focus:ring-ring",
+          "flex w-full min-w-0 items-center justify-between rounded-md border bg-card px-3 py-2 text-sm text-foreground",
+          "hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-1 focus:ring-ring",
           open && "ring-1 ring-ring border-ring"
         )}
       >

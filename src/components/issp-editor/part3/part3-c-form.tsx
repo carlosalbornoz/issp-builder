@@ -1,9 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
   Select,
@@ -12,9 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2 } from "lucide-react";
+import { SectionShell } from "@/components/editor/section-shell";
 
 interface HCRow {
   id: string;
@@ -39,7 +37,6 @@ export function Part3CForm({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialData: HCRow[] | any[];
 }) {
-  const router = useRouter();
   const [rows, setRows] = useState<HCRow[]>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (initialData as any[]).map((r) => ({
@@ -49,7 +46,7 @@ export function Part3CForm({
       quantity: r.quantity ?? r.physicalCount ?? 1,
     }))
   );
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/c");
 
   const update = useCallback(
     (next: HCRow[]) => {
@@ -78,19 +75,11 @@ export function Part3CForm({
   const grandTotal = rows.reduce((s, r) => s + r.quantity, 0);
 
   return (
-    <div className="space-y-8">
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section C
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Proposed ICT Human Capital</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            List the ICT positions to be filled or created during the ISSP period.
-          </p>
-        </div>
-        <SaveStatusIndicator status={status} />
-      </div>
+    <SectionShell
+      sectionId="part3/c"
+      title="Proposed ICT Human Capital"
+      description="List the ICT human capital requirements needed over the plan period."
+    >
 
       {/* Summary cards */}
       <div className="flex flex-wrap gap-3">
@@ -148,7 +137,7 @@ export function Part3CForm({
                     <td className="border px-2 py-1">
                       <input
                         type="text"
-                        className="w-full rounded px-2 py-1.5 text-sm bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder="e.g., Systems Developer II"
                         value={row.position}
                         onChange={(e) => updateRow(row.id, "position", e.target.value)}
@@ -162,7 +151,7 @@ export function Part3CForm({
                           v && updateRow(row.id, "employmentStatus", v as HCRow["employmentStatus"])
                         }
                       >
-                        <SelectTrigger className="h-8 border-0 bg-transparent shadow-none">
+                        <SelectTrigger className="h-8 border-0 bg-card/70 shadow-none hover:bg-card">
                           <SelectValue placeholder="Select…" />
                         </SelectTrigger>
                         <SelectContent>
@@ -178,7 +167,7 @@ export function Part3CForm({
                       <input
                         type="number"
                         min={1}
-                        className="w-full rounded px-2 py-1.5 text-sm text-center bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-sm text-center bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={row.quantity}
                         onChange={(e) => {
                           const v = parseInt(e.target.value, 10);
@@ -209,43 +198,9 @@ export function Part3CForm({
               </tbody>
             </table>
           </div>
-
-          {/* Add shortcut row */}
-          {rows.length > 0 && (
-            <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
-              <Input
-                placeholder="Quick-add: position name…"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && e.currentTarget.value.trim()) {
-                    update([
-                      ...rows,
-                      {
-                        id: generateId(),
-                        position: e.currentTarget.value.trim(),
-                        employmentStatus: "",
-                        quantity: 1,
-                      },
-                    ]);
-                    e.currentTarget.value = "";
-                  }
-                }}
-              />
-              <Button variant="outline" size="sm" onClick={addRow} className="gap-1">
-                <Plus className="h-3.5 w-3.5" /> Add
-              </Button>
-            </div>
-          )}
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part3/b")}>
-          ← Enterprise Architecture
-        </Button>
-        <Button onClick={() => router.push("/editor/part3/d")}>
-          Next: Proposed IS →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data } from "./types";
+import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget, HCRow } from "./types";
 import { createEmptyDocument, type NewDocOptions } from "./defaults";
 import { idbClear, idbLoad, idbSave } from "./idb";
 
@@ -23,6 +23,8 @@ export interface IsspStoreValue {
   saveStatus: SaveStatus;
   /** ISO timestamp of the last explicit "Save to File" in this session; null if never saved. */
   fileSavedAt: string | null;
+  /** In-memory snapshot of the doc at the last saveToFile/loadFromFile. Null on fresh page load. */
+  savedSnapshot: IsspDocument | null;
   /** True when the doc has been edited since the last file save (or since creation for new docs). */
   unsavedToFile: boolean;
   /** Apply a transformation to the current document. Schedules an IDB write. */
@@ -32,6 +34,8 @@ export interface IsspStoreValue {
   updatePart2: (patch: Partial<Part2Data>) => void;
   updatePart3: (patch: Partial<Part3Data>) => void;
   updatePart4: (patch: Partial<Part4Data>) => void;
+  /** Update per-section metadata (userMarkedDone, lastEditedAt). */
+  updateSectionMeta: (sectionId: string, patch: Partial<SectionMeta>) => void;
   /** Replace the entire document (used by loadFromFile). */
   replace: (doc: IsspDocument) => void;
   /** Create a new blank document and load it into the store. */
@@ -42,6 +46,143 @@ export interface IsspStoreValue {
   saveToFile: () => void;
   /** Parse a .issp file and load it into the store. */
   loadFromFile: (file: File) => Promise<{ success: boolean; error?: string }>;
+}
+
+// ─── Migration ────────────────────────────────────────────────────────────────
+
+function hasHeadcount(hc: HumanCapital): boolean {
+  return [hc.plantilla, hc.contractual, hc.outsourced].some(
+    (r) => r.it.male + r.it.female + r.nonIt.male + r.nonIt.female > 0
+  );
+}
+
+function hasCyberContent(c: CyberControls): boolean {
+  return Object.values(c).some((group) =>
+    Object.values(group as Record<string, boolean>).some(Boolean)
+  );
+}
+
+function hasEgpContent(egp: EgpChecklist): boolean {
+  return Object.values(egp).some((p) => p.status !== "not_utilizing");
+}
+
+function hasYearContent(year: YearBudget): boolean {
+  return (
+    year.officeProductivity.capitalOutlay.length > 0 ||
+    year.officeProductivity.mooe.length > 0 ||
+    Object.keys(year.internalProjects).length > 0 ||
+    Object.keys(year.crossAgencyProjects).length > 0 ||
+    year.continuingCosts.mooe.length > 0
+  );
+}
+
+/** Infer in_progress status from content for sections with no lastEditedAt yet. */
+function deriveMetaFromContent(doc: IsspDocument): Record<string, SectionMeta> {
+  const ts = doc.updatedAt;
+  const existing = doc.sectionMeta ?? {};
+  const result: Record<string, SectionMeta> = { ...existing };
+
+  function maybeSet(id: string, hasContent: boolean) {
+    if (hasContent && !existing[id]?.lastEditedAt) {
+      result[id] = { userMarkedDone: existing[id]?.userMarkedDone ?? false, lastEditedAt: ts };
+    }
+  }
+
+  const p1 = doc.part1;
+  const p2 = doc.part2;
+  const p3 = doc.part3;
+  const p4 = doc.part4;
+
+  maybeSet("part1/a", !!(p1.mandateFunction || p1.visionStatement || p1.missionStatement || p1.legalBasis));
+  maybeSet("part1/b", !!(p1.cioName || hasHeadcount(p1.humanCapital)));
+  maybeSet("part1/c", p1.stakeholders.length > 0);
+
+  maybeSet("part2/a", p2.strategicConcerns.length > 0);
+  maybeSet("part2/b", !!(p2.networkDiagrams.length > 0 || p2.networkDescription || hasCyberContent(p2.cybersecurityControls)));
+  maybeSet("part2/c", p2.informationSystems.length > 0);
+  maybeSet("part2/d", hasEgpContent(p2.egpChecklist));
+
+  maybeSet("part3/a", !!(p3.proposedNetworkDataUrl || p3.proposedNetworkDesc || hasCyberContent(p3.proposedCybersecControls)));
+  maybeSet("part3/b", p3.enterpriseArchDataUrl !== null);
+  maybeSet("part3/c", p3.proposedHumanCapital.length > 0);
+  maybeSet("part3/d", p3.proposedSystems.length > 0);
+  maybeSet("part3/e1", p3.internalProjects.length > 0);
+  maybeSet("part3/e2", p3.crossAgencyProjects.length > 0);
+  maybeSet("part3/f", Object.keys(p3.performanceFramework).length > 0);
+
+  const anyYear = hasYearContent(p4.year1) || hasYearContent(p4.year2) || hasYearContent(p4.year3);
+  maybeSet("part4/year1", hasYearContent(p4.year1));
+  maybeSet("part4/year2", hasYearContent(p4.year2));
+  maybeSet("part4/year3", hasYearContent(p4.year3));
+  maybeSet("part4/summary", anyYear);
+
+  return result;
+}
+
+const genId = () => Math.random().toString(36).slice(2, 10);
+
+function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
+  const base: IsspDocument =
+    (doc.schemaVersion ?? 1) >= 2
+      ? doc
+      : {
+          ...doc,
+          schemaVersion: 2,
+          planStatus: doc.planStatus ?? "draft",
+          submissionTarget: doc.submissionTarget ?? { agency: "DICT", deadline: null },
+          sectionMeta: doc.sectionMeta ?? {},
+        };
+
+  // Idempotent normalizations — keep stored data in sync with what forms write on mount,
+  // so that editing a field and reverting it produces a hash equal to the snapshot.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const normalized: IsspDocument = {
+    ...base,
+    part1: {
+      ...base.part1,
+      // Fill missing row IDs (form uses crypto.randomUUID() on mount for missing ones)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      stakeholders: base.part1.stakeholders.map((s: any) => ({ ...s, id: s.id || genId() })),
+    },
+    part2: {
+      ...base.part2,
+      // Migrate old single outcomeId → outcomeIds array (form does this on mount)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      strategicConcerns: base.part2.strategicConcerns.map((c: any) => ({
+        ...c,
+        outcomeIds: Array.isArray(c.outcomeIds) ? c.outcomeIds : (c.outcomeId ? [c.outcomeId] : []),
+      })),
+    },
+    part3: {
+      ...base.part3,
+      // Normalize HCRow: add id, uppercase employmentStatus, rename physicalCount→quantity
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      proposedHumanCapital: base.part3.proposedHumanCapital.map((r: any): HCRow => ({
+        id: r.id || genId(),
+        position: r.position ?? "",
+        employmentStatus: (r.employmentStatus?.toUpperCase() ?? "") as HCRow["employmentStatus"],
+        quantity: r.quantity ?? r.physicalCount ?? 1,
+      })),
+    },
+  };
+
+  return { ...normalized, sectionMeta: deriveMetaFromContent(normalized) };
+}
+
+// ─── Content hash (for unsaved-changes detection) ────────────────────────────
+
+/**
+ * Strips implementation timestamps from the doc before comparing.
+ * Keeps userMarkedDone (intentional user state) but drops lastEditedAt / updatedAt / exportedAt.
+ */
+function docContentHash(doc: IsspDocument): string {
+  const { updatedAt, exportedAt, sectionMeta, ...rest } = doc;
+  const metaStripped = sectionMeta
+    ? Object.fromEntries(
+        Object.entries(sectionMeta).map(([k, v]) => [k, { userMarkedDone: v.userMarkedDone }])
+      )
+    : {};
+  return JSON.stringify({ ...rest, sectionMeta: metaStripped });
 }
 
 // ─── Context ──────────────────────────────────────────────────────────────────
@@ -58,11 +199,13 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [fileSavedAt, setFileSavedAt] = useState<string | null>(null);
+  const [savedSnapshot, setSavedSnapshot] = useState<IsspDocument | null>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const flashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     idbLoad()
+      .then((doc) => doc ? migrateLegacyDoc(doc) : doc)
       .then(setDoc)
       .finally(() => setLoading(false));
     return () => {
@@ -118,6 +261,18 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
     [update]
   );
 
+  const updateSectionMeta = useCallback(
+    (sectionId: string, patch: Partial<SectionMeta>) =>
+      update((prev) => ({
+        ...prev,
+        sectionMeta: {
+          ...prev.sectionMeta,
+          [sectionId]: { userMarkedDone: false, lastEditedAt: null, ...prev.sectionMeta?.[sectionId], ...patch },
+        },
+      })),
+    [update]
+  );
+
   const replace = useCallback(
     (newDoc: IsspDocument) => {
       setDoc(newDoc);
@@ -131,6 +286,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
       const newDoc = createEmptyDocument(opts);
       setDoc(newDoc);
       scheduleSave(newDoc);
+      setSavedSnapshot(structuredClone(newDoc));
     },
     [scheduleSave]
   );
@@ -139,6 +295,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
     await idbClear();
     setDoc(null);
     setSaveStatus("idle");
+    setSavedSnapshot(null);
   }, []);
 
   const saveToFile = useCallback(() => {
@@ -160,6 +317,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
     setDoc(exported);
     idbSave(exported);
     setFileSavedAt(now);
+    setSavedSnapshot(structuredClone(exported));
   }, [doc]);
 
   const loadFromFile = useCallback(
@@ -173,9 +331,11 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
             error: "This file is not a main ISSP document. Make sure you are loading a .issp file created by this tool.",
           };
         }
-        replace(parsed);
+        const migrated = migrateLegacyDoc(parsed);
+        replace(migrated);
         // Treat the file's exportedAt as the last known file save
         setFileSavedAt(parsed.exportedAt);
+        setSavedSnapshot(structuredClone(migrated));
         return { success: true };
       } catch {
         return {
@@ -187,7 +347,11 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
     [replace]
   );
 
-  const unsavedToFile = !!doc && doc.updatedAt > (fileSavedAt ?? doc.createdAt);
+  const unsavedToFile = !doc
+    ? false
+    : savedSnapshot
+    ? docContentHash(doc) !== docContentHash(savedSnapshot)
+    : doc.updatedAt > (fileSavedAt ?? doc.createdAt); // fallback on fresh browser load (no snapshot yet)
 
   return (
     <IsspStoreContext.Provider
@@ -196,12 +360,14 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
         loading,
         saveStatus,
         fileSavedAt,
+        savedSnapshot,
         unsavedToFile,
         update,
         updatePart1,
         updatePart2,
         updatePart3,
         updatePart4,
+        updateSectionMeta,
         replace,
         createNew,
         clearDoc,
@@ -224,5 +390,5 @@ export function useIsspStore(): IsspStoreValue {
 
 // ─── Re-exports ───────────────────────────────────────────────────────────────
 
-export type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, AgencyType, IsspScope, CyberControls, NetworkDiagram } from "./types";
+export type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, AgencyType, IsspScope, CyberControls, NetworkDiagram, SectionMeta, SectionStatus } from "./types";
 export type { NewDocOptions } from "./defaults";

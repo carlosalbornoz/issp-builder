@@ -1,15 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { CheckCircle2, XCircle, MinusCircle, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -52,9 +51,9 @@ type AgencyType = "NGA" | "GOCC" | "LGU" | "OTHER";
 // ─── Status options ────────────────────────────────────────────────────────────
 
 const STATUS_OPTIONS: { value: Status; label: string; icon: React.ComponentType<{ className?: string }>; className: string }[] = [
-  { value: "utilizing", label: "Utilizing", icon: CheckCircle2, className: "text-green-600" },
-  { value: "proposed", label: "Proposed / In Progress", icon: AlertCircle, className: "text-amber-600" },
-  { value: "not_utilizing", label: "Not Utilizing", icon: XCircle, className: "text-red-500" },
+  { value: "utilizing", label: "Utilizing", icon: CheckCircle2, className: "text-success" },
+  { value: "proposed", label: "Proposed / In Progress", icon: AlertCircle, className: "text-warning" },
+  { value: "not_utilizing", label: "Not Utilizing", icon: XCircle, className: "text-destructive" },
   { value: "not_applicable", label: "Not Applicable", icon: MinusCircle, className: "text-muted-foreground" },
 ];
 
@@ -287,13 +286,12 @@ export function Part2DForm({
   agencyType: AgencyType;
   initialData: Partial<EgpChecklist>;
 }) {
-  const router = useRouter();
   const [checklist, setChecklist] = useState<EgpChecklist>({
     ...DEFAULT_CHECKLIST,
     ...initialData,
   });
 
-  const { status, debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2", "part2/d");
 
   const update = useCallback(
     (next: EgpChecklist) => {
@@ -318,43 +316,34 @@ export function Part2DForm({
   }).length;
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 mb-1">
-            Part II · Section D
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">E-Government Programs</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Indicate adoption status for each government-mandated e-government program.
-          </p>
-        </div>
-        <SaveStatusIndicator status={status} />
-      </div>
+    <SectionShell
+      sectionId="part2/d"
+      title="E-Government Programs"
+      description="Indicate adoption status for each government-mandated e-government program."
+    >
 
       {/* Summary */}
       <div className="flex flex-wrap gap-3">
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <CheckCircle2 className="h-5 w-5 text-green-600" />
+          <CheckCircle2 className="h-5 w-5 text-success" />
           <div>
-            <p className="text-xl font-bold text-green-600 leading-none">{utilizingCount}</p>
+            <p className="text-xl font-bold text-success leading-none">{utilizingCount}</p>
             <p className="text-xs text-muted-foreground">Utilizing</p>
           </div>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <AlertCircle className="h-5 w-5 text-amber-600" />
+          <AlertCircle className="h-5 w-5 text-warning" />
           <div>
-            <p className="text-xl font-bold text-amber-600 leading-none">
+            <p className="text-xl font-bold text-warning leading-none">
               {visiblePrograms.filter((p) => checklist[p.key]?.status === "proposed").length}
             </p>
             <p className="text-xs text-muted-foreground">Proposed</p>
           </div>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <XCircle className="h-5 w-5 text-red-500" />
+          <XCircle className="h-5 w-5 text-destructive" />
           <div>
-            <p className="text-xl font-bold text-red-500 leading-none">
+            <p className="text-xl font-bold text-destructive leading-none">
               {visiblePrograms.filter((p) => checklist[p.key]?.status === "not_utilizing").length}
             </p>
             <p className="text-xs text-muted-foreground">Not Utilizing</p>
@@ -363,7 +352,7 @@ export function Part2DForm({
       </div>
 
       {agencyType === "LGU" && (
-        <div className="rounded-lg border border-blue-200 bg-blue-50/50 px-4 py-2 text-xs text-blue-700">
+        <div className="rounded-lg border border-info-border bg-info-bg px-4 py-2 text-xs text-info">
           <strong>LGU:</strong> The eLGU program section is visible because your agency type is set to LGU.
         </div>
       )}
@@ -379,19 +368,6 @@ export function Part2DForm({
           />
         ))}
       </div>
-
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button
-          variant="outline"
-          onClick={() => router.push("/editor/part2/c")}
-        >
-          ← IS Inventory
-        </Button>
-        <Button onClick={() => router.push("/editor/part3/a")}>
-          Next: Part III - Proposed Strategy →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

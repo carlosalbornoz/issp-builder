@@ -90,7 +90,7 @@ export function IsspOverviewContent({
           <a
             href={`/api/issp/documents/${docId}/export`}
             download
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-muted transition-colors whitespace-nowrap"
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors whitespace-nowrap"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
@@ -120,7 +120,7 @@ export function IsspOverviewContent({
                 <a
                   key={sub.key}
                   href={`${base}/${sub.key}`}
-                  className="flex items-center justify-between rounded-lg border bg-background/70 backdrop-blur-sm px-4 py-2.5 text-sm font-medium hover:bg-background hover:shadow-sm transition-all group"
+                  className="flex items-center justify-between rounded-lg border bg-card px-4 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors group"
                 >
                   <span>{sub.label}</span>
                   <span className="text-muted-foreground group-hover:text-foreground text-xs transition-colors">

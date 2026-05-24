@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,10 +15,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, ChevronDown, ChevronRight, Server } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -116,11 +115,11 @@ const STORAGE_OPTIONS = [
 ];
 
 const CLASSIFICATION_COLORS: Record<string, string> = {
-  G2C: "bg-blue-100 text-blue-800",
-  G2B: "bg-green-100 text-green-800",
-  G2G: "bg-purple-100 text-purple-800",
-  G2E: "bg-amber-100 text-amber-800",
-  INTERNAL: "bg-gray-100 text-gray-800",
+  G2C: "bg-info-bg text-info border border-info-border",
+  G2B: "bg-success-bg text-success border border-success-border",
+  G2G: "bg-[var(--part-4)]/10 text-[var(--part-4)] border border-[var(--part-4)]/30",
+  G2E: "bg-warning-bg text-warning border border-warning-border",
+  INTERNAL: "bg-muted text-muted-foreground border border-border",
 };
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
@@ -451,10 +450,9 @@ export function Part2CForm({
 }: {
   initialData: InformationSystem[];
 }) {
-  const router = useRouter();
   const [systems, setSystems] = useState<InformationSystem[]>(initialData);
 
-  const { status, debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2", "part2/c");
 
   const update = useCallback(
     (next: InformationSystem[]) => {
@@ -479,20 +477,11 @@ export function Part2CForm({
   const frontlineCount = systems.filter((s) => s.frontline).length;
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 mb-1">
-            Part II · Section C
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">IS Inventory</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Enumerate all existing information systems maintained or used by the agency.
-          </p>
-        </div>
-        <SaveStatusIndicator status={status} />
-      </div>
+    <SectionShell
+      sectionId="part2/c"
+      title="IS Inventory"
+      description="Enumerate all existing information systems maintained or used by the agency."
+    >
 
       {/* Summary pills */}
       <div className="flex flex-wrap gap-3">
@@ -501,11 +490,11 @@ export function Part2CForm({
           <span className="text-xs text-muted-foreground">Total Systems</span>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <span className="text-2xl font-bold text-green-600">{frontlineCount}</span>
+          <span className="text-2xl font-bold text-success">{frontlineCount}</span>
           <span className="text-xs text-muted-foreground">Frontline Services</span>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <span className="text-2xl font-bold text-amber-600">
+          <span className="text-2xl font-bold text-warning">
             {systems.filter((s) => s.pia.processesPersonalInfo).length}
           </span>
           <span className="text-xs text-muted-foreground">With Personal Data</span>
@@ -545,19 +534,6 @@ export function Part2CForm({
           />
         ))}
       </div>
-
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button
-          variant="outline"
-          onClick={() => router.push("/editor/part2/b")}
-        >
-          ← Network &amp; Cybersecurity
-        </Button>
-        <Button onClick={() => router.push("/editor/part2/d")}>
-          Next: E-Gov Programs →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

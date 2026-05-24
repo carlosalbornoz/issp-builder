@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
@@ -15,9 +14,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical, Info } from "lucide-react";
+import { SectionShell } from "@/components/editor/section-shell";
 
 interface OrgOutcome {
   id: string;
@@ -53,7 +52,6 @@ const DEFAULT_CONCERN: Omit<StrategicConcern, "id"> = {
 };
 
 export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
-  const router = useRouter();
   const [concerns, setConcerns] = useState<StrategicConcern[]>(() => {
     // Migrate old single outcomeId to new outcomeIds array
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,7 +61,7 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
     }));
   });
 
-  const { status, debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2", "part2/a");
 
   const update = useCallback(
     (next: StrategicConcern[]) => {
@@ -96,28 +94,19 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
   });
 
   return (
-    <div className="space-y-8">
-      {/* Page header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 mb-1">
-            Part II · Section A
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Strategic Concerns</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Identify ICT-related concerns that affect achievement of organizational outcomes.
-          </p>
-        </div>
-        <SaveStatusIndicator status={status} />
-      </div>
+    <SectionShell
+      sectionId="part2/a"
+      title="Strategic Concerns"
+      description="Identify ICT-related concerns that affect achievement of organizational outcomes."
+    >
 
       {/* Guide */}
-      <div className="rounded-lg border border-amber-200 bg-amber-50/50 p-4 text-sm">
+      <div className="rounded-lg border border-warning-border bg-warning-bg p-4 text-sm">
         <div className="flex items-start gap-2">
-          <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+          <Info className="h-4 w-4 text-warning shrink-0 mt-0.5" />
           <div>
-            <p className="font-medium text-amber-800 mb-1">How to fill this section</p>
-            <ul className="text-xs text-amber-700 list-disc list-inside space-y-1">
+            <p className="font-medium text-warning mb-1">How to fill this section</p>
+            <ul className="text-xs text-warning list-disc list-inside space-y-1">
               <li>Link each concern to an Organizational Outcome (OO) defined in Part I.</li>
               <li>Describe the <strong>current ICT strategy</strong> in place for addressing this concern.</li>
               <li>Describe the <strong>desired ICT strategy</strong> — what you intend to do in this ISSP period.</li>
@@ -246,19 +235,6 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
           ))}
         </CardContent>
       </Card>
-
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button
-          variant="outline"
-          onClick={() => router.push("/editor/part1/c")}
-        >
-          ← Part I-C: Stakeholders
-        </Button>
-        <Button onClick={() => router.push("/editor/part2/b")}>
-          Next: Network &amp; Cybersecurity →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

@@ -127,7 +127,7 @@ function IsspOverview({ doc }: { doc: DocInfo }) {
                 <a
                   key={sub.href}
                   href={sub.href}
-                  className="flex items-center justify-between rounded-lg border bg-background/60 px-4 py-2.5 text-sm font-medium hover:bg-background hover:shadow-sm transition-all group"
+                  className="flex items-center justify-between rounded-lg border bg-card px-4 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors group"
                 >
                   <span>{sub.label}</span>
                   <span className="text-muted-foreground group-hover:text-foreground text-xs transition-colors">

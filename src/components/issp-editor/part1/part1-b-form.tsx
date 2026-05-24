@@ -1,16 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Info } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { SectionShell } from "@/components/editor/section-shell";
 
 interface HumanCapital {
   plantilla: {
@@ -171,7 +169,6 @@ export function Part1BForm({
 }: {
   initialData: Part1BData | null;
 }) {
-  const router = useRouter();
   const [data, setData] = useState<Part1BData>(() => {
     if (!initialData) return DEFAULT_DATA;
     // Deep-merge saved humanCapital with DEFAULT_HC so any missing nested
@@ -193,7 +190,7 @@ export function Part1BForm({
     };
     return { ...initialData, focalSameAsCio: initialData.focalSameAsCio ?? false, humanCapital: merged };
   });
-  const { status, debouncedSave } = useLocalSave("part1");
+  const { debouncedSave } = useLocalSave("part1", "part1/b");
 
   const update = useCallback(
     (updates: Partial<Part1BData>) => {
@@ -246,19 +243,11 @@ export function Part1BForm({
   const hc = data.humanCapital;
 
   return (
-    <div className="space-y-8">
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">
-            Part I · Section B
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Organization Structure</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            CIO details, ISSP Focal Person, and ICT human capital breakdown.
-          </p>
-        </div>
-        <SaveStatusIndicator status={status} />
-      </div>
+    <SectionShell
+      sectionId="part1/b"
+      title="Organization Structure"
+      description="CIO details, ISSP Focal Person, and ICT human capital breakdown."
+    >
 
       {/* B.1 Key Personnel */}
       <Card>
@@ -366,7 +355,7 @@ export function Part1BForm({
                       <input
                         type="number"
                         min={0}
-                        className="w-full rounded px-2 py-1.5 text-center text-sm bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-center text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={hc[key].it.male}
                         onChange={(e) => setHC(key, "it", "male", Number(e.target.value))}
                       />
@@ -375,7 +364,7 @@ export function Part1BForm({
                       <input
                         type="number"
                         min={0}
-                        className="w-full rounded px-2 py-1.5 text-center text-sm bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-center text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={hc[key].it.female}
                         onChange={(e) => setHC(key, "it", "female", Number(e.target.value))}
                       />
@@ -388,7 +377,7 @@ export function Part1BForm({
                       <input
                         type="number"
                         min={0}
-                        className="w-full rounded px-2 py-1.5 text-center text-sm bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-center text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={hc[key].nonIt.male}
                         onChange={(e) => setHC(key, "nonIt", "male", Number(e.target.value))}
                       />
@@ -397,7 +386,7 @@ export function Part1BForm({
                       <input
                         type="number"
                         min={0}
-                        className="w-full rounded px-2 py-1.5 text-center text-sm bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-center text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={hc[key].nonIt.female}
                         onChange={(e) => setHC(key, "nonIt", "female", Number(e.target.value))}
                       />
@@ -429,15 +418,6 @@ export function Part1BForm({
         </CardContent>
       </Card>
 
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part1/a")}>
-          ← Mandate, Vision &amp; Mission
-        </Button>
-        <Button onClick={() => router.push("/editor/part1/c")}>
-          Next: Stakeholder Analysis →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

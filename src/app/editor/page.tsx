@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
 import {
   FilePlus2,
   FolderOpen,
@@ -10,6 +9,11 @@ import {
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
 import { NewIsspDialog } from "@/components/editor/new-issp-dialog";
+import { PlanMetadataStrip } from "@/components/editor/overview/plan-metadata-strip";
+import { OverviewHeader } from "@/components/editor/overview/overview-header";
+import { ContinueEditingCard } from "@/components/editor/overview/continue-editing-card";
+import { PartCard } from "@/components/editor/overview/part-card";
+import { PARTS, ALL_SECTIONS, computeStatus } from "@/lib/sections";
 
 // ─── Splash view (no document loaded) ────────────────────────────────────────
 
@@ -109,91 +113,23 @@ function SplashView() {
 
 // ─── Overview view (document loaded) ─────────────────────────────────────────
 
-const PART_CARDS = [
-  {
-    part: "I",
-    title: "Agency Profile & Strategic Context",
-    color: "border-l-blue-500",
-    items: [
-      { label: "A. Mandate, Vision & Mission", href: "/editor/part1/a" },
-      { label: "B. Organization Structure", href: "/editor/part1/b" },
-      { label: "C. Stakeholder Analysis", href: "/editor/part1/c" },
-    ],
-  },
-  {
-    part: "II",
-    title: "Current ICT Assessment",
-    color: "border-l-amber-500",
-    items: [
-      { label: "A. Strategic Concerns", href: "/editor/part2/a" },
-      { label: "B. Network & Cybersecurity", href: "/editor/part2/b" },
-      { label: "C. IS Inventory", href: "/editor/part2/c" },
-      { label: "D. E-Government Programs", href: "/editor/part2/d" },
-    ],
-  },
-  {
-    part: "III",
-    title: "Proposed ICT Strategy",
-    color: "border-l-green-500",
-    items: [
-      { label: "A. Proposed Infrastructure", href: "/editor/part3/a" },
-      { label: "B. Enterprise Architecture", href: "/editor/part3/b" },
-      { label: "C. Proposed Human Capital", href: "/editor/part3/c" },
-      { label: "D. Proposed IS", href: "/editor/part3/d" },
-      { label: "E.1 Internal Projects", href: "/editor/part3/e1" },
-      { label: "E.2 Cross-Agency Projects", href: "/editor/part3/e2" },
-      { label: "F. Performance Framework", href: "/editor/part3/f" },
-    ],
-  },
-  {
-    part: "IV",
-    title: "Resource Requirements",
-    color: "border-l-purple-500",
-    items: [
-      { label: "Year 1 Breakdown", href: "/editor/part4/year1" },
-      { label: "Year 2 Breakdown", href: "/editor/part4/year2" },
-      { label: "Year 3 Breakdown", href: "/editor/part4/year3" },
-      { label: "Summary of Investments", href: "/editor/part4/summary" },
-    ],
-  },
-];
-
 function OverviewView() {
   const { doc } = useIsspStore();
-
   if (!doc) return null;
 
-  return (
-    <div className="space-y-8">
-      {/* Header */}
-      <h1 className="text-2xl font-bold tracking-tight leading-tight">{doc.title}</h1>
+  const sectionMeta = doc.sectionMeta ?? {};
+  const doneCount = ALL_SECTIONS.filter(
+    (s) => computeStatus(sectionMeta[s.id]) === "done"
+  ).length;
 
-      {/* Part cards */}
+  return (
+    <div className="space-y-6">
+      <PlanMetadataStrip doc={doc} />
+      <OverviewHeader doc={doc} doneCount={doneCount} totalCount={ALL_SECTIONS.length} />
+      <ContinueEditingCard sectionMeta={sectionMeta} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {PART_CARDS.map((card) => (
-          <div
-            key={card.part}
-            className={`rounded-xl border bg-card border-l-4 ${card.color} overflow-hidden`}
-          >
-            <div className="px-5 py-4 border-b">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                Part {card.part}
-              </p>
-              <p className="font-semibold text-sm mt-0.5">{card.title}</p>
-            </div>
-            <ul className="px-5 py-3 space-y-1">
-              {card.items.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="block text-sm text-muted-foreground hover:text-foreground transition-colors py-0.5"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        {PARTS.map((part) => (
+          <PartCard key={part.partNum} part={part} sectionMeta={sectionMeta} />
         ))}
       </div>
     </div>

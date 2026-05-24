@@ -1,38 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SectionShell } from "@/components/editor/section-shell";
+import type { SummaryRow, UacsRow, Part4SummaryData } from "./part4-aggregations";
 
-// ─── Types (mirrored from part4-year-form for import convenience) ─────────────
-
-export interface SummaryRow {
-  label: string;
-  year1: number;
-  year2: number;
-  year3: number;
-  total: number;
-  isTotal?: boolean;
-}
-
-export interface UacsRow {
-  uacsCode: string;
-  uacsLabel: string;
-  year1: number;
-  year2: number;
-  year3: number;
-  total: number;
-}
-
-export interface Part4SummaryData {
-  yearLabels: [string, string, string];
-  b1: SummaryRow[];           // General Summary — category × year
-  b2: SummaryRow[];           // By Fund Source
-  b3: SummaryRow[];           // Statement of Expenditure (CO / MOOE)
-  b4: UacsRow[];              // Object of Expenditure by UACS
-  grandTotals: [number, number, number]; // per year, should match across B.1–B.3
-}
+export type { SummaryRow, UacsRow, Part4SummaryData };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -206,8 +179,8 @@ function ConsistencyBanner({
       className={cn(
         "flex items-start gap-3 rounded-lg border p-4 text-sm",
         consistent
-          ? "border-green-200 bg-green-50/50 text-green-800"
-          : "border-amber-200 bg-amber-50/50 text-amber-800"
+          ? "border-success-border bg-success-bg text-success"
+          : "border-warning-border bg-warning-bg text-warning"
       )}
     >
       {consistent ? (
@@ -246,7 +219,6 @@ export function Part4Summary({
 }: {
   data: Part4SummaryData;
 }) {
-  const router = useRouter();
   const b1TotalsRow = data.b1.find((r) => r.isTotal);
   const b2TotalsRow = data.b2.find((r) => r.isTotal);
   const b3TotalsRow = data.b3.find((r) => r.isTotal);
@@ -268,19 +240,12 @@ export function Part4Summary({
   ];
 
   return (
-    <div className="space-y-10">
-      {/* Header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-1">
-            Part IV · Summary
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Summary of Investments</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Auto-calculated totals from Year 1–3 breakdowns. All four tables must share the same grand total.
-          </p>
-        </div>
-      </div>
+    <SectionShell
+      sectionId="part4/summary"
+      title="Summary of Investments"
+      description="Consolidated 3-year budget view across all ICT expenditure categories."
+      hideMarkDone
+    >
 
       <ConsistencyBanner
         b1Totals={b1Totals}
@@ -311,16 +276,6 @@ export function Part4Summary({
       />
 
       <UacsTable rows={data.b4} yearLabels={data.yearLabels} />
-
-      {/* Navigation */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part4/year3")}>
-          ← Year 3 Breakdown
-        </Button>
-        <Button onClick={() => router.push("/editor")}>
-          Back to Overview →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

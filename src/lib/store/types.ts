@@ -308,6 +308,15 @@ export interface Part4Data {
   year3: YearBudget;
 }
 
+// ─── Section status (UI refresh) ─────────────────────────────────────────────
+
+export type SectionStatus = "empty" | "in_progress" | "done";
+
+export interface SectionMeta {
+  userMarkedDone: boolean;
+  lastEditedAt: string | null;
+}
+
 // ─── Root document ────────────────────────────────────────────────────────────
 
 export interface IsspDocument {
@@ -315,6 +324,8 @@ export interface IsspDocument {
   fileType: "issp-main";
   exportedAt: string;
   tool: "issp-platform";
+  /** Schema version for migration. 1 = legacy (no sectionMeta). 2 = current. */
+  schemaVersion?: number;
   title: string;
   startYear: number;
   endYear: number;
@@ -322,6 +333,15 @@ export interface IsspDocument {
   scope: IsspScope;
   agencyHeadName: string;
   agency: AgencyInfo;
+  /** Draft/review/submitted lifecycle status. */
+  planStatus?: "draft" | "for_review" | "submitted";
+  /** DICT submission target. */
+  submissionTarget?: { agency: string; deadline: string | null };
+  /**
+   * Per-section status metadata. Keys are section paths e.g. "part1/a", "part4/year1".
+   * Absent key = { userMarkedDone: false, lastEditedAt: null }.
+   */
+  sectionMeta?: Record<string, SectionMeta>;
   part1: Part1Data;
   part2: Part2Data;
   part3: Part3Data;

@@ -1,15 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
 import { Checkbox } from "@/components/ui/checkbox";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // Reuse the same control groups structure from Part II-B
 const CYBER_GROUPS = [
@@ -143,7 +142,7 @@ function ChecklistSection({
                   className={cn(
                     "text-xs px-2 py-0.5 rounded-full shrink-0",
                     hasCurrent
-                      ? "bg-green-100 text-green-700"
+                      ? "bg-success-bg text-success border border-success-border"
                       : "bg-muted text-muted-foreground"
                   )}
                 >
@@ -167,11 +166,10 @@ function ChecklistSection({
 }
 
 export function Part3AForm({ initialData }: { initialData: Part3AData }) {
-  const router = useRouter();
   const [networkDesc, setNetworkDesc] = useState(initialData.proposedNetworkDesc);
   const [controls, setControls] = useState<CyberControls>(initialData.proposedCybersecControls);
 
-  const { status, debouncedSave } = useLocalSave("part3");
+  const { debouncedSave } = useLocalSave("part3", "part3/a");
 
   const triggerSave = useCallback(
     (desc: string, ctrl: CyberControls) => {
@@ -191,19 +189,11 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-1">
-            Part III · Section A
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">Proposed Infrastructure</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Describe the proposed network changes and new cybersecurity controls to be implemented.
-          </p>
-        </div>
-        <SaveStatusIndicator status={status} />
-      </div>
+    <SectionShell
+      sectionId="part3/a"
+      title="Proposed Infrastructure"
+      description="Describe the proposed network infrastructure and cybersecurity controls for the plan period."
+    >
 
       {/* A.1 Network */}
       <Card>
@@ -256,14 +246,6 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button variant="outline" onClick={() => router.push("/editor/part2/d")}>
-          ← Part II-D: E-Gov Programs
-        </Button>
-        <Button onClick={() => router.push("/editor/part3/b")}>
-          Next: Enterprise Architecture →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

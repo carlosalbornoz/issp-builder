@@ -26,7 +26,7 @@
 | Base UI + Tailwind CSS 4 components | ✅ Done |
 | Auth proxy (route protection via middleware) | ✅ Done |
 | Seed data (NCWTR agency + users + comprehensive ISSP) | ✅ Done |
-| Inter font | ✅ Done |
+| ~~Inter font~~ → replaced by Fraunces + IBM Plex Sans/Mono (UI Refresh Phase 3) | ✅ Done |
 | **Local-first IndexedDB store (`src/lib/store/`)** | ✅ Done |
 | **`/editor` route — public, no auth** | ✅ Done |
 | **All Part I–IV forms wired to IndexedDB store** | ✅ Done |
@@ -53,6 +53,20 @@
 | Attribution in editor sidebar + documents footer | ✅ Done |
 | Initial GitHub push to `carlosalbornoz/issp-builder` | ✅ Done |
 | Sonner toast library (`<Toaster>` in root layout) | ✅ Done |
+| **UI Refresh Phase 1** — `sectionMeta`, `planStatus`, `submissionTarget`, `schemaVersion` data model | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 2** — `StatusDot`, `RelativeTime`, `CompletionBar`, `PlanStatusPill` primitives | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 3** — Fraunces + IBM Plex Sans/Mono fonts; warm `#FAFAF7` palette | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 4** — Overview dashboard: PlanMetadataStrip, OverviewHeader, ContinueEditingCard, PartCard | ✅ Done 2026-05-23 |
+| Content-sniffing migration (`deriveMetaFromContent`) — infers status from existing content on load | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 5** — Sidebar: StatusDot on all leaf items, kebab (⋮) for file actions, improved save status, destructive actions demoted | ✅ Done 2026-05-23 |
+| **SaveStatusIndicator removed** from all 14 Part I–IV forms — sidebar is sole save indicator | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 6** — SectionShell shared chrome, MarkAsDone, prev/next across all 18 sections | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 7** — Unsaved changes content snapshot + field-level sidebar diff | ✅ Done 2026-05-23 |
+| **Part IV UX rewrite** — master list + Sheet drawer; SectionCard 3px color strip; LineTable header band; color legend; accurate CO/MOOE descriptions | ✅ Done 2026-05-23 |
+| **Mobile editor shell fix** — sidebar is a fixed mobile drawer, static/collapsible desktop sidebar remains intact | ✅ Done 2026-05-23 |
+| **Theme system** — System/Warm light/dark themes; root theme classes; `ThemeProvider`; SSR flash-prevention script; `issp-theme` localStorage | ✅ Done 2026-05-24 |
+| **Theme menu placement** — desktop kebab Theme submenu; mobile palette button; System Light default; System themes ordered before Warm themes | ✅ Done 2026-05-24 |
+| **Control contrast pass** — outline buttons, inputs, textareas, selects, inline table fields, UACS combobox trigger no longer look disabled when enabled | ✅ Done 2026-05-24 |
 
 ---
 
@@ -92,6 +106,10 @@
 | UACS Explorer redirecting to `/login` | `src/proxy.ts` (Next.js 16 middleware) was missing `/uacs` from the public allowlist. Added `isUacsRoute` check and `uacs` to the matcher exclusion — same pattern as `isEditorRoute` |
 | UACS combobox stuck on "Loading codes…" | `fetch("/uacs_active.min.json")` was missing the `/issp` basePath prefix. Fixed to `fetch(\`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs_active.min.json\`)` |
 | Form pages redirect to `/editor` on hard refresh | All 17 form sub-pages (`part1/a` through `part4/year3`) had `if (!doc) redirect` but never checked `loading`. On page refresh, `doc` is null while IDB loads → premature redirect. Fixed: added `const { doc, loading } = useIsspStore()` + `if (loading) return null` guard before the redirect check in all 18 form pages (17 via script + `part4/summary` manually). |
+| Theme controls initially placed too prominently | Moved theme selection from sidebar footer/Properties dialog into the desktop kebab menu; mobile keeps a single palette icon button. |
+| System theme labels initially said Apple | Replaced the draft `apple-light` / `apple-dark` IDs with `system-light` / `system-dark` before production release. |
+| Sidebar buttons looked disabled in System themes | Shared sidebar control styles now use `bg-card`, `text-foreground`, `border-border`, and no shadow; primary save button is disabled only when there are no changes and reads `No changes to save`. |
+| Enabled form controls looked disabled | Shared `Input`, `Textarea`, and `SelectTrigger` now use card surfaces and stronger foreground text; inline table fields were swept and updated from transparent backgrounds to theme-aware card backgrounds. |
 
 ---
 
@@ -108,8 +126,8 @@ The primary user-facing architecture. No login required.
 | Default values | `src/lib/store/defaults.ts` | `createEmptyDocument()`, `DEFAULT_HC`, `DEFAULT_CYBER` |
 | Editor route | `src/app/editor/` | Public (no auth); splash when no doc, overview when doc loaded |
 | Editor layout | `src/app/editor/layout.tsx` | Wraps children in `EditorShell` |
-| Editor shell | `src/components/editor/editor-shell.tsx` | `beforeunload` warning; `useFileSaveReminder`; collapsible sidebar |
-| Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Editor" label, collapsible nav, Save to File, Exit Editor |
+| Editor shell | `src/components/editor/editor-shell.tsx` | `beforeunload` warning; `useFileSaveReminder`; desktop sidebar layout + mobile drawer context |
+| Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Editor" label, desktop collapsible nav, mobile drawer overlay, Save to File, Exit Editor |
 | Save reminder | `src/hooks/use-file-save-reminder.ts` | Sonner toast after 10 min of unsaved changes |
 | PDF export | `src/app/api/export/route.ts` | `POST` — accepts `IsspDocument` JSON, returns PDF, no auth |
 | Demo file | `public/demo/ncwtr-issp-2026-2028.issp` | NCWTR sample, all 4 parts populated |
@@ -137,7 +155,9 @@ Old auth/DB routes remain in the codebase but are not linked from the local-firs
 | Auth (dormant) | NextAuth.js v5 beta | 5.0.0-beta.31 |
 | UI | Tailwind CSS 4 + shadcn/ui components | 4.x |
 | Toasts | Sonner | — |
-| Font (app) | Inter (via next/font/google) | — |
+| Font (display) | Fraunces (opsz variable, via next/font/google) | `--font-display`; headings, doc title |
+| Font (UI) | IBM Plex Sans 400/500/600 (via next/font/google) | `--font-sans`; body, labels, UI chrome |
+| Font (mono) | IBM Plex Mono 400/500 (via next/font/google) | `--font-mono`; UACS fields, code |
 | Font (PDF) | P052 / URW Palladio (Palatino clone) | Installed via `apt-get install fonts-urw-base35` |
 | PDF | Puppeteer + pdf-lib | 25.0.2; Chrome 148.0.7778.167 |
 
@@ -221,22 +241,25 @@ npx tsc --noEmit
 
 ## Next Up
 
-### Phase E — Diagram Upload (base64)
+### 🔜 UI Refresh Follow-Up — Section Body Patterns
+Phase 6 `SectionShell` is complete. The remaining UI refresh work is the deferred body-pattern pass:
+- Standard form field pattern (`FormGroup`, `FieldRow`, `Field`, `CheckboxField`)
+- E-Government toggle-list pattern
+- File attach placeholder / future upload pattern
+- Budget table/body polish after the Part IV drawer rewrite
+- Project/item list pattern for Part III.E and III.F
+
+### 🟡 Validation & Review (post UI refresh)
+- Pre-export validation: required fields, budget-IS linkage, KPI completeness
+- Read-only review mode: full document view before submission
+- Additional mobile QA on dense forms and Part IV drawer interactions
+
+### 🔴 Phase E — Diagram Upload (base64)
 Proper upload UI for Part II-B (network diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text-only. Architecture: file input → base64 data URL → `networkDiagrams[].dataUrl`. PDF export already handles it.
 
-### Phase 7 — Polish & Validation
-- Section-level completion tracking (% per part, shown in sidebar or overview)
-- Pre-export validation: required fields, budget-IS linkage, KPI completeness
-- Read-only review mode (full document view before export)
-- Mobile-responsive improvements
-
-### Annex 1 — ICT Asset Inventory
+### 🔴 Annex 1 — ICT Asset Inventory
 Standalone public module at `/annex1`. See `docs/annex1-implementation-plan.md`.
 
-### Phase E — Diagram Upload (base64)
-Proper upload UI for Part II-B (network diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text-only.
-
-### PDF — Known Remaining Gaps
+### 🔵 PDF — Known Remaining Gaps
 - TOC page numbers are static (hardcoded) — no two-pass render
 - Network diagrams render inline in Part II-B, not as full dedicated pages
-- Strategic alignment / harmonization checkboxes in Part III-E PDFs are all unchecked when values don't match the exact option labels (freeform strings vs. fixed keys)

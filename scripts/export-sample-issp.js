@@ -56,6 +56,7 @@ const issp = {
   fileType: 'issp-main',
   exportedAt: new Date().toISOString(),
   tool: 'issp-platform',
+  schemaVersion: 2,
   title: doc.title,
   startYear: doc.startYear,
   endYear: doc.endYear,
@@ -63,6 +64,9 @@ const issp = {
   scope: doc.scope,
   amendmentNumber: doc.amendmentNumber ?? 0,
   agencyHeadName: 'Chairperson Maria Celeste R. Villanueva',
+  planStatus: 'draft',
+  submissionTarget: { agency: 'DICT', deadline: null },
+  sectionMeta: {},
   createdAt: doc.createdAt ?? new Date().toISOString(),
   updatedAt: doc.updatedAt ?? new Date().toISOString(),
   agency: {

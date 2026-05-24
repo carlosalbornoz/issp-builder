@@ -1,17 +1,24 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { UacsCombobox } from "@/components/issp-editor/uacs-combobox";
-import { Plus, Trash2, Info, ExternalLink } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
+import { Plus, Trash2, Pencil, ExternalLink } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -77,328 +84,313 @@ function php(n: number) {
 }
 
 function alpha(n: number) {
-  return String.fromCharCode(65 + n); // 0→A, 1→B, …
+  return String.fromCharCode(65 + n);
 }
 
-// ─── Line Item Row ─────────────────────────────────────────────────────────────
+const FUND_SOURCES = [
+  "General Appropriations Act (GAA)",
+  "Foreign-Assisted",
+  "Locally Funded",
+  "Other Income Generating Sources",
+];
 
-function LineRow({
-  line,
-  context,
-  onChange,
-  onRemove,
-}: {
-  line: LineItem;
+// ─── Line Item Drawer ─────────────────────────────────────────────────────────
+
+interface DrawerProps {
+  open: boolean;
+  item: LineItem | null;
+  isNew: boolean;
   context: "co" | "mooe";
-  onChange: (updated: LineItem) => void;
-  onRemove: () => void;
-}) {
+  onSave: (item: LineItem) => void;
+  onDelete: () => void;
+  onClose: () => void;
+}
+
+function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose }: DrawerProps) {
+  const [draft, setDraft] = useState<LineItem>(() => item ?? BLANK_LINE());
+
+  useEffect(() => {
+    // Drawer state intentionally resets when a different line item opens.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (open) setDraft(item ?? BLANK_LINE());
+  }, [open, item]);
+
   function set<K extends keyof LineItem>(k: K, v: LineItem[K]) {
-    onChange({ ...line, [k]: v });
+    setDraft((prev) => ({ ...prev, [k]: v }));
   }
 
-  const cellCls = "border-r border-border last:border-r-0 px-3 py-1";
-  const inputCls =
-    "w-full bg-transparent text-sm outline-none focus:bg-muted/40 rounded px-2 py-0.5 placeholder:text-muted-foreground/50";
+  const lineTotal = draft.qty * draft.unitCost;
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   return (
-    <tr className="border-b border-border hover:bg-muted/10 group">
-      <td className={cellCls}>
-        <input
-          type="text"
-          className={inputCls}
-          placeholder="Description of item/service"
-          value={line.item}
-          onChange={(e) => set("item", e.target.value)}
-        />
-      </td>
-      <td className={cellCls}>
-        <input
-          type="text"
-          className={inputCls}
-          placeholder="Office/unit"
-          value={line.office}
-          onChange={(e) => set("office", e.target.value)}
-        />
-      </td>
-      <td className={cellCls}>
-        <UacsCombobox
-          value={line.uacsCode}
-          context={context}
-          onChange={(uacs, label) => onChange({ ...line, uacsCode: uacs, uacsLabel: label })}
-        />
-      </td>
-      <td className={cellCls}>
-        <select
-          className={cn(inputCls, "cursor-pointer")}
-          value={line.fundSource}
-          onChange={(e) => set("fundSource", e.target.value)}
-        >
-          <option>General Appropriations Act (GAA)</option>
-          <option>Foreign-Assisted</option>
-          <option>Locally Funded</option>
-          <option>Other Income Generating Sources</option>
-        </select>
-      </td>
-      <td className={cn(cellCls, "text-right")}>
-        <input
-          type="number"
-          min={1}
-          className={cn(inputCls, "text-right")}
-          value={line.qty}
-          onChange={(e) => set("qty", Math.max(1, Number(e.target.value)))}
-        />
-      </td>
-      <td className={cn(cellCls, "text-right")}>
-        <input
-          type="number"
-          min={0}
-          step={0.01}
-          className={cn(inputCls, "text-right")}
-          value={line.unitCost}
-          onChange={(e) => set("unitCost", Number(e.target.value))}
-        />
-      </td>
-      <td className={cn(cellCls, "text-right font-medium text-sm bg-muted/30")}>
-        {php(totalLine(line))}
-      </td>
-      <td className="px-2 py-1 text-center border-l border-border">
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Remove line item"
-          className="h-7 w-7 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive"
-          onClick={onRemove}
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </Button>
-      </td>
-    </tr>
+    <Sheet open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+      <SheetContent
+        side="right"
+        showCloseButton={false}
+        style={{ maxWidth: 560 }}
+        className="flex flex-col p-0 gap-0"
+      >
+        <SheetHeader className="px-6 pt-5 pb-4 border-b shrink-0">
+          <SheetTitle>
+            {isNew
+              ? `Add Line Item — ${context === "co" ? "Capital Outlay" : "Maintenance & Other Operating Expenses"}`
+              : `Edit Line Item — ${context === "co" ? "Capital Outlay" : "Maintenance & Other Operating Expenses"}`}
+          </SheetTitle>
+          <SheetDescription>
+            {context === "co"
+              ? "Capital Outlay — assets and intangible property with useful life > 1 year, typically above the ₱50,000 capitalization threshold"
+              : "MOOE — recurring costs, subscriptions, consumables, cloud hosting, and low-value items"}
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+          {/* Item / Description */}
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium">Item / Description</label>
+            <Textarea
+              value={draft.item}
+              onChange={(e) => set("item", e.target.value)}
+              placeholder="Describe the item or service being procured…"
+              rows={3}
+            />
+          </div>
+
+          {/* Office / Unit */}
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium">Office / Unit</label>
+            <Input
+              type="text"
+              value={draft.office}
+              onChange={(e) => set("office", e.target.value)}
+              placeholder="Which office or unit will use this?"
+            />
+          </div>
+
+          {/* UACS Code */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium">UACS Code</label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <a
+                        href={`${basePath}/uacs`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors"
+                      />
+                    }
+                  >
+                    Browse codes
+                    <ExternalLink className="h-3 w-3" />
+                  </TooltipTrigger>
+                  <TooltipContent side="left">Open UACS Explorer in a new tab</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <UacsCombobox
+              value={draft.uacsCode}
+              context={context}
+              onChange={(uacs, label) => setDraft((prev) => ({ ...prev, uacsCode: uacs, uacsLabel: label }))}
+            />
+          </div>
+
+          {/* Fund Source */}
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium">Fund Source</label>
+            <select
+              className="h-8 w-full rounded-lg border border-border bg-card px-2.5 py-1 text-sm text-foreground outline-none hover:border-ring/60 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 cursor-pointer"
+              value={draft.fundSource}
+              onChange={(e) => set("fundSource", e.target.value)}
+            >
+              {FUND_SOURCES.map((s) => <option key={s}>{s}</option>)}
+            </select>
+          </div>
+
+          {/* Qty + Unit Cost */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">Physical Target</label>
+              <Input
+                type="number"
+                min={1}
+                value={draft.qty}
+                onChange={(e) => set("qty", Math.max(1, Number(e.target.value)))}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">Unit Cost (₱)</label>
+              <Input
+                type="number"
+                min={0}
+                step={0.01}
+                value={draft.unitCost}
+                onChange={(e) => set("unitCost", Number(e.target.value))}
+              />
+            </div>
+          </div>
+
+          {/* Line total */}
+          <div className="flex items-center justify-between rounded-lg border bg-muted/30 px-4 py-3">
+            <span className="text-sm text-muted-foreground">Line Total</span>
+            <span className="font-bold text-base tabular-nums">{php(lineTotal)}</span>
+          </div>
+        </div>
+
+        <SheetFooter className="px-6 py-4 border-t flex-row items-center justify-between gap-2 shrink-0">
+          {!isNew ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-destructive hover:text-destructive hover:bg-destructive/10"
+              onClick={onDelete}
+            >
+              <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+              Delete
+            </Button>
+          ) : <span />}
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={onClose}>Cancel</Button>
+            <Button size="sm" onClick={() => onSave(draft)}>
+              {isNew ? "Add Item" : "Save Changes"}
+            </Button>
+          </div>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 }
 
-export interface ColumnWidths {
-  item: number;
-  office: number;
-  uacs: number;
-  fundSource: number;
-  qty: number;
-  unitCost: number;
-  total: number;
-}
-
 // ─── Line Items Table ──────────────────────────────────────────────────────────
+
+interface DrawerState {
+  open: boolean;
+  idx: number;
+  item: LineItem | null;
+}
 
 function LineTable({
   title,
   context,
   lines,
   onUpdate,
-  badge,
-  colWidths,
-  onResize,
 }: {
   title: string;
   context: "co" | "mooe";
   lines: LineItem[];
   onUpdate: (lines: LineItem[]) => void;
-  badge?: string;
-  colWidths: ColumnWidths;
-  onResize: (key: keyof ColumnWidths, width: number) => void;
 }) {
-  function addLine() {
-    onUpdate([...lines, BLANK_LINE()]);
+  const [drawer, setDrawer] = useState<DrawerState>({ open: false, idx: -1, item: null });
+
+  function openNew() {
+    setDrawer({ open: true, idx: -1, item: null });
   }
 
-  function updateLine(idx: number, updated: LineItem) {
-    onUpdate(lines.map((l, i) => (i === idx ? updated : l)));
+  function openEdit(idx: number) {
+    setDrawer({ open: true, idx, item: lines[idx] });
   }
 
-  function removeLine(idx: number) {
-    onUpdate(lines.filter((_, i) => i !== idx));
+  function closeDrawer() {
+    setDrawer({ open: false, idx: -1, item: null });
+  }
+
+  function handleSave(updated: LineItem) {
+    if (drawer.idx === -1) {
+      onUpdate([...lines, updated]);
+    } else {
+      onUpdate(lines.map((l, i) => (i === drawer.idx ? updated : l)));
+    }
+    closeDrawer();
+  }
+
+  function handleDelete() {
+    onUpdate(lines.filter((_, i) => i !== drawer.idx));
+    closeDrawer();
   }
 
   const total = sumLines(lines);
 
-  const startResize = (key: keyof ColumnWidths, e: React.MouseEvent) => {
-    e.preventDefault();
-    const startX = e.clientX;
-    const startWidth = colWidths[key];
-
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      const deltaX = moveEvent.clientX - startX;
-      onResize(key, startWidth + deltaX);
-    };
-
-    const handleMouseUp = () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
-
-  const tableWidth = Object.values(colWidths).reduce((a, b) => a + b, 0) + 50;
-
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold">{title}</span>
-          {badge && (
-            <Badge variant="outline" className="text-[10px] h-4">
-              {badge}
-            </Badge>
-          )}
-          <span className="text-xs text-muted-foreground">
-            ({lines.length} item{lines.length !== 1 ? "s" : ""})
-          </span>
+    <>
+      <div className="rounded-md border overflow-hidden">
+        {/* Table header band */}
+        <div className="flex items-center justify-between bg-muted/40 border-b px-4 py-2.5">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold">{title}</span>
+            <span className="text-xs text-muted-foreground">
+              {lines.length} item{lines.length !== 1 ? "s" : ""}
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-bold">{php(total)}</span>
+            <Button variant="outline" size="sm" className="h-7 gap-1 text-xs" onClick={openNew}>
+              <Plus className="h-3 w-3" />
+              Add Line
+            </Button>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-bold">{php(total)}</span>
-          <Button variant="outline" size="sm" className="h-7 gap-1 text-xs" onClick={addLine}>
-            <Plus className="h-3 w-3" />
-            Add Line
-          </Button>
-        </div>
+
+        {lines.length > 0 ? (
+          <div className="divide-y divide-border">
+            {lines.map((line, idx) => (
+              <div
+                key={line.id}
+                className="flex items-center gap-3 px-4 py-3 hover:bg-muted/30 group transition-colors cursor-pointer"
+                onClick={() => openEdit(idx)}
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">
+                    {line.item || <span className="text-muted-foreground/60 italic">Unnamed item</span>}
+                  </p>
+                  <p className="text-xs text-muted-foreground truncate mt-0.5">
+                    {[
+                      line.uacsLabel || (line.uacsCode ? `UACS ${line.uacsCode}` : null),
+                      line.office || null,
+                      line.fundSource !== FUND_SOURCES[0] ? line.fundSource : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ") || "No details yet"}
+                  </p>
+                </div>
+                <span className="text-sm font-semibold tabular-nums shrink-0">{php(totalLine(line))}</span>
+                <button
+                  type="button"
+                  aria-label="Edit line item"
+                  className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent opacity-0 group-hover:opacity-100 transition-all"
+                  onClick={(e) => { e.stopPropagation(); openEdit(idx); }}
+                >
+                  <Pencil className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ))}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-muted/50 border-t">
+              <span className="text-sm font-semibold text-muted-foreground">Subtotal</span>
+              <span className="text-sm font-bold tabular-nums">{php(total)}</span>
+            </div>
+          </div>
+        ) : (
+          <div className="py-6 text-center">
+            <p className="text-xs text-muted-foreground">
+              No items yet.{" "}
+              <button type="button" onClick={openNew} className="font-medium text-primary hover:underline">
+                Add one.
+              </button>
+            </p>
+          </div>
+        )}
       </div>
 
-      {lines.length > 0 ? (
-        <div className="overflow-x-auto rounded-md border">
-          <table className="w-full text-sm border-collapse" style={{ tableLayout: "fixed", width: tableWidth }}>
-            <colgroup>
-              <col style={{ width: colWidths.item }} />
-              <col style={{ width: colWidths.office }} />
-              <col style={{ width: colWidths.uacs }} />
-              <col style={{ width: colWidths.fundSource }} />
-              <col style={{ width: colWidths.qty }} />
-              <col style={{ width: colWidths.unitCost }} />
-              <col style={{ width: colWidths.total }} />
-              <col style={{ width: 50 }} /> {/* action column */}
-            </colgroup>
-            <thead>
-              <tr className="bg-muted/50 text-xs font-medium text-muted-foreground">
-                <th className="border-r border-b border-border px-3 py-2 text-left relative select-none">
-                  Item / Description
-                  <div
-                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
-                    onMouseDown={(e) => startResize("item", e)}
-                  >
-                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
-                  </div>
-                </th>
-                <th className="border-r border-b border-border px-3 py-2 text-left relative select-none">
-                  Office Location
-                  <div
-                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
-                    onMouseDown={(e) => startResize("office", e)}
-                  >
-                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
-                  </div>
-                </th>
-                <th className="border-r border-b border-border px-3 py-2 text-left relative select-none">
-                  <div className="flex items-center justify-between pr-2">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger
-                          render={
-                            <a
-                              href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 hover:text-primary transition-colors"
-                            />
-                          }
-                        >
-                          UACS Code
-                          <ExternalLink className="h-3 w-3 opacity-50" />
-                        </TooltipTrigger>
-                        <TooltipContent side="top">
-                          Browse all UACS codes in the UACS Explorer
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                  <div
-                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
-                    onMouseDown={(e) => startResize("uacs", e)}
-                  >
-                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
-                  </div>
-                </th>
-                <th className="border-r border-b border-border px-3 py-2 text-left relative select-none">
-                  Fund Source
-                  <div
-                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
-                    onMouseDown={(e) => startResize("fundSource", e)}
-                  >
-                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
-                  </div>
-                </th>
-                <th className="border-r border-b border-border px-3 py-2 text-right relative select-none">
-                  Physical Target
-                  <div
-                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
-                    onMouseDown={(e) => startResize("qty", e)}
-                  >
-                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
-                  </div>
-                </th>
-                <th className="border-r border-b border-border px-3 py-2 text-right relative select-none">
-                  Unit Cost (₱)
-                  <div
-                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
-                    onMouseDown={(e) => startResize("unitCost", e)}
-                  >
-                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
-                  </div>
-                </th>
-                <th className="border-r border-b border-border px-3 py-2 text-right bg-muted/30 relative select-none">
-                  Total (₱)
-                  <div
-                    className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize select-none z-10 group"
-                    onMouseDown={(e) => startResize("total", e)}
-                  >
-                    <div className="w-[1.5px] h-full bg-transparent group-hover:bg-emerald-500/50 group-active:bg-emerald-600 ml-auto transition-colors" />
-                  </div>
-                </th>
-                <th className="border-b border-border w-10" />
-              </tr>
-            </thead>
-            <tbody>
-              {lines.map((line, idx) => (
-                <LineRow
-                  key={line.id}
-                  line={line}
-                  context={context}
-                  onChange={(u) => updateLine(idx, u)}
-                  onRemove={() => removeLine(idx)}
-                />
-              ))}
-            </tbody>
-            <tfoot>
-              <tr className="bg-muted/30 font-semibold text-sm">
-                <td colSpan={6} className="border-t border-border px-3 py-2 text-right text-muted-foreground">
-                  Subtotal
-                </td>
-                <td className="border-t border-border px-3 py-2 text-right text-primary font-bold">{php(total)}</td>
-                <td className="border-t border-l border-border w-10" />
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      ) : (
-        <div className="rounded-md border border-dashed bg-muted/20 py-4 text-center">
-          <p className="text-xs text-muted-foreground">
-            No items yet.{" "}
-            <button type="button" onClick={addLine} className="font-medium text-primary hover:underline">
-              Add one.
-            </button>
-          </p>
-        </div>
-      )}
-    </div>
+      <LineItemDrawer
+        open={drawer.open}
+        item={drawer.item}
+        isNew={drawer.idx === -1}
+        context={context}
+        onSave={handleSave}
+        onDelete={handleDelete}
+        onClose={closeDrawer}
+      />
+    </>
   );
 }
 
@@ -407,28 +399,22 @@ function LineTable({
 function SectionCard({
   title,
   description,
-  colorClass,
+  color,
   children,
 }: {
   title: string;
   description?: string;
-  colorClass: string;
+  color: string;
   children: React.ReactNode;
 }) {
-  const total = 0; // totals shown inside via LineTable
-  void total;
   return (
-    <Card>
-      <CardHeader className="pb-4">
-        <div className="flex items-start gap-3">
-          <div className={cn("h-1 w-8 rounded-full mt-2 shrink-0", colorClass)} />
-          <div>
-            <CardTitle className="text-base">{title}</CardTitle>
-            {description && <CardDescription className="mt-0.5">{description}</CardDescription>}
-          </div>
-        </div>
+    <Card className="relative overflow-hidden pl-0">
+      <div className="absolute inset-y-0 left-0 w-[3px]" style={{ backgroundColor: color }} />
+      <CardHeader className="pb-4 pl-5">
+        <CardTitle className="text-base">{title}</CardTitle>
+        {description && <CardDescription className="mt-0.5">{description}</CardDescription>}
       </CardHeader>
-      <CardContent className="space-y-6">{children}</CardContent>
+      <CardContent className="space-y-6 pl-5">{children}</CardContent>
     </Card>
   );
 }
@@ -449,11 +435,9 @@ export function Part4YearForm({
   internalProjects,
   crossAgencyProjects,
 }: Part4YearFormProps) {
-  const router = useRouter();
   const [budget, setBudget] = useState<YearBudget>(() => {
     const base = EMPTY_BUDGET();
     if (!initialData) return base;
-    // Ensure all project slots exist
     const ip: Record<string, ProjectBudget> = { ...base.internalProjects, ...initialData.internalProjects };
     const cp: Record<string, ProjectBudget> = { ...base.crossAgencyProjects, ...initialData.crossAgencyProjects };
     internalProjects.forEach((p) => {
@@ -465,37 +449,8 @@ export function Part4YearForm({
     return { ...base, ...initialData, internalProjects: ip, crossAgencyProjects: cp };
   });
 
-  const [colWidths, setColWidths] = useState<ColumnWidths>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("issp-part4-col-widths");
-      if (saved) {
-        try {
-          return JSON.parse(saved);
-        } catch {
-          // ignore
-        }
-      }
-    }
-    return {
-      item: 280,
-      office: 140,
-      uacs: 260,
-      fundSource: 160,
-      qty: 90,
-      unitCost: 120,
-      total: 120,
-    };
-  });
-
-  const handleResize = useCallback((key: keyof ColumnWidths, width: number) => {
-    setColWidths((prev) => {
-      const next = { ...prev, [key]: Math.max(60, width) };
-      localStorage.setItem("issp-part4-col-widths", JSON.stringify(next));
-      return next;
-    });
-  }, []);
-
-  const { status, debouncedSave } = useLocalSave("part4");
+  const sectionId = `part4/${yearKey}` as `part4/${"year1" | "year2" | "year3"}`;
+  const { debouncedSave } = useLocalSave("part4", sectionId);
 
   const save = useCallback(
     (next: YearBudget) => {
@@ -505,7 +460,6 @@ export function Part4YearForm({
     [debouncedSave, yearKey]
   );
 
-  // ─── Grand total ────────────────────────────────────────────────────────────
   const grandTotal =
     sumLines(budget.officeProductivity.capitalOutlay) +
     sumLines(budget.officeProductivity.mooe) +
@@ -516,84 +470,68 @@ export function Part4YearForm({
       (s, p) => s + sumLines(p.capitalOutlay) + sumLines(p.mooe), 0
     ) +
     sumLines(budget.continuingCosts.mooe);
+  const sectionTitle = `Resource Requirements — ${year}`;
+  const sectionDesc = `Enter all ICT expenditures for ${year}. Totals are computed automatically.`;
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-1">
-            Part IV · Year {year - (internalProjects.length > 0 ? 0 : 0)} Breakdown
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Resource Requirements — {year}
-          </h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Enter all ICT expenditures for {year}. Totals are computed automatically.
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="text-right">
-            <p className="text-xs text-muted-foreground">Year {year === internalProjects.length ? "" : ""} Total</p>
-            <p className="text-lg font-bold text-primary">{php(grandTotal)}</p>
-          </div>
-          <SaveStatusIndicator status={status} />
-        </div>
-      </div>
+    <SectionShell
+      sectionId={sectionId}
+      title={sectionTitle}
+      description={sectionDesc}
+      statBlock={{ label: "Year Total", value: php(grandTotal) }}
+    >
 
-      {/* Info */}
-      <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-3 text-sm flex gap-2">
-        <Info className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-        <div className="text-xs text-emerald-800">
-          <strong>Tip:</strong> Capital Outlay (CO) items are assets over ₱50,000 with useful life &gt;1 year.
-          MOOE covers recurring costs and items under ₱50,000. Use the UACS combobox to select the correct accounting code.
-        </div>
+      {/* Legend */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground rounded-lg border bg-muted/20 px-4 py-2.5">
+        <span className="font-medium text-foreground/50">Legend:</span>
+        {[
+          { color: "#3B82F6", label: "Office Productivity" },
+          { color: "#8B5CF6", label: "Internal Projects" },
+          { color: "#F59E0B", label: "Cross-Agency Projects" },
+          { color: "#F43F5E", label: "Recurring Costs" },
+        ].map(({ color, label }) => (
+          <span key={label} className="flex items-center gap-1.5">
+            <span className="inline-block h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: color }} />
+            {label}
+          </span>
+        ))}
       </div>
 
       {/* A — Office Productivity */}
       <SectionCard
         title="A. Office Productivity / General ICT"
         description="Agency-wide ICT expenses not tied to a specific project"
-        colorClass="bg-blue-500"
+        color="#3B82F6"
       >
         <LineTable
           title="Capital Outlay (CO)"
           context="co"
-          badge="CO"
           lines={budget.officeProductivity.capitalOutlay}
           onUpdate={(lines) =>
             save({ ...budget, officeProductivity: { ...budget.officeProductivity, capitalOutlay: lines } })
           }
-          colWidths={colWidths}
-          onResize={handleResize}
         />
         <LineTable
           title="Maintenance & Other Operating Expenses (MOOE)"
           context="mooe"
-          badge="MOOE"
           lines={budget.officeProductivity.mooe}
           onUpdate={(lines) =>
             save({ ...budget, officeProductivity: { ...budget.officeProductivity, mooe: lines } })
           }
-          colWidths={colWidths}
-          onResize={handleResize}
         />
       </SectionCard>
 
-      {/* B… — Internal Projects (one letter each) */}
+      {/* B… — Internal Projects */}
       {internalProjects.length === 0 ? (
         <div className="rounded-lg border border-dashed bg-muted/20 p-6 text-center text-sm text-muted-foreground">
           <p>No Internal ICT Projects defined in Part III-E.1.</p>
-          <Link
-            href="/editor/part3/e1"
-            className="mt-1 inline-block font-medium text-primary hover:underline"
-          >
+          <Link href="/editor/part3/e1" className="mt-1 inline-block font-medium text-primary hover:underline">
             Add projects in Part III-E.1 →
           </Link>
         </div>
       ) : (
         internalProjects.map((proj, idx) => {
-          const letter = alpha(1 + idx); // A=office prod, B=first project, …
+          const letter = alpha(1 + idx);
           const pb = budget.internalProjects[proj.id] ?? {
             projectTitle: proj.title,
             capitalOutlay: [],
@@ -604,12 +542,11 @@ export function Part4YearForm({
               key={proj.id}
               title={`${letter}. Internal Project: ${proj.title}`}
               description="Costs directly attributable to this internal ICT project"
-              colorClass="bg-violet-500"
+              color="#8B5CF6"
             >
               <LineTable
                 title="Capital Outlay (CO)"
                 context="co"
-                badge="CO"
                 lines={pb.capitalOutlay}
                 onUpdate={(lines) =>
                   save({
@@ -620,13 +557,10 @@ export function Part4YearForm({
                     },
                   })
                 }
-                colWidths={colWidths}
-                onResize={handleResize}
               />
               <LineTable
                 title="MOOE"
                 context="mooe"
-                badge="MOOE"
                 lines={pb.mooe}
                 onUpdate={(lines) =>
                   save({
@@ -637,15 +571,13 @@ export function Part4YearForm({
                     },
                   })
                 }
-                colWidths={colWidths}
-                onResize={handleResize}
               />
             </SectionCard>
           );
         })
       )}
 
-      {/* Cross-Agency Projects — letters continue after internal projects */}
+      {/* Cross-Agency Projects */}
       {crossAgencyProjects.length > 0 &&
         crossAgencyProjects.map((proj, idx) => {
           const letter = alpha(1 + internalProjects.length + idx);
@@ -659,12 +591,11 @@ export function Part4YearForm({
               key={proj.id}
               title={`${letter}. Cross-Agency Project: ${proj.title}`}
               description="Costs for this cross-agency ICT project"
-              colorClass="bg-amber-500"
+              color="#F59E0B"
             >
               <LineTable
                 title="Capital Outlay (CO)"
                 context="co"
-                badge="CO"
                 lines={pb.capitalOutlay}
                 onUpdate={(lines) =>
                   save({
@@ -675,13 +606,10 @@ export function Part4YearForm({
                     },
                   })
                 }
-                colWidths={colWidths}
-                onResize={handleResize}
               />
               <LineTable
                 title="MOOE"
                 context="mooe"
-                badge="MOOE"
                 lines={pb.mooe}
                 onUpdate={(lines) =>
                   save({
@@ -692,29 +620,24 @@ export function Part4YearForm({
                     },
                   })
                 }
-                colWidths={colWidths}
-                onResize={handleResize}
               />
             </SectionCard>
           );
         })}
 
-      {/* Last letter — Continuing Costs */}
+      {/* Continuing Costs */}
       <SectionCard
         title={`${alpha(1 + internalProjects.length + crossAgencyProjects.length)}. Continuing / Recurring Costs`}
         description="Subscriptions, maintenance contracts, and other ongoing ICT costs"
-        colorClass="bg-rose-500"
+        color="#F43F5E"
       >
         <LineTable
           title="MOOE"
           context="mooe"
-          badge="MOOE"
           lines={budget.continuingCosts.mooe}
           onUpdate={(lines) =>
             save({ ...budget, continuingCosts: { mooe: lines } })
           }
-          colWidths={colWidths}
-          onResize={handleResize}
         />
       </SectionCard>
 
@@ -723,34 +646,6 @@ export function Part4YearForm({
         <span className="font-semibold">Grand Total — Year {year}</span>
         <span className="text-xl font-bold text-primary">{php(grandTotal)}</span>
       </div>
-
-      {/* Navigation */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button
-          variant="outline"
-          onClick={() => router.push(yearKey === "year1"
-                  ? "/editor/part3/f"
-                  : yearKey === "year2"
-                  ? "/editor/part4/year1"
-                  : "/editor/part4/year2")}
-        >
-          ←{" "}
-          {yearKey === "year1"
-            ? "Part III-F: Performance"
-            : yearKey === "year2"
-            ? `Year ${year - 1}`
-            : `Year ${year - 1}`}
-        </Button>
-        <Button
-          onClick={() => router.push(
-            yearKey === "year3"
-              ? "/editor/part4/summary"
-              : `/editor/part4/${yearKey === "year1" ? "year2" : "year3"}`
-          )}
-        >
-          {yearKey === "year3" ? "Summary of Investments →" : `Year ${year + 1} →`}
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }

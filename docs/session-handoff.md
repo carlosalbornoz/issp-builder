@@ -1,6 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-19  
+> **Last updated:** 2026-05-24 (session 8 — theme contrast fixes complete)  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -50,14 +50,190 @@ A web platform for Philippine government agencies to create, fill, validate, and
 | Auth (dormant) | NextAuth.js v5 beta | 5.0.0-beta.31` |
 | UI Components | shadcn/ui + Tailwind CSS 4 | 4.x |
 | Toasts | Sonner (`<Toaster>` in `src/app/layout.tsx`) | — |
-| Font (app) | Inter via `next/font/google` | — |
+| Font (display) | **Fraunces** (opsz variable) via `next/font/google` → `--font-display` | Headings, part titles, doc title |
+| Font (UI) | **IBM Plex Sans** (400/500/600) via `next/font/google` → `--font-sans` | Body, labels, UI chrome |
+| Font (mono) | **IBM Plex Mono** (400/500) via `next/font/google` → `--font-mono` | Code, UACS fields |
 | Font (PDF) | **P052** (URW Palladio, Palatino clone) | Installed via `apt-get install fonts-urw-base35` |
 | PDF | **Puppeteer** | 25.0.2; Chrome 148.0.7778.167 at `/root/.cache/puppeteer/chrome/...` |
 | PDF merge | pdf-lib | — |
 
 ---
 
-## 3. Local-First Architecture
+## 3. UI Refresh (Branch: `ui-refresh`) — Core Refresh Done
+
+Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references/design_upgrade/`.
+
+### Phases complete
+
+| Phase | Work | Status |
+|---|---|---|
+| 0 | Reconnaissance — `docs/ui-recon-notes.md` | ✅ Done |
+| 1 | Data model — `sectionMeta`, `planStatus`, `submissionTarget`, `schemaVersion` | ✅ Done |
+| 2 | Shared primitives — `StatusDot`, `RelativeTime`, `CompletionBar`, `PlanStatusPill` | ✅ Done |
+| 3 | Font + color tokens — Fraunces / IBM Plex Sans / IBM Plex Mono; warm palette | ✅ Done |
+| 4 | Overview redesign — dashboard with status, completion bar, continue card, part cards | ✅ Done |
+| 5 | Sidebar refinements — status dots on all leaf nav items, kebab menu, save status | ✅ Done |
+| 5b | `SaveStatusIndicator` removed from all 14 Part I–IV forms — sidebar is sole save indicator | ✅ Done |
+| 6 | SectionShell — shared section chrome, MarkAsDone, 18-section migration | ✅ Done |
+| 6b | Phase 6 bug fixes — E.1/E.2 header label; `lastEditedAt` now set on content save (not visit); sidebar save status and button improvements | ✅ Done |
+| 7 | Unsaved changes — content snapshot + field diff | ✅ Done 2026-05-23 |
+| 7b | Mobile editor shell — fixed drawer sidebar on mobile; desktop sidebar remains static/collapsible | ✅ Done 2026-05-23 |
+| 7c | Theme system — System/Warm light/dark themes, theme menu, contrast pass | ✅ Done 2026-05-24 |
+| 8 | Theme contrast audit + fixes — semantic tokens, all hardcoded green/amber/blue colors replaced | ✅ Done 2026-05-24 |
+| 9 | Section body patterns | 🔜 Deferred |
+
+### Session 7c — Theme system + contrast pass (2026-05-24)
+
+Full plan and implementation notes: `docs/design-refresh/theme-system-plan.md`.
+
+**Theme architecture**
+
+Implemented four root-level theme classes in `src/app/globals.css`:
+
+| ID | Label | Notes |
+|---|---|---|
+| `system-light` | System Light | Default theme. White system palette, system sans body/display. |
+| `system-dark` | System Dark | OLED black system palette, system sans body/display. |
+| `warm-light` | Warm Light | Existing warm UI refresh palette. |
+| `warm-dark` | Warm Dark | Warm brown dark palette. |
+
+`src/lib/theme.tsx` now owns `THEMES`, `DEFAULT_THEME`, `ThemeProvider`, `useTheme()`, and `issp-theme` localStorage persistence. System themes use matching IDs and labels (`system-light` / System Light and `system-dark` / System Dark); the earlier draft `apple-*` IDs were removed before production release.
+
+`src/app/layout.tsx` injects a synchronous inline script in `<head>` to apply the saved theme class before hydration. Fallback/default is `theme-system-light`. The root layout wraps the app in `ThemeProvider`.
+
+**Theme controls**
+
+Theme switching is in `src/components/editor/editor-sidebar.tsx`:
+- Desktop: kebab menu → Theme submenu with radio items.
+- Mobile: compact sidebar footer has a single palette icon button opening the theme list.
+- Order: System Light, System Dark, separator, Warm Light, Warm Dark.
+- Removed the earlier swatch-footer/Properties-dialog placement.
+
+**Part colors**
+
+`src/lib/sections.ts` now returns `var(--part-1)` through `var(--part-4)` instead of fixed hex values. Each theme defines its own part accents.
+
+**Sidebar save/download behavior**
+
+The main sidebar file action now reflects file-save state:
+- Disabled `No changes to save` when `unsavedToFile === false`
+- Enabled `Save changes` when `unsavedToFile === true`
+- Manual `Download .issp` remains in the kebab menu
+
+**Control contrast cleanup**
+
+Several controls looked disabled under System themes because they used transparent backgrounds or old low-contrast tokens. The following were updated:
+- `src/components/ui/button.tsx`: outline variant now uses `bg-card`, `text-foreground`, `border-border`, `hover:bg-accent`.
+- `src/components/ui/input.tsx`, `textarea.tsx`, `select.tsx`: enabled controls now use card surfaces and explicit foreground text; disabled styles are visually distinct.
+- Inline table controls in Part I-B, Part I-C, Part III-C, Part III-F, Part IV, and the Part II-B diagram title field now use `bg-card/70` with hover/focus card backgrounds.
+- Custom controls in UACS combobox and legacy ISSP overview/layout links were made theme-aware.
+
+**Verification run during implementation**
+
+Repeated targeted checks passed after the changes:
+- `npx tsc --noEmit`
+- Targeted ESLint on changed files
+
+Full `npm run build` was also run successfully once with network access for `next/font` Google font fetching. A sandboxed build fails without network because Next needs to fetch font CSS.
+
+### Session 6 — Part IV refactor + read-only section pattern (2026-05-24)
+
+**`part4-aggregations.ts` — shared data layer extracted**
+
+All aggregation logic that was copy-pasted identically in both `editor/part4/summary/page.tsx` and `dashboard/.../part4/summary/page.tsx` (≈130 lines each) is now in one place:
+
+| Symbol | Exported from |
+|---|---|
+| `SummaryRow`, `UacsRow`, `Part4SummaryData` | `part4-aggregations.ts` |
+| `lineTotal`, `sumLines`, `yearTotal` | `part4-aggregations.ts` |
+| `buildB1`, `buildB2`, `buildB3`, `buildB4` | `part4-aggregations.ts` |
+| `FUND_SOURCE_ORDER` | `part4-aggregations.ts` |
+
+`part4-summary.tsx` re-exports the three types for backward compat. Both pages now import build functions from the shared module.
+
+**`SectionShell` — `hideMarkDone` prop**
+
+```tsx
+<SectionShell hideMarkDone ...>
+```
+
+Suppresses the "Mark as done" button from the section footer. Use for computed/read-only sections that have no user inputs. Currently used by `Part4Summary`.
+
+**`SectionDef.readOnly` — sections excluded from status tracking**
+
+```typescript
+// sections.ts
+{ id: "part4/summary", label: "Summary of Investments", href: "...", readOnly: true }
+```
+
+When `readOnly: true`:
+- `computePartStatus` skips the section (Part IV dot reflects only the 3 year forms)
+- `StatusDot` is not rendered in the sidebar, overview (`part-card.tsx`), or the `SectionShell` sticky header
+- "Mark as done" button is automatically suppressed (via `hideMarkDone` on the component)
+
+Reusable for any future computed/summary section.
+
+### Design tokens (warm palette — `src/app/globals.css`)
+
+| Token | Value | Used for |
+|---|---|---|
+| `--background` | `#FAFAF7` | Page background |
+| `--card` | `#FFFFFF` | Card / popover surfaces |
+| `--secondary` | `#F2F1EC` | Sidebar background |
+| `--accent` | `#EAE8E1` | Hover states |
+| `--border` | `#E5E3DC` | All borders |
+| `--foreground` | `#18181B` | Primary text |
+| `--muted-foreground` | `#52525B` | Secondary text |
+| `--primary` | `#18181B` | Primary buttons |
+| Active item (sidebar) | `#D4D2C9` | Selected nav items |
+
+### Part colors (from `src/lib/sections.ts`)
+
+| Part | Hex | Use |
+|---|---|---|
+| I | `#2563EB` | Left strip, status accents |
+| II | `#C2680C` | Left strip, status accents |
+| III | `#15803D` | Left strip, status accents |
+| IV | `#6D28D9` | Left strip, status accents |
+
+### New files added in UI refresh
+
+| File | Purpose |
+|---|---|
+| `src/lib/sections.ts` | Single source of truth: `PARTS`, `ALL_SECTIONS`, `TOTAL_SECTIONS`, `computeStatus()`, `computePartStatus()`, `findContinueTarget()` |
+| `src/components/ui/status-dot.tsx` | 7px colored circle: green=done, amber=in_progress, gray=empty |
+| `src/components/ui/relative-time.tsx` | Compact relative timestamps: `1m`, `3h`, `2d`; `—` for null |
+| `src/components/ui/completion-bar.tsx` | 4px green fill bar + optional `N% · X of Y` label |
+| `src/components/ui/plan-status-pill.tsx` | Draft/For review/Submitted colored pill |
+| `src/components/editor/overview/plan-metadata-strip.tsx` | Agency pill + period + plan status + deadline (right-aligned) |
+| `src/components/editor/overview/overview-header.tsx` | Doc title (Fraunces 3xl) + completion bar |
+| `src/components/editor/overview/continue-editing-card.tsx` | Blue info card — routes to last-edited section or Part I/A |
+| `src/components/editor/overview/part-card.tsx` | 3px color strip + section list with StatusDot + RelativeTime |
+| `src/components/editor/editor-mobile-sidebar-context.tsx` | Mobile drawer toggle context used by Overview and SectionShell menu buttons |
+
+### `sectionMeta` and status model
+
+`IsspDocument.sectionMeta` is a `Record<string, SectionMeta>` keyed by section ID (e.g. `"part1/a"`, `"part4/year1"`).
+
+```typescript
+interface SectionMeta {
+  userMarkedDone: boolean;   // set by MarkAsDone button (Phase 6)
+  lastEditedAt: string | null; // ISO string; set by useLocalSave on every content save
+}
+
+// Derived status (never stored):
+// "done"        → userMarkedDone === true
+// "in_progress" → lastEditedAt !== null
+// "empty"       → no metadata OR lastEditedAt === null
+```
+
+**`lastEditedAt` is set on content save, not on visit.** `useLocalSave(part, sectionId)` calls `updateSectionMeta(sectionId, { lastEditedAt: now })` inside `debouncedSave`, so the status dot only advances when the user actually edits a field. Just opening a section without typing does not mark it `in_progress`.
+
+**Content-sniffing migration** (`deriveMetaFromContent` in `src/lib/store/index.tsx`): runs on every document load (IDB + file). For each section with no `lastEditedAt`, checks whether the section has non-default content and pre-sets `lastEditedAt = doc.updatedAt`. This ensures imported/existing `.issp` files show meaningful status on the Overview immediately.
+
+---
+
+## 4. Local-First Architecture
 
 ### IndexedDB Store (`src/lib/store/`)
 
@@ -72,14 +248,15 @@ A web platform for Philippine government agencies to create, fill, validate, and
 doc: IsspDocument | null          // current document (null = no doc loaded)
 loading: boolean                  // true while IDB is being checked on mount
 saveStatus: "idle" | "saving" | "saved"
-fileSavedAt: string | null        // ISO string; null = never saved to file
-unsavedToFile: boolean            // true when doc.updatedAt > (fileSavedAt ?? doc.createdAt)
+fileSavedAt: string | null        // ISO string; null = never saved to file this session
+savedSnapshot: IsspDocument | null // in-memory copy of doc at last saveToFile/loadFromFile; null on fresh page load
+unsavedToFile: boolean            // content-hash diff vs savedSnapshot; falls back to timestamp on fresh load
 
 update(patcher)                   // debounced: patches doc + saves to IDB
-saveToFile()                      // downloads .issp + updates fileSavedAt
-loadFromFile(file)                // reads .issp file → loads into IDB + state
-createNew(opts)                   // creates blank doc → saves to IDB
-clearDoc()                        // clears IDB + resets state
+saveToFile()                      // downloads .issp + updates fileSavedAt + savedSnapshot
+loadFromFile(file)                // reads .issp file → loads into IDB + state + sets savedSnapshot
+createNew(opts)                   // creates blank doc → saves to IDB + sets savedSnapshot
+clearDoc()                        // clears IDB + resets state + clears savedSnapshot
 replace(doc)                      // replaces doc (used by loadFromFile)
 ```
 
@@ -93,11 +270,15 @@ interface IsspDocument {
   fileType: "issp-main";
   exportedAt: string;    // updated by saveToFile(); used to compute unsavedToFile
   tool: "issp-platform";
+  schemaVersion?: number;  // 2 = current; absent/1 = legacy; migrated on load
   title: string;
   startYear: number; endYear: number;
   amendmentNumber: number;
   scope: IsspScope;
   agency: AgencyInfo;   // includes logoBase64: string | null
+  planStatus?: "draft" | "for_review" | "submitted";  // default "draft"
+  submissionTarget?: { agency: string; deadline: string | null };  // default DICT/null
+  sectionMeta?: Record<string, { userMarkedDone: boolean; lastEditedAt: string | null }>;
   part1: Part1Data;
   part2: Part2Data;
   part3: Part3Data;
@@ -119,9 +300,12 @@ const unsavedToFile = !!doc && doc.updatedAt > (fileSavedAt ?? doc.createdAt);
 | File | Purpose |
 |---|---|
 | `src/app/editor/layout.tsx` | Wraps `{children}` in `<EditorShell>` |
-| `src/components/editor/editor-shell.tsx` | Checks `loading`/`doc`; registers `beforeunload` when `unsavedToFile`; calls `useFileSaveReminder` |
-| `src/components/editor/editor-sidebar.tsx` | Collapsible sidebar; "ISSP Editor" label in header; Save to File footer; Exit Editor link at bottom of both collapsed and expanded states |
-| `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer; fires a persistent Sonner toast with "Save to File" action button when `unsavedToFile` stays true |
+| `src/components/editor/editor-shell.tsx` | Checks `loading`/`doc`; registers `beforeunload`; calls `useFileSaveReminder`; owns desktop collapsed state + mobile drawer open state |
+| `src/components/editor/editor-mobile-sidebar-context.tsx` | Provides `openMobileSidebar()` to Overview and SectionShell without threading props through every form |
+| `src/components/editor/editor-sidebar.tsx` | Desktop collapsible sidebar; mobile fixed drawer overlay; "ISSP Editor" label; Save to File footer; Exit Editor link |
+| `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer; fires a persistent Sonner toast titled "You have unsaved changes" with a teal "Save changes" action button when `unsavedToFile` stays true |
+
+**Mobile sidebar behavior:** On mobile, the sidebar is fixed (`h-dvh`) and slides over the editor content with a backdrop. It is not a flex sibling, so the page has one primary scroll surface. The menu button is exposed in the Overview header and the SectionShell breadcrumb. On desktop, the same sidebar remains a normal flex child and can still collapse to the 48px rail.
 
 ### Editor Pages
 
@@ -306,13 +490,31 @@ update((prev) => ({
 }));
 ```
 
-### `unsavedToFile` — how it works
+### `unsavedToFile` — how it works (content-hash-based)
 ```typescript
-// In store: fileSavedAt is React state, not persisted to IDB
-// Set from parsed.exportedAt on loadFromFile()
-// Set to now() on saveToFile()
-const unsavedToFile = !!doc && doc.updatedAt > (fileSavedAt ?? doc.createdAt);
+// savedSnapshot is set on saveToFile(), loadFromFile(), createNew(), clearDoc().
+// It is NOT persisted to IDB — on a fresh page load it is null.
+// docContentHash() strips updatedAt, exportedAt, and sectionMeta.lastEditedAt before comparing.
+
+const unsavedToFile = !doc
+  ? false
+  : savedSnapshot
+  ? docContentHash(doc) !== docContentHash(savedSnapshot)   // accurate: reverts clear the indicator
+  : doc.updatedAt > (fileSavedAt ?? doc.createdAt);        // fallback on fresh page load (no snapshot yet)
 ```
+
+`docContentHash` is defined in `src/lib/store/index.tsx`. It excludes implementation timestamps (`updatedAt`, `exportedAt`, `sectionMeta.lastEditedAt`) but keeps `sectionMeta.userMarkedDone` (intentional user state).
+
+### Form init normalization — a hidden snapshot sync risk
+
+Several forms transform `initialData` in their `useState` initializer before the first save:
+- **Part I-C** — fills missing `stakeholder.id` via `crypto.randomUUID()`
+- **Part II-A** — migrates `outcomeId` → `outcomeIds` array
+- **Part III-C** — uppercases `employmentStatus`, renames `physicalCount→quantity`, fills missing `id`
+
+If the stored file has the old format, the first `debouncedSave` after any edit writes the normalized values. Even after reverting the edit, the stored doc has normalized values ≠ snapshot (old values), causing a permanent false-positive "Unsaved changes".
+
+**Fix (already applied):** `migrateLegacyDoc` normalizes these three patterns idempotently on every load. This ensures the snapshot already contains normalized data at the time it is captured, matching what the form will write. See the schema-change skill for the general rule.
 
 ### JSON field deep-merge — required for cybersecurity controls
 ```tsx
@@ -377,18 +579,42 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 ## 8. Components Reference
 
 ### `src/components/editor/editor-sidebar.tsx`
-- Full sidebar: "ISSP Editor" label (header), collapsible nav sections, Save to File (footer), Exit Editor link (very bottom)
+- Full sidebar: "ISSP Editor" label (header), collapsible nav sections, footer, Exit Editor link (very bottom)
 - Collapsed sidebar: expand toggle, spacer, Exit Editor icon (very bottom)
-- `SavePill` component shows `Loader2` (saving) or `Check` (saved)
-- File status row: amber "Unsaved changes" / green "File up to date" + time-ago timestamp
+- Mobile: sidebar is a fixed left drawer (`h-dvh`, overlay backdrop) opened by the mobile menu buttons in `OverviewHeader` and `SectionShell`; clicking a nav link closes it
+- **Nav** imports `PARTS` from `@/lib/sections` — single source of truth for section config; `NAV_SECTIONS` constant removed
+- **Status dots**: every leaf nav item renders `<StatusDot>` computed from `doc.sectionMeta[section.id]`
+- **Footer save status**: two states only — "Unsaved changes" (clickable, pulsing amber dot) / "Saved X ago" (green check). No "Saving…" spinner (IDB writes are near-instant; showing it then immediately "Unsaved changes" was confusing UX).
+- **"Unsaved changes" is clickable**: toggles an inline list of changed sections computed via `getChangedFields()` (snapshot diff), each as a link with Part color prefix. Below each section link, an indented list of changed field labels (e.g. "Vision Statement", "IS Inventory") is shown when a snapshot is available. Falls back to `lastEditedAt`-based list (no field detail) on fresh browser load.
+- **Save button turns teal** (`bg-teal-600`) when `unsavedToFile` is true; label switches "Download .issp" ↔ "Save changes"
+- **Kebab menu (⋮)** next to the save button: Download .issp · Load different ISSP… (hidden `<input type=file>`) · separator · Start over… (sets `confirmClear`)
+- **Confirm clear**: inline in footer (not at top of sidebar) — only visible when `confirmClear === true`
+- "Start Over / Load Different ISSP" button at top of sidebar is gone; destructive actions now require two clicks via the kebab
+- Background: `bg-secondary` (`#F2F1EC`); selected nav items: `bg-[#D4D2C9]`
 
 ### `src/components/issp-editor/uacs-combobox.tsx`
 - Props: `value`, `onChange(uacs, label)`, `context: "co" | "mooe" | "all"`, `placeholder`
 - Lazy-loads `/uacs_active.min.json` on first open
 
+### `src/components/issp-editor/part4/part4-aggregations.ts`
+Pure data layer — no React imports, safe to use in both client and server components.
+- **Types:** `SummaryRow`, `UacsRow`, `Part4SummaryData`
+- **Low-level:** `lineTotal`, `sumLines`, `yearTotal`, `FUND_SOURCE_ORDER`
+- **Build functions:** `buildB1` (category summary), `buildB2` (by fund source), `buildB3` (CO/MOOE), `buildB4` (UACS object of expenditure)
+- Both the local-first editor page (`src/app/editor/part4/summary/page.tsx`) and the server-side dashboard page (`src/app/(dashboard)/dashboard/documents/[id]/part4/summary/page.tsx`) import from here.
+
 ### `src/components/issp-editor/part4/part4-year-form.tsx`
 - Dynamic section lettering via `alpha(n)`
 - Exports `YearBudget`, `LineItem`, `ProjectBudget` types (re-exported from store types)
+- **Drawer pattern (UX rewrite):** line items are a compact list (description + total + pencil icon on hover); clicking opens a `Sheet` right-panel (`LineItemDrawer`) with all fields laid out at full width
+  - `LineItemDrawer` props: `open`, `item`, `isNew`, `context: "co" | "mooe"`, `onSave`, `onDelete`, `onClose`
+  - Drawer title: "Add/Edit Line Item — Capital Outlay" or "Add/Edit Line Item — Maintenance & Other Operating Expenses"
+  - Drawer description: accurate CO/MOOE descriptions sourced from ISSP Guidelines (MOOE is not defined by peso threshold — it's recurring costs/subscriptions/consumables)
+- **`SectionCard`:** 3px absolute-positioned colored left strip; `color` prop takes hex string; no more Tailwind colorClass
+- **`LineTable`:** header title row and item list share one bordered container; header band is `bg-muted/40`; subtotal row is `bg-muted/50 font-semibold`
+- **Legend strip** in sticky header: colored squares (matching card strips) + "Legend:" label; CO/MOOE badge chips removed (title already spells them out)
+- No more `ColumnWidths`, column resizing, or `localStorage` col-width cache
+- No `SaveStatusIndicator` (removed; sidebar is sole status source)
 
 ---
 
@@ -414,16 +640,109 @@ The file is downloadable from the editor splash screen: "Download NCWTR demo fil
 
 ## 10. Pending / Next Session Work
 
+### ✅ UI Refresh — Phase 6 (SectionShell) — DONE
+Extracted shared section chrome into `SectionShell` at `src/components/editor/section-shell.tsx`. All 18 editors migrated.
+- Breadcrumb (Overview → Part → Section), sticky section header with `StatusDot`, title (Fraunces), description
+- `MarkAsDone` toggle: outlined/filled-green; writes `userMarkedDone` to `sectionMeta` → updates sidebar dot + Overview live
+- `SectionNavLink` prev/next across all 18 sections; last section shows "Return to Overview"
+- `statBlock` prop renders optional top-right stat (used by Part IV year forms to show Year Total)
+- `hideMarkDone` prop suppresses the "Mark as done" footer button — use for computed/read-only sections
+- `Callout` component created at `src/components/ui/callout.tsx` (info/tip/warning/danger variants)
+
+**Phase 6b fixes (session 3):**
+- E.1/E.2 header sub-label: `split(".")[0]` → regex `match(/^[A-Z][\d.]*/)`; now shows "Part III · E.1" correctly
+- `lastEditedAt` moved from SectionShell mount effect → `useLocalSave` `debouncedSave`; all 14 form files updated to pass `sectionId`; visiting a section no longer marks it `in_progress`
+- Sidebar: "Saving…" spinner removed; "Unsaved changes" now clickable (shows changed sections inline); Save button turns amber when unsaved
+
+### ✅ Part IV — Budget form UX rewrite (drawer pattern) — DONE
+Replaced 7-column inline spreadsheet with master list + `Sheet` drawer pattern. See Components Reference → `part4-year-form.tsx` for full details.
+
+### ✅ Unsaved Changes — Content Snapshot + Field Diff — DONE (session 4)
+**Plan + implementation notes:** `docs/unsaved-changes-tracking-plan.md`
+
+Implemented:
+- `savedSnapshot: IsspDocument | null` in store — set on `saveToFile`, `loadFromFile`, `createNew`, cleared on `clearDoc`
+- `docContentHash()` in `src/lib/store/index.tsx` — strips implementation timestamps before comparing
+- `src/lib/section-fields.ts` — new file: `SECTION_FIELDS` map (all 18 sections), `getChangedFields()`
+- Sidebar: snapshot-based section diff with field-level label list; falls back to `lastEditedAt` on fresh browser load
+- `migrateLegacyDoc` normalization for `stakeholders`, `strategicConcerns`, `proposedHumanCapital` — prevents false-positive diffs caused by form init normalization
+- Save button: amber → teal; toast text: consistent "Save changes" / "You have unsaved changes"
+
+### ✅ Mobile Editor Sidebar — DONE (session 5)
+Implemented a mobile drawer pattern for the editor sidebar:
+- `EditorShell` owns `mobileSidebarOpen` separately from desktop `sidebarCollapsed`
+- `EditorSidebar` renders as a fixed overlay drawer on mobile and as a static/collapsible flex child on desktop
+- `editor-mobile-sidebar-context.tsx` exposes `openMobileSidebar()` to `OverviewHeader` and `SectionShell`
+- Drawer closes on backdrop click and after mobile nav link clicks
+- Verified with Puppeteer at 390×844: closed drawer `x=-288`, open drawer `x=0`, closes after section navigation; desktop expanded/collapsed remains 288px/48px
+
+### ✅ Theme Contrast Audit + Fixes — DONE (session 8, 2026-05-24)
+
+**Root causes fixed:**
+1. **Dead `dark:` prefixes** — Theme system uses `theme-*` classes on `<html>`, never the Tailwind `dark` class. All `dark:` rules in `callout.tsx` were inert. Replaced with semantic token classes.
+2. **Hardcoded semantic colors** — Green/amber/blue Tailwind literals had no dark-theme counterparts, causing unreadable text in `warm-dark` and `system-dark`.
+
+**Also fixed:** `ContentModal` in `home-page-client.tsx` opened scrolled partway down. Root cause: Base UI dialog focuses the first focusable element (a link mid-prose), scrolling the container. Fixed with a zero-size `tabIndex={0}` focus sentinel at the top of the scroll container + `useRef`/`useEffect` scroll reset.
+
+**Semantic color token system** — New CSS custom properties added to all four theme classes in `globals.css` and mapped to Tailwind via `@theme inline`:
+
+| Token | Light value | Dark value |
+|---|---|---|
+| `--success` | `#15803D` (green-700) | `#4ade80` / `#30D158` |
+| `--success-bg` | `#f0fdf4` | dark tinted surface |
+| `--success-border` | `#bbf7d0` | dark tinted border |
+| `--success-foreground` | `#ffffff` | `#052e16` / `#001a08` |
+| `--warning` | `#b45309` (amber-700) | `#fbbf24` / `#FF9F0A` |
+| `--warning-bg` | `#fffbeb` | dark tinted surface |
+| `--warning-border` | `#fde68a` | dark tinted border |
+| `--info` | `#1d4ed8` (blue-700) | `#60a5fa` / `#0A84FF` |
+| `--info-bg` | `#eff6ff` | dark tinted surface |
+| `--info-border` | `#bfdbfe` | dark tinted border |
+| `--danger-bg` | `#fef2f2` | `#1f0a0a` |
+| `--danger-border` | `#fecaca` | `#3f1515` |
+
+Tailwind utility classes available: `text-success`, `bg-success`, `bg-success-bg`, `border-success-border`, `text-success-foreground`, and equivalents for `warning`, `info`, `danger-bg`, `danger-border`.
+
+**Files changed:**
+
+| File | What changed |
+|---|---|
+| `src/app/globals.css` | Semantic tokens in all 4 theme classes; `@theme inline` mappings; `prose-article` + `prose-disclaimer` converted from hardcoded hex to CSS vars |
+| `src/components/ui/callout.tsx` | All 4 variants — `dark:` dead code removed, token classes applied |
+| `src/components/ui/status-dot.tsx` | `done` → `bg-success`; `in_progress` → `bg-warning`; `empty` → `bg-muted-foreground/30` |
+| `src/components/ui/completion-bar.tsx` | Fill → `bg-success`; track → `bg-border` |
+| `src/components/ui/plan-status-pill.tsx` | All 3 pill states → semantic tokens |
+| `src/components/editor/editor-sidebar.tsx` | Both "Saved" text spots → `text-success` |
+| `src/components/editor/section-shell.tsx` | MarkAsDone button active state → `bg-success text-success-foreground` |
+| `src/components/issp-editor/part1/part1-c-form.tsx` | Blue info box + complexity badge colors |
+| `src/components/issp-editor/part2/part2-a-form.tsx` | Amber info box |
+| `src/components/issp-editor/part2/part2-c-form.tsx` | Service type badge colors + frontline/data stat counts |
+| `src/components/issp-editor/part2/part2-d-form.tsx` | Blue LGU note + status option icon colors + utilizing/proposed/not-utilizing stats |
+| `src/components/issp-editor/part3/part3-a-form.tsx` | Objective type badge |
+| `src/components/issp-editor/part3/part3-b-form.tsx` | Green info box |
+| `src/components/issp-editor/part3/part3-d-form.tsx` | System status badges + "has project" chip + blue nudge row + green tip box + stat counts |
+| `src/components/issp-editor/part3/part3-e1-form.tsx` | Linked-IS chip + total cost stat |
+| `src/components/issp-editor/part4/part4-summary.tsx` | Consistency banner (green/amber) |
+| `src/components/issp-editor/uacs-combobox.tsx` | ICT group header label |
+| `src/components/home/home-page-client.tsx` | ContentModal focus sentinel + scroll reset |
+
+**Intentionally left alone:**
+- Landing page CTA section (`background: #1C1C1E`) — always-dark brand section by design
+- About/Privacy hero headers (`#0038A8`, `#111827`) — brand colors, intentional
+- Landing page `PART_COLORS` array + "Live Now" badge — decorative only
+- Dashboard-route files — dormant server-auth screens, unreachable in local-first mode
+- `issp-editor-layout.tsx`, `issp-overview-content.tsx` — replaced/dormant old editor
+- shadcn primitive `dark:` variants (`button.tsx`, `tabs.tsx`, etc.) — affect only hover/focus/invalid micro-states; base token styling is functional
+
+### 🟡 Validation & Review (post UI refresh)
+- **Pre-export validation** — required fields, budget-IS linkage, KPI completeness. Client-side, runs before PDF export. Surface issue count per section in the sidebar/overview.
+- **Read-only review mode** — full document view (all parts on one scrollable page or tabbed), useful before submission.
+- **Mobile-responsive QA** — shell/navigation is now mobile-friendly; dense form bodies and Part IV drawer interactions still need targeted QA before declaring mobile fully supported.
+
 ### 🔴 Phase E — Diagram Upload (base64 client-side)
 Network diagram upload UI for Part II-B (existing diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text/description-only.
 
 **Architecture:** File input → read as base64 data URL → store in `doc.part2.networkDiagrams[].dataUrl` (already in the type). No server upload needed. The PDF export already handles `dataUrl` values in network diagrams (`path.startsWith("data:")` check in `render-issp-html.ts`).
-
-### 🟡 Phase 7 — Polish & Validation
-- Section-level completion tracking (% per part, shown in sidebar or overview cards)
-- Pre-export validation: required fields, budget-IS linkage, KPI completeness (client-side, runs before PDF export)
-- Read-only review mode (full document view)
-- Mobile-responsive improvements
 
 ### 🔴 Annex 1 — ICT Asset Inventory
 Standalone public module at `/annex1`. Full plan in `docs/annex1-implementation-plan.md`.
@@ -440,7 +759,7 @@ Project-level Claude Code skills — invoked with `/skill-name` or auto-loaded b
 
 | Skill | Path | Invocation | Purpose |
 |---|---|---|---|
-| `schema-change` | `.claude/skills/schema-change/SKILL.md` | Auto + `/schema-change` | Standardized 11-step checklist for any IDB/JSON or Prisma schema change — ensures types, defaults, forms, pages, seed, demo file, PDF export, and docs all stay in sync |
+| `schema-change` | `.claude/skills/schema-change/SKILL.md` | Auto + `/schema-change` | Standardized 13-step checklist for any IDB/JSON or Prisma schema change — ensures types, defaults, migration, forms, pages, demo file, PDF export, `SECTION_FIELDS`, and docs all stay in sync. Includes backward compat strategies A/B/C and a pitfall table covering form-init normalization. |
 
 **When to expect `schema-change` to activate:** Any prompt that adds, removes, or renames a field on `IsspDocument`, `Part1Data`–`Part4Data`, or any sub-type (e.g. `IctProject`, `StrategicConcern`).
 
@@ -501,7 +820,7 @@ src/
 ├── app/
 │   ├── editor/                        ← Local-first editor (public, no auth)
 │   │   ├── layout.tsx
-│   │   ├── page.tsx                   ← Splash + Overview (has Export PDF button)
+│   │   ├── page.tsx                   ← Splash + Overview dashboard (UI refresh Phase 4)
 │   │   ├── part1/{a,b,c}/page.tsx
 │   │   ├── part2/{a,b,c,d}/page.tsx
 │   │   ├── part3/{a,b,c,d,e1,e2,f}/page.tsx
@@ -513,21 +832,35 @@ src/
 ├── components/
 │   ├── editor/
 │   │   ├── editor-shell.tsx           ← beforeunload + save reminder
-│   │   └── editor-sidebar.tsx         ← Collapsible nav + Save to File + Exit Editor
+│   │   ├── editor-sidebar.tsx         ← Desktop collapsible nav + mobile drawer; StatusDot leaf items; kebab menu
+│   │   ├── editor-mobile-sidebar-context.tsx ← Mobile drawer toggle context
+│   │   └── overview/                  ← UI refresh Phase 4 components
+│   │       ├── plan-metadata-strip.tsx  ← Agency pill + period + status + deadline
+│   │       ├── overview-header.tsx      ← Doc title (Fraunces) + CompletionBar
+│   │       ├── continue-editing-card.tsx ← Blue info card → last-edited section
+│   │       └── part-card.tsx            ← 3px strip + section list with dots
+│   ├── ui/                            ← shadcn/ui + UI refresh primitives
+│   │   ├── status-dot.tsx             ← 7px circle: done/in_progress/empty
+│   │   ├── relative-time.tsx          ← Compact relative timestamps
+│   │   ├── completion-bar.tsx         ← 4px green fill bar
+│   │   └── plan-status-pill.tsx       ← Draft/For review/Submitted pill
 │   └── issp-editor/                   ← All Part I–IV form components
 │       ├── part1/{a,b,c}-form.tsx
 │       ├── part2/{a,b,c,d}-form.tsx
 │       ├── part3/{a,b,c,d,e1,e2,f}-form.tsx
 │       └── part4/
-│           ├── part4-year-form.tsx    ← dynamic alpha() lettering
-│           └── part4-summary.tsx     ← B.1–B.4 read-only tables
+│           ├── part4-year-form.tsx       ← dynamic alpha() lettering; exports LineItem/YearBudget/ProjectBudget types
+│           ├── part4-aggregations.ts     ← shared data layer: types + build functions (no React)
+│           └── part4-summary.tsx         ← B.1–B.4 read-only display; imports from part4-aggregations
 ├── hooks/
 │   ├── use-file-save-reminder.ts      ← 10-min Sonner toast
 │   └── use-local-save.ts
 └── lib/
+    ├── sections.ts                    ← PARTS, ALL_SECTIONS, computeStatus(), findContinueTarget(); SectionDef.readOnly flag
+    ├── section-fields.ts              ← SECTION_FIELDS map, getChangedFields() — powers sidebar field-level diff
     ├── store/
-    │   ├── index.tsx                  ← IsspStore context provider
-    │   ├── types.ts                   ← IsspDocument + all sub-types
+    │   ├── index.tsx                  ← IsspStore context + migrateLegacyDoc + deriveMetaFromContent
+    │   ├── types.ts                   ← IsspDocument + all sub-types + SectionMeta/SectionStatus
     │   └── defaults.ts                ← createEmptyDocument(), defaults
     └── pdf/
         ├── generate-pdf.ts            ← Puppeteer wrapper (two-PDF merge)

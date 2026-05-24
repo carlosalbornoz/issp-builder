@@ -1,15 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState, useCallback, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SaveStatusIndicator } from "@/components/issp-editor/save-status-indicator";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
 import { ChevronDown, UploadCloud, ImageIcon, Trash2 } from "lucide-react";
+import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -241,7 +239,6 @@ function ChecklistGroup({
 // ─── Main form ─────────────────────────────────────────────────────────────────
 
 export function Part2BForm({ initialData }: Part2BFormProps) {
-  const router = useRouter();
   const [networkDescription, setNetworkDescription] = useState(
     initialData?.networkDescription ?? ""
   );
@@ -252,7 +249,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { status, debouncedSave } = useLocalSave("part2");
+  const { debouncedSave } = useLocalSave("part2", "part2/b");
 
   const saveDiagrams = useCallback(
     (updated: NetworkDiagram[]) => {
@@ -336,22 +333,11 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
   const totalItems = CYBER_GROUPS.reduce((sum, g) => sum + g.items.length, 0);
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="sticky top-0 z-10 flex items-start justify-between -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-amber-600 mb-1">
-            Part II · Section B
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Network &amp; Cybersecurity
-          </h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Describe the current network infrastructure and cybersecurity controls in place.
-          </p>
-        </div>
-        <SaveStatusIndicator status={status} />
-      </div>
+    <SectionShell
+      sectionId="part2/b"
+      title="Network &amp; Cybersecurity"
+      description="Describe the current network infrastructure and cybersecurity controls in place."
+    >
 
       {/* B.1 Network description */}
       <Card>
@@ -377,7 +363,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium hover:bg-muted/50 transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors disabled:opacity-50"
               >
                 <UploadCloud className="h-3.5 w-3.5" />
                 {uploading ? "Uploading…" : "Add Diagram"}
@@ -398,7 +384,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
                         placeholder="Diagram title — e.g., Central Office Network Topology"
                         value={diagram.title}
                         onChange={(e) => handleTitleChange(diagram.id, e.target.value)}
-                        className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 focus:placeholder:text-transparent"
+                        className="flex-1 rounded bg-card/70 px-2 py-1 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 hover:bg-card focus:bg-card focus:placeholder:text-transparent"
                       />
                       <button
                         type="button"
@@ -475,19 +461,6 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
           ))}
         </CardContent>
       </Card>
-
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between pt-4 border-t">
-        <Button
-          variant="outline"
-          onClick={() => router.push("/editor/part2/a")}
-        >
-          ← Strategic Concerns
-        </Button>
-        <Button onClick={() => router.push("/editor/part2/c")}>
-          Next: IS Inventory →
-        </Button>
-      </div>
-    </div>
+    </SectionShell>
   );
 }
