@@ -25,13 +25,12 @@ import {
   Download,
   FileOutput,
   FolderOpen,
-  LogOut,
   Loader2,
   Check,
   Settings2,
-  RotateCcw,
   MoreHorizontal,
   Palette,
+  Trash2,
   X,
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
@@ -115,13 +114,6 @@ function CollapsedSidebar({ onToggle }: { onToggle: () => void }) {
       </Button>
       <Separator className="mt-2" />
       <div className="flex-1" />
-      <Link
-        href="/"
-        aria-label="Exit editor"
-        className="h-8 w-8 flex items-center justify-center rounded-md text-foreground hover:bg-accent transition-colors"
-      >
-        <LogOut className="h-4 w-4" />
-      </Link>
     </aside>
   );
 }
@@ -143,12 +135,19 @@ export function EditorSidebar({
   const now = useNow();
   const pathname = usePathname();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { theme } = useTheme();
 
   const [expandedParts, setExpandedParts] = useState<Set<number>>(new Set([1, 2, 3, 4]));
   const [propsOpen, setPropsOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
-  const [confirmClear, setConfirmClear] = useState(false);
+  const [clearStep, setClearStep] = useState<"idle" | "step1" | "step2">("idle");
   const [showChanges, setShowChanges] = useState(false);
+  const [themeNudgeDismissed, setThemeNudgeDismissed] = useState(() =>
+    typeof window !== "undefined" && localStorage.getItem("issp-theme-nudge-dismissed") === "true"
+  );
+  const [fileMenuOpen, setFileMenuOpen] = useState(false);
+  const [themeSubmenuOpen, setThemeSubmenuOpen] = useState(false);
+  const showThemeNudge = !!doc && theme === "system-light" && !themeNudgeDismissed;
 
   // Sections with content that differs from the last saved file
   const changedSections: { section: SectionDef; part: PartDef; changedFields: SectionField[] }[] = [];
@@ -187,7 +186,21 @@ export function EditorSidebar({
 
   async function handleClear() {
     await clearDoc();
-    setConfirmClear(false);
+    setClearStep("idle");
+  }
+
+  function dismissThemeNudge() {
+    localStorage.setItem("issp-theme-nudge-dismissed", "true");
+    setThemeNudgeDismissed(true);
+  }
+
+  function openThemeMenuFromNudge() {
+    setFileMenuOpen(true);
+  }
+
+  function handleFileMenuOpenChange(open: boolean) {
+    setFileMenuOpen(open);
+    if (!open) setThemeSubmenuOpen(false);
   }
 
   function handleSaveToFile() {
@@ -509,27 +522,88 @@ export function EditorSidebar({
             )}
           </div>
 
-          {/* Confirm clear */}
-          {confirmClear && (
-            <div className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2.5 space-y-2">
-              <p className="text-xs text-destructive leading-snug">
-                This will clear the document from your browser. Save your file first.
-              </p>
+          {/* Clear editor flow */}
+          {clearStep === "step1" && (
+            <div className="rounded-lg border border-border bg-card px-3 py-2.5 space-y-2.5">
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-foreground">Clear editor data?</p>
+                <p className="text-xs leading-snug text-muted-foreground">
+                  This will permanently remove your ISSP from this browser.
+                </p>
+              </div>
+              {unsavedToFile && (
+                <div className="rounded-md border border-warning-border bg-warning-bg px-2.5 py-2 text-xs text-warning space-y-2">
+                  <p className="font-medium">You have unsaved changes.</p>
+                  <p className="leading-snug">Save your file before clearing.</p>
+                  <Button size="sm" variant="outline" className={cn("h-7 text-xs px-2", sidebarControlClass)} onClick={handleSaveToFile}>
+                    <Download className="h-3.5 w-3.5" />
+                    Save .issp file
+                  </Button>
+                </div>
+              )}
               <div className="flex gap-2">
-                <Button size="sm" variant="destructive" className="h-7 text-xs px-3" onClick={handleClear}>
-                  Clear
+                <Button size="sm" className="h-7 flex-1 text-xs px-3" onClick={() => setClearStep("step2")}>
+                  Continue
                 </Button>
-                <Button size="sm" variant="outline" className={cn("h-7 text-xs px-3", sidebarControlClass)} onClick={() => setConfirmClear(false)}>
+                <Button size="sm" variant="outline" className={cn("h-7 flex-1 text-xs px-3", sidebarControlClass)} onClick={() => setClearStep("idle")}>
                   Cancel
                 </Button>
               </div>
             </div>
           )}
 
-          {!confirmClear && (
+          {clearStep === "step2" && (
+            <div className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2.5 space-y-2.5 text-destructive">
+              <div className="space-y-1">
+                <p className="text-sm font-semibold">This action is irreversible.</p>
+                <p className="text-xs leading-snug">
+                  Your ISSP will be permanently deleted from this browser. There is no undo.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" variant="destructive" className="h-7 flex-1 text-xs px-3" onClick={handleClear}>
+                  Delete permanently
+                </Button>
+                <Button size="sm" variant="outline" className={cn("h-7 flex-1 text-xs px-3", sidebarControlClass)} onClick={() => setClearStep("step1")}>
+                  Go back
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {clearStep === "idle" && (
             <>
               {/* Primary save + kebab */}
-              <div className="flex gap-1.5">
+              <div className="relative flex gap-1.5">
+                {showThemeNudge && (
+                  <div className="absolute bottom-full right-0 z-20 mb-3 w-56 rounded-lg border border-info-border bg-info-bg px-3 py-2.5 text-info shadow-lg shadow-black/10">
+                    <div className="flex items-start gap-2">
+                      <Palette className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                      <div className="min-w-0 flex-1 space-y-1">
+                        <p className="text-xs font-semibold leading-tight">Try themes</p>
+                        <p className="text-[11px] leading-snug text-info/80">
+                          Warm and dark modes are in this menu.
+                        </p>
+                        <button
+                          type="button"
+                          className="text-[11px] font-medium leading-none text-info hover:underline"
+                          onClick={openThemeMenuFromNudge}
+                        >
+                          Open menu
+                        </button>
+                      </div>
+                      <button
+                        type="button"
+                        aria-label="Dismiss theme notice"
+                        className="-mr-1 -mt-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-info hover:bg-info-border/50"
+                        onClick={dismissThemeNudge}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                    <span className="absolute -bottom-1.5 right-3.5 h-3 w-3 rotate-45 border-b border-r border-info-border bg-info-bg" />
+                  </div>
+                )}
                 <Button
                   variant="outline"
                   disabled={!unsavedToFile}
@@ -543,7 +617,7 @@ export function EditorSidebar({
                   <Download className="h-4 w-4" />
                   {unsavedToFile ? "Save changes" : "No changes to save"}
                 </Button>
-                <DropdownMenu>
+                <DropdownMenu open={fileMenuOpen} onOpenChange={handleFileMenuOpenChange}>
                   <DropdownMenuTrigger
                     aria-label="More file actions"
                     className={cn(
@@ -562,22 +636,28 @@ export function EditorSidebar({
                       <FolderOpen className="h-3.5 w-3.5 mr-2" />
                       Load different ISSP…
                     </DropdownMenuItem>
-                    <DropdownMenuSub>
-                      <DropdownMenuSubTrigger>
+                    <DropdownMenuSub open={themeSubmenuOpen} onOpenChange={setThemeSubmenuOpen}>
+                      <DropdownMenuSubTrigger
+                        className={cn(
+                          showThemeNudge &&
+                            fileMenuOpen &&
+                            "animate-pulse bg-info-bg text-info ring-1 ring-info-border focus:bg-info-bg focus:text-info data-popup-open:bg-info-bg data-popup-open:text-info data-open:bg-info-bg data-open:text-info"
+                        )}
+                      >
                         <Palette className="h-3.5 w-3.5 mr-2" />
                         Theme
                       </DropdownMenuSubTrigger>
                       <DropdownMenuSubContent className="w-44">
-                        <ThemeMenuItems />
+                        <ThemeMenuItems onThemeSelected={dismissThemeNudge} />
                       </DropdownMenuSubContent>
                     </DropdownMenuSub>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                      className="text-destructive focus:text-destructive focus:bg-destructive/10"
-                      onClick={() => setConfirmClear(true)}
+                      variant="destructive"
+                      onClick={() => setClearStep("step1")}
                     >
-                      <RotateCcw className="h-3.5 w-3.5 mr-2" />
-                      Start over…
+                      <Trash2 className="h-3.5 w-3.5 mr-2" />
+                      Clear editor data…
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -615,14 +695,6 @@ export function EditorSidebar({
               @carlosanton.io
             </a>
           </p>
-          <Link
-            href="/"
-            onClick={handleNavigate}
-            className="flex items-center justify-center gap-1.5 w-full py-1.5 text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors"
-          >
-            <LogOut className="h-3 w-3" />
-            Exit Editor
-          </Link>
         </div>
 
         {/* Hidden file input */}

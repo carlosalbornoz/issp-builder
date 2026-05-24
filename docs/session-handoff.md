@@ -579,16 +579,17 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 ## 8. Components Reference
 
 ### `src/components/editor/editor-sidebar.tsx`
-- Full sidebar: "ISSP Editor" label (header), collapsible nav sections, footer, Exit Editor link (very bottom)
-- Collapsed sidebar: expand toggle, spacer, Exit Editor icon (very bottom)
+- Full sidebar: "ISSP Editor" label (header), collapsible nav sections, footer, save actions, kebab actions
+- Collapsed sidebar: expand toggle and spacer only; Exit Editor was removed to reduce clutter
 - Mobile: sidebar is a fixed left drawer (`h-dvh`, overlay backdrop) opened by the mobile menu buttons in `OverviewHeader` and `SectionShell`; clicking a nav link closes it
 - **Nav** imports `PARTS` from `@/lib/sections` — single source of truth for section config; `NAV_SECTIONS` constant removed
 - **Status dots**: every leaf nav item renders `<StatusDot>` computed from `doc.sectionMeta[section.id]`
 - **Footer save status**: two states only — "Unsaved changes" (clickable, pulsing amber dot) / "Saved X ago" (green check). No "Saving…" spinner (IDB writes are near-instant; showing it then immediately "Unsaved changes" was confusing UX).
 - **"Unsaved changes" is clickable**: toggles an inline list of changed sections computed via `getChangedFields()` (snapshot diff), each as a link with Part color prefix. Below each section link, an indented list of changed field labels (e.g. "Vision Statement", "IS Inventory") is shown when a snapshot is available. Falls back to `lastEditedAt`-based list (no field detail) on fresh browser load.
-- **Save button turns teal** (`bg-teal-600`) when `unsavedToFile` is true; label switches "Download .issp" ↔ "Save changes"
-- **Kebab menu (⋮)** next to the save button: Download .issp · Load different ISSP… (hidden `<input type=file>`) · separator · Start over… (sets `confirmClear`)
-- **Confirm clear**: inline in footer (not at top of sidebar) — only visible when `confirmClear === true`
+- **Save button turns teal** (`bg-teal-600`) when `unsavedToFile` is true; label switches "No changes to save" ↔ "Save changes"
+- **Kebab menu (⋮)** next to the save button: Download .issp · Load different ISSP… (hidden `<input type=file>`) · Theme submenu · separator · Clear editor data…
+- **Theme discovery callout**: desktop-only floating callout points at the kebab for users still on `system-light`; opening the kebab highlights the Theme submenu trigger with an info-token pulse/ring; selecting a theme or dismissing the callout stores `issp-theme-nudge-dismissed` in `localStorage`
+- **Clear editor data flow**: inline two-step confirmation in the footer. Step 1 explains browser deletion and offers `Save .issp file` when unsaved changes exist; Step 2 is the irreversible `Delete permanently` danger gate.
 - "Start Over / Load Different ISSP" button at top of sidebar is gone; destructive actions now require two clicks via the kebab
 - Background: `bg-secondary` (`#F2F1EC`); selected nav items: `bg-[#D4D2C9]`
 

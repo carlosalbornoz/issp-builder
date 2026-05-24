@@ -67,6 +67,7 @@
 | **Theme system** — System/Warm light/dark themes; root theme classes; `ThemeProvider`; SSR flash-prevention script; `issp-theme` localStorage | ✅ Done 2026-05-24 |
 | **Theme menu placement** — desktop kebab Theme submenu; mobile palette button; System Light default; System themes ordered before Warm themes | ✅ Done 2026-05-24 |
 | **Control contrast pass** — outline buttons, inputs, textareas, selects, inline table fields, UACS combobox trigger no longer look disabled when enabled | ✅ Done 2026-05-24 |
+| **Editor sidebar UX improvements** — floating theme discovery callout, Exit Editor removal, Clear editor data two-step flow | ✅ Done 2026-05-24 |
 
 ---
 
