@@ -17,6 +17,7 @@ export default function Part3APage() {
   return (
     <Part3AForm
       initialData={{
+        proposedNetworkDataUrl: doc.part3.proposedNetworkDataUrl,
         proposedNetworkDesc: doc.part3.proposedNetworkDesc,
         proposedCybersecControls: doc.part3.proposedCybersecControls as unknown as Record<string, Record<string, boolean>>,
         currentNetworkDesc: doc.part2.networkDescription,

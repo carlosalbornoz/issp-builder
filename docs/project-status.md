@@ -37,7 +37,7 @@
 | **`POST /api/export` — stateless PDF export, no auth** | ✅ Done |
 | **Demo `.issp` file (`public/demo/ncwtr-issp-2026-2028.issp`)** | ✅ Done |
 | **Landing page updated — local-first copy, no sign-in** | ✅ Done |
-| **EditorSidebar — "ISSP Editor" label, Exit Editor link** | ✅ Done |
+| **EditorSidebar — "ISSP Builder" label, Exit Editor link** | ✅ Done |
 | API: /api/issp/documents (GET, POST) | ✅ Done (dormant) |
 | API: /api/issp/documents/[id]/export (GET → PDF, auth-required) | ✅ Done (dormant) |
 | Part I–IV: all form sections | ✅ Done |
@@ -68,6 +68,7 @@
 | **Theme menu placement** — desktop kebab Theme submenu; mobile palette button; System Light default; System themes ordered before Warm themes | ✅ Done 2026-05-24 |
 | **Control contrast pass** — outline buttons, inputs, textareas, selects, inline table fields, UACS combobox trigger no longer look disabled when enabled | ✅ Done 2026-05-24 |
 | **Editor sidebar UX improvements** — floating theme discovery callout, Exit Editor removal, Clear editor data two-step flow | ✅ Done 2026-05-24 |
+| **Diagram upload (local-first)** — Part II-B network diagrams, Part III-A proposed network diagram, Part III-B enterprise architecture diagram stored as base64 data URLs and rendered in PDF | ✅ Done 2026-05-24 |
 
 ---
 
@@ -128,7 +129,7 @@ The primary user-facing architecture. No login required.
 | Editor route | `src/app/editor/` | Public (no auth); splash when no doc, overview when doc loaded |
 | Editor layout | `src/app/editor/layout.tsx` | Wraps children in `EditorShell` |
 | Editor shell | `src/components/editor/editor-shell.tsx` | `beforeunload` warning; `useFileSaveReminder`; desktop sidebar layout + mobile drawer context |
-| Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Editor" label, desktop collapsible nav, mobile drawer overlay, Save to File, Exit Editor |
+| Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Builder" label, desktop collapsible nav, mobile drawer overlay, Save to File, Exit Editor |
 | Save reminder | `src/hooks/use-file-save-reminder.ts` | Sonner toast after 10 min of unsaved changes |
 | PDF export | `src/app/api/export/route.ts` | `POST` — accepts `IsspDocument` JSON, returns PDF, no auth |
 | Demo file | `public/demo/ncwtr-issp-2026-2028.issp` | NCWTR sample, all 4 parts populated |
@@ -255,12 +256,9 @@ Phase 6 `SectionShell` is complete. The remaining UI refresh work is the deferre
 - Read-only review mode: full document view before submission
 - Additional mobile QA on dense forms and Part IV drawer interactions
 
-### 🔴 Phase E — Diagram Upload (base64)
-Proper upload UI for Part II-B (network diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text-only. Architecture: file input → base64 data URL → `networkDiagrams[].dataUrl`. PDF export already handles it.
-
 ### 🔴 Annex 1 — ICT Asset Inventory
 Standalone public module at `/annex1`. See `docs/annex1-implementation-plan.md`.
 
 ### 🔵 PDF — Known Remaining Gaps
 - TOC page numbers are static (hardcoded) — no two-pass render
-- Network diagrams render inline in Part II-B, not as full dedicated pages
+- Network/proposed network/enterprise architecture diagrams render inline, not as full dedicated pages

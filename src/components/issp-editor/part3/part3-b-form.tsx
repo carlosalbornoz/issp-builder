@@ -1,17 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { LayoutDashboard, Upload } from "lucide-react";
+import { LayoutDashboard } from "lucide-react";
 import { SectionShell } from "@/components/editor/section-shell";
-
-// Enterprise Architecture is mostly a diagram upload + guidance.
-// We handle the diagram path display only; actual upload would need file handling.
+import { useLocalSave } from "@/hooks/use-local-save";
+import { DiagramUploadField } from "@/components/issp-editor/diagram-upload-field";
 
 export function Part3BForm({
   initialDiagramDataUrl,
 }: {
   initialDiagramDataUrl: string | null;
 }) {
+  const [diagramDataUrl, setDiagramDataUrl] = useState(initialDiagramDataUrl);
+  const { debouncedSave } = useLocalSave("part3", "part3/b");
+
+  function handleDiagramChange(dataUrl: string | null) {
+    setDiagramDataUrl(dataUrl);
+    debouncedSave({ enterpriseArchDataUrl: dataUrl });
+  }
+
   return (
     <SectionShell
       sectionId="part3/b"
@@ -55,28 +63,14 @@ export function Part3BForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-muted-foreground/20 bg-muted/10 py-12 text-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-              <Upload className="h-6 w-6 text-muted-foreground" />
-            </div>
-            {initialDiagramDataUrl ? (
-              <div className="space-y-1">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={initialDiagramDataUrl} alt="Enterprise Architecture Diagram" className="w-full max-h-[480px] object-contain" />
-              </div>
-            ) : (
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-muted-foreground">
-                  No diagram attached yet
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  File upload will be available in a future update.
-                  <br />
-                  Attach the EA diagram as an annex in your final document.
-                </p>
-              </div>
-            )}
-          </div>
+          <DiagramUploadField
+            value={diagramDataUrl}
+            onChange={handleDiagramChange}
+            title="Enterprise Architecture Diagram"
+            emptyTitle="Click to upload an EA diagram"
+            emptyDescription="PNG, JPG, WebP, or SVG - max 10 MB"
+            alt="Enterprise Architecture diagram"
+          />
         </CardContent>
       </Card>
     </SectionShell>

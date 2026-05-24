@@ -124,8 +124,10 @@ interface KpiRow {
 }
 
 interface Part3 {
+  proposedNetworkDataUrl?: string | null;
   proposedNetworkDesc: string | null;
   proposedCybersecControls: CyberGroup;
+  enterpriseArchDataUrl?: string | null;
   proposedHumanCapital: { position: string; employmentStatus: string; physicalCount: number }[];
   proposedSystems: IsSystem[];
   internalProjects: IctProject[];
@@ -934,6 +936,13 @@ function renderPart3(issp: IsspData): string {
     <div class="subsection-block">${p.proposedNetworkDesc
       ? `<p>${nl2br(p.proposedNetworkDesc)}</p>`
       : `<p style="font-style:italic;">No proposed network description specified.</p>`
+    }
+    ${p.proposedNetworkDataUrl
+      ? `<div class="avoid-break" style="margin-top:5mm;">
+          <p style="font-weight:bold;margin-bottom:2mm;">Proposed Network Diagram</p>
+          <img src="${esc(p.proposedNetworkDataUrl)}" style="max-width:100%;max-height:120mm;object-fit:contain;display:block;" alt="Proposed Network Diagram" />
+        </div>`
+      : ""
     }</div>
 
     <div class="subsection-heading" style="margin-top:4mm;">A.2. Cybersecurity Control Checklist</div>
@@ -941,7 +950,13 @@ function renderPart3(issp: IsspData): string {
 
     <div class="section-heading page-break">B. Enterprise Architecture</div>
     ${pageHeader(issp)}
-    <p style="font-style:italic;">Enterprise architecture diagram to be attached.</p>
+    ${p.enterpriseArchDataUrl
+      ? `<div class="avoid-break">
+          <p style="font-weight:bold;margin-bottom:2mm;">Enterprise Architecture Diagram</p>
+          <img src="${esc(p.enterpriseArchDataUrl)}" style="max-width:100%;max-height:145mm;object-fit:contain;display:block;" alt="Enterprise Architecture Diagram" />
+        </div>`
+      : `<p style="font-style:italic;">Enterprise architecture diagram to be attached.</p>`
+    }
 
     <div class="section-heading" style="margin-top:6mm;">C. Proposed ICT Human Capital</div>
     <table>

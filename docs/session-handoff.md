@@ -1,6 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-24 (session 8 — theme contrast fixes complete)  
+> **Last updated:** 2026-05-24 (session 9 — diagram upload complete)  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -17,7 +17,7 @@ The local-first rearchitecture is **fully implemented**. All phases A–F are do
 | B | `/editor` route + splash/overview | ✅ Done |
 | C | All Part I–IV form pages read/write from store | ✅ Done |
 | D | Save to File + Load from File UX + `unsavedToFile` tracking + save reminder toast + `beforeunload` warning | ✅ Done |
-| E | (Diagram upload UI still text-only — base64 storage not yet implemented) | 🔴 Pending |
+| E | Diagram upload UI — Part II-B, Part III-A, Part III-B store base64 data URLs locally | ✅ Done |
 | F | `POST /api/export` — stateless PDF, no auth | ✅ Done |
 | G | NCWTR demo `.issp` file + landing page updated to local-first | ✅ Done |
 
@@ -302,7 +302,7 @@ const unsavedToFile = !!doc && doc.updatedAt > (fileSavedAt ?? doc.createdAt);
 | `src/app/editor/layout.tsx` | Wraps `{children}` in `<EditorShell>` |
 | `src/components/editor/editor-shell.tsx` | Checks `loading`/`doc`; registers `beforeunload`; calls `useFileSaveReminder`; owns desktop collapsed state + mobile drawer open state |
 | `src/components/editor/editor-mobile-sidebar-context.tsx` | Provides `openMobileSidebar()` to Overview and SectionShell without threading props through every form |
-| `src/components/editor/editor-sidebar.tsx` | Desktop collapsible sidebar; mobile fixed drawer overlay; "ISSP Editor" label; Save to File footer; Exit Editor link |
+| `src/components/editor/editor-sidebar.tsx` | Desktop collapsible sidebar; mobile fixed drawer overlay; "ISSP Builder" label; Save to File footer; Exit Editor link |
 | `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer; fires a persistent Sonner toast titled "You have unsaved changes" with a teal "Save changes" action button when `unsavedToFile` stays true |
 
 **Mobile sidebar behavior:** On mobile, the sidebar is fixed (`h-dvh`) and slides over the editor content with a backdrop. It is not a flex sibling, so the page has one primary scroll surface. The menu button is exposed in the Overview header and the SectionShell breadcrumb. On desktop, the same sidebar remains a normal flex child and can still collapse to the 48px rail.
@@ -579,7 +579,7 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 ## 8. Components Reference
 
 ### `src/components/editor/editor-sidebar.tsx`
-- Full sidebar: "ISSP Editor" label (header), collapsible nav sections, footer, save actions, kebab actions
+- Full sidebar: "ISSP Builder" label (header), collapsible nav sections, footer, save actions, kebab actions
 - Collapsed sidebar: expand toggle and spacer only; Exit Editor was removed to reduce clutter
 - Mobile: sidebar is a fixed left drawer (`h-dvh`, overlay backdrop) opened by the mobile menu buttons in `OverviewHeader` and `SectionShell`; clicking a nav link closes it
 - **Nav** imports `PARTS` from `@/lib/sections` — single source of truth for section config; `NAV_SECTIONS` constant removed
@@ -740,17 +740,17 @@ Tailwind utility classes available: `text-success`, `bg-success`, `bg-success-bg
 - **Read-only review mode** — full document view (all parts on one scrollable page or tabbed), useful before submission.
 - **Mobile-responsive QA** — shell/navigation is now mobile-friendly; dense form bodies and Part IV drawer interactions still need targeted QA before declaring mobile fully supported.
 
-### 🔴 Phase E — Diagram Upload (base64 client-side)
-Network diagram upload UI for Part II-B (existing diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text/description-only.
+### ✅ Phase E — Diagram Upload (base64 client-side) — DONE
+Diagram upload is implemented for Part II-B existing network diagrams, Part III-A proposed network diagram, and Part III-B enterprise architecture diagram.
 
-**Architecture:** File input → read as base64 data URL → store in `doc.part2.networkDiagrams[].dataUrl` (already in the type). No server upload needed. The PDF export already handles `dataUrl` values in network diagrams (`path.startsWith("data:")` check in `render-issp-html.ts`).
+**Architecture:** File input → read as base64 data URL → store in IndexedDB (`doc.part2.networkDiagrams[].dataUrl`, `doc.part3.proposedNetworkDataUrl`, `doc.part3.enterpriseArchDataUrl`). No server upload. The PDF export maps these fields and embeds the images inline in Part II/III.
 
 ### 🔴 Annex 1 — ICT Asset Inventory
 Standalone public module at `/annex1`. Full plan in `docs/annex1-implementation-plan.md`.
 
 ### 🔵 PDF — Known Remaining Gaps
 - TOC page numbers are static (hardcoded) — no two-pass render
-- Network diagrams render inline (not full-page each)
+- Network/proposed network/enterprise architecture diagrams render inline (not full-page each)
 
 ---
 

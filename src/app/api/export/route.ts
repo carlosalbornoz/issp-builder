@@ -213,8 +213,10 @@ function toRenderData(doc: IsspDocument): IsspData {
     },
 
     part3: {
+      proposedNetworkDataUrl: part3.proposedNetworkDataUrl,
       proposedNetworkDesc: part3.proposedNetworkDesc || null,
       proposedCybersecControls: part3.proposedCybersecControls as unknown as IsspData["part3"]["proposedCybersecControls"],
+      enterpriseArchDataUrl: part3.enterpriseArchDataUrl,
       proposedHumanCapital: part3.proposedHumanCapital.map((r) => ({
         position: r.position,
         employmentStatus: r.employmentStatus,

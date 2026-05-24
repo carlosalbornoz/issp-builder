@@ -135,7 +135,6 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
 
   // Idempotent normalizations — keep stored data in sync with what forms write on mount,
   // so that editing a field and reverting it produces a hash equal to the snapshot.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const normalized: IsspDocument = {
     ...base,
     part1: {
@@ -173,16 +172,19 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
 
 /**
  * Strips implementation timestamps from the doc before comparing.
- * Keeps userMarkedDone (intentional user state) but drops lastEditedAt / updatedAt / exportedAt.
+ * Keeps affirmative userMarkedDone state but drops lastEditedAt / updatedAt / exportedAt
+ * and default-false metadata entries created by transient edits.
  */
 function docContentHash(doc: IsspDocument): string {
-  const { updatedAt, exportedAt, sectionMeta, ...rest } = doc;
+  const { sectionMeta } = doc;
   const metaStripped = sectionMeta
     ? Object.fromEntries(
-        Object.entries(sectionMeta).map(([k, v]) => [k, { userMarkedDone: v.userMarkedDone }])
+        Object.entries(sectionMeta)
+          .filter(([, v]) => v.userMarkedDone)
+          .map(([k, v]) => [k, { userMarkedDone: v.userMarkedDone }])
       )
     : {};
-  return JSON.stringify({ ...rest, sectionMeta: metaStripped });
+  return JSON.stringify({ ...doc, updatedAt: undefined, exportedAt: undefined, sectionMeta: metaStripped });
 }
 
 // ─── Context ──────────────────────────────────────────────────────────────────

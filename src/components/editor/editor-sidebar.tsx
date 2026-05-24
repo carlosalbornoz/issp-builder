@@ -347,7 +347,7 @@ export function EditorSidebar({
         <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 shrink-0">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60">
-              ISSP Editor
+              ISSP Builder
             </p>
             <p className="text-xs text-muted-foreground mt-0.5">
               {doc.agency.acronym || doc.agency.name} · {doc.startYear}–{doc.endYear}
@@ -445,7 +445,7 @@ export function EditorSidebar({
         <div className="border-b">
           <div className="flex items-center justify-between px-3 py-2">
             <span className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
-              ISSP Editor
+              ISSP Builder
             </span>
             <div className="flex items-center gap-1">
               <span className="text-xs text-muted-foreground mr-1">

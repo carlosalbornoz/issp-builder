@@ -8,6 +8,7 @@ import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
 import { ChevronDown, UploadCloud, ImageIcon, Trash2 } from "lucide-react";
 import { SectionShell } from "@/components/editor/section-shell";
+import { DIAGRAM_ACCEPT, createDiagramId, getDiagramUploadError, readFileAsDataUrl } from "@/lib/diagram-upload";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -239,12 +240,12 @@ function ChecklistGroup({
 // ─── Main form ─────────────────────────────────────────────────────────────────
 
 export function Part2BForm({ initialData }: Part2BFormProps) {
+  const initialDiagrams = initialData?.networkDiagrams ?? [];
   const [networkDescription, setNetworkDescription] = useState(
     initialData?.networkDescription ?? ""
   );
-  const [diagrams, setDiagrams] = useState<NetworkDiagram[]>(
-    initialData?.networkDiagrams ?? []
-  );
+  const [diagrams, setDiagrams] = useState<NetworkDiagram[]>(initialDiagrams);
+  const diagramsRef = useRef<NetworkDiagram[]>(initialDiagrams);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -253,34 +254,46 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
 
   const saveDiagrams = useCallback(
     (updated: NetworkDiagram[]) => {
+      diagramsRef.current = updated;
       setDiagrams(updated);
       debouncedSave({ networkDiagrams: updated });
     },
     [debouncedSave]
   );
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const input = e.currentTarget;
+    const file = input.files?.[0];
     if (!file) return;
+
     setUploadError(null);
+
+    const error = getDiagramUploadError(file);
+    if (error) {
+      setUploadError(error);
+      input.value = "";
+      return;
+    }
+
     setUploading(true);
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result as string;
-      const newDiagram: NetworkDiagram = {
-        id: Math.random().toString(36).slice(2, 10),
-        dataUrl,
-        title: "",
-      };
-      saveDiagrams([...diagrams, newDiagram]);
+    let dataUrl: string;
+    try {
+      dataUrl = await readFileAsDataUrl(file);
+    } catch {
+      setUploadError("Failed to read file.");
       setUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    };
-    reader.onerror = () => {
-      setUploadError("Failed to read file");
+      return;
+    }
+
+    try {
+      const newDiagram: NetworkDiagram = { id: createDiagramId(), dataUrl, title: "" };
+      saveDiagrams([...diagramsRef.current, newDiagram]);
+      input.value = "";
+    } catch {
+      setUploadError("Failed to add diagram.");
+    } finally {
       setUploading(false);
-    };
-    reader.readAsDataURL(file);
+    }
   }
 
   function handleRemoveDiagram(diagramId: string) {
@@ -433,7 +446,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/png,image/jpeg,image/webp,image/svg+xml"
+              accept={DIAGRAM_ACCEPT}
               className="hidden"
               onChange={handleFileChange}
             />

@@ -9,6 +9,7 @@ import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { SectionShell } from "@/components/editor/section-shell";
+import { DiagramUploadField } from "@/components/issp-editor/diagram-upload-field";
 
 // Reuse the same control groups structure from Part II-B
 const CYBER_GROUPS = [
@@ -93,6 +94,7 @@ const CYBER_GROUPS = [
 type CyberControls = Record<string, Record<string, boolean>>;
 
 interface Part3AData {
+  proposedNetworkDataUrl: string | null;
   proposedNetworkDesc: string;
   proposedCybersecControls: CyberControls;
   currentNetworkDesc: string;
@@ -166,6 +168,7 @@ function ChecklistSection({
 }
 
 export function Part3AForm({ initialData }: { initialData: Part3AData }) {
+  const [networkDataUrl, setNetworkDataUrl] = useState(initialData.proposedNetworkDataUrl);
   const [networkDesc, setNetworkDesc] = useState(initialData.proposedNetworkDesc);
   const [controls, setControls] = useState<CyberControls>(initialData.proposedCybersecControls);
 
@@ -186,6 +189,11 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
     };
     setControls(updated);
     triggerSave(networkDesc, updated);
+  }
+
+  function handleNetworkDiagramChange(dataUrl: string | null) {
+    setNetworkDataUrl(dataUrl);
+    debouncedSave({ proposedNetworkDataUrl: dataUrl });
   }
 
   return (
@@ -220,6 +228,14 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
               triggerSave(e.target.value, controls);
             }}
             rows={5}
+          />
+          <DiagramUploadField
+            value={networkDataUrl}
+            onChange={handleNetworkDiagramChange}
+            title="Proposed Network Diagram"
+            emptyTitle="Click to upload a proposed network diagram"
+            emptyDescription="PNG, JPG, WebP, or SVG - max 10 MB"
+            alt="Proposed network diagram"
           />
         </CardContent>
       </Card>
