@@ -5,12 +5,11 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsspStore } from "@/lib/store";
-import { useFileSaveReminder } from "@/hooks/use-file-save-reminder";
 import { EditorSidebar } from "./editor-sidebar";
 import { EditorMobileSidebarProvider } from "./editor-mobile-sidebar-context";
 
 export function EditorShell({ children }: { children: React.ReactNode }) {
-  const { loading, doc, unsavedToFile, saveToFile } = useIsspStore();
+  const { loading, doc, unsavedToFile } = useIsspStore();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const router = useRouter();
@@ -29,9 +28,6 @@ export function EditorShell({ children }: { children: React.ReactNode }) {
     window.addEventListener("beforeunload", handle);
     return () => window.removeEventListener("beforeunload", handle);
   }, [unsavedToFile]);
-
-  // Periodic reminder to save to file
-  useFileSaveReminder(unsavedToFile, saveToFile);
 
   // IDB check in progress — show a centered spinner, don't flash content
   if (loading) {

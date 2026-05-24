@@ -1,46 +1,50 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { toast } from "sonner";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const REMINDER_DELAY_MS = 10 * 60 * 1000; // 10 minutes
 
-export function useFileSaveReminder(unsavedToFile: boolean, onSave: () => void) {
+export function useFileSaveReminder(unsavedToFile: boolean) {
+  const [reminderDue, setReminderDue] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const onSaveRef = useRef(onSave);
-  useEffect(() => {
-    onSaveRef.current = onSave;
-  }, [onSave]);
 
-  useEffect(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
+  const clearReminderTimer = useCallback(() => {
+    if (!timerRef.current) return;
+    clearTimeout(timerRef.current);
+    timerRef.current = null;
+  }, []);
 
-    if (!unsavedToFile) {
-      toast.dismiss("file-save-reminder");
-      return;
-    }
-
+  const startReminderTimer = useCallback(() => {
+    clearReminderTimer();
     timerRef.current = setTimeout(() => {
-      toast("You have unsaved changes", {
-        id: "file-save-reminder",
-        description:
-          "Your edits are stored in this browser, but download a .issp file to keep a permanent backup.",
-        action: {
-          label: "Save changes",
-          onClick: () => onSaveRef.current(),
-        },
-        classNames: {
-          actionButton: "!bg-teal-600 hover:!bg-teal-700 !text-white",
-        },
-        duration: Infinity,
-      });
+      setReminderDue(true);
+      timerRef.current = null;
     }, REMINDER_DELAY_MS);
+  }, [clearReminderTimer]);
+
+  useEffect(() => {
+    if (!unsavedToFile) {
+      clearReminderTimer();
+      // Reset immediately when the file is saved so a prior reminder cannot flash on the next edit cycle.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setReminderDue(false);
+      return undefined;
+    }
+
+    // Hide any prior reminder while starting a fresh 10-minute unsaved-change window.
+    setReminderDue(false);
+    startReminderTimer();
 
     return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
+      clearReminderTimer();
     };
-  }, [unsavedToFile]);
+  }, [clearReminderTimer, startReminderTimer, unsavedToFile]);
+
+  const snoozeReminder = () => {
+    if (!unsavedToFile) return;
+    setReminderDue(false);
+    startReminderTimer();
+  };
+
+  return { reminderDue: unsavedToFile && reminderDue, snoozeReminder };
 }

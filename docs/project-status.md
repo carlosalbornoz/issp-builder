@@ -32,7 +32,7 @@
 | **All Part I–IV forms wired to IndexedDB store** | ✅ Done |
 | **Save to File / Load from File UX** | ✅ Done |
 | **`unsavedToFile` indicator + amber/green status pill** | ✅ Done |
-| **Periodic save reminder toast (10 min, via `useFileSaveReminder`)** | ✅ Done |
+| **Periodic save reminder nudge (10 min, via `useFileSaveReminder`)** | ✅ Done |
 | **`beforeunload` warning when unsaved file changes exist** | ✅ Done |
 | **`POST /api/export` — stateless PDF export, no auth** | ✅ Done |
 | **Demo `.issp` file (`public/demo/ncwtr-issp-2026-2028.issp`)** | ✅ Done |
@@ -128,9 +128,9 @@ The primary user-facing architecture. No login required.
 | Default values | `src/lib/store/defaults.ts` | `createEmptyDocument()`, `DEFAULT_HC`, `DEFAULT_CYBER` |
 | Editor route | `src/app/editor/` | Public (no auth); splash when no doc, overview when doc loaded |
 | Editor layout | `src/app/editor/layout.tsx` | Wraps children in `EditorShell` |
-| Editor shell | `src/components/editor/editor-shell.tsx` | `beforeunload` warning; `useFileSaveReminder`; desktop sidebar layout + mobile drawer context |
+| Editor shell | `src/components/editor/editor-shell.tsx` | `beforeunload` warning; desktop sidebar layout + mobile drawer context |
 | Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Builder" label, desktop collapsible nav, mobile drawer overlay, Save to File, Exit Editor |
-| Save reminder | `src/hooks/use-file-save-reminder.ts` | Sonner toast after 10 min of unsaved changes |
+| Save reminder | `src/hooks/use-file-save-reminder.ts` | 10-min timer for the inline sidebar save nudge |
 | PDF export | `src/app/api/export/route.ts` | `POST` — accepts `IsspDocument` JSON, returns PDF, no auth |
 | Demo file | `public/demo/ncwtr-issp-2026-2028.issp` | NCWTR sample, all 4 parts populated |
 
@@ -226,7 +226,7 @@ npx tsc --noEmit
 │   │   │   └── editor-sidebar.tsx # Nav, Save to File, Exit Editor
 │   │   └── issp-editor/           # All Part I–IV form components
 │   ├── hooks/
-│   │   ├── use-file-save-reminder.ts  # 10-min save reminder toast
+│   │   ├── use-file-save-reminder.ts  # 10-min save reminder nudge
 │   │   └── use-local-save.ts
 │   └── lib/
 │       ├── store/

@@ -7,6 +7,14 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -34,6 +42,7 @@ import {
   X,
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
+import { useFileSaveReminder } from "@/hooks/use-file-save-reminder";
 import { PARTS, computeStatus, type SectionDef, type PartDef } from "@/lib/sections";
 import { getChangedFields, type SectionField } from "@/lib/section-fields";
 import { StatusDot } from "@/components/ui/status-dot";
@@ -104,6 +113,87 @@ function ThemePreview({ theme }: { theme: ThemeId }) {
 const sidebarControlClass =
   "!border-border !bg-card !text-foreground shadow-none hover:!bg-accent hover:!text-accent-foreground";
 
+function SaveReminderCallout({
+  compact = false,
+  onSave,
+  onSnooze,
+}: {
+  compact?: boolean;
+  onSave: () => void;
+  onSnooze: () => void;
+}) {
+  return (
+    <div
+      className={cn(
+        "save-reminder-nudge rounded-lg border border-warning-border bg-warning-bg text-warning shadow-lg shadow-black/10",
+        compact ? "px-3 py-2" : "px-3 py-2.5"
+      )}
+    >
+      <div className="relative z-10 flex items-start gap-2">
+        <Download className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+        <div className="min-w-0 flex-1 space-y-1">
+          <p className="text-xs font-semibold leading-tight">Save a backup file</p>
+          <p className="text-[11px] leading-snug text-warning/80">
+            You have unsaved changes from the last 10 minutes. Download a .issp file to avoid losing work if this browser data is cleared.
+          </p>
+          <button
+            type="button"
+            className="text-[11px] font-medium leading-none text-warning hover:underline"
+            onClick={onSave}
+          >
+            Save changes
+          </button>
+        </div>
+        <button
+          type="button"
+          aria-label="Snooze save reminder"
+          className="-mr-1 -mt-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-warning hover:bg-warning-border/50"
+          onClick={onSnooze}
+        >
+          <X className="h-3 w-3" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function SaveReminderDialog({
+  open,
+  onSave,
+  onSnooze,
+}: {
+  open: boolean;
+  onSave: () => void;
+  onSnooze: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => { if (!nextOpen) onSnooze(); }}>
+      <DialogContent showCloseButton={false} className="save-reminder-nudge gap-0 overflow-hidden p-0 sm:max-w-sm">
+        <div className="relative z-10 p-4">
+          <DialogHeader>
+            <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-lg bg-warning-bg text-warning ring-1 ring-warning-border">
+              <Download className="h-5 w-5" />
+            </div>
+            <DialogTitle>Save a backup file</DialogTitle>
+            <DialogDescription>
+              You have unsaved changes from the last 10 minutes. Your work is saved in this browser, but a .issp file protects it if browser data is cleared or you switch devices.
+            </DialogDescription>
+          </DialogHeader>
+        </div>
+        <DialogFooter className="relative z-10">
+          <Button variant="outline" onClick={onSnooze} className={sidebarControlClass}>
+            Dismiss
+          </Button>
+          <Button onClick={onSave} className="bg-teal-600 text-white hover:bg-teal-700">
+            <Download className="h-4 w-4" />
+            Save changes
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ─── Collapsed sidebar ────────────────────────────────────────────────────────
 
 function CollapsedSidebar({ onToggle }: { onToggle: () => void }) {
@@ -147,7 +237,9 @@ export function EditorSidebar({
   );
   const [fileMenuOpen, setFileMenuOpen] = useState(false);
   const [themeSubmenuOpen, setThemeSubmenuOpen] = useState(false);
-  const showThemeNudge = !!doc && theme === "system-light" && !themeNudgeDismissed;
+  const { reminderDue: saveReminderDue, snoozeReminder: snoozeSaveReminder } = useFileSaveReminder(unsavedToFile);
+  const showSaveReminder = unsavedToFile && saveReminderDue;
+  const showThemeNudge = !!doc && theme === "system-light" && !themeNudgeDismissed && !showSaveReminder;
 
   // Sections with content that differs from the last saved file
   const changedSections: { section: SectionDef; part: PartDef; changedFields: SectionField[] }[] = [];
@@ -205,6 +297,7 @@ export function EditorSidebar({
 
   function handleSaveToFile() {
     saveToFile();
+    snoozeSaveReminder();
     setShowChanges(false);
   }
 
@@ -368,6 +461,8 @@ export function EditorSidebar({
         {/* Nav */}
         {navContent}
 
+        <SaveReminderDialog open={showSaveReminder} onSave={handleSaveToFile} onSnooze={snoozeSaveReminder} />
+
         {/* Compact footer */}
         <div className="flex items-center gap-2 border-t border-border/50 px-3 py-2.5 shrink-0">
           <div className="flex-1 min-w-0 text-xs">
@@ -392,7 +487,8 @@ export function EditorSidebar({
             className={cn(
               "h-7 gap-1.5 px-2.5 text-xs shrink-0",
               sidebarControlClass,
-              unsavedToFile && "bg-teal-600 text-white border-teal-600 hover:bg-teal-700"
+              unsavedToFile && "bg-teal-600 text-white border-teal-600 hover:bg-teal-700",
+              showSaveReminder && "save-reminder-target"
             )}
             onClick={handleSaveToFile}
           >
@@ -575,6 +671,12 @@ export function EditorSidebar({
             <>
               {/* Primary save + kebab */}
               <div className="relative flex gap-1.5">
+                {showSaveReminder && (
+                  <div className="absolute bottom-full right-0 z-20 mb-3 w-64">
+                    <SaveReminderCallout onSave={handleSaveToFile} onSnooze={snoozeSaveReminder} />
+                    <span className="absolute -bottom-1.5 right-16 h-3 w-3 rotate-45 border-b border-r border-warning-border bg-warning-bg" />
+                  </div>
+                )}
                 {showThemeNudge && (
                   <div className="absolute bottom-full right-0 z-20 mb-3 w-56 rounded-lg border border-info-border bg-info-bg px-3 py-2.5 text-info shadow-lg shadow-black/10">
                     <div className="flex items-start gap-2">
@@ -610,7 +712,8 @@ export function EditorSidebar({
                   className={cn(
                     "h-9 flex-1 justify-start gap-2 text-sm disabled:cursor-not-allowed disabled:opacity-50",
                     sidebarControlClass,
-                    unsavedToFile && "bg-teal-600 hover:bg-teal-700 text-white border-teal-600"
+                    unsavedToFile && "bg-teal-600 hover:bg-teal-700 text-white border-teal-600",
+                    showSaveReminder && "save-reminder-target"
                   )}
                   onClick={handleSaveToFile}
                 >

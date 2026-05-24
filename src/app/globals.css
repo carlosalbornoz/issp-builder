@@ -287,6 +287,45 @@
   }
 }
 
+@keyframes save-reminder-bounce {
+  0%, 100% { transform: translateY(0); }
+  8% { transform: translateY(-3px); }
+  16% { transform: translateY(0); }
+}
+
+@keyframes save-reminder-shimmer {
+  0% { transform: translateX(-130%); }
+  45%, 100% { transform: translateX(130%); }
+}
+
+.save-reminder-nudge {
+  position: relative;
+  overflow: hidden;
+  animation: save-reminder-bounce 4.8s ease-in-out infinite;
+}
+
+.save-reminder-nudge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 0%, rgb(255 255 255 / 0.34) 45%, transparent 75%);
+  transform: translateX(-130%);
+  animation: save-reminder-shimmer 4.8s ease-in-out infinite;
+}
+
+.save-reminder-target {
+  animation: save-reminder-bounce 4.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-reminder-nudge,
+  .save-reminder-nudge::before,
+  .save-reminder-target {
+    animation: none;
+  }
+}
+
 /* ── About page prose — Substack/Medium editorial style ── */
 .prose-article {
   color: var(--foreground);

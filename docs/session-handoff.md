@@ -16,7 +16,7 @@ The local-first rearchitecture is **fully implemented**. All phases A–F are do
 | A | `src/lib/store/` — IndexedDB store + TypeScript types | ✅ Done |
 | B | `/editor` route + splash/overview | ✅ Done |
 | C | All Part I–IV form pages read/write from store | ✅ Done |
-| D | Save to File + Load from File UX + `unsavedToFile` tracking + save reminder toast + `beforeunload` warning | ✅ Done |
+| D | Save to File + Load from File UX + `unsavedToFile` tracking + save reminder nudge + `beforeunload` warning | ✅ Done |
 | E | Diagram upload UI — Part II-B, Part III-A, Part III-B store base64 data URLs locally | ✅ Done |
 | F | `POST /api/export` — stateless PDF, no auth | ✅ Done |
 | G | NCWTR demo `.issp` file + landing page updated to local-first | ✅ Done |
@@ -300,10 +300,10 @@ const unsavedToFile = !!doc && doc.updatedAt > (fileSavedAt ?? doc.createdAt);
 | File | Purpose |
 |---|---|
 | `src/app/editor/layout.tsx` | Wraps `{children}` in `<EditorShell>` |
-| `src/components/editor/editor-shell.tsx` | Checks `loading`/`doc`; registers `beforeunload`; calls `useFileSaveReminder`; owns desktop collapsed state + mobile drawer open state |
+| `src/components/editor/editor-shell.tsx` | Checks `loading`/`doc`; registers `beforeunload`; owns desktop collapsed state + mobile drawer open state |
 | `src/components/editor/editor-mobile-sidebar-context.tsx` | Provides `openMobileSidebar()` to Overview and SectionShell without threading props through every form |
 | `src/components/editor/editor-sidebar.tsx` | Desktop collapsible sidebar; mobile fixed drawer overlay; "ISSP Builder" label; Save to File footer; Exit Editor link |
-| `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer; fires a persistent Sonner toast titled "You have unsaved changes" with a teal "Save changes" action button when `unsavedToFile` stays true |
+| `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer for the inline sidebar save reminder nudge; snoozes another 10 minutes when dismissed |
 
 **Mobile sidebar behavior:** On mobile, the sidebar is fixed (`h-dvh`) and slides over the editor content with a backdrop. It is not a flex sibling, so the page has one primary scroll surface. The menu button is exposed in the Overview header and the SectionShell breadcrumb. On desktop, the same sidebar remains a normal flex child and can still collapse to the 48px rail.
 
@@ -349,7 +349,7 @@ Each page reads from `useIsspStore()` and calls `update(patcher)` on change. The
 - `/editor` route — public, no auth required
 - Collapsible editor sidebar with nav, Save to File, Exit Editor
 - `beforeunload` warning when unsaved file changes
-- 10-min save reminder toast (Sonner)
+- 10-min inline save reminder nudge in the editor sidebar
 - Demo `.issp` file at `public/demo/ncwtr-issp-2026-2028.issp`
 - Landing page updated: no sign-in, local-first copy, "Open Editor" / "Start Building" CTAs
 
@@ -667,7 +667,7 @@ Implemented:
 - `src/lib/section-fields.ts` — new file: `SECTION_FIELDS` map (all 18 sections), `getChangedFields()`
 - Sidebar: snapshot-based section diff with field-level label list; falls back to `lastEditedAt` on fresh browser load
 - `migrateLegacyDoc` normalization for `stakeholders`, `strategicConcerns`, `proposedHumanCapital` — prevents false-positive diffs caused by form init normalization
-- Save button: amber → teal; toast text: consistent "Save changes" / "You have unsaved changes"
+- Save button: amber → teal; 10-min reminder moved from Sonner toast to a bouncing/shimmering sidebar nudge
 
 ### ✅ Mobile Editor Sidebar — DONE (session 5)
 Implemented a mobile drawer pattern for the editor sidebar:
@@ -854,7 +854,7 @@ src/
 │           ├── part4-aggregations.ts     ← shared data layer: types + build functions (no React)
 │           └── part4-summary.tsx         ← B.1–B.4 read-only display; imports from part4-aggregations
 ├── hooks/
-│   ├── use-file-save-reminder.ts      ← 10-min Sonner toast
+│   ├── use-file-save-reminder.ts      ← 10-min sidebar nudge timer
 │   └── use-local-save.ts
 └── lib/
     ├── sections.ts                    ← PARTS, ALL_SECTIONS, computeStatus(), findContinueTarget(); SectionDef.readOnly flag
