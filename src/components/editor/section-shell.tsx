@@ -152,7 +152,7 @@ function MarkAsDone({
       variant={isDone ? "default" : "outline"}
       className={
         isDone
-          ? "bg-green-600 hover:bg-green-700 text-white border-green-600"
+          ? "bg-success hover:opacity-90 text-success-foreground border-success"
           : "text-muted-foreground"
       }
       onClick={() => onChange(!isDone)}

@@ -17,9 +17,9 @@ export function CompletionBar({ numerator, denominator, showLabel, className }: 
           {pct}% complete · {numerator} of {denominator}
         </p>
       )}
-      <div className="h-1 w-full rounded-full bg-zinc-200 overflow-hidden">
+      <div className="h-1 w-full rounded-full bg-border overflow-hidden">
         <div
-          className="h-full rounded-full bg-green-700 transition-all duration-500"
+          className="h-full rounded-full bg-success transition-all duration-500"
           style={{ width: `${pct}%` }}
         />
       </div>

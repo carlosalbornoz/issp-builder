@@ -19,12 +19,12 @@ export function Part3BForm({
       description="Provide the agency's target Enterprise Architecture (EA) framework and diagram."
     >
       {/* Guidance */}
-      <div className="rounded-lg border border-green-200 bg-green-50/50 p-4 text-sm">
+      <div className="rounded-lg border border-success-border bg-success-bg p-4 text-sm">
         <div className="flex items-start gap-3">
-          <LayoutDashboard className="h-5 w-5 text-green-700 shrink-0 mt-0.5" />
-          <div className="text-green-800">
+          <LayoutDashboard className="h-5 w-5 text-success shrink-0 mt-0.5" />
+          <div className="text-success">
             <p className="font-semibold mb-1">What to include</p>
-            <ul className="text-xs text-green-700 list-disc list-inside space-y-1">
+            <ul className="text-xs text-success list-disc list-inside space-y-1">
               <li>
                 <strong>Business Architecture</strong> — How ICT supports organizational outcomes
               </li>

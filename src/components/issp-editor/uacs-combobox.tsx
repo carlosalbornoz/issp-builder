@@ -253,7 +253,7 @@ export function UacsCombobox({
           {query.trim() && ictResults.length > 0 && (
             <>
               <div className="px-3 py-1 bg-muted/30 border-b">
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-blue-600">
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-info">
                   ICT — {ictResults.length} match{ictResults.length !== 1 ? "es" : ""}
                 </span>
               </div>

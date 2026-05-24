@@ -38,9 +38,9 @@ const COMPLEXITY_OPTIONS = [
 ];
 
 const COMPLEXITY_COLORS: Record<string, string> = {
-  Simple: "bg-green-100 text-green-800",
-  Complex: "bg-amber-100 text-amber-800",
-  "Highly Technical": "bg-red-100 text-red-800",
+  Simple: "bg-success-bg text-success border border-success-border",
+  Complex: "bg-warning-bg text-warning border border-warning-border",
+  "Highly Technical": "bg-danger-bg text-destructive border border-danger-border",
 };
 
 export function Part1CForm({ initialData }: Part1CFormProps) {
@@ -91,9 +91,9 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
     >
 
       {/* Guide */}
-      <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-800">
+      <div className="rounded-lg border border-info-border bg-info-bg p-4 text-sm text-info">
         <p className="font-medium mb-1">Guidelines</p>
-        <ul className="list-disc list-inside space-y-1 text-xs text-blue-700">
+        <ul className="list-disc list-inside space-y-1 text-xs text-info">
           <li>List all external stakeholders (citizens, businesses, other agencies).</li>
           <li>Describe the transactions or services each stakeholder uses.</li>
           <li>Rate the complexity: <strong>Simple</strong> (routine), <strong>Complex</strong> (multi-step), or <strong>Highly Technical</strong> (specialized expertise required).</li>

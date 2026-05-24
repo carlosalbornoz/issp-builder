@@ -97,13 +97,13 @@ const STORAGE_OPTIONS = [
   { value: "HYBRID", label: "Hybrid" },
 ];
 const STATUS_OPTIONS = [
-  { value: "FOR_DEVELOPMENT", label: "For Development", color: "bg-blue-100 text-blue-800" },
-  { value: "FOR_ENHANCEMENT", label: "For Enhancement", color: "bg-amber-100 text-amber-800" },
+  { value: "FOR_DEVELOPMENT", label: "For Development", color: "bg-info-bg text-info border border-info-border" },
+  { value: "FOR_ENHANCEMENT", label: "For Enhancement", color: "bg-warning-bg text-warning border border-warning-border" },
 ];
 
 const STATUS_COLOR: Record<string, string> = {
-  FOR_DEVELOPMENT: "bg-blue-100 text-blue-800",
-  FOR_ENHANCEMENT: "bg-amber-100 text-amber-800",
+  FOR_DEVELOPMENT: "bg-info-bg text-info border border-info-border",
+  FOR_ENHANCEMENT: "bg-warning-bg text-warning border border-warning-border",
 };
 
 // ─── System Card ──────────────────────────────────────────────────────────────
@@ -146,7 +146,7 @@ function SystemCard({
               </Badge>
             )}
             {isLinked && (
-              <span className="flex items-center gap-1 text-xs text-green-700 bg-green-100 px-1.5 py-0.5 rounded">
+              <span className="flex items-center gap-1 text-xs text-success bg-success-bg px-1.5 py-0.5 rounded border border-success-border">
                 <Link2 className="h-3 w-3" />
                 Has project
               </span>
@@ -391,14 +391,14 @@ function SystemCard({
 
       {/* Auto-prompt: nudge user to create an ICT project for this new system */}
       {isNew && !isLinked && (
-        <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-blue-50 border-t border-blue-100">
-          <div className="flex items-center gap-2 text-xs text-blue-700">
+        <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-info-bg border-t border-info-border">
+          <div className="flex items-center gap-2 text-xs text-info">
             <Link2 className="h-3.5 w-3.5 shrink-0" />
             <span>Ready to plan implementation? Create an ICT project for this system in Part III-E.</span>
           </div>
           <Link
             href="/editor/part3/e1"
-            className="shrink-0 text-xs text-blue-700 hover:text-blue-900 hover:bg-blue-100 h-7 px-2 inline-flex items-center rounded-md"
+            className="shrink-0 text-xs text-info hover:opacity-80 hover:bg-info-border h-7 px-2 inline-flex items-center rounded-md"
           >
             Go to Part III-E →
           </Link>
@@ -458,7 +458,7 @@ export function Part3DForm({
         </div>
         {STATUS_OPTIONS.map((s) => (
           <div key={s.value} className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-            <span className={cn("text-2xl font-bold", s.value === "FOR_DEVELOPMENT" ? "text-blue-600" : "text-amber-600")}>
+            <span className={cn("text-2xl font-bold", s.value === "FOR_DEVELOPMENT" ? "text-info" : "text-warning")}>
               {systems.filter((sys) => sys.status === s.value).length}
             </span>
             <span className="text-xs text-muted-foreground">{s.label}</span>
@@ -467,7 +467,7 @@ export function Part3DForm({
       </div>
 
       {/* Hint */}
-      <div className="rounded-lg border border-green-200 bg-green-50/50 p-3 text-xs text-green-800">
+      <div className="rounded-lg border border-success-border bg-success-bg p-3 text-xs text-success">
         <strong>Tip:</strong> Define your proposed systems here first, then go to Part III-E to create
         ICT projects that implement them. Each project can link back to one or more systems.
       </div>

@@ -8,9 +8,9 @@ interface PlanStatusPillProps {
 }
 
 const CONFIG: Record<PlanStatus, { label: string; dot: string; pill: string }> = {
-  draft:      { label: "Draft",       dot: "bg-amber-500",  pill: "bg-amber-100 text-amber-800" },
-  for_review: { label: "For review",  dot: "bg-blue-500",   pill: "bg-blue-100 text-blue-700"   },
-  submitted:  { label: "Submitted",   dot: "bg-green-600",  pill: "bg-green-100 text-green-700" },
+  draft:      { label: "Draft",       dot: "bg-warning",  pill: "bg-warning-bg text-warning border border-warning-border"   },
+  for_review: { label: "For review",  dot: "bg-info",     pill: "bg-info-bg text-info border border-info-border"            },
+  submitted:  { label: "Submitted",   dot: "bg-success",  pill: "bg-success-bg text-success border border-success-border"   },
 };
 
 export function PlanStatusPill({ status, className }: PlanStatusPillProps) {

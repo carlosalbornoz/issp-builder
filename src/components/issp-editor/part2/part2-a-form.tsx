@@ -101,12 +101,12 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
     >
 
       {/* Guide */}
-      <div className="rounded-lg border border-amber-200 bg-amber-50/50 p-4 text-sm">
+      <div className="rounded-lg border border-warning-border bg-warning-bg p-4 text-sm">
         <div className="flex items-start gap-2">
-          <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+          <Info className="h-4 w-4 text-warning shrink-0 mt-0.5" />
           <div>
-            <p className="font-medium text-amber-800 mb-1">How to fill this section</p>
-            <ul className="text-xs text-amber-700 list-disc list-inside space-y-1">
+            <p className="font-medium text-warning mb-1">How to fill this section</p>
+            <ul className="text-xs text-warning list-disc list-inside space-y-1">
               <li>Link each concern to an Organizational Outcome (OO) defined in Part I.</li>
               <li>Describe the <strong>current ICT strategy</strong> in place for addressing this concern.</li>
               <li>Describe the <strong>desired ICT strategy</strong> — what you intend to do in this ISSP period.</li>

@@ -4,23 +4,23 @@ import { cn } from "@/lib/utils";
 const VARIANTS = {
   info: {
     icon: Info,
-    cls: "bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-950/40 dark:border-blue-800 dark:text-blue-200",
-    iconCls: "text-blue-500",
+    cls: "bg-info-bg border-info-border text-info",
+    iconCls: "text-info",
   },
   tip: {
     icon: Lightbulb,
-    cls: "bg-green-50 border-green-200 text-green-900 dark:bg-green-950/40 dark:border-green-800 dark:text-green-200",
-    iconCls: "text-green-500",
+    cls: "bg-success-bg border-success-border text-success",
+    iconCls: "text-success",
   },
   warning: {
     icon: TriangleAlert,
-    cls: "bg-amber-50 border-amber-200 text-amber-900 dark:bg-amber-950/40 dark:border-amber-800 dark:text-amber-200",
-    iconCls: "text-amber-500",
+    cls: "bg-warning-bg border-warning-border text-warning",
+    iconCls: "text-warning",
   },
   danger: {
     icon: CircleAlert,
-    cls: "bg-red-50 border-red-200 text-red-900 dark:bg-red-950/40 dark:border-red-800 dark:text-red-200",
-    iconCls: "text-red-500",
+    cls: "bg-danger-bg border-danger-border text-destructive",
+    iconCls: "text-destructive",
   },
 } as const;
 

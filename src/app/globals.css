@@ -25,6 +25,18 @@
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-success-border: var(--success-border);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-border: var(--warning-border);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --color-info-border: var(--info-border);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-border: var(--danger-border);
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -78,6 +90,18 @@
   --part-2: #C2680C;
   --part-3: #15803D;
   --part-4: #6D28D9;
+  --success:            #15803D;
+  --success-bg:         #f0fdf4;
+  --success-border:     #bbf7d0;
+  --success-foreground: #ffffff;
+  --warning:            #b45309;
+  --warning-bg:         #fffbeb;
+  --warning-border:     #fde68a;
+  --info:               #1d4ed8;
+  --info-bg:            #eff6ff;
+  --info-border:        #bfdbfe;
+  --danger-bg:          #fef2f2;
+  --danger-border:      #fecaca;
   --font-body: var(--font-sans);
   --sidebar: var(--secondary);
   --sidebar-foreground: var(--secondary-foreground);
@@ -119,6 +143,18 @@
   --part-2: #FB923C;
   --part-3: #4ADE80;
   --part-4: #A78BFA;
+  --success:            #4ade80;
+  --success-bg:         #0f2118;
+  --success-border:     #1e4030;
+  --success-foreground: #052e16;
+  --warning:            #fbbf24;
+  --warning-bg:         #1f1500;
+  --warning-border:     #3d2900;
+  --info:               #60a5fa;
+  --info-bg:            #091520;
+  --info-border:        #1a3552;
+  --danger-bg:          #1f0a0a;
+  --danger-border:      #3f1515;
   --font-body: var(--font-sans);
   --sidebar: var(--secondary);
   --sidebar-foreground: var(--secondary-foreground);
@@ -160,6 +196,18 @@
   --part-2: #FF9500;
   --part-3: #34C759;
   --part-4: #AF52DE;
+  --success:            #15803D;
+  --success-bg:         #f0fdf4;
+  --success-border:     #bbf7d0;
+  --success-foreground: #ffffff;
+  --warning:            #b45309;
+  --warning-bg:         #fffbeb;
+  --warning-border:     #fde68a;
+  --info:               #1d4ed8;
+  --info-bg:            #eff6ff;
+  --info-border:        #bfdbfe;
+  --danger-bg:          #fef2f2;
+  --danger-border:      #fecaca;
   --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   --sidebar: var(--secondary);
@@ -202,6 +250,18 @@
   --part-2: #FF9F0A;
   --part-3: #30D158;
   --part-4: #BF5AF2;
+  --success:            #30D158;
+  --success-bg:         #0d2014;
+  --success-border:     #1a3b24;
+  --success-foreground: #001a08;
+  --warning:            #FF9F0A;
+  --warning-bg:         #1e1400;
+  --warning-border:     #3a2800;
+  --info:               #0A84FF;
+  --info-bg:            #001428;
+  --info-border:        #003060;
+  --danger-bg:          #1f0a0a;
+  --danger-border:      #3f1515;
   --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   --sidebar: var(--secondary);
@@ -229,14 +289,14 @@
 
 /* ── About page prose — Substack/Medium editorial style ── */
 .prose-article {
-  color: #1a1a1a;
+  color: var(--foreground);
 }
 
 /* Paragraphs — comfortable reading size and rhythm */
 .prose-article p {
   font-size: 1.0625rem;  /* 17px */
   line-height: 1.85;
-  color: #292929;
+  color: var(--foreground);
   margin-bottom: 1.5rem;
   letter-spacing: -0.003em;
 }
@@ -245,7 +305,7 @@
 .prose-article > p:first-of-type {
   font-size: 1.15rem;
   font-weight: 500;
-  color: #111;
+  color: var(--foreground);
   line-height: 1.8;
 }
 
@@ -253,7 +313,7 @@
 .prose-article h2 {
   font-size: 1.375rem;
   font-weight: 700;
-  color: #111;
+  color: var(--foreground);
   margin-top: 2.75rem;
   margin-bottom: 0.875rem;
   line-height: 1.3;
@@ -263,7 +323,7 @@
 .prose-article h3 {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #111;
+  color: var(--foreground);
   margin-top: 2rem;
   margin-bottom: 0.75rem;
   line-height: 1.4;
@@ -272,12 +332,12 @@
 /* Bold / emphasis */
 .prose-article strong {
   font-weight: 700;
-  color: #111;
+  color: var(--foreground);
 }
 
 .prose-article em {
   font-style: italic;
-  color: #555;
+  color: var(--muted-foreground);
 }
 
 /* Lists */
@@ -298,7 +358,7 @@
 .prose-article li {
   font-size: 1.0625rem;
   line-height: 1.85;
-  color: #292929;
+  color: var(--foreground);
   margin-bottom: 0.4rem;
 }
 
@@ -315,49 +375,49 @@
   content: "· · ·";
   font-size: 1.25rem;
   letter-spacing: 0.4em;
-  color: #ccc;
+  color: var(--border);
 }
 
 /* Links */
 .prose-article a {
-  color: #0038A8;
+  color: var(--info);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  text-decoration-color: rgba(0, 56, 168, 0.4);
+  text-decoration-color: var(--info-border);
   transition: text-decoration-color 0.15s;
 }
 
 .prose-article a:hover {
-  text-decoration-color: #0038A8;
+  text-decoration-color: var(--info);
 }
 
 /* Blockquotes — for future use */
 .prose-article blockquote {
-  border-left: 3px solid #e5e7eb;
+  border-left: 3px solid var(--border);
   padding-left: 1.25rem;
   margin: 2rem 0;
-  color: #555;
+  color: var(--muted-foreground);
   font-style: italic;
 }
 
 .prose-disclaimer {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  background: var(--muted);
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   margin-bottom: 2rem;
   font-size: 0.75rem;
   line-height: 1.6;
-  color: #6b7280;
+  color: var(--muted-foreground);
 }
 
 /* HTML comment nodes don't render, but TODO placeholders in the markdown
    will appear as visible text if accidentally left in — style them */
 .prose-article code {
   font-size: 0.875em;
-  background: #f4f4f4;
+  background: var(--muted);
   border-radius: 3px;
   padding: 0.15em 0.35em;
-  color: #333;
+  color: var(--foreground);
 }

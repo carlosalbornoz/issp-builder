@@ -367,7 +367,7 @@ export function EditorSidebar({
                 Unsaved changes
               </span>
             ) : (
-              <span className="flex items-center gap-1.5 text-green-700 truncate">
+              <span className="flex items-center gap-1.5 text-success truncate">
                 <Check className="h-3 w-3 shrink-0" />
                 {fileSavedAt ? `Saved ${formatTimeAgo(fileSavedAt, now)}` : "Up to date"}
               </span>
@@ -502,7 +502,7 @@ export function EditorSidebar({
                 )}
               </div>
             ) : (
-              <span className="flex items-center gap-1.5 text-green-700">
+              <span className="flex items-center gap-1.5 text-success">
                 <Check className="h-3 w-3 shrink-0" />
                 {fileSavedAt ? `Saved ${formatTimeAgo(fileSavedAt, now)}` : "Up to date"}
               </span>

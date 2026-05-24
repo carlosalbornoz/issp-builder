@@ -115,11 +115,11 @@ const STORAGE_OPTIONS = [
 ];
 
 const CLASSIFICATION_COLORS: Record<string, string> = {
-  G2C: "bg-blue-100 text-blue-800",
-  G2B: "bg-green-100 text-green-800",
-  G2G: "bg-purple-100 text-purple-800",
-  G2E: "bg-amber-100 text-amber-800",
-  INTERNAL: "bg-gray-100 text-gray-800",
+  G2C: "bg-info-bg text-info border border-info-border",
+  G2B: "bg-success-bg text-success border border-success-border",
+  G2G: "bg-[var(--part-4)]/10 text-[var(--part-4)] border border-[var(--part-4)]/30",
+  G2E: "bg-warning-bg text-warning border border-warning-border",
+  INTERNAL: "bg-muted text-muted-foreground border border-border",
 };
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
@@ -490,11 +490,11 @@ export function Part2CForm({
           <span className="text-xs text-muted-foreground">Total Systems</span>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <span className="text-2xl font-bold text-green-600">{frontlineCount}</span>
+          <span className="text-2xl font-bold text-success">{frontlineCount}</span>
           <span className="text-xs text-muted-foreground">Frontline Services</span>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <span className="text-2xl font-bold text-amber-600">
+          <span className="text-2xl font-bold text-warning">
             {systems.filter((s) => s.pia.processesPersonalInfo).length}
           </span>
           <span className="text-xs text-muted-foreground">With Personal Data</span>

@@ -1,6 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-24 (theme system session)  
+> **Last updated:** 2026-05-24 (session 8 — theme contrast fixes complete)  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -79,7 +79,8 @@ Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references
 | 7 | Unsaved changes — content snapshot + field diff | ✅ Done 2026-05-23 |
 | 7b | Mobile editor shell — fixed drawer sidebar on mobile; desktop sidebar remains static/collapsible | ✅ Done 2026-05-23 |
 | 7c | Theme system — System/Warm light/dark themes, theme menu, contrast pass | ✅ Done 2026-05-24 |
-| 8 | Section body patterns | 🔜 Deferred |
+| 8 | Theme contrast audit + fixes — semantic tokens, all hardcoded green/amber/blue colors replaced | ✅ Done 2026-05-24 |
+| 9 | Section body patterns | 🔜 Deferred |
 
 ### Session 7c — Theme system + contrast pass (2026-05-24)
 
@@ -674,6 +675,64 @@ Implemented a mobile drawer pattern for the editor sidebar:
 - `editor-mobile-sidebar-context.tsx` exposes `openMobileSidebar()` to `OverviewHeader` and `SectionShell`
 - Drawer closes on backdrop click and after mobile nav link clicks
 - Verified with Puppeteer at 390×844: closed drawer `x=-288`, open drawer `x=0`, closes after section navigation; desktop expanded/collapsed remains 288px/48px
+
+### ✅ Theme Contrast Audit + Fixes — DONE (session 8, 2026-05-24)
+
+**Root causes fixed:**
+1. **Dead `dark:` prefixes** — Theme system uses `theme-*` classes on `<html>`, never the Tailwind `dark` class. All `dark:` rules in `callout.tsx` were inert. Replaced with semantic token classes.
+2. **Hardcoded semantic colors** — Green/amber/blue Tailwind literals had no dark-theme counterparts, causing unreadable text in `warm-dark` and `system-dark`.
+
+**Also fixed:** `ContentModal` in `home-page-client.tsx` opened scrolled partway down. Root cause: Base UI dialog focuses the first focusable element (a link mid-prose), scrolling the container. Fixed with a zero-size `tabIndex={0}` focus sentinel at the top of the scroll container + `useRef`/`useEffect` scroll reset.
+
+**Semantic color token system** — New CSS custom properties added to all four theme classes in `globals.css` and mapped to Tailwind via `@theme inline`:
+
+| Token | Light value | Dark value |
+|---|---|---|
+| `--success` | `#15803D` (green-700) | `#4ade80` / `#30D158` |
+| `--success-bg` | `#f0fdf4` | dark tinted surface |
+| `--success-border` | `#bbf7d0` | dark tinted border |
+| `--success-foreground` | `#ffffff` | `#052e16` / `#001a08` |
+| `--warning` | `#b45309` (amber-700) | `#fbbf24` / `#FF9F0A` |
+| `--warning-bg` | `#fffbeb` | dark tinted surface |
+| `--warning-border` | `#fde68a` | dark tinted border |
+| `--info` | `#1d4ed8` (blue-700) | `#60a5fa` / `#0A84FF` |
+| `--info-bg` | `#eff6ff` | dark tinted surface |
+| `--info-border` | `#bfdbfe` | dark tinted border |
+| `--danger-bg` | `#fef2f2` | `#1f0a0a` |
+| `--danger-border` | `#fecaca` | `#3f1515` |
+
+Tailwind utility classes available: `text-success`, `bg-success`, `bg-success-bg`, `border-success-border`, `text-success-foreground`, and equivalents for `warning`, `info`, `danger-bg`, `danger-border`.
+
+**Files changed:**
+
+| File | What changed |
+|---|---|
+| `src/app/globals.css` | Semantic tokens in all 4 theme classes; `@theme inline` mappings; `prose-article` + `prose-disclaimer` converted from hardcoded hex to CSS vars |
+| `src/components/ui/callout.tsx` | All 4 variants — `dark:` dead code removed, token classes applied |
+| `src/components/ui/status-dot.tsx` | `done` → `bg-success`; `in_progress` → `bg-warning`; `empty` → `bg-muted-foreground/30` |
+| `src/components/ui/completion-bar.tsx` | Fill → `bg-success`; track → `bg-border` |
+| `src/components/ui/plan-status-pill.tsx` | All 3 pill states → semantic tokens |
+| `src/components/editor/editor-sidebar.tsx` | Both "Saved" text spots → `text-success` |
+| `src/components/editor/section-shell.tsx` | MarkAsDone button active state → `bg-success text-success-foreground` |
+| `src/components/issp-editor/part1/part1-c-form.tsx` | Blue info box + complexity badge colors |
+| `src/components/issp-editor/part2/part2-a-form.tsx` | Amber info box |
+| `src/components/issp-editor/part2/part2-c-form.tsx` | Service type badge colors + frontline/data stat counts |
+| `src/components/issp-editor/part2/part2-d-form.tsx` | Blue LGU note + status option icon colors + utilizing/proposed/not-utilizing stats |
+| `src/components/issp-editor/part3/part3-a-form.tsx` | Objective type badge |
+| `src/components/issp-editor/part3/part3-b-form.tsx` | Green info box |
+| `src/components/issp-editor/part3/part3-d-form.tsx` | System status badges + "has project" chip + blue nudge row + green tip box + stat counts |
+| `src/components/issp-editor/part3/part3-e1-form.tsx` | Linked-IS chip + total cost stat |
+| `src/components/issp-editor/part4/part4-summary.tsx` | Consistency banner (green/amber) |
+| `src/components/issp-editor/uacs-combobox.tsx` | ICT group header label |
+| `src/components/home/home-page-client.tsx` | ContentModal focus sentinel + scroll reset |
+
+**Intentionally left alone:**
+- Landing page CTA section (`background: #1C1C1E`) — always-dark brand section by design
+- About/Privacy hero headers (`#0038A8`, `#111827`) — brand colors, intentional
+- Landing page `PART_COLORS` array + "Live Now" badge — decorative only
+- Dashboard-route files — dormant server-auth screens, unreachable in local-first mode
+- `issp-editor-layout.tsx`, `issp-overview-content.tsx` — replaced/dormant old editor
+- shadcn primitive `dark:` variants (`button.tsx`, `tabs.tsx`, etc.) — affect only hover/focus/invalid micro-states; base token styling is functional
 
 ### 🟡 Validation & Review (post UI refresh)
 - **Pre-export validation** — required fields, budget-IS linkage, KPI completeness. Client-side, runs before PDF export. Surface issue count per section in the sidebar/overview.

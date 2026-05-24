@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   FilePlus2, FolderOpen, BookOpen, FileText, AlertTriangle,
@@ -76,13 +76,20 @@ function NcwtrIntroModal({ open, onClose, onConfirm, loading }: {
 }
 
 function ContentModal({ open, onClose, title, html }: { open: boolean; onClose: () => void; title: string; html: string; }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (open && scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [open]);
+
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="sm:max-w-3xl max-h-[82vh] flex flex-col p-0 gap-0">
         <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
           <DialogTitle className="text-base font-semibold">{title}</DialogTitle>
         </DialogHeader>
-        <div className="overflow-y-auto px-6 py-5">
+        <div ref={scrollRef} className="overflow-y-auto px-6 py-5">
+          <div tabIndex={0} className="h-0 w-0 overflow-hidden outline-none" aria-hidden="true" />
           <div className="prose-disclaimer mb-5">The thoughts here are my own and reflect my personal experience and opinion only — they do not represent the views of any organization I am or have been affiliated with. AI helped me turn these thoughts into words.</div>
           <div className="prose-article" dangerouslySetInnerHTML={{ __html: html }} />
         </div>

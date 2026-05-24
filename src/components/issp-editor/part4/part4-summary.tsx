@@ -179,8 +179,8 @@ function ConsistencyBanner({
       className={cn(
         "flex items-start gap-3 rounded-lg border p-4 text-sm",
         consistent
-          ? "border-green-200 bg-green-50/50 text-green-800"
-          : "border-amber-200 bg-amber-50/50 text-amber-800"
+          ? "border-success-border bg-success-bg text-success"
+          : "border-warning-border bg-warning-bg text-warning"
       )}
     >
       {consistent ? (

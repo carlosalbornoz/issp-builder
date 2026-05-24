@@ -8,9 +8,9 @@ interface StatusDotProps {
 }
 
 const COLOR: Record<SectionStatus, string> = {
-  done:        "bg-green-700",
-  in_progress: "bg-amber-600",
-  empty:       "bg-zinc-300",
+  done:        "bg-success",
+  in_progress: "bg-warning",
+  empty:       "bg-muted-foreground/30",
 };
 
 export function StatusDot({ status, size = 7, className }: StatusDotProps) {

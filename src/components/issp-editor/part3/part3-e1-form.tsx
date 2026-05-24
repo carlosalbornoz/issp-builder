@@ -159,7 +159,7 @@ function ProjectCard({
               </Badge>
             )}
             {linkedSystems.length > 0 && (
-              <span className="flex items-center gap-1 text-xs text-green-700 bg-green-100 px-1.5 py-0.5 rounded">
+              <span className="flex items-center gap-1 text-xs text-success bg-success-bg px-1.5 py-0.5 rounded border border-success-border">
                 <Link2 className="h-3 w-3" />
                 {linkedSystems.length} IS
               </span>
@@ -469,7 +469,7 @@ function ProjectList({
           </span>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <span className="text-2xl font-bold text-green-600">
+          <span className="text-2xl font-bold text-success">
             ₱{totalCost.toLocaleString()}
           </span>
           <span className="text-xs text-muted-foreground">Total Est. Cost</span>

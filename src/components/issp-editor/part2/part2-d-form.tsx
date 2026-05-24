@@ -51,9 +51,9 @@ type AgencyType = "NGA" | "GOCC" | "LGU" | "OTHER";
 // ─── Status options ────────────────────────────────────────────────────────────
 
 const STATUS_OPTIONS: { value: Status; label: string; icon: React.ComponentType<{ className?: string }>; className: string }[] = [
-  { value: "utilizing", label: "Utilizing", icon: CheckCircle2, className: "text-green-600" },
-  { value: "proposed", label: "Proposed / In Progress", icon: AlertCircle, className: "text-amber-600" },
-  { value: "not_utilizing", label: "Not Utilizing", icon: XCircle, className: "text-red-500" },
+  { value: "utilizing", label: "Utilizing", icon: CheckCircle2, className: "text-success" },
+  { value: "proposed", label: "Proposed / In Progress", icon: AlertCircle, className: "text-warning" },
+  { value: "not_utilizing", label: "Not Utilizing", icon: XCircle, className: "text-destructive" },
   { value: "not_applicable", label: "Not Applicable", icon: MinusCircle, className: "text-muted-foreground" },
 ];
 
@@ -325,25 +325,25 @@ export function Part2DForm({
       {/* Summary */}
       <div className="flex flex-wrap gap-3">
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <CheckCircle2 className="h-5 w-5 text-green-600" />
+          <CheckCircle2 className="h-5 w-5 text-success" />
           <div>
-            <p className="text-xl font-bold text-green-600 leading-none">{utilizingCount}</p>
+            <p className="text-xl font-bold text-success leading-none">{utilizingCount}</p>
             <p className="text-xs text-muted-foreground">Utilizing</p>
           </div>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <AlertCircle className="h-5 w-5 text-amber-600" />
+          <AlertCircle className="h-5 w-5 text-warning" />
           <div>
-            <p className="text-xl font-bold text-amber-600 leading-none">
+            <p className="text-xl font-bold text-warning leading-none">
               {visiblePrograms.filter((p) => checklist[p.key]?.status === "proposed").length}
             </p>
             <p className="text-xs text-muted-foreground">Proposed</p>
           </div>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <XCircle className="h-5 w-5 text-red-500" />
+          <XCircle className="h-5 w-5 text-destructive" />
           <div>
-            <p className="text-xl font-bold text-red-500 leading-none">
+            <p className="text-xl font-bold text-destructive leading-none">
               {visiblePrograms.filter((p) => checklist[p.key]?.status === "not_utilizing").length}
             </p>
             <p className="text-xs text-muted-foreground">Not Utilizing</p>
@@ -352,7 +352,7 @@ export function Part2DForm({
       </div>
 
       {agencyType === "LGU" && (
-        <div className="rounded-lg border border-blue-200 bg-blue-50/50 px-4 py-2 text-xs text-blue-700">
+        <div className="rounded-lg border border-info-border bg-info-bg px-4 py-2 text-xs text-info">
           <strong>LGU:</strong> The eLGU program section is visible because your agency type is set to LGU.
         </div>
       )}
