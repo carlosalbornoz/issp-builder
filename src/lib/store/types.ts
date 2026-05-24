@@ -38,11 +38,18 @@ export interface HumanCapital {
   outsourced: { it: { male: number; female: number }; nonIt: { male: number; female: number } };
 }
 
+export type ComplexityLevel = "Simple" | "Complex" | "Highly Technical";
+
+export interface StakeholderService {
+  id: string;
+  name: string;
+  complexity: ComplexityLevel;
+}
+
 export interface Stakeholder {
   id: string;
   name: string;
-  transactions: string;
-  complexity: "Simple" | "Complex" | "Highly Technical";
+  services: StakeholderService[];
 }
 
 export interface Part1Data {

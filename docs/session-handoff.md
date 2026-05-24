@@ -262,6 +262,7 @@ replace(doc)                      // replaces doc (used by loadFromFile)
 
 **`Part1Data` notable fields:**
 - `focalSameAsCio: boolean` — persisted to IDB; when true, focal person fields mirror CIO and are disabled in the form. Initialized from `initialData.focalSameAsCio ?? false` for backward compat with older `.issp` files.
+- `stakeholders: Stakeholder[]` — each stakeholder now has `services: StakeholderService[]` (name + complexity per service) instead of the old flat `transactions: string` + `complexity` fields. Migrated v2→v3 in `migrateLegacyDoc`.
 
 **`IsspDocument` envelope:**
 ```typescript
@@ -270,7 +271,7 @@ interface IsspDocument {
   fileType: "issp-main";
   exportedAt: string;    // updated by saveToFile(); used to compute unsavedToFile
   tool: "issp-platform";
-  schemaVersion?: number;  // 2 = current; absent/1 = legacy; migrated on load
+  schemaVersion?: number;  // 3 = current; absent/1 = legacy; 2 = pre-services; migrated on load
   title: string;
   startYear: number; endYear: number;
   amendmentNumber: number;
@@ -508,13 +509,13 @@ const unsavedToFile = !doc
 ### Form init normalization — a hidden snapshot sync risk
 
 Several forms transform `initialData` in their `useState` initializer before the first save:
-- **Part I-C** — fills missing `stakeholder.id` via `crypto.randomUUID()`
+- **Part I-C** — fills missing `stakeholder.id` and `service.id` via `generateId()`
 - **Part II-A** — migrates `outcomeId` → `outcomeIds` array
 - **Part III-C** — uppercases `employmentStatus`, renames `physicalCount→quantity`, fills missing `id`
 
 If the stored file has the old format, the first `debouncedSave` after any edit writes the normalized values. Even after reverting the edit, the stored doc has normalized values ≠ snapshot (old values), causing a permanent false-positive "Unsaved changes".
 
-**Fix (already applied):** `migrateLegacyDoc` normalizes these three patterns idempotently on every load. This ensures the snapshot already contains normalized data at the time it is captured, matching what the form will write. See the schema-change skill for the general rule.
+**Fix (already applied):** `migrateLegacyDoc` normalizes these patterns idempotently on every load. This ensures the snapshot already contains normalized data at the time it is captured, matching what the form will write. See the schema-change skill for the general rule.
 
 ### JSON field deep-merge — required for cybersecurity controls
 ```tsx
@@ -666,7 +667,7 @@ Implemented:
 - `docContentHash()` in `src/lib/store/index.tsx` — strips implementation timestamps before comparing
 - `src/lib/section-fields.ts` — new file: `SECTION_FIELDS` map (all 18 sections), `getChangedFields()`
 - Sidebar: snapshot-based section diff with field-level label list; falls back to `lastEditedAt` on fresh browser load
-- `migrateLegacyDoc` normalization for `stakeholders`, `strategicConcerns`, `proposedHumanCapital` — prevents false-positive diffs caused by form init normalization
+- `migrateLegacyDoc` normalization for `stakeholders` (+ nested `services`), `strategicConcerns`, `proposedHumanCapital` — prevents false-positive diffs caused by form init normalization
 - Save button: amber → teal; 10-min reminder moved from Sonner toast to a bouncing/shimmering desktop sidebar nudge plus mobile modal
 
 ### ✅ Mobile Editor Sidebar — DONE (session 5)
@@ -734,6 +735,29 @@ Tailwind utility classes available: `text-success`, `bg-success`, `bg-success-bg
 - Dashboard-route files — dormant server-auth screens, unreachable in local-first mode
 - `issp-editor-layout.tsx`, `issp-overview-content.tsx` — replaced/dormant old editor
 - shadcn primitive `dark:` variants (`button.tsx`, `tabs.tsx`, etc.) — affect only hover/focus/invalid micro-states; base token styling is functional
+
+### ✅ Part I-C schema + dual-view UX — DONE (session 9, 2026-05-24)
+
+**Schema change (v2 → v3):** `Stakeholder.transactions: string` + `.complexity` flattened fields replaced by `services: StakeholderService[]` — each stakeholder now holds an array of `{ id, name, complexity }` services. Migration in `migrateLegacyDoc` converts old files; idempotent normalization fills missing IDs on every load.
+
+**Part I-C — three view modes (desktop toggle, persisted in `localStorage`):**
+
+| Mode | Description |
+|---|---|
+| **Table** | Rowspan merged-cell table — stakeholder name spans all its service rows; inline editing throughout |
+| **Cards** | Accordion cards — each stakeholder is a collapsible row (all open by default); header shows name input + complexity badge summary; body has service inputs + "Add service". Grid-rows CSS transition for smooth open/close |
+| **Summary** | List overview + `Sheet` drawer — compact read-only list with complexity badges; clicking any row opens a full side drawer to edit name + services |
+
+Mobile always shows the Cards view regardless of the desktop toggle.
+
+**Part IV — List / Table toggle:**
+- Toggle in the legend bar applies to all `LineTable` instances in the year form simultaneously; persisted in `localStorage`.
+- **List mode** (default): existing card list + `Sheet` drawer.
+- **Table mode**: inline editable rows — Item, Office, Fund Source, Qty, Unit Cost editable in-cell; UACS column shows the selected label and opens the full drawer on click (UACS needs the combobox search).
+
+**PDF rendering:** Updated `render-issp-html.ts` to use HTML `rowspan` for the stakeholder name cell across all its service rows. Column header renamed to "Transaction / Service."
+
+**Demo file:** All 8 stakeholders migrated to multi-service format; several have 2–3 services to demonstrate the feature.
 
 ### 🟡 Validation & Review (post UI refresh)
 - **Pre-export validation** — required fields, budget-IS linkage, KPI completeness. Client-side, runs before PDF export. Surface issue count per section in the sidebar/overview.

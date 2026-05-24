@@ -67,8 +67,9 @@ Add optional fields to the `.issp` schema. All new fields have defaults — no m
 - `submissionTarget: { agency: string; deadline: string | null }` — default `{ agency: "DICT", deadline: null }`
 
 **Schema versioning:**
-- Add `schemaVersion: 2` on save
-- On load, if missing or `1`, derive defaults before passing to the editor
+- Current version is `3` (v2→v3: `Stakeholder.transactions`+`.complexity` → `services: StakeholderService[]`)
+- v1→v2: added `planStatus`, `submissionTarget`, `sectionMeta`
+- On load, `migrateLegacyDoc` cascades through each version gate
 
 Use the `schema-change` skill for this phase.
 

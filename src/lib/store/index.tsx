@@ -122,16 +122,33 @@ function deriveMetaFromContent(doc: IsspDocument): Record<string, SectionMeta> {
 const genId = () => Math.random().toString(36).slice(2, 10);
 
 function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
-  const base: IsspDocument =
-    (doc.schemaVersion ?? 1) >= 2
-      ? doc
-      : {
-          ...doc,
-          schemaVersion: 2,
-          planStatus: doc.planStatus ?? "draft",
-          submissionTarget: doc.submissionTarget ?? { agency: "DICT", deadline: null },
-          sectionMeta: doc.sectionMeta ?? {},
-        };
+  // v1 → v2: planStatus, submissionTarget, sectionMeta
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let base: IsspDocument = (doc.schemaVersion ?? 1) >= 2 ? doc : {
+    ...doc,
+    schemaVersion: 2,
+    planStatus: (doc as any).planStatus ?? "draft",
+    submissionTarget: (doc as any).submissionTarget ?? { agency: "DICT", deadline: null },
+    sectionMeta: (doc as any).sectionMeta ?? {},
+  };
+
+  // v2 → v3: Stakeholder `transactions`+`complexity` fields → `services` array
+  if ((base.schemaVersion ?? 1) < 3) {
+    base = {
+      ...base,
+      schemaVersion: 3,
+      part1: {
+        ...base.part1,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        stakeholders: base.part1.stakeholders.map((s: any) => ({
+          id: s.id || genId(),
+          name: s.name ?? "",
+          services: Array.isArray(s.services) ? s.services
+            : [{ id: genId(), name: s.transactions ?? "", complexity: s.complexity ?? "Simple" }],
+        })),
+      },
+    };
+  }
 
   // Idempotent normalizations — keep stored data in sync with what forms write on mount,
   // so that editing a field and reverting it produces a hash equal to the snapshot.
@@ -139,9 +156,13 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
     ...base,
     part1: {
       ...base.part1,
-      // Fill missing row IDs (form uses crypto.randomUUID() on mount for missing ones)
+      // Fill missing IDs on stakeholders and their services
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      stakeholders: base.part1.stakeholders.map((s: any) => ({ ...s, id: s.id || genId() })),
+      stakeholders: base.part1.stakeholders.map((s: any) => ({
+        ...s,
+        id: s.id || genId(),
+        services: (s.services ?? []).map((sv: any) => ({ ...sv, id: sv.id || genId() })),
+      })),
     },
     part2: {
       ...base.part2,

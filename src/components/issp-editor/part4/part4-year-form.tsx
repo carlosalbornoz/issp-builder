@@ -16,7 +16,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { Plus, Trash2, Pencil, ExternalLink } from "lucide-react";
+import { Plus, Trash2, Pencil, ExternalLink, Table2, LayoutList } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { SectionShell } from "@/components/editor/section-shell";
 
@@ -80,7 +80,11 @@ function sumLines(lines: LineItem[]) {
 }
 
 function php(n: number) {
-  return new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP", minimumFractionDigits: 2 }).format(n);
+  return new Intl.NumberFormat("en-PH", {
+    style: "currency",
+    currency: "PHP",
+    minimumFractionDigits: 2,
+  }).format(n);
 }
 
 function alpha(n: number) {
@@ -110,7 +114,6 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
   const [draft, setDraft] = useState<LineItem>(() => item ?? BLANK_LINE());
 
   useEffect(() => {
-    // Drawer state intentionally resets when a different line item opens.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (open) setDraft(item ?? BLANK_LINE());
   }, [open, item]);
@@ -144,7 +147,6 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
-          {/* Item / Description */}
           <div className="space-y-1.5">
             <label className="text-sm font-medium">Item / Description</label>
             <Textarea
@@ -155,7 +157,6 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
             />
           </div>
 
-          {/* Office / Unit */}
           <div className="space-y-1.5">
             <label className="text-sm font-medium">Office / Unit</label>
             <Input
@@ -166,7 +167,6 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
             />
           </div>
 
-          {/* UACS Code */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium">UACS Code</label>
@@ -192,11 +192,12 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
             <UacsCombobox
               value={draft.uacsCode}
               context={context}
-              onChange={(uacs, label) => setDraft((prev) => ({ ...prev, uacsCode: uacs, uacsLabel: label }))}
+              onChange={(uacs, label) =>
+                setDraft((prev) => ({ ...prev, uacsCode: uacs, uacsLabel: label }))
+              }
             />
           </div>
 
-          {/* Fund Source */}
           <div className="space-y-1.5">
             <label className="text-sm font-medium">Fund Source</label>
             <select
@@ -208,7 +209,6 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
             </select>
           </div>
 
-          {/* Qty + Unit Cost */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-sm font-medium">Physical Target</label>
@@ -231,7 +231,6 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
             </div>
           </div>
 
-          {/* Line total */}
           <div className="flex items-center justify-between rounded-lg border bg-muted/30 px-4 py-3">
             <span className="text-sm text-muted-foreground">Line Total</span>
             <span className="font-bold text-base tabular-nums">{php(lineTotal)}</span>
@@ -270,30 +269,27 @@ interface DrawerState {
   item: LineItem | null;
 }
 
+const INPUT_CLS =
+  "w-full rounded px-2 py-1.5 text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring";
+
 function LineTable({
   title,
   context,
   lines,
+  mode,
   onUpdate,
 }: {
   title: string;
   context: "co" | "mooe";
   lines: LineItem[];
+  mode: "list" | "table";
   onUpdate: (lines: LineItem[]) => void;
 }) {
   const [drawer, setDrawer] = useState<DrawerState>({ open: false, idx: -1, item: null });
 
-  function openNew() {
-    setDrawer({ open: true, idx: -1, item: null });
-  }
-
-  function openEdit(idx: number) {
-    setDrawer({ open: true, idx, item: lines[idx] });
-  }
-
-  function closeDrawer() {
-    setDrawer({ open: false, idx: -1, item: null });
-  }
+  function openNew() { setDrawer({ open: true, idx: -1, item: null }); }
+  function openEdit(idx: number) { setDrawer({ open: true, idx, item: lines[idx] }); }
+  function closeDrawer() { setDrawer({ open: false, idx: -1, item: null }); }
 
   function handleSave(updated: LineItem) {
     if (drawer.idx === -1) {
@@ -309,12 +305,20 @@ function LineTable({
     closeDrawer();
   }
 
+  function updateField(idx: number, field: keyof LineItem, value: string | number) {
+    onUpdate(lines.map((l, i) => (i === idx ? { ...l, [field]: value } : l)));
+  }
+
+  function deleteLine(idx: number) {
+    onUpdate(lines.filter((_, i) => i !== idx));
+  }
+
   const total = sumLines(lines);
 
   return (
     <>
       <div className="rounded-md border overflow-hidden">
-        {/* Table header band */}
+        {/* Header band */}
         <div className="flex items-center justify-between bg-muted/40 border-b px-4 py-2.5">
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold">{title}</span>
@@ -331,52 +335,179 @@ function LineTable({
           </div>
         </div>
 
-        {lines.length > 0 ? (
-          <div className="divide-y divide-border">
-            {lines.map((line, idx) => (
-              <div
-                key={line.id}
-                className="flex items-center gap-3 px-4 py-3 hover:bg-muted/30 group transition-colors cursor-pointer"
-                onClick={() => openEdit(idx)}
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">
-                    {line.item || <span className="text-muted-foreground/60 italic">Unnamed item</span>}
-                  </p>
-                  <p className="text-xs text-muted-foreground truncate mt-0.5">
-                    {[
-                      line.uacsLabel || (line.uacsCode ? `UACS ${line.uacsCode}` : null),
-                      line.office || null,
-                      line.fundSource !== FUND_SOURCES[0] ? line.fundSource : null,
-                    ]
-                      .filter(Boolean)
-                      .join(" · ") || "No details yet"}
-                  </p>
-                </div>
-                <span className="text-sm font-semibold tabular-nums shrink-0">{php(totalLine(line))}</span>
-                <button
-                  type="button"
-                  aria-label="Edit line item"
-                  className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent opacity-0 group-hover:opacity-100 transition-all"
-                  onClick={(e) => { e.stopPropagation(); openEdit(idx); }}
+        {/* ── List mode ──────────────────────────────────────────────────── */}
+        {mode === "list" && (
+          lines.length > 0 ? (
+            <div className="divide-y divide-border">
+              {lines.map((line, idx) => (
+                <div
+                  key={line.id}
+                  className="flex items-center gap-3 px-4 py-3 hover:bg-muted/30 group transition-colors cursor-pointer"
+                  onClick={() => openEdit(idx)}
                 >
-                  <Pencil className="h-3.5 w-3.5" />
-                </button>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">
+                      {line.item || (
+                        <span className="text-muted-foreground/60 italic">Unnamed item</span>
+                      )}
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate mt-0.5">
+                      {[
+                        line.uacsLabel || (line.uacsCode ? `UACS ${line.uacsCode}` : null),
+                        line.office || null,
+                        line.fundSource !== FUND_SOURCES[0] ? line.fundSource : null,
+                      ]
+                        .filter(Boolean)
+                        .join(" · ") || "No details yet"}
+                    </p>
+                  </div>
+                  <span className="text-sm font-semibold tabular-nums shrink-0">
+                    {php(totalLine(line))}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="Edit line item"
+                    className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent opacity-0 group-hover:opacity-100 transition-all"
+                    onClick={(e) => { e.stopPropagation(); openEdit(idx); }}
+                  >
+                    <Pencil className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              ))}
+              <div className="flex items-center justify-between px-4 py-2.5 bg-muted/50 border-t">
+                <span className="text-sm font-semibold text-muted-foreground">Subtotal</span>
+                <span className="text-sm font-bold tabular-nums">{php(total)}</span>
               </div>
-            ))}
-            <div className="flex items-center justify-between px-4 py-2.5 bg-muted/50 border-t">
-              <span className="text-sm font-semibold text-muted-foreground">Subtotal</span>
-              <span className="text-sm font-bold tabular-nums">{php(total)}</span>
             </div>
-          </div>
-        ) : (
-          <div className="py-6 text-center">
-            <p className="text-xs text-muted-foreground">
-              No items yet.{" "}
-              <button type="button" onClick={openNew} className="font-medium text-primary hover:underline">
-                Add one.
-              </button>
-            </p>
+          ) : (
+            <div className="py-6 text-center">
+              <p className="text-xs text-muted-foreground">
+                No items yet.{" "}
+                <button type="button" onClick={openNew} className="font-medium text-primary hover:underline">
+                  Add one.
+                </button>
+              </p>
+            </div>
+          )
+        )}
+
+        {/* ── Table mode ─────────────────────────────────────────────────── */}
+        {mode === "table" && (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse min-w-[720px]">
+              <thead>
+                <tr className="bg-muted/40 border-b">
+                  <th className="border-r px-3 py-2 text-left font-semibold">Item / Description</th>
+                  <th className="border-r px-3 py-2 text-left font-semibold w-32">Office / Unit</th>
+                  <th className="border-r px-3 py-2 text-left font-semibold w-36">UACS</th>
+                  <th className="border-r px-3 py-2 text-left font-semibold w-44">Fund Source</th>
+                  <th className="border-r px-3 py-2 text-right font-semibold w-16">Qty</th>
+                  <th className="border-r px-3 py-2 text-right font-semibold w-28">Unit Cost ₱</th>
+                  <th className="border-r px-3 py-2 text-right font-semibold w-28">Total ₱</th>
+                  <th className="px-2 py-2 w-8" />
+                </tr>
+              </thead>
+              <tbody>
+                {lines.length === 0 && (
+                  <tr>
+                    <td colSpan={8} className="px-3 py-6 text-center text-muted-foreground text-sm border-b">
+                      No items yet.{" "}
+                      <button type="button" onClick={openNew} className="font-medium text-primary hover:underline">
+                        Add one.
+                      </button>
+                    </td>
+                  </tr>
+                )}
+                {lines.map((line, idx) => (
+                  <tr key={line.id} className="hover:bg-muted/20 border-b">
+                    <td className="border-r px-2 py-1">
+                      <input
+                        type="text"
+                        className={INPUT_CLS}
+                        placeholder="Item description…"
+                        value={line.item}
+                        onChange={(e) => updateField(idx, "item", e.target.value)}
+                      />
+                    </td>
+                    <td className="border-r px-2 py-1">
+                      <input
+                        type="text"
+                        className={INPUT_CLS}
+                        placeholder="Office…"
+                        value={line.office}
+                        onChange={(e) => updateField(idx, "office", e.target.value)}
+                      />
+                    </td>
+                    <td className="border-r px-2 py-1">
+                      <button
+                        type="button"
+                        onClick={() => openEdit(idx)}
+                        className="w-full text-left rounded px-2 py-1.5 text-xs bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring group flex items-center justify-between gap-1 min-h-[2rem]"
+                        title="Click to edit UACS code"
+                      >
+                        <span className={line.uacsLabel || line.uacsCode ? "text-foreground" : "text-muted-foreground/60 italic"}>
+                          {line.uacsLabel || line.uacsCode || "Set UACS…"}
+                        </span>
+                        <Pencil className="h-3 w-3 text-muted-foreground/40 shrink-0 group-hover:text-muted-foreground" />
+                      </button>
+                    </td>
+                    <td className="border-r px-2 py-1">
+                      <select
+                        className="w-full rounded px-2 py-1.5 text-xs bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring border-0 cursor-pointer"
+                        value={line.fundSource}
+                        onChange={(e) => updateField(idx, "fundSource", e.target.value)}
+                      >
+                        {FUND_SOURCES.map((s) => <option key={s} value={s}>{s}</option>)}
+                      </select>
+                    </td>
+                    <td className="border-r px-2 py-1">
+                      <input
+                        type="number"
+                        min={1}
+                        className={`${INPUT_CLS} text-right`}
+                        value={line.qty}
+                        onChange={(e) => updateField(idx, "qty", Math.max(1, Number(e.target.value)))}
+                      />
+                    </td>
+                    <td className="border-r px-2 py-1">
+                      <input
+                        type="number"
+                        min={0}
+                        step={0.01}
+                        className={`${INPUT_CLS} text-right`}
+                        value={line.unitCost}
+                        onChange={(e) => updateField(idx, "unitCost", Number(e.target.value))}
+                      />
+                    </td>
+                    <td className="border-r px-3 py-2 text-right tabular-nums text-sm font-medium">
+                      {php(totalLine(line))}
+                    </td>
+                    <td className="px-1 py-1 text-center">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="Delete line"
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                        onClick={() => deleteLine(idx)}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+                {lines.length > 0 && (
+                  <tr className="bg-muted/50 font-semibold">
+                    <td colSpan={6} className="border-r px-3 py-2 text-right text-sm text-muted-foreground">
+                      Subtotal
+                    </td>
+                    <td className="border-r px-3 py-2 text-right text-sm tabular-nums">
+                      {php(total)}
+                    </td>
+                    <td />
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
@@ -428,6 +559,8 @@ const EMPTY_BUDGET = (): YearBudget => ({
   continuingCosts: { mooe: [] },
 });
 
+const LS_KEY = "issp-part4-line-mode";
+
 export function Part4YearForm({
   year,
   yearKey,
@@ -439,7 +572,10 @@ export function Part4YearForm({
     const base = EMPTY_BUDGET();
     if (!initialData) return base;
     const ip: Record<string, ProjectBudget> = { ...base.internalProjects, ...initialData.internalProjects };
-    const cp: Record<string, ProjectBudget> = { ...base.crossAgencyProjects, ...initialData.crossAgencyProjects };
+    const cp: Record<string, ProjectBudget> = {
+      ...base.crossAgencyProjects,
+      ...initialData.crossAgencyProjects,
+    };
     internalProjects.forEach((p) => {
       if (!ip[p.id]) ip[p.id] = { projectTitle: p.title, capitalOutlay: [], mooe: [] };
     });
@@ -448,6 +584,15 @@ export function Part4YearForm({
     });
     return { ...base, ...initialData, internalProjects: ip, crossAgencyProjects: cp };
   });
+
+  const [lineMode, setLineMode] = useState<"list" | "table">(() => {
+    try { return (localStorage.getItem(LS_KEY) as "list" | "table") ?? "list"; } catch { return "list"; }
+  });
+
+  function switchLineMode(m: "list" | "table") {
+    setLineMode(m);
+    try { localStorage.setItem(LS_KEY, m); } catch {}
+  }
 
   const sectionId = `part4/${yearKey}` as `part4/${"year1" | "year2" | "year3"}`;
   const { debouncedSave } = useLocalSave("part4", sectionId);
@@ -464,12 +609,15 @@ export function Part4YearForm({
     sumLines(budget.officeProductivity.capitalOutlay) +
     sumLines(budget.officeProductivity.mooe) +
     Object.values(budget.internalProjects).reduce(
-      (s, p) => s + sumLines(p.capitalOutlay) + sumLines(p.mooe), 0
+      (s, p) => s + sumLines(p.capitalOutlay) + sumLines(p.mooe),
+      0
     ) +
     Object.values(budget.crossAgencyProjects).reduce(
-      (s, p) => s + sumLines(p.capitalOutlay) + sumLines(p.mooe), 0
+      (s, p) => s + sumLines(p.capitalOutlay) + sumLines(p.mooe),
+      0
     ) +
     sumLines(budget.continuingCosts.mooe);
+
   const sectionTitle = `Resource Requirements — ${year}`;
   const sectionDesc = `Enter all ICT expenditures for ${year}. Totals are computed automatically.`;
 
@@ -480,9 +628,8 @@ export function Part4YearForm({
       description={sectionDesc}
       statBlock={{ label: "Year Total", value: php(grandTotal) }}
     >
-
-      {/* Legend */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground rounded-lg border bg-muted/20 px-4 py-2.5">
+      {/* Legend + view toggle */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground rounded-lg border bg-muted/20 px-4 py-2.5">
         <span className="font-medium text-foreground/50">Legend:</span>
         {[
           { color: "#3B82F6", label: "Office Productivity" },
@@ -495,6 +642,23 @@ export function Part4YearForm({
             {label}
           </span>
         ))}
+        <div className="ml-auto flex items-center rounded-md border p-0.5 bg-muted/30">
+          {(["list", "table"] as const).map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => switchLineMode(m)}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs transition-colors ${
+                lineMode === m
+                  ? "bg-card shadow-sm font-medium text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {m === "list" ? <LayoutList className="h-3 w-3" /> : <Table2 className="h-3 w-3" />}
+              {m === "list" ? "List" : "Table"}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* A — Office Productivity */}
@@ -507,16 +671,24 @@ export function Part4YearForm({
           title="Capital Outlay (CO)"
           context="co"
           lines={budget.officeProductivity.capitalOutlay}
+          mode={lineMode}
           onUpdate={(lines) =>
-            save({ ...budget, officeProductivity: { ...budget.officeProductivity, capitalOutlay: lines } })
+            save({
+              ...budget,
+              officeProductivity: { ...budget.officeProductivity, capitalOutlay: lines },
+            })
           }
         />
         <LineTable
           title="Maintenance & Other Operating Expenses (MOOE)"
           context="mooe"
           lines={budget.officeProductivity.mooe}
+          mode={lineMode}
           onUpdate={(lines) =>
-            save({ ...budget, officeProductivity: { ...budget.officeProductivity, mooe: lines } })
+            save({
+              ...budget,
+              officeProductivity: { ...budget.officeProductivity, mooe: lines },
+            })
           }
         />
       </SectionCard>
@@ -525,7 +697,10 @@ export function Part4YearForm({
       {internalProjects.length === 0 ? (
         <div className="rounded-lg border border-dashed bg-muted/20 p-6 text-center text-sm text-muted-foreground">
           <p>No Internal ICT Projects defined in Part III-E.1.</p>
-          <Link href="/editor/part3/e1" className="mt-1 inline-block font-medium text-primary hover:underline">
+          <Link
+            href="/editor/part3/e1"
+            className="mt-1 inline-block font-medium text-primary hover:underline"
+          >
             Add projects in Part III-E.1 →
           </Link>
         </div>
@@ -548,6 +723,7 @@ export function Part4YearForm({
                 title="Capital Outlay (CO)"
                 context="co"
                 lines={pb.capitalOutlay}
+                mode={lineMode}
                 onUpdate={(lines) =>
                   save({
                     ...budget,
@@ -562,6 +738,7 @@ export function Part4YearForm({
                 title="MOOE"
                 context="mooe"
                 lines={pb.mooe}
+                mode={lineMode}
                 onUpdate={(lines) =>
                   save({
                     ...budget,
@@ -597,6 +774,7 @@ export function Part4YearForm({
                 title="Capital Outlay (CO)"
                 context="co"
                 lines={pb.capitalOutlay}
+                mode={lineMode}
                 onUpdate={(lines) =>
                   save({
                     ...budget,
@@ -611,6 +789,7 @@ export function Part4YearForm({
                 title="MOOE"
                 context="mooe"
                 lines={pb.mooe}
+                mode={lineMode}
                 onUpdate={(lines) =>
                   save({
                     ...budget,
@@ -635,13 +814,12 @@ export function Part4YearForm({
           title="MOOE"
           context="mooe"
           lines={budget.continuingCosts.mooe}
-          onUpdate={(lines) =>
-            save({ ...budget, continuingCosts: { mooe: lines } })
-          }
+          mode={lineMode}
+          onUpdate={(lines) => save({ ...budget, continuingCosts: { mooe: lines } })}
         />
       </SectionCard>
 
-      {/* Grand Total Bar */}
+      {/* Grand Total */}
       <div className="flex items-center justify-between rounded-lg border border-primary/20 bg-primary/5 px-6 py-4">
         <span className="font-semibold">Grand Total — Year {year}</span>
         <span className="text-xl font-bold text-primary">{php(grandTotal)}</span>

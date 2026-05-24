@@ -3,7 +3,7 @@
   "fileType": "issp-main",
   "exportedAt": "2026-05-23T08:13:48.703Z",
   "tool": "issp-platform",
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "title": "NCWTR Information Systems Strategic Plan 2026\u20132028",
   "startYear": 2026,
   "endYear": 2028,
@@ -107,50 +107,125 @@
       {
         "id": "cf8fbd27380de929622154d",
         "name": "General Public",
-        "transactions": "Filing of complaints regarding excessive government waiting times; requesting queue compliance certificates",
-        "complexity": "Simple"
+        "services": [
+          {
+            "id": "s1a1b2c3d4e5f6a7b8c9d0e",
+            "name": "Filing of complaints on government waiting time violations",
+            "complexity": "Simple"
+          },
+          {
+            "id": "s2a1b2c3d4e5f6a7b8c9d0e",
+            "name": "Requesting queue compliance certificates",
+            "complexity": "Simple"
+          }
+        ]
       },
       {
         "id": "c9f452e56c6bde254b931b5",
         "name": "National Government Agencies (NGAs)",
-        "transactions": "Submission of monthly queue time reports; compliance audits; receipt of improvement directives",
-        "complexity": "Complex"
+        "services": [
+          {
+            "id": "s3a1b2c3d4e5f6a7b8c9d0e",
+            "name": "Submission of monthly queue time reports and compliance audits",
+            "complexity": "Complex"
+          },
+          {
+            "id": "s4a1b2c3d4e5f6a7b8c9d0e",
+            "name": "Receipt of improvement directives from NCWTR",
+            "complexity": "Simple"
+          }
+        ]
       },
       {
         "id": "c9a2bf972a2b82dba0398a5",
         "name": "Local Government Units (LGUs)",
-        "transactions": "Enrollment in NCWTR monitoring program; submission of barangay-level service delivery data",
-        "complexity": "Complex"
+        "services": [
+          {
+            "id": "s5a1b2c3d4e5f6a7b8c9d0e",
+            "name": "Enrollment in NCWTR monitoring program and submission of service delivery data",
+            "complexity": "Complex"
+          }
+        ]
       },
       {
         "id": "c727cdf4e075f529bacb66c",
         "name": "Anti-Red Tape Authority (ARTA)",
-        "transactions": "Joint policy formulation; referral of non-compliant agencies; data sharing on citizen feedback",
-        "complexity": "Highly Technical"
+        "services": [
+          {
+            "id": "s6a1b2c3d4e5f6a7b8c9d0e",
+            "name": "Joint policy formulation on government service standards",
+            "complexity": "Highly Technical"
+          },
+          {
+            "id": "s7a1b2c3d4e5f6a7b8c9d0e",
+            "name": "Referral of non-compliant agencies and citizen feedback data sharing",
+            "complexity": "Complex"
+          }
+        ]
       },
       {
         "id": "c2eb02d323149e536e3f4dc",
         "name": "Civil Service Commission (CSC)",
-        "transactions": "Coordination on service delivery standards; sharing of HR data; joint training programs",
-        "complexity": "Complex"
+        "services": [
+          {
+            "id": "s8a1b2c3d4e5f6a7b8c9d0e",
+            "name": "Coordination on service delivery standards and joint training programs",
+            "complexity": "Complex"
+          }
+        ]
       },
       {
         "id": "c854803e3e73484937f87ea",
         "name": "Commission on Audit (COA)",
-        "transactions": "Annual audit of NCWTR operations, ICT expenditures, and fund utilization",
-        "complexity": "Highly Technical"
+        "services": [
+          {
+            "id": "s9a1b2c3d4e5f6a7b8c9d0e",
+            "name": "Annual audit of NCWTR operations and fund utilization",
+            "complexity": "Complex"
+          },
+          {
+            "id": "saa1b2c3d4e5f6a7b8c9d0e",
+            "name": "ICT expenditure review and compliance assessment",
+            "complexity": "Highly Technical"
+          }
+        ]
       },
       {
         "id": "c0c0db413dc1b4389ddba72",
         "name": "Congress of the Philippines",
-        "transactions": "Budget deliberations; legislative oversight; submission of annual reports and performance reviews",
-        "complexity": "Simple"
+        "services": [
+          {
+            "id": "sba1b2c3d4e5f6a7b8c9d0e",
+            "name": "Budget deliberations and legislative oversight of NCWTR mandate",
+            "complexity": "Simple"
+          },
+          {
+            "id": "sca1b2c3d4e5f6a7b8c9d0e",
+            "name": "Submission of annual performance reports and review",
+            "complexity": "Simple"
+          }
+        ]
       },
       {
         "id": "c1b7495d048acfbfeae6d2e",
         "name": "Department of Information and Communications Technology (DICT)",
-        "transactions": "Technical assistance for ICT projects; government cloud services; cybersecurity advisories",
-        "complexity": "Highly Technical"
+        "services": [
+          {
+            "id": "sda1b2c3d4e5f6a7b8c9d0e",
+            "name": "Technical assistance for ICT project implementation",
+            "complexity": "Complex"
+          },
+          {
+            "id": "sea1b2c3d4e5f6a7b8c9d0e",
+            "name": "Government cloud services provisioning",
+            "complexity": "Complex"
+          },
+          {
+            "id": "sfa1b2c3d4e5f6a7b8c9d0e",
+            "name": "Cybersecurity advisories and compliance review",
+            "complexity": "Highly Technical"
+          }
+        ]
       }
     ]
   },

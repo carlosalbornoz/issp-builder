@@ -29,7 +29,7 @@ interface Part1 {
     contractual: { it: { male: number; female: number }; nonIt: { male: number; female: number } };
     outsourced: { it: { male: number; female: number }; nonIt: { male: number; female: number } };
   };
-  stakeholders: { name: string; transactions: string; complexity: string }[];
+  stakeholders: { name: string; services: { name: string; complexity: string }[] }[];
 }
 
 interface CyberGroup {
@@ -605,15 +605,26 @@ function renderPart1(issp: IsspData): string {
 
     <div class="section-heading">C. Stakeholder Analysis</div>
     <table>
-      <thead><tr><th style="width:33%">Stakeholders</th><th style="width:40%">Transaction Processed</th><th>Complexity</th></tr></thead>
+      <thead><tr><th style="width:33%">Stakeholders</th><th style="width:40%">Transaction / Service</th><th>Complexity</th></tr></thead>
       <tbody>
         ${p.stakeholders.length === 0
           ? `<tr><td colspan="3" style="text-align:center;font-style:italic;">No stakeholders specified.</td></tr>`
-          : p.stakeholders.map(s => `<tr class="avoid-break">
-              <td>${esc(s.name)}</td>
-              <td>${nl2br(s.transactions)}</td>
-              <td style="text-align:center;">${esc(s.complexity)}</td>
-            </tr>`).join("")
+          : p.stakeholders.map(s => {
+              const svs = s.services ?? [];
+              if (svs.length === 0) {
+                return `<tr class="avoid-break"><td>${esc(s.name)}</td><td colspan="2" style="text-align:center;font-style:italic;">No services listed.</td></tr>`;
+              }
+              const firstRow = `<tr class="avoid-break">
+                <td rowspan="${svs.length}" style="vertical-align:top;">${esc(s.name)}</td>
+                <td>${esc(svs[0].name)}</td>
+                <td style="text-align:center;">${esc(svs[0].complexity)}</td>
+              </tr>`;
+              const restRows = svs.slice(1).map(sv => `<tr class="avoid-break">
+                <td>${esc(sv.name)}</td>
+                <td style="text-align:center;">${esc(sv.complexity)}</td>
+              </tr>`).join("");
+              return firstRow + restRows;
+            }).join("")
         }
       </tbody>
     </table>
