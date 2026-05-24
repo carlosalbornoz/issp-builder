@@ -1,6 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-24 (session 6)  
+> **Last updated:** 2026-05-24 (theme system session)  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -78,7 +78,62 @@ Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references
 | 6b | Phase 6 bug fixes — E.1/E.2 header label; `lastEditedAt` now set on content save (not visit); sidebar save status and button improvements | ✅ Done |
 | 7 | Unsaved changes — content snapshot + field diff | ✅ Done 2026-05-23 |
 | 7b | Mobile editor shell — fixed drawer sidebar on mobile; desktop sidebar remains static/collapsible | ✅ Done 2026-05-23 |
+| 7c | Theme system — System/Warm light/dark themes, theme menu, contrast pass | ✅ Done 2026-05-24 |
 | 8 | Section body patterns | 🔜 Deferred |
+
+### Session 7c — Theme system + contrast pass (2026-05-24)
+
+Full plan and implementation notes: `docs/design-refresh/theme-system-plan.md`.
+
+**Theme architecture**
+
+Implemented four root-level theme classes in `src/app/globals.css`:
+
+| ID | Label | Notes |
+|---|---|---|
+| `system-light` | System Light | Default theme. White system palette, system sans body/display. |
+| `system-dark` | System Dark | OLED black system palette, system sans body/display. |
+| `warm-light` | Warm Light | Existing warm UI refresh palette. |
+| `warm-dark` | Warm Dark | Warm brown dark palette. |
+
+`src/lib/theme.tsx` now owns `THEMES`, `DEFAULT_THEME`, `ThemeProvider`, `useTheme()`, and `issp-theme` localStorage persistence. System themes use matching IDs and labels (`system-light` / System Light and `system-dark` / System Dark); the earlier draft `apple-*` IDs were removed before production release.
+
+`src/app/layout.tsx` injects a synchronous inline script in `<head>` to apply the saved theme class before hydration. Fallback/default is `theme-system-light`. The root layout wraps the app in `ThemeProvider`.
+
+**Theme controls**
+
+Theme switching is in `src/components/editor/editor-sidebar.tsx`:
+- Desktop: kebab menu → Theme submenu with radio items.
+- Mobile: compact sidebar footer has a single palette icon button opening the theme list.
+- Order: System Light, System Dark, separator, Warm Light, Warm Dark.
+- Removed the earlier swatch-footer/Properties-dialog placement.
+
+**Part colors**
+
+`src/lib/sections.ts` now returns `var(--part-1)` through `var(--part-4)` instead of fixed hex values. Each theme defines its own part accents.
+
+**Sidebar save/download behavior**
+
+The main sidebar file action now reflects file-save state:
+- Disabled `No changes to save` when `unsavedToFile === false`
+- Enabled `Save changes` when `unsavedToFile === true`
+- Manual `Download .issp` remains in the kebab menu
+
+**Control contrast cleanup**
+
+Several controls looked disabled under System themes because they used transparent backgrounds or old low-contrast tokens. The following were updated:
+- `src/components/ui/button.tsx`: outline variant now uses `bg-card`, `text-foreground`, `border-border`, `hover:bg-accent`.
+- `src/components/ui/input.tsx`, `textarea.tsx`, `select.tsx`: enabled controls now use card surfaces and explicit foreground text; disabled styles are visually distinct.
+- Inline table controls in Part I-B, Part I-C, Part III-C, Part III-F, Part IV, and the Part II-B diagram title field now use `bg-card/70` with hover/focus card backgrounds.
+- Custom controls in UACS combobox and legacy ISSP overview/layout links were made theme-aware.
+
+**Verification run during implementation**
+
+Repeated targeted checks passed after the changes:
+- `npx tsc --noEmit`
+- Targeted ESLint on changed files
+
+Full `npm run build` was also run successfully once with network access for `next/font` Google font fetching. A sandboxed build fails without network because Next needs to fetch font CSS.
 
 ### Session 6 — Part IV refactor + read-only section pattern (2026-05-24)
 

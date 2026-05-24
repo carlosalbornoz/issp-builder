@@ -157,7 +157,7 @@ function ProjectKpiTable({
                   <tr key={row.id} className="hover:bg-muted/10">
                     <td className="border px-1 py-1">
                       <select
-                        className="w-full px-2 py-1.5 text-xs bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full px-2 py-1.5 text-xs bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={row.hierarchy}
                         onChange={(e) => updateRow(row.id, "hierarchy", e.target.value as KpiRow["hierarchy"])}
                       >
@@ -170,7 +170,7 @@ function ProjectKpiTable({
                     <td className="border px-1 py-1">
                       <input
                         type="text"
-                        className="w-full px-2 py-1.5 text-xs bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full px-2 py-1.5 text-xs bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder="e.g., % reduction in processing time"
                         value={row.indicator}
                         onChange={(e) => updateRow(row.id, "indicator", e.target.value)}
@@ -180,7 +180,7 @@ function ProjectKpiTable({
                       <td key={field} className="border px-1 py-1">
                         <input
                           type="text"
-                          className="w-full px-2 py-1.5 text-xs text-center bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                          className="w-full px-2 py-1.5 text-xs text-center bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                           placeholder="—"
                           value={row[field]}
                           onChange={(e) => updateRow(row.id, field, e.target.value)}
@@ -190,7 +190,7 @@ function ProjectKpiTable({
                     <td className="border px-1 py-1">
                       <input
                         type="text"
-                        className="w-full px-2 py-1.5 text-xs bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full px-2 py-1.5 text-xs bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder="e.g., Monthly reports"
                         value={row.dataCollectionMethod}
                         onChange={(e) => updateRow(row.id, "dataCollectionMethod", e.target.value)}
@@ -199,7 +199,7 @@ function ProjectKpiTable({
                     <td className="border px-1 py-1">
                       <input
                         type="text"
-                        className="w-full px-2 py-1.5 text-xs bg-transparent rounded focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full px-2 py-1.5 text-xs bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder="e.g., ICT Division"
                         value={row.responsibleUnit}
                         onChange={(e) => updateRow(row.id, "responsibleUnit", e.target.value)}

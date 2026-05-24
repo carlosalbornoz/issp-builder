@@ -2,8 +2,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -49,8 +47,8 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root {
-  /* ── Warm palette (UI refresh Phase 3) ── */
+:root,
+.theme-warm-light {
   --background: #FAFAF7;
   --foreground: #18181B;
   --card: #FFFFFF;
@@ -75,49 +73,145 @@
   --chart-4: #6D28D9;
   --chart-5: #52525B;
   --radius: 0.5rem;
-  /* sidebar — dark panel, refined in Phase 5 */
-  --sidebar: #1C1C1E;
-  --sidebar-foreground: #F4F4F3;
-  --sidebar-primary: #2563EB;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #2A2A2E;
-  --sidebar-accent-foreground: #F4F4F3;
-  --sidebar-border: #2E2E30;
+  --sidebar-active: #D4D2C9;
+  --part-1: #2563EB;
+  --part-2: #C2680C;
+  --part-3: #15803D;
+  --part-4: #6D28D9;
+  --font-body: var(--font-sans);
+  --sidebar: var(--secondary);
+  --sidebar-foreground: var(--secondary-foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
   --sidebar-ring: #52525B;
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+.theme-warm-dark {
+  --background: #1C1A17;
+  --foreground: #F0EDE8;
+  --card: #242220;
+  --card-foreground: #F0EDE8;
+  --popover: #242220;
+  --popover-foreground: #F0EDE8;
+  --primary: #F0EDE8;
+  --primary-foreground: #1C1A17;
+  --secondary: #201E1B;
+  --secondary-foreground: #F0EDE8;
+  --muted: #201E1B;
+  --muted-foreground: #9C9893;
+  --accent: #2C2925;
+  --accent-foreground: #F0EDE8;
+  --destructive: #EF4444;
+  --border: #383430;
+  --input: #383430;
+  --ring: #9C9893;
+  --chart-1: #60A5FA;
+  --chart-2: #FB923C;
+  --chart-3: #4ADE80;
+  --chart-4: #A78BFA;
+  --chart-5: #9C9893;
+  --radius: 0.5rem;
+  --sidebar-active: #3A3630;
+  --part-1: #60A5FA;
+  --part-2: #FB923C;
+  --part-3: #4ADE80;
+  --part-4: #A78BFA;
+  --font-body: var(--font-sans);
+  --sidebar: var(--secondary);
+  --sidebar-foreground: var(--secondary-foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+}
+
+.theme-system-light {
+  --background: #FFFFFF;
+  --foreground: #1D1D1F;
+  --card: #FFFFFF;
+  --card-foreground: #1D1D1F;
+  --popover: #FFFFFF;
+  --popover-foreground: #1D1D1F;
+  --primary: #1D1D1F;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F5F5F7;
+  --secondary-foreground: #1D1D1F;
+  --muted: #F5F5F7;
+  --muted-foreground: #6E6E73;
+  --accent: #E8E8ED;
+  --accent-foreground: #1D1D1F;
+  --destructive: #FF3B30;
+  --border: #D2D2D7;
+  --input: #D2D2D7;
+  --ring: #6E6E73;
+  --chart-1: #007AFF;
+  --chart-2: #FF9500;
+  --chart-3: #34C759;
+  --chart-4: #AF52DE;
+  --chart-5: #6E6E73;
+  --radius: 0.625rem;
+  --sidebar-active: #E5E5EA;
+  --part-1: #007AFF;
+  --part-2: #FF9500;
+  --part-3: #34C759;
+  --part-4: #AF52DE;
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --sidebar: var(--secondary);
+  --sidebar-foreground: var(--secondary-foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+}
+
+.theme-system-dark {
+  --background: #000000;
+  --foreground: #FFFFFF;
+  --card: #1C1C1E;
+  --card-foreground: #FFFFFF;
+  --popover: #1C1C1E;
+  --popover-foreground: #FFFFFF;
+  --primary: #FFFFFF;
+  --primary-foreground: #000000;
+  --secondary: #161618;
+  --secondary-foreground: #FFFFFF;
+  --muted: #1C1C1E;
+  --muted-foreground: #98989D;
+  --accent: #2C2C2E;
+  --accent-foreground: #FFFFFF;
+  --destructive: #FF453A;
+  --border: #38383A;
+  --input: #38383A;
+  --ring: #98989D;
+  --chart-1: #0A84FF;
+  --chart-2: #FF9F0A;
+  --chart-3: #30D158;
+  --chart-4: #BF5AF2;
+  --chart-5: #98989D;
+  --radius: 0.625rem;
+  --sidebar-active: #3A3A3C;
+  --part-1: #0A84FF;
+  --part-2: #FF9F0A;
+  --part-3: #30D158;
+  --part-4: #BF5AF2;
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --sidebar: var(--secondary);
+  --sidebar-foreground: var(--secondary-foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 }
 
 @layer base {
@@ -126,6 +220,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body);
   }
   html {
     @apply font-sans;

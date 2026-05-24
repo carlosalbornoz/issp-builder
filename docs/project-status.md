@@ -64,6 +64,9 @@
 | **UI Refresh Phase 7** — Unsaved changes content snapshot + field-level sidebar diff | ✅ Done 2026-05-23 |
 | **Part IV UX rewrite** — master list + Sheet drawer; SectionCard 3px color strip; LineTable header band; color legend; accurate CO/MOOE descriptions | ✅ Done 2026-05-23 |
 | **Mobile editor shell fix** — sidebar is a fixed mobile drawer, static/collapsible desktop sidebar remains intact | ✅ Done 2026-05-23 |
+| **Theme system** — System/Warm light/dark themes; root theme classes; `ThemeProvider`; SSR flash-prevention script; `issp-theme` localStorage | ✅ Done 2026-05-24 |
+| **Theme menu placement** — desktop kebab Theme submenu; mobile palette button; System Light default; System themes ordered before Warm themes | ✅ Done 2026-05-24 |
+| **Control contrast pass** — outline buttons, inputs, textareas, selects, inline table fields, UACS combobox trigger no longer look disabled when enabled | ✅ Done 2026-05-24 |
 
 ---
 
@@ -103,6 +106,10 @@
 | UACS Explorer redirecting to `/login` | `src/proxy.ts` (Next.js 16 middleware) was missing `/uacs` from the public allowlist. Added `isUacsRoute` check and `uacs` to the matcher exclusion — same pattern as `isEditorRoute` |
 | UACS combobox stuck on "Loading codes…" | `fetch("/uacs_active.min.json")` was missing the `/issp` basePath prefix. Fixed to `fetch(\`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs_active.min.json\`)` |
 | Form pages redirect to `/editor` on hard refresh | All 17 form sub-pages (`part1/a` through `part4/year3`) had `if (!doc) redirect` but never checked `loading`. On page refresh, `doc` is null while IDB loads → premature redirect. Fixed: added `const { doc, loading } = useIsspStore()` + `if (loading) return null` guard before the redirect check in all 18 form pages (17 via script + `part4/summary` manually). |
+| Theme controls initially placed too prominently | Moved theme selection from sidebar footer/Properties dialog into the desktop kebab menu; mobile keeps a single palette icon button. |
+| System theme labels initially said Apple | Replaced the draft `apple-light` / `apple-dark` IDs with `system-light` / `system-dark` before production release. |
+| Sidebar buttons looked disabled in System themes | Shared sidebar control styles now use `bg-card`, `text-foreground`, `border-border`, and no shadow; primary save button is disabled only when there are no changes and reads `No changes to save`. |
+| Enabled form controls looked disabled | Shared `Input`, `Textarea`, and `SelectTrigger` now use card surfaces and stronger foreground text; inline table fields were swept and updated from transparent backgrounds to theme-aware card backgrounds. |
 
 ---
 

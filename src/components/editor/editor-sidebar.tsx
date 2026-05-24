@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -26,6 +31,7 @@ import {
   Settings2,
   RotateCcw,
   MoreHorizontal,
+  Palette,
   X,
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
@@ -33,6 +39,7 @@ import { PARTS, computeStatus, type SectionDef, type PartDef } from "@/lib/secti
 import { getChangedFields, type SectionField } from "@/lib/section-fields";
 import { StatusDot } from "@/components/ui/status-dot";
 import { IsspPropertiesDialog } from "./issp-properties-dialog";
+import { THEMES, isThemeId, useTheme, type ThemeId } from "@/lib/theme";
 
 function formatTimeAgo(isoString: string, now: number): string {
   const diff = now - new Date(isoString).getTime();
@@ -54,12 +61,56 @@ function useNow(intervalMs = 60_000): number {
   return now;
 }
 
+function ThemeMenuItems({ onThemeSelected }: { onThemeSelected?: () => void }) {
+  const { theme, setTheme } = useTheme();
+
+  function handleThemeChange(value: string) {
+    if (!isThemeId(value)) return;
+    setTheme(value);
+    onThemeSelected?.();
+  }
+
+  return (
+    <DropdownMenuRadioGroup value={theme} onValueChange={handleThemeChange}>
+      {THEMES.map((item) => (
+        <Fragment key={item.id}>
+          {item.id === "warm-light" && <DropdownMenuSeparator />}
+          <DropdownMenuRadioItem value={item.id} className="gap-2">
+            <ThemePreview theme={item.id} />
+            {item.name}
+          </DropdownMenuRadioItem>
+        </Fragment>
+      ))}
+    </DropdownMenuRadioGroup>
+  );
+}
+
+function ThemePreview({ theme }: { theme: ThemeId }) {
+  const item = THEMES.find((candidate) => candidate.id === theme)!;
+
+  return (
+    <span
+      aria-hidden="true"
+      className="inline-flex h-4 w-4 items-center justify-center rounded-full border"
+      style={{ backgroundColor: item.background, borderColor: item.border }}
+    >
+      <span
+        className="h-2 w-2 rounded-full border border-black/10"
+        style={{ backgroundColor: item.secondary }}
+      />
+    </span>
+  );
+}
+
+const sidebarControlClass =
+  "!border-border !bg-card !text-foreground shadow-none hover:!bg-accent hover:!text-accent-foreground";
+
 // ─── Collapsed sidebar ────────────────────────────────────────────────────────
 
 function CollapsedSidebar({ onToggle }: { onToggle: () => void }) {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 flex h-dvh w-12 flex-col items-center border-r border-border/50 bg-secondary py-4">
-      <Button size="icon" variant="ghost" aria-label="Expand sidebar" onClick={onToggle} className="h-8 w-8">
+      <Button size="icon" variant="ghost" aria-label="Expand sidebar" onClick={onToggle} className="h-8 w-8 text-foreground hover:bg-accent">
         <ChevronRight className="h-4 w-4" />
       </Button>
       <Separator className="mt-2" />
@@ -67,7 +118,7 @@ function CollapsedSidebar({ onToggle }: { onToggle: () => void }) {
       <Link
         href="/"
         aria-label="Exit editor"
-        className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+        className="h-8 w-8 flex items-center justify-center rounded-md text-foreground hover:bg-accent transition-colors"
       >
         <LogOut className="h-4 w-4" />
       </Link>
@@ -194,7 +245,7 @@ export function EditorSidebar({
         className={cn(
           "block rounded-md px-3 py-2 text-sm font-medium transition-colors",
           pathname === "/editor"
-            ? "bg-[#D4D2C9] text-foreground"
+            ? "bg-[var(--sidebar-active)] text-foreground"
             : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
         )}
       >
@@ -234,7 +285,7 @@ export function EditorSidebar({
                       className={cn(
                         "flex items-center gap-2 rounded-md py-2 pl-4 pr-3 text-sm transition-colors",
                         isActive
-                          ? "bg-[#D4D2C9] text-foreground font-medium"
+                          ? "bg-[var(--sidebar-active)] text-foreground font-medium"
                           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                       )}
                     >
@@ -295,7 +346,7 @@ export function EditorSidebar({
             variant="ghost"
             aria-label="Close navigation"
             onClick={onMobileClose}
-            className="h-7 w-7 shrink-0"
+            className="h-7 w-7 shrink-0 text-foreground hover:bg-accent"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -327,6 +378,7 @@ export function EditorSidebar({
             size="sm"
             className={cn(
               "h-7 gap-1.5 px-2.5 text-xs shrink-0",
+              sidebarControlClass,
               unsavedToFile && "bg-teal-600 text-white border-teal-600 hover:bg-teal-700"
             )}
             onClick={handleSaveToFile}
@@ -337,13 +389,27 @@ export function EditorSidebar({
           <Button
             variant="outline"
             size="sm"
-            className="h-7 gap-1.5 px-2.5 text-xs shrink-0"
+            className={cn("h-7 gap-1.5 px-2.5 text-xs shrink-0", sidebarControlClass)}
             onClick={handleExportPdf}
             disabled={exporting}
           >
             {exporting ? <Loader2 className="h-3 w-3 animate-spin" /> : <FileOutput className="h-3 w-3" />}
             PDF
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              aria-label="Theme"
+              className={cn(
+                "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                sidebarControlClass
+              )}
+            >
+              <Palette className="h-3.5 w-3.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-44">
+              <ThemeMenuItems onThemeSelected={onMobileClose} />
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
@@ -373,7 +439,7 @@ export function EditorSidebar({
                 {doc.agency.acronym || doc.agency.name} · {doc.startYear}–{doc.endYear}
                 {doc.amendmentNumber > 0 && ` · A${doc.amendmentNumber}`}
               </span>
-              <Button size="icon" variant="ghost" aria-label="Collapse sidebar" onClick={onToggle} className="h-6 w-6 -mr-0.5">
+              <Button size="icon" variant="ghost" aria-label="Collapse sidebar" onClick={onToggle} className="h-6 w-6 -mr-0.5 text-foreground hover:bg-accent">
                 <ChevronLeft className="h-3.5 w-3.5" />
               </Button>
             </div>
@@ -453,7 +519,7 @@ export function EditorSidebar({
                 <Button size="sm" variant="destructive" className="h-7 text-xs px-3" onClick={handleClear}>
                   Clear
                 </Button>
-                <Button size="sm" variant="outline" className="h-7 text-xs px-3" onClick={() => setConfirmClear(false)}>
+                <Button size="sm" variant="outline" className={cn("h-7 text-xs px-3", sidebarControlClass)} onClick={() => setConfirmClear(false)}>
                   Cancel
                 </Button>
               </div>
@@ -466,16 +532,24 @@ export function EditorSidebar({
               <div className="flex gap-1.5">
                 <Button
                   variant="outline"
-                  className={`flex-1 justify-start gap-2 text-sm ${unsavedToFile ? "bg-teal-600 hover:bg-teal-700 text-white border-teal-600" : ""}`}
+                  disabled={!unsavedToFile}
+                  className={cn(
+                    "h-9 flex-1 justify-start gap-2 text-sm disabled:cursor-not-allowed disabled:opacity-50",
+                    sidebarControlClass,
+                    unsavedToFile && "bg-teal-600 hover:bg-teal-700 text-white border-teal-600"
+                  )}
                   onClick={handleSaveToFile}
                 >
                   <Download className="h-4 w-4" />
-                  {unsavedToFile ? "Save changes" : "Download .issp"}
+                  {unsavedToFile ? "Save changes" : "No changes to save"}
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger
                     aria-label="More file actions"
-                    className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-input bg-background text-sm hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className={cn(
+                      "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      sidebarControlClass
+                    )}
                   >
                     <MoreHorizontal className="h-4 w-4" />
                   </DropdownMenuTrigger>
@@ -488,6 +562,15 @@ export function EditorSidebar({
                       <FolderOpen className="h-3.5 w-3.5 mr-2" />
                       Load different ISSP…
                     </DropdownMenuItem>
+                    <DropdownMenuSub>
+                      <DropdownMenuSubTrigger>
+                        <Palette className="h-3.5 w-3.5 mr-2" />
+                        Theme
+                      </DropdownMenuSubTrigger>
+                      <DropdownMenuSubContent className="w-44">
+                        <ThemeMenuItems />
+                      </DropdownMenuSubContent>
+                    </DropdownMenuSub>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       className="text-destructive focus:text-destructive focus:bg-destructive/10"
@@ -502,14 +585,14 @@ export function EditorSidebar({
 
               {/* Secondary actions */}
               <div className="grid grid-cols-2 gap-2">
-                <Button variant="outline" size="sm" className="justify-start gap-2 text-xs" onClick={() => setPropsOpen(true)}>
+                <Button variant="outline" size="sm" className={cn("justify-start gap-2 text-xs", sidebarControlClass)} onClick={() => setPropsOpen(true)}>
                   <Settings2 className="h-3.5 w-3.5" />
                   Properties
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="justify-start gap-2 text-xs"
+                  className={cn("justify-start gap-2 text-xs", sidebarControlClass)}
                   onClick={handleExportPdf}
                   disabled={exporting}
                 >

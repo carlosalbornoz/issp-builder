@@ -137,7 +137,7 @@ export function Part3CForm({
                     <td className="border px-2 py-1">
                       <input
                         type="text"
-                        className="w-full rounded px-2 py-1.5 text-sm bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder="e.g., Systems Developer II"
                         value={row.position}
                         onChange={(e) => updateRow(row.id, "position", e.target.value)}
@@ -151,7 +151,7 @@ export function Part3CForm({
                           v && updateRow(row.id, "employmentStatus", v as HCRow["employmentStatus"])
                         }
                       >
-                        <SelectTrigger className="h-8 border-0 bg-transparent shadow-none">
+                        <SelectTrigger className="h-8 border-0 bg-card/70 shadow-none hover:bg-card">
                           <SelectValue placeholder="Select…" />
                         </SelectTrigger>
                         <SelectContent>
@@ -167,7 +167,7 @@ export function Part3CForm({
                       <input
                         type="number"
                         min={1}
-                        className="w-full rounded px-2 py-1.5 text-sm text-center bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-sm text-center bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={row.quantity}
                         onChange={(e) => {
                           const v = parseInt(e.target.value, 10);

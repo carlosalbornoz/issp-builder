@@ -158,7 +158,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                     <td className="border px-2 py-1">
                       <input
                         type="text"
-                        className="w-full rounded px-2 py-1.5 text-sm bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder={`Stakeholder ${idx + 1}`}
                         value={s.name}
                         onChange={(e) => updateStakeholder(s.id, "name", e.target.value)}
@@ -167,7 +167,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                     <td className="border px-2 py-1">
                       <input
                         type="text"
-                        className="w-full rounded px-2 py-1.5 text-sm bg-transparent focus:bg-muted/30 focus:outline-none focus:ring-1 focus:ring-ring"
+                        className="w-full rounded px-2 py-1.5 text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         placeholder="Describe transactions..."
                         value={s.transactions}
                         onChange={(e) => updateStakeholder(s.id, "transactions", e.target.value)}
@@ -179,7 +179,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                         value={s.complexity}
                         onValueChange={(v: string | null) => v && updateStakeholder(s.id, "complexity", v)}
                       >
-                        <SelectTrigger className="h-8 border-0 bg-transparent shadow-none focus:ring-1">
+                        <SelectTrigger className="h-8 border-0 bg-card/70 shadow-none hover:bg-card focus:ring-1">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>

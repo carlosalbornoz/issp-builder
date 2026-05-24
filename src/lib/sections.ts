@@ -18,7 +18,7 @@ export interface PartDef {
 
 export const PARTS: readonly PartDef[] = [
   {
-    partNum: 1, part: "I", title: "Agency Profile & Strategic Context", color: "#2563EB",
+    partNum: 1, part: "I", title: "Agency Profile & Strategic Context", color: "var(--part-1)",
     sections: [
       { id: "part1/a", label: "A. Mandate, Vision & Mission", href: "/editor/part1/a" },
       { id: "part1/b", label: "B. Organization Structure",    href: "/editor/part1/b" },
@@ -26,7 +26,7 @@ export const PARTS: readonly PartDef[] = [
     ],
   },
   {
-    partNum: 2, part: "II", title: "Current ICT Assessment", color: "#C2680C",
+    partNum: 2, part: "II", title: "Current ICT Assessment", color: "var(--part-2)",
     sections: [
       { id: "part2/a", label: "A. Strategic Concerns",        href: "/editor/part2/a" },
       { id: "part2/b", label: "B. Network & Cybersecurity",   href: "/editor/part2/b" },
@@ -35,7 +35,7 @@ export const PARTS: readonly PartDef[] = [
     ],
   },
   {
-    partNum: 3, part: "III", title: "Proposed ICT Strategy", color: "#15803D",
+    partNum: 3, part: "III", title: "Proposed ICT Strategy", color: "var(--part-3)",
     sections: [
       { id: "part3/a",  label: "A. Proposed Infrastructure",  href: "/editor/part3/a"  },
       { id: "part3/b",  label: "B. Enterprise Architecture",  href: "/editor/part3/b"  },
@@ -47,7 +47,7 @@ export const PARTS: readonly PartDef[] = [
     ],
   },
   {
-    partNum: 4, part: "IV", title: "Resource Requirements", color: "#6D28D9",
+    partNum: 4, part: "IV", title: "Resource Requirements", color: "var(--part-4)",
     sections: [
       { id: "part4/year1",   label: "Year 1 Breakdown",       href: "/editor/part4/year1"   },
       { id: "part4/year2",   label: "Year 2 Breakdown",       href: "/editor/part4/year2"   },

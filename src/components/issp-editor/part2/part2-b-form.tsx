@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
@@ -364,7 +363,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium hover:bg-muted/50 transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors disabled:opacity-50"
               >
                 <UploadCloud className="h-3.5 w-3.5" />
                 {uploading ? "Uploading…" : "Add Diagram"}
@@ -385,7 +384,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
                         placeholder="Diagram title — e.g., Central Office Network Topology"
                         value={diagram.title}
                         onChange={(e) => handleTitleChange(diagram.id, e.target.value)}
-                        className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 focus:placeholder:text-transparent"
+                        className="flex-1 rounded bg-card/70 px-2 py-1 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 hover:bg-card focus:bg-card focus:placeholder:text-transparent"
                       />
                       <button
                         type="button"

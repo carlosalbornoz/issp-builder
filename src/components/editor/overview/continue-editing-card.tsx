@@ -17,21 +17,22 @@ export function ContinueEditingCard({
   return (
     <Link
       href={section.href}
-      className="flex items-center gap-4 rounded-xl border bg-[#EFF4FE] border-[#CADCFA] px-5 py-4 transition-colors hover:bg-[#DDE7FC] group"
+      className="flex items-center gap-4 rounded-xl border bg-card px-5 py-4 transition-colors hover:bg-accent group"
+      style={{ borderColor: part.color }}
     >
-      <PlayCircle className="h-5 w-5 text-[#1D4ED8] shrink-0" />
+      <PlayCircle className="h-5 w-5 shrink-0" style={{ color: part.color }} />
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-[#1D4ED8]">
+        <p className="text-sm font-medium" style={{ color: part.color }}>
           {hasAnyEdit ? "Continue where you left off" : "Start with Part I"}
         </p>
-        <p className="text-xs text-[#1D4ED8]/70 mt-0.5 truncate">
+        <p className="text-xs text-muted-foreground mt-0.5 truncate">
           Part {part.part} · {section.label}
           {lastEditedAt && (
             <> · <RelativeTime iso={lastEditedAt} /></>
           )}
         </p>
       </div>
-      <ArrowRight className="h-4 w-4 text-[#1D4ED8]/50 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+      <ArrowRight className="h-4 w-4 shrink-0 opacity-60 group-hover:translate-x-0.5 transition-transform" style={{ color: part.color }} />
     </Link>
   );
 }

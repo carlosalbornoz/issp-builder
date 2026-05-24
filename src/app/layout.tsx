@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { IsspStoreProvider } from "@/lib/store";
+import { ThemeProvider } from "@/lib/theme";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -24,6 +25,20 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 const SITE_URL = "https://apps.carlosanton.io/issp";
 const OG_IMAGE = `${SITE_URL}/opengraph-image`;
+
+const themeScript = `
+(function() {
+  try {
+    var themes = ['system-light', 'system-dark', 'warm-light', 'warm-dark'];
+    var stored = localStorage.getItem('issp-theme');
+    var theme = themes.indexOf(stored) === -1 ? 'system-light' : stored;
+    var root = document.documentElement;
+    for (var i = 0; i < themes.length; i++) root.classList.remove('theme-' + themes[i]);
+    root.classList.add('theme-' + theme);
+  } catch (e) {
+    document.documentElement.classList.add('theme-system-light');
+  }
+})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -53,13 +68,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${fraunces.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} theme-system-light h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
-        <IsspStoreProvider>
-          {children}
-          <Toaster richColors closeButton position="bottom-right" />
-        </IsspStoreProvider>
+        <ThemeProvider>
+          <IsspStoreProvider>
+            {children}
+            <Toaster richColors closeButton position="bottom-right" />
+          </IsspStoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

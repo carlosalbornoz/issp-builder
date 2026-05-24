@@ -110,6 +110,8 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
   const [draft, setDraft] = useState<LineItem>(() => item ?? BLANK_LINE());
 
   useEffect(() => {
+    // Drawer state intentionally resets when a different line item opens.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (open) setDraft(item ?? BLANK_LINE());
   }, [open, item]);
 
@@ -198,7 +200,7 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
           <div className="space-y-1.5">
             <label className="text-sm font-medium">Fund Source</label>
             <select
-              className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 cursor-pointer"
+              className="h-8 w-full rounded-lg border border-border bg-card px-2.5 py-1 text-sm text-foreground outline-none hover:border-ring/60 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 cursor-pointer"
               value={draft.fundSource}
               onChange={(e) => set("fundSource", e.target.value)}
             >
