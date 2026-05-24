@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useIsspStore } from "@/lib/store";
 import { useFileSaveReminder } from "@/hooks/use-file-save-reminder";
 import { EditorSidebar } from "./editor-sidebar";
@@ -53,14 +54,19 @@ export function EditorShell({ children }: { children: React.ReactNode }) {
   // Document loaded — full editor layout with collapsible sidebar
   return (
     <EditorMobileSidebarProvider value={{ openMobileSidebar: () => setMobileSidebarOpen(true) }}>
-      <div className="flex h-dvh overflow-hidden">
+      <div className="h-dvh overflow-hidden bg-background">
         <EditorSidebar
           collapsed={sidebarCollapsed}
           mobileOpen={mobileSidebarOpen}
           onToggle={() => setSidebarCollapsed((v) => !v)}
           onMobileClose={() => setMobileSidebarOpen(false)}
         />
-        <main className="min-w-0 flex-1 overflow-y-auto overscroll-contain bg-background">
+        <main
+          className={cn(
+            "h-full overflow-y-auto overscroll-contain bg-background transition-[padding] duration-200 ease-out",
+            sidebarCollapsed ? "md:pl-12" : "md:pl-72"
+          )}
+        >
           <div className="max-w-7xl mx-auto p-4 md:p-8">{children}</div>
         </main>
       </div>

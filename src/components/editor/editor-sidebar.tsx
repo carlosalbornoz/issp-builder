@@ -58,7 +58,7 @@ function useNow(intervalMs = 60_000): number {
 
 function CollapsedSidebar({ onToggle }: { onToggle: () => void }) {
   return (
-    <aside className="flex h-full w-12 flex-col items-center border-r bg-secondary py-4">
+    <aside className="fixed inset-y-0 left-0 z-30 flex h-dvh w-12 flex-col items-center border-r border-border/50 bg-secondary py-4">
       <Button size="icon" variant="ghost" aria-label="Expand sidebar" onClick={onToggle} className="h-8 w-8">
         <ChevronRight className="h-4 w-4" />
       </Button>
@@ -259,7 +259,7 @@ export function EditorSidebar({
       <div
         aria-hidden="true"
         className={cn(
-          "fixed inset-0 z-40 bg-black/15 backdrop-blur-[2px] transition-opacity duration-200 md:hidden",
+          "fixed inset-0 z-40 bg-black/60 transition-opacity duration-200 md:hidden",
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
         onClick={onMobileClose}
@@ -270,9 +270,9 @@ export function EditorSidebar({
         className={cn(
           "fixed left-3 right-3 top-14 z-50 flex flex-col md:hidden",
           "max-h-[calc(100dvh-5rem)] overflow-hidden",
-          "rounded-2xl border border-border/60",
-          "bg-background/90 backdrop-blur-xl",
-          "shadow-2xl shadow-black/10",
+          "rounded-2xl border border-border",
+          "bg-secondary",
+          "shadow-2xl shadow-black/20",
           "transition-[opacity,transform] duration-200 ease-out origin-top-left",
           mobileOpen
             ? "opacity-100 scale-100 pointer-events-auto"
@@ -349,7 +349,7 @@ export function EditorSidebar({
 
       {/* ── Desktop: collapsed rail ───────────────────────────────────────── */}
       {collapsed && (
-        <div className="hidden h-full md:block">
+        <div className="hidden md:block">
           <CollapsedSidebar onToggle={onToggle} />
         </div>
       )}
@@ -357,7 +357,8 @@ export function EditorSidebar({
       {/* ── Desktop: full sidebar ─────────────────────────────────────────── */}
       <aside
         className={cn(
-          "hidden md:flex h-full w-72 flex-col overflow-hidden border-r bg-secondary",
+          "hidden md:fixed md:inset-y-0 md:left-0 md:z-30 md:flex md:h-dvh md:w-72 md:flex-col md:overflow-hidden",
+          "border-r border-border/50 bg-secondary",
           collapsed && "md:hidden"
         )}
       >
