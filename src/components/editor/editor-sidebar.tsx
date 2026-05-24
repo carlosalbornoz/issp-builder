@@ -76,7 +76,17 @@ function CollapsedSidebar({ onToggle }: { onToggle: () => void }) {
 
 // ─── Main sidebar ─────────────────────────────────────────────────────────────
 
-export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
+export function EditorSidebar({
+  collapsed,
+  mobileOpen,
+  onToggle,
+  onMobileClose,
+}: {
+  collapsed: boolean;
+  mobileOpen: boolean;
+  onToggle: () => void;
+  onMobileClose: () => void;
+}) {
   const { doc, saveToFile, loadFromFile, fileSavedAt, savedSnapshot, unsavedToFile, clearDoc } = useIsspStore();
   const now = useNow();
   const pathname = usePathname();
@@ -134,6 +144,11 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
     setShowChanges(false);
   }
 
+  function handleNavigate() {
+    setShowChanges(false);
+    onMobileClose();
+  }
+
   async function handleLoadFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -166,13 +181,34 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
     }
   }
 
-  if (collapsed) return <CollapsedSidebar onToggle={onToggle} />;
   if (!doc) return null;
 
   const sectionMeta = doc.sectionMeta ?? {};
 
   return (
-    <aside className="flex h-full w-72 flex-col border-r bg-secondary overflow-hidden">
+    <>
+      {mobileOpen && (
+        <button
+          type="button"
+          aria-label="Close editor navigation"
+          className="fixed inset-0 z-40 bg-black/25 md:hidden"
+          onClick={onMobileClose}
+        />
+      )}
+
+      {collapsed && (
+        <div className="hidden h-full md:block">
+          <CollapsedSidebar onToggle={onToggle} />
+        </div>
+      )}
+
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 flex h-dvh w-[min(18rem,calc(100vw-2rem))] flex-col overflow-hidden border-r bg-secondary shadow-xl transition-transform duration-200 ease-out md:static md:z-auto md:h-full md:w-72 md:shadow-none",
+          mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+          collapsed && "md:hidden"
+        )}
+      >
       {/* Header */}
       <div className="border-b">
         <div className="flex items-center justify-between px-3 py-2">
@@ -184,7 +220,10 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
               {doc.agency.acronym || doc.agency.name} · {doc.startYear}–{doc.endYear}
               {doc.amendmentNumber > 0 && ` · A${doc.amendmentNumber}`}
             </span>
-            <Button size="icon" variant="ghost" aria-label="Collapse sidebar" onClick={onToggle} className="h-6 w-6 -mr-0.5">
+            <Button size="icon" variant="ghost" aria-label="Collapse sidebar" onClick={onToggle} className="hidden h-6 w-6 -mr-0.5 md:inline-flex">
+              <ChevronLeft className="h-3.5 w-3.5" />
+            </Button>
+            <Button size="icon" variant="ghost" aria-label="Close sidebar" onClick={onMobileClose} className="h-6 w-6 -mr-0.5 md:hidden">
               <ChevronLeft className="h-3.5 w-3.5" />
             </Button>
           </div>
@@ -195,6 +234,7 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
       <nav className="flex-1 overflow-y-auto px-2 py-2 space-y-0.5">
         <Link
           href="/editor"
+          onClick={handleNavigate}
           className={cn(
             "block rounded-md px-3 py-2 text-sm font-medium transition-colors",
             pathname === "/editor"
@@ -234,6 +274,7 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
                       <Link
                         key={section.id}
                         href={section.href}
+                        onClick={handleNavigate}
                         className={cn(
                           "flex items-center gap-2 rounded-md py-2 pl-4 pr-3 text-sm transition-colors",
                           isActive
@@ -282,7 +323,7 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
                       <div key={section.id}>
                         <Link
                           href={section.href}
-                          onClick={() => setShowChanges(false)}
+                          onClick={handleNavigate}
                           className="flex items-center gap-1.5 rounded px-1 py-0.5 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors truncate"
                         >
                           <span className="font-semibold shrink-0" style={{ color: part.color }}>
@@ -404,6 +445,7 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
         </p>
         <Link
           href="/"
+          onClick={handleNavigate}
           className="flex items-center justify-center gap-1.5 w-full py-1.5 text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors"
         >
           <LogOut className="h-3 w-3" />
@@ -421,6 +463,7 @@ export function EditorSidebar({ collapsed, onToggle }: { collapsed: boolean; onT
       />
 
       <IsspPropertiesDialog open={propsOpen} onClose={() => setPropsOpen(false)} />
-    </aside>
+      </aside>
+    </>
   );
 }

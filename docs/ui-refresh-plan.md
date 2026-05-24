@@ -4,7 +4,7 @@
 **Owner:** @carlosanton.io
 **Reference mockups:** `references/design_upgrade/issp-editor-redesign.html` (Overview), `references/design_upgrade/issp-section-editor-redesign.html` (Section editor)
 **Source spec:** `references/design_upgrade/ISSP_EDITOR_IMPLEMENTATION_PLAN.md`
-**Status:** Phases 1–6 complete — Phase 7 (body patterns) deferred
+**Status:** Core refresh complete — Section body patterns and polish deferred
 
 ---
 
@@ -158,10 +158,20 @@ Extract shared section chrome into a reusable wrapper. All 18 section editors mi
 
 **Acceptance:** Every section uses `SectionShell`. Marking done from any section updates sidebar dot and Overview completion live. Prev/next works across all 18 sections.
 
-### Phase 7 — Section body patterns (deferred)
+### Phase 7 — Unsaved Changes Snapshot + Mobile Shell Fix (complete)
+
+Additional work completed after SectionShell:
+
+- Content-hash-based `unsavedToFile` using an in-memory `savedSnapshot`
+- Field-level sidebar diff via `src/lib/section-fields.ts`
+- Legacy load normalization for form-init migrations that previously caused false-positive unsaved changes
+- Mobile editor shell fix: sidebar is a fixed drawer overlay on mobile and remains a static/collapsible flex child on desktop
+- Mobile menu entry points in `OverviewHeader` and `SectionShell`
+
+### Phase 8 — Section body patterns (deferred)
 Build shared body-pattern components and migrate each section to use the appropriate one.
 
-> **This phase is deferred until Phase 6 ships to prod.** It is the heaviest phase and the visual refresh is useful without it.
+> **This phase is deferred until the core refresh ships to prod.** It is the heaviest phase and the visual refresh is useful without it.
 
 Patterns planned:
 
@@ -173,9 +183,9 @@ Patterns planned:
 | D — Budget tables | Part IV Year 1–3, Summary | `SubsectionCard`, `ExpenseTable`, `ExpenseRow`, `UACSField`, `CurrencyInput`, `YearGrandTotal` |
 | E — Project/item list | Part III/E.1, E.2, F | To be designed after recon |
 
-Migration order within Phase 7: Part IV Year 1 (proves Pattern D) → Year 2/3/Summary → Part I/B → Part II/D → Part III/B → remaining.
+Migration order within Phase 8: Part IV Year 1 (proves Pattern D) → Year 2/3/Summary → Part I/B → Part II/D → Part III/B → remaining.
 
-### Phase 8 — Polish (deferred)
+### Phase 9 — Polish (deferred)
 Low-risk cleanups, also deferred:
 
 - Avatar: reduce to 32px, tooltip with user name

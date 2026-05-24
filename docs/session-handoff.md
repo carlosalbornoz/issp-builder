@@ -1,6 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-23 (session 4)  
+> **Last updated:** 2026-05-23 (session 5)  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -59,7 +59,7 @@ A web platform for Philippine government agencies to create, fill, validate, and
 
 ---
 
-## 3. UI Refresh (Branch: `ui-refresh`) — Phases 1–4 Done
+## 3. UI Refresh (Branch: `ui-refresh`) — Core Refresh Done
 
 Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references/design_upgrade/`.
 
@@ -77,7 +77,8 @@ Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references
 | 6 | SectionShell — shared section chrome, MarkAsDone, 18-section migration | ✅ Done |
 | 6b | Phase 6 bug fixes — E.1/E.2 header label; `lastEditedAt` now set on content save (not visit); sidebar save status and button improvements | ✅ Done |
 | 7 | Unsaved changes — content snapshot + field diff | ✅ Done 2026-05-23 |
-| 8 | Section body patterns (deferred until Phase 6 in prod) | 🔜 Deferred |
+| 7b | Mobile editor shell — fixed drawer sidebar on mobile; desktop sidebar remains static/collapsible | ✅ Done 2026-05-23 |
+| 8 | Section body patterns | 🔜 Deferred |
 
 ### Design tokens (warm palette — `src/app/globals.css`)
 
@@ -115,6 +116,7 @@ Full implementation plan: `docs/ui-refresh-plan.md`. Design mockups: `references
 | `src/components/editor/overview/overview-header.tsx` | Doc title (Fraunces 3xl) + completion bar |
 | `src/components/editor/overview/continue-editing-card.tsx` | Blue info card — routes to last-edited section or Part I/A |
 | `src/components/editor/overview/part-card.tsx` | 3px color strip + section list with StatusDot + RelativeTime |
+| `src/components/editor/editor-mobile-sidebar-context.tsx` | Mobile drawer toggle context used by Overview and SectionShell menu buttons |
 
 ### `sectionMeta` and status model
 
@@ -205,9 +207,12 @@ const unsavedToFile = !!doc && doc.updatedAt > (fileSavedAt ?? doc.createdAt);
 | File | Purpose |
 |---|---|
 | `src/app/editor/layout.tsx` | Wraps `{children}` in `<EditorShell>` |
-| `src/components/editor/editor-shell.tsx` | Checks `loading`/`doc`; registers `beforeunload` when `unsavedToFile`; calls `useFileSaveReminder` |
-| `src/components/editor/editor-sidebar.tsx` | Collapsible sidebar; "ISSP Editor" label in header; Save to File footer; Exit Editor link at bottom of both collapsed and expanded states |
+| `src/components/editor/editor-shell.tsx` | Checks `loading`/`doc`; registers `beforeunload`; calls `useFileSaveReminder`; owns desktop collapsed state + mobile drawer open state |
+| `src/components/editor/editor-mobile-sidebar-context.tsx` | Provides `openMobileSidebar()` to Overview and SectionShell without threading props through every form |
+| `src/components/editor/editor-sidebar.tsx` | Desktop collapsible sidebar; mobile fixed drawer overlay; "ISSP Editor" label; Save to File footer; Exit Editor link |
 | `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer; fires a persistent Sonner toast titled "You have unsaved changes" with a teal "Save changes" action button when `unsavedToFile` stays true |
+
+**Mobile sidebar behavior:** On mobile, the sidebar is fixed (`h-dvh`) and slides over the editor content with a backdrop. It is not a flex sibling, so the page has one primary scroll surface. The menu button is exposed in the Overview header and the SectionShell breadcrumb. On desktop, the same sidebar remains a normal flex child and can still collapse to the 48px rail.
 
 ### Editor Pages
 
@@ -483,6 +488,7 @@ Via `alpha(n) = String.fromCharCode(65 + n)` in `part4-year-form.tsx`.
 ### `src/components/editor/editor-sidebar.tsx`
 - Full sidebar: "ISSP Editor" label (header), collapsible nav sections, footer, Exit Editor link (very bottom)
 - Collapsed sidebar: expand toggle, spacer, Exit Editor icon (very bottom)
+- Mobile: sidebar is a fixed left drawer (`h-dvh`, overlay backdrop) opened by the mobile menu buttons in `OverviewHeader` and `SectionShell`; clicking a nav link closes it
 - **Nav** imports `PARTS` from `@/lib/sections` — single source of truth for section config; `NAV_SECTIONS` constant removed
 - **Status dots**: every leaf nav item renders `<StatusDot>` computed from `doc.sectionMeta[section.id]`
 - **Footer save status**: two states only — "Unsaved changes" (clickable, pulsing amber dot) / "Saved X ago" (green check). No "Saving…" spinner (IDB writes are near-instant; showing it then immediately "Unsaved changes" was confusing UX).
@@ -561,10 +567,18 @@ Implemented:
 - `migrateLegacyDoc` normalization for `stakeholders`, `strategicConcerns`, `proposedHumanCapital` — prevents false-positive diffs caused by form init normalization
 - Save button: amber → teal; toast text: consistent "Save changes" / "You have unsaved changes"
 
+### ✅ Mobile Editor Sidebar — DONE (session 5)
+Implemented a mobile drawer pattern for the editor sidebar:
+- `EditorShell` owns `mobileSidebarOpen` separately from desktop `sidebarCollapsed`
+- `EditorSidebar` renders as a fixed overlay drawer on mobile and as a static/collapsible flex child on desktop
+- `editor-mobile-sidebar-context.tsx` exposes `openMobileSidebar()` to `OverviewHeader` and `SectionShell`
+- Drawer closes on backdrop click and after mobile nav link clicks
+- Verified with Puppeteer at 390×844: closed drawer `x=-288`, open drawer `x=0`, closes after section navigation; desktop expanded/collapsed remains 288px/48px
+
 ### 🟡 Validation & Review (post UI refresh)
 - **Pre-export validation** — required fields, budget-IS linkage, KPI completeness. Client-side, runs before PDF export. Surface issue count per section in the sidebar/overview.
 - **Read-only review mode** — full document view (all parts on one scrollable page or tabbed), useful before submission.
-- **Mobile-responsive improvements** — editor is currently desktop-only.
+- **Mobile-responsive QA** — shell/navigation is now mobile-friendly; dense form bodies and Part IV drawer interactions still need targeted QA before declaring mobile fully supported.
 
 ### 🔴 Phase E — Diagram Upload (base64 client-side)
 Network diagram upload UI for Part II-B (existing diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text/description-only.
@@ -659,7 +673,8 @@ src/
 ├── components/
 │   ├── editor/
 │   │   ├── editor-shell.tsx           ← beforeunload + save reminder
-│   │   ├── editor-sidebar.tsx         ← Collapsible nav; StatusDot on leaf items; kebab menu; bg-secondary warm
+│   │   ├── editor-sidebar.tsx         ← Desktop collapsible nav + mobile drawer; StatusDot leaf items; kebab menu
+│   │   ├── editor-mobile-sidebar-context.tsx ← Mobile drawer toggle context
 │   │   └── overview/                  ← UI refresh Phase 4 components
 │   │       ├── plan-metadata-strip.tsx  ← Agency pill + period + status + deadline
 │   │       ├── overview-header.tsx      ← Doc title (Fraunces) + CompletionBar

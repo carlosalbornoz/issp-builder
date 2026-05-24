@@ -2,11 +2,12 @@
 
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Circle, ChevronLeft, ChevronRight, LayoutDashboard } from "lucide-react";
+import { CheckCircle2, Circle, ChevronLeft, ChevronRight, LayoutDashboard, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StatusDot } from "@/components/ui/status-dot";
 import { useIsspStore } from "@/lib/store";
 import { ALL_SECTIONS, PARTS, computeStatus } from "@/lib/sections";
+import { useEditorMobileSidebar } from "./editor-mobile-sidebar-context";
 
 // ─── SectionShell ─────────────────────────────────────────────────────────────
 
@@ -29,6 +30,7 @@ export function SectionShell({
 }: SectionShellProps) {
   const router = useRouter();
   const { doc, updateSectionMeta } = useIsspStore();
+  const mobileSidebar = useEditorMobileSidebar();
 
   // Derive part + section from config
   const sectionIndex = ALL_SECTIONS.findIndex((s) => s.id === sectionId);
@@ -49,6 +51,7 @@ export function SectionShell({
   const meta = doc?.sectionMeta?.[sectionId];
   const status = computeStatus(meta);
   const isDone = meta?.userMarkedDone ?? false;
+  const sectionPrefix = section?.label.match(/^[A-Z][\d.]+/)?.[0] ?? null;
 
   const handleMarkDone = useCallback(
     (done: boolean) => {
@@ -63,6 +66,14 @@ export function SectionShell({
       <div className="sticky top-0 z-10 -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-5 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+          <button
+            type="button"
+            aria-label="Open editor navigation"
+            onClick={mobileSidebar?.openMobileSidebar}
+            className="-ml-1 mr-1 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground md:hidden"
+          >
+            <Menu className="h-4 w-4" />
+          </button>
           <button
             onClick={() => router.push("/editor")}
             className="hover:text-foreground transition-colors flex items-center gap-1"
@@ -85,7 +96,7 @@ export function SectionShell({
                 className="text-xs font-semibold uppercase tracking-widest"
                 style={{ color: part.color }}
               >
-                Part {part.part} · {section?.label.match(/^[A-Z][\d.]*/)?.[0]}
+                Part {part.part}{sectionPrefix ? ` · ${sectionPrefix}` : ""}
               </p>
               <StatusDot status={status} size={7} />
             </div>
@@ -186,7 +197,7 @@ function SectionNavButtons({
             {prevPart?.part !== undefined ? `Part ${prevPart.part}` : ""}
           </span>
           <span className="truncate max-w-[140px]">
-            {prevSection.label.replace(/^[A-Z][\d.]*\s*/, "")}
+            {prevSection.label.replace(/^[A-Z][\d.]+\s*/, "")}
           </span>
         </Button>
       )}
@@ -202,7 +213,7 @@ function SectionNavButtons({
             {nextPart?.part !== undefined ? `Part ${nextPart.part}` : ""}
           </span>
           <span className="truncate max-w-[140px]">
-            {nextSection.label.replace(/^[A-Z][\d.]*\s*/, "")}
+            {nextSection.label.replace(/^[A-Z][\d.]+\s*/, "")}
           </span>
           <ChevronRight className="h-4 w-4" />
         </Button>

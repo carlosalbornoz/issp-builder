@@ -6,10 +6,12 @@ import { Loader2 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
 import { useFileSaveReminder } from "@/hooks/use-file-save-reminder";
 import { EditorSidebar } from "./editor-sidebar";
+import { EditorMobileSidebarProvider } from "./editor-mobile-sidebar-context";
 
 export function EditorShell({ children }: { children: React.ReactNode }) {
   const { loading, doc, unsavedToFile, saveToFile } = useIsspStore();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export function EditorShell({ children }: { children: React.ReactNode }) {
   // IDB check in progress — show a centered spinner, don't flash content
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background">
+      <div className="flex h-dvh items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     );
@@ -42,7 +44,7 @@ export function EditorShell({ children }: { children: React.ReactNode }) {
   // No document — redirect to homepage is in flight, show nothing
   if (!doc) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background">
+      <div className="flex h-dvh items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     );
@@ -50,14 +52,18 @@ export function EditorShell({ children }: { children: React.ReactNode }) {
 
   // Document loaded — full editor layout with collapsible sidebar
   return (
-    <div className="flex h-screen overflow-hidden">
-      <EditorSidebar
-        collapsed={sidebarCollapsed}
-        onToggle={() => setSidebarCollapsed((v) => !v)}
-      />
-      <main className="flex-1 overflow-y-auto bg-background">
-        <div className="max-w-7xl mx-auto p-4 md:p-8">{children}</div>
-      </main>
-    </div>
+    <EditorMobileSidebarProvider value={{ openMobileSidebar: () => setMobileSidebarOpen(true) }}>
+      <div className="flex h-dvh overflow-hidden">
+        <EditorSidebar
+          collapsed={sidebarCollapsed}
+          mobileOpen={mobileSidebarOpen}
+          onToggle={() => setSidebarCollapsed((v) => !v)}
+          onMobileClose={() => setMobileSidebarOpen(false)}
+        />
+        <main className="min-w-0 flex-1 overflow-y-auto overscroll-contain bg-background">
+          <div className="max-w-7xl mx-auto p-4 md:p-8">{children}</div>
+        </main>
+      </div>
+    </EditorMobileSidebarProvider>
   );
 }

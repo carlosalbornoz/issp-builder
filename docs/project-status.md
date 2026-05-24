@@ -60,7 +60,10 @@
 | Content-sniffing migration (`deriveMetaFromContent`) — infers status from existing content on load | ✅ Done 2026-05-23 |
 | **UI Refresh Phase 5** — Sidebar: StatusDot on all leaf items, kebab (⋮) for file actions, improved save status, destructive actions demoted | ✅ Done 2026-05-23 |
 | **SaveStatusIndicator removed** from all 14 Part I–IV forms — sidebar is sole save indicator | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 6** — SectionShell shared chrome, MarkAsDone, prev/next across all 18 sections | ✅ Done 2026-05-23 |
+| **UI Refresh Phase 7** — Unsaved changes content snapshot + field-level sidebar diff | ✅ Done 2026-05-23 |
 | **Part IV UX rewrite** — master list + Sheet drawer; SectionCard 3px color strip; LineTable header band; color legend; accurate CO/MOOE descriptions | ✅ Done 2026-05-23 |
+| **Mobile editor shell fix** — sidebar is a fixed mobile drawer, static/collapsible desktop sidebar remains intact | ✅ Done 2026-05-23 |
 
 ---
 
@@ -116,8 +119,8 @@ The primary user-facing architecture. No login required.
 | Default values | `src/lib/store/defaults.ts` | `createEmptyDocument()`, `DEFAULT_HC`, `DEFAULT_CYBER` |
 | Editor route | `src/app/editor/` | Public (no auth); splash when no doc, overview when doc loaded |
 | Editor layout | `src/app/editor/layout.tsx` | Wraps children in `EditorShell` |
-| Editor shell | `src/components/editor/editor-shell.tsx` | `beforeunload` warning; `useFileSaveReminder`; collapsible sidebar |
-| Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Editor" label, collapsible nav, Save to File, Exit Editor |
+| Editor shell | `src/components/editor/editor-shell.tsx` | `beforeunload` warning; `useFileSaveReminder`; desktop sidebar layout + mobile drawer context |
+| Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Editor" label, desktop collapsible nav, mobile drawer overlay, Save to File, Exit Editor |
 | Save reminder | `src/hooks/use-file-save-reminder.ts` | Sonner toast after 10 min of unsaved changes |
 | PDF export | `src/app/api/export/route.ts` | `POST` — accepts `IsspDocument` JSON, returns PDF, no auth |
 | Demo file | `public/demo/ncwtr-issp-2026-2028.issp` | NCWTR sample, all 4 parts populated |
@@ -231,19 +234,18 @@ npx tsc --noEmit
 
 ## Next Up
 
-### 🔜 UI Refresh Phase 6 — SectionShell
-Extract shared section chrome into a reusable `SectionShell` wrapper. All 18 section editors migrate to it.
-- Breadcrumb, section header + description, `children`, footer prev/next nav
-- `MarkAsDone` button writes `userMarkedDone` → updates sidebar dots + Overview live
-- `SectionNavLink` prev/next across all 18 sections
-- Note: `SaveStatusIndicator` already removed from all 14 forms — skip that step in Phase 6
-- Migration order: Part I → II → III → IV
-- Full spec in `docs/ui-refresh-plan.md` → Phase 6
+### 🔜 UI Refresh Follow-Up — Section Body Patterns
+Phase 6 `SectionShell` is complete. The remaining UI refresh work is the deferred body-pattern pass:
+- Standard form field pattern (`FormGroup`, `FieldRow`, `Field`, `CheckboxField`)
+- E-Government toggle-list pattern
+- File attach placeholder / future upload pattern
+- Budget table/body polish after the Part IV drawer rewrite
+- Project/item list pattern for Part III.E and III.F
 
 ### 🟡 Validation & Review (post UI refresh)
 - Pre-export validation: required fields, budget-IS linkage, KPI completeness
 - Read-only review mode: full document view before submission
-- Mobile-responsive improvements
+- Additional mobile QA on dense forms and Part IV drawer interactions
 
 ### 🔴 Phase E — Diagram Upload (base64)
 Proper upload UI for Part II-B (network diagrams) and Part III-A/B (proposed network + enterprise architecture). Currently text-only. Architecture: file input → base64 data URL → `networkDiagrams[].dataUrl`. PDF export already handles it.
