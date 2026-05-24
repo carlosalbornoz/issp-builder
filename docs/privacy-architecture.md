@@ -120,15 +120,16 @@ Browser storage (`IndexedDB`) is ephemeral from the user's perspective — clear
 - Clicking downloads the `.issp` file to the user's local machine immediately
 
 **Layer 3 — "Last saved to file" timestamp**
-- Shown next to the Save to File button: *"Last saved: 34 min ago"* or *"Never saved to file"*
-- Creates soft urgency without modal interruptions
-- Turns red/amber if it's been more than 30 minutes since the last file export
+- Shown near the Save to File button: *"Saved 34 min ago"* or *"No changes to save"*
+- Creates soft urgency without interrupting normal desktop editing
+- The Save button turns visually prominent when the working copy differs from the last downloaded `.issp` file
 
-**Layer 4 — Periodic reminder toast (every ~20 min of active editing)**
-- Non-blocking, dismissible toast at the bottom of the screen:
-  > *"Your ISSP draft is stored in this browser only. Export a copy to your computer so you don't lose it."*
-  > [Save to File ↓]  [Dismiss]
-- Not shown if the user exported within the last 20 minutes
+**Layer 4 — Periodic save reminder (after 10 min unsaved)**
+- Desktop: a bouncing/shimmering inline nudge appears above the Save button in the editor sidebar:
+  > *"Save a backup file. You have unsaved changes from the last 10 minutes. Download a .issp file to avoid losing work if this browser data is cleared."*
+  > [Save changes] [Dismiss]
+- Mobile: the same reminder is shown as a deliberate modal because the sidebar footer has limited space and the risk is easier to miss
+- Dismiss snoozes the reminder for another 10 minutes; saving to file resets it completely
 
 **Layer 5 — Section-complete nudge**
 - When a user finishes filling out a Part and navigates away, a small inline prompt:

@@ -303,7 +303,7 @@ const unsavedToFile = !!doc && doc.updatedAt > (fileSavedAt ?? doc.createdAt);
 | `src/components/editor/editor-shell.tsx` | Checks `loading`/`doc`; registers `beforeunload`; owns desktop collapsed state + mobile drawer open state |
 | `src/components/editor/editor-mobile-sidebar-context.tsx` | Provides `openMobileSidebar()` to Overview and SectionShell without threading props through every form |
 | `src/components/editor/editor-sidebar.tsx` | Desktop collapsible sidebar; mobile fixed drawer overlay; "ISSP Builder" label; Save to File footer; Exit Editor link |
-| `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer for the inline sidebar save reminder nudge; snoozes another 10 minutes when dismissed |
+| `src/hooks/use-file-save-reminder.ts` | Sets a 10-min timer for the save reminder; desktop shows a sidebar nudge, mobile shows a modal, and dismiss snoozes another 10 minutes |
 
 **Mobile sidebar behavior:** On mobile, the sidebar is fixed (`h-dvh`) and slides over the editor content with a backdrop. It is not a flex sibling, so the page has one primary scroll surface. The menu button is exposed in the Overview header and the SectionShell breadcrumb. On desktop, the same sidebar remains a normal flex child and can still collapse to the 48px rail.
 
@@ -349,7 +349,7 @@ Each page reads from `useIsspStore()` and calls `update(patcher)` on change. The
 - `/editor` route — public, no auth required
 - Collapsible editor sidebar with nav, Save to File, Exit Editor
 - `beforeunload` warning when unsaved file changes
-- 10-min inline save reminder nudge in the editor sidebar
+- 10-min save reminder: bouncing/shimmering sidebar nudge on desktop, deliberate modal on mobile
 - Demo `.issp` file at `public/demo/ncwtr-issp-2026-2028.issp`
 - Landing page updated: no sign-in, local-first copy, "Open Editor" / "Start Building" CTAs
 
@@ -667,7 +667,7 @@ Implemented:
 - `src/lib/section-fields.ts` — new file: `SECTION_FIELDS` map (all 18 sections), `getChangedFields()`
 - Sidebar: snapshot-based section diff with field-level label list; falls back to `lastEditedAt` on fresh browser load
 - `migrateLegacyDoc` normalization for `stakeholders`, `strategicConcerns`, `proposedHumanCapital` — prevents false-positive diffs caused by form init normalization
-- Save button: amber → teal; 10-min reminder moved from Sonner toast to a bouncing/shimmering sidebar nudge
+- Save button: amber → teal; 10-min reminder moved from Sonner toast to a bouncing/shimmering desktop sidebar nudge plus mobile modal
 
 ### ✅ Mobile Editor Sidebar — DONE (session 5)
 Implemented a mobile drawer pattern for the editor sidebar:
@@ -854,7 +854,7 @@ src/
 │           ├── part4-aggregations.ts     ← shared data layer: types + build functions (no React)
 │           └── part4-summary.tsx         ← B.1–B.4 read-only display; imports from part4-aggregations
 ├── hooks/
-│   ├── use-file-save-reminder.ts      ← 10-min sidebar nudge timer
+│   ├── use-file-save-reminder.ts      ← 10-min save reminder timer
 │   └── use-local-save.ts
 └── lib/
     ├── sections.ts                    ← PARTS, ALL_SECTIONS, computeStatus(), findContinueTarget(); SectionDef.readOnly flag

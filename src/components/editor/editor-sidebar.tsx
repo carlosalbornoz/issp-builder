@@ -10,7 +10,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -67,6 +66,20 @@ function useNow(intervalMs = 60_000): number {
     return () => clearInterval(id);
   }, [intervalMs]);
   return now;
+}
+
+function useIsMobileViewport(): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  return isMobile;
 }
 
 function ThemeMenuItems({ onThemeSelected }: { onThemeSelected?: () => void }) {
@@ -166,9 +179,11 @@ function SaveReminderDialog({
   onSave: () => void;
   onSnooze: () => void;
 }) {
+  if (!open) return null;
+
   return (
     <Dialog open={open} onOpenChange={(nextOpen) => { if (!nextOpen) onSnooze(); }}>
-      <DialogContent showCloseButton={false} className="save-reminder-nudge gap-0 overflow-hidden p-0 sm:max-w-sm">
+      <DialogContent showCloseButton={false} className="gap-0 overflow-hidden p-0 sm:max-w-sm">
         <div className="relative z-10 p-4">
           <DialogHeader>
             <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-lg bg-warning-bg text-warning ring-1 ring-warning-border">
@@ -180,15 +195,15 @@ function SaveReminderDialog({
             </DialogDescription>
           </DialogHeader>
         </div>
-        <DialogFooter className="relative z-10">
-          <Button variant="outline" onClick={onSnooze} className={sidebarControlClass}>
+        <div className="relative z-10 flex flex-col-reverse gap-2 border-t bg-muted/50 p-4">
+          <Button type="button" variant="outline" onClick={onSnooze} className={cn("w-full", sidebarControlClass)}>
             Dismiss
           </Button>
-          <Button onClick={onSave} className="bg-teal-600 text-white hover:bg-teal-700">
+          <Button type="button" onClick={onSave} className="w-full bg-teal-600 text-white hover:bg-teal-700">
             <Download className="h-4 w-4" />
             Save changes
           </Button>
-        </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );
@@ -223,6 +238,7 @@ export function EditorSidebar({
 }) {
   const { doc, saveToFile, loadFromFile, fileSavedAt, savedSnapshot, unsavedToFile, clearDoc } = useIsspStore();
   const now = useNow();
+  const isMobileViewport = useIsMobileViewport();
   const pathname = usePathname();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { theme } = useTheme();
@@ -239,6 +255,8 @@ export function EditorSidebar({
   const [themeSubmenuOpen, setThemeSubmenuOpen] = useState(false);
   const { reminderDue: saveReminderDue, snoozeReminder: snoozeSaveReminder } = useFileSaveReminder(unsavedToFile);
   const showSaveReminder = unsavedToFile && saveReminderDue;
+  const showMobileSaveReminder = showSaveReminder && isMobileViewport;
+  const showDesktopSaveReminder = showSaveReminder && !isMobileViewport;
   const showThemeNudge = !!doc && theme === "system-light" && !themeNudgeDismissed && !showSaveReminder;
 
   // Sections with content that differs from the last saved file
@@ -299,6 +317,10 @@ export function EditorSidebar({
     saveToFile();
     snoozeSaveReminder();
     setShowChanges(false);
+  }
+
+  function handleSnoozeSaveReminder() {
+    snoozeSaveReminder();
   }
 
   function handleNavigate() {
@@ -461,7 +483,7 @@ export function EditorSidebar({
         {/* Nav */}
         {navContent}
 
-        <SaveReminderDialog open={showSaveReminder} onSave={handleSaveToFile} onSnooze={snoozeSaveReminder} />
+        <SaveReminderDialog open={showMobileSaveReminder} onSave={handleSaveToFile} onSnooze={handleSnoozeSaveReminder} />
 
         {/* Compact footer */}
         <div className="flex items-center gap-2 border-t border-border/50 px-3 py-2.5 shrink-0">
@@ -488,7 +510,7 @@ export function EditorSidebar({
               "h-7 gap-1.5 px-2.5 text-xs shrink-0",
               sidebarControlClass,
               unsavedToFile && "bg-teal-600 text-white border-teal-600 hover:bg-teal-700",
-              showSaveReminder && "save-reminder-target"
+              showMobileSaveReminder && "save-reminder-target"
             )}
             onClick={handleSaveToFile}
           >
@@ -671,7 +693,7 @@ export function EditorSidebar({
             <>
               {/* Primary save + kebab */}
               <div className="relative flex gap-1.5">
-                {showSaveReminder && (
+                {showDesktopSaveReminder && (
                   <div className="absolute bottom-full right-0 z-20 mb-3 w-64">
                     <SaveReminderCallout onSave={handleSaveToFile} onSnooze={snoozeSaveReminder} />
                     <span className="absolute -bottom-1.5 right-16 h-3 w-3 rotate-45 border-b border-r border-warning-border bg-warning-bg" />
@@ -713,7 +735,7 @@ export function EditorSidebar({
                     "h-9 flex-1 justify-start gap-2 text-sm disabled:cursor-not-allowed disabled:opacity-50",
                     sidebarControlClass,
                     unsavedToFile && "bg-teal-600 hover:bg-teal-700 text-white border-teal-600",
-                    showSaveReminder && "save-reminder-target"
+                    showDesktopSaveReminder && "save-reminder-target"
                   )}
                   onClick={handleSaveToFile}
                 >

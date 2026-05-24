@@ -130,7 +130,7 @@ The primary user-facing architecture. No login required.
 | Editor layout | `src/app/editor/layout.tsx` | Wraps children in `EditorShell` |
 | Editor shell | `src/components/editor/editor-shell.tsx` | `beforeunload` warning; desktop sidebar layout + mobile drawer context |
 | Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Builder" label, desktop collapsible nav, mobile drawer overlay, Save to File, Exit Editor |
-| Save reminder | `src/hooks/use-file-save-reminder.ts` | 10-min timer for the inline sidebar save nudge |
+| Save reminder | `src/hooks/use-file-save-reminder.ts` | 10-min timer for desktop sidebar nudge and mobile modal reminder |
 | PDF export | `src/app/api/export/route.ts` | `POST` — accepts `IsspDocument` JSON, returns PDF, no auth |
 | Demo file | `public/demo/ncwtr-issp-2026-2028.issp` | NCWTR sample, all 4 parts populated |
 
@@ -226,7 +226,7 @@ npx tsc --noEmit
 │   │   │   └── editor-sidebar.tsx # Nav, Save to File, Exit Editor
 │   │   └── issp-editor/           # All Part I–IV form components
 │   ├── hooks/
-│   │   ├── use-file-save-reminder.ts  # 10-min save reminder nudge
+│   │   ├── use-file-save-reminder.ts  # 10-min save reminder timer
 │   │   └── use-local-save.ts
 │   └── lib/
 │       ├── store/
