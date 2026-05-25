@@ -460,3 +460,16 @@
   padding: 0.15em 0.35em;
   color: var(--foreground);
 }
+
+/* Rainbow orbiting pill glow */
+@property --glow-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes glow-orbit {
+  to { --glow-angle: 360deg; }
+}
+.animate-glow-orbit {
+  animation: glow-orbit 3s linear infinite;
+}

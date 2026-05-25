@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import {
   FilePlus2, FolderOpen, BookOpen, FileText, AlertTriangle,
   Loader2, Check, BarChart2, Database, LayoutGrid, TrendingUp, ArrowRight,
+  Sparkles,
 } from "lucide-react";
+import confetti from "canvas-confetti";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useIsspStore } from "@/lib/store";
 import { NewIsspDialog } from "@/components/editor/new-issp-dialog";
@@ -111,6 +113,14 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
   const [sampleIntroOpen, setSampleIntroOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [whatsNewOpen, setWhatsNewOpen] = useState(false);
+
+  function openWhatsNew() {
+    setWhatsNewOpen(true);
+    setTimeout(() => {
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.4 }, colors: ["#2563EB", "#D97706", "#16A34A", "#7C3AED", "#fff"] });
+    }, 120);
+  }
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -165,17 +175,43 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
           {/* Branding */}
           <div className="text-center space-y-2 mb-10">
-            {/* Part-color dots */}
-            <div className="flex justify-center gap-1.5 mb-4">
-              {PART_COLORS.map((c, i) => (
-                <div key={c} className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: `${c}18` }}>
-                  <span className="text-[10px] font-bold" style={{ color: c }}>P{i + 1}</span>
-                </div>
+            {/* Part-color accent strips */}
+            <div className="flex justify-center gap-1 mb-4">
+              {PART_COLORS.map((c) => (
+                <span key={c} className="w-2 h-6 rounded-full" style={{ background: c }} />
               ))}
             </div>
             <h1 className="font-display text-3xl font-bold tracking-tight">ISSP Builder</h1>
             <p className="text-sm text-muted-foreground">Build your agency&apos;s 3-year Information Systems Strategic Plan</p>
             <p className="text-xs text-muted-foreground/60">For agency CIOs, ICT focal persons, and government transparency advocates.</p>
+          </div>
+
+          {/* What's New pill */}
+          <div className="flex justify-center mb-7">
+            <div className="relative inline-flex">
+              {/* static dim border ring */}
+              <span
+                className="absolute inset-[-1.5px] rounded-full opacity-40 pointer-events-none"
+                style={{ background: "conic-gradient(#ff0080, #ff8c00, #ffe600, #00d4aa, #0070f3, #7928ca, #ff0080)" }}
+              />
+              {/* orbiting glow arc */}
+              <span
+                className="absolute inset-[-5px] rounded-full animate-glow-orbit blur-md opacity-80 pointer-events-none"
+                style={{ background: "conic-gradient(from var(--glow-angle), transparent 0%, #7928ca 6%, #ff0080 10%, #ff8c00 14%, #ffe600 18%, transparent 24%, transparent 100%)" }}
+              />
+              {/* orbiting sharp arc (same angle, no blur) */}
+              <span
+                className="absolute inset-[-1.5px] rounded-full animate-glow-orbit pointer-events-none"
+                style={{ background: "conic-gradient(from var(--glow-angle), transparent 0%, #7928ca 6%, #ff0080 10%, #ff8c00 14%, #ffe600 18%, transparent 24%, transparent 100%)" }}
+              />
+              <button
+                onClick={openWhatsNew}
+                className="relative z-10 inline-flex items-center gap-1.5 rounded-full bg-background px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
+              >
+                <Sparkles className="w-3 h-3" />
+                What&apos;s new — May 25, 2026
+              </button>
+            </div>
           </div>
 
           {/* Action cards */}
@@ -402,6 +438,99 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
       <NewIsspDialog open={newDialogOpen} onClose={() => setNewDialogOpen(false)} onCreated={() => router.push("/editor")} />
       <ContentModal open={aboutOpen} onClose={() => setAboutOpen(false)} title="About this project" html={aboutHtml} />
       <ContentModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} title="Privacy & architecture" html={privacyHtml} />
+
+      {/* What's New modal */}
+      <Dialog open={whatsNewOpen} onOpenChange={setWhatsNewOpen}>
+        <DialogContent className="sm:max-w-lg max-h-[82vh] flex flex-col p-0 gap-0">
+          <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
+            <DialogTitle className="font-display text-lg flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-primary" />
+              What&apos;s new — May 25, 2026
+            </DialogTitle>
+          </DialogHeader>
+          <div className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
+
+            {/* Fun blurb */}
+            <div className="rounded-lg border bg-muted/50 px-4 py-3 text-center">
+              <p className="text-sm font-medium italic text-foreground/75">
+                Another weekend has passed, another commit was pushed. Here&apos;s what&apos;s changed:
+              </p>
+            </div>
+
+            {/* 1 — DICT Caravan */}
+            <div className="rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/40 dark:bg-amber-950/20 px-4 py-3.5 space-y-1.5">
+              <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wide">DICT ISSP Caravan · May 25, 2026</p>
+              <p className="text-amber-900/80 dark:text-amber-200/80">
+                At the official DICT ISSP Caravan orientation — attended by ~212 agency officers — the DICT ISSP team gave this tool a nod. Yay at napansin rin nila tayo, ano? Haha. Moving forward, the ISSP Builder will strictly follow{" "}
+                <span className="font-medium text-amber-900 dark:text-amber-200">MITHI Resolution 2026-02</span> — so to those asking: no, we will not let you create ISSPs here using the old template.{" "}
+                No official endorsement, but DICT didn&apos;t tell anyone to stop using it either, so we&apos;ll take that as a win. 🏅
+              </p>
+            </div>
+
+            {/* 2 — Coverage Period */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Coverage Period Locked</p>
+              <p>
+                All ISSPs must now cover <span className="text-foreground font-medium">FY 2028–2030</span> per MITHI Resolution 2026-02. The builder enforces this — the coverage period fields are no longer editable. No more accidentally submitting a 2027–2029 plan and finding out at the evaluation stage.
+              </p>
+            </div>
+
+            {/* 3 — Themes */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Themes</p>
+              <p>
+                Four color themes are now available — <span className="text-foreground font-medium">System Light, System Dark, Warm Light, and Warm Dark</span>. Switch anytime from the editor header. Dark mode people: you&apos;re welcome. Warm mode people: also you.
+              </p>
+            </div>
+
+            {/* 4 — Mobile Editing */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Mobile Editing</p>
+              <p>
+                You can now fill out your ISSP on your phone — including, hypothetically, during a meeting where someone is presenting the ISSP template. On mobile, the sidebar becomes a hamburger menu that opens a full-screen section selector. Nothing falls off the screen anymore.
+              </p>
+            </div>
+
+            {/* 5 — Input Controls */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Input Controls</p>
+              <p>
+                Parts I-C and IV now let you switch between a <span className="text-foreground font-medium">table view</span> (for when you want to see everything at once) and a <span className="text-foreground font-medium">card view</span> (for when you want to pretend it&apos;s not that many fields). Part IV columns are also resizable now, because some agencies have very long project names.
+              </p>
+            </div>
+
+            {/* 6 — Save Reminders */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Save Reminders</p>
+              <p>
+                There were no save reminders before. You would just close the tab and lose everything. That is no longer the case — the editor now nudges you when you have unsaved changes, so you can actually leave your desk without a minor crisis.
+              </p>
+            </div>
+
+            {/* 7 — Diagrams */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Diagrams</p>
+              <p>
+                Network and architecture diagram sections now let you <span className="text-foreground font-medium">upload images directly from your computer</span>. No more broken links because someone renamed a folder on the shared drive.
+              </p>
+            </div>
+
+            {/* 8 — Reliability */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Reliability</p>
+              <p>
+                The editor now notices when you&apos;ve changed something and forgot to save — so it will remind you before you lose an hour of work. Part IV also adds up your budget across all three coverage years automatically, because the ISSP is stressful enough without doing mental math.
+              </p>
+            </div>
+
+            {/* Footer gag */}
+            <p className="text-xs text-muted-foreground/50 italic text-center border-t pt-4">
+              Now if I could actually let you upload your agency&apos;s logo into the PDF headers, that would really be something, huh? Hahaha. Soon.
+            </p>
+
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

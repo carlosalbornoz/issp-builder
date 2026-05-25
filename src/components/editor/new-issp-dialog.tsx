@@ -17,6 +17,7 @@ import {
   BLANK_FORM,
   SCOPE_LABELS,
   AMENDMENT_LABELS,
+  ISSP_END_YEAR,
 } from "@/components/editor/issp-properties-dialog";
 
 export function NewIsspDialog({
@@ -31,7 +32,7 @@ export function NewIsspDialog({
   const { createNew } = useIsspStore();
   const [form, setForm] = useState<IsspForm>(BLANK_FORM);
 
-  const endYear = form.startYear + 2;
+  const endYear = ISSP_END_YEAR;
   const title = `${form.agencyAcronym || form.agencyName ? (form.agencyAcronym || form.agencyName) + " " : ""}Information Systems Strategic Plan ${form.startYear}–${endYear}`;
 
   function set<K extends keyof IsspForm>(key: K, value: IsspForm[K]) {

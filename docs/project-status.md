@@ -69,6 +69,9 @@
 | **Control contrast pass** — outline buttons, inputs, textareas, selects, inline table fields, UACS combobox trigger no longer look disabled when enabled | ✅ Done 2026-05-24 |
 | **Editor sidebar UX improvements** — floating theme discovery callout, Exit Editor removal, Clear editor data two-step flow | ✅ Done 2026-05-24 |
 | **Diagram upload (local-first)** — Part II-B network diagrams, Part III-A proposed network diagram, Part III-B enterprise architecture diagram stored as base64 data URLs and rendered in PDF | ✅ Done 2026-05-24 |
+| **Coverage period locked to 2028–2030** — `ISSP_START_YEAR = 2028` / `ISSP_END_YEAR = 2030` constants in `issp-properties-dialog.tsx`; fields are read-only in both New ISSP dialog and Properties dialog; enforced per MITHI Resolution 2026-02 | ✅ Done 2026-05-25 |
+| **What's New changelog modal** — rainbow orbiting pill button on splash, confetti on open (`canvas-confetti`), 8 changelog sections covering themes, mobile, save reminders, coverage period, DICT caravan nod; `@property --glow-angle` CSS Houdini animation for conic-gradient orbit in `globals.css` | ✅ Done 2026-05-25 |
+| **Social media card generator** — `scripts/social-cards.js`; 5 FB-optimised cards (1200×630) in alternating warm dark/warm light themes: title card, announcement, template enforcement, 4-theme grid, mobile 4-phone row; IBM Plex Sans + Fraunces embedded via `@font-face` base64 from `scripts/fonts/`; output to `public/screenshots/social/` | ✅ Done 2026-05-25 |
 
 ---
 
@@ -162,6 +165,8 @@ Old auth/DB routes remain in the codebase but are not linked from the local-firs
 | Font (mono) | IBM Plex Mono 400/500 (via next/font/google) | `--font-mono`; UACS fields, code |
 | Font (PDF) | P052 / URW Palladio (Palatino clone) | Installed via `apt-get install fonts-urw-base35` |
 | PDF | Puppeteer + pdf-lib | 25.0.2; Chrome 148.0.7778.167 |
+| Confetti | canvas-confetti | — |
+| Card fonts (scripts) | @fontsource/ibm-plex-sans, @fontsource/fraunces | devDependency; used by social-cards.js only |
 
 ---
 
@@ -205,8 +210,12 @@ npx tsc --noEmit
 ├── public/
 │   ├── demo/
 │   │   └── ncwtr-issp-2026-2028.issp   # NCWTR sample file (all 4 parts)
+│   ├── screenshots/social/             # Generated FB social cards (card0–card4)
 │   └── uacs_active.min.json
 ├── references/                    # ISSP guidelines + PDFs (read-only)
+├── scripts/
+│   ├── fonts/                     # IBM Plex Sans + Fraunces woff2 for card rendering
+│   └── social-cards.js            # Puppeteer card generator (node scripts/social-cards.js)
 ├── src/
 │   ├── app/
 │   │   ├── editor/                # Local-first editor (public, no auth)

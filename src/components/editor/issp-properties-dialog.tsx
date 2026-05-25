@@ -54,7 +54,9 @@ export const AMENDMENT_LABELS: Record<number, string> = {
   3: "Amendment 3",
 };
 
-export const CURRENT_YEAR = new Date().getFullYear();
+// Locked per MITHI Resolution 2026-02
+export const ISSP_START_YEAR = 2028;
+export const ISSP_END_YEAR = 2030;
 
 // ─── Shared form shape ────────────────────────────────────────────────────────
 
@@ -75,7 +77,7 @@ export const BLANK_FORM: IsspForm = {
   agencyType: "NGA",
   agencyWebsite: "",
   agencyHeadName: "",
-  startYear: CURRENT_YEAR,
+  startYear: ISSP_START_YEAR,
   scope: "AGENCY_WIDE",
   amendmentNumber: 0,
 };
@@ -179,21 +181,17 @@ export function IsspFormFields({
         </p>
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
-            <Label htmlFor={id("startYear")}>Start Year</Label>
-            <Input
-              id={id("startYear")}
-              type="number"
-              min={2020}
-              max={2040}
-              value={form.startYear}
-              onChange={(e) => set("startYear", parseInt(e.target.value) || CURRENT_YEAR)}
-            />
+            <Label>Start Year</Label>
+            <Input value={ISSP_START_YEAR} readOnly className="bg-muted cursor-not-allowed" />
           </div>
           <div className="space-y-1.5">
             <Label>End Year</Label>
-            <Input value={endYear} readOnly className="bg-muted cursor-not-allowed" />
+            <Input value={ISSP_END_YEAR} readOnly className="bg-muted cursor-not-allowed" />
           </div>
         </div>
+        <p className="text-xs text-muted-foreground mt-2">
+          Locked to 2028–2030 per MITHI Resolution 2026-02.
+        </p>
       </div>
 
       {/* Scope & Type */}
@@ -279,7 +277,7 @@ export function IsspPropertiesDialog({
     }
   }, [open, doc]);
 
-  const endYear = form.startYear + 2;
+  const endYear = ISSP_END_YEAR;
   const title = `${form.agencyAcronym || form.agencyName ? (form.agencyAcronym || form.agencyName) + " " : ""}Information Systems Strategic Plan ${form.startYear}–${endYear}`;
 
   function set<K extends keyof IsspForm>(key: K, value: IsspForm[K]) {
