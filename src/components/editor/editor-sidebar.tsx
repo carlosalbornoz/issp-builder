@@ -276,9 +276,13 @@ export function EditorSidebar({
       for (const part of PARTS) {
         for (const section of part.sections) {
           const editedAt = meta[section.id]?.lastEditedAt;
-          if (!editedAt) continue;
-          if (!fileSavedAt || editedAt > fileSavedAt) {
-            changedSections.push({ section, part, changedFields: [] });
+          const markedDone = meta[section.id]?.userMarkedDone ?? false;
+          const contentChanged = editedAt && (!fileSavedAt || editedAt > fileSavedAt);
+          const doneChanged = markedDone && !fileSavedAt;
+          if (contentChanged || doneChanged) {
+            const changedFields: SectionField[] = [];
+            if (doneChanged) changedFields.push({ key: "markedDone", label: "Marked as done" });
+            changedSections.push({ section, part, changedFields });
           }
         }
       }

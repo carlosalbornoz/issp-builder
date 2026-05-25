@@ -7,10 +7,10 @@ import {
   Loader2, Check, BarChart2, Database, LayoutGrid, TrendingUp, ArrowRight,
   Sparkles,
 } from "lucide-react";
-import confetti from "canvas-confetti";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useIsspStore } from "@/lib/store";
 import { NewIsspDialog } from "@/components/editor/new-issp-dialog";
+import { useTheme, THEMES } from "@/lib/theme";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -105,6 +105,7 @@ function ContentModal({ open, onClose, title, html }: { open: boolean; onClose: 
 export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: string; privacyHtml: string; }) {
   const router = useRouter();
   const { loadFromFile } = useIsspStore();
+  const { theme, setTheme } = useTheme();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [newDialogOpen, setNewDialogOpen] = useState(false);
@@ -114,11 +115,27 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
   const [aboutOpen, setAboutOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [whatsNewOpen, setWhatsNewOpen] = useState(false);
+  const confettiRef = useRef<((opts: object) => void) | null>(null);
+
+  useEffect(() => {
+    import("canvas-confetti").then((mod) => {
+      // useWorker: false avoids blob: URL worker creation, which CSP extensions block
+      confettiRef.current = mod.default.create(null as never, { useWorker: false, resize: true });
+    });
+  }, []);
 
   function openWhatsNew() {
     setWhatsNewOpen(true);
     setTimeout(() => {
-      confetti({ particleCount: 80, spread: 70, origin: { y: 0.4 }, colors: ["#2563EB", "#D97706", "#16A34A", "#7C3AED", "#fff"] });
+      const fire = confettiRef.current;
+      if (!fire) return;
+      const colors = ["#0038A8", "#CE1126", "#FCD116", "#ffffff"];
+      const end = Date.now() + 2200;
+      (function frame() {
+        fire({ particleCount: 4, angle: 60,  spread: 52, origin: { x: 0, y: 0.6 }, colors });
+        fire({ particleCount: 4, angle: 120, spread: 52, origin: { x: 1, y: 0.6 }, colors });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
     }, 120);
   }
 
@@ -479,8 +496,29 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             <div className="space-y-1.5">
               <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Themes</p>
               <p>
-                Four color themes are now available — <span className="text-foreground font-medium">System Light, System Dark, Warm Light, and Warm Dark</span>. Switch anytime from the editor header. Dark mode people: you&apos;re welcome. Warm mode people: also you.
+                Four color themes are now available — <span className="text-foreground font-medium">System Light, System Dark, Warm Light, and Warm Dark</span>. Dark mode people: you&apos;re welcome. Warm mode people: also you.
               </p>
+              <div className="flex items-center gap-2 pt-0.5">
+                {THEMES.map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setTheme(t.id)}
+                    title={t.name}
+                    className="flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-all"
+                    style={{
+                      background: t.background,
+                      borderColor: theme === t.id ? t.border : t.border,
+                      color: t.id.includes("dark") ? "#F0EDE8" : "#18181B",
+                      outline: theme === t.id ? `2px solid ${t.border}` : "none",
+                      outlineOffset: "2px",
+                      fontWeight: theme === t.id ? 600 : 400,
+                    }}
+                  >
+                    <span style={{ width: 8, height: 8, borderRadius: "50%", display: "inline-block", background: theme === t.id ? "#22c55e" : t.secondary, border: theme === t.id ? "1.5px solid #16a34a" : `1px solid ${t.border}`, flexShrink: 0 }} />
+                    {t.name}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* 4 — Mobile Editing */}

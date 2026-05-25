@@ -138,12 +138,23 @@ export function getChangedFields(
   snapshot: IsspDocument
 ): SectionField[] {
   const def = SECTION_FIELDS[sectionId];
-  if (!def || def.fields.length === 0) return [];
+  const changed: SectionField[] = [];
 
-  const currentPart = current[def.partKey] as unknown as Record<string, unknown>;
-  const snapshotPart = snapshot[def.partKey] as unknown as Record<string, unknown>;
+  if (def && def.fields.length > 0) {
+    const currentPart = current[def.partKey] as unknown as Record<string, unknown>;
+    const snapshotPart = snapshot[def.partKey] as unknown as Record<string, unknown>;
+    for (const f of def.fields) {
+      if (JSON.stringify(currentPart[f.key]) !== JSON.stringify(snapshotPart[f.key])) {
+        changed.push(f);
+      }
+    }
+  }
 
-  return def.fields.filter(
-    (f) => JSON.stringify(currentPart[f.key]) !== JSON.stringify(snapshotPart[f.key])
-  );
+  const currentDone = current.sectionMeta?.[sectionId]?.userMarkedDone ?? false;
+  const snapshotDone = snapshot.sectionMeta?.[sectionId]?.userMarkedDone ?? false;
+  if (currentDone !== snapshotDone) {
+    changed.push({ key: "markedDone", label: currentDone ? "Marked as done" : "Unmarked as done" });
+  }
+
+  return changed;
 }

@@ -70,7 +70,9 @@
 | **Editor sidebar UX improvements** — floating theme discovery callout, Exit Editor removal, Clear editor data two-step flow | ✅ Done 2026-05-24 |
 | **Diagram upload (local-first)** — Part II-B network diagrams, Part III-A proposed network diagram, Part III-B enterprise architecture diagram stored as base64 data URLs and rendered in PDF | ✅ Done 2026-05-24 |
 | **Coverage period locked to 2028–2030** — `ISSP_START_YEAR = 2028` / `ISSP_END_YEAR = 2030` constants in `issp-properties-dialog.tsx`; fields are read-only in both New ISSP dialog and Properties dialog; enforced per MITHI Resolution 2026-02 | ✅ Done 2026-05-25 |
-| **What's New changelog modal** — rainbow orbiting pill button on splash, confetti on open (`canvas-confetti`), 8 changelog sections covering themes, mobile, save reminders, coverage period, DICT caravan nod; `@property --glow-angle` CSS Houdini animation for conic-gradient orbit in `globals.css` | ✅ Done 2026-05-25 |
+| **What's New changelog modal** — rainbow orbiting pill button on splash, Philippine flag confetti from both sides on open (`canvas-confetti`, `useWorker: false` to avoid CSP blob violations), 8 changelog sections; theme-switcher easter egg in the Themes section with live pill buttons + green active dot; `@property --glow-angle` CSS Houdini animation for conic-gradient orbit in `globals.css` | ✅ Done 2026-05-25 |
+| **`dark:` variant fixed** — overridden via `@custom-variant dark` in `globals.css` to respond to `.theme-system-dark` / `.theme-warm-dark` classes instead of `prefers-color-scheme`; prevents OS dark mode from bleeding into app-selected light themes | ✅ Done 2026-05-25 |
+| **Mark-as-done tracked in unsaved changes** — `getChangedFields` in `section-fields.ts` now detects `userMarkedDone` flips; sidebar diff shows "Marked as done" / "Unmarked as done" for the correct section; fallback (no snapshot) path also handles it | ✅ Done 2026-05-25 |
 
 ---
 
@@ -112,6 +114,10 @@
 | Form pages redirect to `/editor` on hard refresh | All 17 form sub-pages (`part1/a` through `part4/year3`) had `if (!doc) redirect` but never checked `loading`. On page refresh, `doc` is null while IDB loads → premature redirect. Fixed: added `const { doc, loading } = useIsspStore()` + `if (loading) return null` guard before the redirect check in all 18 form pages (17 via script + `part4/summary` manually). |
 | Theme controls initially placed too prominently | Moved theme selection from sidebar footer/Properties dialog into the desktop kebab menu; mobile keeps a single palette icon button. |
 | System theme labels initially said Apple | Replaced the draft `apple-light` / `apple-dark` IDs with `system-light` / `system-dark` before production release. |
+| `dark:` Tailwind utilities responding to OS instead of app theme | Added `@custom-variant dark` in `globals.css` tying `dark:` to `.theme-system-dark` / `.theme-warm-dark` classes. |
+| `canvas-confetti` blob worker blocked by CSP extensions (e.g. AdGuard) | Use `confetti.create(null, { useWorker: false })` — runs animation on main thread, no blob URL needed. |
+| `canvas-confetti` evaluated server-side, producing broken function | Added to `serverExternalPackages` in `next.config.ts`; imported inside `useEffect` so it only runs client-side. |
+| Mark-as-done not appearing in unsaved changes diff | `getChangedFields` extended to compare `sectionMeta[sectionId].userMarkedDone` between current doc and snapshot. |
 | Sidebar buttons looked disabled in System themes | Shared sidebar control styles now use `bg-card`, `text-foreground`, `border-border`, and no shadow; primary save button is disabled only when there are no changes and reads `No changes to save`. |
 | Enabled form controls looked disabled | Shared `Input`, `Textarea`, and `SelectTrigger` now use card surfaces and stronger foreground text; inline table fields were swept and updated from transparent backgrounds to theme-aware card backgrounds. |
 
