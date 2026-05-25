@@ -116,6 +116,8 @@
 | System theme labels initially said Apple | Replaced the draft `apple-light` / `apple-dark` IDs with `system-light` / `system-dark` before production release. |
 | `dark:` Tailwind utilities responding to OS instead of app theme | Added `@custom-variant dark` in `globals.css` tying `dark:` to `.theme-system-dark` / `.theme-warm-dark` classes. |
 | `canvas-confetti` blob worker blocked by CSP extensions (e.g. AdGuard) | Use `confetti.create(null, { useWorker: false })` — runs animation on main thread, no blob URL needed. |
+| What's New modal opens mid-scroll | Added inline `scrollTop = 0` ref callback + zero-size `tabIndex={0}` focus-trap div at top of scroll area (same pattern as ContentModal). |
+| Glowing pill appears as a floating box on mobile | Replaced negative-inset absolute spans (`inset-[-5px]`) with a `p-[6px]` padded container and positive insets (`inset-px`, `inset-[4.5px]`) so no element overflows its parent. |
 | `canvas-confetti` evaluated server-side, producing broken function | Added to `serverExternalPackages` in `next.config.ts`; imported inside `useEffect` so it only runs client-side. |
 | Mark-as-done not appearing in unsaved changes diff | `getChangedFields` extended to compare `sectionMeta[sectionId].userMarkedDone` between current doc and snapshot. |
 | Sidebar buttons looked disabled in System themes | Shared sidebar control styles now use `bg-card`, `text-foreground`, `border-border`, and no shadow; primary save button is disabled only when there are no changes and reads `No changes to save`. |

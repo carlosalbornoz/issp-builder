@@ -203,22 +203,22 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             <p className="text-xs text-muted-foreground/60">For agency CIOs, ICT focal persons, and government transparency advocates.</p>
           </div>
 
-          {/* What's New pill */}
+          {/* What's New pill — padding absorbs glow so nothing overflows the container */}
           <div className="flex justify-center mb-7">
-            <div className="relative inline-flex">
-              {/* static dim border ring */}
+            <div className="relative inline-flex p-[6px]">
+              {/* static dim border ring — inset by (6px - 1.5px) = 4.5px so it sits 1.5px outside the button */}
               <span
-                className="absolute inset-[-1.5px] rounded-full opacity-40 pointer-events-none"
+                className="absolute inset-[4.5px] rounded-full opacity-40 pointer-events-none"
                 style={{ background: "conic-gradient(#ff0080, #ff8c00, #ffe600, #00d4aa, #0070f3, #7928ca, #ff0080)" }}
               />
-              {/* orbiting glow arc */}
+              {/* orbiting glow arc — inset by (6px - 5px) = 1px so it sits 5px outside the button */}
               <span
-                className="absolute inset-[-5px] rounded-full animate-glow-orbit blur-md opacity-80 pointer-events-none"
+                className="absolute inset-px rounded-full animate-glow-orbit blur-md opacity-80 pointer-events-none"
                 style={{ background: "conic-gradient(from var(--glow-angle), transparent 0%, #7928ca 6%, #ff0080 10%, #ff8c00 14%, #ffe600 18%, transparent 24%, transparent 100%)" }}
               />
-              {/* orbiting sharp arc (same angle, no blur) */}
+              {/* orbiting sharp arc */}
               <span
-                className="absolute inset-[-1.5px] rounded-full animate-glow-orbit pointer-events-none"
+                className="absolute inset-[4.5px] rounded-full animate-glow-orbit pointer-events-none"
                 style={{ background: "conic-gradient(from var(--glow-angle), transparent 0%, #7928ca 6%, #ff0080 10%, #ff8c00 14%, #ffe600 18%, transparent 24%, transparent 100%)" }}
               />
               <button
@@ -465,7 +465,8 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               What&apos;s new — May 25, 2026
             </DialogTitle>
           </DialogHeader>
-          <div className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
+          <div ref={(el) => { if (el && whatsNewOpen) el.scrollTop = 0; }} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
+            <div tabIndex={0} className="h-0 w-0 overflow-hidden outline-none" aria-hidden="true" />
 
             {/* Fun blurb */}
             <div className="rounded-lg border bg-muted/50 px-4 py-3 text-center">
