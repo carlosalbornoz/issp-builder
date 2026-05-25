@@ -21,6 +21,12 @@ out/
 # TypeScript incremental build info
 tsconfig.tsbuildinfo
 
+# Social card generator — local script + assets, not for repo
+scripts/social-cards.js
+scripts/fonts/
+scripts/mobile-test.js
+public/screenshots/
+
 # OS / editor
 .DS_Store
 Thumbs.db
