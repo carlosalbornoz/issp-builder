@@ -116,6 +116,11 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [whatsNewOpen, setWhatsNewOpen] = useState(false);
   const confettiRef = useRef<((opts: object) => void) | null>(null);
+  const whatsNewScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (whatsNewOpen && whatsNewScrollRef.current) whatsNewScrollRef.current.scrollTop = 0;
+  }, [whatsNewOpen]);
 
   useEffect(() => {
     import("canvas-confetti").then((mod) => {
@@ -203,32 +208,21 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             <p className="text-xs text-muted-foreground/60">For agency CIOs, ICT focal persons, and government transparency advocates.</p>
           </div>
 
-          {/* What's New pill — padding absorbs glow so nothing overflows the container */}
+          {/* What's New pill — gradient border technique: no extra elements, no overflow */}
           <div className="flex justify-center mb-7">
-            <div className="relative inline-flex p-[6px]">
-              {/* static dim border ring — inset by (6px - 1.5px) = 4.5px so it sits 1.5px outside the button */}
-              <span
-                className="absolute inset-[4.5px] rounded-full opacity-40 pointer-events-none"
-                style={{ background: "conic-gradient(#ff0080, #ff8c00, #ffe600, #00d4aa, #0070f3, #7928ca, #ff0080)" }}
-              />
-              {/* orbiting glow arc — inset by (6px - 5px) = 1px so it sits 5px outside the button */}
-              <span
-                className="absolute inset-px rounded-full animate-glow-orbit blur-md opacity-80 pointer-events-none"
-                style={{ background: "conic-gradient(from var(--glow-angle), transparent 0%, #7928ca 6%, #ff0080 10%, #ff8c00 14%, #ffe600 18%, transparent 24%, transparent 100%)" }}
-              />
-              {/* orbiting sharp arc */}
-              <span
-                className="absolute inset-[4.5px] rounded-full animate-glow-orbit pointer-events-none"
-                style={{ background: "conic-gradient(from var(--glow-angle), transparent 0%, #7928ca 6%, #ff0080 10%, #ff8c00 14%, #ffe600 18%, transparent 24%, transparent 100%)" }}
-              />
-              <button
-                onClick={openWhatsNew}
-                className="relative z-10 inline-flex items-center gap-1.5 rounded-full bg-background px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
-              >
-                <Sparkles className="w-3 h-3" />
-                What&apos;s new — May 25, 2026
-              </button>
-            </div>
+            <button
+              onClick={openWhatsNew}
+              className="animate-glow-orbit inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
+              style={{
+                border: "1.5px solid transparent",
+                background: `linear-gradient(var(--background), var(--background)) padding-box,
+                             conic-gradient(from var(--glow-angle), transparent 0%, #7928ca 6%, #ff0080 10%, #ff8c00 14%, #ffe600 18%, transparent 24%, transparent 100%) border-box`,
+                boxShadow: "0 0 8px 3px rgba(180,100,200,0.2)",
+              }}
+            >
+              <Sparkles className="w-3 h-3" />
+              What&apos;s new — May 25, 2026
+            </button>
           </div>
 
           {/* Action cards */}
@@ -465,7 +459,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               What&apos;s new — May 25, 2026
             </DialogTitle>
           </DialogHeader>
-          <div ref={(el) => { if (el && whatsNewOpen) el.scrollTop = 0; }} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
+          <div ref={whatsNewScrollRef} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
             <div tabIndex={0} className="h-0 w-0 overflow-hidden outline-none" aria-hidden="true" />
 
             {/* Fun blurb */}
