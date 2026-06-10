@@ -38,6 +38,7 @@
 | **Demo `.issp` file (`public/demo/ncwtr-issp-2026-2028.issp`)** | ✅ Done |
 | **Landing page updated — local-first copy, no sign-in** | ✅ Done |
 | **EditorSidebar — "ISSP Builder" label, Exit Editor link** | ✅ Done |
+| **Agency logo upload (New ISSP + Properties dialogs) → PDF cover + running header** | ✅ Done 2026-06-10 |
 | API: /api/issp/documents (GET, POST) | ✅ Done (dormant) |
 | API: /api/issp/documents/[id]/export (GET → PDF, auth-required) | ✅ Done (dormant) |
 | Part I–IV: all form sections | ✅ Done |

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/dialog";
 import { useIsspStore } from "@/lib/store";
 import type { AgencyType, IsspScope } from "@/lib/store";
+import { LOGO_ACCEPT, getLogoUploadError, readFileAsDataUrl } from "@/lib/diagram-upload";
+import { toast } from "sonner";
+import { ImagePlus, Trash2 } from "lucide-react";
 
 // ─── Lookup tables ────────────────────────────────────────────────────────────
 
@@ -66,6 +69,7 @@ export interface IsspForm {
   agencyType: AgencyType;
   agencyWebsite: string;
   agencyHeadName: string;
+  agencyLogo: string | null;
   startYear: number;
   scope: IsspScope;
   amendmentNumber: number;
@@ -77,6 +81,7 @@ export const BLANK_FORM: IsspForm = {
   agencyType: "NGA",
   agencyWebsite: "",
   agencyHeadName: "",
+  agencyLogo: null,
   startYear: ISSP_START_YEAR,
   scope: "AGENCY_WIDE",
   amendmentNumber: 0,
@@ -87,15 +92,29 @@ export const BLANK_FORM: IsspForm = {
 export function IsspFormFields({
   form,
   set,
-  endYear,
   idPrefix = "",
 }: {
   form: IsspForm;
   set: <K extends keyof IsspForm>(key: K, value: IsspForm[K]) => void;
-  endYear: number;
   idPrefix?: string;
 }) {
   const id = (name: string) => `${idPrefix}${name}`;
+  const logoInputRef = useRef<HTMLInputElement>(null);
+
+  async function handleLogoFile(file: File | undefined) {
+    if (!file) return;
+    const error = getLogoUploadError(file);
+    if (error) {
+      toast.error(error);
+      return;
+    }
+    try {
+      set("agencyLogo", await readFileAsDataUrl(file));
+    } catch {
+      toast.error("Failed to read the image. Please try another file.");
+    }
+  }
+
   return (
     <div className="space-y-4 py-1">
       {/* Agency */}
@@ -170,6 +189,53 @@ export function IsspFormFields({
               value={form.agencyHeadName}
               onChange={(e) => set("agencyHeadName", e.target.value)}
             />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>
+              Agency Logo{" "}
+              <span className="text-muted-foreground font-normal">(optional)</span>
+            </Label>
+            <input
+              ref={logoInputRef}
+              type="file"
+              accept={LOGO_ACCEPT}
+              className="hidden"
+              onChange={(e) => {
+                void handleLogoFile(e.target.files?.[0]);
+                e.target.value = "";
+              }}
+            />
+            <div className="flex items-center gap-3">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted/30">
+                {form.agencyLogo ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={form.agencyLogo} alt="Agency logo" className="h-full w-full object-contain" />
+                ) : (
+                  <ImagePlus className="h-5 w-5 text-muted-foreground" />
+                )}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button type="button" variant="outline" size="sm" onClick={() => logoInputRef.current?.click()}>
+                  {form.agencyLogo ? "Replace" : "Upload logo"}
+                </Button>
+                {form.agencyLogo && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-destructive"
+                    onClick={() => set("agencyLogo", null)}
+                  >
+                    <Trash2 className="mr-1 h-3.5 w-3.5" />
+                    Remove
+                  </Button>
+                )}
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Replaces the DICT logo in the PDF cover and page header. PNG, JPG, WebP, or SVG, up to 2 MB.
+            </p>
           </div>
         </div>
       </div>
@@ -270,6 +336,7 @@ export function IsspPropertiesDialog({
         agencyType: doc.agency.type as AgencyType,
         agencyWebsite: doc.agency.websiteUrl ?? "",
         agencyHeadName: doc.agencyHeadName ?? "",
+        agencyLogo: doc.agency.logoBase64 ?? null,
         startYear: doc.startYear,
         scope: doc.scope,
         amendmentNumber: doc.amendmentNumber,
@@ -300,6 +367,7 @@ export function IsspPropertiesDialog({
         acronym: form.agencyAcronym.trim().toUpperCase(),
         type: form.agencyType as AgencyType,
         websiteUrl: form.agencyWebsite.trim(),
+        logoBase64: form.agencyLogo,
       },
     }));
     onClose();
@@ -317,7 +385,7 @@ export function IsspPropertiesDialog({
           <DialogTitle>ISSP Properties</DialogTitle>
         </DialogHeader>
 
-        <IsspFormFields form={form} set={set} endYear={endYear} idPrefix="props-" />
+        <IsspFormFields form={form} set={set} idPrefix="props-" />
 
         <div className="rounded-lg bg-muted/50 px-4 py-3 text-xs text-muted-foreground space-y-0.5">
           <p className="font-medium text-foreground text-sm leading-snug">{title}</p>
