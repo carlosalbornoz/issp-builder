@@ -9,6 +9,14 @@ export interface PdfHeaderOptions {
   endYear: number;
 }
 
+function esc(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 export async function generatePdf(html: string, header: PdfHeaderOptions): Promise<Buffer> {
   const browser = await puppeteer.launch({
     headless: true,
@@ -23,10 +31,10 @@ export async function generatePdf(html: string, header: PdfHeaderOptions): Promi
   // Single logo block — logo image + acronym label, or just acronym text if no logo.
   // The previous version had `logoHtml` (which already included the acronym when no logo)
   // AND a separate explicit acronym span, causing "NCWTR NCWTR" on every page.
-  const logoBlock = header.logoSrc
-    ? `<img src="${header.logoSrc}" style="height:18px;width:auto;object-fit:contain;flex-shrink:0;" />
-       <span style="font-weight:bold;">${header.agencyAcronym}</span>`
-    : `<span style="font-weight:bold;">${header.agencyAcronym}</span>`;
+  const logoBlock = header.logoSrc?.startsWith("data:image/")
+    ? `<img src="${esc(header.logoSrc)}" style="height:18px;width:auto;object-fit:contain;flex-shrink:0;" />
+       <span style="font-weight:bold;">${esc(header.agencyAcronym)}</span>`
+    : `<span style="font-weight:bold;">${esc(header.agencyAcronym)}</span>`;
 
   const headerTemplate = `
     <div style="
@@ -65,6 +73,23 @@ export async function generatePdf(html: string, header: PdfHeaderOptions): Promi
 
   try {
     const page = await browser.newPage();
+
+    // The document is attacker-influenced (public export endpoint): never execute
+    // its scripts, and only allow same-origin image fetches (legacy /uploads paths).
+    // data: URIs don't hit the network and are unaffected by interception.
+    await page.setJavaScriptEnabled(false);
+    const allowedOrigin = new URL(process.env.NEXTAUTH_URL || "http://localhost:3000").origin;
+    await page.setRequestInterception(true);
+    page.on("request", (req) => {
+      const url = req.url();
+      const allowed =
+        url.startsWith("data:image/") ||
+        url === "about:blank" ||
+        url.startsWith(`${allowedOrigin}/`);
+      if (allowed) void req.continue();
+      else void req.abort();
+    });
+
     await page.setContent(html, { waitUntil: "load", timeout: 30000 });
     await page.evaluate(() =>
       Promise.all(

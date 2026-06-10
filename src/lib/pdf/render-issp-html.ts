@@ -74,9 +74,12 @@ interface IsSystem {
 interface StrategicConcern { ooSoMfo: string; criticalSystem: string; problem: string; intendedIctUse: string }
 
 interface EgpEntry {
-  utilizing?: boolean; usingEquivalent?: boolean; equivalentName?: string;
-  manual?: boolean; proposed?: boolean; url?: string;
-  usingOther?: boolean; otherName?: string;
+  status: "utilizing" | "proposed" | "not_applicable" | "not_utilizing";
+  url?: string;
+  equivalentName?: string;
+  notes?: string;
+  adoptionPercentage?: number;
+  channels?: string;
 }
 
 interface Part2 {
@@ -85,13 +88,7 @@ interface Part2 {
   networkDescription: string | null;
   cybersecurityControls: CyberGroup;
   informationSystems: IsSystem[];
-  egpChecklist: Record<string, EgpEntry & {
-    channels?: Record<string, boolean>;
-    connectedToPortal?: boolean;
-    adoptionPercentage?: number;
-    exists?: boolean;
-    systemName?: string;
-  }>;
+  egpChecklist: Record<string, EgpEntry | undefined>;
 }
 
 interface IctProject {
@@ -386,8 +383,8 @@ function renderCover(issp: IsspData): string {
   const isAmendment = issp.amendmentNumber > 0;
   const amendOrdinal = ["", "1st", "2nd", "3rd"][issp.amendmentNumber] ?? `${issp.amendmentNumber}th`;
 
-  const coverLogoHtml = issp.agency.logoSrc
-    ? `<img src="${issp.agency.logoSrc}" style="height:40px;width:auto;object-fit:contain;margin-bottom:3mm;" />`
+  const coverLogoHtml = issp.agency.logoSrc?.startsWith("data:image/")
+    ? `<img src="${esc(issp.agency.logoSrc)}" style="height:40px;width:auto;object-fit:contain;margin-bottom:3mm;" />`
     : `<div class="cover-logo" style="font-size:11pt;font-weight:bold;color:#444;margin-bottom:3mm;">${esc(issp.agency.name)}</div>`;
 
   return `<div class="cover">
@@ -805,16 +802,21 @@ function renderPart2(issp: IsspData): string {
   function egpStatus(key: string): string {
     const e = p.egpChecklist[key];
     if (!e) return "<em>N/A</em>";
-    if (key === "pnpki") return `Adoption: ${e.adoptionPercentage ?? 0}%`;
-    if (key === "recordsMgmt") {
-      return `${chk(e.exists)} Yes &nbsp; ${chk(!e.exists)} No${e.systemName ? `<br>System: ${esc(e.systemName)}` : ""}`;
-    }
-    if (key === "pscp") return `${chk(e.exists)} Yes &nbsp; ${chk(!e.exists)} No`;
-    if (key === "onlinePortal") {
-      const ch = e.channels ?? {};
-      return `${chk(ch["website"])} Website &nbsp; ${chk(ch["email"])} Email &nbsp; ${chk(ch["landline"])} Landline<br>${chk(ch["socialMedia"])} Social Media &nbsp; ${chk(ch["mobile"])} Mobile<br>Connected to portal: ${chk(e.connectedToPortal)}`;
-    }
-    return `Utilizing: ${chk(e.utilizing)} Yes &nbsp; ${chk(!e.utilizing)} No`;
+    const s = e.status;
+    return `${chk(s === "utilizing")} Utilizing &nbsp; ${chk(s === "proposed")} Proposed / In Progress<br>` +
+      `${chk(s === "not_utilizing")} Not Utilizing &nbsp; ${chk(s === "not_applicable")} Not Applicable`;
+  }
+
+  function egpDetails(key: string): string {
+    const e = p.egpChecklist[key];
+    if (!e || (e.status !== "utilizing" && e.status !== "proposed")) return "";
+    const lines: string[] = [];
+    if (key === "pnpki") lines.push(`Adoption: ${Number(e.adoptionPercentage ?? 0)}%`);
+    if (e.url) lines.push(`URL: ${esc(e.url)}`);
+    if (e.equivalentName) lines.push(`Equivalent System: ${esc(e.equivalentName)}`);
+    if (e.channels) lines.push(`Service Channels: ${esc(e.channels)}`);
+    if (e.notes) lines.push(`Notes: ${esc(e.notes)}`);
+    return lines.join("<br>");
   }
 
   return `<div class="page-break">
@@ -850,7 +852,7 @@ function renderPart2(issp: IsspData): string {
       ? `<p style="font-style:italic;">No network diagrams uploaded.</p>`
       : diagrams.map((d, i) => `<div class="avoid-break" style="margin-bottom:5mm;">
           <p style="font-weight:bold;margin-bottom:2mm;">${esc(d.title || `Network Diagram ${i + 1}`)}</p>
-          <img src="${d.path.startsWith("data:") ? d.path : baseUrl + d.path}" style="max-width:100%;max-height:120mm;object-fit:contain;display:block;" alt="${esc(d.title || `Diagram ${i + 1}`)}" />
+          <img src="${esc(d.path.startsWith("data:image/") ? d.path : baseUrl + d.path)}" style="max-width:100%;max-height:120mm;object-fit:contain;display:block;" alt="${esc(d.title || `Diagram ${i + 1}`)}" />
         </div>`).join("")
     }
     ${p.networkDescription ? `<p style="margin-top:3mm;">${nl2br(p.networkDescription)}</p>` : ""}</div>
@@ -873,7 +875,7 @@ function renderPart2(issp: IsspData): string {
         ${egpPrograms.map(prog => `<tr class="avoid-break">
           <td><strong>${prog.num}. ${esc(prog.title)}</strong>${prog.subtitle ? `<br><em>${esc(prog.subtitle)}</em>` : ""}</td>
           <td>${egpStatus(prog.key)}</td>
-          <td></td>
+          <td>${egpDetails(prog.key)}</td>
         </tr>`).join("")}
       </tbody>
     </table>

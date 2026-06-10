@@ -6,6 +6,7 @@ import type {
   KpiRow,
   PerformanceFramework,
   EgpChecklist,
+  EgpProgram,
 } from "@/lib/store/types";
 
 // ─── Field mapping helpers ────────────────────────────────────────────────────
@@ -112,14 +113,15 @@ function mapEgpChecklist(checklist: EgpChecklist): IsspData["part2"]["egpCheckli
   const result: IsspData["part2"]["egpChecklist"] = {};
   for (const [key, prog] of Object.entries(checklist)) {
     if (!prog) continue;
-    const utilizing = prog.status === "utilizing";
-    result[key] = { utilizing, proposed: prog.status === "proposed" };
-    if (key === "pnpki" && "adoptionPercentage" in prog) {
-      result[key].adoptionPercentage = (prog as typeof prog & { adoptionPercentage?: number }).adoptionPercentage ?? 0;
-    }
-    if (key === "recordsMgmt" || key === "pscp") {
-      result[key].exists = utilizing;
-    }
+    const p = prog as EgpProgram & { adoptionPercentage?: number; channels?: string };
+    result[key] = {
+      status: p.status ?? "not_utilizing",
+      url: p.url,
+      equivalentName: p.equivalentName,
+      notes: p.notes,
+      adoptionPercentage: p.adoptionPercentage,
+      channels: p.channels,
+    };
   }
   return result;
 }

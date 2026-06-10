@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const path = require('path');
 
 const DEMO_FILE = '/root/apps/issp/public/demo/ncwtr-issp-2026-2028.issp';
 

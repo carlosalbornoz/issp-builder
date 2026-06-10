@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget, HCRow } from "./types";
+import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget, HCRow, StakeholderService } from "./types";
 import { createEmptyDocument, type NewDocOptions } from "./defaults";
 import { idbClear, idbLoad, idbSave } from "./idb";
 
@@ -123,13 +123,12 @@ const genId = () => Math.random().toString(36).slice(2, 10);
 
 function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
   // v1 → v2: planStatus, submissionTarget, sectionMeta
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let base: IsspDocument = (doc.schemaVersion ?? 1) >= 2 ? doc : {
     ...doc,
     schemaVersion: 2,
-    planStatus: (doc as any).planStatus ?? "draft",
-    submissionTarget: (doc as any).submissionTarget ?? { agency: "DICT", deadline: null },
-    sectionMeta: (doc as any).sectionMeta ?? {},
+    planStatus: doc.planStatus ?? "draft",
+    submissionTarget: doc.submissionTarget ?? { agency: "DICT", deadline: null },
+    sectionMeta: doc.sectionMeta ?? {},
   };
 
   // v2 → v3: Stakeholder `transactions`+`complexity` fields → `services` array
@@ -161,7 +160,7 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
       stakeholders: base.part1.stakeholders.map((s: any) => ({
         ...s,
         id: s.id || genId(),
-        services: (s.services ?? []).map((sv: any) => ({ ...sv, id: sv.id || genId() })),
+        services: (s.services ?? []).map((sv: Partial<StakeholderService>) => ({ ...sv, id: sv.id || genId() })),
       })),
     },
     part2: {

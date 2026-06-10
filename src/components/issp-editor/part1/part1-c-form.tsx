@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState, useCallback, useEffect } from "react";
+import { Fragment, useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -85,12 +85,16 @@ function StakeholderDrawer({ open, stakeholder, isNew, onSave, onDelete, onClose
     () => stakeholder?.services?.length ? stakeholder.services : [makeService()]
   );
 
-  useEffect(() => {
+  // Re-initialize from props each time the drawer opens (or the target changes
+  // while open). Adjusting state during render avoids an extra effect pass.
+  const [prevSession, setPrevSession] = useState<{ open: boolean; stakeholder: Stakeholder | null }>({ open, stakeholder });
+  if (open !== prevSession.open || stakeholder !== prevSession.stakeholder) {
+    setPrevSession({ open, stakeholder });
     if (open) {
       setName(stakeholder?.name ?? "");
       setServices(stakeholder?.services?.length ? stakeholder.services : [makeService()]);
     }
-  }, [open, stakeholder]);
+  }
 
   function addSvc() { setServices((p) => [...p, makeService()]); }
   function removeSvc(id: string) { setServices((p) => p.filter((sv) => sv.id !== id)); }
