@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NumberInput } from "@/components/ui/number-input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLocalSave } from "@/hooks/use-local-save";
@@ -212,21 +213,19 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-sm font-medium">Physical Target</label>
-              <Input
-                type="number"
+              <NumberInput
                 min={1}
                 value={draft.qty}
-                onChange={(e) => set("qty", Math.max(1, Number(e.target.value)))}
+                onValueChange={(n) => set("qty", n)}
               />
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium">Unit Cost (₱)</label>
-              <Input
-                type="number"
+              <NumberInput
                 min={0}
-                step={0.01}
+                integer={false}
                 value={draft.unitCost}
-                onChange={(e) => set("unitCost", Number(e.target.value))}
+                onValueChange={(n) => set("unitCost", n)}
               />
             </div>
           </div>
@@ -461,22 +460,22 @@ function LineTable({
                       </select>
                     </td>
                     <td className="border-r px-2 py-1">
-                      <input
-                        type="number"
+                      <NumberInput
+                        unstyled
                         min={1}
                         className={`${INPUT_CLS} text-right`}
                         value={line.qty}
-                        onChange={(e) => updateField(idx, "qty", Math.max(1, Number(e.target.value)))}
+                        onValueChange={(n) => updateField(idx, "qty", n)}
                       />
                     </td>
                     <td className="border-r px-2 py-1">
-                      <input
-                        type="number"
+                      <NumberInput
+                        unstyled
                         min={0}
-                        step={0.01}
+                        integer={false}
                         className={`${INPUT_CLS} text-right`}
                         value={line.unitCost}
-                        onChange={(e) => updateField(idx, "unitCost", Number(e.target.value))}
+                        onValueChange={(n) => updateField(idx, "unitCost", n)}
                       />
                     </td>
                     <td className="border-r px-3 py-2 text-right tabular-nums text-sm font-medium">

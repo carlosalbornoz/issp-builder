@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NumberInput } from "@/components/ui/number-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -312,18 +313,18 @@ function SystemCard({
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs text-muted-foreground uppercase tracking-wide">Internal Users</Label>
-              <Input
-                type="number" min={0}
+              <NumberInput
+                min={0}
                 value={sys.internalUsers}
-                onChange={(e) => onUpdate("internalUsers", Number(e.target.value))}
+                onValueChange={(n) => onUpdate("internalUsers", n)}
               />
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs text-muted-foreground uppercase tracking-wide">External Users</Label>
-              <Input
-                type="number" min={0}
+              <NumberInput
+                min={0}
                 value={sys.externalUsers}
-                onChange={(e) => onUpdate("externalUsers", Number(e.target.value))}
+                onValueChange={(n) => onUpdate("externalUsers", n)}
               />
             </div>
           </div>

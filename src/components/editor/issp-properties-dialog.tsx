@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,7 +22,7 @@ import { useIsspStore } from "@/lib/store";
 import type { AgencyType, IsspScope } from "@/lib/store";
 import { LOGO_ACCEPT, getLogoUploadError, readFileAsDataUrl } from "@/lib/diagram-upload";
 import { toast } from "sonner";
-import { ImagePlus, Trash2 } from "lucide-react";
+import { ImagePlus, Trash2, Loader2 } from "lucide-react";
 
 // ─── Lookup tables ────────────────────────────────────────────────────────────
 
@@ -100,6 +100,7 @@ export function IsspFormFields({
 }) {
   const id = (name: string) => `${idPrefix}${name}`;
   const logoInputRef = useRef<HTMLInputElement>(null);
+  const [logoLoading, setLogoLoading] = useState(false);
 
   async function handleLogoFile(file: File | undefined) {
     if (!file) return;
@@ -108,10 +109,13 @@ export function IsspFormFields({
       toast.error(error);
       return;
     }
+    setLogoLoading(true);
     try {
       set("agencyLogo", await readFileAsDataUrl(file));
     } catch {
       toast.error("Failed to read the image. Please try another file.");
+    } finally {
+      setLogoLoading(false);
     }
   }
 
@@ -208,7 +212,9 @@ export function IsspFormFields({
             />
             <div className="flex items-center gap-3">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted/30">
-                {form.agencyLogo ? (
+                {logoLoading ? (
+                  <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                ) : form.agencyLogo ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={form.agencyLogo} alt="Agency logo" className="h-full w-full object-contain" />
                 ) : (
@@ -216,10 +222,10 @@ export function IsspFormFields({
                 )}
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button type="button" variant="outline" size="sm" onClick={() => logoInputRef.current?.click()}>
-                  {form.agencyLogo ? "Replace" : "Upload logo"}
+                <Button type="button" variant="outline" size="sm" disabled={logoLoading} onClick={() => logoInputRef.current?.click()}>
+                  {logoLoading ? "Reading…" : form.agencyLogo ? "Replace" : "Upload logo"}
                 </Button>
-                {form.agencyLogo && (
+                {form.agencyLogo && !logoLoading && (
                   <Button
                     type="button"
                     variant="ghost"
@@ -327,22 +333,27 @@ export function IsspPropertiesDialog({
   const { doc, update } = useIsspStore();
   const [form, setForm] = useState<IsspForm>(BLANK_FORM);
 
-  useEffect(() => {
-    if (open && doc) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setForm({
-        agencyName: doc.agency.name,
-        agencyAcronym: doc.agency.acronym,
-        agencyType: doc.agency.type as AgencyType,
-        agencyWebsite: doc.agency.websiteUrl ?? "",
-        agencyHeadName: doc.agencyHeadName ?? "",
-        agencyLogo: doc.agency.logoBase64 ?? null,
-        startYear: doc.startYear,
-        scope: doc.scope,
-        amendmentNumber: doc.amendmentNumber,
-      });
-    }
-  }, [open, doc]);
+  // Seed the form only when the dialog opens (closed→open). Reading `doc` here
+  // rather than via an effect on [open, doc] means background autosave updates
+  // (which rewrite `doc` on every keystroke elsewhere) can't clobber edits in
+  // progress while the dialog is open.
+  const [wasOpen, setWasOpen] = useState(false);
+  if (open && !wasOpen && doc) {
+    setWasOpen(true);
+    setForm({
+      agencyName: doc.agency.name,
+      agencyAcronym: doc.agency.acronym,
+      agencyType: doc.agency.type as AgencyType,
+      agencyWebsite: doc.agency.websiteUrl ?? "",
+      agencyHeadName: doc.agencyHeadName ?? "",
+      agencyLogo: doc.agency.logoBase64 ?? null,
+      startYear: doc.startYear,
+      scope: doc.scope,
+      amendmentNumber: doc.amendmentNumber,
+    });
+  } else if (!open && wasOpen) {
+    setWasOpen(false);
+  }
 
   const endYear = ISSP_END_YEAR;
   const title = `${form.agencyAcronym || form.agencyName ? (form.agencyAcronym || form.agencyName) + " " : ""}Information Systems Strategic Plan ${form.startYear}–${endYear}`;

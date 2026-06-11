@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
+import { NumberInput } from "@/components/ui/number-input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLocalSave } from "@/hooks/use-local-save";
@@ -352,21 +353,21 @@ export function Part1BForm({
                     <td className="border px-3 py-2 font-medium text-sm">{label}</td>
                     {/* IT */}
                     <td className="border px-1 py-1">
-                      <input
-                        type="number"
+                      <NumberInput
+                        unstyled
                         min={0}
                         className="w-full rounded px-2 py-1.5 text-center text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={hc[key].it.male}
-                        onChange={(e) => setHC(key, "it", "male", Number(e.target.value))}
+                        onValueChange={(n) => setHC(key, "it", "male", n)}
                       />
                     </td>
                     <td className="border px-1 py-1">
-                      <input
-                        type="number"
+                      <NumberInput
+                        unstyled
                         min={0}
                         className="w-full rounded px-2 py-1.5 text-center text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={hc[key].it.female}
-                        onChange={(e) => setHC(key, "it", "female", Number(e.target.value))}
+                        onValueChange={(n) => setHC(key, "it", "female", n)}
                       />
                     </td>
                     <td className="border px-3 py-2 text-center font-medium bg-muted/20">
@@ -374,21 +375,21 @@ export function Part1BForm({
                     </td>
                     {/* Non-IT */}
                     <td className="border px-1 py-1">
-                      <input
-                        type="number"
+                      <NumberInput
+                        unstyled
                         min={0}
                         className="w-full rounded px-2 py-1.5 text-center text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={hc[key].nonIt.male}
-                        onChange={(e) => setHC(key, "nonIt", "male", Number(e.target.value))}
+                        onValueChange={(n) => setHC(key, "nonIt", "male", n)}
                       />
                     </td>
                     <td className="border px-1 py-1">
-                      <input
-                        type="number"
+                      <NumberInput
+                        unstyled
                         min={0}
                         className="w-full rounded px-2 py-1.5 text-center text-sm bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={hc[key].nonIt.female}
-                        onChange={(e) => setHC(key, "nonIt", "female", Number(e.target.value))}
+                        onValueChange={(n) => setHC(key, "nonIt", "female", n)}
                       />
                     </td>
                     <td className="border px-3 py-2 text-center font-medium bg-muted/20">

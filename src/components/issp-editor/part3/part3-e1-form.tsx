@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NumberInput } from "@/components/ui/number-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -385,12 +386,12 @@ function ProjectCard({
 
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground uppercase tracking-wide">Total Project Cost (₱)</Label>
-            <Input
-              type="number"
+            <NumberInput
               min={0}
+              integer={false}
               placeholder="0"
-              value={project.totalProjectCost || ""}
-              onChange={(e) => onUpdate("totalProjectCost", Number(e.target.value))}
+              value={project.totalProjectCost}
+              onValueChange={(n) => onUpdate("totalProjectCost", n)}
               className="max-w-xs"
             />
             <p className="text-xs text-muted-foreground">Must match sum of yearly costs in Part IV</p>

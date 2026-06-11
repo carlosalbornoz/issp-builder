@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
+import { NumberInput } from "@/components/ui/number-input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocalSave } from "@/hooks/use-local-save";
@@ -221,14 +222,13 @@ function ProgramCard({
                 <label className="text-xs font-medium text-muted-foreground">
                   Adoption Percentage (%)
                 </label>
-                <Input
-                  type="number"
+                <NumberInput
                   min={0}
                   max={100}
                   placeholder="0–100"
-                  value={value.adoptionPercentage ?? ""}
-                  onChange={(e) =>
-                    onChange({ ...value, adoptionPercentage: Number(e.target.value) })
+                  value={value.adoptionPercentage ?? 0}
+                  onValueChange={(n) =>
+                    onChange({ ...value, adoptionPercentage: n })
                   }
                 />
               </div>

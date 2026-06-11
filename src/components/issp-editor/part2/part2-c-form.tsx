@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NumberInput } from "@/components/ui/number-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -352,19 +353,17 @@ function ISCard({
                 </Select>
               </FormField>
               <FormField label="Internal Users">
-                <Input
-                  type="number"
+                <NumberInput
                   min={0}
                   value={sys.internalUsers}
-                  onChange={(e) => onUpdate("internalUsers", Number(e.target.value))}
+                  onValueChange={(n) => onUpdate("internalUsers", n)}
                 />
               </FormField>
               <FormField label="External / Public Users">
-                <Input
-                  type="number"
+                <NumberInput
                   min={0}
                   value={sys.externalUsers}
-                  onChange={(e) => onUpdate("externalUsers", Number(e.target.value))}
+                  onValueChange={(n) => onUpdate("externalUsers", n)}
                 />
               </FormField>
             </div>

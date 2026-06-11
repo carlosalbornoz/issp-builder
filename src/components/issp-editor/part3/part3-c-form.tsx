@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
+import { NumberInput } from "@/components/ui/number-input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
   Select,
@@ -164,15 +165,12 @@ export function Part3CForm({
                       </Select>
                     </td>
                     <td className="border px-2 py-1">
-                      <input
-                        type="number"
+                      <NumberInput
+                        unstyled
                         min={1}
                         className="w-full rounded px-2 py-1.5 text-sm text-center bg-card/70 hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"
                         value={row.quantity}
-                        onChange={(e) => {
-                          const v = parseInt(e.target.value, 10);
-                          updateRow(row.id, "quantity", isNaN(v) ? 0 : v);
-                        }}
+                        onValueChange={(n) => updateRow(row.id, "quantity", n)}
                       />
                     </td>
                     <td className="border px-2 py-2 text-center">

@@ -5,6 +5,9 @@
 /* Tie dark: variant to our theme classes, not prefers-color-scheme */
 @custom-variant dark (&:where(.theme-system-dark, .theme-system-dark *, .theme-warm-dark, .theme-warm-dark *));
 
+/* Touch-device affordance — bump tap targets only on coarse pointers (keeps desktop density) */
+@custom-variant coarse (@media (pointer: coarse));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
