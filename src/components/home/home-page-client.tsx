@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   FilePlus2, FolderOpen, BookOpen, FileText, AlertTriangle,
   Loader2, Check, BarChart2, Database, LayoutGrid, TrendingUp, ArrowRight,
-  Sparkles,
+  Sparkles, ChevronDown,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useIsspStore } from "@/lib/store";
@@ -221,7 +221,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               }}
             >
               <Sparkles className="w-3 h-3" />
-              What&apos;s new — May 25, 2026
+              What&apos;s new — June 11, 2026
             </button>
           </div>
 
@@ -456,7 +456,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
             <DialogTitle className="font-display text-lg flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              What&apos;s new — May 25, 2026
+              What&apos;s new — June 11, 2026
             </DialogTitle>
           </DialogHeader>
           <div ref={whatsNewScrollRef} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
@@ -465,100 +465,106 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             {/* Fun blurb */}
             <div className="rounded-lg border bg-muted/50 px-4 py-3 text-center">
               <p className="text-sm font-medium italic text-foreground/75">
-                Another weekend has passed, another commit was pushed. Here&apos;s what&apos;s changed:
+                Two weeks, one full codebase review, and an unreasonable amount of PDF wrangling later:
               </p>
             </div>
 
-            {/* 1 — DICT Caravan */}
-            <div className="rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/40 dark:bg-amber-950/20 px-4 py-3.5 space-y-1.5">
-              <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wide">DICT ISSP Caravan · May 25, 2026</p>
-              <p className="text-amber-900/80 dark:text-amber-200/80">
-                At the official DICT ISSP Caravan orientation — attended by ~212 agency officers — the DICT ISSP team gave this tool a nod. Yay at napansin rin nila tayo, ano? Haha. Moving forward, the ISSP Builder will strictly follow{" "}
-                <span className="font-medium text-amber-900 dark:text-amber-200">MITHI Resolution 2026-02</span> — so to those asking: no, we will not let you create ISSPs here using the old template.{" "}
-                No official endorsement, but DICT didn&apos;t tell anyone to stop using it either, so we&apos;ll take that as a win. 🏅
-              </p>
-            </div>
-
-            {/* 2 — Coverage Period */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Coverage Period Locked</p>
+            {/* 1 — Hero: agency logo payoff */}
+            <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Your Agency Logo, In the PDF · As Promised</p>
               <p>
-                All ISSPs must now cover <span className="text-foreground font-medium">FY 2028–2030</span> per MITHI Resolution 2026-02. The builder enforces this — the coverage period fields are no longer editable. No more accidentally submitting a 2027–2029 plan and finding out at the evaluation stage.
+                The last update ended with: <span className="italic">&ldquo;Now if I could actually let you upload your agency&apos;s logo into the PDF headers, that would really be something, huh? Soon.&rdquo;</span>{" "}
+                Soon arrived. Upload your logo in the <span className="text-foreground font-medium">New ISSP</span> or <span className="text-foreground font-medium">ISSP Properties</span> dialog (PNG, JPG, WebP, or SVG, up to 2&nbsp;MB) and it appears on the cover page and on the upper-left of every page header — exactly where the official DICT template puts it.
               </p>
             </div>
 
-            {/* 3 — Themes */}
+            {/* 2 — Definition of Terms */}
             <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Themes</p>
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Editable Definition of Terms</p>
               <p>
-                Four color themes are now available — <span className="text-foreground font-medium">System Light, System Dark, Warm Light, and Warm Dark</span>. Dark mode people: you&apos;re welcome. Warm mode people: also you.
+                The Definition of Terms page is no longer take-it-or-leave-it. A new <span className="text-foreground font-medium">front-matter section in the editor</span> lets you add your agency&apos;s own terms — the three standard DICT template terms come pre-filled, and everything prints alphabetically in the PDF no matter what order you type them in. Define &ldquo;Zero Trust&rdquo; once here instead of in every meeting.
               </p>
-              <div className="flex items-center gap-2 pt-0.5">
-                {THEMES.map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => setTheme(t.id)}
-                    title={t.name}
-                    className="flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-all"
-                    style={{
-                      background: t.background,
-                      borderColor: theme === t.id ? t.border : t.border,
-                      color: t.id.includes("dark") ? "#F0EDE8" : "#18181B",
-                      outline: theme === t.id ? `2px solid ${t.border}` : "none",
-                      outlineOffset: "2px",
-                      fontWeight: theme === t.id ? 600 : 400,
-                    }}
-                  >
-                    <span style={{ width: 8, height: 8, borderRadius: "50%", display: "inline-block", background: theme === t.id ? "#22c55e" : t.secondary, border: theme === t.id ? "1.5px solid #16a34a" : `1px solid ${t.border}`, flexShrink: 0 }} />
-                    {t.name}
-                  </button>
-                ))}
+            </div>
+
+            {/* 3 — PDF layout per official template */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">PDF Layout, Straight from the Official Template</p>
+              <p>
+                The exported PDF now mirrors the official template&apos;s page conventions: the running header (logo + centered <span className="text-foreground font-medium">INFORMATION SYSTEMS STRATEGIC PLAN 2028–2030</span> title) starts at Part I, the cover and table of contents stay clean, and page numbering restarts so <span className="text-foreground font-medium">Part I is Page 1</span> — the way evaluators expect it.
+              </p>
+            </div>
+
+            {/* 4 — Real TOC page numbers */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Real Page Numbers in the Table of Contents</p>
+              <p>
+                The TOC used to be a list of section names politely avoiding the question of <span className="italic">where</span> things are. It now shows <span className="text-foreground font-medium">actual page numbers that match the footers</span>. Behind the scenes, your PDF is rendered twice just to get these right. You&apos;re worth it.
+              </p>
+            </div>
+
+            {/* 5 — Export accuracy */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Nothing Gets Lost in Export</p>
+              <p>
+                A full codebase review caught that some <span className="text-foreground font-medium">Part II-D (eGov Programs Checklist)</span> details — URLs, equivalent system names, notes, channels, status — were silently dropped from the PDF. They all make it in now. The export pipeline was also hardened against malformed input. Boring, but the kind of boring you want.
+              </p>
+            </div>
+
+            {/* 6 — Tablet & touch polish */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Tablet &amp; Touch Polish</p>
+              <p>
+                Dialogs now scroll properly on tablets instead of cutting off below the fold. Number fields let you <span className="text-foreground font-medium">clear and retype freely</span> — no more snapping back to zero mid-edit. And on touch screens, buttons and inputs grow to comfortable tap sizes while desktop stays compact.
+              </p>
+            </div>
+
+            {/* Previously — May 25 entry, collapsed */}
+            <details className="group rounded-lg border bg-muted/30">
+              <summary className="flex cursor-pointer select-none items-center justify-between px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground list-none [&::-webkit-details-marker]:hidden">
+                Previously — May 25, 2026
+                <ChevronDown className="w-3.5 h-3.5 transition-transform group-open:rotate-180" />
+              </summary>
+              <div className="px-4 pb-4 pt-1 space-y-3 text-xs">
+                <div className="rounded-md border border-amber-200 bg-amber-50 dark:border-amber-900/40 dark:bg-amber-950/20 px-3 py-2.5">
+                  <p className="text-amber-900/80 dark:text-amber-200/80">
+                    <span className="font-semibold text-amber-700 dark:text-amber-400">DICT ISSP Caravan</span> — at the official orientation (~212 agency officers), the DICT ISSP team gave this tool a nod. No official endorsement, but nobody told anyone to stop using it either, so we&apos;ll take that as a win. 🏅
+                  </p>
+                </div>
+                <p><span className="text-foreground font-medium">Coverage period locked</span> — all ISSPs cover FY 2028–2030 per MITHI Resolution 2026-02; the fields are no longer editable.</p>
+                <div className="space-y-1.5">
+                  <p><span className="text-foreground font-medium">Themes</span> — four color themes. Dark mode people: you&apos;re welcome. Warm mode people: also you.</p>
+                  <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                    {THEMES.map((t) => (
+                      <button
+                        key={t.id}
+                        onClick={() => setTheme(t.id)}
+                        title={t.name}
+                        className="flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-all"
+                        style={{
+                          background: t.background,
+                          borderColor: t.border,
+                          color: t.id.includes("dark") ? "#F0EDE8" : "#18181B",
+                          outline: theme === t.id ? `2px solid ${t.border}` : "none",
+                          outlineOffset: "2px",
+                          fontWeight: theme === t.id ? 600 : 400,
+                        }}
+                      >
+                        <span style={{ width: 8, height: 8, borderRadius: "50%", display: "inline-block", background: theme === t.id ? "#22c55e" : t.secondary, border: theme === t.id ? "1.5px solid #16a34a" : `1px solid ${t.border}`, flexShrink: 0 }} />
+                        {t.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <p><span className="text-foreground font-medium">Mobile editing</span> — the full editor works on phones; the sidebar becomes a hamburger menu with a full-screen section selector.</p>
+                <p><span className="text-foreground font-medium">Table &amp; card views</span> — Parts I-C and IV switch between table and card layouts; Part IV columns are resizable.</p>
+                <p><span className="text-foreground font-medium">Save reminders</span> — the editor nudges you when you have unsaved changes, before you lose an hour of work.</p>
+                <p><span className="text-foreground font-medium">Diagram uploads</span> — upload network and architecture diagram images directly from your computer.</p>
               </div>
-            </div>
-
-            {/* 4 — Mobile Editing */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Mobile Editing</p>
-              <p>
-                You can now fill out your ISSP on your phone — including, hypothetically, during a meeting where someone is presenting the ISSP template. On mobile, the sidebar becomes a hamburger menu that opens a full-screen section selector. Nothing falls off the screen anymore.
-              </p>
-            </div>
-
-            {/* 5 — Input Controls */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Input Controls</p>
-              <p>
-                Parts I-C and IV now let you switch between a <span className="text-foreground font-medium">table view</span> (for when you want to see everything at once) and a <span className="text-foreground font-medium">card view</span> (for when you want to pretend it&apos;s not that many fields). Part IV columns are also resizable now, because some agencies have very long project names.
-              </p>
-            </div>
-
-            {/* 6 — Save Reminders */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Save Reminders</p>
-              <p>
-                There were no save reminders before. You would just close the tab and lose everything. That is no longer the case — the editor now nudges you when you have unsaved changes, so you can actually leave your desk without a minor crisis.
-              </p>
-            </div>
-
-            {/* 7 — Diagrams */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Diagrams</p>
-              <p>
-                Network and architecture diagram sections now let you <span className="text-foreground font-medium">upload images directly from your computer</span>. No more broken links because someone renamed a folder on the shared drive.
-              </p>
-            </div>
-
-            {/* 8 — Reliability */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Reliability</p>
-              <p>
-                The editor now notices when you&apos;ve changed something and forgot to save — so it will remind you before you lose an hour of work. Part IV also adds up your budget across all three coverage years automatically, because the ISSP is stressful enough without doing mental math.
-              </p>
-            </div>
+            </details>
 
             {/* Footer gag */}
             <p className="text-xs text-muted-foreground/50 italic text-center border-t pt-4">
-              Now if I could actually let you upload your agency&apos;s logo into the PDF headers, that would really be something, huh? Hahaha. Soon.
+              Next on the list: Annex 1 — the ICT asset inventory. Yes, the spreadsheet-looking one. Pray for us. 🙏
             </p>
 
           </div>
