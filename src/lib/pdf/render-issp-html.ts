@@ -445,6 +445,7 @@ function renderToc(issp: IsspData, tocPages: Record<string, number> | null): str
   const hasE2 = p3.crossAgencyProjects.length > 0;
 
   const rows: { id: string; label: string; level: "part" | "section" | "sub" }[] = [
+    // Front matter: roman numeral by convention; content numbering starts at Part I = 1
     { id: "defs", label: "DEFINITION OF TERMS", level: "part" },
     { id: "part1", label: "PART I. AGENCY PROFILE & STRATEGIC CONTEXT", level: "part" },
     { id: "part1-a", label: "A. MANDATE, VISION, MISSION, AND ORGANIZATIONAL OUTCOME", level: "section" },
@@ -485,7 +486,7 @@ function renderToc(issp: IsspData, tocPages: Record<string, number> | null): str
     <div class="toc-entry toc-${r.level}">
       <span>${esc(r.label)}</span>
       <span class="toc-dots"></span>
-      <span class="toc-page-num">${tocPages?.[r.id] ?? "&nbsp;"}</span>
+      <span class="toc-page-num">${r.id === "defs" ? "i" : tocPages?.[r.id] ?? "&nbsp;"}</span>
     </div>`).join("")}
   </div>`;
 }
@@ -500,7 +501,7 @@ function renderDefinitions(issp: IsspData): string {
   ];
   return `<div class="page-break">
     ${pageHeader(issp)}
-    <div class="def-heading">${tocMark("defs")}DEFINITION OF TERMS</div>
+    <div class="def-heading">DEFINITION OF TERMS</div>
     <table>
       <thead><tr><th style="width:33%">Terms</th><th>Definition</th></tr></thead>
       <tbody>
@@ -1449,29 +1450,47 @@ export interface RenderOptions {
   withTocMarkers?: boolean;
 }
 
-export function renderIsspHtml(issp: IsspData, opts: RenderOptions = {}): string {
-  MARKERS_ENABLED = opts.withTocMarkers ?? false;
-  const body = [
-    renderCover(issp),
-    renderToc(issp, opts.tocPages ?? null),
-    renderDefinitions(issp),
-    renderPart1(issp),
-    renderPart2(issp),
-    renderPart3(issp),
-    renderPart4(issp),
-  ].join("\n");
-  MARKERS_ENABLED = false;
-
+function htmlShell(title: string, body: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${esc(issp.title)}</title>
+  <title>${esc(title)}</title>
   <style>${CSS}</style>
 </head>
 <body>
 ${body}
 </body>
 </html>`;
+}
+
+/**
+ * Front matter — cover, table of contents, definition of terms.
+ * Printed WITHOUT the running header/footer; the agency-logo header and
+ * "Page N" numbering begin at Part I (per the DICT template).
+ */
+export function renderFrontMatterHtml(issp: IsspData, tocPages: Record<string, number> | null): string {
+  const body = [
+    renderCover(issp),
+    renderToc(issp, tocPages),
+    renderDefinitions(issp),
+  ].join("\n");
+  return htmlShell(issp.title, body);
+}
+
+/**
+ * Main content — Parts I–IV. Printed as its own document so Chromium's
+ * pageNumber starts at 1 on Part I, matching the template and the TOC.
+ */
+export function renderContentHtml(issp: IsspData, opts: RenderOptions = {}): string {
+  MARKERS_ENABLED = opts.withTocMarkers ?? false;
+  const body = [
+    renderPart1(issp),
+    renderPart2(issp),
+    renderPart3(issp),
+    renderPart4(issp),
+  ].join("\n");
+  MARKERS_ENABLED = false;
+  return htmlShell(issp.title, body);
 }

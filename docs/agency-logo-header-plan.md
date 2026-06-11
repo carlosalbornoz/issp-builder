@@ -1,7 +1,16 @@
 # Agency Logo & PDF Header — Current State + Planned Work
 
-> **Status:** Logo upload shipped 2026-06-10. **Header layout adjustments pending** — the
-> logo implementation below is provisional and will change when we revise the headers.
+> **Status:** ✅ Complete. Logo upload shipped 2026-06-10; header revision shipped 2026-06-11
+> to match the official template (screenshot provided by Carlos):
+> - Header appears on **Parts I–IV only** (front matter — cover, TOC, definitions — has no
+>   header or footer). Implemented by printing front matter and content as separate Puppeteer
+>   jobs and merging with pdf-lib (`IsspPdfParts` in `generate-pdf.ts`).
+> - Header layout: agency logo upper-left (34px; bold acronym fallback when no logo),
+>   centered bold "INFORMATION SYSTEMS STRATEGIC PLAN <start> - <end>", no border rule.
+> - Page numbering restarts at Part I = "Page 1" (content is its own print job, so
+>   Chromium's pageNumber counter aligns naturally), and the TOC two-pass scan numbers
+>   are content-relative — TOC, footer, and template all agree. DEFINITION OF TERMS shows
+>   roman "i".
 
 ---
 

@@ -1,6 +1,10 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-05-24 (session 9 — diagram upload complete)  
+> **Last updated:** 2026-06-11 — see `docs/session-log-2026-06-10-11.md` for the latest two
+> sessions (codebase review fixes, agency logo, UX audit fixes, real TOC page numbers, PDF
+> header redesign). **Note:** the PDF export section below predates the 2026-06-11 pipeline
+> split (`renderFrontMatterHtml`/`renderContentHtml` + `IsspPdfParts`); trust the session log
+> and `src/lib/pdf/` over this file for PDF details.  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---

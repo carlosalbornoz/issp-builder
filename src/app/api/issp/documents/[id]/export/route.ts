@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { renderIsspHtml, type IsspData } from "@/lib/pdf/render-issp-html";
+import { renderContentHtml, renderFrontMatterHtml, type IsspData } from "@/lib/pdf/render-issp-html";
 import { generatePdf } from "@/lib/pdf/generate-pdf";
 
 function parseJson<T>(s: string | null | undefined, fallback: T): T {
@@ -129,17 +129,19 @@ export async function GET(
   // Attach logoSrc to agency so renderIsspHtml can embed it in the cover page
   issp.agency.logoSrc = logoSrc;
 
-  const html = renderIsspHtml(issp, { withTocMarkers: true });
   const pdf = await generatePdf(
-    html,
+    {
+      contentHtml: renderContentHtml(issp, { withTocMarkers: true }),
+      finalizeContentHtml: () => renderContentHtml(issp),
+      frontHtml: (tocPages) => renderFrontMatterHtml(issp, tocPages),
+    },
     {
       agencyAcronym: doc.agency.acronym,
       agencyName: doc.agency.name,
       logoSrc,
       startYear: doc.startYear,
       endYear: doc.endYear,
-    },
-    { finalizeHtml: (tocPages) => renderIsspHtml(issp, { tocPages }) }
+    }
   );
 
   const safeAcronym = (doc.agency.acronym ?? "AGENCY").replace(/[^\w\-]/g, "_");

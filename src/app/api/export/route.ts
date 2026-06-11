@@ -1,4 +1,4 @@
-import { renderIsspHtml, type IsspData } from "@/lib/pdf/render-issp-html";
+import { renderContentHtml, renderFrontMatterHtml, type IsspData } from "@/lib/pdf/render-issp-html";
 import { generatePdf } from "@/lib/pdf/generate-pdf";
 import type {
   IsspDocument,
@@ -280,19 +280,22 @@ export async function POST(req: Request) {
   }
 
   const issp = toRenderData(doc);
-  // Two-pass render: pass 1 carries invisible TOC markers, pass 2 gets the
-  // real page numbers scanned from pass 1.
-  const html = renderIsspHtml(issp, { withTocMarkers: true });
+  // Front matter and content are printed separately: the agency header and
+  // page numbering start at Part I. Pass 1 of the content carries invisible
+  // TOC markers; the scanned pages feed both the final content and the TOC.
   const pdf = await generatePdf(
-    html,
+    {
+      contentHtml: renderContentHtml(issp, { withTocMarkers: true }),
+      finalizeContentHtml: () => renderContentHtml(issp),
+      frontHtml: (tocPages) => renderFrontMatterHtml(issp, tocPages),
+    },
     {
       agencyAcronym: doc.agency.acronym,
       agencyName: doc.agency.name,
       logoSrc: doc.agency.logoBase64 || null,
       startYear: doc.startYear,
       endYear: doc.endYear,
-    },
-    { finalizeHtml: (tocPages) => renderIsspHtml(issp, { tocPages }) }
+    }
   );
 
   const safeAcronym = (doc.agency.acronym ?? "AGENCY").replace(/[^\w\-]/g, "_");
