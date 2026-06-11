@@ -272,5 +272,5 @@ Phase 6 `SectionShell` is complete. The remaining UI refresh work is the deferre
 Standalone public module at `/annex1`. See `docs/annex1-implementation-plan.md`.
 
 ### 🔵 PDF — Known Remaining Gaps
-- TOC page numbers are static (hardcoded) — no two-pass render
+- ~~TOC page numbers are static (hardcoded) — no two-pass render~~ ✅ Fixed 2026-06-11: two-pass render — pass 1 prints invisible `@@toc:id@@` markers at each heading, `scanTocMarkers` (pdfjs-dist) maps them to physical pages, pass 2 renders the TOC with real numbers. Markers are absolutely positioned so pagination is identical between passes; the TOC page-number cell is fixed-width for the same reason. Verified against the demo doc: all rows match `pdftotext`-measured heading pages.
 - Network/proposed network/enterprise architecture diagrams render inline, not as full dedicated pages

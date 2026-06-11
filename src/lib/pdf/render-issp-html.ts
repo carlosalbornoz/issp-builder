@@ -180,6 +180,19 @@ function nl2br(s: string | null | undefined): string {
   return esc(s).replace(/\n/g, "<br>");
 }
 
+// ─── TOC markers (two-pass page numbering) ────────────────────────────────────
+// Pass 1 renders invisible marker text at each TOC-able heading; generate-pdf
+// extracts which physical page each marker lands on, then pass 2 re-renders
+// with the real numbers (markers stripped). Markers are absolutely positioned
+// transparent text, so they never affect pagination.
+
+let MARKERS_ENABLED = false;
+
+function tocMark(id: string): string {
+  if (!MARKERS_ENABLED) return "";
+  return `<span class="toc-marker">@@toc:${id}@@</span>`;
+}
+
 function php(n: number): string {
   return new Intl.NumberFormat("en-PH", {
     style: "currency", currency: "PHP", minimumFractionDigits: 2,
@@ -281,7 +294,10 @@ const CSS = `
 
   /* ── TOC ── */
   .toc-title { font-size: 16pt; font-weight: bold; margin-bottom: 5mm; }
+  .toc-marker { position: absolute; font-size: 2px; color: transparent; }
   .toc-entry { display: flex; justify-content: space-between; margin-bottom: 0.5mm; font-size: 10pt; }
+  /* Fixed-width page cell so pass 1 (blank) and pass 2 (numbers) paginate identically */
+  .toc-page-num { flex: 0 0 10mm; text-align: right; }
   .toc-entry.toc-part { font-weight: bold; margin-top: 2mm; font-size: 10pt; }
   .toc-entry.toc-section { padding-left: 8mm; }
   .toc-entry.toc-sub { padding-left: 16mm; }
@@ -424,42 +440,42 @@ function renderCover(issp: IsspData): string {
 
 // ─── Table of Contents ────────────────────────────────────────────────────────
 
-function renderToc(issp: IsspData): string {
+function renderToc(issp: IsspData, tocPages: Record<string, number> | null): string {
   const p3 = issp.part3;
   const hasE2 = p3.crossAgencyProjects.length > 0;
 
-  const rows: { label: string; level: "part" | "section" | "sub"; page: string }[] = [
-    { label: "DEFINITION OF TERMS", level: "part", page: "i" },
-    { label: "PART I. AGENCY PROFILE & STRATEGIC CONTEXT", level: "part", page: "1" },
-    { label: "A. MANDATE, VISION, MISSION, AND ORGANIZATIONAL OUTCOME", level: "section", page: "1" },
-    { label: "B. ORGANIZATIONAL STRUCTURE", level: "section", page: "1" },
-    { label: "C. STAKEHOLDER ANALYSIS", level: "section", page: "2" },
-    { label: "PART II. CURRENT ICT ASSESSMENT", level: "part", page: "3" },
-    { label: "A. STRATEGIC CONCERNS FOR ICT USE", level: "section", page: "3" },
-    { label: "B. EXISTING NETWORK INFRASTRUCTURE", level: "section", page: "4" },
-    { label: "B1. LAN/WAN SET-UP INCLUDING CONNECTIVITY TYPE AND BANDWIDTH", level: "sub", page: "4" },
-    { label: "B2. CYBERSECURITY CONTROL CHECKLIST", level: "sub", page: "5" },
-    { label: "C. EXISTING/OPERATIONAL INFORMATION SYSTEMS (IS) INVENTORY", level: "section", page: "6" },
-    { label: "D. E-GOVERNMENT PROGRAMS (EGP) CHECKLIST", level: "section", page: "8" },
-    { label: "PART III. PROPOSED ICT STRATEGY", level: "part", page: "11" },
-    { label: "A. PROPOSED NETWORK INFRASTRUCTURE", level: "section", page: "11" },
-    { label: "B. ENTERPRISE ARCHITECTURE", level: "section", page: "13" },
-    { label: "C. PROPOSED ICT HUMAN CAPITAL", level: "section", page: "14" },
-    { label: "D. PROPOSED INFORMATION SYSTEMS", level: "section", page: "15" },
-    { label: "E. ICT PROJECTS", level: "section", page: "17" },
-    { label: "E.1. INTERNAL ICT PROJECTS", level: "sub", page: "17" },
-    ...(hasE2 ? [{ label: "E.2. CROSS-AGENCY ICT PROJECTS", level: "sub" as const, page: "19" }] : []),
-    { label: "F. PERFORMANCE MEASUREMENT FRAMEWORK", level: "section", page: "21" },
-    { label: "PART IV. RESOURCE REQUIREMENTS", level: "part", page: "23" },
-    { label: "A. DETAILED RESOURCE DEPLOYMENT AND COST BREAKDOWN", level: "section", page: "23" },
-    { label: `A.1. [${issp.startYear}]`, level: "sub", page: "23" },
-    { label: `A.2. [${issp.startYear + 1}]`, level: "sub", page: "27" },
-    { label: `A.3. [${issp.startYear + 2}]`, level: "sub", page: "31" },
-    { label: "B. SUMMARY OF INVESTMENTS", level: "section", page: "35" },
-    { label: "B.1. GENERAL SUMMARY", level: "sub", page: "35" },
-    { label: "B.2. FUND SOURCE", level: "sub", page: "35" },
-    { label: "B.3. STATEMENT OF EXPENDITURE", level: "sub", page: "35" },
-    { label: "B.4. OBJECT OF EXPENDITURE", level: "sub", page: "36" },
+  const rows: { id: string; label: string; level: "part" | "section" | "sub" }[] = [
+    { id: "defs", label: "DEFINITION OF TERMS", level: "part" },
+    { id: "part1", label: "PART I. AGENCY PROFILE & STRATEGIC CONTEXT", level: "part" },
+    { id: "part1-a", label: "A. MANDATE, VISION, MISSION, AND ORGANIZATIONAL OUTCOME", level: "section" },
+    { id: "part1-b", label: "B. ORGANIZATIONAL STRUCTURE", level: "section" },
+    { id: "part1-c", label: "C. STAKEHOLDER ANALYSIS", level: "section" },
+    { id: "part2", label: "PART II. CURRENT ICT ASSESSMENT", level: "part" },
+    { id: "part2-a", label: "A. STRATEGIC CONCERNS FOR ICT USE", level: "section" },
+    { id: "part2-b", label: "B. EXISTING NETWORK INFRASTRUCTURE", level: "section" },
+    { id: "part2-b1", label: "B1. LAN/WAN SET-UP INCLUDING CONNECTIVITY TYPE AND BANDWIDTH", level: "sub" },
+    { id: "part2-b2", label: "B2. CYBERSECURITY CONTROL CHECKLIST", level: "sub" },
+    { id: "part2-c", label: "C. EXISTING/OPERATIONAL INFORMATION SYSTEMS (IS) INVENTORY", level: "section" },
+    { id: "part2-d", label: "D. E-GOVERNMENT PROGRAMS (EGP) CHECKLIST", level: "section" },
+    { id: "part3", label: "PART III. PROPOSED ICT STRATEGY", level: "part" },
+    { id: "part3-a", label: "A. PROPOSED NETWORK INFRASTRUCTURE", level: "section" },
+    { id: "part3-b", label: "B. ENTERPRISE ARCHITECTURE", level: "section" },
+    { id: "part3-c", label: "C. PROPOSED ICT HUMAN CAPITAL", level: "section" },
+    { id: "part3-d", label: "D. PROPOSED INFORMATION SYSTEMS", level: "section" },
+    { id: "part3-e", label: "E. ICT PROJECTS", level: "section" },
+    { id: "part3-e1", label: "E.1. INTERNAL ICT PROJECTS", level: "sub" },
+    ...(hasE2 ? [{ id: "part3-e2", label: "E.2. CROSS-AGENCY ICT PROJECTS", level: "sub" as const }] : []),
+    { id: "part3-f", label: "F. PERFORMANCE MEASUREMENT FRAMEWORK", level: "section" },
+    { id: "part4", label: "PART IV. RESOURCE REQUIREMENTS", level: "part" },
+    { id: "part4-a", label: "A. DETAILED RESOURCE DEPLOYMENT AND COST BREAKDOWN", level: "section" },
+    { id: "part4-a1", label: `A.1. [${issp.startYear}]`, level: "sub" },
+    { id: "part4-a2", label: `A.2. [${issp.startYear + 1}]`, level: "sub" },
+    { id: "part4-a3", label: `A.3. [${issp.startYear + 2}]`, level: "sub" },
+    { id: "part4-b", label: "B. SUMMARY OF INVESTMENTS", level: "section" },
+    { id: "part4-b1", label: "B.1. GENERAL SUMMARY", level: "sub" },
+    { id: "part4-b2", label: "B.2. FUND SOURCE", level: "sub" },
+    { id: "part4-b3", label: "B.3. STATEMENT OF EXPENDITURE", level: "sub" },
+    { id: "part4-b4", label: "B.4. OBJECT OF EXPENDITURE", level: "sub" },
   ];
 
   return `<div class="page-break">
@@ -469,7 +485,7 @@ function renderToc(issp: IsspData): string {
     <div class="toc-entry toc-${r.level}">
       <span>${esc(r.label)}</span>
       <span class="toc-dots"></span>
-      <span>${r.page}</span>
+      <span class="toc-page-num">${tocPages?.[r.id] ?? "&nbsp;"}</span>
     </div>`).join("")}
   </div>`;
 }
@@ -484,7 +500,7 @@ function renderDefinitions(issp: IsspData): string {
   ];
   return `<div class="page-break">
     ${pageHeader(issp)}
-    <div class="def-heading">DEFINITION OF TERMS</div>
+    <div class="def-heading">${tocMark("defs")}DEFINITION OF TERMS</div>
     <table>
       <thead><tr><th style="width:33%">Terms</th><th>Definition</th></tr></thead>
       <tbody>
@@ -531,9 +547,9 @@ function renderPart1(issp: IsspData): string {
 
   return `<div class="page-break">
     ${pageHeader(issp)}
-    <div class="part-heading">Part I. Agency Profile &amp; Strategic Context</div>
+    <div class="part-heading">${tocMark("part1")}Part I. Agency Profile &amp; Strategic Context</div>
 
-    <div class="section-heading">A. Mandate, Vision, Mission, and Organizational Outcome</div>
+    <div class="section-heading">${tocMark("part1-a")}A. Mandate, Vision, Mission, and Organizational Outcome</div>
 
     <div class="subsection-heading">A.1. Mandate</div>
     <div class="subsection-block"><ul class="template-list">
@@ -555,7 +571,7 @@ function renderPart1(issp: IsspData): string {
       </div>`).join("")
     }</div>
 
-    <div class="section-heading">B. Organizational Structure</div>
+    <div class="section-heading">${tocMark("part1-b")}B. Organizational Structure</div>
 
     <div class="subsection-heading">B.1. Chief Information Officer (CIO)</div>
     <div class="subsection-block"><ul class="template-list">
@@ -600,7 +616,7 @@ function renderPart1(issp: IsspData): string {
       </tbody>
     </table></div>
 
-    <div class="section-heading">C. Stakeholder Analysis</div>
+    <div class="section-heading">${tocMark("part1-c")}C. Stakeholder Analysis</div>
     <table>
       <thead><tr><th style="width:33%">Stakeholders</th><th style="width:40%">Transaction / Service</th><th>Complexity</th></tr></thead>
       <tbody>
@@ -821,9 +837,9 @@ function renderPart2(issp: IsspData): string {
 
   return `<div class="page-break">
     ${pageHeader(issp)}
-    <div class="part-heading">Part II. Current ICT Assessment</div>
+    <div class="part-heading">${tocMark("part2")}Part II. Current ICT Assessment</div>
 
-    <div class="section-heading">A. Strategic Concerns for ICT Use</div>
+    <div class="section-heading">${tocMark("part2-a")}A. Strategic Concerns for ICT Use</div>
     <table>
       <thead>
         <tr>
@@ -846,8 +862,8 @@ function renderPart2(issp: IsspData): string {
       </tbody>
     </table>
 
-    <div class="section-heading">B. Existing Network Infrastructure</div>
-    <div class="subsection-heading">B1. LAN/WAN Set-Up Including Connectivity Type and Bandwidth</div>
+    <div class="section-heading">${tocMark("part2-b")}B. Existing Network Infrastructure</div>
+    <div class="subsection-heading">${tocMark("part2-b1")}B1. LAN/WAN Set-Up Including Connectivity Type and Bandwidth</div>
     <div class="subsection-block">${diagrams.length === 0
       ? `<p style="font-style:italic;">No network diagrams uploaded.</p>`
       : diagrams.map((d, i) => `<div class="avoid-break" style="margin-bottom:5mm;">
@@ -857,17 +873,17 @@ function renderPart2(issp: IsspData): string {
     }
     ${p.networkDescription ? `<p style="margin-top:3mm;">${nl2br(p.networkDescription)}</p>` : ""}</div>
 
-    <div class="subsection-heading" style="margin-top:6mm;">B2. Cybersecurity Control Checklist</div>
+    <div class="subsection-heading" style="margin-top:6mm;">${tocMark("part2-b2")}B2. Cybersecurity Control Checklist</div>
     <div class="subsection-block">${renderCyberTable(p.cybersecurityControls)}</div>
 
-    <div class="section-heading page-break">C. Existing/Operational Information Systems (IS) Inventory</div>
+    <div class="section-heading page-break">${tocMark("part2-c")}C. Existing/Operational Information Systems (IS) Inventory</div>
     ${pageHeader(issp)}
     ${p.informationSystems.length === 0
       ? `<p style="font-style:italic;">No information systems specified.</p>`
       : p.informationSystems.map(sys => renderIsCard(sys)).join("")
     }
 
-    <div class="section-heading page-break">D. E-Government Programs (EGP) Checklist</div>
+    <div class="section-heading page-break">${tocMark("part2-d")}D. E-Government Programs (EGP) Checklist</div>
     ${pageHeader(issp)}
     <table>
       <thead><tr><th style="width:30%">Program</th><th style="width:35%">Status</th><th>Details</th></tr></thead>
@@ -942,9 +958,9 @@ function renderPart3(issp: IsspData): string {
 
   return `<div class="page-break">
     ${pageHeader(issp)}
-    <div class="part-heading">Part III. Proposed ICT Strategy</div>
+    <div class="part-heading">${tocMark("part3")}Part III. Proposed ICT Strategy</div>
 
-    <div class="section-heading">A. Proposed Network Infrastructure</div>
+    <div class="section-heading">${tocMark("part3-a")}A. Proposed Network Infrastructure</div>
     <div class="subsection-heading">A.1. LAN/WAN Set-Up Including Connectivity Type and Bandwidth</div>
     <div class="subsection-block">${p.proposedNetworkDesc
       ? `<p>${nl2br(p.proposedNetworkDesc)}</p>`
@@ -961,7 +977,7 @@ function renderPart3(issp: IsspData): string {
     <div class="subsection-heading" style="margin-top:4mm;">A.2. Cybersecurity Control Checklist</div>
     <div class="subsection-block">${renderCyberTable(p.proposedCybersecControls)}</div>
 
-    <div class="section-heading page-break">B. Enterprise Architecture</div>
+    <div class="section-heading page-break">${tocMark("part3-b")}B. Enterprise Architecture</div>
     ${pageHeader(issp)}
     ${p.enterpriseArchDataUrl
       ? `<div class="avoid-break">
@@ -971,7 +987,7 @@ function renderPart3(issp: IsspData): string {
       : `<p style="font-style:italic;">Enterprise architecture diagram to be attached.</p>`
     }
 
-    <div class="section-heading" style="margin-top:6mm;">C. Proposed ICT Human Capital</div>
+    <div class="section-heading" style="margin-top:6mm;">${tocMark("part3-c")}C. Proposed ICT Human Capital</div>
     <table>
       <thead>
         <tr>
@@ -996,28 +1012,28 @@ function renderPart3(issp: IsspData): string {
       </tbody>
     </table>
 
-    <div class="section-heading page-break">D. Proposed Information Systems</div>
+    <div class="section-heading page-break">${tocMark("part3-d")}D. Proposed Information Systems</div>
     ${pageHeader(issp)}
     ${p.proposedSystems.length === 0
       ? `<p style="font-style:italic;">No proposed information systems specified.</p>`
       : p.proposedSystems.map(sys => renderIsCard(sys, true)).join("")
     }
 
-    <div class="section-heading page-break">E. ICT Projects</div>
+    <div class="section-heading page-break">${tocMark("part3-e")}E. ICT Projects</div>
     ${pageHeader(issp)}
 
-    <div class="subsection-heading">E.1. Internal ICT Projects</div>
+    <div class="subsection-heading">${tocMark("part3-e1")}E.1. Internal ICT Projects</div>
     <div class="subsection-block">${p.internalProjects.length === 0
       ? `<p style="font-style:italic;">No internal ICT projects specified.</p>`
       : p.internalProjects.map(proj => renderProjectCard(proj, false)).join("")
     }</div>
 
     ${p.crossAgencyProjects.length > 0 ? `
-    <div class="subsection-heading" style="margin-top:6mm;">E.2. Cross-Agency ICT Projects</div>
+    <div class="subsection-heading" style="margin-top:6mm;">${tocMark("part3-e2")}E.2. Cross-Agency ICT Projects</div>
     <div class="subsection-block">${p.crossAgencyProjects.map(proj => renderProjectCard(proj, true)).join("")}</div>
     ` : ""}
 
-    <div class="section-heading page-break">F. Performance Measurement Framework</div>
+    <div class="section-heading page-break">${tocMark("part3-f")}F. Performance Measurement Framework</div>
     ${pageHeader(issp)}
     <div class="subsection-heading">F.1. Internal ICT Projects</div>
     <div class="subsection-block">${allProjects.filter(pr => pr.type === "internal").map(proj => {
@@ -1281,18 +1297,18 @@ function renderPart4(issp: IsspData): string {
     <div class="${i === 0 ? "page-break" : "page-break"}">
       ${pageHeader(issp)}
       <div class="${i === 0 ? "part-heading" : "section-heading"}">
-        ${i === 0 ? "Part IV. Resource Requirements<br><span style=\"font-size:13pt\">A. Detailed Resource Deployment and Cost Breakdown</span>" : ""}
+        ${i === 0 ? `${tocMark("part4")}${tocMark("part4-a")}Part IV. Resource Requirements<br><span style="font-size:13pt">A. Detailed Resource Deployment and Cost Breakdown</span>` : ""}
       </div>
-      <div class="subsection-heading">A.${i + 1}. [${label}]</div>
+      <div class="subsection-heading">${tocMark(`part4-a${i + 1}`)}A.${i + 1}. [${label}]</div>
       <div class="subsection-block">${renderYearTable(p[key], i + 1, label, internalProjects, crossAgencyProjects)}</div>
     </div>`).join("")}
 
     <div class="page-break">
       ${pageHeader(issp)}
-      <div class="section-heading">B. Summary of Investments</div>
+      <div class="section-heading">${tocMark("part4-b")}B. Summary of Investments</div>
 
       <div class="summary-section">
-        <div class="summary-title">B.1. General Summary</div>
+        <div class="summary-title">${tocMark("part4-b1")}B.1. General Summary</div>
         <table>
           <thead>
             <tr><th>Category</th><th>${issp.startYear}</th><th>${issp.startYear + 1}</th><th>${issp.startYear + 2}</th><th>Total</th></tr>
@@ -1352,7 +1368,7 @@ function renderPart4(issp: IsspData): string {
       </div>
 
       <div class="summary-section">
-        <div class="summary-title">B.2. Fund Source</div>
+        <div class="summary-title">${tocMark("part4-b2")}B.2. Fund Source</div>
         <table>
           <thead><tr><th>Fund Source</th><th>${issp.startYear}</th><th>${issp.startYear + 1}</th><th>${issp.startYear + 2}</th><th>Total</th></tr></thead>
           <tbody>
@@ -1372,7 +1388,7 @@ function renderPart4(issp: IsspData): string {
       </div>
 
       <div class="summary-section">
-        <div class="summary-title">B.3. Statement of Expenditure</div>
+        <div class="summary-title">${tocMark("part4-b3")}B.3. Statement of Expenditure</div>
         <table>
           <thead><tr><th>Expenditure Type</th><th>${issp.startYear}</th><th>${issp.startYear + 1}</th><th>${issp.startYear + 2}</th><th>Total</th></tr></thead>
           <tbody>
@@ -1394,7 +1410,7 @@ function renderPart4(issp: IsspData): string {
       </div>
 
       <div class="summary-section">
-        <div class="summary-title">B.4. Object of Expenditure</div>
+        <div class="summary-title">${tocMark("part4-b4")}B.4. Object of Expenditure</div>
         <table>
           <thead><tr><th>UACS Object Code</th><th>${issp.startYear}</th><th>${issp.startYear + 1}</th><th>${issp.startYear + 2}</th><th>Total</th></tr></thead>
           <tbody>
@@ -1426,16 +1442,25 @@ function renderPart4(issp: IsspData): string {
 
 // ─── Main render function ──────────────────────────────────────────────────────
 
-export function renderIsspHtml(issp: IsspData): string {
+export interface RenderOptions {
+  /** Real page number per TOC row id (from the pass-1 marker scan). Blank cells when absent. */
+  tocPages?: Record<string, number> | null;
+  /** Emit invisible @@toc:id@@ markers for the pass-1 page scan. */
+  withTocMarkers?: boolean;
+}
+
+export function renderIsspHtml(issp: IsspData, opts: RenderOptions = {}): string {
+  MARKERS_ENABLED = opts.withTocMarkers ?? false;
   const body = [
     renderCover(issp),
-    renderToc(issp),
+    renderToc(issp, opts.tocPages ?? null),
     renderDefinitions(issp),
     renderPart1(issp),
     renderPart2(issp),
     renderPart3(issp),
     renderPart4(issp),
   ].join("\n");
+  MARKERS_ENABLED = false;
 
   return `<!DOCTYPE html>
 <html lang="en">

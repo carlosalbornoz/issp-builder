@@ -129,14 +129,18 @@ export async function GET(
   // Attach logoSrc to agency so renderIsspHtml can embed it in the cover page
   issp.agency.logoSrc = logoSrc;
 
-  const html = renderIsspHtml(issp);
-  const pdf = await generatePdf(html, {
-    agencyAcronym: doc.agency.acronym,
-    agencyName: doc.agency.name,
-    logoSrc,
-    startYear: doc.startYear,
-    endYear: doc.endYear,
-  });
+  const html = renderIsspHtml(issp, { withTocMarkers: true });
+  const pdf = await generatePdf(
+    html,
+    {
+      agencyAcronym: doc.agency.acronym,
+      agencyName: doc.agency.name,
+      logoSrc,
+      startYear: doc.startYear,
+      endYear: doc.endYear,
+    },
+    { finalizeHtml: (tocPages) => renderIsspHtml(issp, { tocPages }) }
+  );
 
   const safeAcronym = (doc.agency.acronym ?? "AGENCY").replace(/[^\w\-]/g, "_");
   const filename = `${safeAcronym}-ISSP-${doc.startYear}-${doc.endYear}.pdf`;

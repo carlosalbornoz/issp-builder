@@ -280,14 +280,20 @@ export async function POST(req: Request) {
   }
 
   const issp = toRenderData(doc);
-  const html = renderIsspHtml(issp);
-  const pdf = await generatePdf(html, {
-    agencyAcronym: doc.agency.acronym,
-    agencyName: doc.agency.name,
-    logoSrc: doc.agency.logoBase64 || null,
-    startYear: doc.startYear,
-    endYear: doc.endYear,
-  });
+  // Two-pass render: pass 1 carries invisible TOC markers, pass 2 gets the
+  // real page numbers scanned from pass 1.
+  const html = renderIsspHtml(issp, { withTocMarkers: true });
+  const pdf = await generatePdf(
+    html,
+    {
+      agencyAcronym: doc.agency.acronym,
+      agencyName: doc.agency.name,
+      logoSrc: doc.agency.logoBase64 || null,
+      startYear: doc.startYear,
+      endYear: doc.endYear,
+    },
+    { finalizeHtml: (tocPages) => renderIsspHtml(issp, { tocPages }) }
+  );
 
   const safeAcronym = (doc.agency.acronym ?? "AGENCY").replace(/[^\w\-]/g, "_");
   const filename = `${safeAcronym}-ISSP-${doc.startYear}-${doc.endYear}.pdf`;

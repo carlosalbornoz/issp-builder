@@ -9,6 +9,41 @@ export interface PdfHeaderOptions {
   endYear: number;
 }
 
+export interface GeneratePdfOptions {
+  /**
+   * Enables the two-pass TOC flow: the initial `html` (rendered with invisible
+   * @@toc:id@@ markers) is printed once, the markers are located per physical
+   * page, and this callback returns the final HTML rendered with real numbers.
+   */
+  finalizeHtml?: (tocPages: Record<string, number>) => string;
+}
+
+// Case-insensitive: headings use CSS text-transform:uppercase, and the PDF
+// text layer stores the transformed (uppercased) marker text.
+const TOC_MARKER_RE = /@@toc:([a-z0-9-]+)@@/gi;
+
+/** Map each @@toc:id@@ marker to the 1-based physical page it appears on. */
+async function scanTocMarkers(pdfBytes: Uint8Array): Promise<Record<string, number>> {
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const loadingTask = getDocument({ data: pdfBytes });
+  const pages: Record<string, number> = {};
+  try {
+    const doc = await loadingTask.promise;
+    for (let i = 1; i <= doc.numPages; i++) {
+      const page = await doc.getPage(i);
+      const content = await page.getTextContent();
+      const text = content.items.map((it) => ("str" in it ? it.str : "")).join("");
+      for (const match of text.matchAll(TOC_MARKER_RE)) {
+        const id = match[1].toLowerCase();
+        if (!(id in pages)) pages[id] = i; // first occurrence wins
+      }
+    }
+  } finally {
+    await loadingTask.destroy();
+  }
+  return pages;
+}
+
 function esc(s: string): string {
   return s
     .replace(/&/g, "&amp;")
@@ -17,7 +52,11 @@ function esc(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-export async function generatePdf(html: string, header: PdfHeaderOptions): Promise<Buffer> {
+export async function generatePdf(
+  html: string,
+  header: PdfHeaderOptions,
+  opts: GeneratePdfOptions = {}
+): Promise<Buffer> {
   const browser = await puppeteer.launch({
     headless: true,
     args: [
@@ -90,19 +129,33 @@ export async function generatePdf(html: string, header: PdfHeaderOptions): Promi
       else void req.abort();
     });
 
-    await page.setContent(html, { waitUntil: "load", timeout: 30000 });
-    await page.evaluate(() =>
-      Promise.all(
-        [...document.querySelectorAll("img")].map((img) =>
-          img.complete
-            ? Promise.resolve()
-            : new Promise<void>((res) => {
-                img.addEventListener("load", () => res());
-                img.addEventListener("error", () => res());
-              })
+    const waitForImages = () =>
+      page.evaluate(() =>
+        Promise.all(
+          [...document.querySelectorAll("img")].map((img) =>
+            img.complete
+              ? Promise.resolve()
+              : new Promise<void>((res) => {
+                  img.addEventListener("load", () => res());
+                  img.addEventListener("error", () => res());
+                })
+          )
         )
-      )
-    );
+      );
+
+    let finalHtml = html;
+    if (opts.finalizeHtml) {
+      // Pass 1: print the marker build (same margins/format, header/footer
+      // don't affect layout) and locate each section's physical page.
+      await page.setContent(html, { waitUntil: "load", timeout: 30000 });
+      await waitForImages();
+      const passOneBytes = await page.pdf({ ...pdfOptions, displayHeaderFooter: false });
+      const tocPages = await scanTocMarkers(passOneBytes);
+      finalHtml = opts.finalizeHtml(tocPages);
+    }
+
+    await page.setContent(finalHtml, { waitUntil: "load", timeout: 30000 });
+    await waitForImages();
 
     // Full PDF with running header + footer on every page (cover will be replaced)
     const fullPdfBytes = await page.pdf({
