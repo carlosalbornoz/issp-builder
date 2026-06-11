@@ -324,6 +324,14 @@ export interface SectionMeta {
   lastEditedAt: string | null;
 }
 
+// ─── Definition of Terms (front matter) ───────────────────────────────────────
+
+export interface DefinitionTerm {
+  id: string;
+  term: string;
+  definition: string;
+}
+
 // ─── Root document ────────────────────────────────────────────────────────────
 
 export interface IsspDocument {
@@ -349,6 +357,8 @@ export interface IsspDocument {
    * Absent key = { userMarkedDone: false, lastEditedAt: null }.
    */
   sectionMeta?: Record<string, SectionMeta>;
+  /** Definition of Terms (front matter). Absent = standard template terms. */
+  definitions?: DefinitionTerm[];
   part1: Part1Data;
   part2: Part2Data;
   part3: Part3Data;

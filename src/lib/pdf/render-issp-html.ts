@@ -1,3 +1,5 @@
+import { STANDARD_DEFINITIONS } from "@/lib/store/defaults";
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface Agency {
@@ -158,6 +160,8 @@ export interface IsspData {
   amendmentNumber: number;
   agencyHeadName: string;
   agency: Agency;
+  /** Definition of Terms (front matter). Absent = standard template terms. */
+  definitions?: { term: string; definition: string }[];
   part1: Part1;
   part2: Part2;
   part3: Part3;
@@ -446,7 +450,9 @@ function renderToc(issp: IsspData, tocPages: Record<string, number> | null): str
 
   const rows: { id: string; label: string; level: "part" | "section" | "sub" }[] = [
     // Front matter: roman numeral by convention; content numbering starts at Part I = 1
-    { id: "defs", label: "DEFINITION OF TERMS", level: "part" },
+    ...(definitionTerms(issp).length > 0
+      ? [{ id: "defs", label: "DEFINITION OF TERMS", level: "part" as const }]
+      : []),
     { id: "part1", label: "PART I. AGENCY PROFILE & STRATEGIC CONTEXT", level: "part" },
     { id: "part1-a", label: "A. MANDATE, VISION, MISSION, AND ORGANIZATIONAL OUTCOME", level: "section" },
     { id: "part1-b", label: "B. ORGANIZATIONAL STRUCTURE", level: "section" },
@@ -493,19 +499,22 @@ function renderToc(issp: IsspData, tocPages: Record<string, number> | null): str
 
 // ─── Definition of Terms ──────────────────────────────────────────────────────
 
+function definitionTerms(issp: IsspData): { term: string; definition: string }[] {
+  return (issp.definitions ?? [...STANDARD_DEFINITIONS])
+    .filter((t) => t.term.trim())
+    .sort((a, b) => a.term.localeCompare(b.term, "en", { sensitivity: "base" }));
+}
+
 function renderDefinitions(issp: IsspData): string {
-  const terms = [
-    { term: "Agency", def: "Refers to any bureau, office, commission, authority, or instrumentality of the national government, including government-owned or-controlled corporations (GOCC), authorized by law or by their respective charters to contract for or undertake information and communications technology networks and databases, infrastructure or development projects." },
-    { term: "Business Process", def: "A collection of business transactions between business partners and/or internal activities within one business. These transactions and/or activities together support the objective of the business process." },
-    { term: "Chief Information Officer", def: "Refers to a senior officer responsible for the development, planning, and implementation of the government entity's information systems strategic plan (ISSP) or ICT plan, and management of the agency's ICT systems, platforms, and applications;" },
-  ];
+  const terms = definitionTerms(issp);
+  if (terms.length === 0) return "";
   return `<div class="page-break">
     ${pageHeader(issp)}
     <div class="def-heading">DEFINITION OF TERMS</div>
     <table>
       <thead><tr><th style="width:33%">Terms</th><th>Definition</th></tr></thead>
       <tbody>
-        ${terms.map(t => `<tr class="avoid-break"><td>${esc(t.term)}</td><td>${esc(t.def)}</td></tr>`).join("")}
+        ${terms.map(t => `<tr class="avoid-break"><td>${esc(t.term)}</td><td>${nl2br(t.definition)}</td></tr>`).join("")}
       </tbody>
     </table>
   </div>`;

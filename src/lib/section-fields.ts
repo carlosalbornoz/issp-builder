@@ -140,6 +140,13 @@ export function getChangedFields(
   const def = SECTION_FIELDS[sectionId];
   const changed: SectionField[] = [];
 
+  // Front-matter definitions live at the document root, not under a part key
+  if (sectionId === "definitions") {
+    if (JSON.stringify(current.definitions ?? null) !== JSON.stringify(snapshot.definitions ?? null)) {
+      changed.push({ key: "definitions", label: "Terms" });
+    }
+  }
+
   if (def && def.fields.length > 0) {
     const currentPart = current[def.partKey] as unknown as Record<string, unknown>;
     const snapshotPart = snapshot[def.partKey] as unknown as Record<string, unknown>;

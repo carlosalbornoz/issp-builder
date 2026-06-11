@@ -38,7 +38,8 @@ export function SectionShell({
   // Derive part + section from config
   const sectionIndex = ALL_SECTIONS.findIndex((s) => s.id === sectionId);
   const section = ALL_SECTIONS[sectionIndex];
-  const part = PARTS.find((p) => p.sections.some((s) => s.id === sectionId))!;
+  // Front-matter sections (e.g. Definition of Terms) have no parent part
+  const part = PARTS.find((p) => p.sections.some((s) => s.id === sectionId)) ?? null;
 
   const prevSection = sectionIndex > 0 ? ALL_SECTIONS[sectionIndex - 1] : null;
   const prevPart = prevSection
@@ -85,8 +86,8 @@ export function SectionShell({
             Overview
           </button>
           <span>/</span>
-          <span className="font-semibold" style={{ color: part.color }}>
-            Part {part.part}
+          <span className="font-semibold" style={{ color: part?.color ?? "var(--muted-foreground)" }}>
+            {part ? `Part ${part.part}` : "Front Matter"}
           </span>
           <span>/</span>
           <span className="text-foreground truncate">{section?.label}</span>
@@ -97,9 +98,9 @@ export function SectionShell({
             <div className="flex items-center gap-2 mb-1">
               <p
                 className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: part.color }}
+                style={{ color: part?.color ?? "var(--muted-foreground)" }}
               >
-                Part {part.part}{sectionPrefix ? ` · ${sectionPrefix}` : ""}
+                {part ? `Part ${part.part}${sectionPrefix ? ` · ${sectionPrefix}` : ""}` : "Front Matter"}
               </p>
               {!section?.readOnly && <StatusDot status={status} size={7} />}
             </div>

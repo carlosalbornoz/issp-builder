@@ -57,9 +57,17 @@ export const PARTS: readonly PartDef[] = [
   },
 ] as const;
 
-export const ALL_SECTIONS: readonly SectionDef[] = PARTS.flatMap((p) => p.sections);
+/** Front-matter sections — appear before Part I in the sidebar and the PDF. */
+export const FRONT_MATTER_SECTIONS: readonly SectionDef[] = [
+  { id: "definitions", label: "Definition of Terms", href: "/editor/definitions" },
+] as const;
 
-export const TOTAL_SECTIONS = ALL_SECTIONS.length; // 18
+export const ALL_SECTIONS: readonly SectionDef[] = [
+  ...FRONT_MATTER_SECTIONS,
+  ...PARTS.flatMap((p) => p.sections),
+];
+
+export const TOTAL_SECTIONS = ALL_SECTIONS.length; // 19
 
 export function computeStatus(meta: SectionMeta | undefined): SectionStatus {
   if (!meta) return "empty";

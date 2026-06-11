@@ -1,6 +1,7 @@
 import type {
   AgencyInfo,
   CyberControls,
+  DefinitionTerm,
   EgpChecklist,
   HumanCapital,
   IsspDocument,
@@ -107,6 +108,28 @@ export function makeDefaultPart4(): Part4Data {
   };
 }
 
+// ─── Definition of Terms ──────────────────────────────────────────────────────
+// The three standard terms from the official DICT 2026 template.
+
+export const STANDARD_DEFINITIONS: readonly Omit<DefinitionTerm, "id">[] = [
+  {
+    term: "Agency",
+    definition: "Refers to any bureau, office, commission, authority, or instrumentality of the national government, including government-owned or-controlled corporations (GOCC), authorized by law or by their respective charters to contract for or undertake information and communications technology networks and databases, infrastructure or development projects.",
+  },
+  {
+    term: "Business Process",
+    definition: "A collection of business transactions between business partners and/or internal activities within one business. These transactions and/or activities together support the objective of the business process.",
+  },
+  {
+    term: "Chief Information Officer",
+    definition: "Refers to a senior officer responsible for the development, planning, and implementation of the government entity's information systems strategic plan (ISSP) or ICT plan, and management of the agency's ICT systems, platforms, and applications;",
+  },
+] as const;
+
+export function makeStandardDefinitions(): DefinitionTerm[] {
+  return STANDARD_DEFINITIONS.map((d, i) => ({ id: `std-${i}`, ...d }));
+}
+
 // ─── Document factory ─────────────────────────────────────────────────────────
 
 export interface NewDocOptions {
@@ -137,6 +160,7 @@ export function createEmptyDocument(opts: NewDocOptions): IsspDocument {
     planStatus: "draft",
     submissionTarget: { agency: "DICT", deadline: null },
     sectionMeta: {},
+    definitions: makeStandardDefinitions(),
     part1: makeDefaultPart1(),
     part2: makeDefaultPart2(),
     part3: makeDefaultPart3(),

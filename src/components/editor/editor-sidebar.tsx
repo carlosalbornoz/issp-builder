@@ -42,7 +42,7 @@ import {
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
 import { useFileSaveReminder } from "@/hooks/use-file-save-reminder";
-import { PARTS, computeStatus, type SectionDef, type PartDef } from "@/lib/sections";
+import { PARTS, FRONT_MATTER_SECTIONS, computeStatus, type SectionDef, type PartDef } from "@/lib/sections";
 import { getChangedFields, type SectionField } from "@/lib/section-fields";
 import { StatusDot } from "@/components/ui/status-dot";
 import { IsspPropertiesDialog } from "./issp-properties-dialog";
@@ -260,11 +260,15 @@ export function EditorSidebar({
   const showThemeNudge = !!doc && theme === "system-light" && !themeNudgeDismissed && !showSaveReminder;
 
   // Sections with content that differs from the last saved file
-  const changedSections: { section: SectionDef; part: PartDef; changedFields: SectionField[] }[] = [];
+  const changedSections: { section: SectionDef; part: PartDef | null; changedFields: SectionField[] }[] = [];
   if (doc && unsavedToFile) {
+    const groups: { part: PartDef | null; sections: readonly SectionDef[] }[] = [
+      { part: null, sections: FRONT_MATTER_SECTIONS },
+      ...PARTS.map((part) => ({ part, sections: part.sections })),
+    ];
     if (savedSnapshot) {
-      for (const part of PARTS) {
-        for (const section of part.sections) {
+      for (const { part, sections } of groups) {
+        for (const section of sections) {
           const fields = getChangedFields(section.id, doc, savedSnapshot);
           if (fields.length > 0) {
             changedSections.push({ section, part, changedFields: fields });
@@ -273,8 +277,8 @@ export function EditorSidebar({
       }
     } else {
       const meta = doc.sectionMeta ?? {};
-      for (const part of PARTS) {
-        for (const section of part.sections) {
+      for (const { part, sections } of groups) {
+        for (const section of sections) {
           const editedAt = meta[section.id]?.lastEditedAt;
           const markedDone = meta[section.id]?.userMarkedDone ?? false;
           const contentChanged = editedAt && (!fileSavedAt || editedAt > fileSavedAt);
@@ -383,6 +387,27 @@ export function EditorSidebar({
       >
         Overview
       </Link>
+
+      {FRONT_MATTER_SECTIONS.map((section) => {
+        const isActive = pathname === section.href || pathname.startsWith(section.href + "/");
+        const status = computeStatus(sectionMeta[section.id]);
+        return (
+          <Link
+            key={section.id}
+            href={section.href}
+            onClick={handleNavigate}
+            className={cn(
+              "flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors",
+              isActive
+                ? "bg-[var(--sidebar-active)] text-foreground font-medium"
+                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            )}
+          >
+            <StatusDot status={status} size={6} className="shrink-0" />
+            <span className="truncate">{section.label}</span>
+          </Link>
+        );
+      })}
 
       {PARTS.map((part) => {
         const isExpanded = expandedParts.has(part.partNum);
@@ -616,9 +641,11 @@ export function EditorSidebar({
                             onClick={handleNavigate}
                             className="flex items-center gap-1.5 rounded px-1 py-0.5 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors truncate"
                           >
-                            <span className="font-semibold shrink-0" style={{ color: part.color }}>
-                              {part.part}
-                            </span>
+                            {part && (
+                              <span className="font-semibold shrink-0" style={{ color: part.color }}>
+                                {part.part}
+                              </span>
+                            )}
                             <span className="truncate">{section.label}</span>
                           </Link>
                           {changedFields.length > 0 && (

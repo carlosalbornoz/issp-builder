@@ -39,6 +39,11 @@
 | **Landing page updated — local-first copy, no sign-in** | ✅ Done |
 | **EditorSidebar — "ISSP Builder" label, Exit Editor link** | ✅ Done |
 | **Agency logo upload (New ISSP + Properties dialogs) → PDF cover + running header** | ✅ Done 2026-06-10 |
+| **Security/correctness fixes: EgP export mapping, PDF injection hardening** | ✅ Done 2026-06-10 (`docs/codebase-review-2026-06-10.md`) |
+| **UX audit fixes: dialog scroll, NumberInput, coarse-pointer touch targets** | ✅ Done 2026-06-11 (`docs/ux-audit-2026-06-11.md`) |
+| **Real TOC page numbers (two-pass render, pdfjs-dist marker scan)** | ✅ Done 2026-06-11 |
+| **PDF header per official template — starts at Part I, logo upper-left, Page 1 restart** | ✅ Done 2026-06-11 (`docs/agency-logo-header-plan.md`) |
+| **Editable Definition of Terms (front-matter module)** | ✅ Done 2026-06-11 — `/editor/definitions`, sidebar entry above Part I, seeded with the 3 standard DICT template terms (editable/deletable + "Restore standard terms"), prints alphabetically in the PDF, TOC row + page omitted when empty. Data: `IsspDocument.definitions` (optional; absent = standard terms, so old `.issp` files keep working) |
 | API: /api/issp/documents (GET, POST) | ✅ Done (dormant) |
 | API: /api/issp/documents/[id]/export (GET → PDF, auth-required) | ✅ Done (dormant) |
 | Part I–IV: all form sections | ✅ Done |

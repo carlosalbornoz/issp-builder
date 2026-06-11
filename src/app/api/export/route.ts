@@ -150,6 +150,8 @@ function toRenderData(doc: IsspDocument): IsspData {
       logoSrc: agency.logoBase64 || null,
     },
 
+    definitions: doc.definitions?.map((d) => ({ term: d.term, definition: d.definition })),
+
     part1: {
       legalBasis: part1.legalBasis,
       mandateFunction: part1.mandateFunction,
