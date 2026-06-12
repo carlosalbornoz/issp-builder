@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Trash2, GripVertical, ChevronDown, ChevronRight, Info } from "lucide-react";
+import { Plus, Trash2, ChevronDown, ChevronRight, Info } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { SectionShell } from "@/components/editor/section-shell";
@@ -295,7 +295,6 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
                 >
                   {/* Outcome header */}
                   <div className="flex items-center gap-2 px-4 py-3 bg-muted/30">
-                    <GripVertical className="h-4 w-4 text-muted-foreground/40 shrink-0" />
                     <button
                       onClick={() => toggleOO(oo.id)}
                       className="flex-1 flex items-center gap-2 text-left"
@@ -324,10 +323,12 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
                   {isExpanded && (
                     <div className="p-4 space-y-4">
                       <FormField label={`${ooShort} ${idx + 1} Name / Description`}>
-                        <Input
+                        <Textarea
                           placeholder={`${ooShort} description...`}
                           value={oo.name}
                           onChange={(e) => updateOutcome(oo.id, "name", e.target.value)}
+                          rows={2}
+                          className="resize-none"
                         />
                       </FormField>
 

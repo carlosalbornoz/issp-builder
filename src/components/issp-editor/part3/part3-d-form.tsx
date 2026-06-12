@@ -20,8 +20,11 @@ import { Plus, ChevronDown, ChevronRight, Sparkles, Link2 } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
+import { YesNoToggle } from "@/components/issp-editor/yes-no-toggle";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
+
+type PiaProcessAnswer = "yes" | "no" | "";
 
 export interface ProposedSystem {
   id: string;
@@ -29,6 +32,7 @@ export interface ProposedSystem {
   classification: "SUPPORT_TO_OPERATIONS" | "GENERAL_ADMIN" | "OPERATIONS" | "";
   frontline: boolean;
   deploymentType: string;
+  description: string;
   status: "FOR_DEVELOPMENT" | "FOR_ENHANCEMENT" | "";
   enhancementDetails: string;
   developmentStrategy: string;
@@ -42,9 +46,12 @@ export interface ProposedSystem {
     integrated: boolean;
     internalSystems: string;
     externalSystems: string;
+    generatesData: boolean;
+    processesExternalData: boolean;
+    sharedPlatform: boolean;
   };
   pia: {
-    processesPersonalInfo: boolean;
+    processesPersonalInfo: PiaProcessAnswer;
     piaRequired: boolean;
   };
 }
@@ -58,6 +65,7 @@ const DEFAULT_SYSTEM: Omit<ProposedSystem, "id"> = {
   classification: "",
   frontline: false,
   deploymentType: "",
+  description: "",
   status: "",
   enhancementDetails: "",
   developmentStrategy: "",
@@ -67,8 +75,15 @@ const DEFAULT_SYSTEM: Omit<ProposedSystem, "id"> = {
   internalUsers: "",
   externalUsers: "",
   owner: "",
-  interoperability: { integrated: false, internalSystems: "", externalSystems: "" },
-  pia: { processesPersonalInfo: false, piaRequired: false },
+  interoperability: {
+    integrated: false,
+    internalSystems: "",
+    externalSystems: "",
+    generatesData: false,
+    processesExternalData: false,
+    sharedPlatform: false,
+  },
+  pia: { processesPersonalInfo: "", piaRequired: false },
 };
 
 // Template taxonomy per DICT 2026 guidelines — labels must match the PDF renderer
@@ -122,6 +137,18 @@ function SystemCard({
   onRemove: () => void;
 }) {
   const [expanded, setExpanded] = useState(true);
+
+  function updateInterop(field: string, value: unknown) {
+    onUpdate("interoperability", { ...sys.interoperability, [field]: value });
+  }
+
+  function setPiaProcessAnswer(value: PiaProcessAnswer) {
+    onUpdate("pia", {
+      ...sys.pia,
+      processesPersonalInfo: value,
+      piaRequired: value === "yes" ? sys.pia.piaRequired : false,
+    });
+  }
 
   return (
     <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
@@ -209,6 +236,17 @@ function SystemCard({
       {/* Expanded details */}
       {expanded && (
         <div className="p-4 space-y-6">
+          <div className="space-y-1.5">
+            <Label className="text-xs text-muted-foreground uppercase tracking-wide">Description & Purpose</Label>
+            <Textarea
+              placeholder="Describe salient features, functions, and reports the system will generate."
+              value={sys.description}
+              onChange={(e) => onUpdate("description", e.target.value)}
+              rows={3}
+              className="resize-none"
+            />
+          </div>
+
           {/* Enhancement details — link back to Part II-C inventory */}
           {sys.status === "FOR_ENHANCEMENT" && (
             <div className="space-y-1.5">
@@ -327,30 +365,33 @@ function SystemCard({
           {/* Interoperability */}
           <div className="space-y-2">
             <Label className="text-xs text-muted-foreground uppercase tracking-wide">Interoperability</Label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <Checkbox
-                checked={sys.interoperability.integrated}
-                onCheckedChange={(v) =>
-                  onUpdate("interoperability", { ...sys.interoperability, integrated: v === true })
-                }
-              />
-              <span className="text-sm">Will integrate with other systems</span>
-            </label>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                { key: "integrated", label: "Integrated with other systems" },
+                { key: "generatesData", label: "Generates data for other systems" },
+                { key: "processesExternalData", label: "Processes data from external systems" },
+                { key: "sharedPlatform", label: "Uses a shared government platform" },
+              ].map((item) => (
+                <label key={item.key} className="flex items-center gap-2 cursor-pointer">
+                  <Checkbox
+                    checked={!!(sys.interoperability as Record<string, unknown>)[item.key]}
+                    onCheckedChange={(v) => updateInterop(item.key, v === true)}
+                  />
+                  <span className="text-sm">{item.label}</span>
+                </label>
+              ))}
+            </div>
             {sys.interoperability.integrated && (
               <div className="grid sm:grid-cols-2 gap-3 pl-6">
                 <Input
                   placeholder="Internal systems…"
                   value={sys.interoperability.internalSystems}
-                  onChange={(e) =>
-                    onUpdate("interoperability", { ...sys.interoperability, internalSystems: e.target.value })
-                  }
+                  onChange={(e) => updateInterop("internalSystems", e.target.value)}
                 />
                 <Input
                   placeholder="External systems…"
                   value={sys.interoperability.externalSystems}
-                  onChange={(e) =>
-                    onUpdate("interoperability", { ...sys.interoperability, externalSystems: e.target.value })
-                  }
+                  onChange={(e) => updateInterop("externalSystems", e.target.value)}
                 />
               </div>
             )}
@@ -359,17 +400,13 @@ function SystemCard({
           {/* PIA */}
           <div className="space-y-2">
             <Label className="text-xs text-muted-foreground uppercase tracking-wide">Privacy</Label>
-            <div className="flex flex-wrap gap-4">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <Checkbox
-                  checked={sys.pia.processesPersonalInfo}
-                  onCheckedChange={(v) =>
-                    onUpdate("pia", { ...sys.pia, processesPersonalInfo: v === true })
-                  }
-                />
-                <span className="text-sm">Will process personal information</span>
-              </label>
-              {sys.pia.processesPersonalInfo && (
+            <div className="space-y-3">
+              <YesNoToggle
+                question="Will process personal information?"
+                value={sys.pia.processesPersonalInfo}
+                onChange={setPiaProcessAnswer}
+              />
+              {sys.pia.processesPersonalInfo === "yes" && (
                 <label className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
                     checked={sys.pia.piaRequired}

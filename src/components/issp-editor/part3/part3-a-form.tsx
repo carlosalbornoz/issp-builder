@@ -10,86 +10,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { SectionShell } from "@/components/editor/section-shell";
 import { DiagramUploadField } from "@/components/issp-editor/diagram-upload-field";
-
-// Reuse the same control groups structure from Part II-B
-const CYBER_GROUPS = [
-  {
-    key: "physical",
-    label: "Physical Security",
-    color: "border-l-slate-400",
-    items: [
-      { key: "perimeterProtection", label: "Perimeter protection (fences, barriers)" },
-      { key: "accessControl", label: "Physical access control (key cards, locks)" },
-      { key: "surveillance", label: "CCTV / surveillance cameras" },
-      { key: "detection", label: "Motion / intrusion detection systems" },
-    ],
-  },
-  {
-    key: "perimeter",
-    label: "Perimeter Security",
-    color: "border-l-blue-400",
-    items: [
-      { key: "ngfw", label: "Next-Generation Firewall (NGFW)" },
-      { key: "idsIps", label: "Intrusion Detection / Prevention System (IDS/IPS)" },
-      { key: "waf", label: "Web Application Firewall (WAF)" },
-      { key: "dmz", label: "Demilitarized Zone (DMZ)" },
-    ],
-  },
-  {
-    key: "network",
-    label: "Network Security",
-    color: "border-l-cyan-400",
-    items: [
-      { key: "dataEncryption", label: "Data encryption in transit (TLS/SSL)" },
-      { key: "networkSegmentation", label: "Network segmentation / VLANs" },
-    ],
-  },
-  {
-    key: "endpoint",
-    label: "Endpoint Security",
-    color: "border-l-green-400",
-    items: [
-      { key: "antivirus", label: "Antivirus / Anti-malware" },
-      { key: "appControl", label: "Application whitelisting / control" },
-      { key: "byod", label: "BYOD policy and management" },
-      { key: "xdr", label: "Extended Detection & Response (XDR/EDR)" },
-    ],
-  },
-  {
-    key: "data",
-    label: "Data Security",
-    color: "border-l-amber-400",
-    items: [
-      { key: "dataClassification", label: "Data classification and labeling" },
-      { key: "dlp", label: "Data Loss Prevention (DLP)" },
-      { key: "backupRecovery", label: "Regular backup and disaster recovery" },
-    ],
-  },
-  {
-    key: "application",
-    label: "Application Security",
-    color: "border-l-orange-400",
-    items: [{ key: "securityScanning", label: "Security scanning / code review" }],
-  },
-  {
-    key: "other",
-    label: "Other Security Measures",
-    color: "border-l-purple-400",
-    items: [
-      { key: "vulnAssessment", label: "Vulnerability assessment & management" },
-      { key: "patchMgmt", label: "Patch management program" },
-      { key: "strongPasswords", label: "Password policy (complexity, rotation)" },
-      { key: "mfa", label: "Multi-Factor Authentication (MFA)" },
-      { key: "accessReviews", label: "Periodic access reviews / recertification" },
-      { key: "securityLogs", label: "Security event logging" },
-      { key: "logAnalysis", label: "Log monitoring & analysis" },
-      { key: "incidentResponse", label: "Incident response plan" },
-      { key: "siem", label: "Security Information & Event Management (SIEM)" },
-      { key: "penTesting", label: "Penetration testing / red team exercises" },
-      { key: "secureSdlc", label: "Secure Software Development Lifecycle (SSDLC)" },
-    ],
-  },
-];
+import { CYBER_GROUPS, type CyberControlGroup } from "@/lib/cyber-controls";
 
 type CyberControls = Record<string, Record<string, boolean>>;
 
@@ -107,13 +28,15 @@ function ChecklistSection({
   proposedValues,
   onProposedChange,
 }: {
-  group: (typeof CYBER_GROUPS)[number];
+  group: CyberControlGroup;
   currentValues: Record<string, boolean>;
   proposedValues: Record<string, boolean>;
   onProposedChange: (key: string, checked: boolean) => void;
 }) {
   const [open, setOpen] = useState(true);
   const proposedCount = group.items.filter((i) => proposedValues[i.key]).length;
+  const mandatoryItems = group.items.filter((i) => i.mandatory);
+  const proposedMandatoryCount = mandatoryItems.filter((i) => proposedValues[i.key]).length;
 
   return (
     <div className={cn("rounded-lg border border-l-4 overflow-hidden", group.color)}>
@@ -127,6 +50,11 @@ function ChecklistSection({
           <span className="text-xs bg-muted text-muted-foreground px-1.5 py-0.5 rounded">
             {proposedCount}/{group.items.length} proposed
           </span>
+          {mandatoryItems.length > 0 && (
+            <span className="text-xs text-warning bg-warning-bg border border-warning-border px-1.5 py-0.5 rounded">
+              {proposedMandatoryCount}/{mandatoryItems.length} mandatory
+            </span>
+          )}
         </div>
         <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", open ? "" : "-rotate-90")} />
       </button>
@@ -138,7 +66,14 @@ function ChecklistSection({
             const hasProposed = !!proposedValues[item.key];
             return (
               <div key={item.key} className="grid grid-cols-[1fr_auto_auto] items-center gap-3 px-4 py-2.5">
-                <span className="text-sm">{item.label}</span>
+                <span className="text-sm">
+                  {item.label}
+                  {item.mandatory && (
+                    <span className="ml-2 rounded border border-warning-border bg-warning-bg px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-warning">
+                      Mandatory
+                    </span>
+                  )}
+                </span>
                 {/* Current status badge — derived from Part II-B answers */}
                 <span
                   className={cn(
@@ -222,6 +157,15 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
               <p className="text-muted-foreground whitespace-pre-line">{initialData.currentNetworkDesc}</p>
             </div>
           )}
+          <div className="rounded-lg border bg-muted/20 px-4 py-3 text-xs text-muted-foreground">
+            <p className="font-medium text-foreground mb-1">Your proposed network plan should show:</p>
+            <ul className="list-disc list-inside space-y-0.5">
+              <li>Planned connectivity type per office or site</li>
+              <li>Target upload/download speeds per office or site</li>
+              <li>IPv6 readiness improvements</li>
+              <li>Cybersecurity components to add or strengthen</li>
+            </ul>
+          </div>
           <Textarea
             placeholder="Describe proposed network infrastructure improvements, new equipment, topology changes, cloud migrations, etc."
             value={networkDesc}

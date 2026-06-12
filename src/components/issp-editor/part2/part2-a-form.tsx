@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -15,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, GripVertical, Info } from "lucide-react";
+import { Plus, Info } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 
@@ -160,7 +159,6 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
             <div key={concern.id} className="rounded-lg border bg-card overflow-hidden">
               {/* Concern header */}
               <div className="flex items-center gap-2 px-4 py-3 bg-muted/30">
-                <GripVertical className="h-4 w-4 text-muted-foreground/40 shrink-0" />
                 <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mr-auto">
                   Concern #{idx + 1}
                 </span>
@@ -197,10 +195,12 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
                 </div>
                 <div className="space-y-1.5 md:col-span-3">
                   <Label className="text-sm font-medium">Critical Management, Operating, or Business System</Label>
-                  <Input
+                  <Textarea
                     placeholder="Describe actual operations/activities performed..."
                     value={concern.criticalSystem || ""}
                     onChange={(e) => updateConcern(concern.id, "criticalSystem", e.target.value)}
+                    rows={2}
+                    className="resize-none"
                   />
                 </div>
                 <div className="space-y-1.5 md:col-span-3">

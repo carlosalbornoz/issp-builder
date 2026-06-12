@@ -138,6 +138,7 @@ export interface CyberControls {
 
 /** Template taxonomy per DICT 2026 guidelines (Part II-C / III-D). */
 export type IsClassification = "SUPPORT_TO_OPERATIONS" | "GENERAL_ADMIN" | "OPERATIONS" | "";
+export type PiaProcessAnswer = "yes" | "no" | "";
 
 export interface InformationSystem {
   id: string;
@@ -165,16 +166,37 @@ export interface InformationSystem {
     sharedPlatform: boolean;
   };
   pia: {
-    processesPersonalInfo: boolean;
+    processesPersonalInfo: PiaProcessAnswer;
     piaCompleted: boolean;
   };
 }
 
+/** Template "If No" follow-up options (Part II.D items 1, 2, 4, 5, 7). */
+export interface EgpIfNo {
+  usingEquivalent?: boolean;
+  manual?: boolean;
+  proposedDevelopment?: boolean;
+  /** eGovPay only: "Using other digital or electronic payment platform". */
+  otherPlatform?: boolean;
+}
+
+/** Template item 6: citizen assistance / feedback mechanism checkboxes. */
+export interface EgpPortalMechanisms {
+  website: boolean;
+  email: boolean;
+  landline: boolean;
+  socialMedia: boolean;
+  mobile: boolean;
+}
+
 export interface EgpProgram {
-  status: "utilizing" | "proposed" | "not_applicable" | "not_utilizing";
+  status: "utilizing" | "proposed" | "not_applicable" | "not_utilizing" | "";
   url?: string;
   equivalentName?: string;
+  /** eLGU: URL of the equivalent system (template asks for both name and url). */
+  equivalentUrl?: string;
   notes?: string;
+  ifNo?: EgpIfNo;
 }
 
 export interface EgpChecklist {
@@ -183,7 +205,12 @@ export interface EgpChecklist {
   pnpki: EgpProgram & { adoptionPercentage?: number };
   hcmis: EgpProgram;
   ifmis: EgpProgram;
-  onlinePortal: EgpProgram & { channels?: string };
+  onlinePortal: EgpProgram & {
+    /** Legacy free-text channels (pre template-v2 sweep); superseded by mechanisms. */
+    channels?: string;
+    mechanisms?: EgpPortalMechanisms;
+    connectedToPortal?: "yes" | "no" | "";
+  };
   procurement: EgpProgram;
   recordsMgmt: EgpProgram;
   pscp: EgpProgram;
@@ -206,6 +233,7 @@ export interface ProposedSystem {
   classification: IsClassification;
   frontline: boolean;
   deploymentType: string;
+  description: string;
   status: "FOR_DEVELOPMENT" | "FOR_ENHANCEMENT" | "";
   enhancementDetails: string;
   developmentStrategy: string;
@@ -219,9 +247,12 @@ export interface ProposedSystem {
     integrated: boolean;
     internalSystems: string;
     externalSystems: string;
+    generatesData: boolean;
+    processesExternalData: boolean;
+    sharedPlatform: boolean;
   };
   pia: {
-    processesPersonalInfo: boolean;
+    processesPersonalInfo: PiaProcessAnswer;
     piaRequired: boolean;
   };
 }
@@ -239,7 +270,8 @@ export interface IctProject {
   leadAgency?: string;
   implementingAgencies?: string;
   fundingSource: string;
-  totalProjectCost: number;
+  // Total project cost is NOT stored — it is derived from the project's
+  // Part IV resource requirements (see computeProjectCosts).
   year1Deliverables: string;
   year2Deliverables: string;
   year3Deliverables: string;
@@ -342,7 +374,7 @@ export interface IsspDocument {
   fileType: "issp-main";
   exportedAt: string;
   tool: "issp-platform";
-  /** Schema version for migration. 1 = legacy (no sectionMeta). 2 = current. */
+  /** Schema version for migration. 6 = current. */
   schemaVersion?: number;
   title: string;
   startYear: number;

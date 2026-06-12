@@ -1,21 +1,13 @@
 "use client";
 
 import { AlertTriangle, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, php } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
 import type { SummaryRow, UacsRow, Part4SummaryData } from "./part4-aggregations";
 
 export type { SummaryRow, UacsRow, Part4SummaryData };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function php(n: number) {
-  return new Intl.NumberFormat("en-PH", {
-    style: "currency",
-    currency: "PHP",
-    minimumFractionDigits: 2,
-  }).format(n);
-}
 
 // ─── Summary Table ─────────────────────────────────────────────────────────────
 

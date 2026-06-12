@@ -24,8 +24,8 @@ interface HCRow {
 
 const EMPLOYMENT_OPTIONS = [
   { value: "PLANTILLA", label: "Plantilla" },
-  { value: "CONTRACTUAL", label: "Contractual / Job Order" },
-  { value: "OUTSOURCED", label: "Outsourced" },
+  { value: "CONTRACTUAL", label: "Contractual" },
+  { value: "OUTSOURCED", label: "Outsourced (JO, COS, and HTC)" },
 ];
 
 function generateId() {

@@ -51,12 +51,103 @@ function emptyCyber() {
   return { physical: {}, perimeter: {}, network: {}, endpoint: {}, data: {}, application: {}, other: {} };
 }
 
+const deploymentMap = {
+  'On-Premise': 'ON_PREMISE',
+  'Cloud-Hosted': 'CLOUD',
+  'Cloud': 'CLOUD',
+  'Hybrid': 'HYBRID',
+  'Hosted (3rd Party)': 'HOSTED',
+  'Local Network': 'ON_PREMISE',
+};
+
+const developmentStrategyMap = {
+  'In-house': 'IN_HOUSE',
+  'In-House': 'IN_HOUSE',
+  'Outsourced': 'OUTSOURCED',
+  'Hybrid': 'HYBRID',
+  'Off-the-Shelf (Modified)': 'COTS',
+  'Off-the-Shelf (SaaS)': 'COTS',
+  'Commercial Off-The-Shelf (COTS)': 'COTS',
+  'Open Source': 'OPEN_SOURCE',
+};
+
+const dataStorageMap = {
+  'On-Premise': 'ON_PREMISE',
+  'Government Cloud (GovCloud PH)': 'CLOUD',
+  'Vendor Cloud (Government-Approved)': 'CLOUD',
+  'Cloud': 'CLOUD',
+  'Hybrid': 'HYBRID',
+  'Local Network (Central Office shared drive)': 'ON_PREMISE',
+  'On-Premise (per regional office)': 'ON_PREMISE',
+};
+
+function normalizeInteroperability(raw = {}) {
+  if ('integrated' in raw) {
+    return {
+      integrated: !!raw.integrated,
+      internalSystems: raw.internalSystems ?? '',
+      externalSystems: raw.externalSystems ?? '',
+      generatesData: !!raw.generatesData,
+      processesExternalData: !!raw.processesExternalData,
+      sharedPlatform: !!raw.sharedPlatform,
+    };
+  }
+  const systems = Array.isArray(raw.systems) ? raw.systems : [];
+  return {
+    integrated: !!raw.hasInteroperability || systems.length > 0,
+    internalSystems: systems.filter((s) => s.type === 'Internal').map((s) => s.name).join(', '),
+    externalSystems: systems.filter((s) => s.type === 'External').map((s) => s.name).join(', '),
+    generatesData: false,
+    processesExternalData: systems.some((s) => s.type === 'External'),
+    sharedPlatform: false,
+  };
+}
+
+function normalizeExistingSystem(sys) {
+  const pia = sys.pia ?? {};
+  return {
+    ...sys,
+    deploymentType: deploymentMap[sys.deploymentType] ?? sys.deploymentType ?? '',
+    developmentStrategy: developmentStrategyMap[sys.developmentStrategy] ?? sys.developmentStrategy ?? '',
+    dataStorage: dataStorageMap[sys.dataStorage] ?? sys.dataStorage ?? '',
+    interoperability: normalizeInteroperability(sys.interoperability),
+    pia: {
+      processesPersonalInfo: pia.processesPersonalInfo === true ? 'yes' : 'no',
+      piaCompleted: pia.piaCompleted ?? pia.piaConducted ?? false,
+    },
+  };
+}
+
+function normalizeProposedSystem(sys) {
+  const pia = sys.pia ?? {};
+  const description = sys.description ?? sys.enhancementDetails ?? '';
+  return {
+    ...sys,
+    deploymentType: deploymentMap[sys.deploymentType] ?? sys.deploymentType ?? '',
+    description,
+    status: sys.status === 'For Enhancement' ? 'FOR_ENHANCEMENT' : 'FOR_DEVELOPMENT',
+    developmentStrategy: developmentStrategyMap[sys.developmentStrategy] ?? sys.developmentStrategy ?? '',
+    dataStorage: dataStorageMap[sys.dataStorage] ?? sys.dataStorage ?? '',
+    interoperability: normalizeInteroperability(sys.interoperability),
+    pia: {
+      processesPersonalInfo: pia.processesPersonalInfo === true ? 'yes' : 'no',
+      piaRequired: pia.piaRequired ?? pia.piaCompleted ?? pia.piaConducted ?? false,
+    },
+  };
+}
+
+function stripProjectCost(project) {
+  const rest = { ...project };
+  delete rest.totalProjectCost;
+  return rest;
+}
+
 const issp = {
   version: '1.0',
   fileType: 'issp-main',
   exportedAt: new Date().toISOString(),
   tool: 'issp-platform',
-  schemaVersion: 2,
+  schemaVersion: 6,
   title: doc.title,
   startYear: doc.startYear,
   endYear: doc.endYear,
@@ -101,7 +192,7 @@ const issp = {
     networkDiagrams: parseJson(p2?.networkDiagrams, []),
     networkDescription: p2?.networkDescription ?? null,
     cybersecurityControls: parseJson(p2?.cybersecurityControls, emptyCyber()),
-    informationSystems: parseJson(p2?.informationSystems, []),
+    informationSystems: parseJson(p2?.informationSystems, []).map(normalizeExistingSystem),
     egpChecklist: parseJson(p2?.egpChecklist, {}),
   },
   part3: {
@@ -110,9 +201,10 @@ const issp = {
     proposedCybersecControls: parseJson(p3?.proposedCybersecControls, emptyCyber()),
     enterpriseArchDataUrl: null,
     proposedHumanCapital: parseJson(p3?.proposedHumanCapital, []),
-    proposedSystems: parseJson(p3?.proposedSystems, []),
-    internalProjects: parseJson(p3?.internalProjects, []),
-    crossAgencyProjects: parseJson(p3?.crossAgencyProjects, []),
+    proposedSystems: parseJson(p3?.proposedSystems, []).map(normalizeProposedSystem),
+    // totalProjectCost is derived from Part IV resource requirements, never stored
+    internalProjects: parseJson(p3?.internalProjects, []).map(stripProjectCost),
+    crossAgencyProjects: parseJson(p3?.crossAgencyProjects, []).map(stripProjectCost),
     performanceFramework: parseJson(p3?.performanceFramework, {}),
   },
   part4: {

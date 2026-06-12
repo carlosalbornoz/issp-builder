@@ -10,6 +10,7 @@ import { ChevronDown, UploadCloud, ImageIcon } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 import { DIAGRAM_ACCEPT, createDiagramId, getDiagramUploadError, readFileAsDataUrl } from "@/lib/diagram-upload";
+import { CYBER_GROUPS, type CyberControlGroup, type CyberGroupKey } from "@/lib/cyber-controls";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -92,94 +93,6 @@ interface Part2BFormProps {
 
 // ─── Checkbox groups config ────────────────────────────────────────────────────
 
-type GroupKey = keyof CyberGroup;
-
-const CYBER_GROUPS: {
-  key: GroupKey;
-  label: string;
-  color: string;
-  items: { key: string; label: string }[];
-}[] = [
-  {
-    key: "physical",
-    label: "Physical Security",
-    color: "border-l-slate-400",
-    items: [
-      { key: "perimeterProtection", label: "Perimeter protection (fences, barriers)" },
-      { key: "accessControl", label: "Physical access control (key cards, locks)" },
-      { key: "surveillance", label: "CCTV / surveillance cameras" },
-      { key: "detection", label: "Motion / intrusion detection systems" },
-    ],
-  },
-  {
-    key: "perimeter",
-    label: "Perimeter Security",
-    color: "border-l-blue-400",
-    items: [
-      { key: "ngfw", label: "Next-Generation Firewall (NGFW)" },
-      { key: "idsIps", label: "Intrusion Detection / Prevention System (IDS/IPS)" },
-      { key: "waf", label: "Web Application Firewall (WAF)" },
-      { key: "dmz", label: "Demilitarized Zone (DMZ)" },
-    ],
-  },
-  {
-    key: "network",
-    label: "Network Security",
-    color: "border-l-cyan-400",
-    items: [
-      { key: "dataEncryption", label: "Data encryption in transit (TLS/SSL)" },
-      { key: "networkSegmentation", label: "Network segmentation / VLANs" },
-    ],
-  },
-  {
-    key: "endpoint",
-    label: "Endpoint Security",
-    color: "border-l-green-400",
-    items: [
-      { key: "antivirus", label: "Antivirus / Anti-malware" },
-      { key: "appControl", label: "Application whitelisting / control" },
-      { key: "byod", label: "BYOD policy and management" },
-      { key: "xdr", label: "Extended Detection & Response (XDR/EDR)" },
-    ],
-  },
-  {
-    key: "data",
-    label: "Data Security",
-    color: "border-l-amber-400",
-    items: [
-      { key: "dataClassification", label: "Data classification and labeling" },
-      { key: "dlp", label: "Data Loss Prevention (DLP)" },
-      { key: "backupRecovery", label: "Regular backup and disaster recovery" },
-    ],
-  },
-  {
-    key: "application",
-    label: "Application Security",
-    color: "border-l-orange-400",
-    items: [
-      { key: "securityScanning", label: "Security scanning / code review" },
-    ],
-  },
-  {
-    key: "other",
-    label: "Other Security Measures",
-    color: "border-l-purple-400",
-    items: [
-      { key: "vulnAssessment", label: "Vulnerability assessment & management" },
-      { key: "patchMgmt", label: "Patch management program" },
-      { key: "strongPasswords", label: "Password policy (complexity, rotation)" },
-      { key: "mfa", label: "Multi-Factor Authentication (MFA)" },
-      { key: "accessReviews", label: "Periodic access reviews / recertification" },
-      { key: "securityLogs", label: "Security event logging" },
-      { key: "logAnalysis", label: "Log monitoring & analysis" },
-      { key: "incidentResponse", label: "Incident response plan" },
-      { key: "siem", label: "Security Information & Event Management (SIEM)" },
-      { key: "penTesting", label: "Penetration testing / red team exercises" },
-      { key: "secureSdlc", label: "Secure Software Development Lifecycle (SSDLC)" },
-    ],
-  },
-];
-
 // ─── Component ─────────────────────────────────────────────────────────────────
 
 function ChecklistGroup({
@@ -187,12 +100,14 @@ function ChecklistGroup({
   values,
   onChange,
 }: {
-  group: (typeof CYBER_GROUPS)[number];
+  group: CyberControlGroup;
   values: Record<string, boolean>;
   onChange: (key: string, checked: boolean) => void;
 }) {
   const [open, setOpen] = useState(true);
   const checkedCount = group.items.filter((i) => values[i.key]).length;
+  const mandatoryItems = group.items.filter((i) => i.mandatory);
+  const checkedMandatoryCount = mandatoryItems.filter((i) => values[i.key]).length;
 
   return (
     <div className={cn("rounded-lg border border-l-4 overflow-hidden", group.color)}>
@@ -206,6 +121,11 @@ function ChecklistGroup({
           <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
             {checkedCount}/{group.items.length}
           </span>
+          {mandatoryItems.length > 0 && (
+            <span className="text-xs text-warning bg-warning-bg border border-warning-border px-1.5 py-0.5 rounded">
+              {checkedMandatoryCount}/{mandatoryItems.length} mandatory
+            </span>
+          )}
         </div>
         <ChevronDown
           className={cn("h-4 w-4 text-muted-foreground transition-transform", open ? "" : "-rotate-90")}
@@ -229,6 +149,11 @@ function ChecklistGroup({
               />
               <span className="text-sm leading-snug group-hover:text-foreground text-muted-foreground transition-colors">
                 {item.label}
+                {item.mandatory && (
+                  <span className="ml-2 rounded border border-warning-border bg-warning-bg px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-warning">
+                    Mandatory
+                  </span>
+                )}
               </span>
             </label>
           ))}
@@ -331,7 +256,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
     triggerSave(val, controls);
   }
 
-  function handleCheck(groupKey: GroupKey, itemKey: string, checked: boolean) {
+  function handleCheck(groupKey: CyberGroupKey, itemKey: string, checked: boolean) {
     const updated = {
       ...controls,
       [groupKey]: { ...controls[groupKey], [itemKey]: checked },
@@ -362,6 +287,15 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
+          <div className="rounded-lg border bg-muted/20 px-4 py-3 text-xs text-muted-foreground">
+            <p className="font-medium text-foreground mb-1">Your diagram or description should show:</p>
+            <ul className="list-disc list-inside space-y-0.5">
+              <li>Connectivity type per office or site</li>
+              <li>Upload/download speeds per office or site</li>
+              <li>IPv6 readiness</li>
+              <li>Cybersecurity components in the network</li>
+            </ul>
+          </div>
           <Textarea
             placeholder="Describe the agency's network infrastructure — topology, internet connectivity, LAN/WAN, cloud services, data centers, etc."
             value={networkDescription}

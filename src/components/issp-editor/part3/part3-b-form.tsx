@@ -47,7 +47,7 @@ export function Part3BForm({
               </li>
             </ul>
             <p className="mt-2 text-xs">
-              Attach the EA diagram as a separate file in the final ISSP document. Reference the{" "}
+              Upload the EA diagram below; it will be embedded in the exported PDF. Reference the{" "}
               <strong>Philippine EA Framework (PeGov)</strong> if applicable.
             </p>
           </div>

@@ -33,7 +33,7 @@ function makeCyberControls(): CyberControls {
 }
 
 function makeEgpChecklist(): EgpChecklist {
-  const def = { status: "not_utilizing" as const };
+  const def = { status: "" as const };
   return {
     eGovPay: { ...def },
     pnpki: { ...def },
@@ -149,7 +149,7 @@ export function createEmptyDocument(opts: NewDocOptions): IsspDocument {
     fileType: "issp-main",
     exportedAt: now,
     tool: "issp-platform",
-    schemaVersion: 2,
+    schemaVersion: 6,
     title: opts.title,
     startYear: opts.startYear,
     endYear: opts.endYear,

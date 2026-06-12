@@ -50,9 +50,9 @@ function generateId() {
 }
 
 const COMPLEXITY_OPTIONS = [
-  { value: "Simple", label: "Simple" },
-  { value: "Complex", label: "Complex" },
-  { value: "Highly Technical", label: "Highly Technical" },
+  { value: "Simple", label: "Simple", hint: "Max 3 working days" },
+  { value: "Complex", label: "Complex", hint: "Max 7 working days" },
+  { value: "Highly Technical", label: "Highly Technical", hint: "Max 20 working days" },
 ];
 
 const COMPLEXITY_COLORS: Record<string, string> = {
@@ -172,8 +172,11 @@ function StakeholderDrawer({ open, stakeholder, isNew, onSave, onDelete, onClose
                   <SelectContent>
                     {COMPLEXITY_OPTIONS.map((o) => (
                       <SelectItem key={o.value} value={o.value}>
-                        <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${COMPLEXITY_COLORS[o.value]}`}>
-                          {o.label}
+                        <span className="flex flex-col gap-0.5">
+                          <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${COMPLEXITY_COLORS[o.value]}`}>
+                            {o.label}
+                          </span>
+                          <span className="text-xs text-muted-foreground">{o.hint}</span>
                         </span>
                       </SelectItem>
                     ))}
@@ -518,8 +521,11 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                                     <SelectContent>
                                       {COMPLEXITY_OPTIONS.map((o) => (
                                         <SelectItem key={o.value} value={o.value}>
-                                          <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${COMPLEXITY_COLORS[o.value]}`}>
-                                            {o.label}
+                                          <span className="flex flex-col gap-0.5">
+                                            <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${COMPLEXITY_COLORS[o.value]}`}>
+                                              {o.label}
+                                            </span>
+                                            <span className="text-xs text-muted-foreground">{o.hint}</span>
                                           </span>
                                         </SelectItem>
                                       ))}

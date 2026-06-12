@@ -3,7 +3,7 @@
   "fileType": "issp-main",
   "exportedAt": "2026-05-23T08:13:48.703Z",
   "tool": "issp-platform",
-  "schemaVersion": 4,
+  "schemaVersion": 6,
   "title": "NCWTR Information Systems Strategic Plan 2026–2028",
   "startYear": 2026,
   "endYear": 2028,
@@ -321,24 +321,27 @@
         "name": "National Queue Monitoring System (NQMS)",
         "classification": "SUPPORT_TO_OPERATIONS",
         "frontline": false,
-        "deploymentType": "On-Premise",
+        "deploymentType": "ON_PREMISE",
         "url": "",
         "description": "The agency's flagship monitoring system, accepting manually re-encoded queue time data from 847 monitored agencies. Built on Visual Basic 6 with an MS Access 2007 backend. Operational on three Windows XP computers, each named NQMS-PC-1, NQMS-PC-2, and NQMS-PC-2-BACKUP (the distinction between the last two remains unclear). Last updated in 2014 when a consultant added a 'Print Report' button. Holds a special place in NCWTR institutional memory as the cause of the Great Data Loss of 2021, when a routine 'restart to apply updates' triggered an irreversible cascade that was resolved by restoring a backup from 2019.",
-        "developmentStrategy": "In-house",
+        "developmentStrategy": "IN_HOUSE",
         "developmentPlatform": "Visual Basic 6 / MS Access 2007",
         "databaseName": "NQMS_PROD.mdb",
-        "dataStorage": "On-Premise",
+        "dataStorage": "ON_PREMISE",
         "internalUsers": "Operations Division, Regional Field Offices (~120 staff)",
         "externalUsers": "",
         "owner": "ICT Division",
         "interoperability": {
-          "hasInteroperability": false,
-          "systems": []
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
         },
         "pia": {
-          "processesPersonalInfo": false,
-          "piaRequired": false,
-          "piaConducted": false
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
         }
       },
       {
@@ -346,24 +349,27 @@
         "name": "Electronic Complaints Logging and Archival System (eCLAS)",
         "classification": "OPERATIONS",
         "frontline": true,
-        "deploymentType": "On-Premise",
+        "deploymentType": "ON_PREMISE",
         "url": "https://www.ncwtr.gov.ph/complaints",
         "description": "Accepts citizen complaints via fax, which are scanned, printed again for logging purposes, then re-scanned into eCLAS by a data encoder. The public-facing URL leads to a page that says 'Online complaints coming soon!' posted in 2019 alongside a stock photo of a smiling government employee. The 'Electronic' in the name refers to the computer used to view the faxes. Currently in User Acceptance Testing for its web-based upgrade — the UAT has been ongoing since Q3 2021 with 7 UAT reports generated and 0 UAT cycles completed.",
-        "developmentStrategy": "Off-the-Shelf (Modified)",
+        "developmentStrategy": "COTS",
         "developmentPlatform": "PHP 5.6 / MySQL 5.1",
         "databaseName": "eclas_db",
-        "dataStorage": "On-Premise",
+        "dataStorage": "ON_PREMISE",
         "internalUsers": "Public Assistance Division (~45 staff)",
         "externalUsers": "Accredited civil society partners (12 orgs)",
         "owner": "Complaints Management Division",
         "interoperability": {
-          "hasInteroperability": false,
-          "systems": []
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
         },
         "pia": {
-          "processesPersonalInfo": true,
-          "piaRequired": true,
-          "piaConducted": false
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
         }
       },
       {
@@ -371,24 +377,27 @@
         "name": "Regional Office Management System (ROMS)",
         "classification": "GENERAL_ADMIN",
         "frontline": false,
-        "deploymentType": "On-Premise",
+        "deploymentType": "ON_PREMISE",
         "url": "",
         "description": "Seventeen separate ROMS instances — one per regional office — deployed between 2013 and 2020, each customized by different contractors using different technology stacks. ROMS-NCR (ASP Classic), ROMS-CAR (PHP/MySQL), ROMS-R3 (VB.NET/SQL Server Express), and so on. None can communicate with any other, nor with the Central Office. Attempts to standardize have failed three times, once resulting in an emergency ROMS-R11 restoration that took six working days. The regional offices refer to data consolidation as 'the reconciliation,' spoken in hushed tones.",
-        "developmentStrategy": "Outsourced",
+        "developmentStrategy": "OUTSOURCED",
         "developmentPlatform": "Mixed (ASP Classic / PHP / VB.NET per region)",
         "databaseName": "roms_[region] (17 separate databases)",
-        "dataStorage": "On-Premise (per regional office)",
+        "dataStorage": "ON_PREMISE",
         "internalUsers": "All 17 regional offices (~136 staff)",
         "externalUsers": "",
         "owner": "Regional Offices (decentralized)",
         "interoperability": {
-          "hasInteroperability": false,
-          "systems": []
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
         },
         "pia": {
-          "processesPersonalInfo": false,
-          "piaRequired": false,
-          "piaConducted": false
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
         }
       },
       {
@@ -396,31 +405,38 @@
         "name": "Agency Human Resources Information System (AHRIS)",
         "classification": "GENERAL_ADMIN",
         "frontline": false,
-        "deploymentType": "Local Network",
+        "deploymentType": "ON_PREMISE",
         "url": "",
         "description": "Technically 47 Microsoft Excel workbooks in a shared folder, oldest dating to 2009 in Excel 2003 format (.xls). Named using a classification system understood by one (1) person, Ms. Leonora 'Nora' Baluyot, who has been with the agency since 2007. Ms. Baluyot has attempted to document the naming convention three times; each documentation attempt has itself been lost. The workbooks are inaccessible to the 17 regional offices, who maintain their own separate HR records in formats ranging from Excel to a printed binder labeled 'PERSONNEL' in the Cordillera Administrative Region office.",
-        "developmentStrategy": "In-house",
+        "developmentStrategy": "IN_HOUSE",
         "developmentPlatform": "Microsoft Excel 2003–2019 (mixed)",
         "databaseName": "N/A (47 Excel workbooks)",
-        "dataStorage": "Local Network (Central Office shared drive)",
+        "dataStorage": "ON_PREMISE",
         "internalUsers": "HR and Admin Division (8 staff)",
         "externalUsers": "",
         "owner": "Human Resources Division",
         "interoperability": {
-          "hasInteroperability": false,
-          "systems": []
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
         },
         "pia": {
-          "processesPersonalInfo": true,
-          "piaRequired": true,
-          "piaConducted": false
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
         }
       }
     ],
     "egpChecklist": {
       "eGovPay": {
         "status": "not_utilizing",
-        "notes": "Assessed in 2022. Integration deferred pending procurement of a payment module for eCLAS. eCLAS procurement is pending UAT completion. UAT completion is pending budget allocation. Budget allocation is pending eCLAS procurement."
+        "notes": "Assessed in 2022. Integration deferred pending procurement of a payment module for eCLAS. eCLAS procurement is pending UAT completion. UAT completion is pending budget allocation. Budget allocation is pending eCLAS procurement.",
+        "ifNo": {
+          "manual": true,
+          "proposedDevelopment": true
+        }
       },
       "pnpki": {
         "status": "proposed",
@@ -429,7 +445,12 @@
       },
       "hcmis": {
         "status": "not_utilizing",
-        "notes": "NCWTR is registered with the CSC HRMIS but has not migrated data from AHRIS (the 47 Excel workbooks) due to concerns about data mapping complexity. A migration plan was drafted in 2023 and is under review."
+        "notes": "NCWTR is registered with the CSC HRMIS but has not migrated data from AHRIS (the 47 Excel workbooks) due to concerns about data mapping complexity. A migration plan was drafted in 2023 and is under review.",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "AHRIS (Agency Human Resource Information System — 47 Excel workbooks)"
       },
       "ifmis": {
         "status": "utilizing",
@@ -439,8 +460,15 @@
       "onlinePortal": {
         "status": "utilizing",
         "url": "https://www.ncwtr.gov.ph",
-        "channels": "Website only (desktop, no mobile optimization)",
-        "notes": "Website is live and contains the organizational chart, agency mandate, downloadable forms (PDF), and a 'Coming Soon' section for e-services that has been coming soon since 2019."
+        "notes": "Website is live and contains the organizational chart, agency mandate, downloadable forms (PDF), and a 'Coming Soon' section for e-services that has been coming soon since 2019. Feedback mechanisms (email, landline) are not connected to any online portal; CFCP (Part III-D) will consolidate them.",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": false,
+          "mobile": false
+        },
+        "connectedToPortal": "no"
       },
       "procurement": {
         "status": "utilizing",
@@ -568,102 +596,87 @@
         "name": "Unified Queue Monitoring Platform (UQMP)",
         "classification": "SUPPORT_TO_OPERATIONS",
         "frontline": false,
-        "deploymentType": "Cloud-Hosted",
-        "status": "For Development",
+        "deploymentType": "CLOUD",
+        "status": "FOR_DEVELOPMENT",
         "enhancementDetails": "",
-        "developmentStrategy": "Outsourced",
+        "developmentStrategy": "OUTSOURCED",
         "developmentPlatform": "React / Node.js / PostgreSQL",
         "databaseName": "uqmp_production",
-        "dataStorage": "Government Cloud (GovCloud PH)",
+        "dataStorage": "CLOUD",
         "internalUsers": "Operations Division, all regional offices (~320 staff)",
         "externalUsers": "Partner LGU service centers (~847 users)",
         "owner": "ICT Division",
         "interoperability": {
-          "hasInteroperability": true,
-          "systems": [
-            {
-              "name": "Citizen Feedback and Complaints Portal (CFCP)",
-              "type": "Internal"
-            },
-            {
-              "name": "ARTA Ease of Doing Business Monitoring System",
-              "type": "External"
-            }
-          ]
+          "integrated": true,
+          "internalSystems": "Citizen Feedback and Complaints Portal (CFCP)",
+          "externalSystems": "ARTA Ease of Doing Business Monitoring System",
+          "generatesData": false,
+          "processesExternalData": true,
+          "sharedPlatform": false
         },
         "pia": {
-          "processesPersonalInfo": false,
-          "piaRequired": false,
-          "piaConducted": false
-        }
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "description": "Cloud-hosted platform for collecting, consolidating, and reporting queue monitoring data from regional offices and partner service centers."
       },
       {
         "id": "ps-cfcp",
         "name": "Citizen Feedback and Complaints Portal (CFCP)",
         "classification": "OPERATIONS",
         "frontline": true,
-        "deploymentType": "Cloud-Hosted",
-        "status": "For Development",
+        "deploymentType": "CLOUD",
+        "status": "FOR_DEVELOPMENT",
         "enhancementDetails": "Replaces eCLAS and the fax machine.",
-        "developmentStrategy": "Outsourced",
+        "developmentStrategy": "OUTSOURCED",
         "developmentPlatform": "Next.js / Node.js / PostgreSQL",
         "databaseName": "cfcp_production",
-        "dataStorage": "Government Cloud (GovCloud PH)",
+        "dataStorage": "CLOUD",
         "internalUsers": "Public Assistance Division (~80 staff)",
         "externalUsers": "General public (~50,000 citizens per year)",
         "owner": "Complaints Management Division",
         "interoperability": {
-          "hasInteroperability": true,
-          "systems": [
-            {
-              "name": "Unified Queue Monitoring Platform (UQMP)",
-              "type": "Internal"
-            },
-            {
-              "name": "SMS Gateway (DICT)",
-              "type": "External"
-            }
-          ]
+          "integrated": true,
+          "internalSystems": "Unified Queue Monitoring Platform (UQMP)",
+          "externalSystems": "SMS Gateway (DICT)",
+          "generatesData": false,
+          "processesExternalData": true,
+          "sharedPlatform": false
         },
         "pia": {
-          "processesPersonalInfo": true,
-          "piaRequired": true,
-          "piaConducted": false
-        }
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "description": "Replaces eCLAS and the fax machine."
       },
       {
         "id": "ps-ihrps",
         "name": "Integrated Human Resources and Payroll System (iHRPS)",
         "classification": "GENERAL_ADMIN",
         "frontline": false,
-        "deploymentType": "Cloud-Hosted",
-        "status": "For Procurement",
+        "deploymentType": "CLOUD",
+        "status": "FOR_DEVELOPMENT",
         "enhancementDetails": "Replaces 47 Excel workbooks. Will finally resolve the Mystery of the Three USB-Recovered Employee Records.",
-        "developmentStrategy": "Off-the-Shelf (SaaS)",
+        "developmentStrategy": "COTS",
         "developmentPlatform": "Government-certified HR SaaS platform",
         "databaseName": "ihrps_ncwtr",
-        "dataStorage": "Vendor Cloud (Government-Approved)",
+        "dataStorage": "CLOUD",
         "internalUsers": "HR, Finance, and Admin Divisions (~252 staff)",
         "externalUsers": "",
         "owner": "Human Resources Division",
         "interoperability": {
-          "hasInteroperability": true,
-          "systems": [
-            {
-              "name": "CSC Human Resource Management Information System (HRMIS)",
-              "type": "External"
-            },
-            {
-              "name": "DBM eBudget System",
-              "type": "External"
-            }
-          ]
+          "integrated": true,
+          "internalSystems": "",
+          "externalSystems": "CSC Human Resource Management Information System (HRMIS), DBM eBudget System",
+          "generatesData": false,
+          "processesExternalData": true,
+          "sharedPlatform": false
         },
         "pia": {
-          "processesPersonalInfo": true,
-          "piaRequired": true,
-          "piaConducted": false
-        }
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "description": "Replaces 47 Excel workbooks. Will finally resolve the Mystery of the Three USB-Recovered Employee Records."
       }
     ],
     "internalProjects": [
@@ -690,7 +703,6 @@
         "year2Deliverables": "UQMP v2.0 deployed nationally; all 17 ROMS instances decommissioned; CFCP fully operational with SMS notifications; monitored agency onboarding at 60%",
         "year3Deliverables": "100% monitored agency onboarding; UQMP analytics dashboard fully operational; NQMS and Windows XP computers formally retired (ceremonial shutdown livestreamed)",
         "implementingUnit": "ICT Division",
-        "totalProjectCost": 24500000,
         "fundingSource": "General Appropriations Act (GAA)"
       },
       {
@@ -713,7 +725,6 @@
         "year2Deliverables": "Network monitoring dashboard operational; 99.5% uptime SLA compliance verified; redundant connection established for Central Office",
         "year3Deliverables": "Network refresh and capacity planning assessment; options for 10 Gbps Central Office upgrade evaluated",
         "implementingUnit": "ICT Division — Infrastructure and Networks Section",
-        "totalProjectCost": 9800000,
         "fundingSource": "General Appropriations Act (GAA)"
       },
       {
@@ -738,7 +749,6 @@
         "year2Deliverables": "iHRPS performance review; self-service HR portal rolled out to all regional offices; payroll reconciliation with DBM fully automated",
         "year3Deliverables": "iHRPS optimization and feature enhancement; knowledge management documentation completed; succession plan for system administration formalized",
         "implementingUnit": "Human Resources Division and ICT Division",
-        "totalProjectCost": 4200000,
         "fundingSource": "General Appropriations Act (GAA)"
       }
     ],

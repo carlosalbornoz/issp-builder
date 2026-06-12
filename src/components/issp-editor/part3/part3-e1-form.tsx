@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { NumberInput } from "@/components/ui/number-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -18,9 +17,12 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2 } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info } from "lucide-react";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import { computeProjectCosts } from "@/components/issp-editor/part4/part4-aggregations";
+import type { Part4Data } from "@/lib/store/types";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
-import { cn } from "@/lib/utils";
+import { cn, php } from "@/lib/utils";
 import type { ProposedSystem } from "./part3-d-form";
 import { SectionShell } from "@/components/editor/section-shell";
 
@@ -39,7 +41,6 @@ export interface IctProject {
   leadAgency?: string;
   implementingAgencies?: string;
   fundingSource: string;
-  totalProjectCost: number;
   year1Deliverables: string;
   year2Deliverables: string;
   year3Deliverables: string;
@@ -50,22 +51,23 @@ function generateId() {
   return `proj-${Math.random().toString(36).slice(2, 10)}`;
 }
 
-const DEFAULT_PROJECT: Omit<IctProject, "id"> = {
-  title: "",
-  description: "",
-  objectives: "",
-  projectType: "",
-  linkedSystemIds: [],
-  strategicAlignment: [],
-  harmonizationFramework: [],
-  implementingUnit: "",
-  totalProjectCost: 0,
-  fundingSource: "",
-  duration: "",
-  year1Deliverables: "",
-  year2Deliverables: "",
-  year3Deliverables: "",
-};
+function makeDefaultProject(planDuration: string): Omit<IctProject, "id"> {
+  return {
+    title: "",
+    description: "",
+    objectives: "",
+    projectType: "",
+    linkedSystemIds: [],
+    strategicAlignment: [],
+    harmonizationFramework: [],
+    implementingUnit: "",
+    fundingSource: "",
+    duration: planDuration,
+    year1Deliverables: "",
+    year2Deliverables: "",
+    year3Deliverables: "",
+  };
+}
 
 // Per MITHI Resolution 2025-01 / ISSP Guidelines 2026
 const STRATEGIC_ALIGNMENT_OPTIONS = [
@@ -91,6 +93,137 @@ const FUNDING_OPTIONS = [
   "Other Income Generating Sources",
 ];
 
+type DurationMode = "single" | "range";
+
+function yearsBetween(startYear: number, endYear: number): string[] {
+  const start = Math.min(startYear, endYear);
+  const end = Math.max(startYear, endYear);
+  return Array.from({ length: end - start + 1 }, (_, index) => String(start + index));
+}
+
+function formatDuration(start: string, end?: string): string {
+  return end && end !== start ? `${start}–${end}` : start;
+}
+
+function parseDuration(value: string, planYears: string[]) {
+  const match = value.trim().match(/^(\d{4})(?:\s*[-–]\s*(\d{4}))?$/);
+  const firstYear = planYears[0] ?? "";
+  const lastYear = planYears[planYears.length - 1] ?? firstYear;
+
+  if (!match) {
+    return {
+      valid: value.trim() === "",
+      mode: "range" as DurationMode,
+      start: firstYear,
+      end: lastYear,
+    };
+  }
+
+  const parsedStart = match[1];
+  const parsedEnd = match[2] ?? parsedStart;
+  const start = planYears.includes(parsedStart) ? parsedStart : firstYear;
+  const end = planYears.includes(parsedEnd) ? parsedEnd : start;
+  const valid = planYears.includes(parsedStart) && planYears.includes(parsedEnd) && Number(end) >= Number(start);
+
+  return {
+    valid,
+    mode: end !== start ? "range" as DurationMode : "single" as DurationMode,
+    start,
+    end,
+  };
+}
+
+function DurationPicker({
+  value,
+  planYears,
+  planDuration,
+  onChange,
+}: {
+  value: string;
+  planYears: string[];
+  planDuration: string;
+  onChange: (value: string) => void;
+}) {
+  const parsed = parseDuration(value, planYears);
+  const startIndex = Math.max(planYears.indexOf(parsed.start), 0);
+  const rangeEndOptions = planYears.slice(startIndex);
+
+  function setMode(mode: DurationMode) {
+    if (mode === "single") {
+      onChange(parsed.start);
+      return;
+    }
+    const end = Number(parsed.end) >= Number(parsed.start) ? parsed.end : planYears[planYears.length - 1];
+    onChange(formatDuration(parsed.start, end));
+  }
+
+  function setStart(start: string) {
+    if (parsed.mode === "single") {
+      onChange(start);
+      return;
+    }
+    const end = Number(parsed.end) >= Number(start) ? parsed.end : start;
+    onChange(formatDuration(start, end));
+  }
+
+  function setEnd(end: string) {
+    onChange(formatDuration(parsed.start, end));
+  }
+
+  return (
+    <div className="space-y-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <Select
+          items={[
+            { value: "single", label: "Single year" },
+            { value: "range", label: "Year range" },
+          ]}
+          value={parsed.mode}
+          onValueChange={(v: DurationMode | null) => v && setMode(v)}
+        >
+          <SelectTrigger className="w-full"><SelectValue placeholder="Mode" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="single">Single year</SelectItem>
+            <SelectItem value="range">Year range</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select
+          items={planYears.map((year) => ({ value: year, label: year }))}
+          value={parsed.start}
+          onValueChange={(v: string | null) => v && setStart(v)}
+        >
+          <SelectTrigger className="w-full"><SelectValue placeholder="Start" /></SelectTrigger>
+          <SelectContent>
+            {planYears.map((year) => (
+              <SelectItem key={year} value={year}>{year}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {parsed.mode === "range" && (
+          <Select
+            items={rangeEndOptions.map((year) => ({ value: year, label: year }))}
+            value={parsed.end}
+            onValueChange={(v: string | null) => v && setEnd(v)}
+          >
+            <SelectTrigger className="w-full"><SelectValue placeholder="End" /></SelectTrigger>
+            <SelectContent>
+              {rangeEndOptions.map((year) => (
+                <SelectItem key={year} value={year}>{year}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+      </div>
+      {!parsed.valid && (
+        <p className="text-xs text-warning">
+          Saved duration &ldquo;{value}&rdquo; is not a valid year or year range for this ISSP period. Choose a value above to replace it.
+        </p>
+      )}
+      <p className="text-xs text-muted-foreground">Allowed values are a single year or a year range within {planDuration}.</p>
+    </div>
+  );
+}
+
 // ─── Project Card ─────────────────────────────────────────────────────────────
 
 function ProjectCard({
@@ -98,6 +231,9 @@ function ProjectCard({
   index,
   proposedSystems,
   isCrossAgency,
+  planDuration,
+  planYears,
+  projectCost,
   onUpdate,
   onRemove,
 }: {
@@ -105,6 +241,9 @@ function ProjectCard({
   index: number;
   proposedSystems: ProposedSystem[];
   isCrossAgency: boolean;
+  planDuration: string;
+  planYears: string[];
+  projectCost: number;
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
@@ -385,10 +524,11 @@ function ProjectCard({
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs text-muted-foreground uppercase tracking-wide">Duration</Label>
-              <Input
-                placeholder="e.g., 2026–2028"
+              <DurationPicker
                 value={(project as IctProject).duration ?? ""}
-                onChange={(e) => onUpdate("duration", e.target.value)}
+                planYears={planYears}
+                planDuration={planDuration}
+                onChange={(duration) => onUpdate("duration", duration)}
               />
             </div>
             <div className="space-y-1.5">
@@ -409,16 +549,20 @@ function ProjectCard({
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground uppercase tracking-wide">Total Project Cost (₱)</Label>
-            <NumberInput
-              min={0}
-              integer={false}
-              placeholder="0"
-              value={project.totalProjectCost}
-              onValueChange={(n) => onUpdate("totalProjectCost", n)}
-              className="max-w-xs"
-            />
-            <p className="text-xs text-muted-foreground">Must match sum of yearly costs in Part IV</p>
+            <div className="flex items-center gap-1.5">
+              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Total Project Cost</Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="cursor-help text-muted-foreground hover:text-foreground transition-colors">
+                    <Info className="h-3.5 w-3.5" />
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-xs">
+                    Auto-calculated from this project&apos;s resource requirements in Part IV.
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <p className="text-sm font-semibold tabular-nums">{php(projectCost)}</p>
           </div>
 
           {/* 3-Year Milestones */}
@@ -456,11 +600,17 @@ function ProjectList({
   proposedSystems,
   initialProjects,
   isCrossAgency,
+  planDuration,
+  planYears,
+  projectCosts,
   onSave,
 }: {
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
   isCrossAgency: boolean;
+  planDuration: string;
+  planYears: string[];
+  projectCosts: Record<string, number>;
   onSave: (projects: IctProject[]) => void;
 }) {
   const [projects, setProjects] = useState<IctProject[]>(initialProjects);
@@ -471,7 +621,7 @@ function ProjectList({
   }
 
   function addProject() {
-    update([...projects, { id: generateId(), ...DEFAULT_PROJECT }]);
+    update([...projects, { id: generateId(), ...makeDefaultProject(planDuration) }]);
   }
 
   function removeProject(id: string) {
@@ -482,8 +632,6 @@ function ProjectList({
     update(projects.map((p) => (p.id === id ? { ...p, [field]: value } : p)));
   }
 
-  const totalCost = projects.reduce((s, p) => s + (p.totalProjectCost || 0), 0);
-
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap gap-3">
@@ -492,12 +640,6 @@ function ProjectList({
           <span className="text-xs text-muted-foreground">
             {isCrossAgency ? "Cross-Agency" : "Internal"} Projects
           </span>
-        </div>
-        <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <span className="text-2xl font-bold text-success">
-            ₱{totalCost.toLocaleString()}
-          </span>
-          <span className="text-xs text-muted-foreground">Total Est. Cost</span>
         </div>
       </div>
 
@@ -532,6 +674,9 @@ function ProjectList({
             index={idx}
             proposedSystems={proposedSystems}
             isCrossAgency={isCrossAgency}
+            planDuration={planDuration}
+            planYears={planYears}
+            projectCost={projectCosts[project.id] ?? 0}
             onUpdate={(field, value) => updateProject(project.id, field, value)}
             onRemove={() => removeProject(project.id)}
           />
@@ -546,15 +691,25 @@ function ProjectList({
 export function Part3E1Form({
   proposedSystems,
   initialProjects,
+  startYear,
+  endYear,
+  part4,
 }: {
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
+  startYear: number;
+  endYear: number;
+  part4: Part4Data;
 }) {
   const { debouncedSave } = useLocalSave("part3", "part3/e1");
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ internalProjects: projects }),
     [debouncedSave]
   );
+  const planYears = yearsBetween(startYear, endYear);
+  const planDuration = formatDuration(String(startYear), String(endYear));
+  const projectCosts = computeProjectCosts(part4, "internalProjects");
+
   return (
     <SectionShell
       sectionId="part3/e1"
@@ -565,6 +720,9 @@ export function Part3E1Form({
         proposedSystems={proposedSystems}
         initialProjects={initialProjects}
         isCrossAgency={false}
+        planDuration={planDuration}
+        planYears={planYears}
+        projectCosts={projectCosts}
         onSave={save}
       />
     </SectionShell>
@@ -576,15 +734,25 @@ export function Part3E1Form({
 export function Part3E2Form({
   proposedSystems,
   initialProjects,
+  startYear,
+  endYear,
+  part4,
 }: {
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
+  startYear: number;
+  endYear: number;
+  part4: Part4Data;
 }) {
   const { debouncedSave } = useLocalSave("part3", "part3/e2");
   const save = useCallback(
     (projects: IctProject[]) => debouncedSave({ crossAgencyProjects: projects }),
     [debouncedSave]
   );
+  const planYears = yearsBetween(startYear, endYear);
+  const planDuration = formatDuration(String(startYear), String(endYear));
+  const projectCosts = computeProjectCosts(part4, "crossAgencyProjects");
+
   return (
     <SectionShell
       sectionId="part3/e2"
@@ -595,6 +763,9 @@ export function Part3E2Form({
         proposedSystems={proposedSystems}
         initialProjects={initialProjects}
         isCrossAgency={true}
+        planDuration={planDuration}
+        planYears={planYears}
+        projectCosts={projectCosts}
         onSave={save}
       />
     </SectionShell>

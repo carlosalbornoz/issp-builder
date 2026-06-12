@@ -20,10 +20,12 @@ import { Plus, ChevronDown, ChevronRight, Server } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
+import { YesNoToggle } from "@/components/issp-editor/yes-no-toggle";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type IsClassification = "SUPPORT_TO_OPERATIONS" | "GENERAL_ADMIN" | "OPERATIONS" | "";
+type PiaProcessAnswer = "yes" | "no" | "";
 
 interface InformationSystem {
   id: string;
@@ -49,7 +51,7 @@ interface InformationSystem {
     sharedPlatform: boolean;
   };
   pia: {
-    processesPersonalInfo: boolean;
+    processesPersonalInfo: PiaProcessAnswer;
     piaCompleted: boolean;
   };
 }
@@ -81,7 +83,7 @@ const DEFAULT_IS: Omit<InformationSystem, "id"> = {
     sharedPlatform: false,
   },
   pia: {
-    processesPersonalInfo: false,
+    processesPersonalInfo: "",
     piaCompleted: false,
   },
 };
@@ -168,6 +170,14 @@ function ISCard({
 
   function updatePia(field: string, value: unknown) {
     onUpdate("pia", { ...sys.pia, [field]: value });
+  }
+
+  function setPiaProcessAnswer(value: PiaProcessAnswer) {
+    onUpdate("pia", {
+      ...sys.pia,
+      processesPersonalInfo: value,
+      piaCompleted: value === "yes" ? sys.pia.piaCompleted : false,
+    });
   }
 
   return (
@@ -263,6 +273,8 @@ function ISCard({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <FormField label="System URL / Portal" className="sm:col-span-2">
                 <Input
+                  type="url"
+                  inputMode="url"
                   placeholder="https://..."
                   value={sys.url}
                   onChange={(e) => onUpdate("url", e.target.value)}
@@ -420,15 +432,13 @@ function ISCard({
             <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
               Privacy Impact Assessment (PIA)
             </h4>
-            <div className="flex flex-wrap gap-4">
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <Checkbox
-                  checked={sys.pia.processesPersonalInfo}
-                  onCheckedChange={(v) => updatePia("processesPersonalInfo", v === true)}
-                />
-                <span className="text-sm">Processes personal / sensitive personal information</span>
-              </label>
-              {sys.pia.processesPersonalInfo && (
+            <div className="space-y-3">
+              <YesNoToggle
+                question="Processes personal / sensitive personal information?"
+                value={sys.pia.processesPersonalInfo}
+                onChange={setPiaProcessAnswer}
+              />
+              {sys.pia.processesPersonalInfo === "yes" && (
                 <label className="flex items-center gap-2.5 cursor-pointer">
                   <Checkbox
                     checked={sys.pia.piaCompleted}
@@ -504,7 +514,7 @@ export function Part2CForm({
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
           <span className="text-2xl font-bold text-warning">
-            {systems.filter((s) => s.pia.processesPersonalInfo).length}
+            {systems.filter((s) => s.pia.processesPersonalInfo === "yes").length}
           </span>
           <span className="text-xs text-muted-foreground">With Personal Data</span>
         </div>

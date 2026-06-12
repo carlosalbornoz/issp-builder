@@ -124,6 +124,8 @@ function PersonFields({
         <FormField label="Contact Number" htmlFor={`${prefix}-contact`}>
           <Input
             id={`${prefix}-contact`}
+            type="tel"
+            inputMode="tel"
             placeholder="e.g., +63 2 1234 5678"
             value={data.contact}
             onChange={(e) => onChange("contact", e.target.value)}
@@ -140,8 +142,8 @@ type Gender = "male" | "female";
 
 const EMPLOYMENT_TYPES: { key: EmploymentType; label: string }[] = [
   { key: "plantilla", label: "Plantilla" },
-  { key: "contractual", label: "Contractual / Job Order" },
-  { key: "outsourced", label: "Outsourced" },
+  { key: "contractual", label: "Contractual" },
+  { key: "outsourced", label: "Outsourced (JO, COS, and HTC)" },
 ];
 
 function calcTotal(

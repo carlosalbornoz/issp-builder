@@ -1,10 +1,13 @@
 import { renderContentHtml, renderFrontMatterHtml, type IsspData } from "@/lib/pdf/render-issp-html";
 import { generatePdf } from "@/lib/pdf/generate-pdf";
+import { computeProjectCosts } from "@/components/issp-editor/part4/part4-aggregations";
 import {
   CLASSIFICATION_LABELS,
   DEV_STRATEGY_LABELS,
   DATA_STORAGE_LABELS,
-  DEPLOYMENT_LABELS,
+  FRONTLINE_ACCESS_LABELS,
+  EMPLOYMENT_STATUS_LABELS,
+  PROPOSED_STATUS_LABELS,
   labelFor,
 } from "@/lib/issp-labels";
 import type {
@@ -13,7 +16,6 @@ import type {
   KpiRow,
   PerformanceFramework,
   EgpChecklist,
-  EgpProgram,
 } from "@/lib/store/types";
 
 // ─── Field mapping helpers ────────────────────────────────────────────────────
@@ -50,7 +52,7 @@ const SA_KNOWN = [
   "Program Convergence Budgeting",
 ] as const;
 
-function mapProject(proj: IctProject, crossAgency = false): IsspData["part3"]["internalProjects"][number] {
+function mapProject(proj: IctProject, crossAgency: boolean, totalProjectCost: number): IsspData["part3"]["internalProjects"][number] {
   const saArr = proj.strategicAlignment ?? [];
   const haArr = proj.harmonizationFramework ?? [];
 
@@ -86,7 +88,7 @@ function mapProject(proj: IctProject, crossAgency = false): IsspData["part3"]["i
     year2Deliverables: proj.year2Deliverables,
     year3Deliverables: proj.year3Deliverables,
     implementingUnit: proj.implementingUnit,
-    totalProjectCost: proj.totalProjectCost,
+    totalProjectCost,
     fundingSource: proj.fundingSource,
     ...(crossAgency && {
       leadAgency: proj.leadAgency,
@@ -126,14 +128,18 @@ function mapEgpChecklist(checklist: EgpChecklist): IsspData["part2"]["egpCheckli
   const result: IsspData["part2"]["egpChecklist"] = {};
   for (const [key, prog] of Object.entries(checklist)) {
     if (!prog) continue;
-    const p = prog as EgpProgram & { adoptionPercentage?: number; channels?: string };
+    const p = prog as EgpChecklist["onlinePortal"] & { adoptionPercentage?: number };
     result[key] = {
-      status: p.status ?? "not_utilizing",
+      status: p.status ?? "",
       url: p.url,
       equivalentName: p.equivalentName,
+      equivalentUrl: p.equivalentUrl,
       notes: p.notes,
       adoptionPercentage: p.adoptionPercentage,
       channels: p.channels,
+      ifNo: p.ifNo,
+      mechanisms: p.mechanisms,
+      connectedToPortal: p.connectedToPortal,
     };
   }
   return result;
@@ -148,6 +154,9 @@ function toRenderData(doc: IsspDocument): IsspData {
   const projectTitleById = new Map<string, string>(
     [...part3.internalProjects, ...part3.crossAgencyProjects].map((p) => [p.id, p.title])
   );
+  // Total project cost is derived from Part IV resource requirements, never stored
+  const internalCosts = computeProjectCosts(part4, "internalProjects");
+  const crossAgencyCosts = computeProjectCosts(part4, "crossAgencyProjects");
   // "Concurrently held by CIO" — derive focal fields from CIO so they can't go stale
   const focal = part1.focalSameAsCio
     ? { name: part1.cioName, position: part1.cioPosition, unit: part1.cioUnit, email: part1.cioEmail, contact: part1.cioContact }
@@ -206,7 +215,7 @@ function toRenderData(doc: IsspDocument): IsspData {
         name: sys.name,
         classification: labelFor(CLASSIFICATION_LABELS, sys.classification),
         frontline: sys.frontline,
-        deploymentType: labelFor(DEPLOYMENT_LABELS, sys.deploymentType) || undefined,
+        deploymentType: labelFor(FRONTLINE_ACCESS_LABELS, sys.deploymentType) || undefined,
         url: sys.url || undefined,
         description: sys.description,
         developmentStrategy: labelFor(DEV_STRATEGY_LABELS, sys.developmentStrategy) || undefined,
@@ -243,15 +252,15 @@ function toRenderData(doc: IsspDocument): IsspData {
       enterpriseArchDataUrl: part3.enterpriseArchDataUrl,
       proposedHumanCapital: part3.proposedHumanCapital.map((r) => ({
         position: r.position,
-        employmentStatus: r.employmentStatus,
+        employmentStatus: labelFor(EMPLOYMENT_STATUS_LABELS, r.employmentStatus),
         physicalCount: r.quantity,
       })),
       proposedSystems: part3.proposedSystems.map((sys) => ({
         name: sys.name,
         classification: labelFor(CLASSIFICATION_LABELS, sys.classification),
         frontline: sys.frontline,
-        deploymentType: labelFor(DEPLOYMENT_LABELS, sys.deploymentType) || undefined,
-        description: sys.enhancementDetails || "",
+        deploymentType: labelFor(FRONTLINE_ACCESS_LABELS, sys.deploymentType) || undefined,
+        description: sys.description || sys.enhancementDetails || "",
         developmentStrategy: labelFor(DEV_STRATEGY_LABELS, sys.developmentStrategy) || undefined,
         developmentPlatform: sys.developmentPlatform || undefined,
         databaseName: sys.databaseName || undefined,
@@ -267,15 +276,18 @@ function toRenderData(doc: IsspDocument): IsspData {
           externalSystems: sys.interoperability.externalSystems
             ? [sys.interoperability.externalSystems]
             : [],
+          generatesData: sys.interoperability.generatesData,
+          processesExternalData: sys.interoperability.processesExternalData,
+          sharedPlatform: sys.interoperability.sharedPlatform,
         },
         pia: {
           processesPersonalInfo: sys.pia.processesPersonalInfo,
           piaCompleted: sys.pia.piaRequired ?? null,
         },
-        status: sys.status || undefined,
+        status: labelFor(PROPOSED_STATUS_LABELS, sys.status) || undefined,
       })),
-      internalProjects: part3.internalProjects.map((p) => mapProject(p, false)),
-      crossAgencyProjects: part3.crossAgencyProjects.map((p) => mapProject(p, true)),
+      internalProjects: part3.internalProjects.map((p) => mapProject(p, false, internalCosts[p.id] ?? 0)),
+      crossAgencyProjects: part3.crossAgencyProjects.map((p) => mapProject(p, true, crossAgencyCosts[p.id] ?? 0)),
       performanceFramework: mapPerformanceFramework(part3.performanceFramework, projectTitleById),
     },
 

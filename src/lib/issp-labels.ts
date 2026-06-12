@@ -26,6 +26,29 @@ export const DATA_STORAGE_LABELS = {
   HYBRID: "Hybrid",
 } as const;
 
+export const PROPOSED_STATUS_LABELS = {
+  FOR_DEVELOPMENT: "For Development",
+  FOR_ENHANCEMENT: "For Enhancement",
+} as const;
+
+/**
+ * Template frontline access mode (II-C / III-D classification block):
+ * "Identify if: Online / On-premise / Hybrid". The PDF renderer checks these
+ * exact strings; the editor's richer deployment vocabulary collapses into them.
+ */
+export const FRONTLINE_ACCESS_LABELS = {
+  CLOUD: "Online",
+  HOSTED: "Online",
+  ON_PREMISE: "On-premise",
+  HYBRID: "Hybrid",
+} as const;
+
+export const EMPLOYMENT_STATUS_LABELS = {
+  PLANTILLA: "Plantilla",
+  CONTRACTUAL: "Contractual",
+  OUTSOURCED: "Outsourced (JO, COS, and HTC)",
+} as const;
+
 export const DEPLOYMENT_LABELS = {
   ON_PREMISE: "On-Premise",
   CLOUD: "Cloud-Hosted",

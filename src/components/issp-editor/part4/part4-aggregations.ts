@@ -50,6 +50,25 @@ export function yearTotal(y: YearBudget): number {
   return opTotal + intTotal + crossTotal + sumLines(y.continuingCosts.mooe);
 }
 
+/**
+ * Total cost per project id across all three years (CO + MOOE).
+ * Part III-E displays and the PDF export derive Total Project Cost from this —
+ * it is never stored on the project itself.
+ */
+export function computeProjectCosts(
+  part4: { year1: YearBudget; year2: YearBudget; year3: YearBudget },
+  kind: "internalProjects" | "crossAgencyProjects"
+): Record<string, number> {
+  const totals: Record<string, number> = {};
+  for (const year of [part4.year1, part4.year2, part4.year3]) {
+    for (const [projectId, budget] of Object.entries(year?.[kind] ?? {})) {
+      totals[projectId] =
+        (totals[projectId] ?? 0) + sumLines(budget.capitalOutlay ?? []) + sumLines(budget.mooe ?? []);
+    }
+  }
+  return totals;
+}
+
 function allLines(y: YearBudget): LineItem[] {
   const lines: LineItem[] = [
     ...y.officeProductivity.capitalOutlay,

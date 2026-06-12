@@ -20,6 +20,7 @@ import {
 import { Plus, Trash2, Pencil, ExternalLink, Table2, LayoutList } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { SectionShell } from "@/components/editor/section-shell";
+import { php } from "@/lib/utils";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -80,14 +81,6 @@ function sumLines(lines: LineItem[]) {
   return lines.reduce((s, l) => s + totalLine(l), 0);
 }
 
-function php(n: number) {
-  return new Intl.NumberFormat("en-PH", {
-    style: "currency",
-    currency: "PHP",
-    minimumFractionDigits: 2,
-  }).format(n);
-}
-
 function alpha(n: number) {
   return String.fromCharCode(65 + n);
 }
@@ -98,6 +91,14 @@ const FUND_SOURCES = [
   "Locally Funded",
   "Other Income Generating Sources",
 ];
+
+const OFFICE_SUGGESTIONS = [
+  "Central Office",
+  "Regional Offices",
+  "Central Office and Regional Offices",
+];
+
+const OFFICE_LIST_ID = "issp-office-suggestions";
 
 // ─── Line Item Drawer ─────────────────────────────────────────────────────────
 
@@ -162,6 +163,7 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
             <label className="text-sm font-medium">Office / Unit</label>
             <Input
               type="text"
+              list={OFFICE_LIST_ID}
               value={draft.office}
               onChange={(e) => set("office", e.target.value)}
               placeholder="Which office or unit will use this?"
@@ -212,21 +214,22 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
+              <label className="text-sm font-medium">Unit Cost (₱)</label>
+              <NumberInput
+                min={0}
+                currency
+                value={draft.unitCost}
+                onValueChange={(n) => set("unitCost", n)}
+              />
+            </div>
+            <div className="space-y-1.5">
               <label className="text-sm font-medium">Physical Target</label>
               <NumberInput
                 min={1}
                 value={draft.qty}
                 onValueChange={(n) => set("qty", n)}
               />
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium">Unit Cost (₱)</label>
-              <NumberInput
-                min={0}
-                integer={false}
-                value={draft.unitCost}
-                onValueChange={(n) => set("unitCost", n)}
-              />
+              <p className="text-xs text-muted-foreground">Units to procure or deploy in this year.</p>
             </div>
           </div>
 
@@ -400,8 +403,8 @@ function LineTable({
                   <th className="border-r px-3 py-2 text-left font-semibold w-32">Office / Unit</th>
                   <th className="border-r px-3 py-2 text-left font-semibold w-36">UACS</th>
                   <th className="border-r px-3 py-2 text-left font-semibold w-44">Fund Source</th>
-                  <th className="border-r px-3 py-2 text-right font-semibold w-16">Qty</th>
                   <th className="border-r px-3 py-2 text-right font-semibold w-28">Unit Cost ₱</th>
+                  <th className="border-r px-3 py-2 text-right font-semibold w-20">Phys. Target</th>
                   <th className="border-r px-3 py-2 text-right font-semibold w-28">Total ₱</th>
                   <th className="px-2 py-2 w-8" />
                 </tr>
@@ -431,6 +434,7 @@ function LineTable({
                     <td className="border-r px-2 py-1">
                       <input
                         type="text"
+                        list={OFFICE_LIST_ID}
                         className={INPUT_CLS}
                         placeholder="Office…"
                         value={line.office}
@@ -462,20 +466,20 @@ function LineTable({
                     <td className="border-r px-2 py-1">
                       <NumberInput
                         unstyled
-                        min={1}
+                        min={0}
+                        currency
                         className={`${INPUT_CLS} text-right`}
-                        value={line.qty}
-                        onValueChange={(n) => updateField(idx, "qty", n)}
+                        value={line.unitCost}
+                        onValueChange={(n) => updateField(idx, "unitCost", n)}
                       />
                     </td>
                     <td className="border-r px-2 py-1">
                       <NumberInput
                         unstyled
-                        min={0}
-                        integer={false}
+                        min={1}
                         className={`${INPUT_CLS} text-right`}
-                        value={line.unitCost}
-                        onValueChange={(n) => updateField(idx, "unitCost", n)}
+                        value={line.qty}
+                        onValueChange={(n) => updateField(idx, "qty", n)}
                       />
                     </td>
                     <td className="border-r px-3 py-2 text-right tabular-nums text-sm font-medium">
@@ -627,6 +631,11 @@ export function Part4YearForm({
       description={sectionDesc}
       statBlock={{ label: "Year Total", value: php(grandTotal) }}
     >
+      <datalist id={OFFICE_LIST_ID}>
+        {OFFICE_SUGGESTIONS.map((office) => (
+          <option key={office} value={office} />
+        ))}
+      </datalist>
       {/* Legend + view toggle */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground rounded-lg border bg-muted/20 px-4 py-2.5">
         <span className="font-medium text-foreground/50">Legend:</span>

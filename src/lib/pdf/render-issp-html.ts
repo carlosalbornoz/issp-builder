@@ -1,4 +1,5 @@
 import { STANDARD_DEFINITIONS } from "@/lib/store/defaults";
+import { CYBER_GROUPS } from "@/lib/cyber-controls";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -68,7 +69,7 @@ interface IsSystem {
     processesExternalData?: boolean;
     sharedPlatform?: boolean;
   };
-  pia?: { processesPersonalInfo: boolean; piaCompleted?: boolean | null };
+  pia?: { processesPersonalInfo: "yes" | "no" | "" | boolean; piaCompleted?: boolean | null };
   // Proposed IS extras
   status?: string;
 }
@@ -76,10 +77,25 @@ interface IsSystem {
 interface StrategicConcern { ooSoMfo: string; criticalSystem: string; problem: string; intendedIctUse: string }
 
 interface EgpEntry {
-  status: "utilizing" | "proposed" | "not_applicable" | "not_utilizing";
+  status: "utilizing" | "proposed" | "not_applicable" | "not_utilizing" | "";
   url?: string;
   equivalentName?: string;
+  equivalentUrl?: string;
   notes?: string;
+  ifNo?: {
+    usingEquivalent?: boolean;
+    manual?: boolean;
+    proposedDevelopment?: boolean;
+    otherPlatform?: boolean;
+  };
+  mechanisms?: {
+    website: boolean;
+    email: boolean;
+    landline: boolean;
+    socialMedia: boolean;
+    mobile: boolean;
+  };
+  connectedToPortal?: "yes" | "no" | "";
   adoptionPercentage?: number;
   channels?: string;
 }
@@ -228,6 +244,14 @@ function fundSourceAbbr(s: string): string {
     "Other Income Generating Sources": "OIGS",
   };
   return map[s] ?? s;
+}
+
+function isFundSource(s: string, expected: "gaa" | "foreign" | "local" | "other"): boolean {
+  const normalized = s.toLowerCase().replace(/[-\s()]/g, "");
+  if (expected === "gaa") return normalized === "gaa" || normalized.includes("generalappropriationsact");
+  if (expected === "foreign") return normalized.includes("foreignassisted");
+  if (expected === "local") return normalized.includes("locallyfunded");
+  return normalized.includes("otherincomegeneratingsources");
 }
 
 // Group line items by UACS code, compute subtotals
@@ -657,79 +681,12 @@ function renderPart1(issp: IsspData): string {
 // ─── Cybersecurity checklist table (shared by Part II-B2 and III-A2) ──────────
 
 function renderCyberTable(controls: CyberGroup): string {
-  const rows = [
-    {
-      group: "PHYSICAL SECURITY",
-      mandatory: [
-        { key: "perimeterProtection", label: "Perimeter Protection" },
-        { key: "accessControl", label: "Access Control" },
-        { key: "surveillance", label: "Surveillance System" },
-      ],
-      optional: [{ key: "detection", label: "Detection System" }],
-      src: controls.physical,
-    },
-    {
-      group: "PERIMETER SECURITY",
-      mandatory: [
-        { key: "ngfw", label: "Next Generation Firewalls" },
-        { key: "idsIps", label: "Intrusion Detection/Prevention Systems (IDS/IPS)" },
-        { key: "waf", label: "Web Application Firewalls (WAFs)" },
-      ],
-      optional: [{ key: "dmz", label: "Demilitarized Zone (DMZ)" }],
-      src: controls.perimeter,
-    },
-    {
-      group: "NETWORK SECURITY",
-      mandatory: [{ key: "dataEncryption", label: "Data Encryption" }],
-      optional: [{ key: "networkSegmentation", label: "Network Segmentation" }],
-      src: controls.network,
-    },
-    {
-      group: "ENDPOINT SECURITY",
-      mandatory: [
-        { key: "antivirus", label: "Anti-virus and Anti-malware Software" },
-        { key: "appControl", label: "Application Control" },
-        { key: "byod", label: "BYOD Security" },
-      ],
-      optional: [{ key: "xdr", label: "Extended Detection and Response (XDR)" }],
-      src: controls.endpoint,
-    },
-    {
-      group: "DATA SECURITY",
-      mandatory: [
-        { key: "dataClassification", label: "Data Classification" },
-        { key: "dlp", label: "Data Loss Prevention (DLP)" },
-        { key: "backupRecovery", label: "Data Backups and Recovery" },
-      ],
-      optional: [],
-      src: controls.data,
-    },
-    {
-      group: "APPLICATION SECURITY",
-      mandatory: [{ key: "securityScanning", label: "Regular Security Scanning and Testing" }],
-      optional: [],
-      src: controls.application,
-    },
-    {
-      group: "OTHER MEASURES",
-      mandatory: [
-        { key: "vulnAssessment", label: "Vulnerability Assessment" },
-        { key: "patchMgmt", label: "Patch Management" },
-        { key: "strongPasswords", label: "Strong Password Policies" },
-        { key: "mfa", label: "Multi-Factor Authentication (MFA)" },
-        { key: "accessReviews", label: "Access Reviews" },
-        { key: "securityLogs", label: "Security Logs" },
-      ],
-      optional: [
-        { key: "logAnalysis", label: "Log Analysis" },
-        { key: "incidentResponse", label: "Incident Response Plan" },
-        { key: "siem", label: "Security Information and Event Management (SIEM)" },
-        { key: "penTesting", label: "Penetration Testing" },
-        { key: "secureSdlc", label: "Secure Software Development Life Cycle (SDLC)" },
-      ],
-      src: controls.other,
-    },
-  ];
+  const rows = CYBER_GROUPS.map((group) => ({
+    group: group.label.toUpperCase(),
+    mandatory: group.items.filter((item) => item.mandatory),
+    optional: group.items.filter((item) => !item.mandatory),
+    src: controls[group.key],
+  }));
 
   return `<table class="cyber-table">
     <thead>
@@ -759,6 +716,9 @@ function renderCyberTable(controls: CyberGroup): string {
 function renderIsCard(sys: IsSystem, isProposed = false): string {
   const interop = sys.interoperability;
   const pia = sys.pia;
+  const piaAnswer = pia?.processesPersonalInfo;
+  const piaYes = piaAnswer === true || piaAnswer === "yes";
+  const piaNo = piaAnswer === "no";
   return `<div class="is-card avoid-break">
     <table>
       <tbody>
@@ -794,8 +754,8 @@ function renderIsCard(sys: IsSystem, isProposed = false): string {
         </td></tr>
         <tr class="avoid-break"><td class="label-cell">PRIVACY IMPACT ASSESSMENT (PIA)</td><td>
           Is the system processing personal information?<br>
-          ${chk(pia?.processesPersonalInfo === true)} Yes &nbsp; ${chk(pia?.processesPersonalInfo === false)} No<br>
-          ${pia?.processesPersonalInfo ? `<br>If Yes, did the system undergo PIA?<br>
+          ${chk(piaYes)} Yes &nbsp; ${chk(piaNo)} No<br>
+          ${piaYes ? `<br>If Yes, did the system undergo PIA?<br>
             ${chk(pia?.piaCompleted === true)} Yes &nbsp; ${chk(pia?.piaCompleted === false)} No` : ""}
         </td></tr>
       </tbody>
@@ -835,11 +795,36 @@ function renderPart2(issp: IsspData): string {
 
   function egpDetails(key: string): string {
     const e = p.egpChecklist[key];
-    if (!e || (e.status !== "utilizing" && e.status !== "proposed")) return "";
+    if (!e) return "";
     const lines: string[] = [];
+    // Template asks PNPKI adoption % unconditionally — never gate it on status
     if (key === "pnpki") lines.push(`Adoption: ${Number(e.adoptionPercentage ?? 0)}%`);
-    if (e.url) lines.push(`URL: ${esc(e.url)}`);
-    if (e.equivalentName) lines.push(`Equivalent System: ${esc(e.equivalentName)}`);
+    if (e.mechanisms) {
+      const MECHANISM_LABELS: [keyof NonNullable<EgpEntry["mechanisms"]>, string][] = [
+        ["website", "Website"], ["email", "Email"], ["landline", "Landline"],
+        ["socialMedia", "Social Media"], ["mobile", "Mobile"],
+      ];
+      lines.push(`Mechanisms: ${MECHANISM_LABELS.map(([k, label]) => `${chk(e.mechanisms![k])} ${label}`).join(" &nbsp; ")}`);
+    }
+    if (e.connectedToPortal) {
+      lines.push(`Connected with online public service portals: ${e.connectedToPortal === "yes" ? "Yes" : "No"}`);
+    }
+    if (e.status === "utilizing" || e.status === "proposed") {
+      if (e.url) lines.push(`URL: ${esc(e.url)}`);
+      if (e.equivalentName) lines.push(`System: ${esc(e.equivalentName)}`);
+    }
+    if (e.status === "not_utilizing" && e.ifNo) {
+      const ifNoLines: string[] = [];
+      if (e.ifNo.otherPlatform) ifNoLines.push("Using other digital or electronic payment platform");
+      if (e.ifNo.usingEquivalent) {
+        ifNoLines.push(
+          `Using equivalent system${e.equivalentName ? ` — ${esc(e.equivalentName)}` : ""}${e.equivalentUrl ? ` (${esc(e.equivalentUrl)})` : ""}`
+        );
+      }
+      if (e.ifNo.manual) ifNoLines.push("Manual transaction/processing");
+      if (e.ifNo.proposedDevelopment) ifNoLines.push("Proposed development of equivalent system");
+      if (ifNoLines.length) lines.push(`If No: ${ifNoLines.join("; ")}`);
+    }
     if (e.channels) lines.push(`Service Channels: ${esc(e.channels)}`);
     if (e.notes) lines.push(`Notes: ${esc(e.notes)}`);
     return lines.join("<br>");
@@ -940,10 +925,10 @@ function renderProjectCard(proj: IctProject, crossAgency = false): string {
         <tr><td class="label-cell">IMPLEMENTING UNIT</td><td>${esc(proj.implementingUnit)}</td></tr>
         <tr><td class="label-cell">TOTAL PROJECT COST</td><td>${php(proj.totalProjectCost)}</td></tr>
         <tr><td class="label-cell">FUNDING SOURCE</td><td>
-          ${chk(proj.fundingSource === "GAA")} GAA<br>
-          ${chk(proj.fundingSource === "Foreign-assisted")} Foreign-assisted projects<br>
-          ${chk(proj.fundingSource === "Locally funded")} Locally funded<br>
-          ${chk(proj.fundingSource === "Other Income Generating Sources")} Other Income Generating Sources
+          ${chk(isFundSource(proj.fundingSource, "gaa"))} GAA<br>
+          ${chk(isFundSource(proj.fundingSource, "foreign"))} Foreign-assisted projects<br>
+          ${chk(isFundSource(proj.fundingSource, "local"))} Locally funded<br>
+          ${chk(isFundSource(proj.fundingSource, "other"))} Other Income Generating Sources
         </td></tr>
         ${crossAgency ? `
           <tr><td class="label-cell">LEAD AGENCY</td><td>${esc(proj.leadAgency)}</td></tr>
@@ -1047,8 +1032,8 @@ function renderPart3(issp: IsspData): string {
     ${pageHeader(issp)}
     <div class="subsection-heading">F.1. Internal ICT Projects</div>
     <div class="subsection-block">${allProjects.filter(pr => pr.type === "internal").map(proj => {
-      const entry = perfEntries.find(e => e.projectTitle === proj.title) ??
-        issp.part3.performanceFramework[proj.id];
+      const entry = issp.part3.performanceFramework[proj.id] ??
+        perfEntries.find(e => e.projectTitle === proj.title);
       if (!entry) return `<p style="font-style:italic;">No KPI data for ${esc(proj.title)}.</p>`;
       return `<div class="avoid-break" style="margin-bottom:6mm;">
         <p style="font-weight:bold;margin-bottom:2mm;">ICT Project: <em>${esc(proj.title)}</em></p>
@@ -1080,8 +1065,8 @@ function renderPart3(issp: IsspData): string {
     ${allProjects.filter(pr => pr.type === "cross-agency").length > 0 ? `
     <div class="subsection-heading" style="margin-top:6mm;">F.2. Cross-Agency ICT Projects</div>
     <div class="subsection-block">${allProjects.filter(pr => pr.type === "cross-agency").map(proj => {
-      const entry = perfEntries.find(e => e.projectTitle === proj.title) ??
-        issp.part3.performanceFramework[proj.id];
+      const entry = issp.part3.performanceFramework[proj.id] ??
+        perfEntries.find(e => e.projectTitle === proj.title);
       if (!entry) return `<p style="font-style:italic;">No KPI data for ${esc(proj.title)}.</p>`;
       return `<div class="avoid-break" style="margin-bottom:6mm;">
         <p style="font-weight:bold;margin-bottom:2mm;">Cross-Agency ICT Project: <em>${esc(proj.title)}</em></p>

@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget, HCRow, StakeholderService, IsClassification } from "./types";
+import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget, HCRow, StakeholderService, IsClassification, PiaProcessAnswer } from "./types";
 import { createEmptyDocument, type NewDocOptions } from "./defaults";
 import { idbClear, idbLoad, idbSave } from "./idb";
 
@@ -63,7 +63,7 @@ function hasCyberContent(c: CyberControls): boolean {
 }
 
 function hasEgpContent(egp: EgpChecklist): boolean {
-  return Object.values(egp).some((p) => p.status !== "not_utilizing");
+  return Object.values(egp).some((p) => p.status !== "");
 }
 
 function hasYearContent(year: YearBudget): boolean {
@@ -196,6 +196,90 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
           internalUsers: mapUsers(sys.internalUsers),
           externalUsers: mapUsers(sys.externalUsers),
         })),
+      },
+    };
+  }
+
+  // v4 -> v5: explicit PIA Yes/No, proposed IS description/interoperability dimensions,
+  // and new-document EGP statuses can remain unanswered.
+  if ((base.schemaVersion ?? 1) < 5) {
+    const mapPiaAnswer = (value: unknown): PiaProcessAnswer => {
+      if (value === true || value === "yes") return "yes";
+      if (value === "no") return "no";
+      return "";
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const mapInterop = (raw: any) => {
+      if (raw?.integrated !== undefined) {
+        return {
+          integrated: raw.integrated ?? false,
+          internalSystems: raw.internalSystems ?? "",
+          externalSystems: raw.externalSystems ?? "",
+          generatesData: raw.generatesData ?? false,
+          processesExternalData: raw.processesExternalData ?? false,
+          sharedPlatform: raw.sharedPlatform ?? false,
+        };
+      }
+      const systems: { name?: string; type?: string }[] = Array.isArray(raw?.systems) ? raw.systems : [];
+      return {
+        integrated: !!raw?.hasInteroperability || systems.length > 0,
+        internalSystems: systems.filter((s) => s.type === "Internal").map((s) => s.name).join(", "),
+        externalSystems: systems.filter((s) => s.type === "External").map((s) => s.name).join(", "),
+        generatesData: false,
+        processesExternalData: systems.some((s) => s.type === "External"),
+        sharedPlatform: false,
+      };
+    };
+    base = {
+      ...base,
+      schemaVersion: 5,
+      part2: {
+        ...base.part2,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        informationSystems: base.part2.informationSystems.map((sys: any) => ({
+          ...sys,
+          interoperability: mapInterop(sys.interoperability),
+          pia: {
+            ...sys.pia,
+            processesPersonalInfo: mapPiaAnswer(sys.pia?.processesPersonalInfo),
+            piaCompleted: sys.pia?.piaCompleted ?? sys.pia?.piaConducted ?? false,
+          },
+        })),
+      },
+      part3: {
+        ...base.part3,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        proposedSystems: base.part3.proposedSystems.map((sys: any) => ({
+          ...sys,
+          description: sys.description ?? sys.enhancementDetails ?? "",
+          interoperability: mapInterop(sys.interoperability),
+          pia: {
+            ...sys.pia,
+            processesPersonalInfo: mapPiaAnswer(sys.pia?.processesPersonalInfo),
+            piaRequired: sys.pia?.piaRequired ?? sys.pia?.piaCompleted ?? sys.pia?.piaConducted ?? false,
+          },
+        })),
+      },
+    };
+  }
+
+  // v5 -> v6: Total Project Cost is derived from Part IV resource requirements
+  // (computeProjectCosts), never stored on the project — drop stale copies.
+  if ((base.schemaVersion ?? 1) < 6) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const stripCost = (projects: any[]) =>
+      projects.map((p) => {
+        const rest = { ...p };
+        delete rest.totalProjectCost;
+        return rest;
+      });
+    base = {
+      ...base,
+      schemaVersion: 6,
+      part3: {
+        ...base.part3,
+        internalProjects: stripCost(base.part3.internalProjects),
+        crossAgencyProjects: stripCost(base.part3.crossAgencyProjects),
       },
     };
   }
