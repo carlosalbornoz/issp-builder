@@ -160,7 +160,9 @@ description prints, mandatory counters, legacy-doc load.
 
 ---
 
-## Phase 4 — Polish batch (audit #16–#25)
+## Phase 4 — Polish batch (audit #16–#25) ✅ (items 1–4, 6–7 shipped with the Phase 3 sweep;
+item 5 III-F mobile cards + the last I-C grip in `844d661`; item 8 superseded by the derived
+Total Project Cost — schema v6 — and the `NumberInput currency` prop)
 
 One commit, mechanical:
 
@@ -181,7 +183,8 @@ One commit, mechanical:
 
 ---
 
-## Phase 5 — III-D/E interaction redesign (user-reported 2026-06-12)
+## Phase 5 — III-D/E interaction redesign (user-reported 2026-06-12) — 5.1/5.3 ✅ `7a802a3`,
+5.2 ✅ for III-E `e1f3296` (III-D/II-C read-views still optional follow-ups)
 
 ### 5.1 Add-via-modal instead of silent append
 
