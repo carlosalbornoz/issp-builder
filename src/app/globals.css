@@ -476,8 +476,21 @@
 @keyframes glow-orbit {
   to { --glow-angle: 360deg; }
 }
-.animate-glow-orbit {
-  animation: glow-orbit 3s linear infinite;
+@keyframes glow-orbit-occasional {
+  0%   { --glow-angle: 0deg; }
+  30%  { --glow-angle: 360deg; }
+  100% { --glow-angle: 360deg; }
+}
+/* Pointer devices: the light orbits only while hovered */
+@media (hover: hover) and (pointer: fine) {
+  .animate-glow-orbit:hover { animation: glow-orbit 2s linear infinite; }
+}
+/* Touch devices (no hover): an occasional sweep — one orbit, then rest */
+@media (hover: none), (pointer: coarse) {
+  .animate-glow-orbit { animation: glow-orbit-occasional 7s linear infinite; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-glow-orbit, .animate-glow-orbit:hover { animation: none; }
 }
 
 /* New-item reveal pulse (lib/reveal.ts) — visible consequence for list adds */
