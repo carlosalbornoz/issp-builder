@@ -1,7 +1,13 @@
 # Guidelines in Accomplishing the Revised ISSP Template v. 2026
 
 > Source: Department of Information and Communications Technology (DICT)  
-> Reference for: Government agencies drafting their Information Systems Strategic Plan (ISSP)
+> Reference for: Government agencies drafting their Information Systems Strategic Plan (ISSP)  
+> **Template version: v2** (`ISSP Template 2026_v2.pdf`, received 2026-06-12). Verified
+> against the original 043026 PDF page-by-page (text + render diff): the only substantive
+> change is in Part II.D item 3 (PNPKI), where the internal DICT note *"(For GSSPD's
+> consideration to consult GDTB-DCD)"* was removed — the adoption-percentage instruction
+> stands. No field, option, taxonomy, or layout changes anywhere else; this document
+> required no content updates.
 
 ---
 
