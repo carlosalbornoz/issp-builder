@@ -497,13 +497,14 @@
     conic-gradient(
       from var(--glow-angle),
       transparent 0%,
-      rgb(64 156 255 / calc(var(--glow-alpha, 0) * 0.2)) 14%,
-      rgb(0 210 255 / calc(var(--glow-alpha, 0) * 0.45)) 26%,
-      rgb(60 225 180 / calc(var(--glow-alpha, 0) * 0.6)) 34%,
-      rgb(150 110 255 / calc(var(--glow-alpha, 0) * 0.8)) 41%,
-      rgb(255 70 200 / var(--glow-alpha, 0)) 46%,
-      rgb(255 130 150 / calc(var(--glow-alpha, 0) * 0.85)) 49%,
-      transparent 52%,
+      rgb(255 80 80 / calc(var(--glow-alpha, 0) * 0.18)) 12%,
+      rgb(255 150 50 / calc(var(--glow-alpha, 0) * 0.35)) 20%,
+      rgb(255 220 60 / calc(var(--glow-alpha, 0) * 0.5)) 28%,
+      rgb(80 220 120 / calc(var(--glow-alpha, 0) * 0.65)) 35%,
+      rgb(40 200 255 / calc(var(--glow-alpha, 0) * 0.8)) 41%,
+      rgb(80 130 255 / calc(var(--glow-alpha, 0) * 0.92)) 47%,
+      rgb(190 90 255 / var(--glow-alpha, 0)) 52%,
+      transparent 56%,
       transparent 100%
     ) border-box,
     linear-gradient(var(--border), var(--border)) border-box;
