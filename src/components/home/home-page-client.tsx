@@ -317,6 +317,15 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           {(() => {
             const hasSession = !storeLoading && !!doc;
 
+            if (storeLoading) {
+              return (
+                <div className="flex flex-col items-center justify-center gap-2.5 rounded-xl border border-dashed bg-card/50 py-12">
+                  <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">Checking this browser for saved work…</p>
+                </div>
+              );
+            }
+
             const startNewCard = (
               <button type="button" onClick={() => setNewDialogOpen(true)}
                 className="group flex items-start gap-4 rounded-xl border bg-card p-5 text-left transition-all hover:bg-accent hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
@@ -346,8 +355,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             if (!hasSession) {
               return (
                 <div className="grid gap-3">
-                  {storeLoading ? null : (
-                    <>
+                  <>
                       <button type="button" onClick={() => setSampleIntroOpen(true)} disabled={sampleLoading}
                         className="group flex items-start gap-4 rounded-xl border border-primary/20 bg-primary/5 p-5 text-left transition-all hover:bg-primary/10 hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60 disabled:cursor-not-allowed">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/15 transition-colors">
@@ -367,8 +375,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
                       {startNewCard}
                       {loadFileCard}
-                    </>
-                  )}
+                  </>
                 </div>
               );
             }
