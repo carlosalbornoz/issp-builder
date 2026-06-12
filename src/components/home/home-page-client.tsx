@@ -281,19 +281,20 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
       {/* ── Hero ── */}
       <section className="min-h-[calc(100dvh-3.5rem)] flex flex-col border-b bg-secondary/40">
-        <div className="w-full max-w-md mx-auto px-6 py-14 my-auto">
-
-          {/* Branding */}
-          <div className="text-center space-y-2 mb-10">
-            {/* Part-color accent strips */}
-            <div className="flex justify-center gap-1 mb-4 logo-eq">
-              {PART_COLORS.map((c, i) => (
-                <span key={c} className="w-2 h-6 rounded-full logo-bar" style={{ background: c, animationDelay: `${i * 0.14}s` }} />
-              ))}
-            </div>
-            <h1 className="font-display text-3xl font-bold tracking-tight">ISSP Builder</h1>
-            <p className="text-sm text-muted-foreground">Build your agency&apos;s 3-year Information Systems Strategic Plan</p>
+        {/* Branding — anchored near the top of the first viewport */}
+        <div className="w-full max-w-md mx-auto px-6 pt-12 text-center space-y-2">
+          {/* Part-color accent strips */}
+          <div className="flex justify-center gap-1 mb-4 logo-eq">
+            {PART_COLORS.map((c, i) => (
+              <span key={c} className="w-2 h-6 rounded-full logo-bar" style={{ background: c, animationDelay: `${i * 0.14}s` }} />
+            ))}
           </div>
+          <h1 className="font-display text-3xl font-bold tracking-tight">ISSP Builder</h1>
+          <p className="text-sm text-muted-foreground">Build your agency&apos;s 3-year Information Systems Strategic Plan</p>
+        </div>
+
+        {/* Action area — centered in the space between branding and chip */}
+        <div className="w-full max-w-md mx-auto px-6 py-10 my-auto">
 
           {/* What's New pill — gradient border technique: no extra elements, no overflow */}
           <div className="flex justify-center mb-7">
