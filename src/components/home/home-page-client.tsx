@@ -646,7 +646,33 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               </p>
             </div>
 
-            {/* 2 — Agency logo */}
+            {/* 2 — Splash continuity */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">This Page Now Remembers Your Work</p>
+              <p>
+                Come back with an ISSP in progress and the home page leads with a{" "}
+                <span className="text-foreground font-medium">&ldquo;Continue where you left off&rdquo;</span> card — your plan&apos;s title, coverage period, when you last edited, and how many sections are done. One click resumes; everything else (start new, load a file, the sample) tucks itself behind &ldquo;Other options&rdquo; so you don&apos;t accidentally start over. Clearing browser data takes two deliberate clicks and never touches your saved <code className="text-xs bg-muted px-1 rounded">.issp</code> files.
+              </p>
+            </div>
+
+            {/* 3 — Visible adds + readable projects */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">No More Mystery Adds</p>
+              <p>
+                Pressing <span className="text-foreground font-medium">Add</span> used to append a new card somewhere below your screen — you&apos;d never know it happened (&ldquo;hindi alam na may na-add na pala sa ibaba&rdquo;). Now every new item <span className="text-foreground font-medium">scrolls into view, gets focus, and pulses briefly</span>; bigger items like systems and projects start with a quick name-this-first dialog. Project cards in Part III-E also open as a <span className="text-foreground font-medium">readable summary</span> — editing is an explicit button, so reading no longer means dodging input fields. And if you link a proposed IS that another project already claims, the builder warns you <span className="text-foreground font-medium">by name</span> before you double-count its budget.
+              </p>
+            </div>
+
+            {/* 4 — Mobile KPIs */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">KPIs You Can Actually Edit on a Phone</p>
+              <p>
+                Part III-F&apos;s nine-column performance framework table now becomes a{" "}
+                <span className="text-foreground font-medium">card per KPI on small screens</span> — every field labeled, no sideways scrolling archaeology.
+              </p>
+            </div>
+
+            {/* 5 — Agency logo */}
             <div className="space-y-1.5">
               <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Your Agency Logo, In the PDF</p>
               <p>
