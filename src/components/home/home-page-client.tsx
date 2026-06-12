@@ -221,7 +221,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               }}
             >
               <Sparkles className="w-3 h-3" />
-              What&apos;s new — June 11, 2026
+              What&apos;s new — June 11–12, 2026
             </button>
           </div>
 
@@ -456,7 +456,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
             <DialogTitle className="font-display text-lg flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              What&apos;s new — June 11, 2026
+              What&apos;s new — June 11–12, 2026
             </DialogTitle>
           </DialogHeader>
           <div ref={whatsNewScrollRef} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
@@ -465,56 +465,87 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             {/* Fun blurb */}
             <div className="rounded-lg border bg-muted/50 px-4 py-3 text-center">
               <p className="text-sm font-medium italic text-foreground/75">
-                Two weeks, one full codebase review, and an unreasonable amount of PDF wrangling later:
+                A full codebase review, an unreasonable amount of PDF wrangling, and a field-by-field audit against the official template later:
               </p>
             </div>
 
-            {/* 1 — Hero: agency logo payoff */}
+            {/* 1 — Hero: template alignment */}
             <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
-              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Your Agency Logo, In the PDF · As Promised</p>
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Checked Field-by-Field Against the DICT Template</p>
               <p>
-                The last update ended with: <span className="italic">&ldquo;Now if I could actually let you upload your agency&apos;s logo into the PDF headers, that would really be something, huh? Soon.&rdquo;</span>{" "}
-                Soon arrived. Upload your logo in the <span className="text-foreground font-medium">New ISSP</span> or <span className="text-foreground font-medium">ISSP Properties</span> dialog (PNG, JPG, WebP, or SVG, up to 2&nbsp;MB) and it appears on the cover page and on the upper-left of every page header — exactly where the official DICT template puts it.
+                After the May 25 ISSP Caravan, we audited every input in the builder against all 40 pages of the official DICT 2026 template. Most things already matched. The ones that didn&apos;t are fixed — including one checklist card that was quietly asking about an <span className="italic">accounting system</span> where the template asks about your <span className="text-foreground font-medium">Public Service Continuity Plan</span>. If you answered that one before today, kindly revisit it. 🙏
               </p>
             </div>
 
-            {/* 2 — Definition of Terms */}
+            {/* 2 — Agency logo */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Your Agency Logo, In the PDF</p>
+              <p>
+                Upload your logo in the <span className="text-foreground font-medium">New ISSP</span> or <span className="text-foreground font-medium">ISSP Properties</span>{" "}dialog (PNG, JPG, WebP, or SVG, up to 2&nbsp;MB) and it appears on the cover page and on the upper-left of every page header — exactly where the official DICT template puts it.
+              </p>
+            </div>
+
+            {/* 3 — EGP checklist follow-ups */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">The eGov Checklist Now Asks the Template&apos;s Actual Questions</p>
+              <p>
+                Part II-D follows the template&apos;s exact structure: answering <span className="text-foreground font-medium">&ldquo;Not Utilizing&rdquo;</span> now reveals the official follow-ups (using an equivalent system — with its name and URL, manual processing, or proposed development of an equivalent). The Online Public Service Portal card asks about your real feedback mechanisms — <span className="text-foreground font-medium">Website, Email, Landline, Social Media, Mobile</span> — and whether they&apos;re connected to an online portal. Unanswered cards are flagged <span className="text-foreground font-medium">&ldquo;Needs answer&rdquo;</span> instead of pretending you said no.
+              </p>
+            </div>
+
+            {/* 4 — Derived total project cost */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Total Project Cost Computes Itself</p>
+              <p>
+                Part III-E no longer asks you to type a Total Project Cost and then politely warns you to keep it in sync with Part IV. It&apos;s now <span className="text-foreground font-medium">auto-calculated from that project&apos;s resource requirements</span> — one source of truth, zero chances of the PDF contradicting your own budget tables. Peso fields everywhere also <span className="text-foreground font-medium">format as you type</span>: 150,000,000 instead of squinting at 150000000.
+              </p>
+            </div>
+
+            {/* 5 — Mandatory cyber controls + explicit PIA */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Mandatory Means Mandatory</p>
+              <p>
+                The cybersecurity checklists now badge every control DICT marks <span className="text-foreground font-medium">Mandatory</span>, with a per-group counter so you can see at a glance what evaluators will look for. Privacy questions are now an explicit <span className="text-foreground font-medium">Yes / No</span> — an untouched checkbox no longer silently reads as &ldquo;No&rdquo; in your submitted PDF.
+              </p>
+            </div>
+
+            {/* 6 — Proposed IS completeness */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Proposed Systems, Fully Fleshed Out</p>
+              <p>
+                Part III-D gains the template&apos;s <span className="text-foreground font-medium">Description &amp; Purpose</span> field and all four interoperability dimensions. Project duration is now a proper <span className="text-foreground font-medium">year picker bounded to your ISSP&apos;s coverage period</span> — no more free-text date ranges from the wrong planning cycle.
+              </p>
+            </div>
+
+            {/* 7 — Definition of Terms */}
             <div className="space-y-1.5">
               <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Editable Definition of Terms</p>
               <p>
-                The Definition of Terms page is no longer take-it-or-leave-it. A new <span className="text-foreground font-medium">front-matter section in the editor</span> lets you add your agency&apos;s own terms — the three standard DICT template terms come pre-filled, and everything prints alphabetically in the PDF no matter what order you type them in. Define &ldquo;Zero Trust&rdquo; once here instead of in every meeting.
+                The Definition of Terms page is no longer take-it-or-leave-it. A new <span className="text-foreground font-medium">front-matter section in the editor</span> lets you add your agency&apos;s own terms — the three standard DICT template terms come pre-filled, and everything prints alphabetically in the PDF no matter what order you type them in.
               </p>
             </div>
 
-            {/* 3 — PDF layout per official template */}
+            {/* 8 — PDF layout */}
             <div className="space-y-1.5">
               <p className="text-xs font-semibold text-foreground uppercase tracking-wide">PDF Layout, Straight from the Official Template</p>
               <p>
-                The exported PDF now mirrors the official template&apos;s page conventions: the running header (logo + centered <span className="text-foreground font-medium">INFORMATION SYSTEMS STRATEGIC PLAN 2028–2030</span> title) starts at Part I, the cover and table of contents stay clean, and page numbering restarts so <span className="text-foreground font-medium">Part I is Page 1</span> — the way evaluators expect it.
+                The exported PDF now mirrors the official template&apos;s page conventions: the running header starts at Part I, the cover and table of contents stay clean, and page numbering restarts so <span className="text-foreground font-medium">Part I is Page 1</span> — the way evaluators expect it. The table of contents shows <span className="text-foreground font-medium">actual page numbers that match the footers</span> (the PDF renders twice to get these right; you&apos;re worth it).
               </p>
             </div>
 
-            {/* 4 — Real TOC page numbers */}
+            {/* 9 — PDF accuracy */}
             <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Real Page Numbers in the Table of Contents</p>
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">PDF Checkboxes That Actually Check</p>
               <p>
-                The TOC used to be a list of section names politely avoiding the question of <span className="italic">where</span> things are. It now shows <span className="text-foreground font-medium">actual page numbers that match the footers</span>. Behind the scenes, your PDF is rendered twice just to get these right. You&apos;re worth it.
+                A batch of export bugs is gone: frontline service <span className="text-foreground font-medium">Online / On-premise / Hybrid</span> boxes and funding-source boxes that never ticked, plus internal codes like <span className="font-mono text-xs">FOR_DEVELOPMENT</span> and <span className="font-mono text-xs">PLANTILLA</span> leaking into print where evaluators should see &ldquo;For Development&rdquo; and &ldquo;Plantilla&rdquo;. Part II-D details (URLs, equivalent systems, notes) that were silently dropped from the PDF all make it in now.
               </p>
             </div>
 
-            {/* 5 — Export accuracy */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Nothing Gets Lost in Export</p>
-              <p>
-                A full codebase review caught that some <span className="text-foreground font-medium">Part II-D (eGov Programs Checklist)</span> details — URLs, equivalent system names, notes, channels, status — were silently dropped from the PDF. They all make it in now. The export pipeline was also hardened against malformed input. Boring, but the kind of boring you want.
-              </p>
-            </div>
-
-            {/* 6 — Tablet & touch polish */}
+            {/* 10 — Touch polish */}
             <div className="space-y-1.5">
               <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Tablet &amp; Touch Polish</p>
               <p>
-                Dialogs now scroll properly on tablets instead of cutting off below the fold. Number fields let you <span className="text-foreground font-medium">clear and retype freely</span> — no more snapping back to zero mid-edit. And on touch screens, buttons and inputs grow to comfortable tap sizes while desktop stays compact.
+                Dialogs scroll properly, number fields clear and retype freely, and touch screens get comfortable tap sizes while desktop stays compact. Employment statuses now use the template&apos;s exact grouping — Job Orders count under <span className="text-foreground font-medium">Outsourced (JO, COS, and HTC)</span>, where DICT puts them.
               </p>
             </div>
 
