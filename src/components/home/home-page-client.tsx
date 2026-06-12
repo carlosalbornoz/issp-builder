@@ -123,7 +123,7 @@ function ContinueCard({
   const doneCount = ALL_SECTIONS.filter((s) => computeStatus(sectionMeta[s.id]) === "done").length;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 min-w-0">
       <p className="text-xs font-semibold text-primary uppercase tracking-wide px-1">Continue where you left off</p>
       <div className="rounded-xl border border-primary/30 bg-primary/5 p-5 space-y-3">
       <div className="flex items-start gap-4">
