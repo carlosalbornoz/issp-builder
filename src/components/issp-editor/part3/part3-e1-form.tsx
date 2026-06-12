@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info, Pencil } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { computeProjectCosts } from "@/components/issp-editor/part4/part4-aggregations";
 import type { Part4Data } from "@/lib/store/types";
@@ -237,6 +237,7 @@ function ProjectCard({
   planYears,
   projectCost,
   linkOwners,
+  initiallyEditing = false,
   onUpdate,
   onRemove,
 }: {
@@ -249,10 +250,13 @@ function ProjectCard({
   projectCost: number;
   /** systemId → projects (any list) already linking it — powers the double-link warning. */
   linkOwners: Record<string, { id: string; title: string }[]>;
+  /** New cards open straight into edit mode; existing ones start collapsed, read-only. */
+  initiallyEditing?: boolean;
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(initiallyEditing);
+  const [editing, setEditing] = useState(initiallyEditing);
   const [pendingLink, setPendingLink] = useState<string | null>(null);
 
   const linkedSystems = proposedSystems.filter((s) =>
@@ -394,8 +398,19 @@ function ProjectCard({
         </div>
       </div>
 
-      {/* Full details */}
-      {expanded && (
+      {/* Read view (principle 2: read and edit are different modes) */}
+      {expanded && !editing && (
+        <ProjectReadView
+          project={project}
+          linkedSystems={linkedSystems}
+          projectCost={projectCost}
+          isCrossAgency={isCrossAgency}
+          onEdit={() => setEditing(true)}
+        />
+      )}
+
+      {/* Full details (edit mode) */}
+      {expanded && editing && (
         <div className="p-4 space-y-6">
           {/* Description + objectives */}
           <div className="grid sm:grid-cols-2 gap-4">
@@ -630,8 +645,78 @@ function ProjectCard({
               })}
             </div>
           </div>
+          <div className="flex justify-end border-t pt-3">
+            <Button type="button" variant="outline" size="sm" onClick={() => setEditing(false)}>
+              Done editing
+            </Button>
+          </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Read-only presentation of a project (principle 2) ────────────────────────
+
+function ReadRow({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="grid grid-cols-[10rem_1fr] gap-3 text-sm">
+      <span className="text-xs text-muted-foreground uppercase tracking-wide pt-0.5">{label}</span>
+      <div className="min-w-0 whitespace-pre-wrap">{value || <span className="text-muted-foreground">—</span>}</div>
+    </div>
+  );
+}
+
+function ProjectReadView({
+  project,
+  linkedSystems,
+  projectCost,
+  isCrossAgency,
+  onEdit,
+}: {
+  project: IctProject;
+  linkedSystems: ProposedSystem[];
+  projectCost: number;
+  isCrossAgency: boolean;
+  onEdit: () => void;
+}) {
+  const KNOWN_SA = STRATEGIC_ALIGNMENT_OPTIONS.map((o) => o.value);
+  const sa = project.strategicAlignment.filter((v) => KNOWN_SA.includes(v) && v !== "Others");
+  const saOthers = project.strategicAlignment.find((v) => !KNOWN_SA.includes(v));
+  return (
+    <div className="p-4 space-y-3">
+      <ReadRow label="Description" value={project.description} />
+      <ReadRow label="Objectives" value={project.objectives} />
+      <ReadRow
+        label="Project Type"
+        value={
+          project.projectType
+            ? project.projectType === "IS_DRIVEN"
+              ? `IS-Driven${linkedSystems.length ? ` — ${linkedSystems.map((s) => s.name || "Unnamed system").join(", ")}` : ""}`
+              : "Standalone (infrastructure only)"
+            : ""
+        }
+      />
+      <ReadRow
+        label="Strategic Alignment"
+        value={[...sa, ...(project.strategicAlignment.includes("Others") ? [`Others${saOthers ? `: ${saOthers}` : ""}`] : [])].join(", ")}
+      />
+      <ReadRow label="Harmonization" value={project.harmonizationFramework.join(", ")} />
+      <ReadRow label="Duration" value={project.duration} />
+      <ReadRow label="Year 1 Deliverables" value={project.year1Deliverables} />
+      <ReadRow label="Year 2 Deliverables" value={project.year2Deliverables} />
+      <ReadRow label="Year 3 Deliverables" value={project.year3Deliverables} />
+      <ReadRow label="Implementing Unit" value={project.implementingUnit} />
+      <ReadRow label="Total Project Cost" value={<span className="font-semibold tabular-nums">{php(projectCost)}</span>} />
+      <ReadRow label="Funding Source" value={project.fundingSource} />
+      {isCrossAgency && <ReadRow label="Lead Agency" value={project.leadAgency} />}
+      {isCrossAgency && <ReadRow label="Implementing Agencies" value={project.implementingAgencies} />}
+      <div className="flex justify-end border-t pt-3">
+        <Button type="button" variant="outline" size="sm" className="gap-1.5" onClick={onEdit}>
+          <Pencil className="h-3.5 w-3.5" />
+          Edit project
+        </Button>
+      </div>
     </div>
   );
 }
@@ -659,6 +744,8 @@ function ProjectList({
   onSave: (projects: IctProject[]) => void;
 }) {
   const [projects, setProjects] = useState<IctProject[]>(initialProjects);
+  // ids created this session — their cards mount expanded in edit mode
+  const [freshIds] = useState(() => new Set<string>());
 
   const linkOwners: Record<string, { id: string; title: string }[]> = {};
   for (const proj of [...projects, ...otherProjects]) {
@@ -676,6 +763,7 @@ function ProjectList({
 
   function createProject() {
     const project = { id: generateId(), ...makeDefaultProject(planDuration), title: addDialog.draft.trim() };
+    freshIds.add(project.id);
     update([...projects, project]);
     addDialog.setOpen(false);
     revealNewItem(project.id);
@@ -735,6 +823,7 @@ function ProjectList({
             planYears={planYears}
             projectCost={projectCosts[project.id] ?? 0}
             linkOwners={linkOwners}
+            initiallyEditing={freshIds.has(project.id)}
             onUpdate={(field, value) => updateProject(project.id, field, value)}
             onRemove={() => removeProject(project.id)}
           />
