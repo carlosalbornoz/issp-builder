@@ -131,7 +131,7 @@ function ContinueCard({
           <FileClock className="h-5 w-5 text-primary" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-sm truncate">{doc.title || "Untitled ISSP"}</p>
+          <p className="font-semibold text-sm line-clamp-2 break-words">{doc.title || "Untitled ISSP"}</p>
           <p className="text-xs text-muted-foreground mt-0.5">
             {doc.agency.acronym || doc.agency.name} · {doc.startYear}–{doc.endYear} · last edited{" "}
             <RelativeTime iso={doc.updatedAt} />
