@@ -5,9 +5,14 @@ import { useRouter } from "next/navigation";
 import {
   FilePlus2, FolderOpen, BookOpen, FileText, AlertTriangle,
   Loader2, Check, BarChart2, Database, LayoutGrid, TrendingUp, ArrowRight,
-  Sparkles, ChevronDown,
+  Sparkles, ChevronDown, FileClock, Trash2,
 } from "lucide-react";
+import { CompletionBar } from "@/components/ui/completion-bar";
+import { RelativeTime } from "@/components/ui/relative-time";
+import { ALL_SECTIONS, computeStatus } from "@/lib/sections";
+import type { IsspDocument } from "@/lib/store";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { useIsspStore } from "@/lib/store";
 import { NewIsspDialog } from "@/components/editor/new-issp-dialog";
 import { useTheme, THEMES } from "@/lib/theme";
@@ -100,11 +105,91 @@ function ContentModal({ open, onClose, title, html }: { open: boolean; onClose: 
   );
 }
 
+// ── Continue where you left off (Phase 6 — the app's hidden state must be self-evident) ──
+
+function ContinueCard({
+  doc,
+  onContinue,
+  onClear,
+}: {
+  doc: IsspDocument;
+  onContinue: () => void;
+  onClear: () => Promise<void>;
+}) {
+  const [confirmingClear, setConfirmingClear] = useState(false);
+  const [clearing, setClearing] = useState(false);
+
+  const sectionMeta = doc.sectionMeta ?? {};
+  const doneCount = ALL_SECTIONS.filter((s) => computeStatus(sectionMeta[s.id]) === "done").length;
+
+  return (
+    <div className="rounded-xl border border-primary/30 bg-primary/5 p-5 space-y-3">
+      <div className="flex items-start gap-4">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+          <FileClock className="h-5 w-5 text-primary" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-semibold text-primary uppercase tracking-wide">Continue where you left off</p>
+          <p className="font-semibold text-sm mt-0.5 truncate">{doc.title || "Untitled ISSP"}</p>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            {doc.agency.acronym || doc.agency.name} · {doc.startYear}–{doc.endYear} · last edited{" "}
+            <RelativeTime iso={doc.updatedAt} />
+          </p>
+        </div>
+      </div>
+      <CompletionBar numerator={doneCount} denominator={ALL_SECTIONS.length} showLabel />
+      {!confirmingClear ? (
+        <div className="flex flex-wrap items-center gap-3">
+          <Button size="sm" className="gap-1.5" onClick={onContinue}>
+            Continue editing
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
+          <button
+            type="button"
+            onClick={() => setConfirmingClear(true)}
+            className="text-xs text-muted-foreground hover:text-destructive transition-colors inline-flex items-center gap-1"
+          >
+            <Trash2 className="h-3 w-3" />
+            Clear browser data…
+          </button>
+        </div>
+      ) : (
+        <div className="rounded-lg border border-danger-border bg-danger-bg px-3 py-2.5 text-xs space-y-2">
+          <p className="text-foreground/80">
+            This deletes only the copy stored in <strong>this browser</strong> — any <code>.issp</code>{" "}
+            files you saved to disk are untouched. This cannot be undone.
+          </p>
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              className="h-7 text-xs"
+              disabled={clearing}
+              onClick={async () => {
+                setClearing(true);
+                await onClear();
+                setClearing(false);
+                setConfirmingClear(false);
+              }}
+            >
+              {clearing ? "Deleting…" : "Delete permanently"}
+            </Button>
+            <Button type="button" variant="ghost" size="sm" className="h-7 text-xs" onClick={() => setConfirmingClear(false)}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: string; privacyHtml: string; }) {
   const router = useRouter();
-  const { loadFromFile } = useIsspStore();
+  const { doc, loading: storeLoading, loadFromFile, clearDoc } = useIsspStore();
   const { theme, setTheme } = useTheme();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -224,6 +309,13 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               What&apos;s new — June 11–12, 2026
             </button>
           </div>
+
+          {/* Continue where you left off — surfaces work already in IndexedDB */}
+          {!storeLoading && doc && (
+            <div className="mb-3">
+              <ContinueCard doc={doc} onContinue={() => router.push("/editor")} onClear={clearDoc} />
+            </div>
+          )}
 
           {/* Action cards */}
           <div className="grid gap-3">

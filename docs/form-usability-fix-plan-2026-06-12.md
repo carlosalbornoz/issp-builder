@@ -232,7 +232,7 @@ to another project**, surface a verbose inline warning before applying, e.g.:
 Same indicator in III-D: the "Has project" badge should name the project(s), not just say
 "Has project".
 
-## Phase 6 — Splash continuity / IndexedDB management (user-reported 2026-06-12)
+## Phase 6 — Splash continuity / IndexedDB management (user-reported 2026-06-12) ✅
 
 Today the home splash gives no sign that IndexedDB holds work in progress, and no way to
 manage it. When a document exists in IDB, the splash should lead with a **"Continue where
