@@ -262,11 +262,11 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
       {/* ── Nav ── */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 logo-eq-hover">
             {/* Part-color accent strip */}
             <div className="flex gap-0.5 mr-1">
-              {PART_COLORS.map((c) => (
-                <span key={c} className="w-1.5 h-4 rounded-full" style={{ background: c }} />
+              {PART_COLORS.map((c, i) => (
+                <span key={c} className="w-1.5 h-4 rounded-full logo-bar" style={{ background: c, animationDelay: `${i * 0.14}s` }} />
               ))}
             </div>
             <span className="font-display font-semibold text-sm tracking-tight">ISSP Builder</span>
@@ -286,9 +286,9 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           {/* Branding */}
           <div className="text-center space-y-2 mb-10">
             {/* Part-color accent strips */}
-            <div className="flex justify-center gap-1 mb-4">
-              {PART_COLORS.map((c) => (
-                <span key={c} className="w-2 h-6 rounded-full" style={{ background: c }} />
+            <div className="flex justify-center gap-1 mb-4 logo-eq">
+              {PART_COLORS.map((c, i) => (
+                <span key={c} className="w-2 h-6 rounded-full logo-bar" style={{ background: c, animationDelay: `${i * 0.14}s` }} />
               ))}
             </div>
             <h1 className="font-display text-3xl font-bold tracking-tight">ISSP Builder</h1>

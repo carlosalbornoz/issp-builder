@@ -514,3 +514,17 @@
   .chip-attr:hover .chip-heart,
   .chip-attr:active .chip-heart { animation: chip-heartbeat 0.9s ease-in-out; }
 }
+
+/* ISSP Builder logo bars — gentle looping equalizer (hero) / on hover (header) */
+@keyframes logo-eq {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.45); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .logo-eq .logo-bar,
+  .logo-eq-hover:hover .logo-bar {
+    animation: logo-eq 2.2s ease-in-out infinite;
+    transform-origin: center;
+  }
+  .logo-eq-hover:hover .logo-bar { animation-duration: 0.9s; }
+}
