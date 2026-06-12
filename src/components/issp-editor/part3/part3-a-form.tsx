@@ -139,7 +139,7 @@ function ChecklistSection({
             return (
               <div key={item.key} className="grid grid-cols-[1fr_auto_auto] items-center gap-3 px-4 py-2.5">
                 <span className="text-sm">{item.label}</span>
-                {/* Current status badge */}
+                {/* Current status badge — derived from Part II-B answers */}
                 <span
                   className={cn(
                     "text-xs px-2 py-0.5 rounded-full shrink-0",
@@ -148,16 +148,18 @@ function ChecklistSection({
                       : "bg-muted text-muted-foreground"
                   )}
                 >
-                  {hasCurrent ? "Current" : "Not current"}
+                  {hasCurrent ? "Already in place (per Part II-B)" : "Not yet in place"}
                 </span>
-                {/* Proposed checkbox */}
-                <div className="flex items-center gap-1.5 shrink-0">
+                {/* Proposed checkbox — wording shifts for controls that already exist */}
+                <label className="flex items-center gap-1.5 shrink-0 cursor-pointer">
                   <Checkbox
                     checked={hasProposed}
                     onCheckedChange={(v) => onProposedChange(item.key, v === true)}
                   />
-                  <span className="text-xs text-muted-foreground">Proposed</span>
-                </div>
+                  <span className="text-xs text-muted-foreground w-28">
+                    {hasCurrent ? "Strengthen / upgrade" : "Propose to add"}
+                  </span>
+                </label>
               </div>
             );
           })}
