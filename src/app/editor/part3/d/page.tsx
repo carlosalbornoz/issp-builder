@@ -14,16 +14,16 @@ export default function Part3DPage() {
     return null;
   }
 
-  // System ids referenced by any project's linkedSystemIds — drives the "Has project" badge
-  const linkedSystemIds = [
+  // Projects from both III-E lists — name which project links each system
+  const linkingProjects = [
     ...doc.part3.internalProjects,
     ...doc.part3.crossAgencyProjects,
-  ].flatMap((p) => p.linkedSystemIds ?? []);
+  ].map((p) => ({ id: p.id, title: p.title, linkedSystemIds: p.linkedSystemIds ?? [] }));
 
   return (
     <Part3DForm
       initialSystems={doc.part3.proposedSystems}
-      linkedSystemIds={linkedSystemIds}
+      linkingProjects={linkingProjects}
     />
   );
 }

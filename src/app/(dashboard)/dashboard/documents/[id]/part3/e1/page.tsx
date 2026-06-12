@@ -12,7 +12,7 @@ export default async function Part3E1Page({ params }: { params: Promise<{ id: st
     where: { id, agencyId: session.user.agencyId },
     include: {
       part3: {
-        select: { proposedSystems: true, internalProjects: true },
+        select: { proposedSystems: true, internalProjects: true, crossAgencyProjects: true },
       },
       part4: { select: { year1: true, year2: true, year3: true } },
     },
@@ -23,6 +23,7 @@ export default async function Part3E1Page({ params }: { params: Promise<{ id: st
     <Part3E1Form
       proposedSystems={JSON.parse(doc.part3?.proposedSystems ?? "[]")}
       initialProjects={JSON.parse(doc.part3?.internalProjects ?? "[]")}
+      otherProjects={JSON.parse(doc.part3?.crossAgencyProjects ?? "[]")}
       startYear={doc.startYear}
       endYear={doc.endYear}
       part4={{

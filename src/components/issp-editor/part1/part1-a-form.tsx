@@ -11,6 +11,7 @@ import { Plus, Trash2, ChevronDown, ChevronRight, Info } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { SectionShell } from "@/components/editor/section-shell";
+import { revealNewItem } from "@/lib/reveal";
 
 type AgencyType = "NGA" | "GOCC" | "LGU" | "OTHER";
 
@@ -116,6 +117,7 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
     const next = [...data.orgOutcomes, newOO];
     update("orgOutcomes", next);
     setExpandedOOs((prev) => new Set([...prev, newOO.id]));
+    revealNewItem(newOO.id);
   }
 
   function removeOutcome(id: string) {
@@ -291,6 +293,7 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
               return (
                 <div
                   key={oo.id}
+                  data-reveal-id={oo.id}
                   className="rounded-lg border bg-card overflow-hidden"
                 >
                   {/* Outcome header */}

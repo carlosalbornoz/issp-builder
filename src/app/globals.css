@@ -479,3 +479,13 @@
 .animate-glow-orbit {
   animation: glow-orbit 3s linear infinite;
 }
+
+/* New-item reveal pulse (lib/reveal.ts) — visible consequence for list adds */
+@keyframes reveal-pulse {
+  0%   { box-shadow: 0 0 0 3px var(--info-border); }
+  100% { box-shadow: 0 0 0 3px transparent; }
+}
+.reveal-highlight {
+  animation: reveal-pulse 1.8s ease-out;
+  border-radius: inherit;
+}

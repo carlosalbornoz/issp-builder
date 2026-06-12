@@ -24,6 +24,7 @@ import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, Pencil, Table2, LayoutList, LayoutGrid, ChevronDown } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
+import { revealNewItem } from "@/lib/reveal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -294,6 +295,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
     const s = makeStakeholder();
     update([...stakeholders, s]);
     setOpenIds((prev) => new Set([...prev, s.id]));
+    revealNewItem(s.id);
   }
 
   function removeStakeholder(id: string) {
@@ -446,7 +448,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                     const rowSpan = s.services.length + 1;
 
                     const nameCell = (span: number) => (
-                      <td rowSpan={span} className="border px-2 py-2 align-top w-52">
+                      <td rowSpan={span} data-reveal-id={s.id} className="border px-2 py-2 align-top w-52">
                         <div className="flex flex-col gap-2">
                           <input
                             type="text"
@@ -581,7 +583,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
               {stakeholders.map((s, sIdx) => {
                 const isOpen = openIds.has(s.id);
                 return (
-                  <div key={s.id} className="rounded-lg border overflow-hidden">
+                  <div key={s.id} data-reveal-id={s.id} className="rounded-lg border overflow-hidden">
                     {/* Accordion header */}
                     <div className="flex items-center gap-2 px-3 py-2.5 bg-muted/20">
                       <span className="text-xs text-muted-foreground shrink-0 w-5 tabular-nums">

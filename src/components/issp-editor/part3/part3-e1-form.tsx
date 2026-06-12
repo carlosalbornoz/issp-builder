@@ -21,6 +21,8 @@ import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info } from "luci
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { computeProjectCosts } from "@/components/issp-editor/part4/part4-aggregations";
 import type { Part4Data } from "@/lib/store/types";
+import { AddItemDialog, useAddItemDraft } from "@/components/issp-editor/add-item-dialog";
+import { revealNewItem } from "@/lib/reveal";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn, php } from "@/lib/utils";
 import type { ProposedSystem } from "./part3-d-form";
@@ -234,6 +236,7 @@ function ProjectCard({
   planDuration,
   planYears,
   projectCost,
+  linkOwners,
   onUpdate,
   onRemove,
 }: {
@@ -244,20 +247,39 @@ function ProjectCard({
   planDuration: string;
   planYears: string[];
   projectCost: number;
+  /** systemId → projects (any list) already linking it — powers the double-link warning. */
+  linkOwners: Record<string, { id: string; title: string }[]>;
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
   const [expanded, setExpanded] = useState(true);
+  const [pendingLink, setPendingLink] = useState<string | null>(null);
 
   const linkedSystems = proposedSystems.filter((s) =>
     project.linkedSystemIds.includes(s.id)
   );
 
+  function ownersElsewhere(sysId: string) {
+    return (linkOwners[sysId] ?? []).filter((o) => o.id !== project.id);
+  }
+
+  function applyLink(sysId: string) {
+    setPendingLink(null);
+    onUpdate("linkedSystemIds", [...project.linkedSystemIds, sysId]);
+  }
+
   function toggleLinkedSystem(sysId: string) {
-    const ids = project.linkedSystemIds.includes(sysId)
-      ? project.linkedSystemIds.filter((i) => i !== sysId)
-      : [...project.linkedSystemIds, sysId];
-    onUpdate("linkedSystemIds", ids);
+    if (project.linkedSystemIds.includes(sysId)) {
+      setPendingLink(null);
+      onUpdate("linkedSystemIds", project.linkedSystemIds.filter((i) => i !== sysId));
+      return;
+    }
+    // Cross-reference warning (principle 4): name the project already claiming this IS
+    if (ownersElsewhere(sysId).length > 0) {
+      setPendingLink(sysId);
+      return;
+    }
+    applyLink(sysId);
   }
 
   const KNOWN_SA = STRATEGIC_ALIGNMENT_OPTIONS.map((o) => o.value);
@@ -297,7 +319,7 @@ function ProjectCard({
     : [];
 
   return (
-    <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
+    <div data-reveal-id={project.id} className="rounded-xl border bg-card overflow-hidden shadow-sm">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-3 bg-muted/30 border-b">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -457,6 +479,26 @@ function ProjectCard({
                   })}
                 </div>
               )}
+              {pendingLink && (
+                <div className="rounded-lg border border-warning-border bg-warning-bg px-3 py-2.5 text-xs space-y-2">
+                  <p className="text-warning leading-relaxed">
+                    <strong>{proposedSystems.find((s) => s.id === pendingLink)?.name || "This system"}</strong>{" "}
+                    is already linked to{" "}
+                    <strong>{ownersElsewhere(pendingLink).map((o) => o.title || "an untitled project").join(", ")}</strong>.
+                    An IS can legitimately be delivered by more than one project, but double-linking is
+                    usually a mistake — its budget and KPIs may be double-counted. Link it to this
+                    project as well?
+                  </p>
+                  <div className="flex gap-2">
+                    <Button type="button" variant="outline" size="sm" className="h-7 text-xs" onClick={() => applyLink(pendingLink)}>
+                      Link anyway
+                    </Button>
+                    <Button type="button" variant="ghost" size="sm" className="h-7 text-xs" onClick={() => setPendingLink(null)}>
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -599,6 +641,7 @@ function ProjectCard({
 function ProjectList({
   proposedSystems,
   initialProjects,
+  otherProjects,
   isCrossAgency,
   planDuration,
   planYears,
@@ -607,6 +650,8 @@ function ProjectList({
 }: {
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
+  /** Projects from the other III-E list (cross-agency vs internal) — included in link ownership. */
+  otherProjects: IctProject[];
   isCrossAgency: boolean;
   planDuration: string;
   planYears: string[];
@@ -615,13 +660,25 @@ function ProjectList({
 }) {
   const [projects, setProjects] = useState<IctProject[]>(initialProjects);
 
+  const linkOwners: Record<string, { id: string; title: string }[]> = {};
+  for (const proj of [...projects, ...otherProjects]) {
+    for (const sysId of proj.linkedSystemIds ?? []) {
+      (linkOwners[sysId] ??= []).push({ id: proj.id, title: proj.title });
+    }
+  }
+
   function update(next: IctProject[]) {
     setProjects(next);
     onSave(next);
   }
 
-  function addProject() {
-    update([...projects, { id: generateId(), ...makeDefaultProject(planDuration) }]);
+  const addDialog = useAddItemDraft();
+
+  function createProject() {
+    const project = { id: generateId(), ...makeDefaultProject(planDuration), title: addDialog.draft.trim() };
+    update([...projects, project]);
+    addDialog.setOpen(false);
+    revealNewItem(project.id);
   }
 
   function removeProject(id: string) {
@@ -648,7 +705,7 @@ function ProjectList({
           <h2 className="text-base font-semibold">
             {isCrossAgency ? "Cross-Agency ICT Projects" : "Internal ICT Projects"}
           </h2>
-          <Button variant="outline" size="sm" onClick={addProject} className="gap-1.5">
+          <Button variant="outline" size="sm" onClick={addDialog.openDialog} className="gap-1.5">
             <Plus className="h-4 w-4" />
             Add Project
           </Button>
@@ -658,7 +715,7 @@ function ProjectList({
           <Card className="border-dashed">
             <CardContent
               className="flex flex-col items-center justify-center py-12 cursor-pointer"
-              onClick={addProject}
+              onClick={addDialog.openDialog}
             >
               <FolderKanban className="h-10 w-10 text-muted-foreground/30 mb-3" />
               <p className="text-sm text-muted-foreground mb-1">No projects yet.</p>
@@ -677,11 +734,33 @@ function ProjectList({
             planDuration={planDuration}
             planYears={planYears}
             projectCost={projectCosts[project.id] ?? 0}
+            linkOwners={linkOwners}
             onUpdate={(field, value) => updateProject(project.id, field, value)}
             onRemove={() => removeProject(project.id)}
           />
         ))}
       </div>
+
+      <AddItemDialog
+        open={addDialog.open}
+        onOpenChange={addDialog.setOpen}
+        title={isCrossAgency ? "Add Cross-Agency ICT Project" : "Add Internal ICT Project"}
+        description="Name the project first — the full project card opens right after, ready to fill in."
+        createLabel="Add project"
+        canCreate={addDialog.draft.trim().length > 0}
+        onCreate={createProject}
+      >
+        <div className="space-y-1.5">
+          <Label htmlFor="new-project-title" className="text-sm">Project Title</Label>
+          <Input
+            id="new-project-title"
+            autoFocus
+            placeholder="e.g., Project SIKAP — Streamlined ICT for Key Agency Processes"
+            value={addDialog.draft}
+            onChange={(e) => addDialog.setDraft(e.target.value)}
+          />
+        </div>
+      </AddItemDialog>
     </div>
   );
 }
@@ -691,12 +770,14 @@ function ProjectList({
 export function Part3E1Form({
   proposedSystems,
   initialProjects,
+  otherProjects,
   startYear,
   endYear,
   part4,
 }: {
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
+  otherProjects: IctProject[];
   startYear: number;
   endYear: number;
   part4: Part4Data;
@@ -719,6 +800,7 @@ export function Part3E1Form({
       <ProjectList
         proposedSystems={proposedSystems}
         initialProjects={initialProjects}
+        otherProjects={otherProjects}
         isCrossAgency={false}
         planDuration={planDuration}
         planYears={planYears}
@@ -734,12 +816,14 @@ export function Part3E1Form({
 export function Part3E2Form({
   proposedSystems,
   initialProjects,
+  otherProjects,
   startYear,
   endYear,
   part4,
 }: {
   proposedSystems: ProposedSystem[];
   initialProjects: IctProject[];
+  otherProjects: IctProject[];
   startYear: number;
   endYear: number;
   part4: Part4Data;
@@ -762,6 +846,7 @@ export function Part3E2Form({
       <ProjectList
         proposedSystems={proposedSystems}
         initialProjects={initialProjects}
+        otherProjects={otherProjects}
         isCrossAgency={true}
         planDuration={planDuration}
         planYears={planYears}

@@ -11,7 +11,7 @@ export default async function Part3E2Page({ params }: { params: Promise<{ id: st
   const doc = await db.isspDocument.findFirst({
     where: { id, agencyId: session.user.agencyId },
     include: {
-      part3: { select: { proposedSystems: true, crossAgencyProjects: true } },
+      part3: { select: { proposedSystems: true, crossAgencyProjects: true, internalProjects: true } },
       part4: { select: { year1: true, year2: true, year3: true } },
     },
   });
@@ -21,6 +21,7 @@ export default async function Part3E2Page({ params }: { params: Promise<{ id: st
     <Part3E2Form
       proposedSystems={JSON.parse(doc.part3?.proposedSystems ?? "[]")}
       initialProjects={JSON.parse(doc.part3?.crossAgencyProjects ?? "[]")}
+      otherProjects={JSON.parse(doc.part3?.internalProjects ?? "[]")}
       startYear={doc.startYear}
       endYear={doc.endYear}
       part4={{

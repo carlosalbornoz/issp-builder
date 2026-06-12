@@ -21,6 +21,8 @@ import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
 import { YesNoToggle } from "@/components/issp-editor/yes-no-toggle";
+import { AddItemDialog, useAddItemDraft } from "@/components/issp-editor/add-item-dialog";
+import { revealNewItem } from "@/lib/reveal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -124,18 +126,20 @@ const STATUS_COLOR: Record<string, string> = {
 function SystemCard({
   sys,
   index,
-  isLinked,
+  linkedProjectTitles,
   isNew,
   onUpdate,
   onRemove,
 }: {
   sys: ProposedSystem;
   index: number;
-  isLinked: boolean;
+  /** Titles of Part III-E projects that link this system (cross-reference, named per principle 4). */
+  linkedProjectTitles: string[];
   isNew: boolean;
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
+  const isLinked = linkedProjectTitles.length > 0;
   const [expanded, setExpanded] = useState(true);
 
   function updateInterop(field: string, value: unknown) {
@@ -151,7 +155,7 @@ function SystemCard({
   }
 
   return (
-    <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
+    <div data-reveal-id={sys.id} className="rounded-xl border bg-card overflow-hidden shadow-sm">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-3 bg-muted/30 border-b">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -171,9 +175,15 @@ function SystemCard({
               </Badge>
             )}
             {isLinked && (
-              <span className="flex items-center gap-1 text-xs text-success bg-success-bg px-1.5 py-0.5 rounded border border-success-border">
-                <Link2 className="h-3 w-3" />
-                Has project
+              <span
+                className="flex items-center gap-1 text-xs text-success bg-success-bg px-1.5 py-0.5 rounded border border-success-border max-w-56"
+                title={`Linked from: ${linkedProjectTitles.join(", ")}`}
+              >
+                <Link2 className="h-3 w-3 shrink-0" />
+                <span className="truncate">
+                  In: {linkedProjectTitles[0] || "Untitled project"}
+                  {linkedProjectTitles.length > 1 ? ` +${linkedProjectTitles.length - 1}` : ""}
+                </span>
               </span>
             )}
           </div>
@@ -445,11 +455,11 @@ function SystemCard({
 
 export function Part3DForm({
   initialSystems,
-  linkedSystemIds,
+  linkingProjects,
 }: {
   initialSystems: ProposedSystem[];
-  /** System ids referenced by any project's linkedSystemIds (Part III-E). */
-  linkedSystemIds: string[];
+  /** Part III-E projects (both lists) — used to name which project links each system. */
+  linkingProjects: { id: string; title: string; linkedSystemIds: string[] }[];
 }) {
   const [systems, setSystems] = useState<ProposedSystem[]>(initialSystems);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
@@ -463,10 +473,14 @@ export function Part3DForm({
     [debouncedSave]
   );
 
-  function addSystem() {
-    const newId = generateId();
-    setNewlyAddedIds((prev) => new Set(prev).add(newId));
-    update([...systems, { id: newId, ...DEFAULT_SYSTEM }]);
+  const addDialog = useAddItemDraft();
+
+  function createSystem() {
+    const sys = { id: generateId(), ...DEFAULT_SYSTEM, name: addDialog.draft.trim() };
+    setNewlyAddedIds((prev) => new Set(prev).add(sys.id));
+    update([...systems, sys]);
+    addDialog.setOpen(false);
+    revealNewItem(sys.id);
   }
 
   function removeSystem(id: string) {
@@ -509,7 +523,7 @@ export function Part3DForm({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold">Systems</h2>
-          <Button variant="outline" size="sm" onClick={addSystem} className="gap-1.5">
+          <Button variant="outline" size="sm" onClick={addDialog.openDialog} className="gap-1.5">
             <Plus className="h-4 w-4" /> Add System
           </Button>
         </div>
@@ -517,7 +531,7 @@ export function Part3DForm({
         {systems.length === 0 && (
           <div
             className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed py-12 cursor-pointer hover:bg-muted/10 transition-colors"
-            onClick={addSystem}
+            onClick={addDialog.openDialog}
           >
             <Sparkles className="h-10 w-10 text-muted-foreground/30 mb-3" />
             <p className="text-sm text-muted-foreground mb-1">No proposed systems yet.</p>
@@ -530,7 +544,9 @@ export function Part3DForm({
             key={sys.id}
             sys={sys}
             index={idx}
-            isLinked={linkedSystemIds.includes(sys.id)}
+            linkedProjectTitles={linkingProjects
+              .filter((proj) => (proj.linkedSystemIds ?? []).includes(sys.id))
+              .map((proj) => proj.title)}
             isNew={newlyAddedIds.has(sys.id)}
             onUpdate={(field, value) => updateSystem(sys.id, field, value)}
             onRemove={() => removeSystem(sys.id)}
@@ -538,6 +554,26 @@ export function Part3DForm({
         ))}
       </div>
 
+      <AddItemDialog
+        open={addDialog.open}
+        onOpenChange={addDialog.setOpen}
+        title="Add Proposed Information System"
+        description="Name the system first — the full card opens right after, ready to fill in."
+        createLabel="Add system"
+        canCreate={addDialog.draft.trim().length > 0}
+        onCreate={createSystem}
+      >
+        <div className="space-y-1.5">
+          <Label htmlFor="new-ps-name" className="text-sm">System Name</Label>
+          <Input
+            id="new-ps-name"
+            autoFocus
+            placeholder="e.g., Citizen Feedback Portal"
+            value={addDialog.draft}
+            onChange={(e) => addDialog.setDraft(e.target.value)}
+          />
+        </div>
+      </AddItemDialog>
     </SectionShell>
   );
 }

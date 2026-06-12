@@ -18,6 +18,7 @@ export default function Part3E1Page() {
     <Part3E1Form
       proposedSystems={doc.part3.proposedSystems}
       initialProjects={doc.part3.internalProjects}
+      otherProjects={doc.part3.crossAgencyProjects}
       startYear={doc.startYear}
       endYear={doc.endYear}
       part4={doc.part4}

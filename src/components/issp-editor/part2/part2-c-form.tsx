@@ -21,6 +21,8 @@ import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
 import { YesNoToggle } from "@/components/issp-editor/yes-no-toggle";
+import { AddItemDialog, useAddItemDraft } from "@/components/issp-editor/add-item-dialog";
+import { revealNewItem } from "@/lib/reveal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -154,15 +156,17 @@ function FormField({
 function ISCard({
   sys,
   index,
+  initiallyExpanded = false,
   onUpdate,
   onRemove,
 }: {
   sys: InformationSystem;
   index: number;
+  initiallyExpanded?: boolean;
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(initiallyExpanded);
 
   function updateInterop(field: string, value: unknown) {
     onUpdate("interoperability", { ...sys.interoperability, [field]: value });
@@ -181,7 +185,7 @@ function ISCard({
   }
 
   return (
-    <div className="rounded-xl border bg-card overflow-hidden shadow-sm">
+    <div data-reveal-id={sys.id} className="rounded-xl border bg-card overflow-hidden shadow-sm">
       {/* Card header */}
       <div className="flex items-center gap-3 px-4 py-3 bg-muted/30 border-b">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -474,8 +478,16 @@ export function Part2CForm({
     [debouncedSave]
   );
 
-  function addSystem() {
-    update([...systems, { id: generateId(), ...DEFAULT_IS }]);
+  const addDialog = useAddItemDraft();
+  // ids created this session — their cards mount expanded
+  const [freshIds] = useState(() => new Set<string>());
+
+  function createSystem() {
+    const sys = { id: generateId(), ...DEFAULT_IS, name: addDialog.draft.trim() };
+    freshIds.add(sys.id);
+    update([...systems, sys]);
+    addDialog.setOpen(false);
+    revealNewItem(sys.id);
   }
 
   function removeSystem(id: string) {
@@ -524,7 +536,7 @@ export function Part2CForm({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold">Information Systems</h2>
-          <Button variant="outline" size="sm" onClick={addSystem} className="gap-1.5">
+          <Button variant="outline" size="sm" onClick={addDialog.openDialog} className="gap-1.5">
             <Plus className="h-4 w-4" />
             Add System
           </Button>
@@ -535,7 +547,7 @@ export function Part2CForm({
             <CardContent className="flex flex-col items-center justify-center py-12">
               <Server className="h-10 w-10 text-muted-foreground/30 mb-3" />
               <p className="text-sm text-muted-foreground mb-4">No systems added yet.</p>
-              <Button variant="outline" onClick={addSystem} className="gap-1.5">
+              <Button variant="outline" onClick={addDialog.openDialog} className="gap-1.5">
                 <Plus className="h-4 w-4" />
                 Add the first IS
               </Button>
@@ -548,11 +560,33 @@ export function Part2CForm({
             key={sys.id}
             sys={sys}
             index={idx}
+            initiallyExpanded={freshIds.has(sys.id)}
             onUpdate={(field, value) => updateSystem(sys.id, field, value)}
             onRemove={() => removeSystem(sys.id)}
           />
         ))}
       </div>
+
+      <AddItemDialog
+        open={addDialog.open}
+        onOpenChange={addDialog.setOpen}
+        title="Add Information System"
+        description="Name the system first — the full inventory card opens right after, ready to fill in."
+        createLabel="Add system"
+        canCreate={addDialog.draft.trim().length > 0}
+        onCreate={createSystem}
+      >
+        <div className="space-y-1.5">
+          <Label htmlFor="new-is-name" className="text-sm">System Name</Label>
+          <Input
+            id="new-is-name"
+            autoFocus
+            placeholder="e.g., Human Resource Information System"
+            value={addDialog.draft}
+            onChange={(e) => addDialog.setDraft(e.target.value)}
+          />
+        </div>
+      </AddItemDialog>
     </SectionShell>
   );
 }

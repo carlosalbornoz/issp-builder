@@ -17,6 +17,7 @@ import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Info } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
+import { revealNewItem } from "@/lib/reveal";
 
 interface OrgOutcome {
   id: string;
@@ -70,7 +71,9 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
   );
 
   function addConcern() {
-    update([...concerns, { id: generateId(), ...DEFAULT_CONCERN }]);
+    const concern = { id: generateId(), ...DEFAULT_CONCERN };
+    update([...concerns, concern]);
+    revealNewItem(concern.id);
   }
 
   function removeConcern(id: string) {
@@ -156,7 +159,7 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
           )}
 
           {concerns.map((concern, idx) => (
-            <div key={concern.id} className="rounded-lg border bg-card overflow-hidden">
+            <div key={concern.id} data-reveal-id={concern.id} className="rounded-lg border bg-card overflow-hidden">
               {/* Concern header */}
               <div className="flex items-center gap-2 px-4 py-3 bg-muted/30">
                 <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mr-auto">

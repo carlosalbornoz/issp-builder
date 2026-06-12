@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, BarChart3, FolderKanban } from "lucide-react";
 import { SectionShell } from "@/components/editor/section-shell";
+import { revealNewItem } from "@/lib/reveal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -65,10 +66,9 @@ function ProjectKpiTable({
   const [collapsed, setCollapsed] = useState(false);
 
   function addRow() {
-    onChange({
-      ...kpiSet,
-      rows: [...kpiSet.rows, { id: generateId(), ...DEFAULT_ROW }],
-    });
+    const row = { id: generateId(), ...DEFAULT_ROW };
+    onChange({ ...kpiSet, rows: [...kpiSet.rows, row] });
+    revealNewItem(row.id);
   }
 
   function removeRow(id: string) {
@@ -128,7 +128,7 @@ function ProjectKpiTable({
               </p>
             )}
             {kpiSet.rows.map((row, idx) => (
-              <div key={row.id} className="p-3 space-y-2.5">
+              <div key={row.id} data-reveal-id={row.id} className="p-3 space-y-2.5">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-semibold text-muted-foreground">KPI #{idx + 1}</span>
                   <Button
@@ -249,7 +249,7 @@ function ProjectKpiTable({
                   </tr>
                 )}
                 {kpiSet.rows.map((row) => (
-                  <tr key={row.id} className="hover:bg-muted/10">
+                  <tr key={row.id} data-reveal-id={row.id} className="hover:bg-muted/10">
                     <td className="border px-1 py-1">
                       <select
                         className="w-full px-2 py-1.5 text-xs bg-card/70 rounded hover:bg-card focus:bg-card focus:outline-none focus:ring-1 focus:ring-ring"

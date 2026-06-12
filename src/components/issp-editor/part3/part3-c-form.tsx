@@ -14,6 +14,7 @@ import {
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2 } from "lucide-react";
 import { SectionShell } from "@/components/editor/section-shell";
+import { revealNewItem } from "@/lib/reveal";
 
 interface HCRow {
   id: string;
@@ -58,7 +59,9 @@ export function Part3CForm({
   );
 
   function addRow() {
-    update([...rows, { id: generateId(), position: "", employmentStatus: "", quantity: 1 }]);
+    const row = { id: generateId(), position: "", employmentStatus: "", quantity: 1 } as HCRow;
+    update([...rows, row]);
+    revealNewItem(row.id);
   }
 
   function removeRow(id: string) {
@@ -134,7 +137,7 @@ export function Part3CForm({
                   </tr>
                 )}
                 {rows.map((row) => (
-                  <tr key={row.id} className="hover:bg-muted/20">
+                  <tr key={row.id} data-reveal-id={row.id} className="hover:bg-muted/20">
                     <td className="border px-2 py-1">
                       <input
                         type="text"

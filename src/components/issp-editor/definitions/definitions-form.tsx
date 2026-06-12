@@ -12,6 +12,7 @@ import { SectionShell } from "@/components/editor/section-shell";
 import { useIsspStore } from "@/lib/store";
 import type { DefinitionTerm } from "@/lib/store/types";
 import { STANDARD_DEFINITIONS, makeStandardDefinitions } from "@/lib/store/defaults";
+import { revealNewItem } from "@/lib/reveal";
 
 function generateId() {
   return Math.random().toString(36).slice(2, 10);
@@ -34,7 +35,9 @@ export function DefinitionsForm({ initialData }: { initialData: DefinitionTerm[]
   }
 
   function addTerm() {
-    commit([...terms, { id: generateId(), term: "", definition: "" }]);
+    const t = { id: generateId(), term: "", definition: "" };
+    commit([...terms, t]);
+    revealNewItem(t.id);
   }
 
   function removeTerm(id: string) {
@@ -65,7 +68,7 @@ export function DefinitionsForm({ initialData }: { initialData: DefinitionTerm[]
 
       <div className="space-y-3">
         {terms.map((t, i) => (
-          <Card key={t.id}>
+          <Card key={t.id} data-reveal-id={t.id}>
             <CardContent className="pt-4 pb-4 space-y-2.5">
               <div className="flex items-center gap-2">
                 <Input
