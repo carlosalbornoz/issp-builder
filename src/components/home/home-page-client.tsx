@@ -280,8 +280,8 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
       </header>
 
       {/* ── Hero ── */}
-      <section className="min-h-[calc(100vh-3.5rem)] flex items-center border-b bg-secondary/40">
-        <div className="w-full max-w-md mx-auto px-6 py-14">
+      <section className="min-h-[calc(100dvh-3.5rem)] flex flex-col border-b bg-secondary/40">
+        <div className="w-full max-w-md mx-auto px-6 py-14 my-auto">
 
           {/* Branding */}
           <div className="text-center space-y-2 mb-10">
@@ -293,7 +293,6 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             </div>
             <h1 className="font-display text-3xl font-bold tracking-tight">ISSP Builder</h1>
             <p className="text-sm text-muted-foreground">Build your agency&apos;s 3-year Information Systems Strategic Plan</p>
-            <p className="text-xs text-muted-foreground/60">For agency CIOs, ICT focal persons, and government transparency advocates.</p>
           </div>
 
           {/* What's New pill — gradient border technique: no extra elements, no overflow */}
@@ -426,6 +425,21 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
           <p className="mt-8 text-center text-xs text-muted-foreground/60">
             Free to use · No account required · Local-first, works in your browser
+          </p>
+        </div>
+
+        {/* Attribution chip — docked at the bottom of the first viewport, macOS-dock style */}
+        <div className="flex justify-center pb-5 px-6">
+          <p className="rounded-full bg-foreground text-background/85 px-4 py-1.5 text-xs font-semibold text-center shadow-lg shadow-foreground/20">
+            Made with ❤️ <em>para sa bayan</em> ·{" "}
+            <a
+              href="https://www.instagram.com/carlosanton.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-background underline underline-offset-2 hover:opacity-75 transition-opacity"
+            >
+              Carlos Antonio Albornoz
+            </a>
           </p>
         </div>
       </section>
