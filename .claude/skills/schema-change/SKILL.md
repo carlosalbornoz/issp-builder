@@ -292,6 +292,33 @@ npx tsc --noEmit --skipLibCheck
 
 ---
 
+## Enum-izing a freeform field — map values, don't just retype
+
+This has bitten twice (IS `classification` 2026-06-12, `projectType` 2026-06-12). When a
+field that previously stored freeform/display strings becomes an enum:
+
+1. **Map every historical value** in `migrateLegacyDoc` — grep the demo file and old git
+   versions of it (`git show <ref>:public/demo/...`) to discover what freeform values
+   actually exist in the wild ("IS-Driven", "Operations Support System", …). The demo file
+   is the best census of legacy values because users downloaded and re-saved it.
+2. **Unknown values:** map to `""` (unset) rather than guessing — status dots will flag the
+   section for review.
+3. **Update the demo file itself** in the same commit, and verify by exercising the
+   dependent UI from demo data — not just rendering it.
+
+## Gating fields — derive, don't default
+
+If a field's value **gates the visibility of other data's UI** (e.g. `projectType ===
+"IS_DRIVEN"` reveals the linked-systems picker), a plain `?? ""` default silently hides
+existing data on old documents: the user has `linkedSystemIds` but can't see the picker
+that edits them.
+
+Rule: in the migration/normalization, **derive the gating value from the data it gates**
+when unset — e.g. `if (!projectType && linkedSystemIds.length > 0) projectType =
+"IS_DRIVEN"`. The derivation must be idempotent (safe to run on every load). Test by
+loading a pre-change `.issp` file and confirming the gated UI is visible without touching
+any control.
+
 ## Form init normalization — a hidden snapshot sync trap
 
 Several forms normalize `initialData` inside their `useState` initializer before the first save:

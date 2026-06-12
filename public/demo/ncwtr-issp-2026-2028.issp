@@ -672,7 +672,7 @@
         "title": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
         "description": "SIKAP covers the full development and deployment of the Unified Queue Monitoring Platform (UQMP) and the Citizen Feedback and Complaints Portal (CFCP). It consolidates 17 fragmented regional systems into a single cloud-hosted platform, retires the Windows XP computers, and inaugurates NCWTR's transition from fax-based public service to actual digital government.",
         "objectives": "1. Retire NQMS and eCLAS legacy systems by end of 2027\n2. Onboard all 847 monitored agencies onto the UQMP API by Q4 2027\n3. Achieve 80% of citizen complaints filed via CFCP portal by end of 2028\n4. Reduce monthly national report generation time from 3 weeks to 2 hours",
-        "projectType": "IS-Driven",
+        "projectType": "IS_DRIVEN",
         "linkedSystemIds": [
           "ps-uqmp",
           "ps-cfcp"
@@ -698,7 +698,7 @@
         "title": "Project BILIS — Broadband Infrastructure for Linked Information Systems",
         "description": "Project BILIS will upgrade internet connectivity for 12 regional offices currently on DSL (5–10 Mbps) to dedicated fiber connections of at least 100 Mbps each. The three regional offices on shared LTE pocket WiFi will receive dedicated fixed wireless broadband. All connections will be terminated on government-grade routers with failover capability.",
         "objectives": "1. Upgrade 12 DSL regional offices to fiber (≥100 Mbps) by Q3 2026\n2. Provide dedicated fixed-wireless broadband to 3 geographically isolated regional offices by Q4 2026\n3. Reduce average UQMP data submission time from regional offices from 25 minutes to under 2 minutes\n4. Achieve 99.5% network uptime for regional offices in 2027 and 2028",
-        "projectType": "Infrastructure",
+        "projectType": "STANDALONE",
         "linkedSystemIds": [],
         "strategicAlignment": [
           "Public Investment Program",
@@ -721,7 +721,7 @@
         "title": "Project HANDA — Human Resource and Administrative Network for Departmental Automation",
         "description": "Project HANDA procures, configures, and deploys the Integrated HR and Payroll System (iHRPS) for all NCWTR offices nationwide. Includes data migration from the 47 Excel workbooks (and the USB-recovered employee records), integration with CSC and DBM systems, and a 3-month change management and training program.",
         "objectives": "1. Complete data migration of all 252 employee records from AHRIS to iHRPS by Q2 2026\n2. Achieve full NCWTR-wide adoption of iHRPS by Q3 2026\n3. Establish live integration with CSC HRMIS and DBM eBudget by Q4 2026\n4. Eliminate reliance on Excel workbooks for HR processes by end of 2026",
-        "projectType": "IS-Driven",
+        "projectType": "IS_DRIVEN",
         "linkedSystemIds": [
           "ps-ihrps"
         ],

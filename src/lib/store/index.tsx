@@ -121,6 +121,15 @@ function deriveMetaFromContent(doc: IsspDocument): Record<string, SectionMeta> {
 
 const genId = () => Math.random().toString(36).slice(2, 10);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeProjectType<T extends { projectType?: any; linkedSystemIds?: string[] }>(p: T): T {
+  let t: string = p.projectType ?? "";
+  if (t === "IS-Driven") t = "IS_DRIVEN";
+  else if (t === "Infrastructure" || t === "Standalone") t = "STANDALONE";
+  if (!t && (p.linkedSystemIds?.length ?? 0) > 0) t = "IS_DRIVEN";
+  return { ...p, projectType: t, linkedSystemIds: p.linkedSystemIds ?? [] };
+}
+
 function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
   // v1 → v2: planStatus, submissionTarget, sectionMeta
   let base: IsspDocument = (doc.schemaVersion ?? 1) >= 2 ? doc : {
@@ -224,6 +233,10 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
         employmentStatus: (r.employmentStatus?.toUpperCase() ?? "") as HCRow["employmentStatus"],
         quantity: r.quantity ?? r.physicalCount ?? 1,
       })),
+      // Normalize projectType: freeform pre-enum values → enum; derive IS_DRIVEN from
+      // existing links so the gated "Linked Proposed Systems" picker isn't hidden on old docs
+      internalProjects: base.part3.internalProjects.map(normalizeProjectType),
+      crossAgencyProjects: base.part3.crossAgencyProjects.map(normalizeProjectType),
     },
   };
 
