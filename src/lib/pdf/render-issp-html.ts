@@ -924,7 +924,7 @@ function renderProjectCard(proj: IctProject, crossAgency = false): string {
           ${chk(sa["nationalCybersecurity"] as boolean)} National Cybersecurity Plan<br>
           ${chk(sa["eGovMasterPlan"] as boolean)} E-Government Master Plan<br>
           ${chk(sa["convergenceBudgeting"] as boolean)} Program Convergence Budgeting<br>
-          ${chk(!!(sa["others"] as string))} Others: ${esc(sa["others"] as string)}
+          ${chk(sa["othersChecked"] === true || !!(sa["others"] as string))} Others: ${esc((sa["others"] as string) || "")}
         </td></tr>
         <tr><td class="label-cell">HARMONIZATION FRAMEWORK</td><td>
           ${chk(ha["nationalPrioritization"])} National Prioritization<br>

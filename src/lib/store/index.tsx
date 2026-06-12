@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget, HCRow, StakeholderService } from "./types";
+import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget, HCRow, StakeholderService, IsClassification } from "./types";
 import { createEmptyDocument, type NewDocOptions } from "./defaults";
 import { idbClear, idbLoad, idbSave } from "./idb";
 
@@ -144,6 +144,48 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
           name: s.name ?? "",
           services: Array.isArray(s.services) ? s.services
             : [{ id: genId(), name: s.transactions ?? "", complexity: s.complexity ?? "Simple" }],
+        })),
+      },
+    };
+  }
+
+  // v3 → v4: template-taxonomy classification + users-as-text (2026 template alignment)
+  if ((base.schemaVersion ?? 1) < 4) {
+    const mapClassification = (c: string): IsClassification => {
+      if (c === "G2C" || c === "G2B" || c === "G2G") return "OPERATIONS";
+      if (c === "G2E" || c === "INTERNAL") return "GENERAL_ADMIN";
+      // Freeform strings from the pre-enum demo file
+      if (c === "Operations Support System") return "SUPPORT_TO_OPERATIONS";
+      if (c === "Frontline Service System") return "OPERATIONS";
+      if (c === "Administrative System") return "GENERAL_ADMIN";
+      if (c === "SUPPORT_TO_OPERATIONS" || c === "GENERAL_ADMIN" || c === "OPERATIONS") return c;
+      return "";
+    };
+    const mapUsers = (u: unknown): string => {
+      if (typeof u === "number") return u === 0 ? "" : String(u);
+      return typeof u === "string" ? u : "";
+    };
+    base = {
+      ...base,
+      schemaVersion: 4,
+      part2: {
+        ...base.part2,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        informationSystems: base.part2.informationSystems.map((sys: any) => ({
+          ...sys,
+          classification: mapClassification(sys.classification ?? ""),
+          internalUsers: mapUsers(sys.internalUsers),
+          externalUsers: mapUsers(sys.externalUsers),
+        })),
+      },
+      part3: {
+        ...base.part3,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        proposedSystems: base.part3.proposedSystems.map((sys: any) => ({
+          ...sys,
+          classification: mapClassification(sys.classification ?? ""),
+          internalUsers: mapUsers(sys.internalUsers),
+          externalUsers: mapUsers(sys.externalUsers),
         })),
       },
     };

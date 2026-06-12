@@ -30,7 +30,6 @@ interface StrategicConcern {
   outcomeIds: string[];
   criticalSystem: string;
   concern: string;
-  currentStrategy: string;
   desiredStrategy: string;
 }
 
@@ -47,7 +46,6 @@ const DEFAULT_CONCERN: Omit<StrategicConcern, "id"> = {
   outcomeIds: ["general"],
   criticalSystem: "",
   concern: "",
-  currentStrategy: "",
   desiredStrategy: "",
 };
 
@@ -108,8 +106,9 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
             <p className="font-medium text-warning mb-1">How to fill this section</p>
             <ul className="text-xs text-warning list-disc list-inside space-y-1">
               <li>Link each concern to an Organizational Outcome (OO) defined in Part I.</li>
-              <li>Describe the <strong>current ICT strategy</strong> in place for addressing this concern.</li>
-              <li>Describe the <strong>desired ICT strategy</strong> — what you intend to do in this ISSP period.</li>
+              <li>Identify the <strong>critical management, operating, or business system</strong> affected.</li>
+              <li>Describe the <strong>problem</strong> — barriers or obstacles that hinder or delay performance.</li>
+              <li>Describe the <strong>intended use of ICT</strong> to address the problem in this ISSP period.</li>
             </ul>
           </div>
         </div>

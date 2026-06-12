@@ -1,5 +1,12 @@
 import { renderContentHtml, renderFrontMatterHtml, type IsspData } from "@/lib/pdf/render-issp-html";
 import { generatePdf } from "@/lib/pdf/generate-pdf";
+import {
+  CLASSIFICATION_LABELS,
+  DEV_STRATEGY_LABELS,
+  DATA_STORAGE_LABELS,
+  DEPLOYMENT_LABELS,
+  labelFor,
+} from "@/lib/issp-labels";
 import type {
   IsspDocument,
   IctProject,
@@ -52,7 +59,9 @@ function mapProject(proj: IctProject, crossAgency = false): IsspData["part3"]["i
     nationalCybersecurity: saArr.includes("National Cybersecurity Plan"),
     eGovMasterPlan: saArr.includes("E-Government Master Plan"),
     convergenceBudgeting: saArr.includes("Program Convergence Budgeting"),
-    others: saArr.find((s) => !(SA_KNOWN as readonly string[]).includes(s)) ?? "",
+    // "Others" is a checkbox sentinel; any other unknown string is the specify-text
+    others: saArr.find((s) => !(SA_KNOWN as readonly string[]).includes(s) && s !== "Others") ?? "",
+    othersChecked: saArr.includes("Others"),
   };
 
   const harmonization: Record<string, boolean> = {
@@ -184,17 +193,17 @@ function toRenderData(doc: IsspDocument): IsspData {
       cybersecurityControls: part2.cybersecurityControls as unknown as IsspData["part2"]["cybersecurityControls"],
       informationSystems: part2.informationSystems.map((sys) => ({
         name: sys.name,
-        classification: sys.classification,
+        classification: labelFor(CLASSIFICATION_LABELS, sys.classification),
         frontline: sys.frontline,
-        deploymentType: sys.deploymentType || undefined,
+        deploymentType: labelFor(DEPLOYMENT_LABELS, sys.deploymentType) || undefined,
         url: sys.url || undefined,
         description: sys.description,
-        developmentStrategy: sys.developmentStrategy || undefined,
+        developmentStrategy: labelFor(DEV_STRATEGY_LABELS, sys.developmentStrategy) || undefined,
         developmentPlatform: sys.developmentPlatform || undefined,
         databaseName: sys.databaseName || undefined,
-        dataStorage: sys.dataStorage || undefined,
-        internalUsers: String(sys.internalUsers ?? ""),
-        externalUsers: String(sys.externalUsers ?? ""),
+        dataStorage: labelFor(DATA_STORAGE_LABELS, sys.dataStorage) || undefined,
+        internalUsers: sys.internalUsers ?? "",
+        externalUsers: sys.externalUsers ?? "",
         owner: sys.owner || undefined,
         interoperability: {
           integrated: sys.interoperability.integrated,
@@ -228,16 +237,16 @@ function toRenderData(doc: IsspDocument): IsspData {
       })),
       proposedSystems: part3.proposedSystems.map((sys) => ({
         name: sys.name,
-        classification: sys.classification,
+        classification: labelFor(CLASSIFICATION_LABELS, sys.classification),
         frontline: sys.frontline,
-        deploymentType: sys.deploymentType || undefined,
+        deploymentType: labelFor(DEPLOYMENT_LABELS, sys.deploymentType) || undefined,
         description: sys.enhancementDetails || "",
-        developmentStrategy: sys.developmentStrategy || undefined,
+        developmentStrategy: labelFor(DEV_STRATEGY_LABELS, sys.developmentStrategy) || undefined,
         developmentPlatform: sys.developmentPlatform || undefined,
         databaseName: sys.databaseName || undefined,
-        dataStorage: sys.dataStorage || undefined,
-        internalUsers: String(sys.internalUsers ?? ""),
-        externalUsers: String(sys.externalUsers ?? ""),
+        dataStorage: labelFor(DATA_STORAGE_LABELS, sys.dataStorage) || undefined,
+        internalUsers: sys.internalUsers ?? "",
+        externalUsers: sys.externalUsers ?? "",
         owner: sys.owner || undefined,
         interoperability: {
           integrated: sys.interoperability.integrated,

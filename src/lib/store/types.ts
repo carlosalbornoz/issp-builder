@@ -80,7 +80,6 @@ export interface StrategicConcern {
   outcomeIds: string[];
   criticalSystem: string;
   concern: string;
-  currentStrategy: string;
   desiredStrategy: string;
 }
 
@@ -137,10 +136,13 @@ export interface CyberControls {
   };
 }
 
+/** Template taxonomy per DICT 2026 guidelines (Part II-C / III-D). */
+export type IsClassification = "SUPPORT_TO_OPERATIONS" | "GENERAL_ADMIN" | "OPERATIONS" | "";
+
 export interface InformationSystem {
   id: string;
   name: string;
-  classification: "G2C" | "G2B" | "G2G" | "G2E" | "INTERNAL" | "";
+  classification: IsClassification;
   frontline: boolean;
   deploymentType: "HOSTED" | "CLOUD" | "HYBRID" | "ON_PREMISE" | "";
   url: string;
@@ -149,8 +151,10 @@ export interface InformationSystem {
   developmentPlatform: string;
   databaseName: string;
   dataStorage: "ON_PREMISE" | "CLOUD" | "HYBRID" | "";
-  internalUsers: number;
-  externalUsers: number;
+  /** Units within the organization with access (template asks "which", not "how many"). */
+  internalUsers: string;
+  /** External orgs/stakeholders with restricted access. */
+  externalUsers: string;
   owner: string;
   interoperability: {
     integrated: boolean;
@@ -199,7 +203,7 @@ export interface Part2Data {
 export interface ProposedSystem {
   id: string;
   name: string;
-  classification: string;
+  classification: IsClassification;
   frontline: boolean;
   deploymentType: string;
   status: "FOR_DEVELOPMENT" | "FOR_ENHANCEMENT" | "";
@@ -208,8 +212,8 @@ export interface ProposedSystem {
   developmentPlatform: string;
   databaseName: string;
   dataStorage: string;
-  internalUsers: number;
-  externalUsers: number;
+  internalUsers: string;
+  externalUsers: string;
   owner: string;
   interoperability: {
     integrated: boolean;

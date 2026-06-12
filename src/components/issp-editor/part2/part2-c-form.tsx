@@ -3,7 +3,6 @@
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { NumberInput } from "@/components/ui/number-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -23,10 +22,12 @@ import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+type IsClassification = "SUPPORT_TO_OPERATIONS" | "GENERAL_ADMIN" | "OPERATIONS" | "";
+
 interface InformationSystem {
   id: string;
   name: string;
-  classification: "G2C" | "G2B" | "G2G" | "G2E" | "INTERNAL" | "";
+  classification: IsClassification;
   frontline: boolean;
   deploymentType: "HOSTED" | "CLOUD" | "HYBRID" | "ON_PREMISE" | "";
   url: string;
@@ -35,8 +36,8 @@ interface InformationSystem {
   developmentPlatform: string;
   databaseName: string;
   dataStorage: "ON_PREMISE" | "CLOUD" | "HYBRID" | "";
-  internalUsers: number;
-  externalUsers: number;
+  internalUsers: string;
+  externalUsers: string;
   owner: string;
   interoperability: {
     integrated: boolean;
@@ -67,8 +68,8 @@ const DEFAULT_IS: Omit<InformationSystem, "id"> = {
   developmentPlatform: "",
   databaseName: "",
   dataStorage: "",
-  internalUsers: 0,
-  externalUsers: 0,
+  internalUsers: "",
+  externalUsers: "",
   owner: "",
   interoperability: {
     integrated: false,
@@ -86,13 +87,18 @@ const DEFAULT_IS: Omit<InformationSystem, "id"> = {
 
 // ─── Field config ─────────────────────────────────────────────────────────────
 
+// Template taxonomy per DICT 2026 guidelines — labels must match the PDF renderer
 const CLASSIFICATION_OPTIONS = [
-  { value: "G2C", label: "G2C – Government to Citizen" },
-  { value: "G2B", label: "G2B – Government to Business" },
-  { value: "G2G", label: "G2G – Government to Government" },
-  { value: "G2E", label: "G2E – Government to Employee" },
-  { value: "INTERNAL", label: "Internal / Operations" },
+  { value: "SUPPORT_TO_OPERATIONS", label: "Support to Operations" },
+  { value: "GENERAL_ADMIN", label: "General Administrative Systems" },
+  { value: "OPERATIONS", label: "Operations" },
 ];
+
+const CLASSIFICATION_BADGES: Record<string, string> = {
+  SUPPORT_TO_OPERATIONS: "Support to Ops",
+  GENERAL_ADMIN: "Gen. Admin",
+  OPERATIONS: "Operations",
+};
 
 const DEPLOYMENT_OPTIONS = [
   { value: "ON_PREMISE", label: "On-Premise" },
@@ -116,11 +122,9 @@ const STORAGE_OPTIONS = [
 ];
 
 const CLASSIFICATION_COLORS: Record<string, string> = {
-  G2C: "bg-info-bg text-info border border-info-border",
-  G2B: "bg-success-bg text-success border border-success-border",
-  G2G: "bg-[var(--part-4)]/10 text-[var(--part-4)] border border-[var(--part-4)]/30",
-  G2E: "bg-warning-bg text-warning border border-warning-border",
-  INTERNAL: "bg-muted text-muted-foreground border border-border",
+  SUPPORT_TO_OPERATIONS: "bg-info-bg text-info border border-info-border",
+  GENERAL_ADMIN: "bg-muted text-muted-foreground border border-border",
+  OPERATIONS: "bg-success-bg text-success border border-success-border",
 };
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
@@ -177,7 +181,7 @@ function ISCard({
             <span className="text-xs font-semibold text-muted-foreground">IS #{index + 1}</span>
             {sys.classification && (
               <span className={cn("text-xs font-medium px-1.5 py-0.5 rounded", CLASSIFICATION_COLORS[sys.classification] ?? "bg-muted")}>
-                {sys.classification}
+                {CLASSIFICATION_BADGES[sys.classification] ?? sys.classification}
               </span>
             )}
             {sys.frontline && (
@@ -235,18 +239,20 @@ function ISCard({
             </SelectContent>
           </Select>
         </FormField>
-        <FormField label="Frontline Service?">
-          <div className="flex items-center gap-2 h-8">
-            <Checkbox
-              id={`frontline-${sys.id}`}
-              checked={sys.frontline}
-              onCheckedChange={(v) => onUpdate("frontline", v === true)}
-            />
-            <label htmlFor={`frontline-${sys.id}`} className="text-sm cursor-pointer">
-              Yes, this is a frontline service
-            </label>
-          </div>
-        </FormField>
+        {sys.classification === "OPERATIONS" && (
+          <FormField label="Operations Type">
+            <div className="flex items-center gap-2 h-8">
+              <Checkbox
+                id={`frontline-${sys.id}`}
+                checked={sys.frontline}
+                onCheckedChange={(v) => onUpdate("frontline", v === true)}
+              />
+              <label htmlFor={`frontline-${sys.id}`} className="text-sm cursor-pointer">
+                Frontline service <span className="text-muted-foreground">(unchecked = non-frontline)</span>
+              </label>
+            </div>
+          </FormField>
+        )}
       </div>
 
       {/* Expanded details */}
@@ -352,18 +358,18 @@ function ISCard({
                   </SelectContent>
                 </Select>
               </FormField>
-              <FormField label="Internal Users">
-                <NumberInput
-                  min={0}
+              <FormField label="Internal Users (units with access)">
+                <Input
+                  placeholder="e.g., HR Division, Finance Division"
                   value={sys.internalUsers}
-                  onValueChange={(n) => onUpdate("internalUsers", n)}
+                  onChange={(e) => onUpdate("internalUsers", e.target.value)}
                 />
               </FormField>
-              <FormField label="External / Public Users">
-                <NumberInput
-                  min={0}
+              <FormField label="External Users (orgs with access)">
+                <Input
+                  placeholder="e.g., GSIS, PhilGEPS, general public"
                   value={sys.externalUsers}
-                  onValueChange={(n) => onUpdate("externalUsers", n)}
+                  onChange={(e) => onUpdate("externalUsers", e.target.value)}
                 />
               </FormField>
             </div>
@@ -481,6 +487,13 @@ export function Part2CForm({
       title="IS Inventory"
       description="Enumerate all existing information systems maintained or used by the agency."
     >
+
+      {/* One-release migration notice (2026-06: G2C/G2B/etc → official template taxonomy) */}
+      <div className="rounded-lg border border-info-border bg-info-bg px-4 py-2 text-xs text-info">
+        Classifications now use the official template taxonomy (Support to Operations / General
+        Administrative Systems / Operations). Previously saved systems were remapped automatically —
+        please review each system&apos;s classification.
+      </div>
 
       {/* Summary pills */}
       <div className="flex flex-wrap gap-3">

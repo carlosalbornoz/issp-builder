@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { NumberInput } from "@/components/ui/number-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +25,7 @@ import { SectionShell } from "@/components/editor/section-shell";
 export interface ProposedSystem {
   id: string;
   name: string;
-  classification: string;
+  classification: "SUPPORT_TO_OPERATIONS" | "GENERAL_ADMIN" | "OPERATIONS" | "";
   frontline: boolean;
   deploymentType: string;
   status: "FOR_DEVELOPMENT" | "FOR_ENHANCEMENT" | "";
@@ -35,8 +34,8 @@ export interface ProposedSystem {
   developmentPlatform: string;
   databaseName: string;
   dataStorage: string;
-  internalUsers: number;
-  externalUsers: number;
+  internalUsers: string;
+  externalUsers: string;
   owner: string;
   interoperability: {
     integrated: boolean;
@@ -65,20 +64,19 @@ const DEFAULT_SYSTEM: Omit<ProposedSystem, "id"> = {
   developmentPlatform: "",
   databaseName: "",
   dataStorage: "",
-  internalUsers: 0,
-  externalUsers: 0,
+  internalUsers: "",
+  externalUsers: "",
   owner: "",
   interoperability: { integrated: false, internalSystems: "", externalSystems: "" },
   pia: { processesPersonalInfo: false, piaRequired: false },
   linkedProjectId: "",
 };
 
+// Template taxonomy per DICT 2026 guidelines — labels must match the PDF renderer
 const CLASSIFICATION_OPTIONS = [
-  { value: "G2C", label: "G2C – Government to Citizen" },
-  { value: "G2B", label: "G2B – Government to Business" },
-  { value: "G2G", label: "G2G – Government to Government" },
-  { value: "G2E", label: "G2E – Government to Employee" },
-  { value: "INTERNAL", label: "Internal / Operations" },
+  { value: "SUPPORT_TO_OPERATIONS", label: "Support to Operations" },
+  { value: "GENERAL_ADMIN", label: "General Administrative Systems" },
+  { value: "OPERATIONS", label: "Operations" },
 ];
 const DEPLOYMENT_OPTIONS = [
   { value: "ON_PREMISE", label: "On-Premise" },
@@ -232,16 +230,18 @@ function SystemCard({
 
           {/* Core fields */}
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Frontline Service?</Label>
-              <label className="flex items-center gap-2 h-8 cursor-pointer">
-                <Checkbox
-                  checked={sys.frontline}
-                  onCheckedChange={(v) => onUpdate("frontline", v === true)}
-                />
-                <span className="text-sm">Yes</span>
-              </label>
-            </div>
+            {sys.classification === "OPERATIONS" && (
+              <div className="space-y-1.5">
+                <Label className="text-xs text-muted-foreground uppercase tracking-wide">Operations Type</Label>
+                <label className="flex items-center gap-2 h-8 cursor-pointer">
+                  <Checkbox
+                    checked={sys.frontline}
+                    onCheckedChange={(v) => onUpdate("frontline", v === true)}
+                  />
+                  <span className="text-sm">Frontline service</span>
+                </label>
+              </div>
+            )}
             <div className="space-y-1.5">
               <Label className="text-xs text-muted-foreground uppercase tracking-wide">Deployment</Label>
               <Select
@@ -312,19 +312,19 @@ function SystemCard({
               </Select>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Internal Users</Label>
-              <NumberInput
-                min={0}
+              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Internal Users (units)</Label>
+              <Input
+                placeholder="e.g., HR Division, Finance"
                 value={sys.internalUsers}
-                onValueChange={(n) => onUpdate("internalUsers", n)}
+                onChange={(e) => onUpdate("internalUsers", e.target.value)}
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">External Users</Label>
-              <NumberInput
-                min={0}
+              <Label className="text-xs text-muted-foreground uppercase tracking-wide">External Users (orgs)</Label>
+              <Input
+                placeholder="e.g., GSIS, general public"
                 value={sys.externalUsers}
-                onValueChange={(n) => onUpdate("externalUsers", n)}
+                onChange={(e) => onUpdate("externalUsers", e.target.value)}
               />
             </div>
           </div>

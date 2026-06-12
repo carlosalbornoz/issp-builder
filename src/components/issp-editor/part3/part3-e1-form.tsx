@@ -120,12 +120,26 @@ function ProjectCard({
     onUpdate("linkedSystemIds", ids);
   }
 
+  const KNOWN_SA = STRATEGIC_ALIGNMENT_OPTIONS.map((o) => o.value);
+  const othersChecked = project.strategicAlignment.includes("Others");
+  const othersText = project.strategicAlignment.find((v) => !KNOWN_SA.includes(v)) ?? "";
+
   function toggleAlignment(value: string) {
     const current = project.strategicAlignment;
-    onUpdate(
-      "strategicAlignment",
-      current.includes(value) ? current.filter((v) => v !== value) : [...current, value]
-    );
+    if (current.includes(value)) {
+      // Unchecking "Others" also drops its custom specify-text
+      const next = value === "Others"
+        ? current.filter((v) => v !== "Others" && KNOWN_SA.includes(v))
+        : current.filter((v) => v !== value);
+      onUpdate("strategicAlignment", next);
+    } else {
+      onUpdate("strategicAlignment", [...current, value]);
+    }
+  }
+
+  function setOthersText(text: string) {
+    const rest = project.strategicAlignment.filter((v) => KNOWN_SA.includes(v));
+    onUpdate("strategicAlignment", text ? [...rest, text] : rest);
   }
 
   function toggleHarmonization(value: string) {
@@ -319,12 +333,20 @@ function ProjectCard({
                     className="mt-0.5"
                   />
                   <span className="text-xs">
-                    <span className="font-medium">{opt.value}</span>
+                    <span className="font-medium">{opt.value === "Others" ? "Others (specify)" : opt.value}</span>
                     <span className="block text-muted-foreground text-xs mt-0.5">{opt.hint}</span>
                   </span>
                 </label>
               ))}
             </div>
+            {othersChecked && (
+              <Input
+                className="mt-1 max-w-md"
+                placeholder="Specify the national or agency-level plan…"
+                value={othersText}
+                onChange={(e) => setOthersText(e.target.value)}
+              />
+            )}
           </div>
 
           {/* Harmonization Framework */}
