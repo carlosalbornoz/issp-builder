@@ -123,14 +123,15 @@ function ContinueCard({
   const doneCount = ALL_SECTIONS.filter((s) => computeStatus(sectionMeta[s.id]) === "done").length;
 
   return (
-    <div className="rounded-xl border border-primary/30 bg-primary/5 p-5 space-y-3">
+    <div className="space-y-2">
+      <p className="text-xs font-semibold text-primary uppercase tracking-wide px-1">Continue where you left off</p>
+      <div className="rounded-xl border border-primary/30 bg-primary/5 p-5 space-y-3">
       <div className="flex items-start gap-4">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
           <FileClock className="h-5 w-5 text-primary" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold text-primary uppercase tracking-wide">Continue where you left off</p>
-          <p className="font-semibold text-sm mt-0.5 truncate">{doc.title || "Untitled ISSP"}</p>
+          <p className="font-semibold text-sm truncate">{doc.title || "Untitled ISSP"}</p>
           <p className="text-xs text-muted-foreground mt-0.5">
             {doc.agency.acronym || doc.agency.name} · {doc.startYear}–{doc.endYear} · last edited{" "}
             <RelativeTime iso={doc.updatedAt} />
@@ -181,6 +182,7 @@ function ContinueCard({
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
