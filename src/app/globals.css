@@ -473,24 +473,55 @@
   initial-value: 0deg;
   inherits: false;
 }
+@property --glow-alpha {
+  syntax: '<number>';
+  initial-value: 0;
+  inherits: false;
+}
 @keyframes glow-orbit {
   to { --glow-angle: 360deg; }
 }
 @keyframes glow-orbit-occasional {
-  0%   { --glow-angle: 0deg; }
-  30%  { --glow-angle: 360deg; }
-  100% { --glow-angle: 360deg; }
+  0%   { --glow-angle: 0deg; --glow-alpha: 0; }
+  4%   { --glow-alpha: 1; }
+  26%  { --glow-alpha: 1; }
+  30%  { --glow-angle: 360deg; --glow-alpha: 0; }
+  100% { --glow-angle: 360deg; --glow-alpha: 0; }
 }
-/* Pointer devices: the light orbits only while hovered */
+/* At rest: a plain floating chip — the rainbow arc is fully transparent
+   (--glow-alpha 0) and a neutral border layer shows through instead. */
+.animate-glow-orbit {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--background), var(--background)) padding-box,
+    conic-gradient(
+      from var(--glow-angle),
+      transparent 0%,
+      rgb(121 40 202 / var(--glow-alpha, 0)) 6%,
+      rgb(255 0 128 / var(--glow-alpha, 0)) 10%,
+      rgb(255 140 0 / var(--glow-alpha, 0)) 14%,
+      rgb(255 230 0 / var(--glow-alpha, 0)) 18%,
+      transparent 24%,
+      transparent 100%
+    ) border-box,
+    linear-gradient(var(--border), var(--border)) border-box;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: --glow-alpha 0.35s ease, box-shadow 0.35s ease;
+}
+/* Pointer devices: the light appears and orbits only while hovered */
 @media (hover: hover) and (pointer: fine) {
-  .animate-glow-orbit:hover { animation: glow-orbit 2s linear infinite; }
+  .animate-glow-orbit:hover {
+    --glow-alpha: 1;
+    animation: glow-orbit 2s linear infinite;
+    box-shadow: 0 0 8px 3px rgba(180, 100, 200, 0.2);
+  }
 }
-/* Touch devices (no hover): an occasional sweep — one orbit, then rest */
+/* Touch devices (no hover): an occasional sweep — fade in, one orbit, fade out */
 @media (hover: none), (pointer: coarse) {
   .animate-glow-orbit { animation: glow-orbit-occasional 7s linear infinite; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .animate-glow-orbit, .animate-glow-orbit:hover { animation: none; }
+  .animate-glow-orbit, .animate-glow-orbit:hover { animation: none; --glow-alpha: 0; }
 }
 
 /* New-item reveal pulse (lib/reveal.ts) — visible consequence for list adds */

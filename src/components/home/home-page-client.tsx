@@ -301,12 +301,6 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             <button
               onClick={openWhatsNew}
               className="animate-glow-orbit inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
-              style={{
-                border: "1.5px solid transparent",
-                background: `linear-gradient(var(--background), var(--background)) padding-box,
-                             conic-gradient(from var(--glow-angle), transparent 0%, #7928ca 6%, #ff0080 10%, #ff8c00 14%, #ffe600 18%, transparent 24%, transparent 100%) border-box`,
-                boxShadow: "0 0 8px 3px rgba(180,100,200,0.2)",
-              }}
             >
               <Sparkles className="w-3 h-3" />
               What&apos;s new — June 11–12, 2026
