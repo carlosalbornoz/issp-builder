@@ -437,8 +437,8 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
         {/* Attribution chip — docked at the bottom of the first viewport, macOS-dock style */}
         <div className="flex justify-center pb-5 px-6">
-          <p className="rounded-full bg-foreground text-background/85 px-4 py-1.5 text-xs font-semibold text-center shadow-lg shadow-foreground/20">
-            Made with ❤️ <em>para sa bayan</em> ·{" "}
+          <p className="chip-attr rounded-full bg-foreground text-background/85 px-4 py-1.5 text-xs font-semibold text-center shadow-lg shadow-foreground/20">
+            Made with <span className="chip-heart">❤️</span> <em>para sa bayan</em> ·{" "}
             <a
               href="https://www.instagram.com/carlosanton.io"
               target="_blank"
