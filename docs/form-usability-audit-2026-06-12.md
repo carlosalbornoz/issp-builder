@@ -271,10 +271,26 @@ ISSP focal person.
 - II-D status pill "Proposed / In Progress" — proposed *where*? (Part III? this checklist?)
 - II-C/III-D "Frontline Service" — could reference the ARTA/Citizen's Charter meaning
 - Part IV "Physical Target" — template term, but a tooltip ("units to procure this year") would help
-- III-E "IS-Driven vs Standalone" project type — consequence (links to III-D systems) is only discoverable after selecting
 - I-C complexity options — template gives processing-time definitions (3/7/20 days) that the
   Select doesn't surface
 - Sidebar/overview status dots — color-only meaning (empty/in-progress/done) is never legended
+
+**III-D ↔ III-E linking flow (user-reported 2026-06-12: "I do not see an interface where I
+can explicitly select a proposed IS to be added to a project"):**
+
+- **Hidden affordance (III-E):** the "Linked Proposed Systems" pill picker exists in the
+  project card (`part3-e1-form.tsx:270-306`) but only renders when Project Type =
+  "IS-Driven". The Project Type Select gives no hint that this selection is what unlocks
+  system linking, so the linking UI is effectively undiscoverable. Fix direction: always
+  show the linking section (with an explanatory empty state), or label the option
+  "IS-Driven — links to systems from Part III-D" and auto-focus the picker on selection.
+- **Dead affordance (III-D):** `ProposedSystem.linkedProjectId` is declared, defaulted, and
+  *read* for the "Has project" badge (`part3-d-form.tsx:500`) — but no UI ever writes it.
+  The real link lives on the project side (`IctProject.linkedSystemIds`). Consequences: the
+  "Has project" badge can never appear, and the "Ready to plan implementation?" nudge never
+  clears even after a project links the system. Fix direction: derive `isLinked` from
+  projects' `linkedSystemIds` (passed into the form) and delete the dead field — or add a
+  project picker on the system card and keep the two sides in sync by id.
 
 ## Suggested plan (for discussion)
 
