@@ -187,7 +187,7 @@ function SystemCard({
               </span>
             )}
           </div>
-          <p className="text-sm font-medium truncate mt-0.5">
+          <p className="text-sm font-medium line-clamp-2 break-words mt-0.5">
             {sys.name || <span className="text-muted-foreground italic">Unnamed System</span>}
           </p>
         </div>

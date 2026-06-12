@@ -96,7 +96,11 @@ and drop the stored field from the schema so it cannot drift.
 ### 9. Compact UI, honest affordances
 **Standing preferences:** desktop stays dense (standard Tailwind p-2/p-3; touch sizes only
 under `pointer: coarse`); left-aligned nav; no decorative controls — a drag handle that
-doesn't drag is a lie, remove it.
+doesn't drag is a lie, remove it. Card/list titles use `line-clamp-2 break-words`, not
+`truncate` — single-line truncation cuts names even where vertical room exists (Carlos,
+2026-06-12); reserve `truncate` for genuinely single-line rows (nav items, table cells,
+badges with hover tooltips). Watch the grid + nowrap trap: a truncated child inside a CSS
+grid needs `min-w-0` on the grid item or the nowrap min-content blows the layout out.
 
 ### 10. Format in the field, not beside it
 **Incident:** large peso inputs (III-E Total Project Cost, Part IV Unit Cost) got a

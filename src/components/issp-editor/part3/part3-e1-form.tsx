@@ -346,7 +346,7 @@ function ProjectCard({
               </span>
             )}
           </div>
-          <p className="text-sm font-medium truncate mt-0.5">
+          <p className="text-sm font-medium line-clamp-2 break-words mt-0.5">
             {project.title || <span className="text-muted-foreground italic">Untitled Project</span>}
           </p>
         </div>

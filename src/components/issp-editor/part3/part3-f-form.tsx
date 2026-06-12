@@ -90,7 +90,7 @@ function ProjectKpiTable({
             <FolderKanban className="h-4 w-4" />
           </div>
           <div className="flex-1 min-w-0">
-            <CardTitle className="text-sm font-semibold truncate">{project.title}</CardTitle>
+            <CardTitle className="text-sm font-semibold line-clamp-2 break-words">{project.title}</CardTitle>
             <p className="text-xs text-muted-foreground mt-0.5">
               {project.projectCategory === "crossAgency" ? "Cross-Agency" : "Internal"} ·{" "}
               {kpiSet.rows.length} KPI{kpiSet.rows.length !== 1 ? "s" : ""}
