@@ -240,6 +240,42 @@ Part IV sum for that project with a match/mismatch indicator.
 
 ---
 
+## Pattern for the post-fix sweep: label clarity & cross-section explicitness
+
+> Added 2026-06-12 after fixing Part III-A's "Current" badge (commit `41b5c70`). Once all
+> four fix phases ship, run a full builder pass hunting for this same smell in every section.
+
+**The smell:** a label that is only meaningful if the user already knows where the data
+comes from, what checking/unchecking implies, or which template rule it serves. Terse
+labels read fine to the developer (who has the context) and are ambiguous to a first-time
+ISSP focal person.
+
+**The exemplar (Part III-A cybersecurity checklist):**
+
+| Before | After | Why |
+|---|---|---|
+| Badge: "Current" / "Not current" | "Already in place (per Part II-B)" / "Not yet in place" | Names the *source* — the badge is derived from the user's own Part II-B answers, which was invisible |
+| Checkbox: "Proposed" (same label for every row) | "Strengthen / upgrade" (when already in place) vs "Propose to add" (when not) | States the *consequence* of checking, contextually — and preserves the upgrade use-case instead of disabling existing controls |
+
+**What to check for in the sweep — every label, badge, and checkbox answers three questions:**
+
+1. **Source** — if the value is derived/mirrored from another section, does the label say
+   so? ("per Part II-B", "from Part III-E", "auto-calculated")
+2. **Consequence** — does a checkbox/toggle label state what checking it *means* for the
+   document, not just a noun? ("Proposed" ❌ → "Propose to add" ✓)
+3. **Audience** — would a first-time agency focal person (not the developer) understand
+   the term without opening the guidelines PDF? Prefer the template's own words.
+
+**Known candidates already spotted for the sweep (not yet fixed):**
+
+- II-D status pill "Proposed / In Progress" — proposed *where*? (Part III? this checklist?)
+- II-C/III-D "Frontline Service" — could reference the ARTA/Citizen's Charter meaning
+- Part IV "Physical Target" — template term, but a tooltip ("units to procure this year") would help
+- III-E "IS-Driven vs Standalone" project type — consequence (links to III-D systems) is only discoverable after selecting
+- I-C complexity options — template gives processing-time definitions (3/7/20 days) that the
+  Select doesn't surface
+- Sidebar/overview status dots — color-only meaning (empty/in-progress/done) is never legended
+
 ## Suggested plan (for discussion)
 
 **Phase 1 — PDF correctness (the silent-data-loss set):** #1, #2, #3, #5, plus #4's copy fix.
