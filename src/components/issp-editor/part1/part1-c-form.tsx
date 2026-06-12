@@ -21,7 +21,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Trash2, GripVertical, Pencil, Table2, LayoutList, LayoutGrid, ChevronDown } from "lucide-react";
+import { Plus, Trash2, Pencil, Table2, LayoutList, LayoutGrid, ChevronDown } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 
@@ -414,7 +414,6 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
               <table className="w-full text-sm border-collapse">
                 <thead>
                   <tr className="bg-muted/50">
-                    <th className="border px-3 py-2 w-8" />
                     <th className="border px-3 py-2 text-left font-semibold w-52">
                       Stakeholder / Client
                     </th>
@@ -430,7 +429,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                 <tbody>
                   {stakeholders.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="border px-3 py-8 text-center text-muted-foreground text-sm">
+                      <td colSpan={4} className="border px-3 py-8 text-center text-muted-foreground text-sm">
                         No stakeholders added yet.{" "}
                         <button
                           type="button"
@@ -445,12 +444,6 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                   {stakeholders.map((s, sIdx) => {
                     const hasServices = s.services.length > 0;
                     const rowSpan = s.services.length + 1;
-
-                    const dragCell = (span: number) => (
-                      <td rowSpan={span} className="border px-2 py-2 text-center align-top">
-                        <GripVertical className="h-4 w-4 text-muted-foreground/40 mx-auto mt-1.5" />
-                      </td>
-                    );
 
                     const nameCell = (span: number) => (
                       <td rowSpan={span} className="border px-2 py-2 align-top w-52">
@@ -477,7 +470,6 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                       <Fragment key={s.id}>
                         {!hasServices ? (
                           <tr className={sIdx > 0 ? "border-t-2 border-t-border/60" : ""}>
-                            {dragCell(1)}
                             {nameCell(1)}
                             <td colSpan={3} className="border px-3 py-3 text-center">
                               <button
@@ -497,7 +489,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                                 key={sv.id}
                                 className={svIdx === 0 && sIdx > 0 ? "border-t-2 border-t-border/60" : ""}
                               >
-                                {svIdx === 0 && <>{dragCell(rowSpan)}{nameCell(rowSpan)}</>}
+                                {svIdx === 0 && nameCell(rowSpan)}
                                 <td className="border px-2 py-1">
                                   <input
                                     type="text"
