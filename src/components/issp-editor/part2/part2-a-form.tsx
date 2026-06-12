@@ -15,7 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Trash2, GripVertical, Info } from "lucide-react";
+import { Plus, GripVertical, Info } from "lucide-react";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 
 interface OrgOutcome {
@@ -163,15 +164,10 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
                 <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mr-auto">
                   Concern #{idx + 1}
                 </span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Remove concern"
-                  className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive"
-                  onClick={() => removeConcern(concern.id)}
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                </Button>
+                <ConfirmDeleteButton
+                  ariaLabel="Remove concern"
+                  onDelete={() => removeConcern(concern.id)}
+                />
               </div>
 
               {/* Concern body */}

@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Trash2, ChevronDown, ChevronRight, Sparkles, Link2 } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Sparkles, Link2 } from "lucide-react";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
 
@@ -46,7 +47,6 @@ export interface ProposedSystem {
     processesPersonalInfo: boolean;
     piaRequired: boolean;
   };
-  linkedProjectId: string;
 }
 
 function generateId() {
@@ -69,7 +69,6 @@ const DEFAULT_SYSTEM: Omit<ProposedSystem, "id"> = {
   owner: "",
   interoperability: { integrated: false, internalSystems: "", externalSystems: "" },
   pia: { processesPersonalInfo: false, piaRequired: false },
-  linkedProjectId: "",
 };
 
 // Template taxonomy per DICT 2026 guidelines — labels must match the PDF renderer
@@ -155,15 +154,11 @@ function SystemCard({
             {sys.name || <span className="text-muted-foreground italic">Unnamed System</span>}
           </p>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Remove proposed system"
-          className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive"
-          onClick={onRemove}
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </Button>
+        <ConfirmDeleteButton
+          ariaLabel="Remove proposed system"
+          confirmText="Delete this system?"
+          onDelete={onRemove}
+        />
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}
@@ -413,10 +408,11 @@ function SystemCard({
 
 export function Part3DForm({
   initialSystems,
-  existingProjectIds,
+  linkedSystemIds,
 }: {
   initialSystems: ProposedSystem[];
-  existingProjectIds: string[];
+  /** System ids referenced by any project's linkedSystemIds (Part III-E). */
+  linkedSystemIds: string[];
 }) {
   const [systems, setSystems] = useState<ProposedSystem[]>(initialSystems);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
@@ -497,7 +493,7 @@ export function Part3DForm({
             key={sys.id}
             sys={sys}
             index={idx}
-            isLinked={existingProjectIds.includes(sys.linkedProjectId)}
+            isLinked={linkedSystemIds.includes(sys.id)}
             isNew={newlyAddedIds.has(sys.id)}
             onUpdate={(field, value) => updateSystem(sys.id, field, value)}
             onRemove={() => removeSystem(sys.id)}

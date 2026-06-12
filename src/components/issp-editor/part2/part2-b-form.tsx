@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
-import { ChevronDown, UploadCloud, ImageIcon, Trash2 } from "lucide-react";
+import { ChevronDown, UploadCloud, ImageIcon } from "lucide-react";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 import { DIAGRAM_ACCEPT, createDiagramId, getDiagramUploadError, readFileAsDataUrl } from "@/lib/diagram-upload";
 
@@ -399,14 +400,11 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
                         onChange={(e) => handleTitleChange(diagram.id, e.target.value)}
                         className="flex-1 rounded bg-card/70 px-2 py-1 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 hover:bg-card focus:bg-card focus:placeholder:text-transparent"
                       />
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveDiagram(diagram.id)}
-                        aria-label="Remove diagram"
-                        className="text-muted-foreground hover:text-destructive transition-colors"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
+                      <ConfirmDeleteButton
+                        ariaLabel="Remove diagram"
+                        confirmText="Delete diagram?"
+                        onDelete={() => handleRemoveDiagram(diagram.id)}
+                      />
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img

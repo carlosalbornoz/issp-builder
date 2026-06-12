@@ -595,8 +595,7 @@
           "processesPersonalInfo": false,
           "piaRequired": false,
           "piaConducted": false
-        },
-        "linkedProjectId": "proj-sikap"
+        }
       },
       {
         "id": "ps-cfcp",
@@ -630,8 +629,7 @@
           "processesPersonalInfo": true,
           "piaRequired": true,
           "piaConducted": false
-        },
-        "linkedProjectId": "proj-sikap"
+        }
       },
       {
         "id": "ps-ihrps",
@@ -665,8 +663,7 @@
           "processesPersonalInfo": true,
           "piaRequired": true,
           "piaConducted": false
-        },
-        "linkedProjectId": "proj-handa"
+        }
       }
     ],
     "internalProjects": [

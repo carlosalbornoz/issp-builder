@@ -205,7 +205,11 @@ export function Part1BForm({
   );
 
   function setCio(field: string, value: string) {
-    update({ [`cio${field.charAt(0).toUpperCase()}${field.slice(1)}`]: value } as Partial<Part1BData>);
+    const cap = `${field.charAt(0).toUpperCase()}${field.slice(1)}`;
+    const updates: Record<string, string> = { [`cio${cap}`]: value };
+    // Keep focal fields mirrored while "Concurrently held by CIO" is checked
+    if (data.focalSameAsCio) updates[`focal${cap}`] = value;
+    update(updates as Partial<Part1BData>);
   }
 
   function setFocal(field: string, value: string) {

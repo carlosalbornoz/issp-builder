@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/sheet";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical, Pencil, Table2, LayoutList, LayoutGrid, ChevronDown } from "lucide-react";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -185,15 +186,11 @@ function StakeholderDrawer({ open, stakeholder, isNew, onSave, onDelete, onClose
 
         <SheetFooter className="px-6 py-4 border-t flex-row items-center justify-between gap-2 shrink-0">
           {!isNew ? (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-destructive hover:text-destructive hover:bg-destructive/10"
-              onClick={onDelete}
-            >
-              <Trash2 className="h-3.5 w-3.5 mr-1.5" />
-              Delete stakeholder
-            </Button>
+            <ConfirmDeleteButton
+              ariaLabel="Delete stakeholder"
+              confirmText="Delete stakeholder + services?"
+              onDelete={onDelete}
+            />
           ) : <span />}
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={onClose}>Cancel</Button>
@@ -462,14 +459,13 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                             value={s.name}
                             onChange={(e) => updateStakeholderName(s.id, e.target.value)}
                           />
-                          <button
-                            type="button"
-                            onClick={() => removeStakeholder(s.id)}
-                            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-destructive self-start"
-                          >
-                            <Trash2 className="h-3 w-3" />
-                            Remove stakeholder
-                          </button>
+                          <ConfirmDeleteButton
+                            ariaLabel="Remove stakeholder"
+                            confirmText="Delete stakeholder + services?"
+                            onDelete={() => removeStakeholder(s.id)}
+                            className="self-start"
+                            iconClassName="h-3 w-3"
+                          />
                         </div>
                       </td>
                     );
@@ -633,14 +629,11 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                           className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
                         />
                       </button>
-                      <button
-                        type="button"
-                        aria-label="Remove stakeholder"
-                        onClick={() => removeStakeholder(s.id)}
-                        className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
+                      <ConfirmDeleteButton
+                        ariaLabel="Remove stakeholder"
+                        confirmText="Delete?"
+                        onDelete={() => removeStakeholder(s.id)}
+                      />
                     </div>
 
                     {/* Accordion body */}

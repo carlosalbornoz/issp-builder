@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState, type ChangeEvent } from "react";
-import { ImageIcon, Trash2, UploadCloud } from "lucide-react";
+import { ImageIcon, UploadCloud } from "lucide-react";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { DIAGRAM_ACCEPT, getDiagramUploadError, readFileAsDataUrl } from "@/lib/diagram-upload";
 
@@ -71,14 +72,11 @@ export function DiagramUploadField({
         <div className="overflow-hidden rounded-lg border">
           <div className="flex items-center justify-between gap-2 border-b bg-muted/30 px-3 py-2">
             <span className="text-xs font-medium text-muted-foreground">Uploaded diagram</span>
-            <button
-              type="button"
-              onClick={() => onChange(null)}
-              aria-label="Remove diagram"
-              className="text-muted-foreground transition-colors hover:text-destructive"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-            </button>
+            <ConfirmDeleteButton
+              ariaLabel="Remove diagram"
+              confirmText="Delete diagram?"
+              onDelete={() => onChange(null)}
+            />
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={value} alt={alt} className="w-full max-h-[520px] object-contain bg-white p-3" />

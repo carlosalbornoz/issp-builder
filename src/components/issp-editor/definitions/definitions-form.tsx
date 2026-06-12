@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Callout } from "@/components/ui/callout";
-import { Plus, Trash2, RotateCcw } from "lucide-react";
+import { Plus, RotateCcw } from "lucide-react";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 import { useIsspStore } from "@/lib/store";
 import type { DefinitionTerm } from "@/lib/store/types";
@@ -73,15 +74,12 @@ export function DefinitionsForm({ initialData }: { initialData: DefinitionTerm[]
                   placeholder={`Term ${i + 1} — e.g. "Information System"`}
                   className="font-medium"
                 />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeTerm(t.id)}
-                  aria-label={`Remove ${t.term || "term"}`}
-                  className="shrink-0 text-muted-foreground hover:text-destructive"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                <ConfirmDeleteButton
+                  ariaLabel={`Remove ${t.term || "term"}`}
+                  confirmText="Delete term?"
+                  onDelete={() => removeTerm(t.id)}
+                  iconClassName="h-4 w-4"
+                />
               </div>
               <Textarea
                 value={t.definition}

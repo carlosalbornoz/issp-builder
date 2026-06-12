@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Trash2, ChevronDown, ChevronRight, Server } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Server } from "lucide-react";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
 
@@ -192,15 +193,11 @@ function ISCard({
             {sys.name || <span className="text-muted-foreground italic">Unnamed System</span>}
           </p>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Remove information system"
-          className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive"
-          onClick={onRemove}
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </Button>
+        <ConfirmDeleteButton
+          ariaLabel="Remove information system"
+          confirmText="Delete this system?"
+          onDelete={onRemove}
+        />
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}

@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronRight, Info } from "lucide-react";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { SectionShell } from "@/components/editor/section-shell";
 
@@ -313,15 +314,10 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
                         )}
                       </span>
                     </button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      aria-label="Remove outcome"
-                      className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive"
-                      onClick={() => removeOutcome(oo.id)}
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
+                    <ConfirmDeleteButton
+                      ariaLabel="Remove outcome"
+                      onDelete={() => removeOutcome(oo.id)}
+                    />
                   </div>
 
                   {/* Outcome body */}

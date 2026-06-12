@@ -18,7 +18,8 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Trash2, ChevronDown, ChevronRight, FolderKanban, Link2 } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2 } from "lucide-react";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import type { ProposedSystem } from "./part3-d-form";
 import { SectionShell } from "@/components/editor/section-shell";
@@ -184,15 +185,11 @@ function ProjectCard({
             {project.title || <span className="text-muted-foreground italic">Untitled Project</span>}
           </p>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Remove project"
-          className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive"
-          onClick={onRemove}
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </Button>
+        <ConfirmDeleteButton
+          ariaLabel="Remove project"
+          confirmText="Delete project + its KPIs/budget?"
+          onDelete={onRemove}
+        />
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}
@@ -216,7 +213,7 @@ function ProjectCard({
           <Label className="text-xs text-muted-foreground uppercase tracking-wide">Project Type</Label>
           <Select
             items={[
-              { value: "IS_DRIVEN", label: "IS-Driven (linked to a proposed IS)" },
+              { value: "IS_DRIVEN", label: "IS-Driven — links to Part III-D systems" },
               { value: "STANDALONE", label: "Standalone (infrastructure only)" }
             ]}
             value={project.projectType}
@@ -224,10 +221,15 @@ function ProjectCard({
           >
             <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="IS_DRIVEN">IS-Driven (linked to a proposed IS)</SelectItem>
+              <SelectItem value="IS_DRIVEN">IS-Driven — links to Part III-D systems</SelectItem>
               <SelectItem value="STANDALONE">Standalone (infrastructure only)</SelectItem>
             </SelectContent>
           </Select>
+          {!project.projectType && (
+            <p className="text-xs text-muted-foreground">
+              Choose &ldquo;IS-Driven&rdquo; to link this project to proposed systems from Part III-D.
+            </p>
+          )}
         </div>
       </div>
 

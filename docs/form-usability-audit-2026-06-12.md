@@ -6,6 +6,13 @@
 
 Severity: 🔴 compliance / output correctness · 🟡 should fix · ⚪ polish
 
+> **Update 2026-06-12 (later):** Phase 2 (findings #11, #13, #14) fixed and verified — live
+> project-title resolution at export, CIO→focal mirror sync (form + export), two-tap
+> `ConfirmDeleteButton` on all container deletes (row-level deletes stay instant). Also folded
+> in from the sweep list: III-D "Has project" badge now derives from projects'
+> `linkedSystemIds` (dead `linkedProjectId` removed) and the III-E project-type option is
+> relabeled "IS-Driven — links to Part III-D systems" with an unset-state hint.
+>
 > **Update 2026-06-12:** Phase 1 (findings #1–#5) fixed and verified — template classification
 > taxonomy with v4 migration (incl. legacy demo freeform strings), shared `src/lib/issp-labels.ts`
 > label maps in the export route, users-as-text, "Others (specify)" input, II-A callout rewrite +

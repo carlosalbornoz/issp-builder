@@ -224,7 +224,6 @@ export interface ProposedSystem {
     processesPersonalInfo: boolean;
     piaRequired: boolean;
   };
-  linkedProjectId: string;
 }
 
 export interface IctProject {

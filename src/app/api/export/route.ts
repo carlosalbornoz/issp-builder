@@ -106,11 +106,15 @@ function mapKpiRow(row: KpiRow) {
   };
 }
 
-function mapPerformanceFramework(pf: PerformanceFramework): IsspData["part3"]["performanceFramework"] {
+function mapPerformanceFramework(
+  pf: PerformanceFramework,
+  titleById: Map<string, string>
+): IsspData["part3"]["performanceFramework"] {
   const result: IsspData["part3"]["performanceFramework"] = {};
   for (const [key, entry] of Object.entries(pf)) {
     result[key] = {
-      projectTitle: entry.projectTitle,
+      // Stored titles are a point-in-time copy; the live project title (by id) wins
+      projectTitle: titleById.get(key) ?? entry.projectTitle,
       projectType: entry.projectCategory,
       rows: entry.rows.map(mapKpiRow),
     };
@@ -141,6 +145,13 @@ function toRenderData(doc: IsspDocument): IsspData {
   const { agency, part1, part2, part3, part4 } = doc;
 
   const outcomeMap = Object.fromEntries(part1.orgOutcomes.map((o) => [o.id, o.name]));
+  const projectTitleById = new Map<string, string>(
+    [...part3.internalProjects, ...part3.crossAgencyProjects].map((p) => [p.id, p.title])
+  );
+  // "Concurrently held by CIO" — derive focal fields from CIO so they can't go stale
+  const focal = part1.focalSameAsCio
+    ? { name: part1.cioName, position: part1.cioPosition, unit: part1.cioUnit, email: part1.cioEmail, contact: part1.cioContact }
+    : { name: part1.focalName, position: part1.focalPosition, unit: part1.focalUnit, email: part1.focalEmail, contact: part1.focalContact };
 
   return {
     title: doc.title,
@@ -172,11 +183,11 @@ function toRenderData(doc: IsspDocument): IsspData {
       cioUnit: part1.cioUnit,
       cioEmail: part1.cioEmail,
       cioContact: part1.cioContact,
-      focalName: part1.focalName,
-      focalPosition: part1.focalPosition,
-      focalUnit: part1.focalUnit,
-      focalEmail: part1.focalEmail,
-      focalContact: part1.focalContact,
+      focalName: focal.name,
+      focalPosition: focal.position,
+      focalUnit: focal.unit,
+      focalEmail: focal.email,
+      focalContact: focal.contact,
       humanCapital: part1.humanCapital,
       stakeholders: part1.stakeholders,
     },
@@ -265,7 +276,7 @@ function toRenderData(doc: IsspDocument): IsspData {
       })),
       internalProjects: part3.internalProjects.map((p) => mapProject(p, false)),
       crossAgencyProjects: part3.crossAgencyProjects.map((p) => mapProject(p, true)),
-      performanceFramework: mapPerformanceFramework(part3.performanceFramework),
+      performanceFramework: mapPerformanceFramework(part3.performanceFramework, projectTitleById),
     },
 
     part4: {

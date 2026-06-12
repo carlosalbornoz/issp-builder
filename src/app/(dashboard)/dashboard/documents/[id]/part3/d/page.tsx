@@ -17,10 +17,10 @@ export default async function Part3DPage({ params }: { params: Promise<{ id: str
   return (
     <Part3DForm
       initialSystems={JSON.parse(doc.part3?.proposedSystems ?? "[]")}
-      existingProjectIds={[
-        ...JSON.parse(doc.part3?.internalProjects ?? "[]").map((p: { id: string }) => p.id),
-        ...JSON.parse(doc.part3?.crossAgencyProjects ?? "[]").map((p: { id: string }) => p.id),
-      ]}
+      linkedSystemIds={[
+        ...JSON.parse(doc.part3?.internalProjects ?? "[]"),
+        ...JSON.parse(doc.part3?.crossAgencyProjects ?? "[]"),
+      ].flatMap((p: { linkedSystemIds?: string[] }) => p.linkedSystemIds ?? [])}
     />
   );
 }
