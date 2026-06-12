@@ -194,6 +194,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [newDialogOpen, setNewDialogOpen] = useState(false);
+  const [moreOptionsOpen, setMoreOptionsOpen] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [sampleLoading, setSampleLoading] = useState(false);
   const [sampleIntroOpen, setSampleIntroOpen] = useState(false);
@@ -310,56 +311,109 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             </button>
           </div>
 
-          {/* Continue where you left off — surfaces work already in IndexedDB */}
-          {!storeLoading && doc && (
-            <div className="mb-3">
-              <ContinueCard doc={doc} onContinue={() => router.push("/editor")} onClear={clearDoc} />
-            </div>
-          )}
+          {/* With a detected session the splash leads with Continue only;
+              everything else collapses behind an explicit disclosure. */}
+          {(() => {
+            const hasSession = !storeLoading && !!doc;
 
-          {/* Action cards */}
-          <div className="grid gap-3">
-            <button type="button" onClick={() => setSampleIntroOpen(true)} disabled={sampleLoading}
-              className="group flex items-start gap-4 rounded-xl border border-primary/20 bg-primary/5 p-5 text-left transition-all hover:bg-primary/10 hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60 disabled:cursor-not-allowed">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/15 transition-colors">
-                {sampleLoading ? <Loader2 className="h-5 w-5 text-primary animate-spin" /> : <BookOpen className="h-5 w-5 text-primary" />}
-              </div>
-              <div>
-                <p className="font-semibold text-sm">{sampleLoading ? "Loading…" : "Explore a sample ISSP"}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">A fully filled-out sample ISSP from a fictitious agency. Good place to start.</p>
-              </div>
-            </button>
+            const startNewCard = (
+              <button type="button" onClick={() => setNewDialogOpen(true)}
+                className="group flex items-start gap-4 rounded-xl border bg-card p-5 text-left transition-all hover:bg-accent hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary group-hover:bg-muted transition-colors">
+                  <FilePlus2 className="h-5 w-5 text-muted-foreground" />
+                </div>
+                <div>
+                  <p className="font-semibold text-sm">Start New ISSP</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Begin a blank ISSP for your agency. You&apos;ll provide agency details and coverage period.</p>
+                </div>
+              </button>
+            );
 
-            <div className="flex items-center gap-3 py-1">
-              <div className="flex-1 h-px bg-border" />
-              <span className="text-[11px] text-muted-foreground">or if you&apos;re ready</span>
-              <div className="flex-1 h-px bg-border" />
-            </div>
+            const loadFileCard = (
+              <button type="button" onClick={() => fileInputRef.current?.click()}
+                className="group flex items-start gap-4 rounded-xl border bg-card p-5 text-left transition-all hover:bg-accent hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary group-hover:bg-muted transition-colors">
+                  <FolderOpen className="h-5 w-5 text-muted-foreground" />
+                </div>
+                <div>
+                  <p className="font-semibold text-sm">Load from File</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Continue editing an ISSP you previously saved as a <code className="text-xs bg-muted px-1 rounded">.issp</code> file.</p>
+                </div>
+              </button>
+            );
 
-            <button type="button" onClick={() => setNewDialogOpen(true)}
-              className="group flex items-start gap-4 rounded-xl border bg-card p-5 text-left transition-all hover:bg-accent hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary group-hover:bg-muted transition-colors">
-                <FilePlus2 className="h-5 w-5 text-muted-foreground" />
-              </div>
-              <div>
-                <p className="font-semibold text-sm">Start New ISSP</p>
-                <p className="text-xs text-muted-foreground mt-0.5">Begin a blank ISSP for your agency. You&apos;ll provide agency details and coverage period.</p>
-              </div>
-            </button>
+            if (!hasSession) {
+              return (
+                <div className="grid gap-3">
+                  {storeLoading ? null : (
+                    <>
+                      <button type="button" onClick={() => setSampleIntroOpen(true)} disabled={sampleLoading}
+                        className="group flex items-start gap-4 rounded-xl border border-primary/20 bg-primary/5 p-5 text-left transition-all hover:bg-primary/10 hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60 disabled:cursor-not-allowed">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/15 transition-colors">
+                          {sampleLoading ? <Loader2 className="h-5 w-5 text-primary animate-spin" /> : <BookOpen className="h-5 w-5 text-primary" />}
+                        </div>
+                        <div>
+                          <p className="font-semibold text-sm">{sampleLoading ? "Loading…" : "Explore a sample ISSP"}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5">A fully filled-out sample ISSP from a fictitious agency. Good place to start.</p>
+                        </div>
+                      </button>
 
-            <button type="button" onClick={() => fileInputRef.current?.click()}
-              className="group flex items-start gap-4 rounded-xl border bg-card p-5 text-left transition-all hover:bg-accent hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary group-hover:bg-muted transition-colors">
-                <FolderOpen className="h-5 w-5 text-muted-foreground" />
-              </div>
-              <div>
-                <p className="font-semibold text-sm">Load from File</p>
-                <p className="text-xs text-muted-foreground mt-0.5">Continue editing an ISSP you previously saved as a <code className="text-xs bg-muted px-1 rounded">.issp</code> file.</p>
-              </div>
-            </button>
+                      <div className="flex items-center gap-3 py-1">
+                        <div className="flex-1 h-px bg-border" />
+                        <span className="text-[11px] text-muted-foreground">or if you&apos;re ready</span>
+                        <div className="flex-1 h-px bg-border" />
+                      </div>
 
-            <input ref={fileInputRef} type="file" accept=".issp,application/json" className="hidden" onChange={handleFileChange} />
-          </div>
+                      {startNewCard}
+                      {loadFileCard}
+                    </>
+                  )}
+                </div>
+              );
+            }
+
+            return (
+              <div className="grid gap-3">
+                <ContinueCard doc={doc!} onContinue={() => router.push("/editor")} onClear={clearDoc} />
+
+                <button
+                  type="button"
+                  onClick={() => setMoreOptionsOpen((o) => !o)}
+                  className="flex items-center gap-3 py-1 text-left group"
+                  aria-expanded={moreOptionsOpen}
+                >
+                  <div className="flex-1 h-px bg-border" />
+                  <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground group-hover:text-foreground transition-colors">
+                    Other options — start new, load a file, or view the sample
+                    <ChevronDown className={`w-3 h-3 transition-transform ${moreOptionsOpen ? "rotate-180" : ""}`} />
+                  </span>
+                  <div className="flex-1 h-px bg-border" />
+                </button>
+
+                {moreOptionsOpen && (
+                  <>
+                    <p className="text-xs text-muted-foreground rounded-lg border border-warning-border bg-warning-bg px-3 py-2">
+                      These replace the ISSP currently stored in this browser — save it to a{" "}
+                      <code className="bg-muted px-1 rounded">.issp</code> file first if you want to keep it.
+                    </p>
+                    {startNewCard}
+                    {loadFileCard}
+                    <button
+                      type="button"
+                      onClick={() => setSampleIntroOpen(true)}
+                      disabled={sampleLoading}
+                      className="inline-flex items-center gap-1.5 self-start text-xs text-muted-foreground hover:text-foreground transition-colors disabled:opacity-60"
+                    >
+                      {sampleLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <BookOpen className="h-3.5 w-3.5" />}
+                      View the sample ISSP (NCWTR demo)
+                    </button>
+                  </>
+                )}
+              </div>
+            );
+          })()}
+
+          <input ref={fileInputRef} type="file" accept=".issp,application/json" className="hidden" onChange={handleFileChange} />
 
           {loadError && (
             <div className="mt-4 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">

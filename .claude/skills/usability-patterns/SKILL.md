@@ -109,6 +109,17 @@ typing, `1,234,567.89` on blur). An echo/preview is only acceptable when it show
 reformatting of what the user just typed. Applies beyond money: any control whose raw
 value is hard to read is the control's problem to solve.
 
+### 11. Lead with the situation, collapse the alternatives
+**Incident:** the first splash continue-card kept the full Explore/Start New/Load card stack
+at equal weight below it. Carlos: with a detected session, hide those behind a button/
+accordion, and demote "Explore a sample" (they're already using the tool) while keeping it
+reachable.
+**Rule:** when the app can detect the user's situation (a session exists, a step is done),
+lead with the one action that fits it; alternatives collapse behind an explicit disclosure
+("Other options…"). Demoted options stay reachable but shrink to text-link weight. If a
+collapsed alternative would destroy current state (start new / load over a session), the
+expanded group opens with a warning naming what gets replaced and how to keep it.
+
 ## Process expectations (how to work with these)
 
 - **Plan first:** findings → dated audit doc (severity tiers, file:line) → phased plan doc
