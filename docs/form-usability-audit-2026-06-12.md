@@ -13,6 +13,54 @@ Severity: 🔴 compliance / output correctness · 🟡 should fix · ⚪ polish
 > `linkedSystemIds` (dead `linkedProjectId` removed) and the III-E project-type option is
 > relabeled "IS-Driven — links to Part III-D systems" with an unset-state hint.
 >
+> **Update 2026-06-12 (Phase 3 + sweep):** Template-completeness fixes shipped for #6–#10 and
+> #12: III-D Description & Purpose, four-dimensional interoperability, mandatory cybersecurity
+> badges/counters, PIA Yes/No/Not set, EGP Not set default, and structured project duration
+> (single year or range constrained to the ISSP period). Additional sweep fixes shipped:
+> tel/url input modes, II-A critical business system as multiline text, I-A OO/SO/MFO as
+> multiline text, II-B/III-A network requirement prompts, II-D notes as multiline text,
+> Part III-B embedded-PDF copy, I-C complexity processing-time hints, Part IV office
+> suggestions/physical-target hint/unit-cost currency echo, and funding-source checkbox
+> matching in the PDF renderer.
+>
+> **Update 2026-06-12 (post-sweep review):** A second-pass review of the Phase 3 + sweep diff
+> found and fixed one bug: the proposed-IS STATUS row printed the raw enum (`FOR_DEVELOPMENT`)
+> in the PDF after the demo regeneration converted statuses to enum codes — fixed with
+> `PROPOSED_STATUS_LABELS` in `issp-labels.ts` mapped in the export route. Note the demo's
+> former "For Procurement" system (iHRPS) is now correctly `FOR_DEVELOPMENT` + COTS strategy,
+> matching the template's two-status vocabulary. Cleanups from the same review: `php()` peso
+> formatter consolidated into `src/lib/utils.ts` (was 3 identical client copies + a new 4th),
+> Part IV office `<datalist>` hoisted to a single constant-ID instance (the per-table IDs
+> duplicated across project sections), the PIA Yes/No segmented control extracted to shared
+> `PiaAnswerToggle` (`pia-answer-toggle.tsx`, was copy-pasted in II-C and III-D), and project
+> duration ranges now format with an en-dash to match the template and existing data.
+>
+> **Update 2026-06-12 (Carlos feedback — Total Project Cost is derived, schema v6):**
+> III-E Total Project Cost is no longer a user input — it duplicated the sum of the project's
+> Part IV resource requirements (the demo had already drifted: stored ₱24.5M vs actual
+> ₱20.875M for SIKAP). `IctProject.totalProjectCost` removed from the schema (v6 migration
+> strips stale copies); the form shows a read-only auto-calculated value with an ⓘ tooltip
+> ("Auto-calculated from this project's resource requirements in Part IV"); the E.1/E.2
+> "Total Est. Cost" stat and the "Must match sum of yearly costs in Part IV" copy are removed;
+> the PDF export computes the value via `computeProjectCosts` (part4-aggregations). This
+> resolves finding #15(b) by construction — there is nothing left to cross-check.
+>
+> **Update 2026-06-12 (Carlos feedback — peso inputs):** The "= ₱…" echo lines under cost
+> inputs were rejected: the field itself must auto-format (usability-patterns principle 10,
+> "Format in the field, not beside it"). `NumberInput` now has a `currency` prop — live comma
+> grouping while typing with caret preservation, max 2 decimals, `1,234,567.89` on blur —
+> applied to III-E Total Project Cost and Part IV Unit Cost (drawer + table cell); echo lines
+> removed. Verified in-browser: load formatting, mid-string edits, blur padding, store commit.
+>
+> **Update 2026-06-12 (verification sweep addendum):** EGP "Not set" is no longer a selectable
+> status chip; unanswered cards are highlighted as "Needs answer." Part III-E Total Project Cost
+> now shows a formatted PHP echo below the numeric input. A follow-up validation phase is needed:
+> a shared `validateIsspDocument(doc)` / `validateSection(doc, sectionId)` rule engine should feed
+> both `SectionShell` ("Mark as done" disabled with issue list until minimum DICT fields are
+> satisfied) and `EditorSidebar` PDF export. Export should block by default when minimum standards
+> fail, with an explicit "Export anyway" bypass that sends `incompleteOverride: true` to the
+> export route and prints a visible incomplete/draft watermark in the PDF.
+>
 > **Update 2026-06-12:** Phase 1 (findings #1–#5) fixed and verified — template classification
 > taxonomy with v4 migration (incl. legacy demo freeform strings), shared `src/lib/issp-labels.ts`
 > label maps in the export route, users-as-text, "Others (specify)" input, II-A callout rewrite +
@@ -241,6 +289,9 @@ Part IV sum for that project with a match/mismatch indicator.
 - Fund Source options match the template in both III-E and Part IV.
 - Part IV CO/MOOE split, four strategic categories, and auto-computed totals follow the template; continuing costs correctly MOOE-only.
 - PNPKI adoption % is properly clamped 0–100.
+- PNPKI gets the standard utilizing/proposed/not-utilizing status chips even though the
+  template (v1 and v2) asks only for adoption % on that row — **deliberate deviation, Carlos
+  confirmed keep 2026-06-12** (richer info, harmless in review). Do not re-flag.
 - Part I-B human capital matrix mirrors the template table (status × IT/non-IT × sex) with auto totals.
 - UACS combobox + explorer link is stronger than what the template asks for.
 - Definition of Terms: alphabetical-print note is communicated; standard terms restorable.
@@ -298,6 +349,128 @@ can explicitly select a proposed IS to be added to a project"):**
   clears even after a project links the system. Fix direction: derive `isLinked` from
   projects' `linkedSystemIds` (passed into the form) and delete the dead field — or add a
   project picker on the system card and keep the two sides in sync by id.
+
+## Input-type alignment sweep vs Template v2 (2026-06-12)
+
+Method: full pass of `references/ISSP Template 2026_v2.pdf` (all 40 pages, section by
+section) against every editor form and the PDF renderer, checking field presence, control
+type, and option vocabulary. Findings below are NEW (not duplicates of #1–#15).
+
+> **Status: ALL FIXED same day (S1–S10), verified via PDF export + browser.** EGP If-No
+> follow-ups are additive-optional schema fields (`EgpIfNo`, `EgpPortalMechanisms`,
+> `connectedToPortal`, `equivalentUrl` — no version bump needed); frontline access mode
+> maps via `FRONTLINE_ACCESS_LABELS`; employment status via `EMPLOYMENT_STATUS_LABELS`;
+> `PiaAnswerToggle` renamed to the generic `YesNoToggle` (reused for the portal-connection
+> question); legacy `channels` free text retained read-only in the PDF for old files.
+> Demo file enriched with If-No / mechanisms data.
+
+### 🔴 S1. EGP item 9 is a different question in the editor than in the template
+
+**File:** `part2-d-form.tsx:142-146` · renderer `render-issp-html.ts:770` (correct)
+
+Template item 9: **"PUBLIC SERVICE CONTINUITY PLAN — Is there an existing Public Service
+Continuity Plan in your agency?"** The editor labels it "Philippine Standard Chart of
+Accounts (PSCP) / Accounting System" with an accounting description. Users answer about an
+accounting system; the PDF prints their answer under PUBLIC SERVICE CONTINUITY PLAN.
+**Fix:** relabel + new description; template has no follow-ups here (Yes/No only) — drop
+`showEquivalent`.
+
+### 🔴 S2. EGP "If No" follow-ups cannot be answered
+
+**Files:** `part2-d-form.tsx:164` (`showDetails = isUtilizing || isProposed`) ·
+`render-issp-html.ts:783` (same gate)
+
+Template items 1 (eLGU), 4 (HCMIS), 5 (IFMIS), 7 (Procurement) require, **when the answer
+is No**: ☐ Using equivalent system (IS name + url for eLGU) / ☐ Manual transaction-or-
+processing / ☐ Proposed development of equivalent system. eGovPay's No-branch adds "Using
+other digital or electronic payment platform". Our editor hides all detail fields unless
+status is utilizing/proposed, and the PDF prints no details for not_utilizing — so the
+template's No-branch data is structurally impossible to capture or print.
+**Fix:** when status = Not Utilizing, show the program's "If No" options (checkbox set per
+template + equivalent IS name/url); print them in the PDF details column.
+
+### 🔴 S3. Frontline access-mode checkboxes never check in the PDF
+
+**File:** `render-issp-html.ts:717` · confirmed in live export: "☐ Online ☐ On-premise ☐ Hybrid"
+all empty while URL prints
+
+Template (II-C and III-D): Frontline Service → "Identify if: ☐ Online (provide link) /
+☐ On-premise / ☐ Hybrid". The renderer compares `deploymentType` against those literals,
+but the export route sends `DEPLOYMENT_LABELS` values ("Cloud-Hosted", "On-Premise" —
+capital P, "Hosted (3rd Party)"), so Online never matches and On-premise fails on case.
+**Fix:** map deployment → template access-mode at export (CLOUD/HOSTED → Online,
+ON_PREMISE → On-premise, HYBRID → Hybrid). Editor vocabulary (4 deployment options) is a
+reasonable superset; no form change required.
+
+### 🔴 S4. Part III-C employment status prints raw enum codes
+
+**Files:** `render-issp-html.ts:959` (`esc(r.employmentStatus)`) · route passes code through
+(`route.ts:251`) · confirmed: "PLANTILLA" ×5 in live export
+
+Same class as finding #2/STATUS leak. **Fix:** label map (Plantilla / Contractual /
+Outsourced (JO, COS, and HTC)) in `issp-labels.ts`, applied in the route.
+
+### 🟡 S5. Employment-status labels group Job Order under the wrong bucket
+
+**Files:** `part1-b-form.tsx:145` ("Contractual / Job Order") · `part3-c-form.tsx:27` (same)
+
+Template taxonomy: **Plantilla / Contractual / Outsourced (JO, COS, and HTC)** — Job Order
+belongs under *Outsourced*. The editor's "Contractual / Job Order" coaches users to count
+JO staff in the wrong row; the PDF matrix labels are already correct
+(`render-issp-html.ts:625-627`), making editor and output disagree.
+**Fix:** editor labels → "Contractual" and "Outsourced (JO, COS, and HTC)".
+
+### 🟡 S6. Online Public Service Portal (EGP 6) asks different questions than the template
+
+**File:** `part2-d-form.tsx:119-126` (free-text `channels`, url, equivalent)
+
+Template item 6 asks: (a) which consumer protection / citizen assistance, feedback and
+grievance mechanisms exist — **☐ Website ☐ Email ☐ Landline ☐ Social Media ☐ Mobile**
+(multi-select); (b) "Are these mechanisms already connected with online public service
+portals?" **Yes/No**. Our card asks utilizing-status + free-text channels.
+**Fix:** replace `channels` free text with the 5 fixed checkboxes + a connected-to-portal
+Yes/No; map both into the PDF details cell.
+
+### 🟡 S7. PNPKI adoption % only prints when status is utilizing/proposed
+
+**File:** `render-issp-html.ts:783`
+
+The template asks adoption % unconditionally (no status question on that row — kept as
+deliberate deviation per the Not-issues entry). If the user picks Not Utilizing, the %
+they entered silently drops from the PDF. **Fix:** always print adoption % for pnpki.
+
+### 🟡 S8. Records & Knowledge Management (EGP 8) label drift
+
+**File:** `part2-d-form.tsx:136`
+
+Template: "RECORDS AND KNOWLEDGE MANAGEMENT INFORMATION SYSTEM — Is there an existing
+repository for Records and Knowledge Management?" (If Yes → indicate the system). Ours:
+"Electronic Records Management System". **Fix:** relabel; the If-Yes "indicate system"
+maps to the existing equivalent-name field shown on Yes.
+
+### ⚪ S9. Part IV editor column order vs template
+
+Editor table mode: Qty before Unit Cost (`part4-year-form.tsx:406-407`); template order is
+Unit Cost → Physical Target, and calls it "Physical Target" (drawer already does). PDF
+column order already matches the template. Cosmetic alignment only.
+
+### ⚪ S10. III-F renderer matches projects by title before id
+
+**File:** `render-issp-html.ts:995` — `perfEntries.find(e => e.projectTitle === proj.title)`
+with id fallback. Works (id fallback catches renames) but title-first inverts principle 8;
+make id the primary key when touching this file.
+
+### Verified aligned (no action)
+
+Cover scope options; I-A mandate (Legal Basis + Function), vision, mission, OO/programs;
+I-B CIO/Focal field sets; I-B HC matrix structure (status × IT/non-IT × sex + totals);
+I-C stakeholder columns; II-A four columns; II-B/III-A cyber checklists incl.
+mandatory/optional split; II-C & III-D full field sets (incl. 4-dim interoperability,
+PIA Yes/No, Description & Purpose, Status); III-C columns; III-E/E.2 complete row sets,
+funding options, lead/implementing agency; III-F hierarchy (3 template values), KPI,
+baseline, targets, data collection methods, responsibility; Part IV PDF columns,
+categories, continuing-costs-as-MOOE; B.1–B.4 summary tables; PDF project card prints no
+extra rows beyond the template.
 
 ## Suggested plan (for discussion)
 

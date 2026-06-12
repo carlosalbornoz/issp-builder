@@ -82,15 +82,32 @@ visible without touching a control.
 
 ### 8. Derived/copied data may never go stale
 **Incidents:** stored project-title copies printing old names in the PDF; CIO→focal
-one-time copy diverging from the live CIO fields.
+one-time copy diverging from the live CIO fields; III-E "Total Project Cost" was a
+user-typed input duplicating the sum of the project's Part IV resource requirements —
+the demo file had already drifted (stored ₱24.5M vs actual ₱20.875M) and the "must match
+Part IV" copy asked the user to do the reconciliation by hand.
 **Rule:** Store ids, resolve display values live at render/export. If a mirror flag
 exists ("same as CIO"), keep the mirror in sync on every write *and* derive at export as
-a backstop.
+a backstop. Stronger form: **if the app can compute a value from data it already holds,
+never ask the user to type it** — show the derived value read-only with an ⓘ naming the
+source section ("Auto-calculated from this project's resource requirements in Part IV"),
+and drop the stored field from the schema so it cannot drift.
 
 ### 9. Compact UI, honest affordances
 **Standing preferences:** desktop stays dense (standard Tailwind p-2/p-3; touch sizes only
 under `pointer: coarse`); left-aligned nav; no decorative controls — a drag handle that
 doesn't drag is a lie, remove it.
+
+### 10. Format in the field, not beside it
+**Incident:** large peso inputs (III-E Total Project Cost, Part IV Unit Cost) got a
+"= ₱150,000,000.00" echo line *below* the raw input instead of the input itself being
+readable. Carlos: the field should just auto-apply commas/decimals as you type.
+**Rule:** Don't bolt a formatted mirror next to an unreadable control — make the control
+itself present the value correctly (`NumberInput currency` prop: live digit grouping while
+typing, `1,234,567.89` on blur). An echo/preview is only acceptable when it shows a
+*different* piece of information (a computed total, a cross-section comparison), never a
+reformatting of what the user just typed. Applies beyond money: any control whose raw
+value is hard to read is the control's problem to solve.
 
 ## Process expectations (how to work with these)
 
