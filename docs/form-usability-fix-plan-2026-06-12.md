@@ -181,6 +181,72 @@ One commit, mechanical:
 
 ---
 
+## Phase 5 — III-D/E interaction redesign (user-reported 2026-06-12)
+
+### 5.1 Add-via-modal instead of silent append
+
+"Add Project" / "Add System" currently appends a new card **below** existing ones — off-screen
+on long lists, so the user doesn't know anything was added ("hindi alam na may na-add na pala
+sa ibaba"). Replace with a create modal/drawer: clicking Add opens a focused dialog for the
+new item's core fields; on save, the new card is revealed (scroll-to + brief highlight).
+
+**The exemplar already in the codebase:** Part IV's "Add Line" button opens the LineItemDrawer
+— add happens *in* a focused surface, never silently below. Reuse that pattern.
+
+**Flag similar items (silent append-below) — sweep these when implementing:**
+| Location | Current behavior |
+|---|---|
+| III-E "Add Project" | appends expanded card at list bottom |
+| III-D "Add System" | appends card at list bottom |
+| II-C "Add System" | appends collapsed card at bottom |
+| II-A "Add Concern" | appends card at bottom |
+| I-A "Add OO" | appends + auto-expands (slightly better, still below fold) |
+| I-C "Add Stakeholder" (table/cards) | appends row/card (summary view already uses the drawer ✓) |
+| III-C "Add Position" | appends table row |
+| Definitions "Add term" | appends card at bottom |
+
+Minimum bar where a full modal is overkill (small rows): scroll the new item into view and
+focus its first input.
+
+### 5.2 Read-only accordion view + explicit edit mode (III-E, likely III-D/II-C too)
+
+On page open, **all project accordions start collapsed**. Opening an accordion shows a
+**read-only presentation** — laid out for scanning (definition-list style: label/value rows,
+checked-only checklists, formatted cost), not a wall of disabled inputs. An explicit
+**Edit** button switches to the editing surface (inline expansion or drawer). Rationale:
+free-editing inside always-open accordions makes accidental edits easy and reading hard.
+
+### 5.3 Cross-link awareness when linking an IS
+
+In the project edit view, when the user toggles a proposed-IS pill that is **already linked
+to another project**, surface a verbose inline warning before applying, e.g.:
+
+> "**Unified Queue Monitoring Platform** is already linked to **Project SIKAP**. An IS can
+> legitimately be delivered by more than one project, but double-linking is usually a
+> mistake — budget and KPIs may be double-counted. Link it to this project as well?"
+> [Link anyway] [Cancel]
+
+Same indicator in III-D: the "Has project" badge should name the project(s), not just say
+"Has project".
+
+## Phase 6 — Splash continuity / IndexedDB management (user-reported 2026-06-12)
+
+Today the home splash gives no sign that IndexedDB holds work in progress, and no way to
+manage it. When a document exists in IDB, the splash should lead with a **"Continue where
+you left off"** card:
+
+- Metadata of the in-progress document: title, agency acronym, coverage period, last edited
+  (relative time), completion (n of 19 sections done) — same data the editor overview shows.
+- Primary action: **Continue editing** → `/editor`.
+- Secondary action: **Start fresh / clear browser data** — with the same two-step confirm
+  used by the editor sidebar's Clear, and copy that explains this only clears *this
+  browser's* copy, not any saved `.issp` files.
+- The existing three cards (sample / new / load) remain below.
+
+Files: `src/components/home/home-page-client.tsx` (splash), reuse `useIsspStore` doc +
+`clearDoc`; the store provider already wraps the home page (verify — if not, read IDB
+directly with a light loader).
+
 ## Sequencing & logistics
 
 - One commit per phase; What's New entry after all four ship.
