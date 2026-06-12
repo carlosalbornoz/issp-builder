@@ -291,13 +291,9 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           </div>
           <h1 className="font-display text-3xl font-bold tracking-tight">ISSP Builder</h1>
           <p className="text-sm text-muted-foreground">Build your agency&apos;s 3-year Information Systems Strategic Plan</p>
-        </div>
 
-        {/* Action area — centered in the space between branding and chip */}
-        <div className="w-full max-w-md mx-auto px-6 py-10 my-auto">
-
-          {/* What's New pill — gradient border technique: no extra elements, no overflow */}
-          <div className="flex justify-center mb-7">
+          {/* What's New pill — part of the brand cluster, not the action menu */}
+          <div className="flex justify-center pt-4">
             <button
               onClick={openWhatsNew}
               className="animate-glow-orbit inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
@@ -306,6 +302,10 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               What&apos;s new — June 11–12, 2026
             </button>
           </div>
+        </div>
+
+        {/* Action area — centered in the space between branding and chip */}
+        <div className="w-full max-w-md mx-auto px-6 py-10 my-auto">
 
           {/* With a detected session the splash leads with Continue only;
               everything else collapses behind an explicit disclosure. */}
