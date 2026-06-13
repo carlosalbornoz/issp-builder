@@ -142,7 +142,36 @@ loading state ("Opening the editor…") until the route changes. Never let the o
 re-render into its post-mutation branch mid-navigation. The flag is one-way: it only clears
 by unmounting on the route change.
 
+### 13. Overlays own the top layer — and these behaviors are defaults, not requests
+**Incidents (all Carlos, 2026-06-13, in one sidebar/theme-picker pass):** the theme trigger
+stayed 28px while its neighbor Save/PDF buttons grew to 40px on touch (it missed the
+`coarse:` size); selecting a theme closed the sidebar but left the menu floating in its
+portal; then the first outside tap that dismissed the menu also fell through and could
+activate the sidebar control beneath it. Each was a separate round-trip.
+**Rules — apply without being asked whenever you add a menu/popover/sheet/drawer:**
+- **Touch-target & size parity:** a control sitting in a row of controls matches their box —
+  including responsive/touch sizes. If neighbors are `Button size="sm"` (`h-7 coarse:h-10`),
+  a sibling icon-trigger is `h-7 w-7 coarse:h-10 coarse:w-10`, not a bare `h-7 w-7`.
+- **Outside taps dismiss the top layer only, and never pass through.** An open overlay
+  captures the first outside tap: it closes *that overlay* and is consumed — the control
+  beneath is not activated. Closing nested layers is one tap each (tap once → menu closes,
+  sidebar stays; tap again → sidebar closes). Use a modal backdrop (e.g. Base UI
+  `Menu.Backdrop`) stacked above the surface behind it and below the popup.
+- **Match dismissal to purpose.** A picker meant for live try-on (themes) stays open on
+  select so options can be compared; it does *not* close the host sheet on select. A menu of
+  one-shot actions closes on select. Decide which this is before wiring it.
+- **Nothing the overlay paints may linger once it's closed** — see principle 12's sibling
+  case: the mobile scrim was an always-mounted `fixed inset-0` opacity toggle that left a
+  tint in the dynamic-viewport edges; mount overlays/scrims only while open.
+
 ## Process expectations (how to work with these)
+
+- **Ask once, up front, when a behavior is genuinely ambiguous — don't ship one reading and
+  iterate.** Carlos (2026-06-13): repeated corrections on overlay behavior were "burning
+  through tokens going back and forth … ask if you want to clarify instead of executing
+  immediately." If a feature has more than one reasonable behavior (dismissal order, does a
+  menu stay open, layering/z-order, which control owns a tap), pose a single concise
+  question before building. Reserve this for real forks — defaults above resolve most of it.
 
 - **Plan first:** findings → dated audit doc (severity tiers, file:line) → phased plan doc
   → explicit approval → one commit per phase, verified per the verify-feature skill.
