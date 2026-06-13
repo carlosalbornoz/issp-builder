@@ -729,7 +729,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                           {sIdx + 1}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">
+                          <p className="text-sm font-medium line-clamp-2 break-words">
                             {s.name || (
                               <span className="italic text-muted-foreground/60">
                                 Unnamed stakeholder

@@ -348,7 +348,7 @@ function LineTable({
                   onClick={() => openEdit(idx)}
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">
+                    <p className="text-sm font-medium line-clamp-2 break-words">
                       {line.item || (
                         <span className="text-muted-foreground/60 italic">Unnamed item</span>
                       )}

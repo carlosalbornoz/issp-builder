@@ -310,7 +310,7 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
                       <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground w-8 shrink-0">
                         {ooShort} {idx + 1}
                       </span>
-                      <span className="text-sm font-medium truncate">
+                      <span className="min-w-0 flex-1 text-sm font-medium line-clamp-2 break-words">
                         {oo.name || (
                           <span className="text-muted-foreground italic">Untitled</span>
                         )}
