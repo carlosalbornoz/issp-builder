@@ -6,17 +6,64 @@ import { CompletionBar } from "@/components/ui/completion-bar";
 import { Menu } from "lucide-react";
 import { useEditorMobileSidebar } from "@/components/editor/editor-mobile-sidebar-context";
 
-// Greetings from across the archipelago — typed out and cycled (see useTypewriter).
-const GREETINGS = [
-  "Hello there!",
-  "Mabuhay, fellow public servant!",
-  "Magandang araw!", // Tagalog
-  "Maayong buntag!", // Cebuano
-  "Naimbag nga aldaw!", // Ilocano
-  "Maupay nga adlaw!", // Waray
-  "Marhay na aldaw!", // Bikol
-  "Mayap a aldo!", // Kapampangan
-];
+// Greetings from across the archipelago, keyed to the time of day. Typed out and cycled
+// (see useTypewriter). Order per bucket: Tagalog, Cebuano, Ilocano, Hiligaynon, Bicol,
+// Waray, Kapampangan, Pangasinan, Chavacano, Kinaray-a, Ibatan, Tausug, Ibanag.
+type Bucket = "morning" | "afternoon" | "evening";
+
+const GREETINGS_BY_BUCKET: Record<Bucket, string[]> = {
+  morning: [
+    "Magandang umaga!",
+    "Maayong buntag!",
+    "Naimbag a bigat!",
+    "Maayo nga aga!",
+    "Marhay na aga!",
+    "Maupay nga aga!",
+    "Mayap a abak!",
+    "Masantos ya kabwasan!",
+    "Buenas dias!",
+    "Mayad nga aga!",
+    "Mayad nga agahon!",
+    "Marayaw maynaat!",
+    "Mapia nga umma nikau!",
+  ],
+  afternoon: [
+    "Magandang hapon!",
+    "Maayong hapon!",
+    "Naimbag a malem!",
+    "Maayo nga hapon!",
+    "Marhay na hapon!",
+    "Maupay nga kulop!",
+    "Mayap a gatpanapun!",
+    "Masantos ya ngarem!",
+    "Buenas tardes!",
+    "Mayad nga hapun!",
+    "Mayad nga hapon!",
+    "Marayaw mahapun!",
+    "Makasta nga aggaw!",
+  ],
+  evening: [
+    "Magandang gabi!",
+    "Maayong gabii!",
+    "Naimbag a rabii!",
+    "Maayo nga gab-i!",
+    "Marhay na banggi!",
+    "Maupay nga gab-i!",
+    "Mayap a bengi!",
+    "Masantos ya labi!",
+    "Buenas noches!",
+    "Mayad nga gabi-i!",
+    "Mayad nga gabi-i!",
+    "Marayaw dum!",
+    "Mapia nga gabi nikau!",
+  ],
+};
+
+function bucketForHour(hour: number): Bucket {
+  if (hour >= 5 && hour < 12) return "morning"; // dawn → just before noon
+  if (hour >= 12 && hour < 18) return "afternoon"; // late noon → dusk
+  return "evening"; // sunset → late night
+}
 
 const TYPE_MS = 95;
 const DELETE_MS = 45;
@@ -68,9 +115,17 @@ function usePrefersReducedMotion() {
   );
 }
 
-function GreetingTyper({ srLabel }: { srLabel: string }) {
+function useGreetingBucket(): Bucket {
+  return useSyncExternalStore(
+    () => () => {},
+    () => bucketForHour(new Date().getHours()),
+    () => "morning", // server default; resolves to the user's local time on mount
+  );
+}
+
+function GreetingTyper({ words, srLabel }: { words: string[]; srLabel: string }) {
   const animate = !usePrefersReducedMotion();
-  const display = useTypewriter(GREETINGS, animate);
+  const display = useTypewriter(words, animate);
 
   return (
     <h1 className="min-w-0 font-display text-3xl font-medium tracking-tight leading-tight min-h-[1.2em]">
@@ -96,6 +151,7 @@ export function OverviewHeader({
   totalCount: number;
 }) {
   const mobileSidebar = useEditorMobileSidebar();
+  const bucket = useGreetingBucket();
   const agencyName = doc.agency.name || doc.agency.acronym || "Your agency";
   const planLabel = `${agencyName}'s Information Systems Strategic Plan for ${doc.startYear}–${doc.endYear}`;
 
@@ -111,7 +167,7 @@ export function OverviewHeader({
           <Menu className="h-4 w-4" />
         </button>
         <div className="min-w-0 space-y-1">
-          <GreetingTyper srLabel={planLabel} />
+          <GreetingTyper key={bucket} words={GREETINGS_BY_BUCKET[bucket]} srLabel={planLabel} />
           <p className="text-sm text-muted-foreground">
             You&apos;re currently working on:{" "}
             <span className="font-medium text-foreground">{planLabel}.</span>
