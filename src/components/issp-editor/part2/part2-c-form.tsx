@@ -237,53 +237,53 @@ function ISCard({
         </button>
       </div>
 
-      {/* Always-visible quick fields */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4 border-b">
-        <FormField label="System Name" className="sm:col-span-2">
-          <Input
-            placeholder="e.g., Human Resource Information System"
-            value={sys.name}
-            onChange={(e) => onUpdate("name", e.target.value)}
-          />
-        </FormField>
-        <FormField label="Classification">
-          <Select
-            items={CLASSIFICATION_OPTIONS}
-            value={sys.classification}
-            onValueChange={(v: string | null) => v && onUpdate("classification", v)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select…" />
-            </SelectTrigger>
-            <SelectContent>
-              {CLASSIFICATION_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </FormField>
-        {sys.classification === "OPERATIONS" && (
-          <FormField label="Operations Type">
-            <div className="flex items-center gap-2 h-8">
-              <Checkbox
-                id={`frontline-${sys.id}`}
-                checked={sys.frontline}
-                onCheckedChange={(v) => onUpdate("frontline", v === true)}
-              />
-              <label htmlFor={`frontline-${sys.id}`} className="text-sm cursor-pointer">
-                Frontline service <span className="text-muted-foreground">(unchecked = non-frontline)</span>
-              </label>
-            </div>
-          </FormField>
-        )}
-      </div>
-
       {/* Read view (principle 2: read and edit are different modes) */}
       {expanded && !editing && <ISReadView sys={sys} onEdit={() => setEditing(true)} />}
 
       {/* Expanded details (edit mode) */}
       {expanded && editing && (
         <div className="p-4 space-y-6">
+          {/* Identity — name & classification live here, not duplicated in the header row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <FormField label="System Name" className="sm:col-span-2">
+              <Input
+                placeholder="e.g., Human Resource Information System"
+                value={sys.name}
+                onChange={(e) => onUpdate("name", e.target.value)}
+              />
+            </FormField>
+            <FormField label="Classification">
+              <Select
+                items={CLASSIFICATION_OPTIONS}
+                value={sys.classification}
+                onValueChange={(v: string | null) => v && onUpdate("classification", v)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select…" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CLASSIFICATION_OPTIONS.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormField>
+            {sys.classification === "OPERATIONS" && (
+              <FormField label="Operations Type">
+                <div className="flex items-center gap-2 h-8">
+                  <Checkbox
+                    id={`frontline-${sys.id}`}
+                    checked={sys.frontline}
+                    onCheckedChange={(v) => onUpdate("frontline", v === true)}
+                  />
+                  <label htmlFor={`frontline-${sys.id}`} className="text-sm cursor-pointer">
+                    Frontline service <span className="text-muted-foreground">(unchecked = non-frontline)</span>
+                  </label>
+                </div>
+              </FormField>
+            )}
+          </div>
+
           {/* Basic Info */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">

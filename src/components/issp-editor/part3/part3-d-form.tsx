@@ -217,50 +217,50 @@ function SystemCard({
         </button>
       </div>
 
-      {/* Quick row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4 border-b">
-        <div className="space-y-1.5 sm:col-span-2">
-          <Label className="text-xs text-muted-foreground uppercase tracking-wide">System Name</Label>
-          <Input
-            placeholder="e.g., Citizen Feedback Portal"
-            value={sys.name}
-            onChange={(e) => onUpdate("name", e.target.value)}
-          />
-        </div>
-        <div className="space-y-1.5">
-          <Label className="text-xs text-muted-foreground uppercase tracking-wide">Status</Label>
-          <Select items={STATUS_OPTIONS} value={sys.status} onValueChange={(v: string | null) => v && onUpdate("status", v)}>
-            <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
-            <SelectContent>
-              {STATUS_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="space-y-1.5">
-          <Label className="text-xs text-muted-foreground uppercase tracking-wide">Classification</Label>
-          <Select
-            items={CLASSIFICATION_OPTIONS}
-            value={sys.classification}
-            onValueChange={(v: string | null) => v && onUpdate("classification", v)}
-          >
-            <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
-            <SelectContent>
-              {CLASSIFICATION_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
       {/* Read view (principle 2: read and edit are different modes) */}
       {expanded && !editing && <SystemReadView sys={sys} onEdit={() => setEditing(true)} />}
 
       {/* Expanded details (edit mode) */}
       {expanded && editing && (
         <div className="p-4 space-y-6">
+          {/* Identity — name, status & classification live here, not duplicated in the header row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label className="text-xs text-muted-foreground uppercase tracking-wide">System Name</Label>
+              <Input
+                placeholder="e.g., Citizen Feedback Portal"
+                value={sys.name}
+                onChange={(e) => onUpdate("name", e.target.value)}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Status</Label>
+              <Select items={STATUS_OPTIONS} value={sys.status} onValueChange={(v: string | null) => v && onUpdate("status", v)}>
+                <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
+                <SelectContent>
+                  {STATUS_OPTIONS.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Classification</Label>
+              <Select
+                items={CLASSIFICATION_OPTIONS}
+                value={sys.classification}
+                onValueChange={(v: string | null) => v && onUpdate("classification", v)}
+              >
+                <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
+                <SelectContent>
+                  {CLASSIFICATION_OPTIONS.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground uppercase tracking-wide">Description & Purpose</Label>
             <Textarea

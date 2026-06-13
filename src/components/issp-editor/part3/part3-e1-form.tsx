@@ -364,40 +364,6 @@ function ProjectCard({
         </button>
       </div>
 
-      {/* Quick summary row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 border-b">
-        <div className="space-y-1.5 sm:col-span-2">
-          <Label className="text-xs text-muted-foreground uppercase tracking-wide">Project Title</Label>
-          <Input
-            placeholder="e.g., Citizen Feedback Portal Development"
-            value={project.title}
-            onChange={(e) => onUpdate("title", e.target.value)}
-          />
-        </div>
-        <div className="space-y-1.5">
-          <Label className="text-xs text-muted-foreground uppercase tracking-wide">Project Type</Label>
-          <Select
-            items={[
-              { value: "IS_DRIVEN", label: "IS-Driven — links to Part III-D systems" },
-              { value: "STANDALONE", label: "Standalone (infrastructure only)" }
-            ]}
-            value={project.projectType}
-            onValueChange={(v: string | null) => v && onUpdate("projectType", v)}
-          >
-            <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="IS_DRIVEN">IS-Driven — links to Part III-D systems</SelectItem>
-              <SelectItem value="STANDALONE">Standalone (infrastructure only)</SelectItem>
-            </SelectContent>
-          </Select>
-          {!project.projectType && (
-            <p className="text-xs text-muted-foreground">
-              Choose &ldquo;IS-Driven&rdquo; to link this project to proposed systems from Part III-D.
-            </p>
-          )}
-        </div>
-      </div>
-
       {/* Read view (principle 2: read and edit are different modes) */}
       {expanded && !editing && (
         <ProjectReadView
@@ -412,6 +378,40 @@ function ProjectCard({
       {/* Full details (edit mode) */}
       {expanded && editing && (
         <div className="p-4 space-y-6">
+          {/* Identity — title & type live here, not duplicated in the header row */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Project Title</Label>
+              <Input
+                placeholder="e.g., Citizen Feedback Portal Development"
+                value={project.title}
+                onChange={(e) => onUpdate("title", e.target.value)}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Project Type</Label>
+              <Select
+                items={[
+                  { value: "IS_DRIVEN", label: "IS-Driven — links to Part III-D systems" },
+                  { value: "STANDALONE", label: "Standalone (infrastructure only)" }
+                ]}
+                value={project.projectType}
+                onValueChange={(v: string | null) => v && onUpdate("projectType", v)}
+              >
+                <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="IS_DRIVEN">IS-Driven — links to Part III-D systems</SelectItem>
+                  <SelectItem value="STANDALONE">Standalone (infrastructure only)</SelectItem>
+                </SelectContent>
+              </Select>
+              {!project.projectType && (
+                <p className="text-xs text-muted-foreground">
+                  Choose &ldquo;IS-Driven&rdquo; to link this project to proposed systems from Part III-D.
+                </p>
+              )}
+            </div>
+          </div>
+
           {/* Description + objectives */}
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
