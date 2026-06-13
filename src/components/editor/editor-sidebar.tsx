@@ -463,15 +463,14 @@ export function EditorSidebar({
     <>
       {/* ── Mobile: glass popup ───────────────────────────────────────────── */}
 
-      {/* Backdrop */}
-      <div
-        aria-hidden="true"
-        className={cn(
-          "fixed inset-0 z-40 bg-black/60 transition-opacity duration-200 md:hidden",
-          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        )}
-        onClick={onMobileClose}
-      />
+      {/* Backdrop — rendered only while open so it leaves nothing behind on close */}
+      {mobileOpen && (
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 z-40 bg-black/60 animate-overlay-fade-in md:hidden"
+          onClick={onMobileClose}
+        />
+      )}
 
       {/* Glass panel */}
       <div
