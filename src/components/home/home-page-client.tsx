@@ -686,6 +686,18 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               </p>
             </div>
 
+            {/* Mobile sidebar + theme polish */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Sidebar &amp; Theme Polish</p>
+              <p>
+                On phones, the sidebar overlay now <span className="text-foreground font-medium">closes cleanly</span> with no
+                leftover shading at the screen edges. The theme button matches the Save/PDF buttons beside it, and the theme
+                menu <span className="text-foreground font-medium">stays open so you can preview each look live</span> — a tap
+                outside dismisses the menu, and sidebar items can&apos;t be tapped by accident while it&apos;s open. Sharing a
+                link also shows a proper <span className="text-foreground font-medium">preview card</span> now.
+              </p>
+            </div>
+
             {/* 1 — Hero: template alignment */}
             <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
               <p className="text-xs font-semibold text-primary uppercase tracking-wide">Checked Field-by-Field Against the DICT Template</p>
