@@ -239,8 +239,11 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
     const file = e.target.files?.[0];
     if (!file) return;
     setLoadError(null);
+    // Flip the guard before the doc mutates, so the splash never re-renders into
+    // the Continue card between loadFromFile's setDoc and navigation.
+    setNavigating(true);
     const result = await loadFromFile(file);
-    if (result.success) { setNavigating(true); router.push("/editor"); } else { setLoadError(result.error ?? "Unknown error"); }
+    if (result.success) { router.push("/editor"); } else { setNavigating(false); setLoadError(result.error ?? "Unknown error"); }
     e.target.value = "";
   }
 
@@ -253,9 +256,10 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
       if (!res.ok) throw new Error("Failed to fetch");
       const blob = await res.blob();
       const file = new File([blob], "ncwtr-issp-2026-2028.issp", { type: "application/json" });
+      setNavigating(true);
       const result = await loadFromFile(file);
-      if (result.success) { setNavigating(true); router.push("/editor"); } else { setLoadError(result.error ?? "Unknown error"); }
-    } catch { setLoadError("Could not load sample file."); }
+      if (result.success) { router.push("/editor"); } else { setNavigating(false); setLoadError(result.error ?? "Unknown error"); }
+    } catch { setNavigating(false); setLoadError("Could not load sample file."); }
     finally { setSampleLoading(false); }
   }
 
