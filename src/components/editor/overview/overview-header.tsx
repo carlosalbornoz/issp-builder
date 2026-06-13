@@ -18,10 +18,10 @@ const GREETINGS = [
   "Mayap a aldo!", // Kapampangan
 ];
 
-const TYPE_MS = 58;
-const DELETE_MS = 26;
-const HOLD_MS = 1900;
-const CLEAR_MS = 450;
+const TYPE_MS = 95;
+const DELETE_MS = 45;
+const HOLD_MS = 4200;
+const CLEAR_MS = 900;
 
 /** Type-then-erase cycle through `words`. Seeded with the first word fully shown
  *  so SSR/first paint never flashes empty. Pass enabled=false to freeze it. */
