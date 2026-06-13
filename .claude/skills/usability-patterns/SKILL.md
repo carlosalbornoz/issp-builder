@@ -42,6 +42,12 @@ through inputs, and accidental edits were one keystroke away.
 **Rule:** Lists of rich objects open **collapsed**; expanding shows a **read-optimized
 view** (label/value rows, checked-only summaries, formatted numbers — not disabled inputs);
 editing is an explicit action (Edit button → drawer or edit mode). Default to viewing.
+**Sharpening (Carlos, 2026-06-13):** the card *header* already shows the object's identity
+(title + status/classification badges). Do **not** also render an always-visible "quick row"
+of those same fields as live inputs above the collapsible body — it duplicates the header
+*and* leaves identity editable in read/collapsed state (one stray keystroke renames the card).
+Identity fields (name, classification, status, type) live **inside the edit-mode form only**;
+the header carries them for read and collapsed states. Applied across II-C, III-D, III-E.
 
 ### 3. Labels answer source, consequence, audience
 **Incident:** III-A's "Current" badge (silently mirrored from Part II-B) and the bare
@@ -123,6 +129,18 @@ lead with the one action that fits it; alternatives collapse behind an explicit 
 ("Other options…"). Demoted options stay reachable but shrink to text-link weight. If a
 collapsed alternative would destroy current state (start new / load over a session), the
 expanded group opens with a warning naming what gets replaced and how to keep it.
+
+### 12. Hold a loading state through navigation, don't flash the destination
+**Incident:** loading the sample ISSP (or a file, or creating a new plan) wrote to
+IndexedDB and set the store doc *before* `router.push("/editor")` resolved. The splash
+branches on "is there a session?", so for a frame it re-rendered into the "Continue where
+you left off" card before the editor route took over — a visible flash of the wrong screen
+(Carlos, 2026-06-13).
+**Rule:** when an action mutates state that an earlier screen branches on *and* then
+navigates away, set an explicit `navigating` flag the moment the action succeeds and hold a
+loading state ("Opening the editor…") until the route changes. Never let the origin screen
+re-render into its post-mutation branch mid-navigation. The flag is one-way: it only clears
+by unmounting on the route change.
 
 ## Process expectations (how to work with these)
 
