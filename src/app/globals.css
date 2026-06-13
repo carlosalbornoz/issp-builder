@@ -575,3 +575,15 @@
   }
   .logo-eq-hover:hover .logo-bar { animation-duration: 0.9s; }
 }
+
+/* Typewriter caret for the overview greeting */
+@keyframes caret-blink {
+  0%, 45% { opacity: 1; }
+  55%, 100% { opacity: 0; }
+}
+.animate-caret-blink {
+  animation: caret-blink 1.05s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-caret-blink { animation: none; opacity: 1; }
+}
