@@ -28,7 +28,7 @@ export function OverviewHeader({
           <Menu className="h-4 w-4" />
         </button>
         <h1 className="min-w-0 font-display text-3xl font-medium tracking-tight leading-tight">
-          {doc.title}
+          {doc.agency.acronym || doc.agency.name}&apos;s ISSP for {doc.startYear}–{doc.endYear}
         </h1>
       </div>
       <div className="w-full shrink-0 pt-1.5 sm:w-52">
