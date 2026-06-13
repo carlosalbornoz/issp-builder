@@ -142,7 +142,7 @@ export function IsspFormFields({
               <Input
                 id={id("agencyAcronym")}
                 placeholder="e.g., DICT"
-                className="w-28 uppercase"
+                className="w-28"
                 value={form.agencyAcronym}
                 onChange={(e) => set("agencyAcronym", e.target.value)}
               />
