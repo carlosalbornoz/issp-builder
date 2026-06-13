@@ -306,7 +306,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               className="animate-glow-orbit inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
             >
               <Sparkles className="w-3 h-3" />
-              What&apos;s new — June 11–12, 2026
+              What&apos;s new — June 11–13, 2026
             </button>
           </div>
         </div>
@@ -631,7 +631,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
             <DialogTitle className="font-display text-lg flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              What&apos;s new — June 11–12, 2026
+              What&apos;s new — June 11–13, 2026
             </DialogTitle>
           </DialogHeader>
           <div ref={whatsNewScrollRef} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
@@ -641,6 +641,48 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
             <div className="rounded-lg border bg-muted/50 px-4 py-3 text-center">
               <p className="text-sm font-medium italic text-foreground/75">
                 A full codebase review, an unreasonable amount of PDF wrangling, and a field-by-field audit against the official template later:
+              </p>
+            </div>
+
+            {/* Read-first cards everywhere */}
+            <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Every System &amp; Project Reads Before It Edits</p>
+              <p>
+                Part II-C (your IS inventory) and Part III-D (proposed systems) now open as a clean,{" "}
+                <span className="text-foreground font-medium">read-optimized summary</span> — just like Part III-E projects.
+                Editing is an explicit button, so browsing your plan no longer means tabbing through input fields or risking a
+                stray edit. Card headers also stopped <span className="text-foreground font-medium">duplicating the name and
+                classification</span>, and those identity fields stay read-only until you choose to edit.
+              </p>
+            </div>
+
+            {/* Personalized overview */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Your Overview, Personalized</p>
+              <p>
+                The overview now <span className="text-foreground font-medium">greets you by time of day</span> in languages
+                from across the archipelago — Magandang umaga, Maayong buntag, Naimbag a bigat, Buenas tardes, Marhay na banggi —
+                then tells you exactly what you&apos;re working on. The top-right keeps just your draft status, and acronyms now
+                keep their real casing (<span className="text-foreground font-medium">DepEd</span> stays DepEd).
+              </p>
+            </div>
+
+            {/* MITHI ticker */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Latest MITHI Advisories, In the Editor</p>
+              <p>
+                A new <span className="text-foreground font-medium">advisory ticker</span> beside your status pill surfaces the
+                latest MITHI issuances — resolutions, advisories, circulars — and links straight to the source on{" "}
+                <span className="text-foreground font-medium">dbm.gov.ph</span>. The rules that govern your ISSP are now one click away.
+              </p>
+            </div>
+
+            {/* Smoother returns */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Smoother Returns</p>
+              <p>
+                Opening the sample, loading a file, or starting fresh now holds a clean loading state instead of briefly flashing
+                the wrong screen on the way to the editor. Long titles also wrap instead of getting cut off across the editor.
               </p>
             </div>
 
