@@ -253,7 +253,6 @@ export function EditorSidebar({
   );
   const [fileMenuOpen, setFileMenuOpen] = useState(false);
   const [themeSubmenuOpen, setThemeSubmenuOpen] = useState(false);
-  const [mobileThemeMenuOpen, setMobileThemeMenuOpen] = useState(false);
   const { reminderDue: saveReminderDue, snoozeReminder: snoozeSaveReminder } = useFileSaveReminder(unsavedToFile);
   const showSaveReminder = unsavedToFile && saveReminderDue;
   const showMobileSaveReminder = showSaveReminder && isMobileViewport;
@@ -556,7 +555,9 @@ export function EditorSidebar({
             {exporting ? <Loader2 className="h-3 w-3 animate-spin" /> : <FileOutput className="h-3 w-3" />}
             PDF
           </Button>
-          <DropdownMenu open={mobileThemeMenuOpen} onOpenChange={setMobileThemeMenuOpen}>
+          {/* Menu stays open on select so themes can be tried live; an outside tap
+              dismisses the menu, a further tap dismisses the sidebar. */}
+          <DropdownMenu>
             <DropdownMenuTrigger
               aria-label="Theme"
               className={cn(
@@ -567,12 +568,7 @@ export function EditorSidebar({
               <Palette className="h-3.5 w-3.5" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-44">
-              <ThemeMenuItems
-                onThemeSelected={() => {
-                  setMobileThemeMenuOpen(false);
-                  onMobileClose();
-                }}
-              />
+              <ThemeMenuItems />
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
