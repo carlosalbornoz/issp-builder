@@ -1,5 +1,6 @@
 import type { IsspDocument } from "@/lib/store";
 import { PlanStatusPill } from "@/components/ui/plan-status-pill";
+import { MithiTicker } from "@/components/editor/overview/mithi-ticker";
 
 function formatDeadline(iso: string): string {
   return new Date(iso).toLocaleDateString("en-PH", {
@@ -15,6 +16,7 @@ export function PlanMetadataStrip({ doc }: { doc: IsspDocument }) {
 
   return (
     <div className="flex items-center justify-end gap-3 flex-wrap text-xs">
+      <MithiTicker />
       <PlanStatusPill status={planStatus} />
       {deadline && (
         <span className="text-muted-foreground">
