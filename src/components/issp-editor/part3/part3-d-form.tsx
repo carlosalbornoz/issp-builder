@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, Sparkles, Link2 } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Sparkles, Link2, Pencil } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
@@ -121,6 +121,16 @@ const STATUS_COLOR: Record<string, string> = {
   FOR_ENHANCEMENT: "bg-warning-bg text-warning border border-warning-border",
 };
 
+const INTEROP_ITEMS = [
+  { key: "integrated", label: "Integrated with other systems" },
+  { key: "generatesData", label: "Generates data for other systems" },
+  { key: "processesExternalData", label: "Processes data from external systems" },
+  { key: "sharedPlatform", label: "Uses a shared government platform" },
+] as const;
+
+const labelOf = (opts: { value: string; label: string }[], value: string) =>
+  opts.find((o) => o.value === value)?.label ?? value;
+
 // ─── System Card ──────────────────────────────────────────────────────────────
 
 function SystemCard({
@@ -140,7 +150,9 @@ function SystemCard({
   onRemove: () => void;
 }) {
   const isLinked = linkedProjectTitles.length > 0;
-  const [expanded, setExpanded] = useState(true);
+  // Existing systems open collapsed→read; new ones mount expanded in edit (principle 2).
+  const [expanded, setExpanded] = useState(isNew);
+  const [editing, setEditing] = useState(isNew);
 
   function updateInterop(field: string, value: unknown) {
     onUpdate("interoperability", { ...sys.interoperability, [field]: value });
@@ -243,8 +255,11 @@ function SystemCard({
         </div>
       </div>
 
-      {/* Expanded details */}
-      {expanded && (
+      {/* Read view (principle 2: read and edit are different modes) */}
+      {expanded && !editing && <SystemReadView sys={sys} onEdit={() => setEditing(true)} />}
+
+      {/* Expanded details (edit mode) */}
+      {expanded && editing && (
         <div className="p-4 space-y-6">
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground uppercase tracking-wide">Description & Purpose</Label>
@@ -376,12 +391,7 @@ function SystemCard({
           <div className="space-y-2">
             <Label className="text-xs text-muted-foreground uppercase tracking-wide">Interoperability</Label>
             <div className="grid sm:grid-cols-2 gap-3">
-              {[
-                { key: "integrated", label: "Integrated with other systems" },
-                { key: "generatesData", label: "Generates data for other systems" },
-                { key: "processesExternalData", label: "Processes data from external systems" },
-                { key: "sharedPlatform", label: "Uses a shared government platform" },
-              ].map((item) => (
+              {INTEROP_ITEMS.map((item) => (
                 <label key={item.key} className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
                     checked={!!(sys.interoperability as Record<string, unknown>)[item.key]}
@@ -429,6 +439,12 @@ function SystemCard({
               )}
             </div>
           </div>
+
+          <div className="flex justify-end border-t pt-3">
+            <Button type="button" variant="outline" size="sm" onClick={() => setEditing(false)}>
+              Done editing
+            </Button>
+          </div>
         </div>
       )}
 
@@ -447,6 +463,80 @@ function SystemCard({
           </Link>
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Read-only presentation of a system (principle 2) ─────────────────────────
+
+function ReadRow({ label, value }: { label: string; value: React.ReactNode }) {
+  const empty = value === "" || value === null || value === undefined;
+  return (
+    <div className="grid grid-cols-[10rem_1fr] gap-3 text-sm">
+      <span className="text-xs text-muted-foreground uppercase tracking-wide pt-0.5">{label}</span>
+      <div className="min-w-0 whitespace-pre-wrap break-words">
+        {empty ? <span className="text-muted-foreground">—</span> : value}
+      </div>
+    </div>
+  );
+}
+
+function SystemReadView({ sys, onEdit }: { sys: ProposedSystem; onEdit: () => void }) {
+  const interop = INTEROP_ITEMS.filter(
+    (item) => (sys.interoperability as Record<string, unknown>)[item.key]
+  ).map((item) => item.label);
+
+  return (
+    <div className="p-4 space-y-3">
+      <ReadRow label="Description" value={sys.description} />
+      {sys.status === "FOR_ENHANCEMENT" && (
+        <ReadRow label="Enhancement" value={sys.enhancementDetails} />
+      )}
+      {sys.classification === "OPERATIONS" && (
+        <ReadRow label="Operations Type" value={sys.frontline ? "Frontline service" : "Non-frontline"} />
+      )}
+      <ReadRow label="Deployment" value={sys.deploymentType ? labelOf(DEPLOYMENT_OPTIONS, sys.deploymentType) : ""} />
+      <ReadRow label="Owner" value={sys.owner} />
+      <ReadRow label="Dev Strategy" value={sys.developmentStrategy ? labelOf(STRATEGY_OPTIONS, sys.developmentStrategy) : ""} />
+      <ReadRow label="Platform" value={sys.developmentPlatform} />
+      <ReadRow label="Database" value={sys.databaseName} />
+      <ReadRow label="Data Storage" value={sys.dataStorage ? labelOf(STORAGE_OPTIONS, sys.dataStorage) : ""} />
+      <ReadRow label="Internal Users" value={sys.internalUsers} />
+      <ReadRow label="External Users" value={sys.externalUsers} />
+      <ReadRow
+        label="Interoperability"
+        value={
+          interop.length
+            ? [
+                interop.join(", "),
+                sys.interoperability.integrated && sys.interoperability.internalSystems
+                  ? `Internal: ${sys.interoperability.internalSystems}`
+                  : "",
+                sys.interoperability.integrated && sys.interoperability.externalSystems
+                  ? `External: ${sys.interoperability.externalSystems}`
+                  : "",
+              ]
+                .filter(Boolean)
+                .join("\n")
+            : ""
+        }
+      />
+      <ReadRow
+        label="Personal Data"
+        value={
+          sys.pia.processesPersonalInfo === "yes"
+            ? `Yes — PIA ${sys.pia.piaRequired ? "will be conducted" : "not yet flagged"}`
+            : sys.pia.processesPersonalInfo === "no"
+              ? "No"
+              : ""
+        }
+      />
+      <div className="flex justify-end border-t pt-3">
+        <Button type="button" variant="outline" size="sm" className="gap-1.5" onClick={onEdit}>
+          <Pencil className="h-3.5 w-3.5" />
+          Edit system
+        </Button>
+      </div>
     </div>
   );
 }
