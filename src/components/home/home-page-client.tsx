@@ -196,6 +196,9 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [newDialogOpen, setNewDialogOpen] = useState(false);
+  // True from the moment a load/create succeeds until the editor route takes over —
+  // keeps the splash from flashing the "Continue where you left off" card mid-navigation.
+  const [navigating, setNavigating] = useState(false);
   const [moreOptionsOpen, setMoreOptionsOpen] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [sampleLoading, setSampleLoading] = useState(false);
@@ -237,7 +240,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
     if (!file) return;
     setLoadError(null);
     const result = await loadFromFile(file);
-    if (result.success) { router.push("/editor"); } else { setLoadError(result.error ?? "Unknown error"); }
+    if (result.success) { setNavigating(true); router.push("/editor"); } else { setLoadError(result.error ?? "Unknown error"); }
     e.target.value = "";
   }
 
@@ -251,7 +254,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
       const blob = await res.blob();
       const file = new File([blob], "ncwtr-issp-2026-2028.issp", { type: "application/json" });
       const result = await loadFromFile(file);
-      if (result.success) { router.push("/editor"); } else { setLoadError(result.error ?? "Unknown error"); }
+      if (result.success) { setNavigating(true); router.push("/editor"); } else { setLoadError(result.error ?? "Unknown error"); }
     } catch { setLoadError("Could not load sample file."); }
     finally { setSampleLoading(false); }
   }
@@ -312,11 +315,15 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           {(() => {
             const hasSession = !storeLoading && !!doc;
 
-            if (storeLoading) {
+            // While checking IDB, or once a load/create has fired navigation, hold a
+            // spinner — don't briefly flash the action cards or the Continue card.
+            if (storeLoading || navigating) {
               return (
                 <div className="flex flex-col items-center justify-center gap-2.5 rounded-xl border border-dashed bg-card/50 py-12">
                   <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-                  <p className="text-xs text-muted-foreground">Checking this browser for saved work…</p>
+                  <p className="text-xs text-muted-foreground">
+                    {navigating ? "Opening the editor…" : "Checking this browser for saved work…"}
+                  </p>
                 </div>
               );
             }
@@ -610,7 +617,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
       {/* ── Dialogs ── */}
       <NcwtrIntroModal open={sampleIntroOpen} onClose={() => setSampleIntroOpen(false)}
         onConfirm={() => { setSampleIntroOpen(false); handleLoadSample(); }} loading={sampleLoading} />
-      <NewIsspDialog open={newDialogOpen} onClose={() => setNewDialogOpen(false)} onCreated={() => router.push("/editor")} />
+      <NewIsspDialog open={newDialogOpen} onClose={() => setNewDialogOpen(false)} onCreated={() => { setNavigating(true); router.push("/editor"); }} />
       <ContentModal open={aboutOpen} onClose={() => setAboutOpen(false)} title="About this project" html={aboutHtml} />
       <ContentModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} title="Privacy & architecture" html={privacyHtml} />
 
