@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, Server } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Server, Pencil } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
@@ -132,6 +132,16 @@ const CLASSIFICATION_COLORS: Record<string, string> = {
   OPERATIONS: "bg-success-bg text-success border border-success-border",
 };
 
+const INTEROP_ITEMS = [
+  { key: "integrated", label: "Integrated with other systems" },
+  { key: "generatesData", label: "Generates data for other systems" },
+  { key: "processesExternalData", label: "Processes data from external systems" },
+  { key: "sharedPlatform", label: "Uses a shared government platform" },
+] as const;
+
+const labelOf = (opts: { value: string; label: string }[], value: string) =>
+  opts.find((o) => o.value === value)?.label ?? value;
+
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
 function FormField({
@@ -167,6 +177,8 @@ function ISCard({
   onRemove: () => void;
 }) {
   const [expanded, setExpanded] = useState(initiallyExpanded);
+  // Read and edit are different modes (principle 2): new cards open in edit, existing ones read-first.
+  const [editing, setEditing] = useState(initiallyExpanded);
 
   function updateInterop(field: string, value: unknown) {
     onUpdate("interoperability", { ...sys.interoperability, [field]: value });
@@ -266,8 +278,11 @@ function ISCard({
         )}
       </div>
 
-      {/* Expanded details */}
-      {expanded && (
+      {/* Read view (principle 2: read and edit are different modes) */}
+      {expanded && !editing && <ISReadView sys={sys} onEdit={() => setEditing(true)} />}
+
+      {/* Expanded details (edit mode) */}
+      {expanded && editing && (
         <div className="p-4 space-y-6">
           {/* Basic Info */}
           <div>
@@ -395,12 +410,7 @@ function ISCard({
             </h4>
             <div className="space-y-3">
               <div className="grid sm:grid-cols-2 gap-3">
-                {[
-                  { key: "integrated", label: "Integrated with other systems" },
-                  { key: "generatesData", label: "Generates data for other systems" },
-                  { key: "processesExternalData", label: "Processes data from external systems" },
-                  { key: "sharedPlatform", label: "Uses a shared government platform" },
-                ].map((item) => (
+                {INTEROP_ITEMS.map((item) => (
                   <label key={item.key} className="flex items-center gap-2.5 cursor-pointer">
                     <Checkbox
                       checked={!!(sys.interoperability as Record<string, unknown>)[item.key]}
@@ -453,8 +463,94 @@ function ISCard({
               )}
             </div>
           </div>
+
+          <div className="flex justify-end border-t pt-3">
+            <Button type="button" variant="outline" size="sm" onClick={() => setEditing(false)}>
+              Done editing
+            </Button>
+          </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Read-only presentation of a system (principle 2) ─────────────────────────
+
+function ReadRow({ label, value }: { label: string; value: React.ReactNode }) {
+  const empty = value === "" || value === null || value === undefined;
+  return (
+    <div className="grid grid-cols-[10rem_1fr] gap-3 text-sm">
+      <span className="text-xs text-muted-foreground uppercase tracking-wide pt-0.5">{label}</span>
+      <div className="min-w-0 whitespace-pre-wrap break-words">
+        {empty ? <span className="text-muted-foreground">—</span> : value}
+      </div>
+    </div>
+  );
+}
+
+function ISReadView({ sys, onEdit }: { sys: InformationSystem; onEdit: () => void }) {
+  const interop = INTEROP_ITEMS.filter(
+    (item) => (sys.interoperability as Record<string, unknown>)[item.key]
+  ).map((item) => item.label);
+
+  return (
+    <div className="p-4 space-y-3">
+      <ReadRow
+        label="System URL"
+        value={
+          sys.url ? (
+            <a href={sys.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
+              {sys.url}
+            </a>
+          ) : (
+            ""
+          )
+        }
+      />
+      <ReadRow label="Description" value={sys.description} />
+      <ReadRow label="Owner / Custodian" value={sys.owner} />
+      <ReadRow label="Deployment" value={sys.deploymentType ? labelOf(DEPLOYMENT_OPTIONS, sys.deploymentType) : ""} />
+      <ReadRow label="Dev Strategy" value={sys.developmentStrategy ? labelOf(STRATEGY_OPTIONS, sys.developmentStrategy) : ""} />
+      <ReadRow label="Platform" value={sys.developmentPlatform} />
+      <ReadRow label="Database" value={sys.databaseName} />
+      <ReadRow label="Data Storage" value={sys.dataStorage ? labelOf(STORAGE_OPTIONS, sys.dataStorage) : ""} />
+      <ReadRow label="Internal Users" value={sys.internalUsers} />
+      <ReadRow label="External Users" value={sys.externalUsers} />
+      <ReadRow
+        label="Interoperability"
+        value={
+          interop.length
+            ? [
+                interop.join(", "),
+                sys.interoperability.integrated && sys.interoperability.internalSystems
+                  ? `Internal: ${sys.interoperability.internalSystems}`
+                  : "",
+                sys.interoperability.integrated && sys.interoperability.externalSystems
+                  ? `External: ${sys.interoperability.externalSystems}`
+                  : "",
+              ]
+                .filter(Boolean)
+                .join("\n")
+            : ""
+        }
+      />
+      <ReadRow
+        label="Personal Data"
+        value={
+          sys.pia.processesPersonalInfo === "yes"
+            ? `Yes — PIA ${sys.pia.piaCompleted ? "conducted and completed" : "not yet completed"}`
+            : sys.pia.processesPersonalInfo === "no"
+              ? "No"
+              : ""
+        }
+      />
+      <div className="flex justify-end border-t pt-3">
+        <Button type="button" variant="outline" size="sm" className="gap-1.5" onClick={onEdit}>
+          <Pencil className="h-3.5 w-3.5" />
+          Edit system
+        </Button>
+      </div>
     </div>
   );
 }
