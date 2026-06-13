@@ -375,7 +375,7 @@ export function IsspPropertiesDialog({
       agency: {
         ...prev.agency,
         name: form.agencyName.trim(),
-        acronym: form.agencyAcronym.trim().toUpperCase(),
+        acronym: form.agencyAcronym.trim(),
         type: form.agencyType as AgencyType,
         websiteUrl: form.agencyWebsite.trim(),
         logoBase64: form.agencyLogo,

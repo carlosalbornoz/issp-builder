@@ -50,7 +50,7 @@ export function NewIsspDialog({
       agencyHeadName: form.agencyHeadName.trim(),
       agency: {
         name: form.agencyName.trim(),
-        acronym: form.agencyAcronym.trim().toUpperCase(),
+        acronym: form.agencyAcronym.trim(),
         type: form.agencyType,
         websiteUrl: form.agencyWebsite.trim(),
         logoBase64: form.agencyLogo,
