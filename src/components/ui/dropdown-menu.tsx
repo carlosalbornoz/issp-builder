@@ -18,6 +18,18 @@ function DropdownMenuTrigger({ ...props }: MenuPrimitive.Trigger.Props) {
   return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />
 }
 
+/** Modal scrim that captures the first outside tap: closes the menu and consumes the
+ *  event so the control beneath isn't activated. Opt-in (most menus close on select). */
+function DropdownMenuBackdrop({ className, ...props }: MenuPrimitive.Backdrop.Props) {
+  return (
+    <MenuPrimitive.Backdrop
+      data-slot="dropdown-menu-backdrop"
+      className={cn("fixed inset-0 z-50", className)}
+      {...props}
+    />
+  )
+}
+
 function DropdownMenuContent({
   align = "start",
   alignOffset = 0,
@@ -253,6 +265,7 @@ export {
   DropdownMenu,
   DropdownMenuPortal,
   DropdownMenuTrigger,
+  DropdownMenuBackdrop,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuLabel,

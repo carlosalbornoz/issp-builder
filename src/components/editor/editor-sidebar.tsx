@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import {
   DropdownMenu,
+  DropdownMenuBackdrop,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuRadioGroup,
@@ -567,6 +568,9 @@ export function EditorSidebar({
             >
               <Palette className="h-3.5 w-3.5" />
             </DropdownMenuTrigger>
+            {/* Modal scrim: an outside tap dismisses the menu only and is consumed,
+                so sidebar items can't be tapped while the picker is open. */}
+            <DropdownMenuBackdrop />
             <DropdownMenuContent align="end" className="w-44">
               <ThemeMenuItems />
             </DropdownMenuContent>
