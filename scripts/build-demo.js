@@ -1,7 +1,37 @@
-{
+/**
+ * Generates the NCWTR sample ISSP at:
+ *   public/demo/ncwtr-issp-2026-2028.issp
+ *
+ * This is the canonical source for the demo document served on the editor
+ * landing page. Edit the data below, run `node scripts/build-demo.js`, then
+ * commit the regenerated .issp alongside this script.
+ *
+ * Replaces the previous prisma/seed.js + scripts/export-sample-issp.js
+ * pipeline (which depended on better-sqlite3 + dev.db and had drifted out of
+ * sync with the served file). All data is inline; no database required.
+ *
+ * Stable IDs are preserved across regenerations so internal references stay
+ * consistent:
+ *   - part1.orgOutcomes[].id            <- referenced by part2.strategicConcerns[].outcomeIds
+ *   - part3.proposedSystems[].id        <- referenced by part3.internalProjects[].linkedSystemIds
+ *   - part3.internalProjects[].id       <- keys part3.performanceFramework and part4.yearN.internalProjects
+ *
+ * When adding new line items, prefer readable stable IDs (e.g. "oo-4",
+ * "ps-new", "proj-x") over random ones.
+ *
+ * Output is JSON.stringify with 2-space indent + trailing newline.
+ * `exportedAt` is the only field that changes between runs.
+ */
+
+const fs = require("fs");
+const path = require("path");
+
+const issp = {
+
+  // ─── Top-level metadata ────────────────────────────────────────────────────
   "version": "1.0",
   "fileType": "issp-main",
-  "exportedAt": "2026-06-14T17:29:03.628Z",
+  "exportedAt": new Date().toISOString(),
   "tool": "issp-platform",
   "schemaVersion": 6,
   "title": "NCWTR Information Systems Strategic Plan 2026–2028",
@@ -19,6 +49,8 @@
   "sectionMeta": {},
   "createdAt": "2026-05-18 06:53:18",
   "updatedAt": "2026-05-18 06:53:18",
+
+  // ─── Agency ─────────────────────────────────────────────────────────────────
   "agency": {
     "name": "National Commission on Waiting Time Reduction",
     "acronym": "NCWTR",
@@ -26,6 +58,8 @@
     "websiteUrl": "https://www.ncwtr.gov.ph",
     "logoBase64": null
   },
+
+  // ─── Part 1: Agency Profile & Strategic Context ──────────────────────────────
   "part1": {
     "legalBasis": "Republic Act No. 12087, otherwise known as the \"Waiting Time Reduction and Queue Management Act of 2023,\" which established the National Commission on Waiting Time Reduction (NCWTR) as an attached agency of the Office of the President. The Commission draws additional authority from Republic Act No. 11032 (Ease of Doing Business and Efficient Government Service Delivery Act of 2018) and Executive Order No. 92, s. 2019 (Institutionalizing the Whole-of-Government Approach in the Delivery of Government Services).",
     "mandateFunction": "The NCWTR is mandated to establish, enforce, and continuously review standards for service delivery queuing across all national government agencies, government-owned and controlled corporations, and local government units. Its primary functions include: (1) monitoring compliance with queuing time standards through its network of 17 regional offices and 82 provincial field offices; (2) conducting annual and spot-audit reviews of government service delivery efficiency; (3) issuing compliance ratings and improvement directives to non-compliant agencies; (4) receiving and resolving citizen complaints regarding excessive government waiting times; and (5) publishing quarterly national waiting time indices.\n\nNotably, the Commission's own Central Office in Quezon City holds a Platinum Irony Award (self-bestowed) for maintaining the single most efficient complaint management process for offices with slow complaint management processes.",
@@ -229,6 +263,8 @@
       }
     ]
   },
+
+  // ─── Part 2: Current ICT Assessment ──────────────────────────────────────────
   "part2": {
     "strategicConcerns": [
       {
@@ -485,6 +521,8 @@
       }
     }
   },
+
+  // ─── Part 3: Proposed ICT Strategy ────────────────────────────────────────────
   "part3": {
     "proposedNetworkDataUrl": null,
     "proposedNetworkDesc": "NCWTR's target network architecture consolidates the current 17-silo infrastructure into a unified hub-and-spoke model with the Central Office as the primary hub and each regional office as a resilient spoke. All 17 regional offices will be connected via dedicated fiber (≥100 Mbps) or fixed wireless broadband, replacing DSL and LTE connections. The Central Office will upgrade to dual 1 Gbps fiber links with automatic failover. A government cloud environment (GovCloud PH) will host UQMP and CFCP, with a secondary disaster recovery node at the DICT GovCloud DR site in Davao City — the first time NCWTR has had a disaster recovery plan that does not consist of the phrase \"call the ICT Director.\"",
@@ -884,6 +922,8 @@
       }
     }
   },
+
+  // ─── Part 4: Resource Requirements ────────────────────────────────────────────
   "part4": {
     "year1": {
       "officeProductivity": {
@@ -1419,4 +1459,9 @@
       }
     }
   }
-}
+};
+
+const outPath = path.join(__dirname, "..", "public", "demo", "ncwtr-issp-2026-2028.issp");
+fs.writeFileSync(outPath, JSON.stringify(issp, null, 2) + "\n", "utf-8");
+console.log("\u2705 Written:", outPath);
+console.log("   Size:", (fs.statSync(outPath).size / 1024).toFixed(1), "KB");
