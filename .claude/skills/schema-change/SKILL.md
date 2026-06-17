@@ -1,6 +1,6 @@
 ---
 name: schema-change
-description: Standardized workflow for adding, removing, or renaming fields in the ISSP Builder JSON/IDB schema (IsspDocument, Part1Data–Part4Data and sub-types) or the dormant Prisma schema. Ensures all layers stay in sync — types, defaults, migration, forms, pages, demo file, PDF export, section fields map, and docs.
+description: Standardized workflow for adding, removing, or renaming fields in the ISSP Builder JSON/IDB schema (IsspDocument, Part1Data–Part4Data and sub-types). Ensures all layers stay in sync — types, defaults, migration, forms, pages, demo file, PDF export, section fields map, and docs.
 argument-hint: "[describe the change, e.g. 'add attachments: string[] to Part2Data']"
 ---
 
@@ -228,17 +228,7 @@ If the field does not affect what appears in the PDF (e.g. a draft note, a metad
 
 ---
 
-### Step 11 — Dormant dashboard page (low priority)
-
-`src/app/(dashboard)/dashboard/documents/[id]/partX/Y/page.tsx` is dormant (not reachable from the local-first editor). It may reference `Part*Data` types that now have new required fields.
-
-- If TypeScript complains about it in Step 12: add the field with a hardcoded safe default
-- Do **not** try to read it from the DB — the Prisma column won't exist
-- If TypeScript does not complain: skip this step
-
----
-
-### Step 12 — Type check
+### Step 11 — Type check
 
 ```bash
 npx tsc --noEmit --skipLibCheck
@@ -252,7 +242,7 @@ npx tsc --noEmit --skipLibCheck
 
 ---
 
-### Step 13 — Update documentation
+### Step 12 — Update documentation
 
 - **`docs/session-handoff.md`**: update the `IsspDocument` envelope table, the `Part*Data` descriptions, the `unsavedToFile` or `sectionMeta` sections if relevant, and the IDB store value interface block
 - **`docs/ui-refresh-plan.md`**: update if the change affects section structure or the `SECTION_FIELDS` map
@@ -286,7 +276,6 @@ npx tsc --noEmit --skipLibCheck
 | Field name in demo file doesn't match `types.ts` | Copy the key name from `types.ts`, not from memory |
 | PDF checkboxes still unchecked after field rename | Confirm `.includes()` in export route uses the exact label string the form stores |
 | `SECTION_FIELDS` not updated | If `src/lib/section-fields.ts` exists, add the new field label — otherwise the "Unsaved changes" diff won't show it |
-| Dormant dashboard page causes TS error | Add a hardcoded default; do not wire to DB |
 | `schemaVersion` not bumped for required fields | Old files will skip the migration block and be missing the required field at runtime |
 | Form init normalization causes permanent false-positive "Unsaved changes" | See section below |
 

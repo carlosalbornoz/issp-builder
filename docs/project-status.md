@@ -20,12 +20,9 @@
 | Task | Status |
 |------|--------|
 | Next.js project initialization | ✅ Done |
-| Prisma + SQLite database with full schema | ✅ Done |
 | UACS codes imported (1,253 total, 1,225 active) | ✅ Done |
-| NextAuth.js v5 with credentials provider | ✅ Done |
 | Base UI + Tailwind CSS 4 components | ✅ Done |
-| Auth proxy (route protection via middleware) | ✅ Done |
-| Seed data (NCWTR agency + users + comprehensive ISSP) | ✅ Done |
+| NCWTR demo ISSP — fixtures in `scripts/build-demo.js`, emitted to `public/demo/` | ✅ Done |
 | ~~Inter font~~ → replaced by Fraunces + IBM Plex Sans/Mono (UI Refresh Phase 3) | ✅ Done |
 | **Local-first IndexedDB store (`src/lib/store/`)** | ✅ Done |
 | **`/editor` route — public, no auth** | ✅ Done |
@@ -44,8 +41,7 @@
 | **Real TOC page numbers (two-pass render, pdfjs-dist marker scan)** | ✅ Done 2026-06-11 |
 | **PDF header per official template — starts at Part I, logo upper-left, Page 1 restart** | ✅ Done 2026-06-11 (`docs/agency-logo-header-plan.md`) |
 | **Editable Definition of Terms (front-matter module)** | ✅ Done 2026-06-11 — `/editor/definitions`, sidebar entry above Part I, seeded with the 3 standard DICT template terms (editable/deletable + "Restore standard terms"), prints alphabetically in the PDF, TOC row + page omitted when empty. Data: `IsspDocument.definitions` (optional; absent = standard terms, so old `.issp` files keep working) |
-| API: /api/issp/documents (GET, POST) | ✅ Done (dormant) |
-| API: /api/issp/documents/[id]/export (GET → PDF, auth-required) | ✅ Done (dormant) |
+| API: /api/export (POST → PDF, stateless, no auth) | ✅ Done |
 | Part I–IV: all form sections | ✅ Done |
 | PDF: Puppeteer HTML → A4 landscape, P052 font, DICT uniformity rules | ✅ Done |
 | PDF: Running header, footer, cover, TOC, definitions | ✅ Done |

@@ -4,9 +4,29 @@
 **Reviewer:** Claude Code (automated + manual analysis)
 **Scope:** Next.js application (`src/`), Nginx vhosts, `.env`, auth configuration
 
+> **Update 2026-06-14:** The entire dormant server-side auth/DB layer
+> (NextAuth, Prisma, `/dashboard/*`, `/api/issp/*`, `/api/auth/*`,
+> `proxy.ts`) was removed in commit `0485a8c`. Findings F1, F6, F8, F9,
+> F10 below are resolved by removal — there is no longer any login to
+> rate-limit, no proxy to gap-check, no SVG/diagram upload routes.
+> F2/F3 fixes are moot (routes deleted) but the underlying lesson
+> (mass-assignment) is preserved as a historical note. The remaining
+> open items are F11 (allowedDevOrigins leaks internal IP) and the
+> unresolved advisories from `npm audit` (postcss via next, js-yaml via
+> gray-matter). F4 (unauthenticated PDF export) is still accepted by
+> design.
+
 ---
 
 ## Executive Summary
+
+> **Superseded 2026-06-14** — the auth surface described below no longer
+> exists. The app is now local-first: no login, no server-side sessions,
+> no DB-backed user data. The only server endpoint that accepts
+> user-influenced input is `POST /api/export` (PDF generation), which is
+> hardened via Puppeteer JS-disabled + request-interception + the
+> Content-Disposition fix from F7. See the banner at the top of this
+> doc.
 
 The app has a solid baseline: all API routes check session auth, agency-scoped queries prevent cross-tenant access, and passwords are bcrypt-hashed.
 
@@ -22,17 +42,17 @@ The `AUTH_SECRET` placeholder (F1) is deferred — server-side auth is dormant i
 
 | # | Severity | Title | Status |
 |---|----------|-------|--------|
-| 1 | CRITICAL | Weak default AUTH_SECRET | **Open — manual action required** |
-| 2 | HIGH | Mass assignment in PATCH document route | ✅ Fixed — commit cb7d0cd |
-| 3 | HIGH | Mass assignment in PUT part1/2/3/4 routes | ✅ Fixed — commit cb7d0cd |
-| 4 | HIGH | Unauthenticated PDF export endpoint | ✅ Accepted (by design — local-first architecture) |
+| 1 | CRITICAL | Weak default AUTH_SECRET | ✅ Resolved 2026-06-14 — auth system removed (`0485a8c`) |
+| 2 | HIGH | Mass assignment in PATCH document route | ✅ Resolved 2026-06-14 — route deleted (`0485a8c`); original fix in `cb7d0cd` |
+| 3 | HIGH | Mass assignment in PUT part1/2/3/4 routes | ✅ Resolved 2026-06-14 — routes deleted (`0485a8c`); original fix in `cb7d0cd` |
+| 4 | HIGH | Unauthenticated PDF export endpoint | ✅ Accepted (by design — local-first architecture; still applies post-removal) |
 | 5 | MEDIUM | Missing security headers on apps.carlosanton.io | ✅ Fixed — nginx, live |
-| 6 | MEDIUM | No login rate limiting | **Open** |
-| 7 | MEDIUM | Content-Disposition header injection risk | ✅ Fixed — commit cb7d0cd |
-| 8 | MEDIUM | proxy.ts doesn't cover API routes (defence-in-depth gap) | **Open** |
-| 9 | LOW | SVG uploads allowed without sanitization | Open — dormant route |
-| 10 | LOW | Uploaded diagrams accessible without auth | Open — dormant route |
-| 11 | LOW | allowedDevOrigins leaks internal IP in prod config | Open |
+| 6 | MEDIUM | No login rate limiting | ✅ Resolved 2026-06-14 — no login (`0485a8c`) |
+| 7 | MEDIUM | Content-Disposition header injection risk | ✅ Fixed — commit `cb7d0cd` (still applies to `/api/export`) |
+| 8 | MEDIUM | proxy.ts doesn't cover API routes (defence-in-depth gap) | ✅ Resolved 2026-06-14 — `proxy.ts` deleted (`0485a8c`) |
+| 9 | LOW | SVG uploads allowed without sanitization | ✅ Resolved 2026-06-14 — upload routes deleted (`0485a8c`) |
+| 10 | LOW | Uploaded diagrams accessible without auth | ✅ Resolved 2026-06-14 — upload routes deleted (`0485a8c`) |
+| 11 | LOW | allowedDevOrigins leaks internal IP in prod config | **Open** |
 | 12 | INFO | No Permissions-Policy header anywhere | ✅ Fixed — apps.carlosanton.io nginx, live |
 
 ---
