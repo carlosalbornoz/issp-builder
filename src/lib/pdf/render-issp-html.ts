@@ -767,7 +767,7 @@ function renderIsCard(sys: IsSystem, isProposed = false): string {
 
 function renderPart2(issp: IsspData): string {
   const p = issp.part2;
-  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+  const baseUrl = process.env.APP_URL || "http://localhost:3000";
 
   // Network diagram images (one per diagram, displayed inline; PDF rendering will embed them)
   const diagrams = p.networkDiagrams ?? [];

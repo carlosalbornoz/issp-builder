@@ -122,7 +122,7 @@ export async function generatePdf(
     // its scripts, and only allow same-origin image fetches (legacy /uploads paths).
     // data: URIs don't hit the network and are unaffected by interception.
     await page.setJavaScriptEnabled(false);
-    const allowedOrigin = new URL(process.env.NEXTAUTH_URL || "http://localhost:3000").origin;
+    const allowedOrigin = new URL(process.env.APP_URL || "http://localhost:3000").origin;
     await page.setRequestInterception(true);
     page.on("request", (req) => {
       const url = req.url();
