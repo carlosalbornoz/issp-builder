@@ -1,8 +1,9 @@
 # Privacy Architecture Notes
 ## ISSP Builder — Local-First Redesign
 
-> **Status:** Decisions finalized 2026-05-18. Implementation not yet started.
-> **Last updated:** 2026-05-18  
+> **Historical design record.** Local-first is now implemented. This file preserves rationale and older decision notes, but `docs/project-status.md` is the current tracker and should be trusted over implementation-status text below.
+> **Status:** Implemented; superseded as an active tracker on 2026-06-19.
+> **Last updated:** 2026-06-19  
 > **Context:** As the platform is intended for use by government agencies, it must be aligned with RA 10173 (Data Privacy Act), RA 10175 / E-Gov Act IRR provisions, and the principle of Privacy by Design.
 
 ---
@@ -11,14 +12,14 @@
 
 | Question | Decision |
 |---|---|
-| Collaboration model | File-based first. Server-side scaffolding kept in code (not deleted) for future re-activation. No parallel "team mode" for now. |
+| Collaboration model | File-based first. Server-side scaffolding was later removed in the local-first cutover. No parallel "team mode" for now. |
 | Multi-document support | **One active document** in IndexedDB at a time. Multiple periods handled by maintaining separate `.issp` files on the filesystem. |
 | Network diagrams | **Base64 embedded** inside the `.issp` JSON. `FileReader` API converts uploads client-side. No separate file references. |
-| Transition plan | **Hard cutover** — user-facing app fully switches to local-first. Server-side routes (Prisma, auth, CRUD APIs) stay in code but are not linked from the UI. NCWTR seed data becomes a downloadable demo `.issp` file. |
-| Route structure | New **`/editor`** route (no auth required). Old `/dashboard/**` stays dormant. Landing page `→` `/editor`. |
+| Transition plan | **Hard cutover completed** — user-facing app fully switched to local-first. Server-side routes (Prisma, auth, CRUD APIs) were removed. NCWTR seed data is a downloadable demo `.issp` file. |
+| Route structure | **`/editor`** route, no auth required. `/dashboard/**` and `/login` were removed. |
 | File versioning | **Current state only.** No embedded history. Users manage versions via filesystem (save multiple `.issp` files). |
 | Agency identity | Anonymous — no server-side identity. Agency name/acronym in the document is sufficient. |
-| PDF export | Refactored to `POST /api/export` accepting full ISSP JSON in body, no session. Add `Origin` header check for CSRF protection. |
+| PDF export | Refactored to `POST /api/export` accepting full ISSP JSON in body, no session. Current hardening backlog is tracked in `docs/project-status.md`. |
 
 ## Build Phases
 

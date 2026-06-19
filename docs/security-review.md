@@ -1,5 +1,7 @@
 # Security Review — ISSP Builder
 
+> **Historical review with partial current notes.** The original auth/DB findings are superseded by the local-first cutover. Use `docs/project-status.md` for the active risk backlog and `docs/code-sweep-2026-06-19.md` for the latest sweep findings.
+
 **Date:** 2026-05-21
 **Reviewer:** Claude Code (automated + manual analysis)
 **Scope:** Next.js application (`src/`), Nginx vhosts, `.env`, auth configuration

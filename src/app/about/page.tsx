@@ -80,10 +80,10 @@ export default async function AboutPage() {
             <span className="text-sm font-semibold text-gray-800 tracking-tight">ISSP Platform</span>
           </Link>
           <Link
-            href="/login"
+            href="/editor"
             className="inline-flex items-center gap-1 text-sm font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:border-gray-400 hover:text-gray-900 transition-colors"
           >
-            Sign In <ArrowRight className="w-3 h-3" />
+            Open Editor <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
       </header>
@@ -138,7 +138,7 @@ export default async function AboutPage() {
             ← Back to home
           </Link>
           <Link
-            href="/login"
+            href="/editor"
             className="inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-full text-white transition-opacity hover:opacity-90"
             style={{ background: "#0038A8" }}
           >
