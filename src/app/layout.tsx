@@ -80,7 +80,7 @@ export default function RootLayout({
         <ThemeProvider>
           <IsspStoreProvider>
             {children}
-            <Toaster richColors closeButton position="bottom-right" />
+            <Toaster richColors closeButton position="top-right" />
           </IsspStoreProvider>
         </ThemeProvider>
       </body>
