@@ -12,6 +12,8 @@
 
 > Field alignment audit completed. All critical misalignments fixed. See `docs/guidelines-alignment-audit.md`.  
 > Use `references/ISSP_Guidelines_2026.md` as the reference for all field names and options.
+> Git/GitHub workflow notes are documented in `docs/git-workflow-notes.md`; branch protection and CI can be handled later.
+> Future backlog items live in `docs/roadmap.md`, including SEO, attribution, ad-free support messaging, and CSC recognition research.
 
 ---
 

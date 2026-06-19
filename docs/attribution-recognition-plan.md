@@ -1,7 +1,7 @@
 # Attribution & Recognition — Plan (later)
 
-**Status:** Backlogged (captured 2026-06-13). Not yet scheduled. Build after current
-usability/UX sweeps settle.
+**Status:** Backlogged (captured 2026-06-13, expanded 2026-06-19). Not yet scheduled.
+See also `docs/roadmap.md`.
 
 ## Intent (from Carlos)
 
@@ -15,6 +15,11 @@ recognition and goodwill, not money or ads:
   civil-servant/civic-dev would value for their record.
 - Acknowledge that **hosting costs real money** ("hosting this infrastructure is not free"),
   framed lightly ("eme eme"), **without running ads**.
+- Make clear that the app is free, ad-free, and maintained on Carlos's free time.
+- If users or agencies want to help, invite voluntary support: hosting-cost help, feedback,
+  testimonials, recommendation letters, or appropriate formal recognition.
+- Research CSC recognition paths before publishing award-specific copy. The working guess is
+  CSC PRAISE / CSC Pagasa, but this needs verification against official CSC guidelines.
 
 ## Proposed surface
 
@@ -39,11 +44,24 @@ A **modal that appears when a PDF export completes** and the file begins downloa
   than a brittle per-browser pointer.
 - **Links:** feedback channel (email already exists: issp-builder@carlosanton.io), maybe a
   short form; an explicit "how to nominate / recommend" blurb.
+- **Recognition framing:** verify whether the appropriate wording is agency PRAISE, CSC Pagasa
+  Award, another CSC Honor Awards Program category, or a more general recommendation letter.
 - Respect that some users export many times while iterating — never block or delay the
   download; the modal is additive and instantly dismissible.
+
+## SEO / discoverability angle
+
+Attribution should also help public discoverability:
+
+- ISSP-related searches should be able to find the app.
+- Searches for Carlos Antonio Albornoz should be able to surface the project as one of his
+  public works.
+- Metadata and structured data should identify Carlos as the creator while avoiding any claim
+  that ISSP Builder is an official DICT or CSC product.
 
 ## Related
 
 - Splash attribution chip + What's New modal (`home-page-client.tsx`).
 - Export flow: `POST /api/export` → `render-issp-html.ts` / `generate-pdf.ts`; the client
   trigger lives wherever the editor's Export action calls the API.
+- Roadmap: `docs/roadmap.md`.
