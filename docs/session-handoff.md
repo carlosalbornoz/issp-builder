@@ -1,6 +1,8 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-06-11 — see `docs/session-log-2026-06-10-11.md` for the latest two
+> **Historical document.** This file is no longer the active architecture or project-state tracker. Use `docs/project-status.md` for current state, backlog, and next-session planning. Treat details here as session history only unless verified against source code and the canonical tracker.
+
+> **Last updated:** 2026-06-11 — superseded as a tracker on 2026-06-19. See `docs/session-log-2026-06-10-11.md` for the latest two
 > sessions (codebase review fixes, agency logo, UX audit fixes, real TOC page numbers, PDF
 > header redesign). **Note:** the PDF export section below predates the 2026-06-11 pipeline
 > split (`renderFrontMatterHtml`/`renderContentHtml` + `IsspPdfParts`); trust the session log
@@ -13,7 +15,7 @@
 
 The local-first rearchitecture is **fully implemented**. All phases A–F are done.
 
-**TL;DR:** No sign-in. ISSP data lives in the user's browser (`IndexedDB`), exported to a `.issp` file. The server does only stateless PDF generation (`POST /api/export`). The old server-side DB/auth code remains in the repo but is not wired to the UI.
+**TL;DR:** No sign-in. ISSP data lives in the user's browser (`IndexedDB`), exported to a `.issp` file. The server does only stateless PDF generation (`POST /api/export`). The old server-side DB/auth code was removed in the local-first cutover; do not follow older Prisma/NextAuth/dashboard instructions in this file.
 
 | Phase | Work | Status |
 |---|---|---|
@@ -48,10 +50,10 @@ A web platform for Philippine government agencies to create, fill, validate, and
 | Layer | Choice | Version / Notes |
 |---|---|---|
 | Framework | Next.js App Router + TypeScript | 16.2.6 (Turbopack) |
-| Persistence | `idb-keyval` (IndexedDB) | — |
-| Database (dormant) | SQLite via Prisma 7 + better-sqlite3 | `dev.db` at project root |
-| ORM (dormant) | Prisma | 7.8.0, client in `src/generated/prisma/` |
-| Auth (dormant) | NextAuth.js v5 beta | 5.0.0-beta.31` |
+| Persistence | Native IndexedDB wrapper | `src/lib/store/idb.ts` |
+| Database | None | Prisma/SQLite removed in local-first cutover |
+| ORM | None | Prisma removed in local-first cutover |
+| Auth | None | NextAuth/login removed in local-first cutover |
 | UI Components | shadcn/ui + Tailwind CSS 4 | 4.x |
 | Toasts | Sonner (`<Toaster>` in `src/app/layout.tsx`) | — |
 | Font (display) | **Fraunces** (opsz variable) via `next/font/google` → `--font-display` | Headings, part titles, doc title |

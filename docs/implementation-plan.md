@@ -1,5 +1,7 @@
 # ISSP Builder - Implementation Plan (Refined)
 
+> **Historical pre-local-first plan.** Do not use this as the current implementation guide. It predates the removal of Prisma, NextAuth, `/dashboard`, `/api/issp`, `/login`, and `src/proxy.ts`. Use `docs/project-status.md` for the current architecture and backlog.
+
 ## Context
 
 Philippine government agencies must submit an Information Systems Strategic Plan (ISSP) to DICT using a prescribed template. The template is a ~36-page document covering agency profile, current ICT assessment, proposed strategy, and resource requirements over a 3-year period. Agencies currently fill this out manually in Word/Excel, which is error-prone (totals don't match, required fields are missed, formatting is inconsistent). This app is a multi-agency web platform that:

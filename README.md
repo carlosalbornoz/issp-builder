@@ -21,7 +21,7 @@ A structured, guided web editor aligned to the **DICT 2026 ISSP template** acros
 - **Part III** — Proposed ICT Strategy (proposed infrastructure, enterprise architecture, human capital, proposed IS, internal and cross-agency projects, performance framework)
 - **Part IV** — Resource Requirements (year 1–3 UACS-coded budget breakdowns, summary of investments)
 
-The editor **works entirely in your browser** — no login, no server-side storage. Your ISSP data lives in IndexedDB and is exported to a `.issp` file you keep on your own computer. When you're ready, export to PDF aligned to DICT's uniformity rules (Palatino/P052, A4 landscape, 1-inch margins, running headers, cover page).
+The editor **works entirely in your browser** — no login, no server-side storage. Your ISSP data lives in IndexedDB and is exported to a `.issp` file you keep on your own computer. When you're ready, PDF export sends the document to a stateless rendering endpoint and returns a DICT-aligned PDF (Palatino/P052, A4 landscape, 1-inch margins, running headers, cover page) without persisting the document.
 
 ---
 
@@ -50,7 +50,7 @@ ss -tlnp | grep 3100 | grep -oP 'pid=\K[0-9]+' | xargs -r kill; sleep 0.5; pm2 r
 ```
 
 > Port 3000 is dev only (`npm run dev`). The pm2 process `issp` always runs on port 3100.
-> Full deployment notes: [`docs/session-handoff.md` § 12](docs/session-handoff.md).
+> Before restarting, check for stale listeners on port 3100 with `ss -tlnp | grep 3100` and kill them if needed.
 
 ---
 
@@ -75,7 +75,7 @@ See [`docs/project-status.md`](docs/project-status.md) for detailed status.
 | Layer | Choice |
 |---|---|
 | Framework | Next.js 16 (App Router, TypeScript, Turbopack) |
-| Persistence | IndexedDB via `idb-keyval` |
+| Persistence | IndexedDB via native wrapper in `src/lib/store/idb.ts` |
 | UI | Tailwind CSS 4 + shadcn/ui |
 | Toasts | Sonner |
 | PDF | Puppeteer + pdf-lib |
@@ -110,8 +110,7 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 ├── src/
 │   ├── app/
 │   │   ├── editor/     # Local-first editor (public, no auth) — Parts I–IV
-│   │   ├── api/export/ # POST /api/export — stateless PDF generation
-│   │   └── (dashboard)/# Dormant server-side routes (preserved for future)
+│   │   └── api/export/ # POST /api/export — stateless PDF generation
 │   ├── components/
 │   │   ├── editor/     # EditorShell, EditorSidebar
 │   │   └── issp-editor/# All Part I–IV form components
@@ -128,11 +127,11 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 
 | Doc | Purpose |
 |---|---|
-| [`docs/project-status.md`](docs/project-status.md) | Full feature list, known bugs, tech stack |
-| [`docs/session-handoff.md`](docs/session-handoff.md) | Architecture reference and continuation guide |
+| [`docs/project-status.md`](docs/project-status.md) | **Canonical current tracker** — active architecture, backlog, next hypersession plan |
+| [`docs/code-sweep-2026-06-19.md`](docs/code-sweep-2026-06-19.md) | Latest read-only code sweep and prioritized findings |
 | [`docs/ui-refresh-plan.md`](docs/ui-refresh-plan.md) | UI refresh implementation plan (branch: `ui-refresh`) |
-| [`docs/privacy-architecture.md`](docs/privacy-architecture.md) | Local-first design decisions and privacy notes |
-| [`docs/annex1-implementation-plan.md`](docs/annex1-implementation-plan.md) | Annex 1 standalone module design |
+| [`docs/privacy-architecture.md`](docs/privacy-architecture.md) | Historical local-first design rationale; verify current state against `docs/project-status.md` |
+| [`docs/annex1-implementation-plan.md`](docs/annex1-implementation-plan.md) | Historical Annex 1 draft; must be refreshed before implementation |
 | [`references/ISSP_Guidelines_2026.md`](references/ISSP_Guidelines_2026.md) | Structured extraction of the DICT 2026 ISSP template |
 
 ---

@@ -78,10 +78,10 @@ export default async function PrivacyPage() {
             <span className="text-sm font-semibold text-gray-800 tracking-tight">ISSP Platform</span>
           </Link>
           <Link
-            href="/login"
+            href="/editor"
             className="inline-flex items-center gap-1 text-sm font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:border-gray-400 hover:text-gray-900 transition-colors"
           >
-            Sign In <ArrowRight className="w-3 h-3" />
+            Open Editor <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
       </header>

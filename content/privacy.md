@@ -53,21 +53,21 @@ NPC registration obligations are significantly reduced when you're not collectin
 
 ## What this means for you, practically
 
-When the local-first version launches, here's what changes:
+The local-first version is now live. Here's what that means:
 
-You won't need to create an account. You open the tool, answer a few setup questions (agency name, coverage period), and you're in.
+You don't need to create an account. You open the tool, answer a few setup questions (agency name, coverage period), and you're in.
 
 You'll see an autosave indicator that says *"Draft saved in browser."* That's your working copy — it'll survive closing the tab, but it's tied to this browser on this computer.
 
 You'll also see a **Save to File** button that downloads your ISSP as a `.issp` file. Think of it like the "Save" button in Word, except the file goes to your Downloads folder. The tool will remind you to press it periodically.
 
-When you come back to continue your draft — maybe tomorrow, maybe from the same computer — you upload that `.issp` file and pick up where you left off.
+When you come back to continue your draft — maybe tomorrow, maybe from another computer — you upload that `.issp` file and pick up where you left off.
 
-When you're done and ready to submit, you export to PDF. That's the file you send to DICT.
+When you're done and ready to submit, you export to PDF. PDF rendering currently happens server-side because the official output needs precise page layout. That export request sends the ISSP document to the server temporarily for rendering, returns the PDF, and does not store the document.
 
 ## An invitation
 
-This is still a work in progress. The local-first redesign isn't complete yet — the current version still uses accounts and server-side storage, which is why I'm not yet actively encouraging other agencies to use it at scale.
+This is still a work in progress, but the privacy architecture has changed in the important way: accounts and server-side document storage are gone. The remaining hardening work is around import validation, browser-storage failure handling, and the stateless PDF export endpoint.
 
 But I wanted to write this down publicly, both as a commitment and as an invitation.
 
