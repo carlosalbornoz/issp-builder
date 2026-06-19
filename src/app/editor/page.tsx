@@ -20,7 +20,7 @@ import { PARTS, ALL_SECTIONS, FRONT_MATTER_SECTIONS, computeStatus } from "@/lib
 // ─── Splash view (no document loaded) ────────────────────────────────────────
 
 function SplashView() {
-  const { loadFromFile } = useIsspStore();
+  const { loadFromFile, saveStatus, saveError } = useIsspStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -89,10 +89,10 @@ function SplashView() {
           />
         </div>
 
-        {loadError && (
+        {(loadError || (saveStatus === "error" && saveError)) && (
           <div className="flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
             <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
-            <span>{loadError}</span>
+            <span>{loadError ?? saveError}</span>
           </div>
         )}
 

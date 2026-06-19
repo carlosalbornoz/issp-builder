@@ -48,6 +48,7 @@ import { getChangedFields, type SectionField } from "@/lib/section-fields";
 import { StatusDot } from "@/components/ui/status-dot";
 import { IsspPropertiesDialog } from "./issp-properties-dialog";
 import { THEMES, isThemeId, useTheme, type ThemeId } from "@/lib/theme";
+import { toast } from "sonner";
 
 function formatTimeAgo(isoString: string, now: number): string {
   const diff = now - new Date(isoString).getTime();
@@ -237,7 +238,7 @@ export function EditorSidebar({
   onToggle: () => void;
   onMobileClose: () => void;
 }) {
-  const { doc, saveToFile, loadFromFile, fileSavedAt, savedSnapshot, unsavedToFile, clearDoc } = useIsspStore();
+  const { doc, saveToFile, loadFromFile, fileSavedAt, savedSnapshot, unsavedToFile, clearDoc, saveStatus, saveError } = useIsspStore();
   const now = useNow();
   const isMobileViewport = useIsMobileViewport();
   const pathname = usePathname();
@@ -304,8 +305,13 @@ export function EditorSidebar({
   }
 
   async function handleClear() {
-    await clearDoc();
-    setClearStep("idle");
+    const result = await clearDoc();
+    if (result.success) {
+      setClearStep("idle");
+      toast.success("Browser draft cleared.");
+    } else {
+      toast.error(result.error);
+    }
   }
 
   function dismissThemeNudge() {
@@ -322,10 +328,15 @@ export function EditorSidebar({
     if (!open) setThemeSubmenuOpen(false);
   }
 
-  function handleSaveToFile() {
-    saveToFile();
-    snoozeSaveReminder();
-    setShowChanges(false);
+  async function handleSaveToFile() {
+    const result = await saveToFile();
+    if (result.success) {
+      snoozeSaveReminder();
+      setShowChanges(false);
+      toast.success("ISSP file downloaded.");
+    } else {
+      toast.error(result.error);
+    }
   }
 
   function handleSnoozeSaveReminder() {
@@ -340,7 +351,12 @@ export function EditorSidebar({
   async function handleLoadFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    await loadFromFile(file);
+    const result = await loadFromFile(file);
+    if (result.success) {
+      toast.success("ISSP file loaded.");
+    } else {
+      toast.error(result.error ?? "Could not load the ISSP file.");
+    }
     e.target.value = "";
   }
 
@@ -517,7 +533,12 @@ export function EditorSidebar({
         {/* Compact footer */}
         <div className="flex items-center gap-2 border-t border-border/50 px-3 py-2.5 shrink-0">
           <div className="flex-1 min-w-0 text-xs">
-            {unsavedToFile ? (
+            {saveStatus === "error" ? (
+              <span className="flex items-center gap-1.5 text-destructive font-medium truncate" title={saveError ?? undefined}>
+                <X className="h-3 w-3 shrink-0" />
+                Browser save failed
+              </span>
+            ) : unsavedToFile ? (
               <span className="flex items-center gap-1.5 text-amber-600 font-medium truncate">
                 <span className="relative flex h-2 w-2 shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
@@ -618,7 +639,12 @@ export function EditorSidebar({
         <div className="px-3 py-3 border-t space-y-2">
           {/* Save status */}
           <div className="text-xs">
-            {unsavedToFile ? (
+            {saveStatus === "error" ? (
+              <span className="flex items-center gap-1.5 text-destructive" title={saveError ?? undefined}>
+                <X className="h-3 w-3 shrink-0" />
+                Browser save failed
+              </span>
+            ) : unsavedToFile ? (
               <div>
                 <button
                   onClick={() => setShowChanges((v) => !v)}

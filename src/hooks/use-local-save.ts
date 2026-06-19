@@ -42,7 +42,7 @@ export function useLocalSave<K extends PartKey>(part: K, sectionId?: string) {
 
   // Map store saveStatus to the legacy SaveStatus shape forms expect
   const status: "saved" | "saving" | "unsaved" | "error" =
-    saveStatus === "saving" ? "saving" : "saved";
+    saveStatus === "error" ? "error" : saveStatus === "saving" ? "saving" : "saved";
 
   return { status, debouncedSave, saveNow: debouncedSave };
 }

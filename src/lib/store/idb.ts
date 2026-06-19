@@ -21,17 +21,28 @@ function openDb(): Promise<IDBDatabase> {
 
 export async function idbLoad(): Promise<IsspDocument | null> {
   if (typeof window === "undefined") return null;
-  try {
-    const db = await openDb();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(STORE_NAME, "readonly");
-      const req = tx.objectStore(STORE_NAME).get(CURRENT_KEY);
-      req.onsuccess = () => resolve((req.result as IsspDocument) ?? null);
-      req.onerror = () => reject(req.error);
-    });
-  } catch {
-    return null;
-  }
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const req = tx.objectStore(STORE_NAME).get(CURRENT_KEY);
+    let result: IsspDocument | null = null;
+    req.onsuccess = () => {
+      result = (req.result as IsspDocument) ?? null;
+    };
+    req.onerror = () => reject(req.error);
+    tx.oncomplete = () => {
+      db.close();
+      resolve(result);
+    };
+    tx.onerror = () => {
+      db.close();
+      reject(tx.error ?? req.error);
+    };
+    tx.onabort = () => {
+      db.close();
+      reject(tx.error ?? req.error);
+    };
+  });
 }
 
 export async function idbSave(doc: IsspDocument): Promise<void> {
@@ -39,9 +50,19 @@ export async function idbSave(doc: IsspDocument): Promise<void> {
   const db = await openDb();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, "readwrite");
-    const req = tx.objectStore(STORE_NAME).put(doc, CURRENT_KEY);
-    req.onsuccess = () => resolve();
-    req.onerror = () => reject(req.error);
+    tx.objectStore(STORE_NAME).put(doc, CURRENT_KEY);
+    tx.oncomplete = () => {
+      db.close();
+      resolve();
+    };
+    tx.onerror = () => {
+      db.close();
+      reject(tx.error);
+    };
+    tx.onabort = () => {
+      db.close();
+      reject(tx.error);
+    };
   });
 }
 
@@ -50,8 +71,18 @@ export async function idbClear(): Promise<void> {
   const db = await openDb();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, "readwrite");
-    const req = tx.objectStore(STORE_NAME).delete(CURRENT_KEY);
-    req.onsuccess = () => resolve();
-    req.onerror = () => reject(req.error);
+    tx.objectStore(STORE_NAME).delete(CURRENT_KEY);
+    tx.oncomplete = () => {
+      db.close();
+      resolve();
+    };
+    tx.onerror = () => {
+      db.close();
+      reject(tx.error);
+    };
+    tx.onabort = () => {
+      db.close();
+      reject(tx.error);
+    };
   });
 }
