@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useIsspStore } from "@/lib/store";
 import { NewIsspDialog } from "@/components/editor/new-issp-dialog";
 import { useTheme, THEMES } from "@/lib/theme";
+import { toast } from "sonner";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -114,7 +115,7 @@ function ContinueCard({
 }: {
   doc: IsspDocument;
   onContinue: () => void;
-  onClear: () => Promise<void>;
+  onClear: () => Promise<{ success: true } | { success: false; error: string }>;
 }) {
   const [confirmingClear, setConfirmingClear] = useState(false);
   const [clearing, setClearing] = useState(false);
@@ -169,9 +170,14 @@ function ContinueCard({
               disabled={clearing}
               onClick={async () => {
                 setClearing(true);
-                await onClear();
+                const result = await onClear();
                 setClearing(false);
-                setConfirmingClear(false);
+                if (result.success) {
+                  setConfirmingClear(false);
+                  toast.success("Browser draft cleared.");
+                } else {
+                  toast.error(result.error);
+                }
               }}
             >
               {clearing ? "Deleting…" : "Delete permanently"}
@@ -191,7 +197,7 @@ function ContinueCard({
 
 export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: string; privacyHtml: string; }) {
   const router = useRouter();
-  const { doc, loading: storeLoading, loadFromFile, clearDoc } = useIsspStore();
+  const { doc, loading: storeLoading, loadFromFile, clearDoc, saveStatus, saveError } = useIsspStore();
   const { theme, setTheme } = useTheme();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -429,10 +435,10 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
           <input ref={fileInputRef} type="file" accept=".issp,application/json" className="hidden" onChange={handleFileChange} />
 
-          {loadError && (
+          {(loadError || (saveStatus === "error" && saveError)) && (
             <div className="mt-4 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
               <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
-              <span>{loadError}</span>
+              <span>{loadError ?? saveError}</span>
             </div>
           )}
 

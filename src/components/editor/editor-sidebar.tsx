@@ -48,6 +48,7 @@ import { getChangedFields, type SectionField } from "@/lib/section-fields";
 import { StatusDot } from "@/components/ui/status-dot";
 import { IsspPropertiesDialog } from "./issp-properties-dialog";
 import { THEMES, isThemeId, useTheme, type ThemeId } from "@/lib/theme";
+import { toast } from "sonner";
 
 function formatTimeAgo(isoString: string, now: number): string {
   const diff = now - new Date(isoString).getTime();
@@ -237,7 +238,7 @@ export function EditorSidebar({
   onToggle: () => void;
   onMobileClose: () => void;
 }) {
-  const { doc, saveToFile, loadFromFile, fileSavedAt, savedSnapshot, unsavedToFile, clearDoc } = useIsspStore();
+  const { doc, saveToFile, loadFromFile, fileSavedAt, savedSnapshot, unsavedToFile, clearDoc, saveStatus, saveError } = useIsspStore();
   const now = useNow();
   const isMobileViewport = useIsMobileViewport();
   const pathname = usePathname();
@@ -304,8 +305,13 @@ export function EditorSidebar({
   }
 
   async function handleClear() {
-    await clearDoc();
-    setClearStep("idle");
+    const result = await clearDoc();
+    if (result.success) {
+      setClearStep("idle");
+      toast.success("Browser draft cleared.");
+    } else {
+      toast.error(result.error);
+    }
   }
 
   function dismissThemeNudge() {
@@ -322,10 +328,15 @@ export function EditorSidebar({
     if (!open) setThemeSubmenuOpen(false);
   }
 
-  function handleSaveToFile() {
-    saveToFile();
-    snoozeSaveReminder();
-    setShowChanges(false);
+  async function handleSaveToFile() {
+    const result = await saveToFile();
+    if (result.success) {
+      snoozeSaveReminder();
+      setShowChanges(false);
+      toast.success("ISSP file downloaded.");
+    } else {
+      toast.error(result.error);
+    }
   }
 
   function handleSnoozeSaveReminder() {
@@ -340,7 +351,12 @@ export function EditorSidebar({
   async function handleLoadFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    await loadFromFile(file);
+    const result = await loadFromFile(file);
+    if (result.success) {
+      toast.success("ISSP file loaded.");
+    } else {
+      toast.error(result.error ?? "Could not load the ISSP file.");
+    }
     e.target.value = "";
   }
 
@@ -515,66 +531,139 @@ export function EditorSidebar({
         <SaveReminderDialog open={showMobileSaveReminder} onSave={handleSaveToFile} onSnooze={handleSnoozeSaveReminder} />
 
         {/* Compact footer */}
-        <div className="flex items-center gap-2 border-t border-border/50 px-3 py-2.5 shrink-0">
-          <div className="flex-1 min-w-0 text-xs">
-            {unsavedToFile ? (
-              <span className="flex items-center gap-1.5 text-amber-600 font-medium truncate">
-                <span className="relative flex h-2 w-2 shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
-                </span>
-                Unsaved changes
-              </span>
-            ) : (
-              <span className="flex items-center gap-1.5 text-success truncate">
-                <Check className="h-3 w-3 shrink-0" />
-                {fileSavedAt ? `Saved ${formatTimeAgo(fileSavedAt, now)}` : "Up to date"}
-              </span>
-            )}
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className={cn(
-              "h-7 gap-1.5 px-2.5 text-xs shrink-0",
-              sidebarControlClass,
-              unsavedToFile && "bg-teal-600 text-white border-teal-600 hover:bg-teal-700",
-              showMobileSaveReminder && "save-reminder-target"
-            )}
-            onClick={handleSaveToFile}
-          >
-            <Download className="h-3 w-3" />
-            Save
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className={cn("h-7 gap-1.5 px-2.5 text-xs shrink-0", sidebarControlClass)}
-            onClick={handleExportPdf}
-            disabled={exporting}
-          >
-            {exporting ? <Loader2 className="h-3 w-3 animate-spin" /> : <FileOutput className="h-3 w-3" />}
-            PDF
-          </Button>
-          {/* Menu stays open on select so themes can be tried live; an outside tap
-              dismisses the menu, a further tap dismisses the sidebar. */}
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              aria-label="Theme"
-              className={cn(
-                "inline-flex h-7 w-7 coarse:h-10 coarse:w-10 shrink-0 items-center justify-center rounded-md border text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                sidebarControlClass
+        <div className="border-t border-border/50 px-3 py-2.5 shrink-0">
+          {clearStep === "step1" && (
+            <div className="rounded-lg border border-border bg-card px-3 py-2.5 space-y-2.5">
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-foreground">Clear editor data?</p>
+                <p className="text-xs leading-snug text-muted-foreground">
+                  This will permanently remove your ISSP from this browser.
+                </p>
+              </div>
+              {unsavedToFile && (
+                <div className="rounded-md border border-warning-border bg-warning-bg px-2.5 py-2 text-xs text-warning space-y-2">
+                  <p className="font-medium">You have unsaved changes.</p>
+                  <p className="leading-snug">Save your file before clearing.</p>
+                  <Button size="sm" variant="outline" className={cn("h-7 text-xs px-2", sidebarControlClass)} onClick={handleSaveToFile}>
+                    <Download className="h-3.5 w-3.5" />
+                    Save .issp file
+                  </Button>
+                </div>
               )}
-            >
-              <Palette className="h-3.5 w-3.5" />
-            </DropdownMenuTrigger>
-            {/* Modal scrim: an outside tap dismisses the menu only and is consumed,
-                so sidebar items can't be tapped while the picker is open. */}
-            <DropdownMenuBackdrop />
-            <DropdownMenuContent align="end" className="w-44">
-              <ThemeMenuItems />
-            </DropdownMenuContent>
-          </DropdownMenu>
+              <div className="flex gap-2">
+                <Button size="sm" className="h-7 flex-1 text-xs px-3" onClick={() => setClearStep("step2")}>
+                  Continue
+                </Button>
+                <Button size="sm" variant="outline" className={cn("h-7 flex-1 text-xs px-3", sidebarControlClass)} onClick={() => setClearStep("idle")}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {clearStep === "step2" && (
+            <div className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2.5 space-y-2.5 text-destructive">
+              <div className="space-y-1">
+                <p className="text-sm font-semibold">This action is irreversible.</p>
+                <p className="text-xs leading-snug">
+                  Your ISSP will be permanently deleted from this browser. There is no undo.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" variant="destructive" className="h-7 flex-1 text-xs px-3" onClick={handleClear}>
+                  Delete permanently
+                </Button>
+                <Button size="sm" variant="outline" className={cn("h-7 flex-1 text-xs px-3", sidebarControlClass)} onClick={() => setClearStep("step1")}>
+                  Go back
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {clearStep === "idle" && (
+            <div className="flex items-center gap-2">
+              <div className="flex-1 min-w-0 text-xs">
+                {saveStatus === "error" ? (
+                  <span className="flex items-center gap-1.5 text-destructive font-medium truncate" title={saveError ?? undefined}>
+                    <X className="h-3 w-3 shrink-0" />
+                    Browser save failed
+                  </span>
+                ) : unsavedToFile ? (
+                  <span className="flex items-center gap-1.5 text-amber-600 font-medium truncate">
+                    <span className="relative flex h-2 w-2 shrink-0">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+                    </span>
+                    Unsaved changes
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1.5 text-success truncate">
+                    <Check className="h-3 w-3 shrink-0" />
+                    {fileSavedAt ? `Saved ${formatTimeAgo(fileSavedAt, now)}` : "Up to date"}
+                  </span>
+                )}
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                className={cn(
+                  "h-7 gap-1.5 px-2.5 text-xs shrink-0",
+                  sidebarControlClass,
+                  unsavedToFile && "bg-teal-600 text-white border-teal-600 hover:bg-teal-700",
+                  showMobileSaveReminder && "save-reminder-target"
+                )}
+                onClick={handleSaveToFile}
+              >
+                <Download className="h-3 w-3" />
+                Save
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className={cn("h-7 gap-1.5 px-2.5 text-xs shrink-0", sidebarControlClass)}
+                onClick={handleExportPdf}
+                disabled={exporting}
+              >
+                {exporting ? <Loader2 className="h-3 w-3 animate-spin" /> : <FileOutput className="h-3 w-3" />}
+                PDF
+              </Button>
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger
+                  aria-label="More file actions"
+                  className={cn(
+                    "inline-flex h-7 w-7 coarse:h-10 coarse:w-10 shrink-0 items-center justify-center rounded-md border text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    sidebarControlClass
+                  )}
+                >
+                  <MoreHorizontal className="h-3.5 w-3.5" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" side="top" className="w-52">
+                  <DropdownMenuItem onClick={handleSaveToFile}>
+                    <Download className="h-3.5 w-3.5 mr-2" />
+                    Download .issp
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => fileInputRef.current?.click()}>
+                    <FolderOpen className="h-3.5 w-3.5 mr-2" />
+                    Load different ISSP…
+                  </DropdownMenuItem>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <Palette className="h-3.5 w-3.5 mr-2" />
+                      Theme
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent side="top" align="end" className="w-44">
+                      <ThemeMenuItems />
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem variant="destructive" onClick={() => setClearStep("step1")}>
+                    <Trash2 className="h-3.5 w-3.5 mr-2" />
+                    Clear editor data…
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
         </div>
       </div>
 
@@ -618,7 +707,12 @@ export function EditorSidebar({
         <div className="px-3 py-3 border-t space-y-2">
           {/* Save status */}
           <div className="text-xs">
-            {unsavedToFile ? (
+            {saveStatus === "error" ? (
+              <span className="flex items-center gap-1.5 text-destructive" title={saveError ?? undefined}>
+                <X className="h-3 w-3 shrink-0" />
+                Browser save failed
+              </span>
+            ) : unsavedToFile ? (
               <div>
                 <button
                   onClick={() => setShowChanges((v) => !v)}
