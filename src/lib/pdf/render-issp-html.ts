@@ -1488,3 +1488,193 @@ export function renderContentHtml(issp: IsspData, opts: RenderOptions = {}): str
   MARKERS_ENABLED = false;
   return htmlShell(issp.title, body);
 }
+
+// ─── Annex 1 (separate PDF document, appended after Parts I–IV) ──────────────
+
+interface Annex1OfficePayload {
+  office: { displayLabel: string };
+  annex1: {
+    equipment: Array<{
+      type: string; isCustom: boolean;
+      centralOffice: { operational: number; endOfLife: number; backup: number };
+      fieldOffice:   { operational: number; endOfLife: number; backup: number };
+    }>;
+    software: Array<{
+      type: string; isCustom: boolean;
+      centralOffice: { perpetual: number; subscription: number };
+      fieldOffice:   { perpetual: number; subscription: number };
+    }>;
+  };
+}
+
+function renderEquipmentTable(rows: Annex1OfficePayload["annex1"]["equipment"]): string {
+  const headerRow = `
+    <tr style="background:#f0f0f0">
+      <th style="border:1px solid #ccc;padding:4pt 6pt;text-align:left;font-weight:bold">ICT Resources</th>
+      <th style="border:1px solid #ccc;padding:4pt 6pt;text-align:left;font-weight:bold">Office Location</th>
+      <th style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">Operational</th>
+      <th style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">End of Life</th>
+      <th style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">Backup</th>
+    </tr>`;
+
+  const bodyRows = rows.map((row) => {
+    const totOp  = row.centralOffice.operational + row.fieldOffice.operational;
+    const totEol = row.centralOffice.endOfLife   + row.fieldOffice.endOfLife;
+    const totBk  = row.centralOffice.backup      + row.fieldOffice.backup;
+    return `
+      <tr>
+        <td rowspan="3" style="border:1px solid #ccc;padding:4pt 6pt;vertical-align:middle;font-weight:${row.isCustom ? "normal" : "bold"}">${esc(row.type)}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt">Central Office</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.centralOffice.operational}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.centralOffice.endOfLife}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.centralOffice.backup}</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #ccc;padding:4pt 6pt">Field/Regional Office</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.fieldOffice.operational}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.fieldOffice.endOfLife}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.fieldOffice.backup}</td>
+      </tr>
+      <tr style="background:#f9f9f9">
+        <td style="border:1px solid #ccc;padding:4pt 6pt;font-style:italic;color:#555">Total</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totOp}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totEol}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totBk}</td>
+      </tr>`;
+  }).join("");
+
+  return `<table style="width:100%;border-collapse:collapse;margin-bottom:16pt">${headerRow}${bodyRows}</table>`;
+}
+
+function renderSoftwareTable(rows: Annex1OfficePayload["annex1"]["software"]): string {
+  const headerRow = `
+    <tr style="background:#f0f0f0">
+      <th style="border:1px solid #ccc;padding:4pt 6pt;text-align:left;font-weight:bold">ICT Resources</th>
+      <th style="border:1px solid #ccc;padding:4pt 6pt;text-align:left;font-weight:bold">Office Location</th>
+      <th style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">Perpetual</th>
+      <th style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">Subscription</th>
+    </tr>`;
+
+  const bodyRows = rows.map((row) => {
+    const totPerp = row.centralOffice.perpetual    + row.fieldOffice.perpetual;
+    const totSub  = row.centralOffice.subscription + row.fieldOffice.subscription;
+    return `
+      <tr>
+        <td rowspan="3" style="border:1px solid #ccc;padding:4pt 6pt;vertical-align:middle;font-weight:${row.isCustom ? "normal" : "bold"}">${esc(row.type)}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt">Central Office</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.centralOffice.perpetual}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.centralOffice.subscription}</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #ccc;padding:4pt 6pt">Field/Regional Office</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.fieldOffice.perpetual}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.fieldOffice.subscription}</td>
+      </tr>
+      <tr style="background:#f9f9f9">
+        <td style="border:1px solid #ccc;padding:4pt 6pt;font-style:italic;color:#555">Total</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totPerp}</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totSub}</td>
+      </tr>`;
+  }).join("");
+
+  return `<table style="width:100%;border-collapse:collapse;margin-bottom:16pt">${headerRow}${bodyRows}</table>`;
+}
+
+function renderAnnexCoverPage(title: string): string {
+  return `
+    <div style="page-break-after:always;display:flex;align-items:center;justify-content:center;min-height:60mm">
+      <h1 style="text-align:center;font-size:14pt;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt">
+        ANNEX 1: EXISTING INFORMATION &amp; COMMUNICATIONS TECHNOLOGY (ICT) ASSET INVENTORY<br>
+        <span style="font-size:11pt;font-weight:normal;text-transform:none">${esc(title)}</span>
+      </h1>
+    </div>`;
+}
+
+/**
+ * Renders Annex 1 as a standalone HTML document to be merged into the final PDF.
+ * Returns null if no offices are attached.
+ */
+export function renderAnnex1Html(
+  docTitle: string,
+  offices: Annex1OfficePayload[]
+): string | null {
+  if (offices.length === 0) return null;
+
+  const sorted = [...offices].sort((a, b) => {
+    const order = { central: 0, regional: 1, field: 2 };
+    const ta = (order as Record<string, number>)[(a.office as { type?: string }).type ?? "field"] ?? 2;
+    const tb = (order as Record<string, number>)[(b.office as { type?: string }).type ?? "field"] ?? 2;
+    return ta - tb;
+  });
+
+  let body = renderAnnexCoverPage(docTitle);
+
+  // Per-office sections
+  for (const off of sorted) {
+    body += `
+      <div style="page-break-before:always">
+        <h2 style="font-size:12pt;font-weight:bold;margin-bottom:12pt;text-transform:uppercase">
+          ${esc(off.office.displayLabel)}
+        </h2>
+        <h3 style="font-size:11pt;margin-bottom:8pt">1. ICT Equipment Inventory</h3>
+        ${renderEquipmentTable(off.annex1.equipment)}
+        <h3 style="font-size:11pt;margin-bottom:8pt">2. ICT Software Inventory</h3>
+        ${renderSoftwareTable(off.annex1.software)}
+      </div>`;
+  }
+
+  // Aggregate table when more than one office
+  if (sorted.length > 1) {
+    // Merge equipment rows by type name
+    const equipMap = new Map<string, Annex1OfficePayload["annex1"]["equipment"][number]>();
+    for (const off of sorted) {
+      for (const row of off.annex1.equipment) {
+        const existing = equipMap.get(row.type);
+        if (!existing) {
+          equipMap.set(row.type, { ...row,
+            centralOffice: { ...row.centralOffice },
+            fieldOffice:   { ...row.fieldOffice },
+          });
+        } else {
+          existing.centralOffice.operational += row.centralOffice.operational;
+          existing.centralOffice.endOfLife   += row.centralOffice.endOfLife;
+          existing.centralOffice.backup      += row.centralOffice.backup;
+          existing.fieldOffice.operational   += row.fieldOffice.operational;
+          existing.fieldOffice.endOfLife     += row.fieldOffice.endOfLife;
+          existing.fieldOffice.backup        += row.fieldOffice.backup;
+        }
+      }
+    }
+
+    const swMap = new Map<string, Annex1OfficePayload["annex1"]["software"][number]>();
+    for (const off of sorted) {
+      for (const row of off.annex1.software) {
+        const existing = swMap.get(row.type);
+        if (!existing) {
+          swMap.set(row.type, { ...row,
+            centralOffice: { ...row.centralOffice },
+            fieldOffice:   { ...row.fieldOffice },
+          });
+        } else {
+          existing.centralOffice.perpetual    += row.centralOffice.perpetual;
+          existing.centralOffice.subscription += row.centralOffice.subscription;
+          existing.fieldOffice.perpetual      += row.fieldOffice.perpetual;
+          existing.fieldOffice.subscription   += row.fieldOffice.subscription;
+        }
+      }
+    }
+
+    body += `
+      <div style="page-break-before:always">
+        <h2 style="font-size:12pt;font-weight:bold;margin-bottom:12pt;text-transform:uppercase">
+          Consolidated Summary (All Offices)
+        </h2>
+        <h3 style="font-size:11pt;margin-bottom:8pt">1. ICT Equipment Inventory</h3>
+        ${renderEquipmentTable([...equipMap.values()])}
+        <h3 style="font-size:11pt;margin-bottom:8pt">2. ICT Software Inventory</h3>
+        ${renderSoftwareTable([...swMap.values()])}
+      </div>`;
+  }
+
+  return htmlShell(`Annex 1 — ${docTitle}`, body);
+}

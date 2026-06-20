@@ -1,4 +1,4 @@
-import { renderContentHtml, renderFrontMatterHtml, type IsspData } from "@/lib/pdf/render-issp-html";
+import { renderContentHtml, renderFrontMatterHtml, renderAnnex1Html, type IsspData } from "@/lib/pdf/render-issp-html";
 import { generatePdf } from "@/lib/pdf/generate-pdf";
 import { computeProjectCosts } from "@/components/issp-editor/part4/part4-aggregations";
 import {
@@ -322,6 +322,7 @@ export async function POST(req: Request) {
       contentHtml: renderContentHtml(issp, { withTocMarkers: true }),
       finalizeContentHtml: () => renderContentHtml(issp),
       frontHtml: (tocPages) => renderFrontMatterHtml(issp, tocPages),
+      annex1Html: renderAnnex1Html(doc.title, doc.annexedOffices ?? []),
     },
     {
       agencyAcronym: doc.agency.acronym,

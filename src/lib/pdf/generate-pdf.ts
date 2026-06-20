@@ -24,6 +24,8 @@ export interface IsspPdfParts {
    * Printed without header or footer.
    */
   frontHtml: (tocPages: Record<string, number>) => string;
+  /** Optional Annex 1 HTML. Printed with the running header and appended after Parts I–IV. */
+  annex1Html?: string | null;
 }
 
 // Case-insensitive: headings use CSS text-transform:uppercase, and the PDF
@@ -176,9 +178,24 @@ export async function generatePdf(
     await waitForImages();
     const frontPdfBytes = await page.pdf({ ...pdfOptions, displayHeaderFooter: false });
 
-    // Merge: front matter pages, then content pages.
+    // Annex 1 — optional; printed with the same running header as main content.
+    let annex1PdfBytes: Uint8Array | null = null;
+    if (parts.annex1Html) {
+      await page.setContent(parts.annex1Html, { waitUntil: "load", timeout: 30000 });
+      await waitForImages();
+      annex1PdfBytes = await page.pdf({
+        ...pdfOptions,
+        displayHeaderFooter: true,
+        headerTemplate,
+        footerTemplate,
+      });
+    }
+
+    // Merge: front matter → content → annex 1 (if present).
     const finalDoc = await PDFDocument.create();
-    for (const bytes of [frontPdfBytes, contentPdfBytes]) {
+    const pdfSections: Uint8Array[] = [frontPdfBytes, contentPdfBytes];
+    if (annex1PdfBytes) pdfSections.push(annex1PdfBytes);
+    for (const bytes of pdfSections) {
       const doc = await PDFDocument.load(bytes);
       const copied = await finalDoc.copyPages(doc, doc.getPageIndices());
       for (const p of copied) finalDoc.addPage(p);
