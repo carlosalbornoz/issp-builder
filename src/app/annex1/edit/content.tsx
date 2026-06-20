@@ -2,9 +2,14 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Download, ArrowLeft } from "lucide-react";
+import { Download, ArrowLeft, LayoutGrid, LayoutList } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { EquipmentTable, SoftwareTable } from "@/components/annex1/inventory-table";
+import {
+  EquipmentTable,
+  EquipmentCards,
+  SoftwareTable,
+  SoftwareCards,
+} from "@/components/annex1/inventory-table";
 import {
   defaultEquipmentRows,
   defaultSoftwareRows,
@@ -15,6 +20,9 @@ import {
   type PhilippineRegionCode,
   type Annex1FilePayload,
 } from "@/lib/annex1/types";
+import { cn } from "@/lib/utils";
+
+type ViewMode = "table" | "card";
 
 export function Annex1EditContent() {
   const router = useRouter();
@@ -27,23 +35,21 @@ export function Annex1EditContent() {
   const displayLabel = buildDisplayLabel(officeType, region, fieldName);
 
   const [equipmentRows, setEquipmentRows] = useState<EquipmentRow[]>(defaultEquipmentRows);
-  const [softwareRows, setSoftwareRows] = useState<SoftwareRow[]>(defaultSoftwareRows);
-  const [downloading, setDownloading] = useState(false);
+  const [softwareRows, setSoftwareRows]   = useState<SoftwareRow[]>(defaultSoftwareRows);
+  const [downloading, setDownloading]     = useState(false);
+  const [viewMode, setViewMode]           = useState<ViewMode>("table");
 
-  // Redirect back to setup if no office type is provided
   if (!params.get("type")) {
     router.replace("/annex1");
     return null;
   }
 
   function buildFilename(): string {
-    const part = officeType === "central"
-      ? "CO"
-      : officeType === "regional"
-      ? `RO-${region ?? "XX"}`
-      : `FO-${(region ?? "XX")}-${fieldName.replace(/\s+/g, "-").toUpperCase()}`;
-    const year = new Date().getFullYear();
-    return `ANNEX1-${part}-${year}.issp`;
+    const part =
+      officeType === "central"   ? "CO" :
+      officeType === "regional"  ? `RO-${region ?? "XX"}` :
+                                   `FO-${(region ?? "XX")}-${fieldName.replace(/\s+/g, "-").toUpperCase()}`;
+    return `ANNEX1-${part}-${new Date().getFullYear()}.issp`;
   }
 
   function handleDownload() {
@@ -57,7 +63,7 @@ export function Annex1EditContent() {
       office: {
         type: officeType,
         region,
-        name: officeType === "central" ? "Central Office"
+        name: officeType === "central"  ? "Central Office"
             : officeType === "regional" ? `Regional Office — ${region}`
             : fieldName,
         displayLabel,
@@ -66,9 +72,9 @@ export function Annex1EditContent() {
     };
 
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href     = url;
     a.download = buildFilename();
     a.click();
     URL.revokeObjectURL(url);
@@ -107,26 +113,67 @@ export function Annex1EditContent() {
         </Button>
       </div>
 
-      {/* Equipment table */}
+      {/* View mode toggle */}
+      <div className="flex items-center justify-between gap-4">
+        <p className="text-xs text-muted-foreground">
+          Fill in counts for each resource. Leave unused rows at zero.
+        </p>
+        <div className="inline-flex items-center rounded-lg border border-border bg-muted/40 p-0.5 gap-0.5">
+          <button
+            type="button"
+            onClick={() => setViewMode("table")}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
+              viewMode === "table"
+                ? "bg-background shadow-sm text-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <LayoutList className="h-3.5 w-3.5" />
+            Table
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode("card")}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
+              viewMode === "card"
+                ? "bg-background shadow-sm text-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <LayoutGrid className="h-3.5 w-3.5" />
+            Cards
+          </button>
+        </div>
+      </div>
+
+      {/* Equipment */}
       <section>
         <div className="mb-4">
           <h2 className="text-base font-semibold text-foreground">1. ICT Equipment Inventory</h2>
           <p className="text-xs text-muted-foreground mt-1">
-            Count units by status. Fill only the rows relevant to your office — leave the other at zero.
+            Count units by status. Fill only the rows relevant to your office — leave others at zero.
           </p>
         </div>
-        <EquipmentTable rows={equipmentRows} onChange={setEquipmentRows} />
+        {viewMode === "table"
+          ? <EquipmentTable rows={equipmentRows} onChange={setEquipmentRows} />
+          : <EquipmentCards rows={equipmentRows} onChange={setEquipmentRows} />
+        }
       </section>
 
-      {/* Software table */}
+      {/* Software */}
       <section>
         <div className="mb-4">
           <h2 className="text-base font-semibold text-foreground">2. ICT Software Inventory</h2>
           <p className="text-xs text-muted-foreground mt-1">
-            Count licenses by type. Perpetual = one-time purchase. Subscription = recurring annual/monthly.
+            Count licenses by type. Perpetual = one-time purchase. Subscription = recurring.
           </p>
         </div>
-        <SoftwareTable rows={softwareRows} onChange={setSoftwareRows} />
+        {viewMode === "table"
+          ? <SoftwareTable rows={softwareRows} onChange={setSoftwareRows} />
+          : <SoftwareCards rows={softwareRows} onChange={setSoftwareRows} />
+        }
       </section>
 
       {/* Bottom download CTA */}
