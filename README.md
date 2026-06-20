@@ -60,7 +60,7 @@ ss -tlnp | grep 3100 | grep -oP 'pid=\K[0-9]+' | xargs -r kill; sleep 0.5; pm2 r
 |---|---|---|
 | 1–6 | ISSP Builder (Parts I–IV) + PDF export | ✅ Done |
 | Local-first | No login, IndexedDB + `.issp` file format, stateless PDF | ✅ Done |
-| Phase E | Diagram upload (base64, client-side) | 🔵 Next |
+| Phase E | Diagram upload (base64, client-side) | ✅ Done |
 | Phase 7 | Polish & validation (progress tracking, pre-export checks, review mode) | 🔵 Planned |
 | Annex 1 | Standalone ICT Asset Inventory module for regional/field offices | 🔵 Planned |
 | Phase 8 | ISSP Repository — searchable public archive of agency ISSPs | 🔵 Planned |

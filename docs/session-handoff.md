@@ -1,10 +1,6 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-06-11 — see `docs/session-log-2026-06-10-11.md` for the latest two
-> sessions (codebase review fixes, agency logo, UX audit fixes, real TOC page numbers, PDF
-> header redesign). **Note:** the PDF export section below predates the 2026-06-11 pipeline
-> split (`renderFrontMatterHtml`/`renderContentHtml` + `IsspPdfParts`); trust the session log
-> and `src/lib/pdf/` over this file for PDF details.  
+> **Last updated:** 2026-06-20 — covers all work through the June 12–19 sessions (form usability fixes, SEO/sitemap, mobile sidebar actions). **Note:** the PDF export section below predates the 2026-06-11 pipeline split (`renderFrontMatterHtml`/`renderContentHtml` + `IsspPdfParts`); trust the session log and `src/lib/pdf/` over this file for PDF details.  
 > **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
 
 ---
@@ -49,9 +45,6 @@ A web platform for Philippine government agencies to create, fill, validate, and
 |---|---|---|
 | Framework | Next.js App Router + TypeScript | 16.2.6 (Turbopack) |
 | Persistence | `idb-keyval` (IndexedDB) | — |
-| Database (dormant) | SQLite via Prisma 7 + better-sqlite3 | `dev.db` at project root |
-| ORM (dormant) | Prisma | 7.8.0, client in `src/generated/prisma/` |
-| Auth (dormant) | NextAuth.js v5 beta | 5.0.0-beta.31` |
 | UI Components | shadcn/ui + Tailwind CSS 4 | 4.x |
 | Toasts | Sonner (`<Toaster>` in `src/app/layout.tsx`) | — |
 | Font (display) | **Fraunces** (opsz variable) via `next/font/google` → `--font-display` | Headings, part titles, doc title |
@@ -144,7 +137,7 @@ Full `npm run build` was also run successfully once with network access for `nex
 
 **`part4-aggregations.ts` — shared data layer extracted**
 
-All aggregation logic that was copy-pasted identically in both `editor/part4/summary/page.tsx` and `dashboard/.../part4/summary/page.tsx` (≈130 lines each) is now in one place:
+All aggregation logic is in one shared place:
 
 | Symbol | Exported from |
 |---|---|
@@ -153,7 +146,7 @@ All aggregation logic that was copy-pasted identically in both `editor/part4/sum
 | `buildB1`, `buildB2`, `buildB3`, `buildB4` | `part4-aggregations.ts` |
 | `FUND_SOURCE_ORDER` | `part4-aggregations.ts` |
 
-`part4-summary.tsx` re-exports the three types for backward compat. Both pages now import build functions from the shared module.
+`part4-summary.tsx` re-exports the three types. The editor page imports build functions from the shared module.
 
 **`SectionShell` — `hideMarkDone` prop**
 
@@ -425,30 +418,11 @@ pageHeader(_issp)   // intentionally returns "" — Puppeteer headerTemplate han
 |---|---|---|
 | `/api/export` | POST | `IsspDocument` JSON → PDF; no auth |
 
-### Dormant (server-side, not wired to UI)
-| Route | Methods | Notes |
-|---|---|---|
-| `/api/issp/documents` | GET, POST | List + create documents |
-| `/api/issp/documents/[id]` | GET, PATCH, DELETE | Single document |
-| `/api/issp/documents/[id]/part1–4` | GET, PUT | JSON fields for each part |
-| `/api/issp/documents/[id]/upload-diagram` | POST, PATCH, DELETE | Network diagram upload to `public/uploads/` |
-| `/api/issp/documents/[id]/export` | GET | PDF download (requires auth, reads from DB) |
-
 ---
 
-## 6. Database (Dormant)
+## 6. Database (Removed)
 
-- **SQLite at `dev.db`** — no PostgreSQL, no Docker
-- **DO NOT run `npx prisma migrate dev`** — it will prompt to reset the DB and wipe everything
-- Prisma migrations are drifted — several columns added directly via SQL
-- Old server routes and the dashboard (`/dashboard/**`) remain in the codebase but are not linked from the local-first editor
-
-### Test Credentials (NCWTR seed)
-| Email | Password | Role |
-|---|---|---|
-| admin@ncwtr.gov.ph | password123 | ADMIN |
-| cio@ncwtr.gov.ph | password123 | CIO — Dir. Reginaldo Tambunting |
-| focal@ncwtr.gov.ph | password123 | FOCAL — Ms. Luzviminda Padayao |
+The original server-side architecture (SQLite/Prisma, NextAuth v5, dashboard routes, server CRUD API) has been fully removed from the codebase. The app is now entirely local-first — no database, no auth, no server sessions.
 
 ---
 
@@ -530,27 +504,6 @@ const controls = {
 };
 ```
 
-### Public route allowlist (`src/proxy.ts`)
-
-`src/proxy.ts` is the Next.js 16 middleware (renamed from `middleware.ts`). Any route not explicitly allowed will be redirected to `/login` for unauthenticated users.
-
-Current public routes:
-```
-/_next/static, /_next/image   — static assets (via matcher exclusion)
-/favicon.ico, /uploads, /screenshots, /demo, /uacs  — static files (via matcher exclusion)
-/opengraph-image, /twitter-image   — OG image routes
-/api/*                        — all API routes
-/editor, /editor/*            — local-first editor
-/annex1, /annex1/*            — Annex 1 module
-/uacs, /uacs/*                — UACS Explorer static HTML
-/                             — landing page
-/about, /privacy              — public editorial pages
-```
-
-**When adding a new public route** (static file, public page, or unauthenticated feature), add it to BOTH:
-1. The `matcher` exclusion regex (for static files served from `public/`)
-2. The explicit check in the proxy function body (for Next.js routes)
-
 ### Editor nav button pattern
 
 All form nav buttons (Previous / Next at the bottom of every form page) use:
@@ -607,7 +560,7 @@ Pure data layer — no React imports, safe to use in both client and server comp
 - **Types:** `SummaryRow`, `UacsRow`, `Part4SummaryData`
 - **Low-level:** `lineTotal`, `sumLines`, `yearTotal`, `FUND_SOURCE_ORDER`
 - **Build functions:** `buildB1` (category summary), `buildB2` (by fund source), `buildB3` (CO/MOOE), `buildB4` (UACS object of expenditure)
-- Both the local-first editor page (`src/app/editor/part4/summary/page.tsx`) and the server-side dashboard page (`src/app/(dashboard)/dashboard/documents/[id]/part4/summary/page.tsx`) import from here.
+- Used by `src/app/editor/part4/summary/page.tsx`.
 
 ### `src/components/issp-editor/part4/part4-year-form.tsx`
 - Dynamic section lettering via `alpha(n)`
@@ -777,7 +730,6 @@ Diagram upload is implemented for Part II-B existing network diagrams, Part III-
 Standalone public module at `/annex1`. Full plan in `docs/annex1-implementation-plan.md`.
 
 ### 🔵 PDF — Known Remaining Gaps
-- TOC page numbers are static (hardcoded) — no two-pass render
 - Network/proposed network/enterprise architecture diagrams render inline (not full-page each)
 
 ---
@@ -803,10 +755,8 @@ npm run dev          # http://localhost:3000
 
 npx tsc --noEmit    # Type check
 
-# Dormant DB operations (only if working on server-side features)
-node prisma/seed.js               # Wipe + reseed NCWTR data
-node scripts/backfill-parts.js   # Create missing Part records for old docs
-npx prisma generate               # Regenerate client after schema changes
+# Regenerate demo .issp file (if you change scripts/build-demo.js)
+node scripts/build-demo.js
 ```
 
 ### Production deployment (apps.carlosanton.io/issp)
@@ -856,7 +806,6 @@ src/
 │   │   └── part4/{year1,year2,year3,summary}/page.tsx
 │   ├── api/
 │   │   └── export/route.ts            ← POST → stateless PDF, no auth
-│   ├── (dashboard)/                   ← Dormant server-side routes
 │   └── page.tsx                       ← Landing page
 ├── components/
 │   ├── editor/
@@ -955,7 +904,6 @@ Also linked via tooltip + ExternalLink icon on UACS Code column headers in Part 
 
 ### Attribution
 Footer present in:
-- Documents list page (`src/app/(dashboard)/...`)
 - Editor sidebar (`src/components/editor/editor-sidebar.tsx`)
 
 Text: "Made with ❤ para sa bayan · Carlos Antonio Albornoz · [@carlosanton.io](https://instagram.com/carlosanton.io)"
@@ -982,6 +930,5 @@ Text: "Made with ❤ para sa bayan · Carlos Antonio Albornoz · [@carlosanton.i
 - ISSP Repository — searchable archive of submitted agency ISSPs
 - ICT Budget Dashboard — aggregate view of ICT spending
 - Annex 2 — DRBCP standalone module
-- True TOC page numbers (two-pass PDF render)
 - Full-page network diagrams in PDF
 - Optional `.issp` file encryption (AES-256-GCM)
