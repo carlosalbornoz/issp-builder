@@ -104,7 +104,7 @@ const FIXED_EQUIPMENT_TYPES = [
 
 const FIXED_SOFTWARE_TYPES = [
   "Office Productivity Tool",
-  "Grammar Checker",
+  "Grammar checker",
   "Graphics and Simulation Software",
   "Antivirus",
   "IT Help Desk Tool",
@@ -113,21 +113,39 @@ const FIXED_SOFTWARE_TYPES = [
 ];
 
 export function defaultEquipmentRows(): EquipmentRow[] {
-  return FIXED_EQUIPMENT_TYPES.map((type, i) => ({
-    id: `equip-fixed-${i}`,
-    type,
-    isCustom: false,
-    centralOffice: { ...ZERO_EQUIP },
-    fieldOffice: { ...ZERO_EQUIP },
-  }));
+  return [
+    ...FIXED_EQUIPMENT_TYPES.map((type, i) => ({
+      id: `equip-fixed-${i}`,
+      type,
+      isCustom: false,
+      centralOffice: { ...ZERO_EQUIP },
+      fieldOffice: { ...ZERO_EQUIP },
+    })),
+    {
+      id: "equip-others",
+      type: "Others, please specify",
+      isCustom: true,
+      centralOffice: { ...ZERO_EQUIP },
+      fieldOffice: { ...ZERO_EQUIP },
+    },
+  ];
 }
 
 export function defaultSoftwareRows(): SoftwareRow[] {
-  return FIXED_SOFTWARE_TYPES.map((type, i) => ({
-    id: `sw-fixed-${i}`,
-    type,
-    isCustom: false,
-    centralOffice: { ...ZERO_SW },
-    fieldOffice: { ...ZERO_SW },
-  }));
+  return [
+    ...FIXED_SOFTWARE_TYPES.map((type, i) => ({
+      id: `sw-fixed-${i}`,
+      type,
+      isCustom: false,
+      centralOffice: { ...ZERO_SW },
+      fieldOffice: { ...ZERO_SW },
+    })),
+    {
+      id: "sw-others",
+      type: "Others, please specify",
+      isCustom: true,
+      centralOffice: { ...ZERO_SW },
+      fieldOffice: { ...ZERO_SW },
+    },
+  ];
 }

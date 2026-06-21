@@ -1523,7 +1523,7 @@ function renderEquipmentTable(rows: Annex1OfficePayload["annex1"]["equipment"]):
     const totBk  = row.centralOffice.backup      + row.fieldOffice.backup;
     return `
       <tr>
-        <td rowspan="3" style="border:1px solid #ccc;padding:4pt 6pt;vertical-align:middle;font-weight:${row.isCustom ? "normal" : "bold"}">${esc(row.type)}</td>
+        <td rowspan="2" style="border:1px solid #ccc;padding:4pt 6pt;vertical-align:middle;font-weight:${row.isCustom ? "normal" : "bold"}">${esc(row.type)}</td>
         <td style="border:1px solid #ccc;padding:4pt 6pt">Central Office</td>
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.centralOffice.operational}</td>
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.centralOffice.endOfLife}</td>
@@ -1536,7 +1536,8 @@ function renderEquipmentTable(rows: Annex1OfficePayload["annex1"]["equipment"]):
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.fieldOffice.backup}</td>
       </tr>
       <tr style="background:#f9f9f9">
-        <td style="border:1px solid #ccc;padding:4pt 6pt;font-style:italic;color:#555">Total</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;font-weight:bold">Total</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt"></td>
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totOp}</td>
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totEol}</td>
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totBk}</td>
@@ -1560,7 +1561,7 @@ function renderSoftwareTable(rows: Annex1OfficePayload["annex1"]["software"]): s
     const totSub  = row.centralOffice.subscription + row.fieldOffice.subscription;
     return `
       <tr>
-        <td rowspan="3" style="border:1px solid #ccc;padding:4pt 6pt;vertical-align:middle;font-weight:${row.isCustom ? "normal" : "bold"}">${esc(row.type)}</td>
+        <td rowspan="2" style="border:1px solid #ccc;padding:4pt 6pt;vertical-align:middle;font-weight:${row.isCustom ? "normal" : "bold"}">${esc(row.type)}</td>
         <td style="border:1px solid #ccc;padding:4pt 6pt">Central Office</td>
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.centralOffice.perpetual}</td>
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.centralOffice.subscription}</td>
@@ -1571,7 +1572,8 @@ function renderSoftwareTable(rows: Annex1OfficePayload["annex1"]["software"]): s
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center">${row.fieldOffice.subscription}</td>
       </tr>
       <tr style="background:#f9f9f9">
-        <td style="border:1px solid #ccc;padding:4pt 6pt;font-style:italic;color:#555">Total</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt;font-weight:bold">Total</td>
+        <td style="border:1px solid #ccc;padding:4pt 6pt"></td>
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totPerp}</td>
         <td style="border:1px solid #ccc;padding:4pt 6pt;text-align:center;font-weight:bold">${totSub}</td>
       </tr>`;

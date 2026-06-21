@@ -128,7 +128,7 @@ export function EquipmentTable({
                 <Fragment key={row.id}>
                   {/* Central Office */}
                   <tr className="hover:bg-accent/20">
-                    <td rowSpan={3} className="border border-border px-3 py-2 align-middle leading-tight">
+                    <td rowSpan={2} className="border border-border px-3 py-2 align-middle leading-tight">
                       {row.isCustom ? (
                         <div className="flex items-center gap-1.5">
                           <input
@@ -159,15 +159,16 @@ export function EquipmentTable({
 
                   {/* Field/Regional Office */}
                   <tr className="hover:bg-accent/20">
-                    <td className="border border-border px-3 py-1.5 text-sm text-muted-foreground">Field/Regional</td>
+                    <td className="border border-border px-3 py-1.5 text-sm text-muted-foreground">Field/Regional Office</td>
                     <NumCell value={row.fieldOffice.operational} onChange={(v) => updateRow(row.id, "fieldOffice", "operational", v)} />
                     <NumCell value={row.fieldOffice.endOfLife}   onChange={(v) => updateRow(row.id, "fieldOffice", "endOfLife",   v)} />
                     <NumCell value={row.fieldOffice.backup}      onChange={(v) => updateRow(row.id, "fieldOffice", "backup",      v)} />
                   </tr>
 
-                  {/* Total */}
-                  <tr className="bg-muted/20">
-                    <td className="border border-border px-3 py-1.5 text-xs text-muted-foreground font-medium">Total</td>
+                  {/* Total — "Total" in col 1 (ICT Resources), Office Location empty, per DICT template */}
+                  <tr className="bg-muted/20 font-bold">
+                    <td className="border border-border px-3 py-1.5 text-sm font-bold">Total</td>
+                    <td className="border border-border" />
                     <NumCell value={totOp}  readOnly />
                     <NumCell value={totEol} readOnly />
                     <NumCell value={totBk}  readOnly />
@@ -235,7 +236,7 @@ function EquipmentCard({
           <NumField label="Backup"      value={row.centralOffice.backup}      onChange={(v) => onUpdate("centralOffice", "backup",      v)} />
         </div>
         <div className="space-y-2.5 pl-4">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Field/Regional</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Field/Regional Office</p>
           <NumField label="Operational" value={row.fieldOffice.operational} onChange={(v) => onUpdate("fieldOffice", "operational", v)} />
           <NumField label="End of Life" value={row.fieldOffice.endOfLife}   onChange={(v) => onUpdate("fieldOffice", "endOfLife",   v)} />
           <NumField label="Backup"      value={row.fieldOffice.backup}      onChange={(v) => onUpdate("fieldOffice", "backup",      v)} />
@@ -336,7 +337,7 @@ export function SoftwareTable({
               return (
                 <Fragment key={row.id}>
                   <tr className="hover:bg-accent/20">
-                    <td rowSpan={3} className="border border-border px-3 py-2 align-middle leading-tight">
+                    <td rowSpan={2} className="border border-border px-3 py-2 align-middle leading-tight">
                       {row.isCustom ? (
                         <div className="flex items-center gap-1.5">
                           <input
@@ -365,13 +366,15 @@ export function SoftwareTable({
                   </tr>
 
                   <tr className="hover:bg-accent/20">
-                    <td className="border border-border px-3 py-1.5 text-sm text-muted-foreground">Field/Regional</td>
+                    <td className="border border-border px-3 py-1.5 text-sm text-muted-foreground">Field/Regional Office</td>
                     <NumCell value={row.fieldOffice.perpetual}    onChange={(v) => updateRow(row.id, "fieldOffice", "perpetual",    v)} />
                     <NumCell value={row.fieldOffice.subscription} onChange={(v) => updateRow(row.id, "fieldOffice", "subscription", v)} />
                   </tr>
 
-                  <tr className="bg-muted/20">
-                    <td className="border border-border px-3 py-1.5 text-xs text-muted-foreground font-medium">Total</td>
+                  {/* Total — "Total" in col 1 (ICT Resources), Office Location empty, per DICT template */}
+                  <tr className="bg-muted/20 font-bold">
+                    <td className="border border-border px-3 py-1.5 text-sm font-bold">Total</td>
+                    <td className="border border-border" />
                     <NumCell value={totPerp} readOnly />
                     <NumCell value={totSub}  readOnly />
                   </tr>
@@ -435,7 +438,7 @@ function SoftwareCard({
           <NumField label="Subscription" value={row.centralOffice.subscription} onChange={(v) => onUpdate("centralOffice", "subscription", v)} />
         </div>
         <div className="space-y-2.5 pl-4">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Field/Regional</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Field/Regional Office</p>
           <NumField label="Perpetual"    value={row.fieldOffice.perpetual}    onChange={(v) => onUpdate("fieldOffice", "perpetual",    v)} />
           <NumField label="Subscription" value={row.fieldOffice.subscription} onChange={(v) => onUpdate("fieldOffice", "subscription", v)} />
         </div>
