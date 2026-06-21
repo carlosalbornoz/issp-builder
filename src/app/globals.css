@@ -601,11 +601,17 @@
   .animate-caret-blink { animation: none; opacity: 1; }
 }
 
-/* Custom scrollbars — thin, theme-aware, uses existing CSS tokens */
+/* Custom scrollbars — thin, theme-aware, lightens on hover */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--muted-foreground) 35%, transparent);
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--muted-foreground) 18%, transparent);
+}
 ::-webkit-scrollbar-corner { background: transparent; }
 /* Firefox */
-* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted-foreground) 35%, transparent) transparent; }
