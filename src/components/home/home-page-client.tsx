@@ -312,7 +312,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               className="animate-glow-orbit inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
             >
               <Sparkles className="w-3 h-3" />
-              What&apos;s new — June 11–13, 2026
+              What&apos;s new — June 20–21, 2026
             </button>
           </div>
         </div>
@@ -637,178 +637,77 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
             <DialogTitle className="font-display text-lg flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              What&apos;s new — June 11–13, 2026
+              What&apos;s new — June 20–21, 2026
             </DialogTitle>
           </DialogHeader>
           <div ref={whatsNewScrollRef} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
             <div tabIndex={0} className="h-0 w-0 overflow-hidden outline-none" aria-hidden="true" />
 
-            {/* Fun blurb */}
-            <div className="rounded-lg border bg-muted/50 px-4 py-3 text-center">
-              <p className="text-sm font-medium italic text-foreground/75">
-                A full codebase review, an unreasonable amount of PDF wrangling, and a field-by-field audit against the official template later:
-              </p>
-            </div>
-
-            {/* Read-first cards everywhere */}
+            {/* Annex 1 — headline feature */}
             <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
-              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Every System &amp; Project Reads Before It Edits</p>
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Annex 1 — ICT Asset Inventory is Live</p>
               <p>
-                Part II-C (your IS inventory) and Part III-D (proposed systems) now open as a clean,{" "}
-                <span className="text-foreground font-medium">read-optimized summary</span> — just like Part III-E projects.
-                Editing is an explicit button, so browsing your plan no longer means tabbing through input fields or risking a
-                stray edit. Card headers also stopped <span className="text-foreground font-medium">duplicating the name and
-                classification</span>, and those identity fields stay read-only until you choose to edit.
+                The spreadsheet-looking one. Offices now have their own{" "}
+                <span className="text-foreground font-medium">standalone form at <code className="text-xs bg-muted px-1 rounded">/annex1</code></span>{" "}
+                — pick your office type (Central, Regional, or Field), fill in equipment and software counts, and download a{" "}
+                <code className="text-xs bg-muted px-1 rounded">.issp</code> file. Send that file to your CIO.
+              </p>
+              <p>
+                In the main editor, there&apos;s now an{" "}
+                <span className="text-foreground font-medium">Annexes section in the sidebar</span>. Attach each office&apos;s{" "}
+                <code className="text-xs bg-muted px-1 rounded">.issp</code> file there — the builder validates them, shows a count badge, and when you export to PDF,{" "}
+                <span className="text-foreground font-medium">all offices print as a proper Annex 1</span> with per-office tables and a consolidated summary when multiple offices are attached.
               </p>
             </div>
 
-            {/* Personalized overview */}
+            {/* Table/Cards toggle */}
             <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Your Overview, Personalized</p>
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Table or Cards — You Choose</p>
               <p>
-                The overview now <span className="text-foreground font-medium">greets you by time of day</span> in languages
-                from across the archipelago — Magandang umaga, Maayong buntag, Naimbag a bigat, Buenas tardes, Marhay na banggi —
-                then tells you exactly what you&apos;re working on. The top-right keeps just your draft status, and acronyms now
-                keep their real casing (<span className="text-foreground font-medium">DepEd</span> stays DepEd).
+                The inventory form offers a{" "}
+                <span className="text-foreground font-medium">Table / Cards toggle</span>. The table gives you the classic spreadsheet feel for scanning across all items at once. Cards give each ICT resource its own focused block — cleaner on smaller screens and easier when you&apos;re filling out one item at a time. Both views share the same data; switching doesn&apos;t reset anything.
               </p>
             </div>
 
-            {/* MITHI ticker */}
+            {/* Custom scrollbars */}
             <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Latest MITHI Advisories, In the Editor</p>
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Scrollbars That Match the Theme</p>
               <p>
-                A new <span className="text-foreground font-medium">advisory ticker</span> beside your status pill surfaces the
-                latest MITHI issuances — resolutions, advisories, circulars — and links straight to the source on{" "}
-                <span className="text-foreground font-medium">dbm.gov.ph</span>. The rules that govern your ISSP are now one click away.
+                Browser default scrollbars are gone. The app now renders thin, rounded scrollbars using the same color tokens as the rest of the UI — so they shift with the theme automatically. Subtle on light, subtle on dark, and they stay out of the way of the content.
               </p>
             </div>
 
-            {/* Smoother returns */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Smoother Returns</p>
-              <p>
-                Opening the sample, loading a file, or starting fresh now holds a clean loading state instead of briefly flashing
-                the wrong screen on the way to the editor. Long titles also wrap instead of getting cut off across the editor.
-              </p>
-            </div>
-
-            {/* Mobile sidebar + theme polish */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Sidebar &amp; Theme Polish</p>
-              <p>
-                On phones, the sidebar overlay now <span className="text-foreground font-medium">closes cleanly</span> with no
-                leftover shading at the screen edges. The theme button matches the Save/PDF buttons beside it, and the theme
-                menu <span className="text-foreground font-medium">stays open so you can preview each look live</span> — a tap
-                outside dismisses the menu, and sidebar items can&apos;t be tapped by accident while it&apos;s open. Sharing a
-                link also shows a proper <span className="text-foreground font-medium">preview card</span> now.
-              </p>
-            </div>
-
-            {/* 1 — Hero: template alignment */}
-            <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
-              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Checked Field-by-Field Against the DICT Template</p>
-              <p>
-                After the May 25 ISSP Caravan, we audited every input in the builder against all 40 pages of the official DICT 2026 template. Most things already matched. The ones that didn&apos;t are fixed — including one checklist card that was quietly asking about an <span className="italic">accounting system</span> where the template asks about your <span className="text-foreground font-medium">Public Service Continuity Plan</span>. If you answered that one before today, kindly revisit it. 🙏
-              </p>
-            </div>
-
-            {/* 2 — Splash continuity */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">This Page Now Remembers Your Work</p>
-              <p>
-                Come back with an ISSP in progress and the home page leads with a{" "}
-                <span className="text-foreground font-medium">&ldquo;Continue where you left off&rdquo;</span> card — your plan&apos;s title, coverage period, when you last edited, and how many sections are done. One click resumes; everything else (start new, load a file, the sample) tucks itself behind &ldquo;Other options&rdquo; so you don&apos;t accidentally start over. Clearing browser data takes two deliberate clicks and never touches your saved <code className="text-xs bg-muted px-1 rounded">.issp</code> files.
-              </p>
-            </div>
-
-            {/* 3 — Visible adds + readable projects */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">No More Mystery Adds</p>
-              <p>
-                Pressing <span className="text-foreground font-medium">Add</span> used to append a new card somewhere below your screen — you&apos;d never know it happened (&ldquo;hindi alam na may na-add na pala sa ibaba&rdquo;). Now every new item <span className="text-foreground font-medium">scrolls into view, gets focus, and pulses briefly</span>; bigger items like systems and projects start with a quick name-this-first dialog. Project cards in Part III-E also open as a <span className="text-foreground font-medium">readable summary</span> — editing is an explicit button, so reading no longer means dodging input fields. And if you link a proposed IS that another project already claims, the builder warns you <span className="text-foreground font-medium">by name</span> before you double-count its budget.
-              </p>
-            </div>
-
-            {/* 4 — Mobile KPIs */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">KPIs You Can Actually Edit on a Phone</p>
-              <p>
-                Part III-F&apos;s nine-column performance framework table now becomes a{" "}
-                <span className="text-foreground font-medium">card per KPI on small screens</span> — every field labeled, no sideways scrolling archaeology.
-              </p>
-            </div>
-
-            {/* 5 — Agency logo */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Your Agency Logo, In the PDF</p>
-              <p>
-                Upload your logo in the <span className="text-foreground font-medium">New ISSP</span> or <span className="text-foreground font-medium">ISSP Properties</span>{" "}dialog (PNG, JPG, WebP, or SVG, up to 2&nbsp;MB) and it appears on the cover page and on the upper-left of every page header — exactly where the official DICT template puts it.
-              </p>
-            </div>
-
-            {/* 3 — EGP checklist follow-ups */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">The eGov Checklist Now Asks the Template&apos;s Actual Questions</p>
-              <p>
-                Part II-D follows the template&apos;s exact structure: answering <span className="text-foreground font-medium">&ldquo;Not Utilizing&rdquo;</span> now reveals the official follow-ups (using an equivalent system — with its name and URL, manual processing, or proposed development of an equivalent). The Online Public Service Portal card asks about your real feedback mechanisms — <span className="text-foreground font-medium">Website, Email, Landline, Social Media, Mobile</span> — and whether they&apos;re connected to an online portal. Unanswered cards are flagged <span className="text-foreground font-medium">&ldquo;Needs answer&rdquo;</span> instead of pretending you said no.
-              </p>
-            </div>
-
-            {/* 4 — Derived total project cost */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Total Project Cost Computes Itself</p>
-              <p>
-                Part III-E no longer asks you to type a Total Project Cost and then politely warns you to keep it in sync with Part IV. It&apos;s now <span className="text-foreground font-medium">auto-calculated from that project&apos;s resource requirements</span> — one source of truth, zero chances of the PDF contradicting your own budget tables. Peso fields everywhere also <span className="text-foreground font-medium">format as you type</span>: 150,000,000 instead of squinting at 150000000.
-              </p>
-            </div>
-
-            {/* 5 — Mandatory cyber controls + explicit PIA */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Mandatory Means Mandatory</p>
-              <p>
-                The cybersecurity checklists now badge every control DICT marks <span className="text-foreground font-medium">Mandatory</span>, with a per-group counter so you can see at a glance what evaluators will look for. Privacy questions are now an explicit <span className="text-foreground font-medium">Yes / No</span> — an untouched checkbox no longer silently reads as &ldquo;No&rdquo; in your submitted PDF.
-              </p>
-            </div>
-
-            {/* 6 — Proposed IS completeness */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Proposed Systems, Fully Fleshed Out</p>
-              <p>
-                Part III-D gains the template&apos;s <span className="text-foreground font-medium">Description &amp; Purpose</span> field and all four interoperability dimensions. Project duration is now a proper <span className="text-foreground font-medium">year picker bounded to your ISSP&apos;s coverage period</span> — no more free-text date ranges from the wrong planning cycle.
-              </p>
-            </div>
-
-            {/* 7 — Definition of Terms */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Editable Definition of Terms</p>
-              <p>
-                The Definition of Terms page is no longer take-it-or-leave-it. A new <span className="text-foreground font-medium">front-matter section in the editor</span> lets you add your agency&apos;s own terms — the three standard DICT template terms come pre-filled, and everything prints alphabetically in the PDF no matter what order you type them in.
-              </p>
-            </div>
-
-            {/* 8 — PDF layout */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">PDF Layout, Straight from the Official Template</p>
-              <p>
-                The exported PDF now mirrors the official template&apos;s page conventions: the running header starts at Part I, the cover and table of contents stay clean, and page numbering restarts so <span className="text-foreground font-medium">Part I is Page 1</span> — the way evaluators expect it. The table of contents shows <span className="text-foreground font-medium">actual page numbers that match the footers</span> (the PDF renders twice to get these right; you&apos;re worth it).
-              </p>
-            </div>
-
-            {/* 9 — PDF accuracy */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">PDF Checkboxes That Actually Check</p>
-              <p>
-                A batch of export bugs is gone: frontline service <span className="text-foreground font-medium">Online / On-premise / Hybrid</span> boxes and funding-source boxes that never ticked, plus internal codes like <span className="font-mono text-xs">FOR_DEVELOPMENT</span> and <span className="font-mono text-xs">PLANTILLA</span> leaking into print where evaluators should see &ldquo;For Development&rdquo; and &ldquo;Plantilla&rdquo;. Part II-D details (URLs, equivalent systems, notes) that were silently dropped from the PDF all make it in now.
-              </p>
-            </div>
-
-            {/* 10 — Touch polish */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Tablet &amp; Touch Polish</p>
-              <p>
-                Dialogs scroll properly, number fields clear and retype freely, and touch screens get comfortable tap sizes while desktop stays compact. Employment statuses now use the template&apos;s exact grouping — Job Orders count under <span className="text-foreground font-medium">Outsourced (JO, COS, and HTC)</span>, where DICT puts them.
-              </p>
-            </div>
+            {/* Previously — June 11–13 entry, collapsed */}
+            <details className="group rounded-lg border bg-muted/30">
+              <summary className="flex cursor-pointer select-none items-center justify-between px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground list-none [&::-webkit-details-marker]:hidden">
+                Previously — June 11–13, 2026
+                <ChevronDown className="w-3.5 h-3.5 transition-transform group-open:rotate-180" />
+              </summary>
+              <div className="px-4 pb-4 pt-2 space-y-4">
+                <div className="rounded-lg border bg-muted/50 px-4 py-3 text-center">
+                  <p className="text-xs font-medium italic text-foreground/75">
+                    A full codebase review, an unreasonable amount of PDF wrangling, and a field-by-field audit against the official template later:
+                  </p>
+                </div>
+                <div className="space-y-3 text-xs">
+                  <div className="rounded-lg border border-primary/30 bg-primary/5 px-3 py-3 space-y-1.5">
+                    <p className="text-xs font-semibold text-primary uppercase tracking-wide">Checked Field-by-Field Against the DICT Template</p>
+                    <p>After the May 25 ISSP Caravan, we audited every input in the builder against all 40 pages of the official DICT 2026 template. Most things already matched. The ones that didn&apos;t are fixed — including one checklist card that was quietly asking about an <span className="italic">accounting system</span> where the template asks about your <span className="text-foreground font-medium">Public Service Continuity Plan</span>. If you answered that one before today, kindly revisit it. 🙏</p>
+                  </div>
+                  <p><span className="text-foreground font-medium">Every System &amp; Project Reads Before It Edits</span> — Part II-C and Part III-D now open as read-only summaries. Editing is an explicit button, so browsing no longer risks a stray edit.</p>
+                  <p><span className="text-foreground font-medium">Your Overview, Personalized</span> — greets you by time of day in regional languages, shows what you&apos;re working on, and keeps acronym casing correct (DepEd stays DepEd).</p>
+                  <p><span className="text-foreground font-medium">Latest MITHI Advisories</span> — an advisory ticker in the editor surfaces the latest issuances and links straight to the source on dbm.gov.ph.</p>
+                  <p><span className="text-foreground font-medium">This Page Now Remembers Your Work</span> — returns with a &ldquo;Continue where you left off&rdquo; card showing title, coverage period, last-edited time, and section progress.</p>
+                  <p><span className="text-foreground font-medium">No More Mystery Adds</span> — new items scroll into view, get focus, and pulse briefly. Projects and systems start with a name-first dialog.</p>
+                  <p><span className="text-foreground font-medium">KPIs on Phones</span> — Part III-F&apos;s nine-column table becomes a card per KPI on small screens.</p>
+                  <p><span className="text-foreground font-medium">Agency Logo in the PDF</span> — upload a logo and it appears on the cover and every page header.</p>
+                  <p><span className="text-foreground font-medium">eGov Checklist Follows the Template</span> — &ldquo;Not Utilizing&rdquo; reveals the official follow-up fields; unanswered cards are flagged instead of silently assumed &ldquo;No&rdquo;.</p>
+                  <p><span className="text-foreground font-medium">Total Project Cost Computes Itself</span> — auto-calculated from Part III-E resource requirements. Peso fields format as you type.</p>
+                  <p><span className="text-foreground font-medium">Mandatory Means Mandatory</span> — cybersecurity controls badge every DICT-required item; privacy questions are explicit Yes / No.</p>
+                  <p><span className="text-foreground font-medium">PDF Layout &amp; Accuracy</span> — Part I is Page 1, TOC shows real page numbers, checkboxes actually check, internal codes no longer leak into print.</p>
+                </div>
+              </div>
+            </details>
 
             {/* Previously — May 25 entry, collapsed */}
             <details className="group rounded-lg border bg-muted/30">
@@ -856,7 +755,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
             {/* Footer gag */}
             <p className="text-xs text-muted-foreground/50 italic text-center border-t pt-4">
-              Next on the list: Annex 1 — the ICT asset inventory. Yes, the spreadsheet-looking one. Pray for us. 🙏
+              Next: validating Annex 1 against the actual DICT template, then the ISSP Repository. One spreadsheet at a time. 📋
             </p>
 
           </div>

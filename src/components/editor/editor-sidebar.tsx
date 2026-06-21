@@ -42,7 +42,7 @@ import {
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
 import { useFileSaveReminder } from "@/hooks/use-file-save-reminder";
-import { PARTS, FRONT_MATTER_SECTIONS, computeStatus, type SectionDef, type PartDef } from "@/lib/sections";
+import { PARTS, FRONT_MATTER_SECTIONS, ANNEX_SECTIONS, computeStatus, type SectionDef, type PartDef } from "@/lib/sections";
 import { getChangedFields, type SectionField } from "@/lib/section-fields";
 import { StatusDot } from "@/components/ui/status-dot";
 import { IsspPropertiesDialog } from "./issp-properties-dialog";
@@ -472,6 +472,37 @@ export function EditorSidebar({
           </div>
         );
       })}
+
+      {/* Annexes */}
+      <div className="mt-2">
+        <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Annexes
+        </p>
+        {ANNEX_SECTIONS.map((section) => {
+          const isActive = pathname === section.href || pathname.startsWith(section.href + "/");
+          const count = section.id === "annexes/annex1" ? (doc?.annexedOffices?.length ?? 0) : 0;
+          return (
+            <Link
+              key={section.id}
+              href={section.href}
+              onClick={handleNavigate}
+              className={cn(
+                "flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors",
+                isActive
+                  ? "bg-[var(--sidebar-active)] text-foreground font-medium"
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              )}
+            >
+              <span className="truncate flex-1">{section.label}</span>
+              {count > 0 && (
+                <span className="shrink-0 text-xs font-medium text-muted-foreground bg-muted rounded-full px-1.5 py-0.5 leading-none">
+                  {count}
+                </span>
+              )}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 

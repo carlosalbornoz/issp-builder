@@ -369,6 +369,29 @@ export interface DefinitionTerm {
 
 // ─── Root document ────────────────────────────────────────────────────────────
 
+// Avoid a circular import: Annex1FilePayload is declared inline here to keep
+// the store types self-contained. The canonical definition lives in
+// src/lib/annex1/types.ts; these two must be kept in sync.
+export interface Annex1FilePayload {
+  version: "1.0";
+  fileType: "annex1";
+  exportedAt: string;
+  tool: "issp-platform";
+  office: { type: string; region?: string; name: string; displayLabel: string };
+  annex1: {
+    equipment: Array<{
+      id: string; type: string; isCustom: boolean;
+      centralOffice: { operational: number; endOfLife: number; backup: number };
+      fieldOffice:   { operational: number; endOfLife: number; backup: number };
+    }>;
+    software: Array<{
+      id: string; type: string; isCustom: boolean;
+      centralOffice: { perpetual: number; subscription: number };
+      fieldOffice:   { perpetual: number; subscription: number };
+    }>;
+  };
+}
+
 export interface IsspDocument {
   version: "1.0";
   fileType: "issp-main";
@@ -394,6 +417,8 @@ export interface IsspDocument {
   sectionMeta?: Record<string, SectionMeta>;
   /** Definition of Terms (front matter). Absent = standard template terms. */
   definitions?: DefinitionTerm[];
+  /** Annex 1 files attached by the CIO from regional/field offices. */
+  annexedOffices?: Annex1FilePayload[];
   part1: Part1Data;
   part2: Part2Data;
   part3: Part3Data;
