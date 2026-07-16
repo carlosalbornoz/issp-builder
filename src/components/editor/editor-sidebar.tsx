@@ -468,8 +468,12 @@ export function EditorSidebar({
             setExportState({ status: "exporting", ...p });
           } else if (evt.event === "done") {
             const { filename, pdf } = JSON.parse(evt.data) as { filename: string; pdf: string };
-            // Let the browser decode the base64 PDF via a data URI.
-            const blob = await (await fetch(`data:application/pdf;base64,${pdf}`)).blob();
+            // Decode base64 → bytes directly (no fetch): prod's CSP `connect-src 'self'`
+            // blocks fetch() against data: URIs, which the previous approach relied on.
+            const binary = atob(pdf);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+            const blob = new Blob([bytes], { type: "application/pdf" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
