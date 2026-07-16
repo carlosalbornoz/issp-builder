@@ -60,9 +60,9 @@ ss -tlnp | grep 3100 | grep -oP 'pid=\K[0-9]+' | xargs -r kill; sleep 0.5; pm2 r
 |---|---|---|
 | 1–6 | ISSP Builder (Parts I–IV) + PDF export | ✅ Done |
 | Local-first | No login, IndexedDB + `.issp` file format, stateless PDF | ✅ Done |
-| Phase E | Diagram upload (base64, client-side) | 🔵 Next |
+| Phase E | Diagram upload (base64, client-side) | ✅ Done |
 | Phase 7 | Polish & validation (progress tracking, pre-export checks, review mode) | 🔵 Planned |
-| Annex 1 | Standalone ICT Asset Inventory module for regional/field offices | 🔵 Planned |
+| Annex 1 | Standalone ICT Asset Inventory module for regional/field offices | ✅ Done |
 | Phase 8 | ISSP Repository — searchable public archive of agency ISSPs | 🔵 Planned |
 | Phase 9 | ICT Budget Dashboard — ISSP budget requests vs. DBM actual releases | 🔵 Planned |
 
@@ -110,7 +110,8 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 ├── src/
 │   ├── app/
 │   │   ├── editor/     # Local-first editor (public, no auth) — Parts I–IV
-│   │   └── api/export/ # POST /api/export — stateless PDF generation
+│   │   ├── api/export/ # POST /api/export — stateless PDF generation
+│   │   └── api/usage/  # POST /api/usage — limited append-only usage analytics
 │   ├── components/
 │   │   ├── editor/     # EditorShell, EditorSidebar
 │   │   └── issp-editor/# All Part I–IV form components
@@ -138,7 +139,7 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 
 ## Privacy
 
-This tool is **local-first by design** — your agency's ISSP data never leaves your browser. Everything is stored in IndexedDB and exported to a `.issp` file on your own computer. The server only receives data when you click "Export PDF", and it processes that data statelessly without persisting it. This aligns with RA 10173 (Data Privacy Act) Privacy by Design principles.
+This tool is **local-first by design** — the contents of your agency's ISSP stay in IndexedDB and in `.issp` files on your own computer. The server receives the document transiently when you click "Export PDF" and does not persist its contents. For basic usage analytics, creating, loading, or restoring a browser-saved draft records only the agency name, acronym, event type, and a server-generated timestamp. The fictitious sample is excluded. See the privacy page for the complete disclosure.
 
 ---
 

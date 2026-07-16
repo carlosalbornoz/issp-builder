@@ -3,6 +3,15 @@ import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { IsspStoreProvider } from "@/lib/store";
 import { ThemeProvider } from "@/lib/theme";
+import { StructuredData } from "@/components/seo/structured-data";
+import {
+  CREATOR_NAME,
+  CREATOR_URL,
+  OG_IMAGE_PATH,
+  SEO_KEYWORDS,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -23,9 +32,6 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
-const SITE_URL = "https://apps.carlosanton.io/issp";
-const OG_IMAGE = `${SITE_URL}/opengraph-image`;
-
 const themeScript = `
 (function() {
   try {
@@ -42,21 +48,48 @@ const themeScript = `
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
   title: {
-    default: "ISSP Platform PH",
-    template: "%s | ISSP Platform PH",
+    default: "ISSP Builder — Free DICT ISSP Editor for Philippine Government Agencies",
+    template: "%s | ISSP Builder",
   },
   description:
-    "A civic technology platform making Philippine government ICT plans visible, accessible, and accountable.",
+    "Free, local-first ISSP Builder for Philippine government agencies preparing DICT Information Systems Strategic Plans. Built by Carlos Antonio Albornoz.",
+  keywords: SEO_KEYWORDS,
+  authors: [{ name: CREATOR_NAME, url: CREATOR_URL }],
+  creator: CREATOR_NAME,
+  publisher: CREATOR_NAME,
+  alternates: {
+    canonical: SITE_URL,
+  },
+  category: "technology",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     type: "website",
-    siteName: "ISSP Builder",
+    title: "ISSP Builder — Free DICT ISSP Editor",
+    description:
+      "Prepare Philippine government Information Systems Strategic Plans with a free, browser-based editor aligned to the DICT 2026 ISSP template.",
+    url: SITE_URL,
+    siteName: SITE_NAME,
     locale: "en_PH",
-    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "ISSP Builder" }],
+    images: [{ url: OG_IMAGE_PATH, width: 1200, height: 630, alt: SITE_NAME }],
   },
   twitter: {
     card: "summary_large_image",
-    images: [OG_IMAGE],
+    title: "ISSP Builder — Free DICT ISSP Editor",
+    description:
+      "A free, local-first ISSP editor for Philippine government agencies. Built by Carlos Antonio Albornoz.",
+    images: [OG_IMAGE_PATH],
   },
 };
 
@@ -72,6 +105,7 @@ export default function RootLayout({
       className={`${fraunces.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} theme-system-light h-full antialiased`}
     >
       <head>
+        <StructuredData />
         {/* Ad blockers (e.g. AdGuard) rewrite inline scripts before hydration;
             the theme init has already run by then, so the mismatch is benign. */}
         <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeScript }} />
@@ -80,7 +114,7 @@ export default function RootLayout({
         <ThemeProvider>
           <IsspStoreProvider>
             {children}
-            <Toaster richColors closeButton position="bottom-right" />
+            <Toaster richColors closeButton position="top-right" />
           </IsspStoreProvider>
         </ThemeProvider>
       </body>

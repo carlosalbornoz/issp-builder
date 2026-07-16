@@ -1,0 +1,56 @@
+name: Dependency Gate (Trivy)
+
+# ═══════════════════════════════════════════════════════════════
+# GESF Security Gate — blocks PR merges on failures.
+# To enable enforcement: Settings → Branches → Branch protection rules
+#   → Require status checks → add the job name below.
+# ═══════════════════════════════════════════════════════════════
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 6 * * *'
+
+# Triggers on ALL branches and PRs. Branch protection rules
+# enforce the gate on the default branch (main/master/trunk/auto).
+
+jobs:
+  dependency-scan:
+    name: Trivy + Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          node-version: '22'
+
+      - name: Setup pnpm
+        if: hashFiles('pnpm-lock.yaml') != ''
+        uses: pnpm/action-setup@v4
+
+      - name: Install and audit (pnpm)
+        if: hashFiles('pnpm-lock.yaml') != ''
+        run: pnpm install --frozen-lockfile && pnpm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Install and audit (npm)
+        if: hashFiles('pnpm-lock.yaml') == '' && hashFiles('package-lock.json') != ''
+        run: npm ci && npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Install and audit (yarn)
+        if: hashFiles('pnpm-lock.yaml') == '' && hashFiles('package-lock.json') == '' && hashFiles('yarn.lock') != ''
+        run: yarn install --frozen-lockfile && yarn audit --level high
+        continue-on-error: true

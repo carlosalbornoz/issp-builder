@@ -1,10 +1,10 @@
 # Annex 1 — ICT Asset Inventory: Implementation Plan
 
-> **Status:** Historical draft — not yet implemented  
-> **Last updated:** 2026-06-19  
+> **Status:** Historical implementation plan — Annex 1 is now implemented
+> **Last updated:** 2026-07-16
 > **Reference:** `references/ISSP_Guidelines_2026.md` §ANNEX 1, `references/[Reference] ANNEX 1 - Existing ICT Resource Inventory.pdf`
 >
-> **Important:** This plan predates the completed local-first cutover and still contains older references to `/dashboard`, Prisma, `/api/issp`, and `src/proxy.ts` later in the file. Do not implement those parts as written. Before building Annex 1, refresh this plan against `docs/project-status.md` and keep the design local-first only.
+> **Important:** This plan contains historical design notes and older references to `/dashboard`, Prisma, `/api/issp`, and `src/proxy.ts`. Do not treat those portions as current architecture; verify the implementation against `docs/project-status.md` and the source code.
 
 ---
 

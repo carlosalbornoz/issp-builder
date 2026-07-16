@@ -62,6 +62,11 @@ export const FRONT_MATTER_SECTIONS: readonly SectionDef[] = [
   { id: "definitions", label: "Definition of Terms", href: "/editor/definitions" },
 ] as const;
 
+/** Annex sections — appear after Part IV in the sidebar. Not tracked in sectionMeta. */
+export const ANNEX_SECTIONS: readonly SectionDef[] = [
+  { id: "annexes/annex1", label: "Annex 1 — ICT Asset Inventory", href: "/editor/annex1" },
+] as const;
+
 export const ALL_SECTIONS: readonly SectionDef[] = [
   ...FRONT_MATTER_SECTIONS,
   ...PARTS.flatMap((p) => p.sections),

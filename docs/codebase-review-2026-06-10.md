@@ -99,6 +99,6 @@ Each request launches a fresh Chromium (`--no-sandbox`). N parallel requests = N
 
 - All dashboard/document API routes check session + agency scoping (no IDOR).
 - `dangerouslySetInnerHTML` uses are repo-authored markdown only.
-- `.env.production` in git contains only `NEXT_PUBLIC_BASE_PATH` — no secret.
+- Historical note: `.env.production` originally contained only deployment URLs, but environment files are now intentionally gitignored and maintained on the server.
 - `nl2br`/`esc` correct; `docContentHash` timestamp-stripping logic sound.
 - Migration chain v1→v2→v3 is idempotent and fills missing IDs correctly.

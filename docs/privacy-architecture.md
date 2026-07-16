@@ -1,9 +1,8 @@
 # Privacy Architecture Notes
 ## ISSP Builder — Local-First Redesign
 
-> **Historical design record.** Local-first is now implemented. This file preserves rationale and older decision notes, but `docs/project-status.md` is the current tracker and should be trusted over implementation-status text below.
-> **Status:** Implemented; superseded as an active tracker on 2026-06-19.
-> **Last updated:** 2026-06-19  
+> **Status:** Decisions finalized 2026-05-18. Implementation not yet started.
+> **Last updated:** 2026-05-18  
 > **Context:** As the platform is intended for use by government agencies, it must be aligned with RA 10173 (Data Privacy Act), RA 10175 / E-Gov Act IRR provisions, and the principle of Privacy by Design.
 
 ---
@@ -12,14 +11,14 @@
 
 | Question | Decision |
 |---|---|
-| Collaboration model | File-based first. Server-side scaffolding was later removed in the local-first cutover. No parallel "team mode" for now. |
+| Collaboration model | File-based first. Server-side scaffolding kept in code (not deleted) for future re-activation. No parallel "team mode" for now. |
 | Multi-document support | **One active document** in IndexedDB at a time. Multiple periods handled by maintaining separate `.issp` files on the filesystem. |
 | Network diagrams | **Base64 embedded** inside the `.issp` JSON. `FileReader` API converts uploads client-side. No separate file references. |
-| Transition plan | **Hard cutover completed** — user-facing app fully switched to local-first. Server-side routes (Prisma, auth, CRUD APIs) were removed. NCWTR seed data is a downloadable demo `.issp` file. |
-| Route structure | **`/editor`** route, no auth required. `/dashboard/**` and `/login` were removed. |
+| Transition plan | **Hard cutover** — user-facing app fully switches to local-first. Server-side routes (Prisma, auth, CRUD APIs) stay in code but are not linked from the UI. NCWTR seed data becomes a downloadable demo `.issp` file. |
+| Route structure | New **`/editor`** route (no auth required). Old `/dashboard/**` stays dormant. Landing page `→` `/editor`. |
 | File versioning | **Current state only.** No embedded history. Users manage versions via filesystem (save multiple `.issp` files). |
 | Agency identity | Anonymous — no server-side identity. Agency name/acronym in the document is sufficient. |
-| PDF export | Refactored to `POST /api/export` accepting full ISSP JSON in body, no session. Current hardening backlog is tracked in `docs/project-status.md`. |
+| PDF export | Refactored to `POST /api/export` accepting full ISSP JSON in body, no session. Add `Origin` header check for CSRF protection. |
 
 ## Build Phases
 
@@ -82,14 +81,14 @@ This is **Privacy by Design** in its most literal form (Ann Cavoukian's 7 Founda
 - **No account data collected.** No emails, no passwords, no user records on our end.
 - **Export to a local file** is the primary "save" action (replaces server persistence).
 - **PDF generation** still requires a server call (Puppeteer renders the HTML server-side), but the data sent to that endpoint is ephemeral — processed and discarded, never persisted.
-- **The server becomes a static file host + PDF renderer.** Nothing more.
+- **The server remains deliberately narrow:** a static file host, PDF renderer, and limited append-only usage logger.
 
 ### Dramatically reduced compliance scope
 
 Under this architecture:
-- **PIA scope shrinks to near-zero** — we're not collecting, storing, or processing personal information. The PIA would document that explicitly and serve as a compliance artifact.
-- **VAPT scope is limited** to the static web server and the PDF generation endpoint (which receives transient HTML and returns a PDF buffer — no persistence). This is far simpler and cheaper than VAPT-ing a full authenticated app with a database.
-- **NPC registration** — if we collect no personal information, registration obligations are significantly reduced.
+- **PIA scope stays limited** — ISSP contents and personal information remain local, while the four-field agency usage record is documented and assessed explicitly.
+- **VAPT scope is limited** to the static web server, PDF generation endpoint, and small usage endpoint. This is far simpler and cheaper than VAPT-ing a full authenticated app with a database.
+- **NPC registration** — because ISSP contents and user accounts are not collected, registration obligations are significantly reduced; the agency usage record still needs appropriate handling.
 - **E-Gov Act alignment** — a tool that keeps data local and gives agencies full control over their own ISSP data is strongly aligned with the spirit of the E-Gov Act's sovereignty and transparency provisions.
 
 ---
@@ -359,13 +358,22 @@ The existing PDF export (Puppeteer-based, DICT-compliant) remains the **submissi
 - **Save-to-file UX** — the persistent reminder system described in Section 3
 - **No-auth PDF export** — refactored to accept JSON body from client (POST instead of GET) without requiring a session
 
-### PDF export consideration
+### Server-side calls
+
+#### PDF export
 The PDF generation still requires a server (Puppeteer runs Chrome server-side). In the local-first model:
 - Client POSTs the full ISSP JSON to `/api/export` (no session required, no auth)
 - Server renders HTML from the JSON, generates PDF, streams it back
-- **Server never persists anything** — the JSON is used only to generate the PDF and is discarded
-- This is the only server-side call in the entire application
-- VAPT scope: this single endpoint
+- **Server never persists the ISSP document** — the JSON is used only to generate the PDF and is discarded
+
+#### Limited usage analytics
+
+- Creating a new ISSP, loading a `.issp` file, or restoring a browser-saved draft sends `event`, `agencyName`, and `agencyAcronym` to `POST /api/usage`
+- The server generates the timestamp and appends the four-field record as JSON Lines
+- The fictitious sample file is excluded; browser draft restoration is recorded as `restored`
+- No ISSP answers, file contents, document title, IP address, user agent, or request headers are intentionally written to this log
+- Writes are best-effort on the client and never block document creation or loading
+- `ISSP_USAGE_LOG_PATH` should point to a private persistent server volume in production; the local fallback is `.data/issp-usage.jsonl`
 
 ---
 
@@ -379,10 +387,10 @@ The PDF generation still requires a server (Puppeteer runs Chrome server-side). 
 **NPC reference:** RA 10173 IRR, Section 12 (Privacy Impact Assessment)
 
 ### What data is collected?
-- Under the proposed local-first architecture: **none**
-- The tool processes ISSP data locally in the user's browser
-- The only server call is PDF generation, which receives transient HTML and returns a PDF — nothing is stored
-- Server logs (standard web server access logs) may record IP addresses and request timestamps — this should be noted
+- The tool processes ISSP contents locally in the user's browser
+- PDF generation receives the document transiently and returns a PDF; document contents are not stored
+- On create, load, and browser-draft restoration, the usage log stores agency name, agency acronym, event type, and a server-generated timestamp
+- Server logs (standard web server access logs) may separately record IP addresses and request timestamps — this should be noted
 
 ### Personal information involved?
 - ISSP documents may contain names of CIO and ICT Focal Person (required DICT fields)
@@ -393,17 +401,19 @@ The PDF generation still requires a server (Puppeteer runs Chrome server-side). 
 ```
 User's browser (IndexedDB)
     → [on Save to File] → User's local filesystem (.issp file)
+    → [on Create/Load/Restore] → POST to /api/usage (four-field usage record persisted)
     → [on Export PDF] → POST to /api/export (transient, no persistence)
                       → PDF returned to browser
                       → User's local filesystem (.pdf file)
 ```
-No other data flows.
 
 ### Risks and mitigations
 | Risk | Mitigation |
 |---|---|
 | User loses work (browser cleared) | Save-to-file UX reminders; beforeunload warning |
 | PDF export endpoint could be abused | Rate limiting on /api/export; no data persistence |
+| Usage events are spoofed or flooded | Same-origin check, strict input allowlist and length limits, JSON-only requests; rate-limit `/api/usage` at the reverse proxy |
+| Usage log is accessed by an unauthorized party | Store outside public assets with owner-only permissions; restrict server access; define retention and rotation |
 | Server access logs contain IP addresses | Standard log retention policy; document in privacy notice |
 | .issp file left on shared computer | Out of scope for the tool; user responsibility; add note in UI |
 
@@ -414,7 +424,8 @@ No other data flows.
 Under the local-first architecture, the VAPT scope is limited to:
 
 1. **Static file server** — the Next.js app serving HTML/CSS/JS. Standard web server hardening.
-2. **`/api/export` endpoint** — the only server-side processing endpoint. Receives JSON, returns PDF. Attack surface: malformed JSON, oversized payloads, SSRF via embedded URLs in the HTML, DoS via expensive PDF generation.
+2. **`/api/export` endpoint** — receives JSON and returns PDF. Attack surface: malformed JSON, oversized payloads, SSRF via embedded URLs in the HTML, and DoS via expensive PDF generation.
+3. **`/api/usage` endpoint** — receives a small allowlisted JSON body and appends a usage event. Attack surface: log flooding, analytics spoofing, malformed input, and unauthorized access to the log file.
 
 Recommended VAPT focus areas for `/api/export`:
 - Input validation: reject malformed or excessively large JSON payloads
@@ -428,7 +439,7 @@ Recommended VAPT focus areas for `/api/export`:
 
 1. **Multi-document support** — can a user work on multiple ISSPs (e.g. one for each coverage period) stored in IndexedDB? Or is it always one active document?
 2. **File versioning** — should the `.issp` file include a version history, or just the current state?
-3. **Agency identity** — without accounts, how do we identify "which agency" is using the tool? Answer: we don't. The tool is anonymous. The agency name in the document is what matters.
+3. **Agency identity** — the usage log identifies the agency name and acronym on create, load, and browser-draft restoration, but does not identify an individual user or create an account.
 4. **Collaboration** — multi-user editing (CIO + Focal Person working together) is impossible in a local-first model without a server. Is this a dealbreaker? Options: (a) accept that collaboration is file-based (one person drafts, shares the .issp file, other person continues); (b) offer an optional "collaboration mode" that requires opt-in account creation.
 5. **PDF export authentication** — the current PDF export requires a session to fetch document data. In local-first mode, the client sends the data. The endpoint should have CSRF protection or at minimum an `Origin` check to prevent third-party abuse.
 6. **Network diagram uploads** — currently stored server-side in `public/uploads/`. In local-first mode, images would need to be stored as base64 in the `.issp` JSON, which could make files large. Alternatively, only store a reference and require the user to re-upload on each session.

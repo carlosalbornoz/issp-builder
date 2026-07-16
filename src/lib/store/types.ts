@@ -145,7 +145,9 @@ export interface InformationSystem {
   name: string;
   classification: IsClassification;
   frontline: boolean;
-  deploymentType: "HOSTED" | "CLOUD" | "HYBRID" | "ON_PREMISE" | "";
+  /** Template Frontline sub-question "Identify if: Online/On-premise/Hybrid".
+   * Only meaningful when classification === "Operations" && frontline === true. */
+  frontlineAccessType: "ONLINE" | "ON_PREMISE" | "HYBRID" | "";
   url: string;
   description: string;
   developmentStrategy: "IN_HOUSE" | "OUTSOURCED" | "HYBRID" | "COTS" | "OPEN_SOURCE" | "";
@@ -190,12 +192,12 @@ export interface EgpPortalMechanisms {
 }
 
 export interface EgpProgram {
-  status: "utilizing" | "proposed" | "not_applicable" | "not_utilizing" | "";
+  /** Template checklist is strictly Yes/No — no "Proposed" or "Not Applicable" box exists. */
+  status: "yes" | "no" | "";
   url?: string;
   equivalentName?: string;
   /** eLGU: URL of the equivalent system (template asks for both name and url). */
   equivalentUrl?: string;
-  notes?: string;
   ifNo?: EgpIfNo;
 }
 
@@ -232,7 +234,11 @@ export interface ProposedSystem {
   name: string;
   classification: IsClassification;
   frontline: boolean;
-  deploymentType: string;
+  /** Template Frontline sub-question "Identify if: Online/On-premise/Hybrid".
+   * Only meaningful when classification === "Operations" && frontline === true. */
+  frontlineAccessType: "ONLINE" | "ON_PREMISE" | "HYBRID" | "";
+  /** "Provide link" for Online frontline access (template III-D Frontline sub-question). */
+  url: string;
   description: string;
   status: "FOR_DEVELOPMENT" | "FOR_ENHANCEMENT" | "";
   enhancementDetails: string;
@@ -359,6 +365,13 @@ export interface SectionMeta {
   lastEditedAt: string | null;
 }
 
+export interface MigrationReview {
+  sourceSchemaVersion: number;
+  migratedToSchemaVersion: number;
+  pendingSectionIds: string[];
+  noticeAcknowledgedAt: string | null;
+}
+
 // ─── Definition of Terms (front matter) ───────────────────────────────────────
 
 export interface DefinitionTerm {
@@ -369,12 +382,35 @@ export interface DefinitionTerm {
 
 // ─── Root document ────────────────────────────────────────────────────────────
 
+// Avoid a circular import: Annex1FilePayload is declared inline here to keep
+// the store types self-contained. The canonical definition lives in
+// src/lib/annex1/types.ts; these two must be kept in sync.
+export interface Annex1FilePayload {
+  version: "1.0";
+  fileType: "annex1";
+  exportedAt: string;
+  tool: "issp-platform";
+  office: { type: string; region?: string; name: string; displayLabel: string };
+  annex1: {
+    equipment: Array<{
+      id: string; type: string; isCustom: boolean;
+      centralOffice: { operational: number; endOfLife: number; backup: number };
+      fieldOffice:   { operational: number; endOfLife: number; backup: number };
+    }>;
+    software: Array<{
+      id: string; type: string; isCustom: boolean;
+      centralOffice: { perpetual: number; subscription: number };
+      fieldOffice:   { perpetual: number; subscription: number };
+    }>;
+  };
+}
+
 export interface IsspDocument {
   version: "1.0";
   fileType: "issp-main";
   exportedAt: string;
   tool: "issp-platform";
-  /** Schema version for migration. 6 = current. */
+  /** Schema version for migration. 9 = current. */
   schemaVersion?: number;
   title: string;
   startYear: number;
@@ -392,8 +428,12 @@ export interface IsspDocument {
    * Absent key = { userMarkedDone: false, lastEditedAt: null }.
    */
   sectionMeta?: Record<string, SectionMeta>;
+  /** Pending human review created when an older file is migrated to changed forms. */
+  migrationReview?: MigrationReview;
   /** Definition of Terms (front matter). Absent = standard template terms. */
   definitions?: DefinitionTerm[];
+  /** Annex 1 files attached by the CIO from regional/field offices. */
+  annexedOffices?: Annex1FilePayload[];
   part1: Part1Data;
   part2: Part2Data;
   part3: Part3Data;

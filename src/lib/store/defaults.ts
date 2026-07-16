@@ -12,6 +12,7 @@ import type {
   Part4Data,
   YearBudget,
 } from "./types";
+import { CURRENT_SCHEMA_VERSION } from "@/lib/migration-review";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -149,7 +150,7 @@ export function createEmptyDocument(opts: NewDocOptions): IsspDocument {
     fileType: "issp-main",
     exportedAt: now,
     tool: "issp-platform",
-    schemaVersion: 6,
+    schemaVersion: CURRENT_SCHEMA_VERSION,
     title: opts.title,
     startYear: opts.startYear,
     endYear: opts.endYear,

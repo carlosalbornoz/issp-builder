@@ -1,0 +1,6 @@
+# Static reference dataset, not an application database schema.
+uacs/uacs_codes.sql
+
+# Historical review prose can contain examples of insecure patterns by design.
+# Active secrets remain covered by Gitleaks and the rest of the GESF scan.
+docs/security-review.md

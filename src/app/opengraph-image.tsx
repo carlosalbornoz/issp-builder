@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-export const alt = "ISSP Builder — your agency's DICT 2026 Information Systems Strategic Plan, structured.";
+export const alt = "ISSP Builder by Carlos Antonio Albornoz — free DICT 2026 Information Systems Strategic Plan editor.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -20,7 +20,7 @@ const plex600 = readFileSync(join(FONT_DIR, "IBMPlexSans-600.ttf"));
 const appShot = `data:image/png;base64,${readFileSync(join(ASSET_DIR, "app-shot.png")).toString("base64")}`;
 
 export default function OgImage() {
-  const pills = ["DICT 2026 aligned", "Local-first", "Free"];
+  const pills = ["DICT 2026 aligned", "Local-first", "Free & ad-free"];
 
   return new ImageResponse(
     (

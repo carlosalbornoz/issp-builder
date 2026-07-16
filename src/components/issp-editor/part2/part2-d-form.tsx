@@ -3,19 +3,19 @@
 import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { NumberInput } from "@/components/ui/number-input";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CheckCircle2, XCircle, MinusCircle, AlertCircle, CircleHelp } from "lucide-react";
+import { CheckCircle2, XCircle, CircleHelp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
 import { YesNoToggle, type YesNoAnswer } from "@/components/issp-editor/yes-no-toggle";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Status = "utilizing" | "proposed" | "not_applicable" | "not_utilizing" | "";
+/** Template checklist is strictly Yes/No — no "Proposed" or "Not Applicable" box exists. */
+type Status = YesNoAnswer;
 
 /** Template "If No" follow-up options (items 1, 2, 4, 5, 7). */
 interface EgpIfNo {
@@ -47,7 +47,6 @@ interface EgpProgram {
   url?: string;
   equivalentName?: string;
   equivalentUrl?: string;
-  notes?: string;
   ifNo?: EgpIfNo;
 }
 
@@ -82,20 +81,9 @@ const DEFAULT_CHECKLIST: EgpChecklist = {
 
 type AgencyType = "NGA" | "GOCC" | "LGU" | "OTHER";
 
-// ─── Status options ────────────────────────────────────────────────────────────
-
-const STATUS_OPTIONS: { value: Exclude<Status, "">; label: string; icon: React.ComponentType<{ className?: string }>; className: string }[] = [
-  { value: "utilizing", label: "Utilizing", icon: CheckCircle2, className: "text-success" },
-  { value: "proposed", label: "Proposed for adoption / In Progress", icon: AlertCircle, className: "text-warning" },
-  { value: "not_utilizing", label: "Not Utilizing", icon: XCircle, className: "text-destructive" },
-  { value: "not_applicable", label: "Not Applicable", icon: MinusCircle, className: "text-muted-foreground" },
-];
-
-function getStatusConfig(status: Status) {
-  return STATUS_OPTIONS.find((s) => s.value === status) ?? null;
-}
-
 // ─── EGP programs config ───────────────────────────────────────────────────────
+// Titles, question wording, and column layout mirror the DICT reference template
+// (references/egp-checklist.docx) exactly, row by row.
 
 type ProgramKey = keyof EgpChecklist;
 
@@ -103,56 +91,63 @@ type IfNoOption = "equivalent" | "manual" | "proposedDev" | "otherPlatform";
 
 interface ProgramConfig {
   key: ProgramKey;
+  /** Official template title (Part II.D row title). */
   label: string;
+  /** Short, commonly-used name shown alongside the title for recognizability. */
+  aka?: string;
   description: string;
   lguOnly?: boolean;
-  showUrl?: boolean;
-  /** Show the system-name input when Utilizing/Proposed (template "If Yes, indicate the system"). */
-  showEquivalent?: boolean;
+  /** Exact template Yes/No question. Omitted for pnpki/onlinePortal, which have no Yes/No in the template. */
+  question?: string;
+  showUrlOnYes?: boolean;
+  /** Show the system-name input when Yes (template "If Yes, indicate the system"). */
+  showEquivalentOnYes?: boolean;
   equivalentLabel?: string;
-  showNotes?: boolean;
-  showAdoptionPercent?: boolean;
-  /** Template "If No" follow-up checkboxes shown when status = Not Utilizing. */
+  /** Template "If No" follow-up checkboxes shown when status = No. */
   ifNoOptions?: IfNoOption[];
   manualLabel?: string;
   /** eLGU: the equivalent system needs a URL as well as a name. */
   equivalentUrlOnNo?: boolean;
-  /** Item 6: feedback-mechanism checkboxes + connected-to-portal question. */
+  /** Item 3: PNPKI adoption percentage (unconditional, no Yes/No). */
+  showAdoptionPercent?: boolean;
+  /** Item 6: feedback-mechanism checkboxes + connected-to-portal question (unconditional, no Yes/No). */
   portalMechanisms?: boolean;
 }
 
 const PROGRAMS: ProgramConfig[] = [
   {
     key: "elgu",
-    label: "eLGU",
+    label: "Electronic Local Government Unit (ELGU) System",
+    aka: "eLGU",
     description: "Integrated local government operations management system for LGUs.",
     lguOnly: true,
-    showUrl: true,
+    question: "Is your LGU already utilizing the eLGU system?",
+    showUrlOnYes: true,
     ifNoOptions: ["equivalent", "manual"],
     manualLabel: "Manual Transaction",
     equivalentUrlOnNo: true,
   },
   {
     key: "eGovPay",
-    label: "eGovPay",
+    label: "Government Digital Payment System for Collection and Disbursement",
+    aka: "eGovPay",
     description: "Government payment gateway for online and over-the-counter payments.",
-    showUrl: true,
-    showNotes: true,
+    question: "Is your agency utilizing eGovPay?",
     ifNoOptions: ["otherPlatform", "manual", "proposedDev"],
     manualLabel: "Manual Transaction",
   },
   {
     key: "pnpki",
-    label: "Philippine National Public Key Infrastructure (PNPKI)",
+    label: "Government Public Key Infrastructure (PKI) Program",
+    aka: "PNPKI",
     description: "Digital certificate infrastructure for secure government communications.",
     showAdoptionPercent: true,
-    showNotes: true,
   },
   {
     key: "hcmis",
     label: "Human Capital Management Information System (HCMIS)",
     description: "Centralized HRMS platform for government agencies.",
-    showNotes: true,
+    question: "Is your agency utilizing the HCMIS?",
     ifNoOptions: ["equivalent", "manual", "proposedDev"],
     manualLabel: "Manual processing",
   },
@@ -160,7 +155,7 @@ const PROGRAMS: ProgramConfig[] = [
     key: "ifmis",
     label: "Integrated Financial Management Information System (IFMIS)",
     description: "Government financial management system.",
-    showNotes: true,
+    question: "Is your agency utilizing the IFMIS?",
     ifNoOptions: ["equivalent", "manual", "proposedDev"],
     manualLabel: "Manual processing",
   },
@@ -169,15 +164,14 @@ const PROGRAMS: ProgramConfig[] = [
     label: "Online Public Service Portal",
     description:
       "Consumer protection and citizen assistance, feedback and grievance mechanisms, and their connection to online public service portals.",
-    showUrl: true,
-    showNotes: true,
     portalMechanisms: true,
   },
   {
     key: "procurement",
-    label: "Philippine Government Procurement System (PhilGEPS)",
-    description: "Government procurement transparency and management portal.",
-    showUrl: true,
+    label: "Procurement System",
+    aka: "PhilGEPS",
+    description: "Government procurement transparency and management portal (Philippine Government Procurement System).",
+    question: "Is your agency utilizing the Philippine Government Procurement System?",
     ifNoOptions: ["equivalent", "manual", "proposedDev"],
     manualLabel: "Manual processing",
   },
@@ -185,15 +179,17 @@ const PROGRAMS: ProgramConfig[] = [
     key: "recordsMgmt",
     label: "Records and Knowledge Management Information System",
     description: "Repository for records and knowledge management in the agency.",
-    showEquivalent: true,
+    question: "Is there an existing repository for Records and Knowledge Management in your agency?",
+    showEquivalentOnYes: true,
     equivalentLabel: "Indicate the system",
-    showNotes: true,
   },
   {
     key: "pscp",
-    label: "Public Service Continuity Plan (PSCP)",
+    label: "Public Service Continuity Plan",
+    aka: "PSCP",
     description:
       "Documented plan to ensure continued delivery of public services during disruptions and emergencies.",
+    question: "Is there an existing Public Service Continuity Plan in your agency?",
   },
 ];
 
@@ -208,12 +204,9 @@ function ProgramCard({
   value: EgpProgram & { adoptionPercentage?: number; channels?: string; mechanisms?: EgpPortalMechanisms; connectedToPortal?: YesNoAnswer };
   onChange: (updated: typeof value) => void;
 }) {
-  const statusCfg = getStatusConfig(value.status);
-  const StatusIcon = statusCfg?.icon;
-  const isUtilizing = value.status === "utilizing";
-  const isProposed = value.status === "proposed";
-  const showDetails = isUtilizing || isProposed;
-  const isUnanswered = !value.status;
+  const isYesNoRow = !!config.question;
+  const isYes = value.status === "yes";
+  const isUnanswered = isYesNoRow && !value.status;
 
   return (
     <Card
@@ -225,53 +218,38 @@ function ProgramCard({
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <CardTitle className="text-sm font-semibold leading-snug">{config.label}</CardTitle>
+            <CardTitle className="text-sm font-semibold leading-snug">
+              {config.label}
+              {config.aka && <span className="ml-2 font-normal text-muted-foreground">({config.aka})</span>}
+            </CardTitle>
             <CardDescription className="text-xs mt-0.5">{config.description}</CardDescription>
           </div>
-          {statusCfg && StatusIcon ? (
-            <Badge
-              variant="outline"
-              className={cn("shrink-0 gap-1 text-xs", statusCfg.className)}
-            >
-              <StatusIcon className="h-3 w-3" />
-              {statusCfg.label}
-            </Badge>
-          ) : (
-            <span className="shrink-0 rounded-md border border-warning-border bg-warning-bg px-2 py-1 text-xs font-medium text-warning">
-              Needs answer
-            </span>
+          {isYesNoRow && (
+            value.status ? (
+              <Badge
+                variant="outline"
+                className={cn("shrink-0 gap-1 text-xs", isYes ? "text-success" : "text-destructive")}
+              >
+                {isYes ? <CheckCircle2 className="h-3 w-3" /> : <XCircle className="h-3 w-3" />}
+                {isYes ? "Utilizing" : "Not Utilizing"}
+              </Badge>
+            ) : (
+              <span className="shrink-0 rounded-md border border-warning-border bg-warning-bg px-2 py-1 text-xs font-medium text-warning">
+                Needs answer
+              </span>
+            )
           )}
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {isUnanswered && (
-          <p className="text-xs font-medium text-warning">
-            Select one status below to complete this checklist item.
-          </p>
+        {/* Yes/No question — the template's actual per-row question */}
+        {config.question && (
+          <YesNoToggle
+            question={config.question}
+            value={value.status}
+            onChange={(v) => onChange({ ...value, status: v })}
+          />
         )}
-        {/* Status selector */}
-        <div className="flex flex-wrap gap-2">
-          {STATUS_OPTIONS.map((opt) => {
-            const Icon = opt.icon;
-            const active = value.status === opt.value;
-            return (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => onChange({ ...value, status: opt.value })}
-                className={cn(
-                  "flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-all",
-                  active
-                    ? "border-primary bg-primary/10 text-primary shadow-sm"
-                    : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                )}
-              >
-                <Icon className="h-3.5 w-3.5" />
-                {opt.label}
-              </button>
-            );
-          })}
-        </div>
 
         {/* Adoption % — the template asks this unconditionally (no status gate) */}
         {config.showAdoptionPercent && (
@@ -330,7 +308,7 @@ function ProgramCard({
         )}
 
         {/* Template "If No" follow-ups */}
-        {value.status === "not_utilizing" && config.ifNoOptions && (
+        {value.status === "no" && config.ifNoOptions && (
           <div className="space-y-2 rounded-lg border bg-muted/20 p-3">
             <p className="text-xs font-medium text-muted-foreground">If No, indicate:</p>
             <div className="space-y-2">
@@ -408,10 +386,10 @@ function ProgramCard({
           </div>
         )}
 
-        {/* Conditional detail fields */}
-        {showDetails && (
+        {/* Template "If Yes" details */}
+        {isYes && (config.showUrlOnYes || config.showEquivalentOnYes) && (
           <div className="grid sm:grid-cols-2 gap-3 pt-1">
-            {config.showUrl && (
+            {config.showUrlOnYes && (
               <div className="space-y-1.5 sm:col-span-2">
                 <label className="text-xs font-medium text-muted-foreground">System URL</label>
                 <Input
@@ -423,7 +401,7 @@ function ProgramCard({
                 />
               </div>
             )}
-            {config.showEquivalent && (
+            {config.showEquivalentOnYes && (
               <div className="space-y-1.5">
                 <label className="text-xs font-medium text-muted-foreground">
                   {config.equivalentLabel ?? "Equivalent / Alternative System Name"}
@@ -432,18 +410,6 @@ function ProgramCard({
                   placeholder="System name..."
                   value={value.equivalentName ?? ""}
                   onChange={(e) => onChange({ ...value, equivalentName: e.target.value })}
-                />
-              </div>
-            )}
-            {config.showNotes && (
-              <div className="space-y-1.5 sm:col-span-2">
-                <label className="text-xs font-medium text-muted-foreground">Notes</label>
-                <Textarea
-                  placeholder="Additional notes..."
-                  value={value.notes ?? ""}
-                  onChange={(e) => onChange({ ...value, notes: e.target.value })}
-                  rows={2}
-                  className="resize-none"
                 />
               </div>
             )}
@@ -487,11 +453,12 @@ export function Part2DForm({
     return true;
   });
 
-  const utilizingCount = visiblePrograms.filter((p) => {
-    const val = checklist[p.key];
-    return val?.status === "utilizing";
-  }).length;
-  const unansweredCount = visiblePrograms.filter((p) => !checklist[p.key]?.status).length;
+  // Summary stats only cover rows with an actual template Yes/No question —
+  // PNPKI and the Online Portal have no such concept.
+  const yesNoPrograms = visiblePrograms.filter((p) => p.question);
+  const utilizingCount = yesNoPrograms.filter((p) => checklist[p.key]?.status === "yes").length;
+  const notUtilizingCount = yesNoPrograms.filter((p) => checklist[p.key]?.status === "no").length;
+  const unansweredCount = yesNoPrograms.filter((p) => !checklist[p.key]?.status).length;
 
   return (
     <SectionShell
@@ -510,20 +477,9 @@ export function Part2DForm({
           </div>
         </div>
         <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-          <AlertCircle className="h-5 w-5 text-warning" />
-          <div>
-            <p className="text-xl font-bold text-warning leading-none">
-              {visiblePrograms.filter((p) => checklist[p.key]?.status === "proposed").length}
-            </p>
-            <p className="text-xs text-muted-foreground">Proposed</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
           <XCircle className="h-5 w-5 text-destructive" />
           <div>
-            <p className="text-xl font-bold text-destructive leading-none">
-              {visiblePrograms.filter((p) => checklist[p.key]?.status === "not_utilizing").length}
-            </p>
+            <p className="text-xl font-bold text-destructive leading-none">{notUtilizingCount}</p>
             <p className="text-xs text-muted-foreground">Not Utilizing</p>
           </div>
         </div>

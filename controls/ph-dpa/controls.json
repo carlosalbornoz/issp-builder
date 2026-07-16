@@ -1,0 +1,242 @@
+[
+  {
+    "id": "DPA-PH-01",
+    "name": "PIC and PIP Designation",
+    "description": "Designate Personal Information Controller (PIC) and Personal Information Processor (PIP) roles.",
+    "category": "privacy-governance",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "critical",
+    "implementation_guidance": "Designate and document PIC (determines purposes and means) and PIP (processes on behalf of PIC) roles. The PIC is accountable for compliance. Ensure PIC-PIP contracts clearly define obligations per DPA. Document the accountability chain for all processing. [Ref: DPA Section 3; IRR Article 4]",
+    "checks": [
+      {
+        "id": "DPA-PH-01-C1",
+        "description": "PIC and PIP roles documented for each processing",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-01-C2",
+        "description": "PIC-PIP contracts executed with DPA obligations",
+        "status": "not-implemented"
+      }
+    ]
+  },
+  {
+    "id": "DPA-PH-02",
+    "name": "Data Protection Officer (Philippines)",
+    "description": "Designate a DPO and register with the NPC.",
+    "category": "privacy-governance",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "high",
+    "implementation_guidance": "Designate a DPO who shall: ensure compliance, advise on DPIAs, cooperate with NPC, and serve as contact for data subjects. Register the DPO with the NPC. The DPO should have sufficient knowledge of the DPA and IRR. [Ref: DPA Section 11; IRR Article 7; NPC Circular 17-01]",
+    "checks": [
+      {
+        "id": "DPA-PH-02-C1",
+        "description": "DPO designated and registered with NPC",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-02-C2",
+        "description": "DPO responsibilities documented",
+        "status": "not-implemented"
+      }
+    ]
+  },
+  {
+    "id": "DPA-PH-03",
+    "name": "NPC Registration",
+    "description": "Register personal data processing systems with the NPC if processing 1,000+ records.",
+    "category": "privacy-governance",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "high",
+    "implementation_guidance": "Register with the NPC if processing personal data of 1,000 or more individuals. Submit registration forms including: PIC details, DPO information, processing system descriptions, and data categories. Renew registration annually. Update within 30 days of material changes. [Ref: NPC Circular 17-01; DPA IRR Article 7]",
+    "checks": [
+      {
+        "id": "DPA-PH-03-C1",
+        "description": "NPC registration completed if applicable",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-03-C2",
+        "description": "Annual renewal process established",
+        "status": "not-implemented"
+      }
+    ]
+  },
+  {
+    "id": "DPA-PH-04",
+    "name": "Criteria for Lawful Processing",
+    "description": "Document the lawful criteria for processing personal data and sensitive personal information.",
+    "category": "consent-management",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "critical",
+    "implementation_guidance": "For personal data, establish criteria: consent, contract, legal obligation, vital interests, public interest, or legitimate interests. For sensitive personal information (race, marital status, age, color, religious/philosophical/political affiliations, health, education, genetics, sexual life, SSN, licenses). Obtain specific, affirmed consent for SPI. [Ref: DPA Sections 12-13]",
+    "checks": [
+      {
+        "id": "DPA-PH-04-C1",
+        "description": "Lawful criteria documented per processing",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-04-C2",
+        "description": "Specific consent for sensitive personal information",
+        "status": "not-implemented"
+      }
+    ]
+  },
+  {
+    "id": "DPA-PH-05",
+    "name": "Data Subject Rights (Philippines)",
+    "description": "Implement DPA data subject rights including bequeathal rights for deceased persons.",
+    "category": "data-subject-rights",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "high",
+    "implementation_guidance": "Implement rights: information to data subject, right to object, right to access, right to rectification, right to erasure/blocking, right to data portability, and right to damages. Honor bequeathal rights (rights of heirs of deceased). Respond within a reasonable time. Provide mechanisms for filing complaints. [Ref: DPA Sections 16-18]",
+    "checks": [
+      {
+        "id": "DPA-PH-05-C1",
+        "description": "All DPA rights implemented with request mechanisms",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-05-C2",
+        "description": "Bequeathal rights procedure documented",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-05-C3",
+        "description": "Complaint filing mechanism available",
+        "status": "not-implemented"
+      }
+    ]
+  },
+  {
+    "id": "DPA-PH-06",
+    "name": "Security Measures (NPC Circular 16-03)",
+    "description": "Implement physical, organizational, and technical security measures per NPC Circular 16-03.",
+    "category": "security-controls",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "critical",
+    "implementation_guidance": "Implement: organizational security (data protection policies, access control policies, data mapping), physical security (facility access controls, environmental controls), and technical security (authentication, encryption, network security, logging). Appoint Information Security Officer (can be DPO). Conduct annual security reviews. [Ref: NPC Circular 16-03 Part 3-5]",
+    "checks": [
+      {
+        "id": "DPA-PH-06-C1",
+        "description": "Organizational security measures documented",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-06-C2",
+        "description": "Physical security measures implemented",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-06-C3",
+        "description": "Technical security measures implemented",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-06-C4",
+        "description": "Annual security review conducted",
+        "status": "not-implemented"
+      }
+    ]
+  },
+  {
+    "id": "DPA-PH-07",
+    "name": "Privacy Impact Assessment",
+    "description": "Conduct Privacy Impact Assessments (PIAs) for processing systems and new projects.",
+    "category": "privacy-governance",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "high",
+    "implementation_guidance": "Conduct PIAs for: new processing systems, significant changes to existing systems, automated processing/profiling, processing of sensitive personal information, and large-scale processing. Document: processing description, necessity, risks, mitigation. Submit PIAs to NPC if requested. Review annually. [Ref: DPA IRR Article 8; NPC PIA Guidelines]",
+    "checks": [
+      {
+        "id": "DPA-PH-07-C1",
+        "description": "PIA criteria established for new/changed processing",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-07-C2",
+        "description": "PIAs documented with risk assessments",
+        "status": "not-implemented"
+      }
+    ]
+  },
+  {
+    "id": "DPA-PH-08",
+    "name": "NPC Breach Notification",
+    "description": "Report personal data breaches to the NPC within 72 hours and notify affected individuals.",
+    "category": "incident-management",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "critical",
+    "implementation_guidance": "Notify NPC within 72 hours of knowledge of breach involving sensitive personal information or affecting 100+ individuals. Include: breach nature, data involved, date/time, circumstances, mitigation. Notify affected individuals within a reasonable time. Document all breaches. [Ref: NPC Circular 16-03 Section 9; DPA IRR Article 9]",
+    "checks": [
+      {
+        "id": "DPA-PH-08-C1",
+        "description": "NPC 72-hour breach notification procedure",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-08-C2",
+        "description": "Individual notification procedures",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-08-C3",
+        "description": "Breach register maintained",
+        "status": "not-implemented"
+      }
+    ]
+  },
+  {
+    "id": "DPA-PH-09",
+    "name": "Data Sharing and Outsourcing",
+    "description": "Ensure lawful data sharing and outsourcing of personal data processing.",
+    "category": "vendor-management",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "high",
+    "implementation_guidance": "Execute data sharing agreements with PICs containing: purpose, data categories, security measures, data subject rights, and termination conditions. For outsourcing to PIPs, ensure contracts specify: processing scope, security obligations, sub-processor controls, and data return/deletion. [Ref: DPA Sections 20, 32-36; IRR Articles 21, 28]",
+    "checks": [
+      {
+        "id": "DPA-PH-09-C1",
+        "description": "Data sharing agreements with PICs executed",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-09-C2",
+        "description": "Outsourcing contracts with PIPs executed",
+        "status": "not-implemented"
+      }
+    ]
+  },
+  {
+    "id": "DPA-PH-10",
+    "name": "Cross-Border Transfers (Philippines)",
+    "description": "Ensure appropriate safeguards for international transfers of personal data.",
+    "category": "cross-border-transfers",
+    "framework": "DPA-PH",
+    "status": "not-implemented",
+    "severity": "high",
+    "implementation_guidance": "Ensure overseas recipients provide a level of protection comparable to the DPA. Use contractual safeguards or adequate country transfers. Inform data subjects of cross-border transfers. Document transfer mechanisms. Conduct transfer risk assessments. [Ref: DPA Section 21; IRR Article 27]",
+    "checks": [
+      {
+        "id": "DPA-PH-10-C1",
+        "description": "Cross-border transfer safeguards documented",
+        "status": "not-implemented"
+      },
+      {
+        "id": "DPA-PH-10-C2",
+        "description": "Comparable protection ensured",
+        "status": "not-implemented"
+      }
+    ]
+  }
+]

@@ -6,19 +6,14 @@ import matter from "gray-matter";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "What the heck is this?",
+export const metadata: Metadata = pageMetadata({
+  title: "About ISSP Builder and Carlos Antonio Albornoz",
   description:
-    "The story behind the ISSP Platform — why it was built, and where it's going.",
-  openGraph: {
-    title: "What the heck is this? — ISSP Builder",
-    description:
-      "A volunteer-built tool for Philippine government ISSP compliance. The story: five years inside government, frustration with Word templates, and a DICT advisory that arrived a year before the official tooling did.",
-    url: "https://apps.carlosanton.io/issp/about",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "ISSP Builder" }],
-  },
-};
+    "The story behind ISSP Builder: a free, volunteer-built tool by Carlos Antonio Albornoz for Philippine government ISSP compliance.",
+  path: "/about",
+});
 
 async function getAboutContent() {
   const filePath = path.join(process.cwd(), "content", "about.md");

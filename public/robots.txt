@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /issp/api/
 
 # Allow social media scrapers for link previews
 User-agent: facebookexternalhit
@@ -10,3 +11,5 @@ Allow: /
 
 User-agent: LinkedInBot
 Allow: /
+
+Sitemap: https://apps.carlosanton.io/issp/sitemap.xml

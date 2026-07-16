@@ -6,19 +6,14 @@ import matter from "gray-matter";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Why this tool should never see your data",
+export const metadata: Metadata = pageMetadata({
+  title: "ISSP Builder Privacy — Local-First, No Server Storage",
   description:
-    "On data privacy, local-first architecture, and why the ISSP Platform is redesigning itself to never hold your agency's data.",
-  openGraph: {
-    title: "Why this tool should never see your data — ISSP Builder",
-    description:
-      "How ISSP Builder's local-first, IndexedDB-only architecture keeps agency data off any server — and why that matters for DPA compliance and PIA requirements.",
-    url: "https://apps.carlosanton.io/issp/privacy",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "ISSP Builder" }],
-  },
-};
+    "How ISSP Builder keeps agency data in the browser with local-first IndexedDB storage, no account requirement, and stateless PDF export.",
+  path: "/privacy",
+});
 
 async function getPrivacyContent() {
   const filePath = path.join(process.cwd(), "content", "privacy.md");
