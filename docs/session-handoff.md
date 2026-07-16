@@ -9,7 +9,7 @@
 
 The local-first rearchitecture is **fully implemented**. All phases A–F are done.
 
-**TL;DR:** No sign-in. ISSP data lives in the user's browser (`IndexedDB`), exported to a `.issp` file. The server does only stateless PDF generation (`POST /api/export`). The old server-side DB/auth code remains in the repo but is not wired to the UI.
+**TL;DR:** No sign-in. ISSP contents live in the user's browser (`IndexedDB`) and are exported to a `.issp` file. The server does stateless PDF generation (`POST /api/export`) plus a limited usage log (`POST /api/usage`) containing only agency name, acronym, create/load/restore event, and timestamp. The fictitious sample is excluded. The old server-side DB/auth code remains in the repo but is not wired to the UI.
 
 | Phase | Work | Status |
 |---|---|---|
@@ -269,6 +269,7 @@ interface IsspDocument {
   exportedAt: string;    // updated by saveToFile(); used to compute unsavedToFile
   tool: "issp-platform";
   schemaVersion?: number;  // 9 = current; absent/1 = legacy; migrated on load (see migrateLegacyDoc)
+  migrationReview?: { sourceSchemaVersion: number; migratedToSchemaVersion: number; pendingSectionIds: string[]; noticeAcknowledgedAt: string | null };
   title: string;
   startYear: number; endYear: number;
   amendmentNumber: number;

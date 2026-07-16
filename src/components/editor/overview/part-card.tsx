@@ -3,15 +3,19 @@ import type { SectionMeta } from "@/lib/store";
 import { StatusDot } from "@/components/ui/status-dot";
 import { RelativeTime } from "@/components/ui/relative-time";
 import { computeStatus, computePartStatus, type PartDef } from "@/lib/sections";
+import { AlertTriangle } from "lucide-react";
 
 export function PartCard({
   part,
   sectionMeta,
+  pendingSectionIds = [],
 }: {
   part: PartDef;
   sectionMeta: Record<string, SectionMeta>;
+  pendingSectionIds?: string[];
 }) {
   const partStatus = computePartStatus(part.sections, sectionMeta);
+  const pendingCount = part.sections.filter((section) => pendingSectionIds.includes(section.id)).length;
 
   return (
     <div className="relative rounded-xl border bg-card overflow-hidden">
@@ -26,7 +30,14 @@ export function PartCard({
           </p>
           <p className="font-display text-base font-medium mt-0.5 leading-snug">{part.title}</p>
         </div>
-        <StatusDot status={partStatus} size={8} className="mt-2 shrink-0" />
+        <div className="flex items-center gap-2 mt-1.5">
+          {pendingCount > 0 && (
+            <span className="rounded-full border border-warning-border bg-warning-bg px-2 py-0.5 text-[10px] font-semibold text-warning">
+              {pendingCount} to review
+            </span>
+          )}
+          <StatusDot status={partStatus} size={8} className="shrink-0" />
+        </div>
       </div>
 
       {/* Section rows */}
@@ -34,18 +45,27 @@ export function PartCard({
         {part.sections.map((section) => {
           const meta = sectionMeta[section.id];
           const status = computeStatus(meta);
+          const needsReview = pendingSectionIds.includes(section.id);
           return (
             <li key={section.id}>
               <Link
                 href={section.href}
-                className="flex items-center gap-2.5 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className={needsReview
+                  ? "-mx-2 flex items-center gap-2.5 rounded-md border border-warning-border bg-warning-bg px-2 py-1.5 text-sm text-foreground transition-colors hover:brightness-95"
+                  : "flex items-center gap-2.5 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"}
               >
                 {!section.readOnly && <StatusDot status={status} size={6} className="shrink-0" />}
                 <span className="flex-1 truncate">{section.label}</span>
-                <RelativeTime
-                  iso={meta?.lastEditedAt}
-                  className="text-xs text-muted-foreground/50 shrink-0"
-                />
+                {needsReview ? (
+                  <span className="flex shrink-0 items-center gap-1 text-[10px] font-semibold text-warning">
+                    <AlertTriangle className="h-3 w-3" /> Review required
+                  </span>
+                ) : (
+                  <RelativeTime
+                    iso={meta?.lastEditedAt}
+                    className="text-xs text-muted-foreground/50 shrink-0"
+                  />
+                )}
               </Link>
             </li>
           );

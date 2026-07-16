@@ -365,6 +365,13 @@ export interface SectionMeta {
   lastEditedAt: string | null;
 }
 
+export interface MigrationReview {
+  sourceSchemaVersion: number;
+  migratedToSchemaVersion: number;
+  pendingSectionIds: string[];
+  noticeAcknowledgedAt: string | null;
+}
+
 // ─── Definition of Terms (front matter) ───────────────────────────────────────
 
 export interface DefinitionTerm {
@@ -403,7 +410,7 @@ export interface IsspDocument {
   fileType: "issp-main";
   exportedAt: string;
   tool: "issp-platform";
-  /** Schema version for migration. 6 = current. */
+  /** Schema version for migration. 9 = current. */
   schemaVersion?: number;
   title: string;
   startYear: number;
@@ -421,6 +428,8 @@ export interface IsspDocument {
    * Absent key = { userMarkedDone: false, lastEditedAt: null }.
    */
   sectionMeta?: Record<string, SectionMeta>;
+  /** Pending human review created when an older file is migrated to changed forms. */
+  migrationReview?: MigrationReview;
   /** Definition of Terms (front matter). Absent = standard template terms. */
   definitions?: DefinitionTerm[];
   /** Annex 1 files attached by the CIO from regional/field offices. */

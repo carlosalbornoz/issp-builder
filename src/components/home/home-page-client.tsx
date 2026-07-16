@@ -263,7 +263,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
       const blob = await res.blob();
       const file = new File([blob], "ncwtr-issp-2026-2028.issp", { type: "application/json" });
       setNavigating(true);
-      const result = await loadFromFile(file);
+      const result = await loadFromFile(file, { recordUsage: false });
       if (result.success) { router.push("/editor"); } else { setNavigating(false); setLoadError(result.error ?? "Unknown error"); }
     } catch { setNavigating(false); setLoadError("Could not load sample file."); }
     finally { setSampleLoading(false); }
@@ -312,7 +312,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               className="animate-glow-orbit inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
             >
               <Sparkles className="w-3 h-3" />
-              What&apos;s new — June 20–21, 2026
+              What&apos;s new — July 15–16, 2026
             </button>
           </div>
         </div>
@@ -637,45 +637,75 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
             <DialogTitle className="font-display text-lg flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              What&apos;s new — June 20–21, 2026
+              What&apos;s new — July 15–16, 2026
             </DialogTitle>
           </DialogHeader>
           <div ref={whatsNewScrollRef} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
             <div tabIndex={0} className="h-0 w-0 overflow-hidden outline-none" aria-hidden="true" />
 
-            {/* Annex 1 — headline feature */}
+            {/* July 15 Writeshop — headline update */}
             <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
-              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Annex 1 — ICT Asset Inventory is Live</p>
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Rechecked After the July 15 ISSP Caravan Writeshop</p>
               <p>
-                The spreadsheet-looking one. Offices now have their own{" "}
-                <span className="text-foreground font-medium">standalone form at <code className="text-xs bg-muted px-1 rounded">/annex1</code></span>{" "}
-                — pick your office type (Central, Regional, or Field), fill in equipment and software counts, and download a{" "}
-                <code className="text-xs bg-muted px-1 rounded">.issp</code> file. Send that file to your CIO.
+                The ISSP forms have continued to evolve since this builder was first designed. Following the{" "}
+                <span className="text-foreground font-medium">ISSP Caravan Writeshop conducted on July 15</span>, we went back through the affected fields and PDF tables against the latest guidance and working templates — because apparently one field-by-field audit was not enough. 📋
               </p>
               <p>
-                In the main editor, there&apos;s now an{" "}
-                <span className="text-foreground font-medium">Annexes section in the sidebar</span>. Attach each office&apos;s{" "}
-                <code className="text-xs bg-muted px-1 rounded">.issp</code> file there — the builder validates them, shows a count badge, and when you export to PDF,{" "}
-                <span className="text-foreground font-medium">all offices print as a proper Annex 1</span> with per-office tables and a consolidated summary when multiple offices are attached.
+                The biggest changes are in{" "}
+                <span className="text-foreground font-medium">Part II-C Existing Information Systems, Part II-D E-Government Programs, and Part III-D Proposed Information Systems</span>. Their questions, options, nesting, and printed wording now follow the current template more closely.
               </p>
             </div>
 
-            {/* Table/Cards toggle */}
-            <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Table or Cards — You Choose</p>
+            {/* Compatibility and review guidance */}
+            <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 px-4 py-3.5 space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Your Existing .issp Files Still Work</p>
               <p>
-                The inventory form offers a{" "}
-                <span className="text-foreground font-medium">Table / Cards toggle</span>. The table gives you the classic spreadsheet feel for scanning across all items at once. Cards give each ICT resource its own focused block — cleaner on smaller screens and easier when you&apos;re filling out one item at a time. Both views share the same data; switching doesn&apos;t reset anything.
+                Older files are upgraded automatically when you load them. The builder now carries their data forward through the newer file versions, including the revised EGP answers and the Frontline Service access fields.
+              </p>
+              <p>
+                Automatic migration keeps the file usable, but it cannot confirm what your agency intended. After loading an older file, please cross-check{" "}
+                <span className="text-foreground font-medium">II-C, II-D, and III-D</span>, correct anything that needs updating, then{" "}
+                <span className="text-foreground font-medium">mark those sections as done again</span>. When an older file is loaded, the builder now opens a migration review notice and highlights those sections on the Overview and sidebar until the review is complete.
               </p>
             </div>
 
-            {/* Custom scrollbars */}
+            {/* Form alignment */}
             <div className="space-y-1.5">
-              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Scrollbars That Match the Theme</p>
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">The Forms Now Ask What the Template Actually Asks</p>
               <p>
-                Browser default scrollbars are gone. The app now renders thin, rounded scrollbars using the same color tokens as the rest of the UI — so they shift with the theme automatically. Subtle on light, subtle on dark, and they stay out of the way of the content.
+                The generic Deployment Type field has retired with honors. For Operations systems, Frontline Service now carries the official{" "}
+                <span className="text-foreground font-medium">Online / On-premise / Hybrid</span> choices and the Online link where it belongs. The EGP checklist now uses the template&apos;s Yes / No questions and follow-ups — no extra Proposed or Not Applicable answers sneaking into the form.
               </p>
             </div>
+
+            {/* PDF improvements */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">The PDF Learned Some Navigation</p>
+              <p>
+                The exported PDF now prints the full official checklist structure whether an item is answered or not, while only the checkmarks and blanks change. Its Table of Contents is also clickable, and supported PDF readers get a nested bookmark sidebar for jumping between Parts and sections. Export progress still appears in the modal, without a second spinner competing for attention on the button.
+              </p>
+            </div>
+
+            {/* Previously — June 20–21 entry, collapsed */}
+            <details className="group rounded-lg border bg-muted/30">
+              <summary className="flex cursor-pointer select-none items-center justify-between px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground list-none [&::-webkit-details-marker]:hidden">
+                Previously — June 20–21, 2026
+                <ChevronDown className="w-3.5 h-3.5 transition-transform group-open:rotate-180" />
+              </summary>
+              <div className="px-4 pb-4 pt-2 space-y-4 text-xs">
+                <div className="rounded-lg border border-primary/30 bg-primary/5 px-3 py-3 space-y-1.5">
+                  <p className="text-xs font-semibold text-primary uppercase tracking-wide">Annex 1 — ICT Asset Inventory is Live</p>
+                  <p>
+                    Offices now have their own standalone form at <code className="text-xs bg-muted px-1 rounded">/annex1</code>. Fill in equipment and software counts, download the office&apos;s <code className="text-xs bg-muted px-1 rounded">.issp</code> file, and send it to the CIO for attachment in the main plan.
+                  </p>
+                  <p>
+                    Attached office inventories print as a proper Annex 1, with per-office tables and a consolidated summary when multiple offices are included.
+                  </p>
+                </div>
+                <p><span className="text-foreground font-medium">Table or Cards</span> — the inventory can be filled in as a spreadsheet-style table or focused cards. Both views share the same data.</p>
+                <p><span className="text-foreground font-medium">Theme-aware scrollbars</span> — thin, rounded scrollbars now follow the selected light or dark theme.</p>
+              </div>
+            </details>
 
             {/* Previously — June 11–13 entry, collapsed */}
             <details className="group rounded-lg border bg-muted/30">
@@ -755,7 +785,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
             {/* Footer gag */}
             <p className="text-xs text-muted-foreground/50 italic text-center border-t pt-4">
-              Next: validating Annex 1 against the actual DICT template, then the ISSP Repository. One spreadsheet at a time. 📋
+              Next: making migrated-file review impossible to overlook. One schema version at a time. 🔎
             </p>
 
           </div>

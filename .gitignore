@@ -26,3 +26,6 @@ Thumbs.db
 
 # GESF developer logs (developer-only, not for remote)
 .dev-logs/
+
+# Local fallback for server-side usage analytics
+.data/

@@ -80,6 +80,7 @@
 | **Mark-as-done tracked in unsaved changes** — `getChangedFields` in `section-fields.ts` now detects `userMarkedDone` flips; sidebar diff shows "Marked as done" / "Unmarked as done" for the correct section; fallback (no snapshot) path also handles it | ✅ Done 2026-05-25 |
 | **EGP checklist PDF aligned to DICT template** — per-row Yes/No questions, nested/indented checkbox sub-lists, hanging-indent program numbering, aligned fill-in underlines; status simplified to Yes/No (no Proposed/N/A); notes field removed. Schema v7→v8 migration | ✅ Done 2026-07-16 |
 | **Existing & Proposed IS tables aligned to DICT template** (`docs/is-tables-alignment-plan-2026-07-16.md`) — retired the generic "Deployment Type" field; introduced `frontlineAccessType` (Online/On-premise/Hybrid); `renderIsCard()` now always prints the complete Classification subtree while gating checkmarks and values to Operations+Frontline (usability principle #14), and matches `references/existing-is.pdf` & `proposed-is.pdf` for field order, present-vs-future tense, parentheticals, Interop nesting, and the existing-only PIA follow-up; added `url` to ProposedSystem; top-level field tooltips from the DICT handout on both II-C and III-D forms. Schema v8→v9 migration | ✅ Done 2026-07-16 |
+| **Legacy ISSP migration review** (`docs/issp-migration-review-plan-2026-07-16.md`) — older files still migrate automatically; affected II-C, II-D, and III-D sections are unmarked, highlighted on the Overview/sidebar/section page, and cleared only after the user reviews and marks them done again | ✅ Done 2026-07-16 |
 
 ---
 
@@ -148,6 +149,7 @@ The primary user-facing architecture. No login required.
 | Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Builder" label, desktop collapsible nav, mobile drawer overlay, Save to File, Exit Editor |
 | Save reminder | `src/hooks/use-file-save-reminder.ts` | 10-min timer for desktop sidebar nudge and mobile modal reminder |
 | PDF export | `src/app/api/export/route.ts` | `POST` — accepts `IsspDocument` JSON, returns PDF, no auth |
+| Usage analytics | `src/app/api/usage/route.ts` | `POST` — appends agency name, acronym, create/load/restore event, and server timestamp to a private JSONL log; fictitious sample excluded |
 | Demo file | `public/demo/ncwtr-issp-2026-2028.issp` | NCWTR sample, all 4 parts populated |
 
 ### Server-Side (Removed)

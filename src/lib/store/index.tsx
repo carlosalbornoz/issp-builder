@@ -9,15 +9,18 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget, HCRow, StakeholderService, IsClassification, PiaProcessAnswer } from "./types";
+import type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, SectionMeta, HumanCapital, CyberControls, EgpChecklist, YearBudget, HCRow, StakeholderService, IsClassification, PiaProcessAnswer, MigrationReview } from "./types";
 import { createEmptyDocument, makeDefaultPart1, makeDefaultPart2, makeDefaultPart3, makeDefaultPart4, type NewDocOptions } from "./defaults";
 import { idbClear, idbLoad, idbSave } from "./idb";
+import { CURRENT_SCHEMA_VERSION, getRequiredMigrationReviewSectionIds } from "@/lib/migration-review";
+import { recordIsspUsage } from "@/lib/record-usage";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export type SaveStatus = "idle" | "saving" | "saved" | "error";
 
-export type StoreActionResult = { success: true } | { success: false; error: string };
+export type StoreActionResult = { success: true; migrationReview?: MigrationReview } | { success: false; error: string };
+export interface LoadFromFileOptions { recordUsage?: boolean }
 
 export interface IsspStoreValue {
   doc: IsspDocument | null;
@@ -30,6 +33,9 @@ export interface IsspStoreValue {
   savedSnapshot: IsspDocument | null;
   /** True when the doc has been edited since the last file save (or since creation for new docs). */
   unsavedToFile: boolean;
+  /** Migration notice opened only for an explicit legacy-file load in this session. */
+  migrationNotice: MigrationReview | null;
+  acknowledgeMigrationNotice: () => void;
   /** Apply a transformation to the current document. Schedules an IDB write. */
   update: (patcher: (prev: IsspDocument) => IsspDocument) => void;
   /** Convenience updaters — shallow-merge a patch into the given part. */
@@ -39,8 +45,6 @@ export interface IsspStoreValue {
   updatePart4: (patch: Partial<Part4Data>) => void;
   /** Update per-section metadata (userMarkedDone, lastEditedAt). */
   updateSectionMeta: (sectionId: string, patch: Partial<SectionMeta>) => void;
-  /** Replace the entire document (used by loadFromFile). */
-  replace: (doc: IsspDocument) => void;
   /** Create a new blank document and load it into the store. */
   createNew: (opts: NewDocOptions) => void;
   /** Delete the current document from IDB and clear state. */
@@ -48,10 +52,9 @@ export interface IsspStoreValue {
   /** Download the current document as a .issp file. */
   saveToFile: () => Promise<StoreActionResult>;
   /** Parse a .issp file and load it into the store. */
-  loadFromFile: (file: File) => Promise<StoreActionResult>;
+  loadFromFile: (file: File, options?: LoadFromFileOptions) => Promise<StoreActionResult>;
 }
 
-const CURRENT_SCHEMA_VERSION = 9;
 const MAX_ISSP_FILE_SIZE_BYTES = 50 * 1024 * 1024;
 const MAX_LOGO_BYTES = 2 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
@@ -338,7 +341,8 @@ function normalizeProjectType<T extends { projectType?: any; linkedSystemIds?: s
   return { ...p, projectType: t, linkedSystemIds: p.linkedSystemIds ?? [] };
 }
 
-function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
+export function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
+  const sourceSchemaVersion = doc.schemaVersion ?? 1;
   // v1 → v2: planStatus, submissionTarget, sectionMeta
   let base: IsspDocument = (doc.schemaVersion ?? 1) >= 2 ? doc : {
     ...doc,
@@ -603,7 +607,7 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
 
   // Idempotent normalizations — keep stored data in sync with what forms write on mount,
   // so that editing a field and reverting it produces a hash equal to the snapshot.
-  const normalized: IsspDocument = {
+  let normalized: IsspDocument = {
     ...base,
     part1: {
       ...base.part1,
@@ -640,6 +644,32 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
       crossAgencyProjects: base.part3.crossAgencyProjects.map(normalizeProjectType),
     },
   };
+
+  const existingReview = normalized.migrationReview;
+  const reviewIds = existingReview
+    ? existingReview.pendingSectionIds
+    : getRequiredMigrationReviewSectionIds(sourceSchemaVersion);
+  const pendingSectionIds = [...new Set(reviewIds)];
+  if (pendingSectionIds.length > 0) {
+    const sectionMeta = { ...(normalized.sectionMeta ?? {}) };
+    for (const sectionId of pendingSectionIds) {
+      const meta = sectionMeta[sectionId];
+      sectionMeta[sectionId] = {
+        userMarkedDone: false,
+        lastEditedAt: meta?.lastEditedAt ?? null,
+      };
+    }
+    normalized = {
+      ...normalized,
+      sectionMeta,
+      migrationReview: existingReview ?? {
+        sourceSchemaVersion,
+        migratedToSchemaVersion: CURRENT_SCHEMA_VERSION,
+        pendingSectionIds,
+        noticeAcknowledgedAt: null,
+      },
+    };
+  }
 
   return { ...normalized, sectionMeta: deriveMetaFromContent(normalized) };
 }
@@ -679,6 +709,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [fileSavedAt, setFileSavedAt] = useState<string | null>(null);
   const [savedSnapshot, setSavedSnapshot] = useState<IsspDocument | null>(null);
+  const [migrationNotice, setMigrationNotice] = useState<MigrationReview | null>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const flashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const saveGenerationRef = useRef(0);
@@ -697,7 +728,13 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     idbLoad()
-      .then((doc) => doc ? migrateLegacyDoc(doc) : doc)
+      .then(async (doc) => {
+        if (!doc) return doc;
+        const migrated = migrateLegacyDoc(doc);
+        if (docContentHash(migrated) !== docContentHash(doc)) await idbSave(migrated);
+        recordIsspUsage("restored", migrated.agency);
+        return migrated;
+      })
       .then(setDoc)
       .catch((err) => markSaveError(err, "Could not load the browser-saved ISSP draft."))
       .finally(() => setLoading(false));
@@ -763,22 +800,23 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
 
   const updateSectionMeta = useCallback(
     (sectionId: string, patch: Partial<SectionMeta>) =>
-      update((prev) => ({
-        ...prev,
-        sectionMeta: {
-          ...prev.sectionMeta,
-          [sectionId]: { userMarkedDone: false, lastEditedAt: null, ...prev.sectionMeta?.[sectionId], ...patch },
-        },
-      })),
+      update((prev) => {
+        const migrationReview = patch.userMarkedDone === true && prev.migrationReview?.pendingSectionIds.includes(sectionId)
+          ? {
+              ...prev.migrationReview,
+              pendingSectionIds: prev.migrationReview.pendingSectionIds.filter((id) => id !== sectionId),
+            }
+          : prev.migrationReview;
+        return {
+          ...prev,
+          sectionMeta: {
+            ...prev.sectionMeta,
+            [sectionId]: { userMarkedDone: false, lastEditedAt: null, ...prev.sectionMeta?.[sectionId], ...patch },
+          },
+          migrationReview: migrationReview?.pendingSectionIds.length ? migrationReview : undefined,
+        };
+      }),
     [update]
-  );
-
-  const replace = useCallback(
-    (newDoc: IsspDocument) => {
-      setDoc(newDoc);
-      scheduleSave(newDoc);
-    },
-    [scheduleSave]
   );
 
   const createNew = useCallback(
@@ -787,6 +825,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
       setDoc(newDoc);
       scheduleSave(newDoc);
       setSavedSnapshot(structuredClone(newDoc));
+      recordIsspUsage("created", newDoc.agency);
     },
     [scheduleSave]
   );
@@ -801,6 +840,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
       setSaveStatus("idle");
       setSavedSnapshot(null);
       setFileSavedAt(null);
+      setMigrationNotice(null);
       return { success: true };
     } catch (err) {
       const error = errorMessage(err, "Could not clear the browser-saved ISSP draft.");
@@ -853,7 +893,7 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
   }, [clearSaveTimers, doc]);
 
   const loadFromFile = useCallback(
-    async (file: File): Promise<StoreActionResult> => {
+    async (file: File, options?: LoadFromFileOptions): Promise<StoreActionResult> => {
       try {
         if (file.size > MAX_ISSP_FILE_SIZE_BYTES) {
           return { success: false, error: "This .issp file is too large to load safely. Remove embedded diagrams or use a smaller file." };
@@ -865,11 +905,15 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
         const imageValidation = validateEmbeddedImages(normalized.doc);
         if (!imageValidation.success) return imageValidation;
         const migrated = migrateLegacyDoc(normalized.doc);
-        replace(migrated);
+        const migrationReview = migrated.migrationReview;
+        setDoc(migrated);
         // Treat the file's exportedAt as the last known file save
         setFileSavedAt(migrated.exportedAt);
         setSavedSnapshot(structuredClone(migrated));
-        return { success: true };
+        await idbSave(migrated);
+        setMigrationNotice(migrationReview?.pendingSectionIds.length ? migrationReview : null);
+        if (options?.recordUsage !== false) recordIsspUsage("loaded", migrated.agency);
+        return { success: true, migrationReview };
       } catch {
         return {
           success: false,
@@ -877,8 +921,22 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
         };
       }
     },
-    [replace]
+    []
   );
+
+  const acknowledgeMigrationNotice = useCallback(() => {
+    setMigrationNotice(null);
+    update((prev) => prev.migrationReview
+      ? {
+          ...prev,
+          migrationReview: {
+            ...prev.migrationReview,
+            noticeAcknowledgedAt: new Date().toISOString(),
+          },
+        }
+      : prev
+    );
+  }, [update]);
 
   const unsavedToFile = !doc
     ? false
@@ -896,13 +954,14 @@ export function IsspStoreProvider({ children }: { children: ReactNode }) {
         fileSavedAt,
         savedSnapshot,
         unsavedToFile,
+        migrationNotice,
+        acknowledgeMigrationNotice,
         update,
         updatePart1,
         updatePart2,
         updatePart3,
         updatePart4,
         updateSectionMeta,
-        replace,
         createNew,
         clearDoc,
         saveToFile,
@@ -924,5 +983,5 @@ export function useIsspStore(): IsspStoreValue {
 
 // ─── Re-exports ───────────────────────────────────────────────────────────────
 
-export type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, AgencyType, IsspScope, CyberControls, NetworkDiagram, SectionMeta, SectionStatus } from "./types";
+export type { IsspDocument, Part1Data, Part2Data, Part3Data, Part4Data, AgencyType, IsspScope, CyberControls, NetworkDiagram, SectionMeta, SectionStatus, MigrationReview } from "./types";
 export type { NewDocOptions } from "./defaults";

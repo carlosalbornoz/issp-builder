@@ -22,8 +22,9 @@
 
 > **Superseded 2026-06-14** — the auth surface described below no longer
 > exists. The app is now local-first: no login, no server-side sessions,
-> no DB-backed user data. The only server endpoint that accepts
-> user-influenced input is `POST /api/export` (PDF generation), which is
+> no DB-backed ISSP data. The server endpoints accepting user-influenced
+> input are `POST /api/export` (PDF generation) and the narrowly validated
+> `POST /api/usage` usage logger. PDF generation is
 > hardened via Puppeteer JS-disabled + request-interception + the
 > Content-Disposition fix from F7. See the banner at the top of this
 > doc.

@@ -111,6 +111,7 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 │   ├── app/
 │   │   ├── editor/     # Local-first editor (public, no auth) — Parts I–IV
 │   │   ├── api/export/ # POST /api/export — stateless PDF generation
+│   │   ├── api/usage/  # POST /api/usage — limited append-only usage analytics
 │   │   └── (dashboard)/# Dormant server-side routes (preserved for future)
 │   ├── components/
 │   │   ├── editor/     # EditorShell, EditorSidebar
@@ -139,7 +140,7 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 
 ## Privacy
 
-This tool is **local-first by design** — your agency's ISSP data never leaves your browser. Everything is stored in IndexedDB and exported to a `.issp` file on your own computer. The server only receives data when you click "Export PDF", and it processes that data statelessly without persisting it. This aligns with RA 10173 (Data Privacy Act) Privacy by Design principles.
+This tool is **local-first by design** — the contents of your agency's ISSP stay in IndexedDB and in `.issp` files on your own computer. The server receives the document transiently when you click "Export PDF" and does not persist its contents. For basic usage analytics, creating, loading, or restoring a browser-saved draft records only the agency name, acronym, event type, and a server-generated timestamp. The fictitious sample is excluded. See the privacy page for the complete disclosure.
 
 ---
 

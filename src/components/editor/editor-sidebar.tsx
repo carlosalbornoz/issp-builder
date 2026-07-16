@@ -39,6 +39,7 @@ import {
   Palette,
   Trash2,
   X,
+  AlertTriangle,
 } from "lucide-react";
 import { useIsspStore } from "@/lib/store";
 import { useFileSaveReminder } from "@/hooks/use-file-save-reminder";
@@ -442,6 +443,7 @@ export function EditorSidebar({
   if (!doc) return null;
 
   const sectionMeta = doc.sectionMeta ?? {};
+  const pendingReviewIds = doc.migrationReview?.pendingSectionIds ?? [];
 
   // ── Shared nav (rendered in both mobile popup and desktop sidebar) ──────────
   const navContent = (
@@ -481,7 +483,8 @@ export function EditorSidebar({
       })}
 
       {PARTS.map((part) => {
-        const isExpanded = expandedParts.has(part.partNum);
+        const hasPendingReview = (doc.migrationReview?.pendingSectionIds ?? []).some((id) => id.startsWith(`part${part.partNum}/`));
+        const isExpanded = expandedParts.has(part.partNum) || hasPendingReview;
         const isActiveSection = part.sections.some(
           (s) => pathname === s.href || pathname.startsWith(s.href + "/")
         );
@@ -490,7 +493,8 @@ export function EditorSidebar({
           <div key={part.partNum} className="mt-2">
             <button
               type="button"
-              onClick={() => togglePart(part.partNum)}
+              onClick={() => { if (!hasPendingReview) togglePart(part.partNum); }}
+              aria-disabled={hasPendingReview}
               className={cn(
                 "flex w-full items-center justify-between rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors text-left",
                 isActiveSection ? "text-primary" : "text-muted-foreground hover:text-foreground"
@@ -505,6 +509,7 @@ export function EditorSidebar({
                 {part.sections.map((section) => {
                   const isActive = pathname === section.href || pathname.startsWith(section.href + "/");
                   const status = computeStatus(sectionMeta[section.id]);
+                  const needsReview = pendingReviewIds.includes(section.id);
                   return (
                     <Link
                       key={section.id}
@@ -514,11 +519,18 @@ export function EditorSidebar({
                         "flex items-center gap-2 rounded-md py-2 pl-4 pr-3 text-sm transition-colors",
                         isActive
                           ? "bg-[var(--sidebar-active)] text-foreground font-medium"
-                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                          : needsReview
+                            ? "border border-warning-border bg-warning-bg text-foreground hover:brightness-95"
+                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                       )}
                     >
                       {!section.readOnly && <StatusDot status={status} size={6} className="shrink-0" />}
                       <span className="truncate">{section.label}</span>
+                      {needsReview && (
+                        <span className="ml-auto flex shrink-0 items-center gap-1 text-[10px] font-semibold text-warning">
+                          <AlertTriangle className="h-3 w-3" /> Review
+                        </span>
+                      )}
                     </Link>
                   );
                 })}

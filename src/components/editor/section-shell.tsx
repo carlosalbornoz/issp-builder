@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Circle, ChevronLeft, ChevronRight, LayoutDashboard, Menu } from "lucide-react";
+import { CheckCircle2, Circle, ChevronLeft, ChevronRight, LayoutDashboard, Menu, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StatusDot } from "@/components/ui/status-dot";
 import { useIsspStore } from "@/lib/store";
@@ -55,6 +55,7 @@ export function SectionShell({
   const meta = doc?.sectionMeta?.[sectionId];
   const status = computeStatus(meta);
   const isDone = meta?.userMarkedDone ?? false;
+  const needsMigrationReview = doc?.migrationReview?.pendingSectionIds.includes(sectionId) ?? false;
   const sectionPrefix = section?.label.match(/^[A-Z][\d.]+/)?.[0] ?? null;
 
   const handleMarkDone = useCallback(
@@ -119,6 +120,18 @@ export function SectionShell({
           )}
         </div>
       </div>
+
+      {needsMigrationReview && (
+        <div className="flex gap-3 rounded-lg border border-warning-border bg-warning-bg px-4 py-3 text-sm text-warning">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+          <div className="leading-relaxed">
+            <p className="font-semibold text-foreground">Review this migrated section</p>
+            <p>
+              Cross-check the entries from your older ISSP file against the current form, then mark this section as done again to clear the review flag.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* ── Body ── */}
       <div className="space-y-6">{children}</div>
