@@ -1,0 +1,28 @@
+name: Security Gate (Semgrep)
+
+# ═══════════════════════════════════════════════════════════════
+# GESF Security Gate — blocks PR merges on failures.
+# To enable enforcement: Settings → Branches → Branch protection rules
+#   → Require status checks → add the job name below.
+# ═══════════════════════════════════════════════════════════════
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 6 * * *'
+
+# Triggers on ALL branches and PRs. Branch protection rules
+# enforce the gate on the default branch (main/master/trunk/auto).
+
+jobs:
+  semgrep:
+    name: Semgrep SAST
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: auto

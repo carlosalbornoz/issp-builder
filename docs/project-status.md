@@ -41,6 +41,7 @@
 | **Security/correctness fixes: EgP export mapping, PDF injection hardening** | ✅ Done 2026-06-10 (`docs/codebase-review-2026-06-10.md`) |
 | **UX audit fixes: dialog scroll, NumberInput, coarse-pointer touch targets** | ✅ Done 2026-06-11 (`docs/ux-audit-2026-06-11.md`) |
 | **Real TOC page numbers (two-pass render, pdfjs-dist marker scan)** | ✅ Done 2026-06-11 |
+| **Interactive PDF TOC** — every printed TOC row is a clickable internal link; the PDF also includes a nested sidebar bookmark outline and opens the outline panel in supporting viewers | ✅ Done 2026-07-16 |
 | **PDF header per official template — starts at Part I, logo upper-left, Page 1 restart** | ✅ Done 2026-06-11 (`docs/agency-logo-header-plan.md`) |
 | **Editable Definition of Terms (front-matter module)** | ✅ Done 2026-06-11 — `/editor/definitions`, sidebar entry above Part I, seeded with the 3 standard DICT template terms (editable/deletable + "Restore standard terms"), prints alphabetically in the PDF, TOC row + page omitted when empty. Data: `IsspDocument.definitions` (optional; absent = standard terms, so old `.issp` files keep working) |
 | API: /api/export (POST → PDF, stateless, no auth) | ✅ Done |
@@ -77,6 +78,8 @@
 | **What's New changelog modal** — rainbow orbiting pill button on splash, Philippine flag confetti from both sides on open (`canvas-confetti`, `useWorker: false` to avoid CSP blob violations), 8 changelog sections; theme-switcher easter egg in the Themes section with live pill buttons + green active dot; `@property --glow-angle` CSS Houdini animation for conic-gradient orbit in `globals.css` | ✅ Done 2026-05-25 |
 | **`dark:` variant fixed** — overridden via `@custom-variant dark` in `globals.css` to respond to `.theme-system-dark` / `.theme-warm-dark` classes instead of `prefers-color-scheme`; prevents OS dark mode from bleeding into app-selected light themes | ✅ Done 2026-05-25 |
 | **Mark-as-done tracked in unsaved changes** — `getChangedFields` in `section-fields.ts` now detects `userMarkedDone` flips; sidebar diff shows "Marked as done" / "Unmarked as done" for the correct section; fallback (no snapshot) path also handles it | ✅ Done 2026-05-25 |
+| **EGP checklist PDF aligned to DICT template** — per-row Yes/No questions, nested/indented checkbox sub-lists, hanging-indent program numbering, aligned fill-in underlines; status simplified to Yes/No (no Proposed/N/A); notes field removed. Schema v7→v8 migration | ✅ Done 2026-07-16 |
+| **Existing & Proposed IS tables aligned to DICT template** (`docs/is-tables-alignment-plan-2026-07-16.md`) — retired the generic "Deployment Type" field; introduced `frontlineAccessType` (Online/On-premise/Hybrid); `renderIsCard()` now always prints the complete Classification subtree while gating checkmarks and values to Operations+Frontline (usability principle #14), and matches `references/existing-is.pdf` & `proposed-is.pdf` for field order, present-vs-future tense, parentheticals, Interop nesting, and the existing-only PIA follow-up; added `url` to ProposedSystem; top-level field tooltips from the DICT handout on both II-C and III-D forms. Schema v8→v9 migration | ✅ Done 2026-07-16 |
 
 ---
 

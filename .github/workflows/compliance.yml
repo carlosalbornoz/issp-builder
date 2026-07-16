@@ -1,0 +1,65 @@
+name: Compliance Gate
+
+# ═══════════════════════════════════════════════════════════════
+# GESF Security Gate — blocks PR merges on failures.
+# To enable enforcement: Settings → Branches → Branch protection rules
+#   → Require status checks → add the job name below.
+# ═══════════════════════════════════════════════════════════════
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 6 * * *'
+
+# Triggers on ALL branches and PRs. Branch protection rules
+# enforce the gate on the default branch (main/master/trunk/auto).
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  compliance:
+    name: GESF Compliance Gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          node-version: '22'
+
+      - name: Install GESF
+        run: npm install -g @greenarmor/ges@1.5.8
+
+      - name: Initialize GESF
+        run: ges init --name "${{ github.event.repository.name }}" --type "government-system" --frameworks "GDPR,OWASP,CIS,NIST,ISO27001,ISO27701" --country "PH" --force
+
+      - name: Run Compliance Audit
+        run: ges audit --ci
+
+      - name: Generate Compliance Score
+        run: ges score --ci
+
+      - name: Generate Compliance Badge
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        run: ges badge
+
+      - name: Commit Compliance Badge
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add badge.svg README.md || true
+          git diff --cached --quiet || git commit -m "Update compliance badge [skip ci]"
+          git push
+
+      - name: Upload Compliance Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compliance-report
+          path: reports/

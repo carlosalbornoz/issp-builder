@@ -145,7 +145,9 @@ export interface InformationSystem {
   name: string;
   classification: IsClassification;
   frontline: boolean;
-  deploymentType: "HOSTED" | "CLOUD" | "HYBRID" | "ON_PREMISE" | "";
+  /** Template Frontline sub-question "Identify if: Online/On-premise/Hybrid".
+   * Only meaningful when classification === "Operations" && frontline === true. */
+  frontlineAccessType: "ONLINE" | "ON_PREMISE" | "HYBRID" | "";
   url: string;
   description: string;
   developmentStrategy: "IN_HOUSE" | "OUTSOURCED" | "HYBRID" | "COTS" | "OPEN_SOURCE" | "";
@@ -190,12 +192,12 @@ export interface EgpPortalMechanisms {
 }
 
 export interface EgpProgram {
-  status: "utilizing" | "proposed" | "not_applicable" | "not_utilizing" | "";
+  /** Template checklist is strictly Yes/No — no "Proposed" or "Not Applicable" box exists. */
+  status: "yes" | "no" | "";
   url?: string;
   equivalentName?: string;
   /** eLGU: URL of the equivalent system (template asks for both name and url). */
   equivalentUrl?: string;
-  notes?: string;
   ifNo?: EgpIfNo;
 }
 
@@ -232,7 +234,11 @@ export interface ProposedSystem {
   name: string;
   classification: IsClassification;
   frontline: boolean;
-  deploymentType: string;
+  /** Template Frontline sub-question "Identify if: Online/On-premise/Hybrid".
+   * Only meaningful when classification === "Operations" && frontline === true. */
+  frontlineAccessType: "ONLINE" | "ON_PREMISE" | "HYBRID" | "";
+  /** "Provide link" for Online frontline access (template III-D Frontline sub-question). */
+  url: string;
   description: string;
   status: "FOR_DEVELOPMENT" | "FOR_ENHANCEMENT" | "";
   enhancementDetails: string;

@@ -1,0 +1,77 @@
+{
+  "project_name": "issp",
+  "project_type": "government-system",
+  "frameworks": [
+    "GDPR",
+    "OWASP",
+    "CIS",
+    "NIST",
+    "ISO27001",
+    "ISO27701"
+  ],
+  "country": "PH",
+  "requirements": {
+    "encryption": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "mfa": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "audit_logs": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "backups": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "retention_policy": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "vulnerability_scanning": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "authentication": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "authorization": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "secrets_management": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "logging": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "monitoring": {
+      "required": true,
+      "level": "recommended"
+    },
+    "data_classification": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "disaster_recovery": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "incident_response": {
+      "required": true,
+      "level": "mandatory"
+    },
+    "privacy_controls": {
+      "required": true,
+      "level": "mandatory"
+    }
+  },
+  "created_at": "2026-06-29T03:14:34.570Z",
+  "version": "1.5.8"
+}

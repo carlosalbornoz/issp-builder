@@ -164,6 +164,28 @@ activate the sidebar control beneath it. Each was a separate round-trip.
   case: the mobile scrim was an always-mounted `fixed inset-0` opacity toggle that left a
   tint in the dynamic-viewport edges; mount overlays/scrims only while open.
 
+### 14. PDF renders the full template branch, always — never conditionally hide structure
+**Incident:** the EGP checklist (Part II-D) PDF originally only printed the "If No,"
+follow-up when the answer was actually "No" (and "If Yes," only on "Yes") — so an
+unanswered row, or a row whose backing data was simply absent (eLGU for a non-LGU agency),
+collapsed to a bare "N/A" instead of showing the question at all. Carlos: "I want the
+renderer to show exactly how the template is, as-is irregardless if the user answered yes
+or no and just mark the items based on how they answered." The same bug shape re-appeared
+in Part II-C/III-D's Classification block (Frontline's nested Online/On-premise/Hybrid
+question rendered only when a `deploymentType` happened to be set, not gated on Frontline
+actually being answered "yes").
+**Rule:** When rendering any section of the PDF that mirrors an official DICT checklist
+form, render **every branch/checkbox/sub-field the template defines for that row**
+unconditionally — regardless of whether the user answered, and regardless of which
+answer they gave. Only the checked/unchecked state and the filled-in blanks change with
+the data; the *structure* never disappears. An unanswered or entirely-missing entry
+renders as the blank template (nothing ticked, blanks empty), never as a collapsed
+placeholder like "N/A" or an omitted row. This is the same principle as #7 (old data
+must survive and stay visible) applied specifically to compliance-document rendering:
+a reviewer comparing the exported PDF against the official template should see the same
+shape on every row, filled or not. Apply this by default to any new PDF section built
+from a DICT template — don't wait to be asked per-section.
+
 ## Process expectations (how to work with these)
 
 - **Ask once, up front, when a behavior is genuinely ambiguous — don't ship one reading and

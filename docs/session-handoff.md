@@ -268,7 +268,7 @@ interface IsspDocument {
   fileType: "issp-main";
   exportedAt: string;    // updated by saveToFile(); used to compute unsavedToFile
   tool: "issp-platform";
-  schemaVersion?: number;  // 3 = current; absent/1 = legacy; 2 = pre-services; migrated on load
+  schemaVersion?: number;  // 9 = current; absent/1 = legacy; migrated on load (see migrateLegacyDoc)
   title: string;
   startYear: number; endYear: number;
   amendmentNumber: number;
@@ -382,7 +382,7 @@ Two export paths:
 
 #### PDF page structure
 1. Cover (no header/footer — generated separately and merged via pdf-lib)
-2. Table of Contents (static page numbers — known gap)
+2. Table of Contents (real page numbers, clickable internal links, and matching nested PDF sidebar bookmarks)
 3. Definition of Terms
 4. Part I — mandate, org outcomes, CIO/Focal, human capital, stakeholders
 5. Part II — strategic concerns, network diagrams, cybersecurity, IS inventory, EGP checklist

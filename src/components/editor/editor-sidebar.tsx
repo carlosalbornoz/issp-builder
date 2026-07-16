@@ -49,6 +49,17 @@ import { IsspPropertiesDialog } from "./issp-properties-dialog";
 import { THEMES, isThemeId, useTheme, type ThemeId } from "@/lib/theme";
 import { toast } from "sonner";
 
+/** Parse one raw SSE block (text between blank-line separators) into {event, data}. */
+function parseSseEvent(raw: string): { event: string; data: string } | null {
+  let event = "message";
+  let data = "";
+  for (const line of raw.split("\n")) {
+    if (line.startsWith("event:")) event = line.slice(6).trim();
+    else if (line.startsWith("data:")) data += line.slice(5).trimStart();
+  }
+  return data ? { event, data } : null;
+}
+
 function formatTimeAgo(isoString: string, now: number): string {
   const diff = now - new Date(isoString).getTime();
   const minutes = Math.floor(diff / 60_000);
@@ -247,6 +258,7 @@ export function EditorSidebar({
   const [expandedParts, setExpandedParts] = useState<Set<number>>(new Set([1, 2, 3, 4]));
   const [propsOpen, setPropsOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState<{ stage: string; pct: number } | null>(null);
   const [clearStep, setClearStep] = useState<"idle" | "step1" | "step2">("idle");
   const [showChanges, setShowChanges] = useState(false);
   const [themeNudgeDismissed, setThemeNudgeDismissed] = useState(() =>
@@ -362,6 +374,7 @@ export function EditorSidebar({
   async function handleExportPdf() {
     if (!doc || exporting) return;
     setExporting(true);
+    setExportProgress({ stage: "Starting…", pct: 0 });
     try {
       const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
       const res = await fetch(`${base}/api/export`, {
@@ -369,18 +382,60 @@ export function EditorSidebar({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(doc),
       });
-      if (!res.ok) throw new Error(await res.text());
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${doc.agency.acronym}-ISSP-${doc.startYear}-${doc.endYear}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
+      if (!res.ok) {
+        // Surface a human-readable cause. nginx returns 413 (HTML page) when the
+        // doc exceeds the body limit; 400 means the doc is missing required fields.
+        let msg = `Export failed (HTTP ${res.status}).`;
+        if (res.status === 413) msg = "This ISSP is too large to export — it exceeds the server's upload limit. Remove or compress embedded diagrams/logos, then try again.";
+        else if (res.status === 400) msg = "The ISSP is missing required fields (agency, or coverage years). Fill those in the editor, then export.";
+        throw new Error(msg);
+      }
+      if (!res.body) throw new Error("No response stream from server.");
+
+      // Consume the Server-Sent Events stream: progress events update the bar;
+      // the done event carries the PDF as base64; error events abort.
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        let sep: number;
+        while ((sep = buffer.indexOf("\n\n")) >= 0) {
+          const raw = buffer.slice(0, sep);
+          buffer = buffer.slice(sep + 2);
+          const evt = parseSseEvent(raw);
+          if (!evt) continue;
+          if (evt.event === "progress") {
+            const p = JSON.parse(evt.data) as { stage: string; pct: number };
+            setExportProgress(p);
+          } else if (evt.event === "done") {
+            const { filename, pdf } = JSON.parse(evt.data) as { filename: string; pdf: string };
+            // Let the browser decode the base64 PDF via a data URI.
+            const blob = await (await fetch(`data:application/pdf;base64,${pdf}`)).blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+            setExportProgress({ stage: "Done", pct: 100 });
+            toast.success("PDF exported.");
+            return;
+          } else if (evt.event === "error") {
+            const { message } = JSON.parse(evt.data) as { message?: string };
+            throw new Error(message ?? "PDF generation failed.");
+          }
+        }
+      }
     } catch (err) {
       console.error("PDF export failed:", err);
+      toast.error(err instanceof Error && err.message ? err.message : "PDF export failed. Please try again.");
     } finally {
       setExporting(false);
+      // Hold the completed bar briefly so the user sees it finish, then close.
+      setTimeout(() => setExportProgress(null), 500);
     }
   }
 
@@ -654,7 +709,7 @@ export function EditorSidebar({
                 onClick={handleExportPdf}
                 disabled={exporting}
               >
-                {exporting ? <Loader2 className="h-3 w-3 animate-spin" /> : <FileOutput className="h-3 w-3" />}
+                <FileOutput className="h-3 w-3" />
                 PDF
               </Button>
               <DropdownMenu modal={false}>
@@ -961,7 +1016,7 @@ export function EditorSidebar({
                   onClick={handleExportPdf}
                   disabled={exporting}
                 >
-                  {exporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <FileOutput className="h-3.5 w-3.5" />}
+                  <FileOutput className="h-3.5 w-3.5" />
                   Export PDF
                 </Button>
               </div>
@@ -992,6 +1047,35 @@ export function EditorSidebar({
         />
 
         <IsspPropertiesDialog open={propsOpen} onClose={() => setPropsOpen(false)} />
+
+        <Dialog
+          open={exportProgress !== null}
+          onOpenChange={(nextOpen) => { if (!nextOpen && !exporting) setExportProgress(null); }}
+        >
+          <DialogContent showCloseButton={false} className="sm:max-w-sm">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Exporting PDF…
+              </DialogTitle>
+              <DialogDescription className="sr-only">
+                Generating the PDF document; progress updates live.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-2 px-1 pb-1">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span className="truncate">{exportProgress?.stage ?? "Working…"}</span>
+                <span className="tabular-nums ml-2 shrink-0">{exportProgress?.pct ?? 0}%</span>
+              </div>
+              <div className="h-2 w-full rounded-full bg-border overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-success transition-all duration-300 ease-out"
+                  style={{ width: `${exportProgress?.pct ?? 0}%` }}
+                />
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </aside>
     </>
   );

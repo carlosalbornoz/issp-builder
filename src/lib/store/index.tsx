@@ -51,7 +51,7 @@ export interface IsspStoreValue {
   loadFromFile: (file: File) => Promise<StoreActionResult>;
 }
 
-const CURRENT_SCHEMA_VERSION = 6;
+const CURRENT_SCHEMA_VERSION = 9;
 const MAX_ISSP_FILE_SIZE_BYTES = 50 * 1024 * 1024;
 const MAX_LOGO_BYTES = 2 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
@@ -489,6 +489,115 @@ function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
         internalProjects: stripCost(base.part3.internalProjects),
         crossAgencyProjects: stripCost(base.part3.crossAgencyProjects),
       },
+    };
+  }
+
+  // v6 -> v7: EGP checklist status simplified to plain Yes/No, matching the DICT
+  // template exactly — the template's checklist has no "Proposed" or "Not Applicable"
+  // box for any of the 9 programs, only a Yes/No question per row.
+  if ((base.schemaVersion ?? 1) < 7) {
+    // Rows whose template "If No" follow-up includes a "Proposed development of
+    // equivalent system" checkbox — migrating "proposed" preserves that signal there.
+    const PROPOSED_DEV_KEYS = new Set(["eGovPay", "hcmis", "ifmis", "procurement"]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const migrateEgpProgram = (key: string, p: any) => {
+      if (!p) return p;
+      switch (p.status) {
+        case "utilizing":
+          return { ...p, status: "yes" };
+        case "not_utilizing":
+          return { ...p, status: "no" };
+        case "proposed":
+          return {
+            ...p,
+            status: "no",
+            ifNo: PROPOSED_DEV_KEYS.has(key) ? { ...p.ifNo, proposedDevelopment: true } : p.ifNo,
+          };
+        case "not_applicable":
+          return { ...p, status: "" };
+        default:
+          return p; // already "yes" | "no" | ""
+      }
+    };
+    const egp = base.part2.egpChecklist;
+    base = {
+      ...base,
+      schemaVersion: 7,
+      part2: {
+        ...base.part2,
+        egpChecklist: {
+          ...egp,
+          elgu: egp.elgu ? migrateEgpProgram("elgu", egp.elgu) : undefined,
+          eGovPay: migrateEgpProgram("eGovPay", egp.eGovPay),
+          pnpki: migrateEgpProgram("pnpki", egp.pnpki),
+          hcmis: migrateEgpProgram("hcmis", egp.hcmis),
+          ifmis: migrateEgpProgram("ifmis", egp.ifmis),
+          onlinePortal: migrateEgpProgram("onlinePortal", egp.onlinePortal),
+          procurement: migrateEgpProgram("procurement", egp.procurement),
+          recordsMgmt: migrateEgpProgram("recordsMgmt", egp.recordsMgmt),
+          pscp: migrateEgpProgram("pscp", egp.pscp),
+        },
+      },
+    };
+  }
+
+  // v7 -> v8: EGP checklist "Notes" field removed — not part of the DICT template,
+  // which has no free-text notes cell anywhere in the 9-row checklist.
+  if ((base.schemaVersion ?? 1) < 8) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const stripNotes = (p: any) => {
+      if (!p) return p;
+      const rest = { ...p };
+      delete rest.notes;
+      return rest;
+    };
+    const egp = base.part2.egpChecklist;
+    base = {
+      ...base,
+      schemaVersion: 8,
+      part2: {
+        ...base.part2,
+        egpChecklist: {
+          ...egp,
+          elgu: egp.elgu ? stripNotes(egp.elgu) : undefined,
+          eGovPay: stripNotes(egp.eGovPay),
+          pnpki: stripNotes(egp.pnpki),
+          hcmis: stripNotes(egp.hcmis),
+          ifmis: stripNotes(egp.ifmis),
+          onlinePortal: stripNotes(egp.onlinePortal),
+          procurement: stripNotes(egp.procurement),
+          recordsMgmt: stripNotes(egp.recordsMgmt),
+          pscp: stripNotes(egp.pscp),
+        },
+      },
+    };
+  }
+
+  // v8 -> v9: retire the generic deploymentType field; introduce frontlineAccessType,
+  // the template's Frontline "Identify if: Online/On-premise/Hybrid". The old
+  // deploymentType only carried real meaning for frontline systems; on non-frontline
+  // systems it duplicated the separate Data Storage field, so those values are dropped.
+  if ((base.schemaVersion ?? 1) < 9) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const migrateSystem = (s: any) => {
+      const rest = { ...s };
+      const dt = rest.deploymentType;
+      delete rest.deploymentType;
+      // Only frontline systems get a frontlineAccessType; everything else resets to "".
+      let fat = "";
+      if (rest.frontline === true) {
+        if (dt === "CLOUD" || dt === "HOSTED") fat = "ONLINE";
+        else if (dt === "ON_PREMISE") fat = "ON_PREMISE";
+        else if (dt === "HYBRID") fat = "HYBRID";
+      }
+      // Proposed systems never stored url before v9; backfill so the new required field exists.
+      return { ...rest, frontlineAccessType: fat, url: rest.url ?? "" };
+    };
+    base = {
+      ...base,
+      schemaVersion: 9,
+      part2: { ...base.part2, informationSystems: base.part2.informationSystems.map(migrateSystem) },
+      part3: { ...base.part3, proposedSystems: base.part3.proposedSystems.map(migrateSystem) },
     };
   }
 

@@ -16,11 +16,12 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, Server, Pencil } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Server, Pencil, Info } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
 import { YesNoToggle } from "@/components/issp-editor/yes-no-toggle";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { AddItemDialog, useAddItemDraft } from "@/components/issp-editor/add-item-dialog";
 import { revealNewItem } from "@/lib/reveal";
 
@@ -34,7 +35,8 @@ interface InformationSystem {
   name: string;
   classification: IsClassification;
   frontline: boolean;
-  deploymentType: "HOSTED" | "CLOUD" | "HYBRID" | "ON_PREMISE" | "";
+  /** Template Frontline sub-question "Identify if: Online/On-premise/Hybrid" (Operations + frontline only). */
+  frontlineAccessType: "ONLINE" | "ON_PREMISE" | "HYBRID" | "";
   url: string;
   description: string;
   developmentStrategy: "IN_HOUSE" | "OUTSOURCED" | "HYBRID" | "COTS" | "OPEN_SOURCE" | "";
@@ -66,7 +68,7 @@ const DEFAULT_IS: Omit<InformationSystem, "id"> = {
   name: "",
   classification: "",
   frontline: false,
-  deploymentType: "",
+  frontlineAccessType: "",
   url: "",
   description: "",
   developmentStrategy: "",
@@ -105,11 +107,12 @@ const CLASSIFICATION_BADGES: Record<string, string> = {
   OPERATIONS: "Operations",
 };
 
-const DEPLOYMENT_OPTIONS = [
-  { value: "ON_PREMISE", label: "On-Premise" },
-  { value: "CLOUD", label: "Cloud-Hosted" },
+// Template Frontline sub-question "Identify if: Online / On-premise / Hybrid" —
+// labels must match the PDF renderer's comparison strings exactly.
+const FRONTLINE_ACCESS_OPTIONS = [
+  { value: "ONLINE", label: "Online" },
+  { value: "ON_PREMISE", label: "On-premise" },
   { value: "HYBRID", label: "Hybrid" },
-  { value: "HOSTED", label: "Hosted (3rd Party)" },
 ];
 
 const STRATEGY_OPTIONS = [
@@ -146,18 +149,34 @@ const labelOf = (opts: { value: string; label: string }[], value: string) =>
 
 function FormField({
   label,
+  tooltip,
   children,
   className,
 }: {
   label: string;
+  tooltip?: string;
   children: React.ReactNode;
   className?: string;
 }) {
   return (
     <div className={cn("space-y-1.5", className)}>
-      <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-        {label}
-      </Label>
+      <div className="flex items-center gap-1.5">
+        <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+          {label}
+        </Label>
+        {tooltip && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="cursor-help text-muted-foreground hover:text-foreground transition-colors">
+                <Info className="h-3.5 w-3.5" />
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-xs">
+                {tooltip}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+      </div>
       {children}
     </div>
   );
@@ -168,12 +187,15 @@ function ISCard({
   index,
   initiallyExpanded = false,
   onUpdate,
+  onPatch,
   onRemove,
 }: {
   sys: InformationSystem;
   index: number;
   initiallyExpanded?: boolean;
   onUpdate: (field: string, value: unknown) => void;
+  /** Apply several sibling top-level fields atomically (e.g. clear frontlineAccessType when frontline is unchecked). */
+  onPatch: (patch: Partial<InformationSystem>) => void;
   onRemove: () => void;
 }) {
   const [expanded, setExpanded] = useState(initiallyExpanded);
@@ -245,14 +267,14 @@ function ISCard({
         <div className="p-4 space-y-6">
           {/* Identity — name & classification live here, not duplicated in the header row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <FormField label="System Name" className="sm:col-span-2">
+            <FormField label="System Name" className="sm:col-span-2" tooltip="Indicate the name of the IS. The name should be descriptive of the business process it represents.">
               <Input
                 placeholder="e.g., Human Resource Information System"
                 value={sys.name}
                 onChange={(e) => onUpdate("name", e.target.value)}
               />
             </FormField>
-            <FormField label="Classification">
+            <FormField label="Classification" tooltip="Support to Operations = facilitates internal processes but isn't core back-office (e.g. library, knowledge base, project management). General Administrative Systems = back-office systems that keep the agency running (HRIS, Payroll, Accounting). Operations = directly supports the agency's primary mandate — mark Frontline if directly used for public/client service delivery, Non-Frontline if it supports the mandate but isn't used directly by clients/public.">
               <Select
                 items={CLASSIFICATION_OPTIONS}
                 value={sys.classification}
@@ -269,16 +291,49 @@ function ISCard({
               </Select>
             </FormField>
             {sys.classification === "OPERATIONS" && (
-              <FormField label="Operations Type">
-                <div className="flex items-center gap-2 h-8">
-                  <Checkbox
-                    id={`frontline-${sys.id}`}
-                    checked={sys.frontline}
-                    onCheckedChange={(v) => onUpdate("frontline", v === true)}
-                  />
-                  <label htmlFor={`frontline-${sys.id}`} className="text-sm cursor-pointer">
-                    Frontline service <span className="text-muted-foreground">(unchecked = non-frontline)</span>
-                  </label>
+              <FormField label="Operations Type" className="md:col-span-2">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id={`frontline-${sys.id}`}
+                      checked={sys.frontline}
+                      onCheckedChange={(v) =>
+                        onPatch({ frontline: v === true, frontlineAccessType: v === true ? sys.frontlineAccessType : "" })
+                      }
+                    />
+                    <label htmlFor={`frontline-${sys.id}`} className="text-sm cursor-pointer">Frontline service</label>
+                  </div>
+                  {sys.frontline && (
+                    <div className="space-y-2 pl-6">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground">Identify if:</span>
+                        <Select
+                          items={FRONTLINE_ACCESS_OPTIONS}
+                          value={sys.frontlineAccessType}
+                          onValueChange={(v: string | null) => v && onUpdate("frontlineAccessType", v)}
+                        >
+                          <SelectTrigger className="h-8 w-40"><SelectValue placeholder="Select…" /></SelectTrigger>
+                          <SelectContent>
+                            {FRONTLINE_ACCESS_OPTIONS.map((o) => (
+                              <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      {sys.frontlineAccessType === "ONLINE" && (
+                        <Input
+                          type="url"
+                          inputMode="url"
+                          placeholder="Provide link: https://..."
+                          value={sys.url}
+                          onChange={(e) => onUpdate("url", e.target.value)}
+                        />
+                      )}
+                    </div>
+                  )}
+                  {!sys.frontline && (
+                    <p className="text-xs text-muted-foreground">Non-frontline service (supports core mandate but not directly used by clients/public)</p>
+                  )}
                 </div>
               </FormField>
             )}
@@ -290,16 +345,7 @@ function ISCard({
               Basic Information
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <FormField label="System URL / Portal" className="sm:col-span-2">
-                <Input
-                  type="url"
-                  inputMode="url"
-                  placeholder="https://..."
-                  value={sys.url}
-                  onChange={(e) => onUpdate("url", e.target.value)}
-                />
-              </FormField>
-              <FormField label="Description" className="sm:col-span-2">
+              <FormField label="Description & Purpose" className="sm:col-span-2" tooltip="Describe the IS in terms of its salient features, functionalities, and reports generated.">
                 <Textarea
                   placeholder="Briefly describe the system's purpose and scope..."
                   value={sys.description}
@@ -308,28 +354,12 @@ function ISCard({
                   className="resize-none"
                 />
               </FormField>
-              <FormField label="System Owner / Custodian">
+              <FormField label="System Owner / Custodian" tooltip="The organizational unit for which the IS was developed, based on their business process.">
                 <Input
                   placeholder="e.g., HRMS Division"
                   value={sys.owner}
                   onChange={(e) => onUpdate("owner", e.target.value)}
                 />
-              </FormField>
-              <FormField label="Deployment Type">
-                <Select
-                  items={DEPLOYMENT_OPTIONS}
-                  value={sys.deploymentType}
-                  onValueChange={(v: string | null) => v && onUpdate("deploymentType", v)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select…" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {DEPLOYMENT_OPTIONS.map((o) => (
-                      <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
               </FormField>
             </div>
           </div>
@@ -340,7 +370,7 @@ function ISCard({
               Technical Details
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <FormField label="Development Strategy">
+              <FormField label="Development Strategy" tooltip="Indicate whether the IS is for in-house development, outsourcing, or a combination of both. Ready-made / off-the-shelf software may also be considered.">
                 <Select
                   items={STRATEGY_OPTIONS}
                   value={sys.developmentStrategy}
@@ -356,21 +386,21 @@ function ISCard({
                   </SelectContent>
                 </Select>
               </FormField>
-              <FormField label="Platform / Framework">
+              <FormField label="Platform / Framework" tooltip="The foundation the software is built on — tools and technologies supporting the development lifecycle, e.g. Visual Studio, Supabase, Firebase, Retool.">
                 <Input
                   placeholder="e.g., React, Laravel, Java"
                   value={sys.developmentPlatform}
                   onChange={(e) => onUpdate("developmentPlatform", e.target.value)}
                 />
               </FormField>
-              <FormField label="Database">
+              <FormField label="Database" tooltip="Should relate to the IS it serves and be descriptive of the data sets it represents.">
                 <Input
                   placeholder="e.g., PostgreSQL, MySQL, Oracle"
                   value={sys.databaseName}
                   onChange={(e) => onUpdate("databaseName", e.target.value)}
                 />
               </FormField>
-              <FormField label="Data Storage Location">
+              <FormField label="Data Storage Location" tooltip="Identify how or in what form you intend to store / preserve the data.">
                 <Select
                   items={STORAGE_OPTIONS}
                   value={sys.dataStorage}
@@ -386,14 +416,14 @@ function ISCard({
                   </SelectContent>
                 </Select>
               </FormField>
-              <FormField label="Internal Users (units with access)">
+              <FormField label="Internal Users (units with access)" tooltip="Units within the organization who may access the system in whole or in part.">
                 <Input
                   placeholder="e.g., HR Division, Finance Division"
                   value={sys.internalUsers}
                   onChange={(e) => onUpdate("internalUsers", e.target.value)}
                 />
               </FormField>
-              <FormField label="External Users (orgs with access)">
+              <FormField label="External Users (orgs with access)" tooltip="External organizations, stakeholders, or private entities that may be given authority to access the system with certain restrictions.">
                 <Input
                   placeholder="e.g., GSIS, PhilGEPS, general public"
                   value={sys.externalUsers}
@@ -405,9 +435,19 @@ function ISCard({
 
           {/* Interoperability */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-              Interoperability
-            </h4>
+            <div className="flex items-center gap-1.5 mb-3">
+              <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Interoperability</h4>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="cursor-help text-muted-foreground hover:text-foreground transition-colors">
+                    <Info className="h-3.5 w-3.5" />
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-xs">
+                    How the system connects, shares, and processes data within the government digital ecosystem: whether it&apos;s integrated with another system (list internal/external systems), generates data used by others, processes data from others, or is deployed on a shared platform.
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <div className="space-y-3">
               <div className="grid sm:grid-cols-2 gap-3">
                 {INTEROP_ITEMS.map((item) => (
@@ -443,9 +483,19 @@ function ISCard({
 
           {/* Privacy Impact */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-              Privacy Impact Assessment (PIA)
-            </h4>
+            <div className="flex items-center gap-1.5 mb-3">
+              <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Privacy Impact Assessment (PIA)</h4>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="cursor-help text-muted-foreground hover:text-foreground transition-colors">
+                    <Info className="h-3.5 w-3.5" />
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-xs">
+                    Whether the IS processes personal data — names, addresses, photos, or anything that can identify an individual — per the Data Privacy Act of 2012. You must state Yes or No; if Yes, indicate whether it has already undergone a formal PIA (if not, that&apos;s a gap to address in your proposed strategy).
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <div className="space-y-3">
               <YesNoToggle
                 question="Processes personal / sensitive personal information?"
@@ -494,23 +544,24 @@ function ISReadView({ sys, onEdit }: { sys: InformationSystem; onEdit: () => voi
     (item) => (sys.interoperability as Record<string, unknown>)[item.key]
   ).map((item) => item.label);
 
+  const accessLabel = sys.frontlineAccessType ? labelOf(FRONTLINE_ACCESS_OPTIONS, sys.frontlineAccessType) : "";
+
   return (
     <div className="p-4 space-y-3">
-      <ReadRow
-        label="System URL"
-        value={
-          sys.url ? (
-            <a href={sys.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all">
-              {sys.url}
-            </a>
-          ) : (
-            ""
-          )
-        }
-      />
+      {sys.classification === "OPERATIONS" && (
+        <ReadRow
+          label="Operations Type"
+          value={
+            sys.frontline
+              ? sys.frontlineAccessType === "ONLINE" && sys.url
+                ? `Frontline service — Online (${sys.url})`
+                : `Frontline service${accessLabel ? ` — ${accessLabel}` : ""}`
+              : "Non-frontline service"
+          }
+        />
+      )}
       <ReadRow label="Description" value={sys.description} />
       <ReadRow label="Owner / Custodian" value={sys.owner} />
-      <ReadRow label="Deployment" value={sys.deploymentType ? labelOf(DEPLOYMENT_OPTIONS, sys.deploymentType) : ""} />
       <ReadRow label="Dev Strategy" value={sys.developmentStrategy ? labelOf(STRATEGY_OPTIONS, sys.developmentStrategy) : ""} />
       <ReadRow label="Platform" value={sys.developmentPlatform} />
       <ReadRow label="Database" value={sys.databaseName} />
@@ -594,6 +645,10 @@ export function Part2CForm({
     update(systems.map((s) => (s.id === id ? { ...s, [field]: value } : s)));
   }
 
+  function updateSystemPatch(id: string, patch: Partial<InformationSystem>) {
+    update(systems.map((s) => (s.id === id ? { ...s, ...patch } : s)));
+  }
+
   const frontlineCount = systems.filter((s) => s.frontline).length;
 
   return (
@@ -658,6 +713,7 @@ export function Part2CForm({
             index={idx}
             initiallyExpanded={freshIds.has(sys.id)}
             onUpdate={(field, value) => updateSystem(sys.id, field, value)}
+            onPatch={(patch) => updateSystemPatch(sys.id, patch)}
             onRemove={() => removeSystem(sys.id)}
           />
         ))}

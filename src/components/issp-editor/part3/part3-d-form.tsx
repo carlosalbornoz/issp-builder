@@ -16,12 +16,13 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, Sparkles, Link2, Pencil } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Sparkles, Link2, Pencil, Info } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
 import { YesNoToggle } from "@/components/issp-editor/yes-no-toggle";
 import { AddItemDialog, useAddItemDraft } from "@/components/issp-editor/add-item-dialog";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { revealNewItem } from "@/lib/reveal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -33,7 +34,10 @@ export interface ProposedSystem {
   name: string;
   classification: "SUPPORT_TO_OPERATIONS" | "GENERAL_ADMIN" | "OPERATIONS" | "";
   frontline: boolean;
-  deploymentType: string;
+  /** Template Frontline sub-question "Identify if: Online/On-premise/Hybrid" (Operations + frontline only). */
+  frontlineAccessType: "ONLINE" | "ON_PREMISE" | "HYBRID" | "";
+  /** "Provide link" for Online frontline access. */
+  url: string;
   description: string;
   status: "FOR_DEVELOPMENT" | "FOR_ENHANCEMENT" | "";
   enhancementDetails: string;
@@ -66,7 +70,8 @@ const DEFAULT_SYSTEM: Omit<ProposedSystem, "id"> = {
   name: "",
   classification: "",
   frontline: false,
-  deploymentType: "",
+  frontlineAccessType: "",
+  url: "",
   description: "",
   status: "",
   enhancementDetails: "",
@@ -94,9 +99,10 @@ const CLASSIFICATION_OPTIONS = [
   { value: "GENERAL_ADMIN", label: "General Administrative Systems" },
   { value: "OPERATIONS", label: "Operations" },
 ];
-const DEPLOYMENT_OPTIONS = [
-  { value: "ON_PREMISE", label: "On-Premise" },
-  { value: "CLOUD", label: "Cloud-Hosted" },
+// Template Frontline sub-question "Identify if: Online / On-premise / Hybrid".
+const FRONTLINE_ACCESS_OPTIONS = [
+  { value: "ONLINE", label: "Online" },
+  { value: "ON_PREMISE", label: "On-premise" },
   { value: "HYBRID", label: "Hybrid" },
 ];
 const STRATEGY_OPTIONS = [
@@ -131,6 +137,57 @@ const INTEROP_ITEMS = [
 const labelOf = (opts: { value: string; label: string }[], value: string) =>
   opts.find((o) => o.value === value)?.label ?? value;
 
+// ─── Field primitives ─────────────────────────────────────────────────────────
+
+function FormField({
+  label,
+  tooltip,
+  children,
+  className,
+}: {
+  label: string;
+  tooltip?: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("space-y-1.5", className)}>
+      <div className="flex items-center gap-1.5">
+        <Label className="text-xs text-muted-foreground uppercase tracking-wide">{label}</Label>
+        {tooltip && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="cursor-help text-muted-foreground hover:text-foreground transition-colors">
+                <Info className="h-3.5 w-3.5" />
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-xs">{tooltip}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function SectionLabel({ label, tooltip }: { label: string; tooltip?: string }) {
+  return (
+    <div className="flex items-center gap-1.5 mb-3">
+      <Label className="text-xs text-muted-foreground uppercase tracking-wide">{label}</Label>
+      {tooltip && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="cursor-help text-muted-foreground hover:text-foreground transition-colors">
+              <Info className="h-3.5 w-3.5" />
+            </TooltipTrigger>
+            <TooltipContent side="top" className="max-w-xs">{tooltip}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
+    </div>
+  );
+}
+
 // ─── System Card ──────────────────────────────────────────────────────────────
 
 function SystemCard({
@@ -139,6 +196,7 @@ function SystemCard({
   linkedProjectTitles,
   isNew,
   onUpdate,
+  onPatch,
   onRemove,
 }: {
   sys: ProposedSystem;
@@ -147,6 +205,8 @@ function SystemCard({
   linkedProjectTitles: string[];
   isNew: boolean;
   onUpdate: (field: string, value: unknown) => void;
+  /** Apply several sibling top-level fields atomically. */
+  onPatch: (patch: Partial<ProposedSystem>) => void;
   onRemove: () => void;
 }) {
   const isLinked = linkedProjectTitles.length > 0;
@@ -225,16 +285,14 @@ function SystemCard({
         <div className="p-4 space-y-6">
           {/* Identity — name, status & classification live here, not duplicated in the header row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="space-y-1.5 sm:col-span-2">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">System Name</Label>
+            <FormField label="System Name" className="sm:col-span-2" tooltip="Indicate the name of the IS. The name should be descriptive of the business process it represents.">
               <Input
                 placeholder="e.g., Citizen Feedback Portal"
                 value={sys.name}
                 onChange={(e) => onUpdate("name", e.target.value)}
               />
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Status</Label>
+            </FormField>
+            <FormField label="Status" tooltip="Whether the IS is For Development (an entirely new system not in the current inventory — built from scratch or replacing a manual process) or For Enhancement (an existing Part II system needing significant upgrades — new modules, platform upgrade, better interoperability; should address a Problem from Part II-A).">
               <Select items={STATUS_OPTIONS} value={sys.status} onValueChange={(v: string | null) => v && onUpdate("status", v)}>
                 <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
                 <SelectContent>
@@ -243,9 +301,8 @@ function SystemCard({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Classification</Label>
+            </FormField>
+            <FormField label="Classification" tooltip="Support to Operations = facilitates internal processes but isn't core back-office (e.g. library, knowledge base). General Administrative Systems = back-office systems that keep the agency running (HRIS, Payroll, Accounting). Operations = directly supports the agency's primary mandate — mark Frontline if directly used for public/client service delivery, Non-Frontline if it supports the mandate but isn't used directly by clients/public.">
               <Select
                 items={CLASSIFICATION_OPTIONS}
                 value={sys.classification}
@@ -258,11 +315,57 @@ function SystemCard({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
+            </FormField>
+            {sys.classification === "OPERATIONS" && (
+              <FormField label="Operations Type" className="md:col-span-2">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id={`frontline-${sys.id}`}
+                      checked={sys.frontline}
+                      onCheckedChange={(v) =>
+                        onPatch({ frontline: v === true, frontlineAccessType: v === true ? sys.frontlineAccessType : "" })
+                      }
+                    />
+                    <label htmlFor={`frontline-${sys.id}`} className="text-sm cursor-pointer">Frontline service</label>
+                  </div>
+                  {sys.frontline && (
+                    <div className="space-y-2 pl-6">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground">Identify if:</span>
+                        <Select
+                          items={FRONTLINE_ACCESS_OPTIONS}
+                          value={sys.frontlineAccessType}
+                          onValueChange={(v: string | null) => v && onUpdate("frontlineAccessType", v)}
+                        >
+                          <SelectTrigger className="h-8 w-40"><SelectValue placeholder="Select…" /></SelectTrigger>
+                          <SelectContent>
+                            {FRONTLINE_ACCESS_OPTIONS.map((o) => (
+                              <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      {sys.frontlineAccessType === "ONLINE" && (
+                        <Input
+                          type="url"
+                          inputMode="url"
+                          placeholder="Provide link: https://..."
+                          value={sys.url ?? ""}
+                          onChange={(e) => onUpdate("url", e.target.value)}
+                        />
+                      )}
+                    </div>
+                  )}
+                  {!sys.frontline && (
+                    <p className="text-xs text-muted-foreground">Non-frontline service (supports core mandate but not directly used by clients/public)</p>
+                  )}
+                </div>
+              </FormField>
+            )}
           </div>
 
-          <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground uppercase tracking-wide">Description & Purpose</Label>
+          <FormField label="Description & Purpose" tooltip="Describe salient features, functionalities, and reports generated. For an IS that will be enhanced, indicate the enhancement to be done.">
             <Textarea
               placeholder="Describe salient features, functions, and reports the system will generate."
               value={sys.description}
@@ -270,12 +373,11 @@ function SystemCard({
               rows={3}
               className="resize-none"
             />
-          </div>
+          </FormField>
 
           {/* Enhancement details — link back to Part II-C inventory */}
           {sys.status === "FOR_ENHANCEMENT" && (
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Enhancement Details</Label>
+            <FormField label="Enhancement Details" tooltip="Describe what will be enhanced: new modules, platform upgrade (e.g. migrating to a modern framework), or interoperability improvements. Should address a Problem identified in Part II-A.">
               <Textarea
                 placeholder="Describe what will be enhanced (new modules, platform upgrade, interoperability improvements)..."
                 value={sys.enhancementDetails}
@@ -283,48 +385,19 @@ function SystemCard({
                 rows={2}
                 className="resize-none"
               />
-            </div>
+            </FormField>
           )}
 
           {/* Core fields */}
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {sys.classification === "OPERATIONS" && (
-              <div className="space-y-1.5">
-                <Label className="text-xs text-muted-foreground uppercase tracking-wide">Operations Type</Label>
-                <label className="flex items-center gap-2 h-8 cursor-pointer">
-                  <Checkbox
-                    checked={sys.frontline}
-                    onCheckedChange={(v) => onUpdate("frontline", v === true)}
-                  />
-                  <span className="text-sm">Frontline service</span>
-                </label>
-              </div>
-            )}
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Deployment</Label>
-              <Select
-                items={DEPLOYMENT_OPTIONS}
-                value={sys.deploymentType}
-                onValueChange={(v: string | null) => v && onUpdate("deploymentType", v)}
-              >
-                <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
-                <SelectContent>
-                  {DEPLOYMENT_OPTIONS.map((o) => (
-                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">System Owner</Label>
+            <FormField label="System Owner" tooltip="The organizational unit for which the IS was developed, based on their business process.">
               <Input
                 placeholder="e.g., ICT Division"
                 value={sys.owner}
                 onChange={(e) => onUpdate("owner", e.target.value)}
               />
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Dev Strategy</Label>
+            </FormField>
+            <FormField label="Dev Strategy" tooltip="Indicate whether the IS is for in-house development, outsourcing, or a combination of both. Ready-made / off-the-shelf software may also be considered.">
               <Select
                 items={STRATEGY_OPTIONS}
                 value={sys.developmentStrategy}
@@ -337,25 +410,22 @@ function SystemCard({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Platform / Framework</Label>
+            </FormField>
+            <FormField label="Platform / Framework" tooltip="The foundation the software is built on — tools and technologies supporting the development lifecycle, e.g. Visual Studio, Supabase, Firebase, Retool.">
               <Input
                 placeholder="e.g., React, Laravel"
                 value={sys.developmentPlatform}
                 onChange={(e) => onUpdate("developmentPlatform", e.target.value)}
               />
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Database</Label>
+            </FormField>
+            <FormField label="Database" tooltip="Should relate to the IS it serves and be descriptive of the data sets it represents.">
               <Input
                 placeholder="e.g., PostgreSQL"
                 value={sys.databaseName}
                 onChange={(e) => onUpdate("databaseName", e.target.value)}
               />
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Data Storage</Label>
+            </FormField>
+            <FormField label="Data Storage" tooltip="Identify how or in what form you intend to store / preserve the data.">
               <Select
                 items={STORAGE_OPTIONS}
                 value={sys.dataStorage}
@@ -368,28 +438,26 @@ function SystemCard({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Internal Users (units)</Label>
+            </FormField>
+            <FormField label="Internal Users (units)" tooltip="Units within the organization who may access the system in whole or in part.">
               <Input
                 placeholder="e.g., HR Division, Finance"
                 value={sys.internalUsers}
                 onChange={(e) => onUpdate("internalUsers", e.target.value)}
               />
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wide">External Users (orgs)</Label>
+            </FormField>
+            <FormField label="External Users (orgs)" tooltip="External organizations, stakeholders, or private entities that may be given authority to access the system with certain restrictions.">
               <Input
                 placeholder="e.g., GSIS, general public"
                 value={sys.externalUsers}
                 onChange={(e) => onUpdate("externalUsers", e.target.value)}
               />
-            </div>
+            </FormField>
           </div>
 
           {/* Interoperability */}
           <div className="space-y-2">
-            <Label className="text-xs text-muted-foreground uppercase tracking-wide">Interoperability</Label>
+            <SectionLabel label="Interoperability" tooltip="How the system will connect, share, and process data within the government digital ecosystem: whether it will integrate with another system, generate data for others, process data from others, or be deployed on a shared platform." />
             <div className="grid sm:grid-cols-2 gap-3">
               {INTEROP_ITEMS.map((item) => (
                 <label key={item.key} className="flex items-center gap-2 cursor-pointer">
@@ -419,25 +487,12 @@ function SystemCard({
 
           {/* PIA */}
           <div className="space-y-2">
-            <Label className="text-xs text-muted-foreground uppercase tracking-wide">Privacy</Label>
-            <div className="space-y-3">
-              <YesNoToggle
-                question="Will process personal information?"
-                value={sys.pia.processesPersonalInfo}
-                onChange={setPiaProcessAnswer}
-              />
-              {sys.pia.processesPersonalInfo === "yes" && (
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <Checkbox
-                    checked={sys.pia.piaRequired}
-                    onCheckedChange={(v) =>
-                      onUpdate("pia", { ...sys.pia, piaRequired: v === true })
-                    }
-                  />
-                  <span className="text-sm">PIA will be conducted</span>
-                </label>
-              )}
-            </div>
+            <SectionLabel label="Privacy Impact Assessment" tooltip="Whether the IS will process personal data — names, addresses, photos, or anything identifying an individual — per the Data Privacy Act of 2012. Project whether the future system will process personal data; if Yes, ensure your roadmap includes a PIA phase and privacy-by-design features." />
+            <YesNoToggle
+              question="Will the system process personal information?"
+              value={sys.pia.processesPersonalInfo}
+              onChange={setPiaProcessAnswer}
+            />
           </div>
 
           <div className="flex justify-end border-t pt-3">
@@ -493,9 +548,19 @@ function SystemReadView({ sys, onEdit }: { sys: ProposedSystem; onEdit: () => vo
         <ReadRow label="Enhancement" value={sys.enhancementDetails} />
       )}
       {sys.classification === "OPERATIONS" && (
-        <ReadRow label="Operations Type" value={sys.frontline ? "Frontline service" : "Non-frontline"} />
+        <ReadRow
+          label="Operations Type"
+          value={
+            sys.frontline
+              ? (() => {
+                  const accessLabel = sys.frontlineAccessType ? labelOf(FRONTLINE_ACCESS_OPTIONS, sys.frontlineAccessType) : "";
+                  if (sys.frontlineAccessType === "ONLINE" && sys.url) return `Frontline service — Online (${sys.url})`;
+                  return `Frontline service${accessLabel ? ` — ${accessLabel}` : ""}`;
+                })()
+              : "Non-frontline service"
+          }
+        />
       )}
-      <ReadRow label="Deployment" value={sys.deploymentType ? labelOf(DEPLOYMENT_OPTIONS, sys.deploymentType) : ""} />
       <ReadRow label="Owner" value={sys.owner} />
       <ReadRow label="Dev Strategy" value={sys.developmentStrategy ? labelOf(STRATEGY_OPTIONS, sys.developmentStrategy) : ""} />
       <ReadRow label="Platform" value={sys.developmentPlatform} />
@@ -581,6 +646,10 @@ export function Part3DForm({
     update(systems.map((s) => (s.id === id ? { ...s, [field]: value } : s)));
   }
 
+  function updateSystemPatch(id: string, patch: Partial<ProposedSystem>) {
+    update(systems.map((s) => (s.id === id ? { ...s, ...patch } : s)));
+  }
+
   return (
     <SectionShell
       sectionId="part3/d"
@@ -639,6 +708,7 @@ export function Part3DForm({
               .map((proj) => proj.title)}
             isNew={newlyAddedIds.has(sys.id)}
             onUpdate={(field, value) => updateSystem(sys.id, field, value)}
+            onPatch={(patch) => updateSystemPatch(sys.id, patch)}
             onRemove={() => removeSystem(sys.id)}
           />
         ))}

@@ -51,7 +51,7 @@ interface IsSystem {
   name: string;
   classification: string;
   frontline: boolean | null;
-  deploymentType?: string;
+  frontlineAccessType?: string;
   url?: string;
   description: string;
   developmentStrategy?: string;
@@ -77,11 +77,11 @@ interface IsSystem {
 interface StrategicConcern { ooSoMfo: string; criticalSystem: string; problem: string; intendedIctUse: string }
 
 interface EgpEntry {
-  status: "utilizing" | "proposed" | "not_applicable" | "not_utilizing" | "";
+  /** Template checklist is strictly Yes/No — no "Proposed" or "Not Applicable" box exists. */
+  status: "yes" | "no" | "";
   url?: string;
   equivalentName?: string;
   equivalentUrl?: string;
-  notes?: string;
   ifNo?: {
     usingEquivalent?: boolean;
     manual?: boolean;
@@ -226,6 +226,26 @@ function chk(v: boolean | undefined): string {
   return v ? "☑" : "☐";
 }
 
+/** Nests content one indent level deeper — mirrors the template's hanging-indent
+ * checkbox sub-lists (each level of "If No, > checkbox > sub-field" nests further).
+ * Shared by the EGP checklist and the IS inventory cards. */
+function tmplIndent(html: string): string {
+  return `<div style="margin-left:4mm">${html}</div>`;
+}
+
+/** Label followed by a fill-in-the-blank underline on the same line. The blank
+ * stretches (flex:1) to the column's right edge regardless of indent level or
+ * label length, so every underline in the column ends at the same x position —
+ * and stays underlined whether it's empty or filled in, like a real form field. */
+function tmplBlankInline(label: string, value: string | undefined): string {
+  return `<div style="display:flex;align-items:baseline;"><span style="white-space:nowrap;">${label}</span><span style="flex:1;border-bottom:1px solid #000;margin-left:1mm;min-height:1em;">${value ? esc(value) : "&nbsp;"}</span></div>`;
+}
+
+/** Full-width fill-in-the-blank underline on its own line, below a label. */
+function tmplBlankBlock(value: string | undefined): string {
+  return `<div style="border-bottom:1px solid #000;min-height:1em;">${value ? esc(value) : "&nbsp;"}</div>`;
+}
+
 
 function ooLabel(agencyType: string): string {
   if (agencyType === "GOCC") return "Strategic Objectives (SO)";
@@ -324,6 +344,7 @@ const CSS = `
   .toc-title { font-size: 16pt; font-weight: bold; margin-bottom: 5mm; }
   .toc-marker { position: absolute; font-size: 2px; color: transparent; }
   .toc-entry { display: flex; justify-content: space-between; margin-bottom: 0.5mm; font-size: 10pt; }
+  .toc-link { display: flex; flex: 1; color: inherit; text-decoration: none; }
   /* Fixed-width page cell so pass 1 (blank) and pass 2 (numbers) paginate identically */
   .toc-page-num { flex: 0 0 10mm; text-align: right; }
   .toc-entry.toc-part { font-weight: bold; margin-top: 2mm; font-size: 10pt; }
@@ -468,11 +489,18 @@ function renderCover(issp: IsspData): string {
 
 // ─── Table of Contents ────────────────────────────────────────────────────────
 
-function renderToc(issp: IsspData, tocPages: Record<string, number> | null): string {
+export interface TocEntry {
+  id: string;
+  label: string;
+  level: "part" | "section" | "sub";
+}
+
+/** Single source of truth for the printed TOC, clickable links, and PDF outline. */
+export function getTocEntries(issp: IsspData): TocEntry[] {
   const p3 = issp.part3;
   const hasE2 = p3.crossAgencyProjects.length > 0;
 
-  const rows: { id: string; label: string; level: "part" | "section" | "sub" }[] = [
+  return [
     // Front matter: roman numeral by convention; content numbering starts at Part I = 1
     ...(definitionTerms(issp).length > 0
       ? [{ id: "defs", label: "DEFINITION OF TERMS", level: "part" as const }]
@@ -508,15 +536,21 @@ function renderToc(issp: IsspData, tocPages: Record<string, number> | null): str
     { id: "part4-b3", label: "B.3. STATEMENT OF EXPENDITURE", level: "sub" },
     { id: "part4-b4", label: "B.4. OBJECT OF EXPENDITURE", level: "sub" },
   ];
+}
+
+function renderToc(issp: IsspData, tocPages: Record<string, number> | null): string {
+  const rows = getTocEntries(issp);
 
   return `<div class="page-break">
     ${pageHeader(issp)}
     <div class="toc-title">Table of Contents</div>
     ${rows.map(r => `
     <div class="toc-entry toc-${r.level}">
-      <span>${esc(r.label)}</span>
-      <span class="toc-dots"></span>
-      <span class="toc-page-num">${r.id === "defs" ? "i" : tocPages?.[r.id] ?? "&nbsp;"}</span>
+      <a class="toc-link" href="https://issp.local/toc/${r.id}">
+        <span>${esc(r.label)}</span>
+        <span class="toc-dots"></span>
+        <span class="toc-page-num">${r.id === "defs" ? "i" : tocPages?.[r.id] ?? "&nbsp;"}</span>
+      </a>
     </div>`).join("")}
   </div>`;
 }
@@ -529,12 +563,12 @@ function definitionTerms(issp: IsspData): { term: string; definition: string }[]
     .sort((a, b) => a.term.localeCompare(b.term, "en", { sensitivity: "base" }));
 }
 
-function renderDefinitions(issp: IsspData): string {
+function renderDefinitions(issp: IsspData, withTocMarker = false): string {
   const terms = definitionTerms(issp);
   if (terms.length === 0) return "";
   return `<div class="page-break">
     ${pageHeader(issp)}
-    <div class="def-heading">DEFINITION OF TERMS</div>
+    <div class="def-heading">${withTocMarker ? `<span class="toc-marker">@@toc:defs@@</span>` : ""}DEFINITION OF TERMS</div>
     <table>
       <thead><tr><th style="width:33%">Terms</th><th>Definition</th></tr></thead>
       <tbody>
@@ -719,22 +753,77 @@ function renderIsCard(sys: IsSystem, isProposed = false): string {
   const piaAnswer = pia?.processesPersonalInfo;
   const piaYes = piaAnswer === true || piaAnswer === "yes";
   const piaNo = piaAnswer === "no";
+  const isOps = sys.classification === "Operations";
+  const access = sys.frontlineAccessType;
+
+  // Per-line block with explicit left padding — gives full control over the deep
+  // template nesting (Classification → Frontline → Identify-if → Online → Provide-link)
+  // without div-in-text flow problems. Principle #14: the full template branch
+  // always renders; the selected classification only changes its check-marks.
+  const L = (mm: number, content: string) => `<div style="padding-left:${mm}mm;">${content}</div>`;
+
+  // ── Classification cell ──
+  const classificationCell = [
+    L(0, `${chk(sys.classification === "Support to Operations")} Support to Operations`),
+    L(0, `${chk(sys.classification === "General Administrative Systems")} General Administrative Systems`),
+    L(0, `${chk(isOps)} Operations`),
+    L(4, `<em>If yes, indicate whether the system supports:</em>`),
+    L(8, `${chk(isOps && sys.frontline === true)} Frontline Service (directly used for public/client service delivery)`),
+    L(12, `Identify if:`),
+    L(16, `${chk(isOps && sys.frontline === true && access === "Online")} Online`),
+    L(20, tmplBlankInline("Provide link:", isOps && sys.frontline === true && access === "Online" ? sys.url : undefined)),
+    L(16, `${chk(isOps && sys.frontline === true && access === "On-premise")} On-premise`),
+    L(16, `${chk(isOps && sys.frontline === true && access === "Hybrid")} Hybrid`),
+    L(8, `${chk(isOps && sys.frontline === false)} Non-Frontline Service (supports core mandate but not directly used by clients/public)`),
+  ].join("");
+
+  // ── Interoperability cell — tense + parentheticals branch on proposed ──
+  const integratedLabel = isProposed
+    ? "Integration with another system (If the system will exchange data or will be technically integrated with another system)"
+    : "Integrated with another system (If the system exchanges data or is technically integrated with another system)";
+  const generatesLabel = isProposed
+    ? "Generate data that will be utilized by other system (The system will generate and produce data that will be consumed, referenced, or reused by another system)"
+    : "Generates data that is utilized by other system (The system generates and produces data that is consumed, referenced, or reused by another system)";
+  const processesLabel = isProposed
+    ? "Process data generated from other system (The system will receive and process data generated from another system)"
+    : "Processes data generated from other system (The system receives and processes data generated from another system)";
+  const sharedLabel = isProposed
+    ? "Deployment on a shared platform (The system will be hosted on the same platform or infrastructure with other systems)"
+    : "Deployed on a shared platform (The system is hosted on the same platform or infrastructure with other systems)";
+  const interopCell = [
+    L(0, `${chk(interop?.integrated)} ${integratedLabel}`),
+    L(4, `<em>If yes, specify the system name</em>`),
+    L(8, tmplBlankInline("Internal System:", interop?.internalSystems?.join(", "))),
+    L(8, tmplBlankInline("External System:", interop?.externalSystems?.join(", "))),
+    L(8, `${chk(interop?.generatesData)} ${generatesLabel}`),
+    L(8, `${chk(interop?.processesExternalData)} ${processesLabel}`),
+    L(0, `${chk(interop?.sharedPlatform)} ${sharedLabel}`),
+  ].join("");
+
+  // ── PIA cell — label, question tense, and the "did it undergo PIA" follow-up branch on proposed ──
+  const piaLabel = isProposed ? "PRIVACY IMPACT ASSESSMENT" : "PRIVACY IMPACT ASSESSMENT (PIA)";
+  const piaQuestion = isProposed
+    ? "Will the system process personal information? (Will the system collect, store, or process names, addresses, photos, or any info that can identify an individual?)"
+    : "Is the system processing personal information? (Does the system collect, store, or process names, addresses, photos, or any info that can identify an individual?)";
+  const piaCell = [
+    L(0, piaQuestion),
+    L(4, `${chk(piaYes)} Yes`),
+    L(4, `${chk(piaNo)} No`),
+    // The "did the system undergo PIA?" follow-up exists only in the Existing template.
+    ...(isProposed ? [] : [
+      L(0, `<em>If Yes, did the system undergo PIA?</em>`),
+      L(4, `${chk(pia?.piaCompleted === true)} Yes`),
+      L(4, `${chk(pia?.piaCompleted === false)} No`),
+    ]),
+  ].join("");
+
   return `<div class="is-card avoid-break">
     <table>
       <tbody>
         <tr class="avoid-break"><td class="label-cell">INFORMATION SYSTEM NAME</td><td><strong>${esc(sys.name)}</strong></td></tr>
-        <tr class="avoid-break"><td class="label-cell">CLASSIFICATION</td><td>
-          ${chk(sys.classification === "Support to Operations")} Support to Operations<br>
-          ${chk(sys.classification === "General Administrative Systems")} General Administrative Systems<br>
-          ${chk(sys.classification === "Operations")} Operations
-          ${sys.classification === "Operations" ? `<br><em style="padding-left:4mm;">If yes, indicate whether the system supports:</em><br>
-            <span style="padding-left:8mm;">${chk(sys.frontline === true)} Frontline Service</span>
-            ${sys.deploymentType ? `<br><span style="padding-left:12mm;">${chk(sys.deploymentType === "Online")} Online &nbsp; ${chk(sys.deploymentType === "On-premise")} On-premise &nbsp; ${chk(sys.deploymentType === "Hybrid")} Hybrid</span>` : ""}
-            ${sys.url ? `<br><span style="padding-left:12mm;">URL: ${esc(sys.url)}</span>` : ""}
-            <br><span style="padding-left:8mm;">${chk(sys.frontline === false)} Non-Frontline Service</span>` : ""}
-        </td></tr>
-        ${isProposed && sys.status ? `<tr class="avoid-break"><td class="label-cell">STATUS</td><td>${esc(sys.status)}</td></tr>` : ""}
+        <tr class="avoid-break"><td class="label-cell">CLASSIFICATION</td><td>${classificationCell}</td></tr>
         <tr class="avoid-break"><td class="label-cell">DESCRIPTION &amp; PURPOSE</td><td>${nl2br(sys.description)}</td></tr>
+        ${isProposed ? `<tr class="avoid-break"><td class="label-cell">STATUS</td><td>${esc(sys.status)}</td></tr>` : ""}
         <tr class="avoid-break"><td class="label-cell">DEVELOPMENT STRATEGY</td><td>${esc(sys.developmentStrategy)}</td></tr>
         <tr class="avoid-break"><td class="label-cell">DEVELOPMENT PLATFORM</td><td>${esc(sys.developmentPlatform)}</td></tr>
         <tr class="avoid-break"><td class="label-cell">DATABASE NAME</td><td>${esc(sys.databaseName)}</td></tr>
@@ -742,22 +831,8 @@ function renderIsCard(sys: IsSystem, isProposed = false): string {
         <tr class="avoid-break"><td class="label-cell">INTERNAL USERS</td><td>${esc(sys.internalUsers)}</td></tr>
         <tr class="avoid-break"><td class="label-cell">EXTERNAL USERS</td><td>${esc(sys.externalUsers)}</td></tr>
         <tr class="avoid-break"><td class="label-cell">OWNER</td><td>${esc(sys.owner)}</td></tr>
-        <tr class="avoid-break"><td class="label-cell">INTEROPERABILITY</td><td>
-          ${chk(interop?.integrated)} Integrated with another system<br>
-          ${interop?.integrated ? `
-            <span style="padding-left:6mm;">Internal System: ${esc(interop?.internalSystems?.join(", "))}</span><br>
-            <span style="padding-left:6mm;">External System: ${esc(interop?.externalSystems?.join(", "))}</span><br>
-          ` : ""}
-          ${chk(interop?.generatesData)} Generates data utilized by other system<br>
-          ${chk(interop?.processesExternalData)} Processes data generated from other system<br>
-          ${chk(interop?.sharedPlatform)} Deployed on a shared platform
-        </td></tr>
-        <tr class="avoid-break"><td class="label-cell">PRIVACY IMPACT ASSESSMENT (PIA)</td><td>
-          Is the system processing personal information?<br>
-          ${chk(piaYes)} Yes &nbsp; ${chk(piaNo)} No<br>
-          ${piaYes ? `<br>If Yes, did the system undergo PIA?<br>
-            ${chk(pia?.piaCompleted === true)} Yes &nbsp; ${chk(pia?.piaCompleted === false)} No` : ""}
-        </td></tr>
+        <tr class="avoid-break"><td class="label-cell">INTEROPERABILITY</td><td>${interopCell}</td></tr>
+        <tr class="avoid-break"><td class="label-cell">${piaLabel}</td><td>${piaCell}</td></tr>
       </tbody>
     </table>
   </div>`;
@@ -772,62 +847,132 @@ function renderPart2(issp: IsspData): string {
   // Network diagram images (one per diagram, displayed inline; PDF rendering will embed them)
   const diagrams = p.networkDiagrams ?? [];
 
-  // EGP checklist rows
-  const egpPrograms = [
-    { key: "elgu", num: 1, title: "ELECTRONIC LOCAL GOVERNMENT UNIT (ELGU) SYSTEM", subtitle: "(Applicable only to LGUs)" },
-    { key: "eGovPay", num: 2, title: "GOVERNMENT DIGITAL PAYMENT SYSTEM FOR COLLECTION AND DISBURSEMENT" },
-    { key: "pnpki", num: 3, title: "GOVERNMENT PUBLIC KEY INFRASTRUCTURE (PKI) PROGRAM" },
-    { key: "hcmis", num: 4, title: "HUMAN CAPITAL MANAGEMENT INFORMATION SYSTEM (HCMIS)" },
-    { key: "ifmis", num: 5, title: "INTEGRATED FINANCIAL MANAGEMENT INFORMATION SYSTEM (IFMIS)" },
-    { key: "onlinePortal", num: 6, title: "ONLINE PUBLIC SERVICE PORTAL" },
-    { key: "procurement", num: 7, title: "PROCUREMENT SYSTEM" },
-    { key: "recordsMgmt", num: 8, title: "RECORDS AND KNOWLEDGE MANAGEMENT INFORMATION SYSTEM" },
-    { key: "pscp", num: 9, title: "PUBLIC SERVICE CONTINUITY PLAN" },
-  ];
-
-  function egpStatus(key: string): string {
-    const e = p.egpChecklist[key];
-    if (!e) return "<em>N/A</em>";
-    const s = e.status;
-    return `${chk(s === "utilizing")} Utilizing &nbsp; ${chk(s === "proposed")} Proposed / In Progress<br>` +
-      `${chk(s === "not_utilizing")} Not Utilizing &nbsp; ${chk(s === "not_applicable")} Not Applicable`;
+  // EGP checklist rows — question wording and column layout mirror the DICT
+  // reference template (references/egp-checklist.docx) exactly, row by row.
+  type IfNoOption = "equivalent" | "manual" | "proposedDev" | "otherPlatform";
+  interface EgpRowConfig {
+    key: string; num: number; title: string; subtitle?: string;
+    question?: string; // omitted for pnpki/onlinePortal, which have custom col2/col3 layouts
+    showUrlOnYes?: boolean;
+    ifNoOptions?: IfNoOption[];
+    manualLabel?: string;
+    equivalentUrlOnNo?: boolean;
+    showEquivalentOnYes?: boolean;
   }
 
-  function egpDetails(key: string): string {
-    const e = p.egpChecklist[key];
-    if (!e) return "";
-    const lines: string[] = [];
-    // Template asks PNPKI adoption % unconditionally — never gate it on status
-    if (key === "pnpki") lines.push(`Adoption: ${Number(e.adoptionPercentage ?? 0)}%`);
-    if (e.mechanisms) {
+  const egpPrograms: EgpRowConfig[] = [
+    {
+      key: "elgu", num: 1, title: "ELECTRONIC LOCAL GOVERNMENT UNIT (ELGU) SYSTEM", subtitle: "(Applicable only to LGUs)",
+      question: "Is your LGU already utilizing the eLGU system?",
+      showUrlOnYes: true, ifNoOptions: ["equivalent", "manual"], manualLabel: "Manual Transaction", equivalentUrlOnNo: true,
+    },
+    {
+      key: "eGovPay", num: 2, title: "GOVERNMENT DIGITAL PAYMENT SYSTEM FOR COLLECTION AND DISBURSEMENT",
+      question: "Is your agency utilizing eGovPay?",
+      ifNoOptions: ["otherPlatform", "manual", "proposedDev"], manualLabel: "Manual Transaction",
+    },
+    { key: "pnpki", num: 3, title: "GOVERNMENT PUBLIC KEY INFRASTRUCTURE (PKI) PROGRAM" },
+    {
+      key: "hcmis", num: 4, title: "HUMAN CAPITAL MANAGEMENT INFORMATION SYSTEM (HCMIS)",
+      question: "Is your agency utilizing the HCMIS?",
+      ifNoOptions: ["equivalent", "manual", "proposedDev"], manualLabel: "Manual processing",
+    },
+    {
+      key: "ifmis", num: 5, title: "INTEGRATED FINANCIAL MANAGEMENT INFORMATION SYSTEM (IFMIS)",
+      question: "Is your agency utilizing the IFMIS?",
+      ifNoOptions: ["equivalent", "manual", "proposedDev"], manualLabel: "Manual processing",
+    },
+    { key: "onlinePortal", num: 6, title: "ONLINE PUBLIC SERVICE PORTAL" },
+    {
+      key: "procurement", num: 7, title: "PROCUREMENT SYSTEM",
+      question: "Is your agency utilizing the Philippine Government Procurement System?",
+      ifNoOptions: ["equivalent", "manual", "proposedDev"], manualLabel: "Manual processing",
+    },
+    {
+      key: "recordsMgmt", num: 8, title: "RECORDS AND KNOWLEDGE MANAGEMENT INFORMATION SYSTEM",
+      question: "Is there an existing repository for Records and Knowledge Management in your agency?",
+      showEquivalentOnYes: true,
+    },
+    {
+      key: "pscp", num: 9, title: "PUBLIC SERVICE CONTINUITY PLAN",
+      question: "Is there an existing Public Service Continuity Plan in your agency?",
+    },
+  ];
+
+  /** EGP locals delegate to the shared module helpers (tmpl*). Kept as thin wrappers
+   * so the verified EGP call sites stay untouched. */
+  function egpIndent(html: string): string {
+    return tmplIndent(html);
+  }
+
+  function egpYesNoStack(isYes: boolean, isNo: boolean): string {
+    return tmplIndent(`${chk(isYes)} Yes<br>${chk(isNo)} No`);
+  }
+
+  function egpBlankInline(label: string, value: string | undefined): string {
+    return tmplBlankInline(label, value);
+  }
+
+  function egpBlankBlock(value: string | undefined): string {
+    return tmplBlankBlock(value);
+  }
+
+  function egpQuestionCell(cfg: EgpRowConfig, e: EgpEntry | undefined): string {
+    if (cfg.key === "pnpki") {
+      return `<em>Percentage of adoption of PNPKI (ratio of total number of employees with active PNPKI certificates over total number of employees)</em>` +
+        `<br><strong>${Number(e?.adoptionPercentage ?? 0)}%</strong>`;
+    }
+    if (cfg.key === "onlinePortal") {
       const MECHANISM_LABELS: [keyof NonNullable<EgpEntry["mechanisms"]>, string][] = [
         ["website", "Website"], ["email", "Email"], ["landline", "Landline"],
         ["socialMedia", "Social Media"], ["mobile", "Mobile"],
       ];
-      lines.push(`Mechanisms: ${MECHANISM_LABELS.map(([k, label]) => `${chk(e.mechanisms![k])} ${label}`).join(" &nbsp; ")}`);
+      return `What are the existing consumer protection and citizen assistance, feedback and grievance mechanisms in your agency?<br>` +
+        egpIndent(MECHANISM_LABELS.map(([k, label]) => `${chk(e?.mechanisms?.[k])} ${label}`).join("<br>"));
     }
-    if (e.connectedToPortal) {
-      lines.push(`Connected with online public service portals: ${e.connectedToPortal === "yes" ? "Yes" : "No"}`);
+    return `${esc(cfg.question!)}<br>${egpYesNoStack(e?.status === "yes", e?.status === "no")}`;
+  }
+
+  /** Always renders every branch the template has for this row (If Yes / If No,
+   * with all its checkboxes) regardless of the actual answer — only the checked
+   * state and filled-in blanks change. Matches the fillable template exactly;
+   * an unanswered or entirely missing entry just renders with nothing ticked. */
+  function egpDetailsCell(cfg: EgpRowConfig, e: EgpEntry | undefined): string {
+    if (cfg.key === "pnpki") return "—";
+    if (cfg.key === "onlinePortal") {
+      const lines: string[] = [
+        `Are these mechanisms already connected with online public service portals?<br>` +
+          egpYesNoStack(e?.connectedToPortal === "yes", e?.connectedToPortal === "no"),
+      ];
+      if (e?.url) lines.push(`URL: ${esc(e.url)}`);
+      return lines.join("<br>");
     }
-    if (e.status === "utilizing" || e.status === "proposed") {
-      if (e.url) lines.push(`URL: ${esc(e.url)}`);
-      if (e.equivalentName) lines.push(`System: ${esc(e.equivalentName)}`);
+    const blocks: string[] = [];
+    if (cfg.showUrlOnYes) {
+      blocks.push(`If Yes,<br>${egpIndent(egpBlankInline("Indicate url:", e?.url))}`);
     }
-    if (e.status === "not_utilizing" && e.ifNo) {
-      const ifNoLines: string[] = [];
-      if (e.ifNo.otherPlatform) ifNoLines.push("Using other digital or electronic payment platform");
-      if (e.ifNo.usingEquivalent) {
-        ifNoLines.push(
-          `Using equivalent system${e.equivalentName ? ` — ${esc(e.equivalentName)}` : ""}${e.equivalentUrl ? ` (${esc(e.equivalentUrl)})` : ""}`
-        );
+    if (cfg.showEquivalentOnYes) {
+      blocks.push(`If Yes, indicate the system:<br>${egpIndent(egpBlankBlock(e?.equivalentName))}`);
+    }
+    if (cfg.ifNoOptions) {
+      const items: string[] = [];
+      if (cfg.ifNoOptions.includes("otherPlatform")) {
+        items.push(`${chk(e?.ifNo?.otherPlatform)} Using other digital or electronic payment platform`);
       }
-      if (e.ifNo.manual) ifNoLines.push("Manual transaction/processing");
-      if (e.ifNo.proposedDevelopment) ifNoLines.push("Proposed development of equivalent system");
-      if (ifNoLines.length) lines.push(`If No: ${ifNoLines.join("; ")}`);
+      if (cfg.ifNoOptions.includes("equivalent")) {
+        const subFields = [egpBlankInline("IS name:", e?.equivalentName)];
+        if (cfg.equivalentUrlOnNo) subFields.push(egpBlankInline("Indicate url:", e?.equivalentUrl));
+        items.push(`${chk(e?.ifNo?.usingEquivalent)} Using equivalent system:<br>${egpIndent(subFields.join(""))}`);
+      }
+      if (cfg.ifNoOptions.includes("manual")) {
+        items.push(`${chk(e?.ifNo?.manual)} ${cfg.manualLabel ?? "Manual processing"}`);
+      }
+      if (cfg.ifNoOptions.includes("proposedDev")) {
+        items.push(`${chk(e?.ifNo?.proposedDevelopment)} Proposed development of equivalent system`);
+      }
+      blocks.push(`If No,<br>${egpIndent(items.join("<br>"))}`);
     }
-    if (e.channels) lines.push(`Service Channels: ${esc(e.channels)}`);
-    if (e.notes) lines.push(`Notes: ${esc(e.notes)}`);
-    return lines.join("<br>");
+    return blocks.length ? blocks.join("<br><br>") : "—";
   }
 
   return `<div class="page-break">
@@ -881,13 +1026,16 @@ function renderPart2(issp: IsspData): string {
     <div class="section-heading page-break">${tocMark("part2-d")}D. E-Government Programs (EGP) Checklist</div>
     ${pageHeader(issp)}
     <table>
-      <thead><tr><th style="width:30%">Program</th><th style="width:35%">Status</th><th>Details</th></tr></thead>
+      <colgroup><col style="width:26%"><col style="width:39%"><col></colgroup>
       <tbody>
-        ${egpPrograms.map(prog => `<tr class="avoid-break">
-          <td><strong>${prog.num}. ${esc(prog.title)}</strong>${prog.subtitle ? `<br><em>${esc(prog.subtitle)}</em>` : ""}</td>
-          <td>${egpStatus(prog.key)}</td>
-          <td>${egpDetails(prog.key)}</td>
-        </tr>`).join("")}
+        ${egpPrograms.map(prog => {
+          const e = p.egpChecklist[prog.key];
+          return `<tr class="avoid-break">
+          <td><div style="display:flex;"><div><strong>${prog.num}.&nbsp;</strong></div><div><strong>${esc(prog.title)}</strong>${prog.subtitle ? `<br><em>${esc(prog.subtitle)}</em>` : ""}</div></div></td>
+          <td>${egpQuestionCell(prog, e)}</td>
+          <td>${egpDetailsCell(prog, e)}</td>
+        </tr>`;
+        }).join("")}
       </tbody>
     </table>
   </div>`;
@@ -1464,11 +1612,15 @@ ${body}
  * Printed WITHOUT the running header/footer; the agency-logo header and
  * "Page N" numbering begin at Part I (per the DICT template).
  */
-export function renderFrontMatterHtml(issp: IsspData, tocPages: Record<string, number> | null): string {
+export function renderFrontMatterHtml(
+  issp: IsspData,
+  tocPages: Record<string, number> | null,
+  withDefinitionMarker = false
+): string {
   const body = [
     renderCover(issp),
     renderToc(issp, tocPages),
-    renderDefinitions(issp),
+    renderDefinitions(issp, withDefinitionMarker),
   ].join("\n");
   return htmlShell(issp.title, body);
 }

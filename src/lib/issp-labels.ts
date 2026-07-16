@@ -32,13 +32,12 @@ export const PROPOSED_STATUS_LABELS = {
 } as const;
 
 /**
- * Template frontline access mode (II-C / III-D classification block):
- * "Identify if: Online / On-premise / Hybrid". The PDF renderer checks these
- * exact strings; the editor's richer deployment vocabulary collapses into them.
+ * Template frontline access mode (II-C / III-D Frontline sub-question):
+ * "Identify if: Online / On-premise / Hybrid". The PDF renderer compares against
+ * these exact label strings; keep them and the enum keys in lockstep.
  */
 export const FRONTLINE_ACCESS_LABELS = {
-  CLOUD: "Online",
-  HOSTED: "Online",
+  ONLINE: "Online",
   ON_PREMISE: "On-premise",
   HYBRID: "Hybrid",
 } as const;
@@ -47,13 +46,6 @@ export const EMPLOYMENT_STATUS_LABELS = {
   PLANTILLA: "Plantilla",
   CONTRACTUAL: "Contractual",
   OUTSOURCED: "Outsourced (JO, COS, and HTC)",
-} as const;
-
-export const DEPLOYMENT_LABELS = {
-  ON_PREMISE: "On-Premise",
-  CLOUD: "Cloud-Hosted",
-  HYBRID: "Hybrid",
-  HOSTED: "Hosted (3rd Party)",
 } as const;
 
 /** Resolve an enum code to its display label; passes unknown/legacy values through. */
