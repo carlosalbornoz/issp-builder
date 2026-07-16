@@ -1,5 +1,27 @@
 # ISSP Platform PH
 
+![GESF Compliance](badge.svg)
+<!-- GESF-SCORE-START -->
+> **GESF Compliance Score: 8% (F)**
+>
+> | Framework | Score | Grade | Controls |
+> |-----------|-------|-------|----------|
+> | GDPR | 16% | F | 5/39 passed |
+> | OWASP | 50% | D | 3/6 passed |
+> | CIS | 0% | F | 0/5 passed |
+> | NIST | 0% | F | 0/23 passed |
+> | NIST-800-53 | 13% | F | 8/76 passed |
+> | ISO27001 | 67% | C | 7/10 passed |
+> | ISO27701 | 0% | F | 0/11 passed |
+> | PRIVACY-CORE | 0% | F | 0/40 passed |
+> | DPA-PH | 0% | F | 0/10 passed |
+>
+> Audit findings: 1 medium (score deduction: -4%)
+>
+> _(Last evaluated: 2026-07-16)_
+<!-- GESF-SCORE-END -->
+
+
 A civic technology platform for Philippine government agencies to draft, validate, and export their **Information Systems Strategic Plan (ISSP)** — as required by DICT under the eGov Act (RA 10175 IRR).
 
 Built by a volunteer. Open source. No account required.
