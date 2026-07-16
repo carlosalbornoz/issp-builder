@@ -56,9 +56,7 @@ If any of that resonates, [reach out](mailto:issp-builder@carlosanton.io).
 
 **Phase 1 — ISSP Builder** *(live now)*
 
-The first phase is what you're looking at: a structured, guided editor for crafting an ISSP. It aims to ease the burden on agencies while also ensuring the correctness of entries, since
-
-<!-- TODO: complete this section — e.g. why does structured input improve correctness? think: required fields, validated dropdowns, DICT 2026 template alignment, budget tables that auto-calculate, no copy-paste between spreadsheets etc. -->
+The first phase is what you're looking at: a structured, guided editor for crafting an ISSP. It aims to ease the burden on agencies while improving correctness: fields follow the DICT 2026 template, options are constrained where the template expects specific answers, budget tables calculate totals automatically, and the same structured data feeds both the editor and the PDF export. Less copy-pasting means fewer places for the numbers and narratives to drift.
 
 **Phase 2 — ISSP Repository** *(coming soon)*
 

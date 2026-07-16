@@ -1,8 +1,10 @@
 # Annex 1 — ICT Asset Inventory: Implementation Plan
 
-> **Status:** Planning — not yet started  
-> **Last updated:** 2026-05-17  
+> **Status:** Historical implementation plan — Annex 1 is now implemented
+> **Last updated:** 2026-07-16
 > **Reference:** `references/ISSP_Guidelines_2026.md` §ANNEX 1, `references/[Reference] ANNEX 1 - Existing ICT Resource Inventory.pdf`
+>
+> **Important:** This plan contains historical design notes and older references to `/dashboard`, Prisma, `/api/issp`, and `src/proxy.ts`. Do not treat those portions as current architecture; verify the implementation against `docs/project-status.md` and the source code.
 
 ---
 

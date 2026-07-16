@@ -1,273 +1,174 @@
-# ISSP Builder - Project Status & Setup Guide
+# ISSP Builder - Project Status
 
-## Current Status
+> Canonical tracker. This is the only document that should be treated as the current project state, backlog, and next-session plan. Older session logs, implementation plans, audits, and architecture notes are historical unless this file explicitly points to them.
 
-**Phase 1: Foundation — ✅ COMPLETE**
-**Phase 2: Part I Forms — ✅ COMPLETE**
-**Phase 3: Part II Forms — ✅ COMPLETE**
-**Phase 4: Part III Forms — ✅ COMPLETE**
-**Phase 5: Part IV Forms — ✅ COMPLETE**
-**Phase 6: PDF Export — ✅ COMPLETE**
-**Local-First Rearchitecture (Phases A–F) — ✅ COMPLETE**
+Last updated: 2026-07-16
 
-> Field alignment audit completed. All critical misalignments fixed. See `docs/guidelines-alignment-audit.md`.  
-> Use `references/ISSP_Guidelines_2026.md` as the reference for all field names and options.
-> Git/GitHub workflow notes are documented in `docs/git-workflow-notes.md`.
-> Future backlog items live in `docs/roadmap.md`.
+## Current State
 
----
+The active app is a local-first ISSP editor for the DICT 2026 template.
+
+- Public editor at `/editor`; no login, no accounts, no server-side document storage.
+- One active `IsspDocument` is stored in browser IndexedDB via `src/lib/store/idb.ts`.
+- Users save portable drafts as `.issp` files and load them back into the browser.
+- PDF export is `POST /api/export`; it receives the full document JSON, renders with Puppeteer/pdf-lib, and returns a PDF without persisting the document.
+- Limited usage analytics are appended by `POST /api/usage` for create, load, and browser-draft restoration events; the fictitious sample is excluded.
+- Prisma, NextAuth, `/login`, `/dashboard`, `/api/issp`, `/api/auth`, and `src/proxy.ts` were removed in the local-first cutover.
+
+## Source of Truth
+
+| Area | Canonical source |
+|---|---|
+| Current project state and backlog | `docs/project-status.md` |
+| 2026 ISSP field names/options/structure | `references/ISSP_Guidelines_2026.md` |
+| Current data model | `src/lib/store/types.ts` |
+| Defaults and new document factory | `src/lib/store/defaults.ts` |
+| IndexedDB persistence | `src/lib/store/idb.ts`, `src/lib/store/index.tsx` |
+| Editor sections/sidebar structure | `src/lib/sections.ts` |
+| PDF export mapping | `src/app/api/export/route.ts` |
+| PDF rendering | `src/lib/pdf/render-issp-html.ts`, `src/lib/pdf/generate-pdf.ts` |
+| Latest sweep findings | `docs/code-sweep-2026-06-19.md` |
+
+## Verification Status
+
+Last run: 2026-06-19
+
+| Check | Result | Notes |
+|---|---|---|
+| `npm run lint` | Pass | No lint errors reported. |
+| `npm run build` | Pass | Next 16.2.6 build completed. Two `z-index is currently not supported` warnings appeared during static page generation. |
+| `npm audit --audit-level=high` | Pass for high/critical | Four moderate advisories remain. Do not run `npm audit fix --force` blindly because suggested fixes include breaking downgrades. |
 
 ## Implemented Features
 
-| Task | Status |
-|------|--------|
-| Next.js project initialization | ✅ Done |
-| UACS codes imported (1,253 total, 1,225 active) | ✅ Done |
-| Base UI + Tailwind CSS 4 components | ✅ Done |
-| NCWTR demo ISSP — fixtures in `scripts/build-demo.js`, emitted to `public/demo/` | ✅ Done |
-| ~~Inter font~~ → replaced by Fraunces + IBM Plex Sans/Mono (UI Refresh Phase 3) | ✅ Done |
-| **Local-first IndexedDB store (`src/lib/store/`)** | ✅ Done |
-| **`/editor` route — public, no auth** | ✅ Done |
-| **All Part I–IV forms wired to IndexedDB store** | ✅ Done |
-| **Save to File / Load from File UX** | ✅ Done |
-| **`unsavedToFile` indicator + amber/green status pill** | ✅ Done |
-| **Periodic save reminder nudge (10 min, via `useFileSaveReminder`)** | ✅ Done |
-| **`beforeunload` warning when unsaved file changes exist** | ✅ Done |
-| **`POST /api/export` — stateless PDF export, no auth** | ✅ Done |
-| **Demo `.issp` file (`public/demo/ncwtr-issp-2026-2028.issp`)** | ✅ Done |
-| **Landing page updated — local-first copy, no sign-in** | ✅ Done |
-| **EditorSidebar — "ISSP Builder" label, Exit Editor link** | ✅ Done |
-| **Agency logo upload (New ISSP + Properties dialogs) → PDF cover + running header** | ✅ Done 2026-06-10 |
-| **Security/correctness fixes: EgP export mapping, PDF injection hardening** | ✅ Done 2026-06-10 (`docs/codebase-review-2026-06-10.md`) |
-| **UX audit fixes: dialog scroll, NumberInput, coarse-pointer touch targets** | ✅ Done 2026-06-11 (`docs/ux-audit-2026-06-11.md`) |
-| **Real TOC page numbers (two-pass render, pdfjs-dist marker scan)** | ✅ Done 2026-06-11 |
-| **Interactive PDF TOC** — every printed TOC row is a clickable internal link; the PDF also includes a nested sidebar bookmark outline and opens the outline panel in supporting viewers | ✅ Done 2026-07-16 |
-| **PDF header per official template — starts at Part I, logo upper-left, Page 1 restart** | ✅ Done 2026-06-11 (`docs/agency-logo-header-plan.md`) |
-| **Editable Definition of Terms (front-matter module)** | ✅ Done 2026-06-11 — `/editor/definitions`, sidebar entry above Part I, seeded with the 3 standard DICT template terms (editable/deletable + "Restore standard terms"), prints alphabetically in the PDF, TOC row + page omitted when empty. Data: `IsspDocument.definitions` (optional; absent = standard terms, so old `.issp` files keep working) |
-| API: /api/export (POST → PDF, stateless, no auth) | ✅ Done |
-| Part I–IV: all form sections | ✅ Done |
-| PDF: Puppeteer HTML → A4 landscape, P052 font, DICT uniformity rules | ✅ Done |
-| PDF: Running header, footer, cover, TOC, definitions | ✅ Done |
-| PDF: Two-PDF + pdf-lib merge (cover without header/footer) | ✅ Done |
-| PDF: Part IV UACS grouping, subtotals, grand totals | ✅ Done |
-| PDF: Project title brackets removed from Part IV section headers | ✅ Done |
-| Landing page at `/` (public) — local-first redesign, no sign-in, MITHI checklist | ✅ Done |
-| About page at `/about` — editorial/blog style, `content/about.md` via remark | ✅ Done |
-| Privacy page at `/privacy` — privacy architecture blog post, `content/privacy.md` | ✅ Done |
-| UACS Explorer at `/uacs` — static HTML, next.config.ts redirect | ✅ Done |
-| Attribution in editor sidebar + documents footer | ✅ Done |
-| Initial GitHub push to `carlosalbornoz/issp-builder` | ✅ Done |
-| Sonner toast library (`<Toaster>` in root layout) | ✅ Done |
-| **UI Refresh Phase 1** — `sectionMeta`, `planStatus`, `submissionTarget`, `schemaVersion` data model | ✅ Done 2026-05-23 |
-| **UI Refresh Phase 2** — `StatusDot`, `RelativeTime`, `CompletionBar`, `PlanStatusPill` primitives | ✅ Done 2026-05-23 |
-| **UI Refresh Phase 3** — Fraunces + IBM Plex Sans/Mono fonts; warm `#FAFAF7` palette | ✅ Done 2026-05-23 |
-| **UI Refresh Phase 4** — Overview dashboard: PlanMetadataStrip, OverviewHeader, ContinueEditingCard, PartCard | ✅ Done 2026-05-23 |
-| Content-sniffing migration (`deriveMetaFromContent`) — infers status from existing content on load | ✅ Done 2026-05-23 |
-| **UI Refresh Phase 5** — Sidebar: StatusDot on all leaf items, kebab (⋮) for file actions, improved save status, destructive actions demoted | ✅ Done 2026-05-23 |
-| **SaveStatusIndicator removed** from all 14 Part I–IV forms — sidebar is sole save indicator | ✅ Done 2026-05-23 |
-| **UI Refresh Phase 6** — SectionShell shared chrome, MarkAsDone, prev/next across all 18 sections | ✅ Done 2026-05-23 |
-| **UI Refresh Phase 7** — Unsaved changes content snapshot + field-level sidebar diff | ✅ Done 2026-05-23 |
-| **Part IV UX rewrite** — master list + Sheet drawer; SectionCard 3px color strip; LineTable header band; color legend; accurate CO/MOOE descriptions | ✅ Done 2026-05-23 |
-| **Mobile editor shell fix** — sidebar is a fixed mobile drawer, static/collapsible desktop sidebar remains intact | ✅ Done 2026-05-23 |
-| **Theme system** — System/Warm light/dark themes; root theme classes; `ThemeProvider`; SSR flash-prevention script; `issp-theme` localStorage | ✅ Done 2026-05-24 |
-| **Theme menu placement** — desktop kebab Theme submenu; mobile palette button; System Light default; System themes ordered before Warm themes | ✅ Done 2026-05-24 |
-| **Control contrast pass** — outline buttons, inputs, textareas, selects, inline table fields, UACS combobox trigger no longer look disabled when enabled | ✅ Done 2026-05-24 |
-| **Editor sidebar UX improvements** — floating theme discovery callout, Exit Editor removal, Clear editor data two-step flow | ✅ Done 2026-05-24 |
-| **Diagram upload (local-first)** — Part II-B network diagrams, Part III-A proposed network diagram, Part III-B enterprise architecture diagram stored as base64 data URLs and rendered in PDF | ✅ Done 2026-05-24 |
-| **Coverage period locked to 2028–2030** — `ISSP_START_YEAR = 2028` / `ISSP_END_YEAR = 2030` constants in `issp-properties-dialog.tsx`; fields are read-only in both New ISSP dialog and Properties dialog; enforced per MITHI Resolution 2026-02 | ✅ Done 2026-05-25 |
-| **What's New changelog modal** — rainbow orbiting pill button on splash, Philippine flag confetti from both sides on open (`canvas-confetti`, `useWorker: false` to avoid CSP blob violations), 8 changelog sections; theme-switcher easter egg in the Themes section with live pill buttons + green active dot; `@property --glow-angle` CSS Houdini animation for conic-gradient orbit in `globals.css` | ✅ Done 2026-05-25 |
-| **`dark:` variant fixed** — overridden via `@custom-variant dark` in `globals.css` to respond to `.theme-system-dark` / `.theme-warm-dark` classes instead of `prefers-color-scheme`; prevents OS dark mode from bleeding into app-selected light themes | ✅ Done 2026-05-25 |
-| **Mark-as-done tracked in unsaved changes** — `getChangedFields` in `section-fields.ts` now detects `userMarkedDone` flips; sidebar diff shows "Marked as done" / "Unmarked as done" for the correct section; fallback (no snapshot) path also handles it | ✅ Done 2026-05-25 |
-| **EGP checklist PDF aligned to DICT template** — per-row Yes/No questions, nested/indented checkbox sub-lists, hanging-indent program numbering, aligned fill-in underlines; status simplified to Yes/No (no Proposed/N/A); notes field removed. Schema v7→v8 migration | ✅ Done 2026-07-16 |
-| **Existing & Proposed IS tables aligned to DICT template** (`docs/is-tables-alignment-plan-2026-07-16.md`) — retired the generic "Deployment Type" field; introduced `frontlineAccessType` (Online/On-premise/Hybrid); `renderIsCard()` now always prints the complete Classification subtree while gating checkmarks and values to Operations+Frontline (usability principle #14), and matches `references/existing-is.pdf` & `proposed-is.pdf` for field order, present-vs-future tense, parentheticals, Interop nesting, and the existing-only PIA follow-up; added `url` to ProposedSystem; top-level field tooltips from the DICT handout on both II-C and III-D forms. Schema v8→v9 migration | ✅ Done 2026-07-16 |
-| **Legacy ISSP migration review** (`docs/issp-migration-review-plan-2026-07-16.md`) — older files still migrate automatically; affected II-C, II-D, and III-D sections are unmarked, highlighted on the Overview/sidebar/section page, and cleared only after the user reviews and marks them done again | ✅ Done 2026-07-16 |
+| Area | Status | Notes |
+|---|---|---|
+| Parts I-IV editor | Done | All main ISSP sections are represented as local-first editor pages. |
+| Annex 1 | Done | Standalone inventory editor plus main-plan attachment and PDF output. |
+| Definition of Terms | Done | Editable front matter seeded with standard DICT terms. |
+| Local-first store | Done | IndexedDB store, migrations, `.issp` save/load, unsaved-to-file tracking. |
+| Legacy migration review | Done | Older files migrate automatically and flag II-C, II-D, and III-D for human review where required. |
+| Demo file | Done | NCWTR demo generated by `scripts/build-demo.js` into `public/demo/`. |
+| PDF export | Done | Cover, interactive TOC/bookmarks, definitions, Parts I-IV, Annex 1, running header/footer, and UACS budget tables. |
+| Usage analytics | Done | Create/load/restore events record only agency name, acronym, event, and server timestamp. |
+| Diagram upload | Done | Part II-B network diagrams, Part III-A proposed network, Part III-B enterprise architecture as data URLs. |
+| Theme system | Done | System/Warm light/dark themes and sidebar theme controls. |
+| Completion/status UI | Done with known issue | Read-only Part IV summary still affects some overall completion counts. |
+| Coverage period lock | Done | New documents are locked to 2028-2030 per current app policy. |
 
----
-
-## Known Bugs Fixed
-
-| Bug | Fix |
-|-----|-----|
-| Part IV internal/cross-agency project titles wrapped in `[brackets]` | `render-issp-html.ts` — removed hardcoded `[` `]` around `esc(proj.title)` in `renderYearTable` |
-| `fileSavedAt` not resetting after `saveToFile()` | `store/index.tsx` — `saveToFile()` now updates `doc.exportedAt`, calls `idbSave`, and calls `setFileSavedAt(now)` |
-| Network diagrams (`dataUrl`) not embedding in PDF | `render-issp-html.ts` — `<img>` `src` now uses `d.path` directly when it starts with `data:`, skipping `baseUrl` prefix |
-| `animate-spin` applied to entire save-status container | Moved to icon element only |
-| `humanCapital` crash on empty `{}` DB value in Part I-B | Deep-merge with `DEFAULT_HC` at both server page and client init |
-| Part II-B crash: `Cannot read properties of undefined (reading 'perimeterProtection')` | Deep-merge `cybersecurityControls` from DB against `DEFAULT_CYBER` group-by-group |
-| Part III-F empty state `colSpan={8}` not spanning full table | Fixed to `colSpan={9}` |
-| Part IV Total column header missing right border | Added `border-r border-border` |
-| Part IV section letters hardcoded (all projects showed "B." or "C.") | Dynamic `alpha(n)` function |
-| PDF: "NCWTR NCWTR" doubled acronym in running header | Collapsed to single `logoBlock` in `generate-pdf.ts` |
-| PDF: cover overflowing to 2 pages | Cover CSS reduced to `height:159mm` |
-| PDF: running header on cover page | Two-PDF + pdf-lib merge strategy |
-| PDF: Fund Source column too wide | `fundSourceAbbr()` helper shows abbreviated form |
-| PDF: cover logo was emoji placeholder | Embeds agency logo base64 data URI |
-| Part II-A form layout overlapping and tight | Moved Select component into main card body and applied truncation |
-| Part II-A data model mismatch with DICT 2026 | Overhauled `StrategicConcern` state to include `criticalSystem`, multi-select `outcomeIds`, and renamed fields to match 2026 template |
-| Part I-C React warning "Each child in a list should have a unique key prop" | Added fallback UUID generation `crypto.randomUUID()` for stakeholders lacking an ID in `part1-c-form.tsx` |
-| Demo file outputting unreadable nested JSON | Refactored demo generation (`scripts/build-demo.js`) to output flat `IsspDocument` type with `fileType: "issp-main"` so demo files load correctly |
-| Strategic alignment / harmonization checkboxes all unchecked in PDF | `api/export/route.ts` — export route was checking camelCase keys against label strings; fixed to match what the form stores |
-| `focalSameAsCio` checkbox resets on page reload | Added `focalSameAsCio: boolean` to `Part1Data` type + defaults; form now reads/writes from store instead of session-only `useState` |
-| Demo file had stale alignment labels and wrong field name (`harmonization`) | Updated `public/demo/ncwtr-issp-2026-2028.issp` to use correct DICT 2026 option labels and `harmonizationFramework` key |
-| Hydration mismatch on `<time>` in `/about` and `/privacy` | gray-matter parses unquoted YAML dates as `Date` objects; `as string` doesn't convert at runtime — coerce to `"YYYY-MM-DD"` via `.toISOString().slice(0,10)`; also fixed `formatDate` to use local-time constructor `new Date(y, m-1, d)` to avoid UTC→local timezone shift |
-| Part III-C NaN in quantity field | `parseInt` + `isNaN` guard in `onChange`; seeded data was using `physicalCount` (renamed to `quantity`) — normalised in `useState` initialiser with `r.quantity ?? r.physicalCount ?? 1` |
-| Part III-C all rows updating simultaneously | Seeded rows had no `id` field — all `undefined === undefined` in `updateRow`. Fixed by generating IDs on mount: `r.id ?? generateId()` |
-| Demo ISSP schema mismatches (Part II/III) | Multiple field renames unsynced with editor: IS `interoperability` shape, `piaConducted→piaCompleted`, `projectType→projectCategory`, KPI `responsibility→responsibleUnit`, all IS/proposed-system enum values (plain labels → code values). All corrected in `public/demo/ncwtr-issp-2026-2028.issp` |
-| LIPAD system missing from demo ISSP | Demo file referenced LIPAD in the sample modal but had no data entry. Added `is-lipad` (G2G, Cloud, Outsourced, 52 users, integrated with NQMS) |
-| Editor nav buttons 404 in production (missing `/issp` prefix) | All 15 form nav buttons used `render={<a href="...">}` (plain HTML anchor) which bypasses Next.js routing and doesn't prepend the `/issp` basePath. Converted all to `onClick={() => router.push("...")}` using `useRouter()` from `next/navigation` — the router's `addBasePath()` prepends the basePath at runtime |
-| `pm2 restart` silently failing — old code still serving | A stale `next-server` process held port 3100; every `pm2 restart` got `EADDRINUSE` and the new process never bound. Must check `ss -tlnp \| grep 3100` and `kill <pid>` before restarting pm2 after a build |
-| UACS Explorer redirecting to `/login` | Fixed: `/uacs` was missing from the public route allowlist in the middleware |
-| UACS combobox stuck on "Loading codes…" | `fetch("/uacs_active.min.json")` was missing the `/issp` basePath prefix. Fixed to `fetch(\`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/uacs_active.min.json\`)` |
-| Form pages redirect to `/editor` on hard refresh | All 17 form sub-pages (`part1/a` through `part4/year3`) had `if (!doc) redirect` but never checked `loading`. On page refresh, `doc` is null while IDB loads → premature redirect. Fixed: added `const { doc, loading } = useIsspStore()` + `if (loading) return null` guard before the redirect check in all 18 form pages (17 via script + `part4/summary` manually). |
-| Theme controls initially placed too prominently | Moved theme selection from sidebar footer/Properties dialog into the desktop kebab menu; mobile keeps a single palette icon button. |
-| System theme labels initially said Apple | Replaced the draft `apple-light` / `apple-dark` IDs with `system-light` / `system-dark` before production release. |
-| `dark:` Tailwind utilities responding to OS instead of app theme | Added `@custom-variant dark` in `globals.css` tying `dark:` to `.theme-system-dark` / `.theme-warm-dark` classes. |
-| `canvas-confetti` blob worker blocked by CSP extensions (e.g. AdGuard) | Use `confetti.create(null, { useWorker: false })` — runs animation on main thread, no blob URL needed. |
-| What's New modal opens mid-scroll | Added inline `scrollTop = 0` ref callback + zero-size `tabIndex={0}` focus-trap div at top of scroll area (same pattern as ContentModal). |
-| Glowing pill appears as a floating box on mobile | Replaced negative-inset absolute spans (`inset-[-5px]`) with a `p-[6px]` padded container and positive insets (`inset-px`, `inset-[4.5px]`) so no element overflows its parent. |
-| `canvas-confetti` evaluated server-side, producing broken function | Added to `serverExternalPackages` in `next.config.ts`; imported inside `useEffect` so it only runs client-side. |
-| Mark-as-done not appearing in unsaved changes diff | `getChangedFields` extended to compare `sectionMeta[sectionId].userMarkedDone` between current doc and snapshot. |
-| Sidebar buttons looked disabled in System themes | Shared sidebar control styles now use `bg-card`, `text-foreground`, `border-border`, and no shadow; primary save button is disabled only when there are no changes and reads `No changes to save`. |
-| Enabled form controls looked disabled | Shared `Input`, `Textarea`, and `SelectTrigger` now use card surfaces and stronger foreground text; inline table fields were swept and updated from transparent backgrounds to theme-aware card backgrounds. |
-
----
-
-## Architecture Overview
-
-### Local-First (Active)
-
-The primary user-facing architecture. No login required.
+## Active Architecture
 
 | Component | Location | Notes |
 |---|---|---|
-| IndexedDB store | `src/lib/store/` | Persists one `IsspDocument` at a time; exposes `update`, `saveToFile`, `loadFromFile`, `clearDoc` |
-| Store types | `src/lib/store/types.ts` | `IsspDocument`, `Part1Data`–`Part4Data`, all sub-types |
-| Default values | `src/lib/store/defaults.ts` | `createEmptyDocument()`, `DEFAULT_HC`, `DEFAULT_CYBER` |
-| Editor route | `src/app/editor/` | Public (no auth); splash when no doc, overview when doc loaded |
-| Editor layout | `src/app/editor/layout.tsx` | Wraps children in `EditorShell` |
-| Editor shell | `src/components/editor/editor-shell.tsx` | `beforeunload` warning; desktop sidebar layout + mobile drawer context |
-| Editor sidebar | `src/components/editor/editor-sidebar.tsx` | "ISSP Builder" label, desktop collapsible nav, mobile drawer overlay, Save to File, Exit Editor |
-| Save reminder | `src/hooks/use-file-save-reminder.ts` | 10-min timer for desktop sidebar nudge and mobile modal reminder |
-| PDF export | `src/app/api/export/route.ts` | `POST` — accepts `IsspDocument` JSON, returns PDF, no auth |
-| Usage analytics | `src/app/api/usage/route.ts` | `POST` — appends agency name, acronym, create/load/restore event, and server timestamp to a private JSONL log; fictitious sample excluded |
-| Demo file | `public/demo/ncwtr-issp-2026-2028.issp` | NCWTR sample, all 4 parts populated |
-
-### Server-Side (Removed)
-
-The original server-side architecture (SQLite/Prisma, NextAuth v5, dashboard routes, CRUD API) has been fully removed. All routes are now either the local-first editor or stateless (PDF export).
-
----
+| App framework | Next.js 16 App Router | See `node_modules/next/dist/docs/` before coding against Next APIs. |
+| Public editor | `src/app/editor/` | Splash when no doc is loaded, overview when a doc exists. |
+| Editor shell | `src/components/editor/editor-shell.tsx` | Sidebar, mobile drawer, before-unload warning. |
+| Editor sidebar | `src/components/editor/editor-sidebar.tsx` | Navigation, save/load, PDF export, theme menu, clear data. |
+| Forms | `src/components/issp-editor/` | Part I-IV form components. |
+| Store provider | `src/lib/store/index.tsx` | Client context, migration, save/load, unsaved detection. |
+| Native IndexedDB wrapper | `src/lib/store/idb.ts` | No `idb-keyval` dependency. |
+| API routes | `src/app/api/export/route.ts`, `src/app/api/usage/route.ts` | Stateless PDF export plus limited append-only usage analytics. |
+| PDF generator | `src/lib/pdf/generate-pdf.ts` | Puppeteer, TOC marker scan, pdf-lib merge. |
 
 ## Tech Stack
 
-| Layer | Choice | Version |
-|-------|--------|---------|
-| Framework | Next.js (App Router, TypeScript, Turbopack) | 16.2.6 |
-| State/Persistence | IndexedDB via `idb-keyval` | — |
-| UI | Tailwind CSS 4 + shadcn/ui components | 4.x |
-| Toasts | Sonner | — |
-| Font (display) | Fraunces (opsz variable, via next/font/google) | `--font-display`; headings, doc title |
-| Font (UI) | IBM Plex Sans 400/500/600 (via next/font/google) | `--font-sans`; body, labels, UI chrome |
-| Font (mono) | IBM Plex Mono 400/500 (via next/font/google) | `--font-mono`; UACS fields, code |
-| Font (PDF) | P052 / URW Palladio (Palatino clone) | Installed via `apt-get install fonts-urw-base35` |
-| PDF | Puppeteer + pdf-lib | 25.0.2; Chrome 148.0.7778.167 |
-| Confetti | canvas-confetti | — |
-
----
-
-## Getting Started
-
-### Prerequisites
-- Node.js 24+
-- npm 11+
-
-### Setup
-```bash
-cd /root/apps/issp
-npm install
-```
-
-### Running
-```bash
-npm run dev
-# App runs at http://localhost:3000
-# Editor at http://localhost:3000/editor (no login required)
-```
-
-### Type Check
-```bash
-npx tsc --noEmit
-```
-
----
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16.2.6, App Router, TypeScript, Turbopack |
+| Persistence | Native IndexedDB wrapper in `src/lib/store/idb.ts` |
+| UI | Tailwind CSS 4, shadcn/ui-style local components, Base UI where used |
+| Forms | React Hook Form + local controlled form patterns |
+| Validation dependency | Zod is installed but not yet used as a full document import/export schema |
+| Toasts | Sonner |
+| PDF | Puppeteer + pdf-lib + pdfjs-dist marker scan |
+| Fonts | Fraunces and IBM Plex for UI; P052/URW Palladio for PDF |
 
 ## Project Structure
 
-```
-/root/apps/issp/
-├── docs/
-│   ├── project-status.md          # This file
-│   ├── session-handoff.md         # Full architectural reference
-│   ├── implementation-plan.md
-│   ├── guidelines-alignment-audit.md
-│   ├── privacy-architecture.md
-│   └── troubleshooting-auth-networking.md
-├── public/
-│   ├── demo/
-│   │   └── ncwtr-issp-2026-2028.issp   # NCWTR sample file (all 4 parts)
-│   └── uacs_active.min.json
-├── references/                    # ISSP guidelines + PDFs (read-only)
-├── src/
-│   ├── app/
-│   │   ├── editor/                # Local-first editor (public, no auth)
-│   │   │   ├── layout.tsx
-│   │   │   ├── page.tsx           # Splash (no doc) + Overview (doc loaded)
-│   │   │   ├── part1/{a,b,c}/
-│   │   │   ├── part2/{a,b,c,d}/
-│   │   │   ├── part3/{a,b,c,d,e1,e2,f}/
-│   │   │   └── part4/{year1,year2,year3,summary}/
-│   │   ├── api/
-│   │   │   └── export/route.ts    # POST — stateless PDF, no auth
-│   │   └── page.tsx               # Landing page
-│   ├── components/
-│   │   ├── editor/
-│   │   │   ├── editor-shell.tsx   # beforeunload + reminder hook
-│   │   │   └── editor-sidebar.tsx # Nav, Save to File, Exit Editor
-│   │   └── issp-editor/           # All Part I–IV form components
-│   ├── hooks/
-│   │   ├── use-file-save-reminder.ts  # 10-min save reminder timer
-│   │   └── use-local-save.ts
-│   └── lib/
-│       ├── store/
-│       │   ├── index.tsx          # IsspStore context + provider
-│       │   ├── types.ts           # IsspDocument + all sub-types
-│       │   └── defaults.ts        # createEmptyDocument, DEFAULT_HC, DEFAULT_CYBER
-│       └── pdf/
-│           ├── generate-pdf.ts    # Puppeteer wrapper
-│           └── render-issp-html.ts # Full ISSP HTML renderer
-└── package.json
+```text
+docs/                    Historical notes, audits, and this canonical tracker
+references/              Official template/guideline references; use ISSP_Guidelines_2026.md first
+public/demo/             Demo `.issp` file
+public/uacs_active.min.json
+scripts/build-demo.js    Demo file generator
+src/app/                 Next.js app routes
+src/app/editor/          Local-first editor pages
+src/app/api/export/      Stateless PDF export endpoint
+src/app/api/usage/       Limited append-only usage analytics endpoint
+src/components/editor/   Editor shell/sidebar/overview/property dialogs
+src/components/issp-editor/  Part I-IV form components
+src/lib/store/           IsspDocument types, defaults, store provider, IndexedDB wrapper
+src/lib/pdf/             PDF HTML renderer and Puppeteer generator
+src/lib/sections.ts      Editor section model
+uacs/                    UACS source/reference files
 ```
 
----
+## Active Backlog
 
-## Next Up
+Priority definitions:
 
-### 🔜 UI Refresh Follow-Up — Section Body Patterns
-Phase 6 `SectionShell` is complete. The remaining UI refresh work is the deferred body-pattern pass:
-- Standard form field pattern (`FormGroup`, `FieldRow`, `Field`, `CheckboxField`)
-- E-Government toggle-list pattern
-- File attach placeholder / future upload pattern
-- Budget table/body polish after the Part IV drawer rewrite
-- Project/item list pattern for Part III.E and III.F
+- P0: broken user-facing behavior or docs that mislead users today.
+- P1: data safety, security, export correctness, or template compliance risks.
+- P2: maintainability, polish, or lower-risk correctness issues.
 
-### 🟡 Validation & Review (post UI refresh)
-- Pre-export validation: required fields, budget-IS linkage, KPI completeness
-- Read-only review mode: full document view before submission
-- Additional mobile QA on dense forms and Part IV drawer interactions
+### P0 - Public Copy and Links
 
-### 🔴 Annex 1 — ICT Asset Inventory
-Standalone public module at `/annex1`. See `docs/annex1-implementation-plan.md`.
+| Item | Files | Next step |
+|---|---|---|
+| Replace dead `/login` links | `src/app/about/page.tsx`, `src/app/privacy/page.tsx` | Done 2026-06-19; public article CTAs now point to `/editor`. |
+| Update stale privacy article | `content/privacy.md` | Done 2026-06-19; keep future edits aligned with the local-first architecture and PDF export boundary. |
 
-### 🔵 PDF — Known Remaining Gaps
-- ~~TOC page numbers are static (hardcoded) — no two-pass render~~ ✅ Fixed 2026-06-11: two-pass render — pass 1 prints invisible `@@toc:id@@` markers at each heading, `scanTocMarkers` (pdfjs-dist) maps them to physical pages, pass 2 renders the TOC with real numbers. Markers are absolutely positioned so pagination is identical between passes; the TOC page-number cell is fixed-width for the same reason. Verified against the demo doc: all rows match `pdftotext`-measured heading pages.
-- Network/proposed network/enterprise architecture diagrams render inline, not as full dedicated pages
+### P1 - Data Safety and Export Hardening
+
+| Item | Files | Next step |
+|---|---|---|
+| Harden PDF export endpoint | `src/app/api/export/route.ts`, `src/lib/pdf/generate-pdf.ts` | Add request size guard, schema validation, data URL caps, timeout, concurrency/rate controls, structured JSON errors. |
+| Surface PDF export failures | `src/components/editor/editor-sidebar.tsx` | Show toast/inline errors instead of console-only logging. |
+| Fix IndexedDB save races/errors | `src/lib/store/index.tsx`, `src/lib/store/idb.ts` | Cancel pending saves on clear/save-to-file; add generation token; expose save-error state; resolve writes on transaction completion. |
+| Validate `.issp` imports | `src/lib/store/index.tsx` | Add file size cap, schema validation, version policy, default normalization, embedded data URL validation. |
+| Control base64 image growth | `src/lib/diagram-upload.ts`, store/export flow | Add total document/image limits, diagram count cap, optional downscaling, and SVG policy. |
+
+### P1 - Template and PDF Correctness
+
+| Item | Files | Next step |
+|---|---|---|
+| Decide Annex 1/2 scope | `references/ISSP_Guidelines_2026.md`, `src/lib/store/types.ts`, `src/lib/pdf/render-issp-html.ts` | Implement annex support or add clear pre-export/manual-attachment warnings. |
+| Preserve Part III.D enhancement details | `src/app/api/export/route.ts`, `src/lib/pdf/render-issp-html.ts` | Render `enhancementDetails` separately for systems marked `For Enhancement`. |
+| Normalize EGP defaults | `src/lib/store/defaults.ts`, `src/lib/store/index.tsx`, `src/lib/pdf/render-issp-html.ts` | Add `elgu`, PNPKI adoption percentage, Online Portal mechanisms/connection defaults and migration. |
+| Always render Part III.E.2 | `src/lib/pdf/render-issp-html.ts` | Include E.2 in TOC/body with an explicit empty or N/A state. |
+| Align Part IV B.4 totals | `src/components/issp-editor/part4/part4-aggregations.ts`, `src/components/issp-editor/part4/part4-summary.tsx` | Include uncoded UACS items or warn/block; include B.4 in consistency checks. |
+
+### P2 - Maintainability and Polish
+
+| Item | Files | Next step |
+|---|---|---|
+| Exclude read-only sections from completion totals | `src/lib/sections.ts`, `src/app/editor/page.tsx`, `src/components/home/home-page-client.tsx` | Add and use `TRACKED_SECTIONS`. |
+| Move server-safe aggregation out of component tree | `src/app/api/export/route.ts`, `src/components/issp-editor/part4/part4-aggregations.ts` | Move pure Part IV helpers to `src/lib/`. |
+| Remove render-time redirects | `src/app/editor/**/page.tsx` | Use `EditorShell` redirect or move per-page redirects into effects. |
+| Guard committed dev origin | `next.config.ts` | Restrict `allowedDevOrigins` to development or local-only config. |
+| Moderate dependency advisories | `package-lock.json` | Track upstream `next`/`gray-matter`; avoid forced breaking downgrade. |
+| About page TODO | `content/about.md` | Done 2026-06-19. |
+
+## Documentation Policy
+
+Only `docs/project-status.md` is the active tracker. Other docs are retained as historical context or task-specific plans.
+
+| Document | Status | Notes |
+|---|---|---|
+| `docs/code-sweep-2026-06-19.md` | Current audit snapshot | Detailed findings from the latest sweep. |
+| `docs/security-review.md` | Historical plus partial current notes | Auth/DB findings are superseded by removal; current risks should be mirrored in this tracker. |
+| `docs/privacy-architecture.md` | Historical design record | Useful rationale, but implementation status inside may be stale unless refreshed. |
+| `docs/session-handoff.md` | Historical session log/reference | Do not use as current architecture source. |
+| `docs/implementation-plan.md` | Historical pre-local-first plan | Do not follow Prisma/NextAuth/API route instructions. |
+| `docs/annex1-implementation-plan.md` | Draft plan needing refresh | Must be revised for the current local-first architecture before implementation. |
+| `docs/*audit*`, `docs/*plan*`, `docs/session-log-*` | Historical | Use for rationale only; verify against source and this tracker. |
+
+## Next Hypersession Plan
+
+Recommended order after this documentation cleanup:
+
+1. Store hardening: IndexedDB save races/errors and `.issp` import validation.
+2. PDF export hardening: request limits, data URL validation, timeout/concurrency, structured errors, UI feedback.
+3. Template correctness: enhancement details, EGP defaults, E.2 empty state, Part IV B.4.
+4. Annex scope decision: implement local-first annexes or add export warnings/manual checklist.
+5. Maintainability pass: completion counts, aggregation helper location, redirects, dev origin.
