@@ -10,12 +10,38 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: "0 6 * * *"
 
 # Triggers on ALL branches and PRs. Branch protection rules
 # enforce the gate on the default branch (main/master/trunk/auto).
 
 jobs:
+  detect:
+    name: Detect optional scan targets
+    runs-on: ubuntu-latest
+    outputs:
+      container: ${{ steps.targets.outputs.container }}
+      iac: ${{ steps.targets.outputs.iac }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect container and infrastructure files
+        id: targets
+        shell: bash
+        run: |
+          if find . -type f \( -name 'Dockerfile' -o -name 'Dockerfile.*' -o -name 'docker-compose.yml' -o -name 'docker-compose.yaml' \) -print -quit | grep -q .; then
+            echo "container=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "container=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if find . -type f \( -name '*.tf' -o -name 'docker-compose.yml' -o -name 'docker-compose.yaml' \) -print -quit | grep -q . \
+            || find k8s kubernetes helm terraform tf -type f -print -quit 2>/dev/null | grep -q .; then
+            echo "iac=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "iac=false" >> "$GITHUB_OUTPUT"
+          fi
+
   sbom:
     name: Filesystem SBOM (Syft + Grype)
     runs-on: ubuntu-latest
@@ -48,9 +74,10 @@ jobs:
 
   container-scan:
     name: Container Image Scan (Trivy)
+    needs: detect
     runs-on: ubuntu-latest
     # Auto-aware: only runs when a Dockerfile is present
-    if: ${{ hashFiles('Dockerfile', '**/Dockerfile', 'docker-compose.yml', 'docker-compose.yaml') != '' }}
+    if: needs.detect.outputs.container == 'true'
     steps:
       - uses: actions/checkout@v4
 
@@ -68,10 +95,10 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: gesf-scan:latest
-          format: 'sarif'
-          output: 'trivy-container.sarif'
-          severity: 'CRITICAL,HIGH'
-          exit-code: '1'
+          format: "sarif"
+          output: "trivy-container.sarif"
+          severity: "CRITICAL,HIGH"
+          exit-code: "1"
 
       - name: Upload container scan results
         if: always()
@@ -83,21 +110,22 @@ jobs:
 
   iac-scan:
     name: Infrastructure Config Scan (Trivy)
+    needs: detect
     runs-on: ubuntu-latest
     # Auto-aware: only runs when IaC files are present
-    if: ${{ hashFiles('k8s/**', 'kubernetes/**', 'helm/**', 'terraform/**', 'tf/**', '*.tf', '**/*.tf', 'docker-compose*.yml', 'docker-compose*.yaml') != '' }}
+    if: needs.detect.outputs.iac == 'true'
     steps:
       - uses: actions/checkout@v4
 
       - name: Scan IaC configs with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'config'
-          scan-ref: '.'
-          format: 'sarif'
-          output: 'trivy-iac.sarif'
-          severity: 'CRITICAL,HIGH'
-          exit-code: '1'
+          scan-type: "config"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-iac.sarif"
+          severity: "CRITICAL,HIGH"
+          exit-code: "1"
 
       - name: Upload IaC scan results
         if: always()
