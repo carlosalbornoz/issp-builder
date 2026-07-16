@@ -927,10 +927,10 @@ function renderPart2(issp: IsspData): string {
         ["website", "Website"], ["email", "Email"], ["landline", "Landline"],
         ["socialMedia", "Social Media"], ["mobile", "Mobile"],
       ];
-      return `What are the existing consumer protection and citizen assistance, feedback and grievance mechanisms in your agency?<br>` +
+      return `What are the existing consumer protection and citizen assistance, feedback and grievance mechanisms in your agency?<br><br>` +
         egpIndent(MECHANISM_LABELS.map(([k, label]) => `${chk(e?.mechanisms?.[k])} ${label}`).join("<br>"));
     }
-    return `${esc(cfg.question!)}<br>${egpYesNoStack(e?.status === "yes", e?.status === "no")}`;
+    return `${esc(cfg.question!)}<br><br>${egpYesNoStack(e?.status === "yes", e?.status === "no")}`;
   }
 
   /** Always renders every branch the template has for this row (If Yes / If No,
@@ -941,7 +941,7 @@ function renderPart2(issp: IsspData): string {
     if (cfg.key === "pnpki") return "—";
     if (cfg.key === "onlinePortal") {
       const lines: string[] = [
-        `Are these mechanisms already connected with online public service portals?<br>` +
+        `Are these mechanisms already connected with online public service portals?<br><br>` +
           egpYesNoStack(e?.connectedToPortal === "yes", e?.connectedToPortal === "no"),
       ];
       if (e?.url) lines.push(`URL: ${esc(e.url)}`);

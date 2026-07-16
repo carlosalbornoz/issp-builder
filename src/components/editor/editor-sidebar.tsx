@@ -50,6 +50,12 @@ import { IsspPropertiesDialog } from "./issp-properties-dialog";
 import { THEMES, isThemeId, useTheme, type ThemeId } from "@/lib/theme";
 import { toast } from "sonner";
 
+type ExportState =
+  | { status: "idle" }
+  | { status: "exporting"; stage: string; pct: number }
+  | { status: "done" }
+  | { status: "error"; message: string };
+
 /** Parse one raw SSE block (text between blank-line separators) into {event, data}. */
 function parseSseEvent(raw: string): { event: string; data: string } | null {
   let event = "message";
@@ -222,6 +228,57 @@ function SaveReminderDialog({
   );
 }
 
+// ─── Inline PDF export progress ────────────────────────────────────────────────
+// Replaces the sidebar's Save/Properties/kebab controls in place while an
+// export is in flight — same footer-swap pattern as the clear-editor card.
+
+function ExportProgressCard({ state, onDismiss }: { state: ExportState; onDismiss: () => void }) {
+  if (state.status === "error") {
+    return (
+      <div className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2.5 space-y-2.5 text-destructive">
+        <div className="space-y-1">
+          <p className="text-sm font-semibold">Export failed</p>
+          <p className="text-xs leading-snug">{state.message}</p>
+        </div>
+        <div className="flex justify-end">
+          <Button size="sm" variant="outline" className={cn("h-7 text-xs px-3", sidebarControlClass)} onClick={onDismiss}>
+            Dismiss
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const done = state.status === "done";
+  const pct = state.status === "exporting" ? state.pct : 100;
+  const stage = state.status === "exporting" ? state.stage : "Done";
+
+  return (
+    <div className="rounded-lg border border-border bg-card px-3 py-2.5 space-y-2">
+      <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+        {done ? (
+          <Check className="h-4 w-4 text-success" />
+        ) : (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        )}
+        {done ? "PDF exported" : "Exporting PDF…"}
+      </div>
+      <div className="space-y-1">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <span className="truncate">{stage}</span>
+          <span className="tabular-nums ml-2 shrink-0">{pct}%</span>
+        </div>
+        <div className="h-2 w-full rounded-full bg-border overflow-hidden">
+          <div
+            className="h-full rounded-full bg-success transition-all duration-300 ease-out"
+            style={{ width: `${pct}%` }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Collapsed sidebar ────────────────────────────────────────────────────────
 
 function CollapsedSidebar({ onToggle }: { onToggle: () => void }) {
@@ -258,8 +315,7 @@ export function EditorSidebar({
 
   const [expandedParts, setExpandedParts] = useState<Set<number>>(new Set([1, 2, 3, 4]));
   const [propsOpen, setPropsOpen] = useState(false);
-  const [exporting, setExporting] = useState(false);
-  const [exportProgress, setExportProgress] = useState<{ stage: string; pct: number } | null>(null);
+  const [exportState, setExportState] = useState<ExportState>({ status: "idle" });
   const [clearStep, setClearStep] = useState<"idle" | "step1" | "step2">("idle");
   const [showChanges, setShowChanges] = useState(false);
   const [themeNudgeDismissed, setThemeNudgeDismissed] = useState(() =>
@@ -373,9 +429,8 @@ export function EditorSidebar({
   }
 
   async function handleExportPdf() {
-    if (!doc || exporting) return;
-    setExporting(true);
-    setExportProgress({ stage: "Starting…", pct: 0 });
+    if (!doc || exportState.status === "exporting") return;
+    setExportState({ status: "exporting", stage: "Starting…", pct: 0 });
     try {
       const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
       const res = await fetch(`${base}/api/export`, {
@@ -410,7 +465,7 @@ export function EditorSidebar({
           if (!evt) continue;
           if (evt.event === "progress") {
             const p = JSON.parse(evt.data) as { stage: string; pct: number };
-            setExportProgress(p);
+            setExportState({ status: "exporting", ...p });
           } else if (evt.event === "done") {
             const { filename, pdf } = JSON.parse(evt.data) as { filename: string; pdf: string };
             // Let the browser decode the base64 PDF via a data URI.
@@ -421,8 +476,10 @@ export function EditorSidebar({
             a.download = filename;
             a.click();
             URL.revokeObjectURL(url);
-            setExportProgress({ stage: "Done", pct: 100 });
+            setExportState({ status: "done" });
             toast.success("PDF exported.");
+            // Hold the "Done" card briefly so the user sees it finish, then revert.
+            setTimeout(() => setExportState({ status: "idle" }), 1000);
             return;
           } else if (evt.event === "error") {
             const { message } = JSON.parse(evt.data) as { message?: string };
@@ -430,13 +487,13 @@ export function EditorSidebar({
           }
         }
       }
+      // Stream closed without a "done" or "error" event.
+      throw new Error("Export stream ended unexpectedly. Please try again.");
     } catch (err) {
       console.error("PDF export failed:", err);
-      toast.error(err instanceof Error && err.message ? err.message : "PDF export failed. Please try again.");
-    } finally {
-      setExporting(false);
-      // Hold the completed bar briefly so the user sees it finish, then close.
-      setTimeout(() => setExportProgress(null), 500);
+      const message = err instanceof Error && err.message ? err.message : "PDF export failed. Please try again.";
+      toast.error(message);
+      setExportState({ status: "error", message });
     }
   }
 
@@ -677,7 +734,11 @@ export function EditorSidebar({
             </div>
           )}
 
-          {clearStep === "idle" && (
+          {clearStep === "idle" && exportState.status !== "idle" && (
+            <ExportProgressCard state={exportState} onDismiss={() => setExportState({ status: "idle" })} />
+          )}
+
+          {clearStep === "idle" && exportState.status === "idle" && (
             <div className="flex items-center gap-2">
               <div className="flex-1 min-w-0 text-xs">
                 {saveStatus === "error" ? (
@@ -719,7 +780,6 @@ export function EditorSidebar({
                 size="sm"
                 className={cn("h-7 gap-1.5 px-2.5 text-xs shrink-0", sidebarControlClass)}
                 onClick={handleExportPdf}
-                disabled={exporting}
               >
                 <FileOutput className="h-3 w-3" />
                 PDF
@@ -916,7 +976,11 @@ export function EditorSidebar({
             </div>
           )}
 
-          {clearStep === "idle" && (
+          {clearStep === "idle" && exportState.status !== "idle" && (
+            <ExportProgressCard state={exportState} onDismiss={() => setExportState({ status: "idle" })} />
+          )}
+
+          {clearStep === "idle" && exportState.status === "idle" && (
             <>
               {/* Primary save + kebab */}
               <div className="relative flex gap-1.5">
@@ -1026,7 +1090,6 @@ export function EditorSidebar({
                   size="sm"
                   className={cn("justify-start gap-2 text-xs", sidebarControlClass)}
                   onClick={handleExportPdf}
-                  disabled={exporting}
                 >
                   <FileOutput className="h-3.5 w-3.5" />
                   Export PDF
@@ -1059,35 +1122,6 @@ export function EditorSidebar({
         />
 
         <IsspPropertiesDialog open={propsOpen} onClose={() => setPropsOpen(false)} />
-
-        <Dialog
-          open={exportProgress !== null}
-          onOpenChange={(nextOpen) => { if (!nextOpen && !exporting) setExportProgress(null); }}
-        >
-          <DialogContent showCloseButton={false} className="sm:max-w-sm">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Exporting PDF…
-              </DialogTitle>
-              <DialogDescription className="sr-only">
-                Generating the PDF document; progress updates live.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-2 px-1 pb-1">
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span className="truncate">{exportProgress?.stage ?? "Working…"}</span>
-                <span className="tabular-nums ml-2 shrink-0">{exportProgress?.pct ?? 0}%</span>
-              </div>
-              <div className="h-2 w-full rounded-full bg-border overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-success transition-all duration-300 ease-out"
-                  style={{ width: `${exportProgress?.pct ?? 0}%` }}
-                />
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
       </aside>
     </>
   );
