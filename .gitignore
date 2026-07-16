@@ -24,6 +24,9 @@ scripts/fonts/
 scripts/mobile-test.js
 public/screenshots/
 
+# Local duplicate of the tracked agency-guidelines reference PDF
+references/[[]FINAL[]] Agency Guidelines for the REVISED ISSP TEMPLATE 2026 043026 (1).pdf
+
 # OS / editor
 .DS_Store
 Thumbs.db
