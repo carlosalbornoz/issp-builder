@@ -735,9 +735,9 @@ Standalone public module at `/annex1`. Full plan in `docs/annex1-implementation-
 
 ---
 
-## 11. Custom Skills (`.claude/skills/`)
+## 11. Local Agent Skills (`.claude/skills/`)
 
-Project-level Claude Code skills — invoked with `/skill-name` or auto-loaded by Claude when the description matches.
+Local Claude Code skills — invoked with `/skill-name` or auto-loaded by Claude when the description matches. The `.claude/` directory is intentionally gitignored and must be maintained separately from the application repository.
 
 | Skill | Path | Invocation | Purpose |
 |---|---|---|---|
@@ -781,7 +781,7 @@ One-liner for step 2+3 (safe to run even if no stale process exists):
 ss -tlnp | grep 3100 | grep -oP 'pid=\K[0-9]+' | xargs -r kill; sleep 0.5; pm2 restart issp --update-env
 ```
 
-`NEXT_PUBLIC_BASE_PATH="/issp"` is in `.env.production` and is baked into client bundles at build time — no need to set it in pm2 env.
+`NEXT_PUBLIC_BASE_PATH="/issp"` is in the local, gitignored `.env.production` and is baked into client bundles at build time — no need to set it in pm2 env.
 
 ### Puppeteer / Chrome dependencies
 Chrome 148 is installed at `/root/.cache/puppeteer/chrome/linux-148.0.7778.167/chrome-linux64/chrome`.

@@ -64,13 +64,11 @@ The `AUTH_SECRET` placeholder (F1) is deferred — server-side auth is dormant i
 
 ### FINDING 1 — CRITICAL: Weak default AUTH_SECRET
 
-**File:** `.env:11`
+**Historical file:** the former local `.env`
 
-```
-AUTH_SECRET="issp-builder-secret-change-in-production"
-```
+The removed server-side authentication prototype once used a weak placeholder signing value. The literal value is intentionally omitted from this repository and documentation so it cannot be mistaken for an active credential.
 
-**Risk:** NextAuth signs JWT session tokens with this secret. Anyone who knows the secret can forge valid session tokens, impersonate any user, and access any agency's data. This string is effectively public (it's a common placeholder pattern).
+**Risk:** When NextAuth was active, anyone who knew that placeholder could have forged JWT session tokens. The current local-first application has no login, no server-side session, and no active JWT signing configuration.
 
 **Current exposure:** Low — the server-side auth system (NextAuth, dashboard routes, Prisma DB) is dormant. The active local-first editor requires no login and issues no JWT sessions. There are no real sessions to forge against.
 
