@@ -16,7 +16,7 @@ on:
 # enforce the gate on the default branch (main/master/trunk/auto).
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: read
 
 jobs:
@@ -43,19 +43,6 @@ jobs:
 
       - name: Generate Compliance Score
         run: ges score --ci
-
-      - name: Generate Compliance Badge
-        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        run: ges badge
-
-      - name: Commit Compliance Badge
-        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add badge.svg README.md || true
-          git diff --cached --quiet || git commit -m "Update compliance badge [skip ci]"
-          git push
 
       - name: Upload Compliance Report
         if: always()

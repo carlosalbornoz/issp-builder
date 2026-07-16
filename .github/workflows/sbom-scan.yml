@@ -50,7 +50,7 @@ jobs:
     name: Container Image Scan (Trivy)
     runs-on: ubuntu-latest
     # Auto-aware: only runs when a Dockerfile is present
-    if: hashFiles('Dockerfile', '**/Dockerfile', 'docker-compose.yml', 'docker-compose.yaml') != ''
+    if: ${{ hashFiles('Dockerfile', '**/Dockerfile', 'docker-compose.yml', 'docker-compose.yaml') != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -85,7 +85,7 @@ jobs:
     name: Infrastructure Config Scan (Trivy)
     runs-on: ubuntu-latest
     # Auto-aware: only runs when IaC files are present
-    if: hashFiles('k8s/**', 'kubernetes/**', 'helm/**', 'terraform/**', 'tf/**', '*.tf', '**/*.tf', 'docker-compose*.yml', 'docker-compose*.yaml') != ''
+    if: ${{ hashFiles('k8s/**', 'kubernetes/**', 'helm/**', 'terraform/**', 'tf/**', '*.tf', '**/*.tf', 'docker-compose*.yml', 'docker-compose*.yaml') != '' }}
     steps:
       - uses: actions/checkout@v4
 
