@@ -22,6 +22,7 @@
 <!-- GESF-SCORE-END -->
 
 
+
 A civic technology platform for Philippine government agencies to draft, validate, and export their **Information Systems Strategic Plan (ISSP)** — as required by DICT under the eGov Act (RA 10175 IRR).
 
 Built by a volunteer. Open source. No account required.
