@@ -94,7 +94,7 @@ export function RichTextarea({
   }, [onChange]);
 
   const exec = useCallback(
-    (command: "bold" | "italic" | "underline" | "insertUnorderedList") => {
+    (command: "bold" | "italic" | "underline" | "insertUnorderedList" | "indent" | "outdent") => {
       ref.current?.focus();
       document.execCommand(command);
       handleInput();
@@ -125,7 +125,11 @@ export function RichTextarea({
       }
       if (e.key === "Tab") {
         e.preventDefault();
-        if (getLineStartText(root) === "") exec("insertUnorderedList");
+        if (isInsideList(root)) {
+          exec(e.shiftKey ? "outdent" : "indent");
+        } else if (!e.shiftKey && getLineStartText(root) === "") {
+          exec("insertUnorderedList");
+        }
         return;
       }
       if (e.key === " " && getLineStartText(root) === "-") {
