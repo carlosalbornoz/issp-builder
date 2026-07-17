@@ -1,5 +1,6 @@
 import { STANDARD_DEFINITIONS } from "@/lib/store/defaults";
 import { CYBER_GROUPS } from "@/lib/cyber-controls";
+import { isRichText, sanitizeRichText } from "@/lib/rich-text";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -200,6 +201,11 @@ function nl2br(s: string | null | undefined): string {
   return esc(s).replace(/\n/g, "<br>");
 }
 
+function richText(s: string | null | undefined): string {
+  if (!s) return "";
+  return `<span class="rich-text">${isRichText(s) ? sanitizeRichText(s) : nl2br(s)}</span>`;
+}
+
 // ─── TOC markers (two-pass page numbering) ────────────────────────────────────
 // Pass 1 renders invisible marker text at each TOC-able heading; generate-pdf
 // extracts which physical page each marker lands on, then pass 2 re-renders
@@ -377,6 +383,10 @@ const CSS = `
   /* ── Bullet list ── */
   ul.template-list { margin: 2mm 0 2mm 8mm; }
   ul.template-list li { margin-bottom: 1mm; }
+
+  /* ── Rich-text fields (bold/italic/underline/bullets) ── */
+  .rich-text ul { margin: 1mm 0; padding-left: 5mm; }
+  .rich-text li { margin-bottom: 0.5mm; }
 
   /* ── Tables ── */
   table { width: 100%; border-collapse: collapse; font-size: 10pt; margin-bottom: 4mm; }
@@ -622,11 +632,11 @@ function renderPart1(issp: IsspData): string {
     <div class="subsection-heading">A.1. Mandate</div>
     <div class="subsection-block"><ul class="template-list">
       <li><span class="field-label">Legal Basis:</span> ${esc(p.legalBasis)}</li>
-      <li><span class="field-label">Function:</span> ${nl2br(p.mandateFunction)}</li>
+      <li><span class="field-label">Function:</span> ${richText(p.mandateFunction)}</li>
     </ul></div>
 
     <div class="subsection-heading">A.2. Vision Statement</div>
-    <div class="subsection-block"><p class="field-value">${nl2br(p.visionStatement)}</p></div>
+    <div class="subsection-block"><p class="field-value">${richText(p.visionStatement)}</p></div>
 
     <div class="subsection-heading">A.3. Mission Statement</div>
     <div class="subsection-block"><p class="field-value">${nl2br(p.missionStatement)}</p></div>
