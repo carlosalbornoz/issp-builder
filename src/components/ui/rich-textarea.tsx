@@ -160,9 +160,14 @@ export function RichTextarea({
   );
 
   return (
-    <div className="space-y-1">
+    <div
+      className={cn(
+        "rounded-lg border border-border bg-card transition-colors hover:border-ring/60 focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
+        className
+      )}
+    >
       {toolbar && (
-        <div className="flex items-center gap-0.5 rounded-md border border-border bg-muted/40 p-1">
+        <div className="flex items-center gap-0.5 border-b border-border px-1 py-0.5">
           <ToolbarButton label="Bold" onClick={() => exec("bold")}>
             <Bold className="h-3 w-3" />
           </ToolbarButton>
@@ -194,10 +199,7 @@ export function RichTextarea({
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
           style={{ minHeight: `${rows * 1.5}rem` }}
-          className={cn(
-            "relative w-full rounded-lg border border-border bg-card px-2.5 py-2 text-base text-foreground transition-colors outline-none hover:border-ring/60 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:pl-0.5",
-            className
-          )}
+          className="w-full px-2.5 py-2 text-base text-foreground outline-none md:text-sm [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:pl-0.5"
         />
       </div>
     </div>
