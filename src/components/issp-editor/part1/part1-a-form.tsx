@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextarea } from "@/components/ui/rich-textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, Trash2, ChevronDown, ChevronRight, Info } from "lucide-react";
@@ -190,11 +191,12 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
             htmlFor="legal-basis"
             tooltip="e.g., Republic Act No. 10844 — Department of Information and Communications Technology Act of 2015"
           >
-            <Input
+            <Textarea
               id="legal-basis"
-              placeholder="e.g., RA 10844, EO 47"
+              placeholder="Cite the law(s) establishing or authorizing your agency, e.g., Republic Act No. 10844 — Department of Information and Communications Technology Act of 2015…"
               value={data.legalBasis}
               onChange={(e) => update("legalBasis", e.target.value)}
+              rows={4}
             />
           </FormField>
 
@@ -203,12 +205,13 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
             htmlFor="mandate-function"
             tooltip="Describe the primary mandate and functions of the agency as stated in its enabling law or executive order."
           >
-            <Textarea
+            <RichTextarea
               id="mandate-function"
               placeholder="Describe the agency's mandate and primary functions..."
               value={data.mandateFunction}
-              onChange={(e) => update("mandateFunction", e.target.value)}
+              onChange={(value) => update("mandateFunction", value)}
               rows={4}
+              toolbar
             />
           </FormField>
         </CardContent>
@@ -228,11 +231,11 @@ export function Part1AForm({ agencyType, initialData }: Part1AFormProps) {
             htmlFor="vision"
             tooltip="A concise statement of the agency's desired long-term future state."
           >
-            <Textarea
+            <RichTextarea
               id="vision"
               placeholder="The agency's vision for the future..."
               value={data.visionStatement}
-              onChange={(e) => update("visionStatement", e.target.value)}
+              onChange={(value) => update("visionStatement", value)}
               rows={3}
             />
           </FormField>
