@@ -2,7 +2,7 @@
 
 > Canonical tracker. This is the only document that should be treated as the current project state, backlog, and next-session plan. Older session logs, implementation plans, audits, and architecture notes are historical unless this file explicitly points to them.
 
-Last updated: 2026-07-16
+Last updated: 2026-07-17
 
 ## Current State
 
@@ -55,6 +55,7 @@ Last run: 2026-06-19
 | Theme system | Done | System/Warm light/dark themes and sidebar theme controls. |
 | Completion/status UI | Done with known issue | Read-only Part IV summary still affects some overall completion counts. |
 | Coverage period lock | Done | New documents are locked to 2028-2030 per current app policy. |
+| Rich-text textarea (prototype) | Done, 2 fields only | `RichTextarea` (`src/components/ui/rich-textarea.tsx`) adds bold/italic/underline/bullet formatting to Part I-A's Mandate/Functions field (with toolbar) and Vision Statement field (shortcuts-only), for UX comparison. Storage stays a plain `string` holding a whitelisted HTML subset (`src/lib/rich-text.ts`); legacy plain text is auto-detected and rendered unchanged. PDF export updated (`richText()` helper in `render-issp-html.ts`). No schema change. App-wide rollout to the other ~8 textareas is a pending decision — see `docs/rich-text-textarea-design-2026-07-17.md`. |
 
 ## Active Architecture
 
