@@ -69,7 +69,7 @@ function makeService(): StakeholderService {
 }
 
 function makeStakeholder(): Stakeholder {
-  return { id: generateId(), name: "", services: [makeService()] };
+  return { id: generateId(), name: "", services: [] };
 }
 
 // ─── Direction display (Incoming / Outgoing) ─────────────────────────────────
@@ -141,9 +141,7 @@ interface DrawerProps {
 
 function StakeholderDrawer({ open, stakeholder, isNew, onSave, onDelete, onClose }: DrawerProps) {
   const [name, setName] = useState(stakeholder?.name ?? "");
-  const [services, setServices] = useState<StakeholderService[]>(
-    () => stakeholder?.services?.length ? stakeholder.services : [makeService()]
-  );
+  const [services, setServices] = useState<StakeholderService[]>(() => stakeholder?.services ?? []);
 
   // Re-initialize from props each time the drawer opens (or the target changes
   // while open). Adjusting state during render avoids an extra effect pass.
@@ -152,7 +150,7 @@ function StakeholderDrawer({ open, stakeholder, isNew, onSave, onDelete, onClose
     setPrevSession({ open, stakeholder });
     if (open) {
       setName(stakeholder?.name ?? "");
-      setServices(stakeholder?.services?.length ? stakeholder.services : [makeService()]);
+      setServices(stakeholder?.services ?? []);
     }
   }
 
@@ -216,7 +214,6 @@ function StakeholderDrawer({ open, stakeholder, isNew, onSave, onDelete, onClose
                       size="icon"
                       className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
                       onClick={() => removeSvc(sv.id)}
-                      disabled={services.length <= 1}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </Button>
@@ -734,7 +731,6 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                                         aria-label="Remove service"
                                         className="h-7 w-7 text-muted-foreground hover:text-destructive"
                                         onClick={() => removeService(s.id, sv.id)}
-                                        disabled={s.services.length <= 1}
                                       >
                                         <Trash2 className="h-3.5 w-3.5" />
                                       </Button>
