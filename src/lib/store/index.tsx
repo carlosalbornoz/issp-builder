@@ -618,7 +618,7 @@ export function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         stakeholders: base.part1.stakeholders.map((s: any) => ({
           ...s,
-          services: (s.services ?? []).map((sv: any) => ({ ...sv, direction: sv.direction ?? "" })),
+          services: (s.services ?? []).map((sv: Partial<StakeholderService>) => ({ ...sv, direction: sv.direction ?? "" })),
         })),
       },
     };
