@@ -1,6 +1,13 @@
-export const CURRENT_SCHEMA_VERSION = 9;
+export const CURRENT_SCHEMA_VERSION = 10;
 
 export const MIGRATION_REVIEW_SECTIONS = [
+  {
+    id: "part1/c",
+    shortLabel: "I-C",
+    label: "Part I-C · Stakeholder Analysis",
+    href: "/editor/part1/c",
+    reason: "Every transaction/service must now be tagged Incoming or Outgoing, matching the current template.",
+  },
   {
     id: "part2/c",
     shortLabel: "II-C",
@@ -33,6 +40,10 @@ export function getMigrationReviewSection(id: string) {
 /** Sections whose meaning changed after the given schema version. */
 export function getRequiredMigrationReviewSectionIds(sourceSchemaVersion: number): MigrationReviewSectionId[] {
   return MIGRATION_REVIEW_SECTIONS
-    .filter((section) => section.id === "part2/d" ? sourceSchemaVersion < 7 : sourceSchemaVersion < 9)
+    .filter((section) => {
+      if (section.id === "part2/d") return sourceSchemaVersion < 7;
+      if (section.id === "part1/c") return sourceSchemaVersion < 10;
+      return sourceSchemaVersion < 9;
+    })
     .map((section) => section.id);
 }

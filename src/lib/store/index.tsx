@@ -605,18 +605,44 @@ export function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
     };
   }
 
+  // v9 -> v10: Stakeholder services now require a direction (Incoming/Outgoing),
+  // matching the 2026-06-12 v2 template's Stakeholder Analysis table. No legacy
+  // data implies a direction, so every existing service defaults to "" (unset)
+  // and part1/c is flagged for migration review (see migration-review.ts).
+  if ((base.schemaVersion ?? 1) < 10) {
+    base = {
+      ...base,
+      schemaVersion: 10,
+      part1: {
+        ...base.part1,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        stakeholders: base.part1.stakeholders.map((s: any) => ({
+          ...s,
+          services: (s.services ?? []).map((sv: any) => ({ ...sv, direction: sv.direction ?? "" })),
+        })),
+      },
+    };
+  }
+
   // Idempotent normalizations — keep stored data in sync with what forms write on mount,
   // so that editing a field and reverting it produces a hash equal to the snapshot.
   let normalized: IsspDocument = {
     ...base,
     part1: {
       ...base.part1,
-      // Fill missing IDs on stakeholders and their services
+      // Fill missing IDs on stakeholders and their services; default missing direction to "" —
+      // mirrors the form's own init normalization (see part1-c-form.tsx), required per the
+      // "Form init normalization" trap in the schema-change skill so edit+revert doesn't
+      // produce a permanent false "unsaved changes".
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       stakeholders: base.part1.stakeholders.map((s: any) => ({
         ...s,
         id: s.id || genId(),
-        services: (s.services ?? []).map((sv: Partial<StakeholderService>) => ({ ...sv, id: sv.id || genId() })),
+        services: (s.services ?? []).map((sv: Partial<StakeholderService>) => ({
+          ...sv,
+          id: sv.id || genId(),
+          direction: sv.direction ?? "",
+        })),
       })),
     },
     part2: {
