@@ -1,7 +1,7 @@
 "use client";
 
-import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn, php } from "@/lib/utils";
+import { Callout } from "@/components/ui/callout";
 import { SectionShell } from "@/components/editor/section-shell";
 import type { SummaryRow, UacsRow, Part4SummaryData } from "./part4-aggregations";
 
@@ -147,60 +147,14 @@ function UacsTable({
   );
 }
 
-// ─── Consistency Banner ────────────────────────────────────────────────────────
+// ─── Auto-Calculated Banner ────────────────────────────────────────────────────
 
-function ConsistencyBanner({
-  b1Totals,
-  b2Totals,
-  b3Totals,
-  yearLabels,
-}: {
-  b1Totals: [number, number, number];
-  b2Totals: [number, number, number];
-  b3Totals: [number, number, number];
-  yearLabels: [string, string, string];
-}) {
-  const consistent = b1Totals.every(
-    (v, i) => Math.abs(v - b2Totals[i]) < 0.01 && Math.abs(v - b3Totals[i]) < 0.01
-  );
-
-  if (consistent && b1Totals.every((v) => v === 0)) return null;
-
+function AutoCalculatedBanner() {
   return (
-    <div
-      className={cn(
-        "flex items-start gap-3 rounded-lg border p-4 text-sm",
-        consistent
-          ? "border-success-border bg-success-bg text-success"
-          : "border-warning-border bg-warning-bg text-warning"
-      )}
-    >
-      {consistent ? (
-        <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
-      ) : (
-        <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
-      )}
-      <div>
-        {consistent ? (
-          <p className="font-medium">All totals are consistent across B.1, B.2, and B.3.</p>
-        ) : (
-          <>
-            <p className="font-medium">Totals are inconsistent — check your line items.</p>
-            <ul className="mt-1 space-y-0.5 text-xs">
-              {b1Totals.map((v, i) => {
-                const ok = Math.abs(v - b2Totals[i]) < 0.01 && Math.abs(v - b3Totals[i]) < 0.01;
-                if (ok) return null;
-                return (
-                  <li key={i}>
-                    {yearLabels[i]}: B.1={php(v)} · B.2={php(b2Totals[i])} · B.3={php(b3Totals[i])}
-                  </li>
-                );
-              })}
-            </ul>
-          </>
-        )}
-      </div>
-    </div>
+    <Callout variant="info">
+      This page is just for your review — totals are auto-calculated based on your Year 1 to
+      Year 3 inputs. Review this section for accuracy before exporting your ISSP.
+    </Callout>
   );
 }
 
@@ -211,26 +165,6 @@ export function Part4Summary({
 }: {
   data: Part4SummaryData;
 }) {
-  const b1TotalsRow = data.b1.find((r) => r.isTotal);
-  const b2TotalsRow = data.b2.find((r) => r.isTotal);
-  const b3TotalsRow = data.b3.find((r) => r.isTotal);
-
-  const b1Totals: [number, number, number] = [
-    b1TotalsRow?.year1 ?? 0,
-    b1TotalsRow?.year2 ?? 0,
-    b1TotalsRow?.year3 ?? 0,
-  ];
-  const b2Totals: [number, number, number] = [
-    b2TotalsRow?.year1 ?? 0,
-    b2TotalsRow?.year2 ?? 0,
-    b2TotalsRow?.year3 ?? 0,
-  ];
-  const b3Totals: [number, number, number] = [
-    b3TotalsRow?.year1 ?? 0,
-    b3TotalsRow?.year2 ?? 0,
-    b3TotalsRow?.year3 ?? 0,
-  ];
-
   return (
     <SectionShell
       sectionId="part4/summary"
@@ -239,12 +173,7 @@ export function Part4Summary({
       hideMarkDone
     >
 
-      <ConsistencyBanner
-        b1Totals={b1Totals}
-        b2Totals={b2Totals}
-        b3Totals={b3Totals}
-        yearLabels={data.yearLabels}
-      />
+      <AutoCalculatedBanner />
 
       <SummaryTable
         title="B.1 General Summary"
