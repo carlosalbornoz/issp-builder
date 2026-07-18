@@ -1,13 +1,18 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Circle, ChevronLeft, ChevronRight, LayoutDashboard, Menu, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StatusDot } from "@/components/ui/status-dot";
+import { cn } from "@/lib/utils";
 import { useIsspStore } from "@/lib/store";
 import { ALL_SECTIONS, PARTS, computeStatus } from "@/lib/sections";
 import { useEditorMobileSidebar } from "./editor-mobile-sidebar-context";
+
+// Header collapses once the section's scroll container has moved past this
+// many pixels, so a brief scroll doesn't cause flicker.
+const COLLAPSE_THRESHOLD_PX = 40;
 
 // ─── SectionShell ─────────────────────────────────────────────────────────────
 
@@ -34,6 +39,21 @@ export function SectionShell({
   const router = useRouter();
   const { doc, updateSectionMeta } = useIsspStore();
   const mobileSidebar = useEditorMobileSidebar();
+
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const scrollContainer = headerRef.current?.closest("main");
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      setIsCompact(scrollContainer.scrollTop > COLLAPSE_THRESHOLD_PX);
+    };
+    handleScroll();
+    scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, [sectionId]);
 
   // Derive part + section from config
   const sectionIndex = ALL_SECTIONS.findIndex((s) => s.id === sectionId);
@@ -67,57 +87,95 @@ export function SectionShell({
 
   return (
     <div className="space-y-8">
-      {/* ── Sticky section header ── */}
-      <div className="sticky top-0 z-10 -mx-4 px-4 py-4 md:-mx-8 md:px-8 md:py-5 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
-          <button
-            type="button"
-            aria-label="Open editor navigation"
-            onClick={mobileSidebar?.openMobileSidebar}
-            className="-ml-1 mr-1 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground md:hidden"
-          >
-            <Menu className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => router.push("/editor")}
-            className="hover:text-foreground transition-colors flex items-center gap-1"
-          >
-            <LayoutDashboard className="h-3 w-3" />
-            Overview
-          </button>
-          <span>/</span>
-          <span className="font-semibold" style={{ color: part?.color ?? "var(--muted-foreground)" }}>
-            {part ? `Part ${part.part}` : "Front Matter"}
-          </span>
-          <span>/</span>
-          <span className="text-foreground truncate">{section?.label}</span>
-        </nav>
-
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <p
-                className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: part?.color ?? "var(--muted-foreground)" }}
+      {/* ── Sticky section header — collapses to a compact bar once scrolled ── */}
+      <div
+        ref={headerRef}
+        className="sticky top-0 z-10 -mx-4 px-4 md:-mx-8 md:px-8 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8"
+      >
+        {/* Compact bar — title + status dot only, shown once collapsed */}
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none",
+            isCompact ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          )}
+        >
+          <div className="overflow-hidden" inert={!isCompact}>
+            <div className="flex items-center gap-2 py-2.5">
+              <button
+                type="button"
+                aria-label="Open editor navigation"
+                onClick={mobileSidebar?.openMobileSidebar}
+                className="-ml-1 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground md:hidden"
               >
-                {part ? `Part ${part.part}${sectionPrefix ? ` · ${sectionPrefix}` : ""}` : "Front Matter"}
-              </p>
+                <Menu className="h-4 w-4" />
+              </button>
+              <h2 className="min-w-0 flex-1 truncate text-sm font-semibold font-display">{title}</h2>
               {!section?.readOnly && <StatusDot status={status} size={7} />}
             </div>
-            <h1 className="text-2xl font-bold tracking-tight font-display">{title}</h1>
-            <p className="text-muted-foreground text-sm mt-1">{description}</p>
           </div>
+        </div>
 
-          {statBlock && (
-            <div className="shrink-0 text-right">
-              <p className="text-xs text-muted-foreground">{statBlock.label}</p>
-              <p className="text-2xl font-bold font-display">{statBlock.value}</p>
-              {statBlock.caption && (
-                <p className="text-xs text-muted-foreground">{statBlock.caption}</p>
-              )}
-            </div>
+        {/* Full header — breadcrumb, eyebrow, title, description, stat block */}
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none",
+            isCompact ? "grid-rows-[0fr]" : "grid-rows-[1fr]"
           )}
+        >
+          <div className="overflow-hidden" inert={isCompact}>
+            <div className="py-4 md:py-5">
+              {/* Breadcrumb */}
+              <nav className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+                <button
+                  type="button"
+                  aria-label="Open editor navigation"
+                  onClick={mobileSidebar?.openMobileSidebar}
+                  className="-ml-1 mr-1 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground md:hidden"
+                >
+                  <Menu className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => router.push("/editor")}
+                  className="hover:text-foreground transition-colors flex items-center gap-1"
+                >
+                  <LayoutDashboard className="h-3 w-3" />
+                  Overview
+                </button>
+                <span>/</span>
+                <span className="font-semibold" style={{ color: part?.color ?? "var(--muted-foreground)" }}>
+                  {part ? `Part ${part.part}` : "Front Matter"}
+                </span>
+                <span>/</span>
+                <span className="text-foreground truncate">{section?.label}</span>
+              </nav>
+
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <p
+                      className="text-xs font-semibold uppercase tracking-widest"
+                      style={{ color: part?.color ?? "var(--muted-foreground)" }}
+                    >
+                      {part ? `Part ${part.part}${sectionPrefix ? ` · ${sectionPrefix}` : ""}` : "Front Matter"}
+                    </p>
+                    {!section?.readOnly && <StatusDot status={status} size={7} />}
+                  </div>
+                  <h1 className="text-2xl font-bold tracking-tight font-display">{title}</h1>
+                  <p className="text-muted-foreground text-sm mt-1">{description}</p>
+                </div>
+
+                {statBlock && (
+                  <div className="shrink-0 sm:text-right">
+                    <p className="text-xs text-muted-foreground">{statBlock.label}</p>
+                    <p className="text-2xl font-bold font-display">{statBlock.value}</p>
+                    {statBlock.caption && (
+                      <p className="text-xs text-muted-foreground">{statBlock.caption}</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
