@@ -96,7 +96,7 @@ export function SectionShell({
       {/* ── Sticky section header — collapses to a compact bar once scrolled ── */}
       <div
         ref={headerRef}
-        className="sticky top-0 z-10 -mx-4 px-4 md:-mx-8 md:px-8 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8 pt-[env(safe-area-inset-top)] [overflow-anchor:none] [transform:translateZ(0)]"
+        className="sticky top-0 z-10 -mx-4 px-4 md:-mx-8 md:px-8 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8 [overflow-anchor:none]"
       >
         {/* Compact bar — title + status dot only, shown once collapsed */}
         <div

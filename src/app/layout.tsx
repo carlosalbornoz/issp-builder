@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { IsspStoreProvider } from "@/lib/store";
@@ -91,12 +91,6 @@ export const metadata: Metadata = {
       "A free, local-first ISSP editor for Philippine government agencies. Built by Carlos Antonio Albornoz.",
     images: [OG_IMAGE_PATH],
   },
-};
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  viewportFit: "cover",
 };
 
 export default function RootLayout({
