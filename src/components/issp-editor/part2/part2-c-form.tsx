@@ -112,7 +112,7 @@ const FRONTLINE_ACCESS_OPTIONS = [
 const STRATEGY_OPTIONS = [
   { value: "IN_HOUSE", label: "In-House Development" },
   { value: "OUTSOURCED", label: "Outsourced" },
-  { value: "HYBRID", label: "Hybrid (In-house + Outsourced)" },
+  { value: "HYBRID", label: "Hybrid (In-house and Outsourced)" },
   { value: "COTS", label: "Commercial Off-The-Shelf (COTS)" },
   { value: "OPEN_SOURCE", label: "Open Source" },
 ];
