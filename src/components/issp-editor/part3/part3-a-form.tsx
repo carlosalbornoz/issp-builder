@@ -14,19 +14,6 @@ import { CYBER_GROUPS, type CyberControlGroup } from "@/lib/cyber-controls";
 
 type CyberControls = Record<string, Record<string, boolean>>;
 
-// Tailwind can't see classes built at runtime (e.g. string.replace()), so the
-// per-group dot color needs its own literal class per entry rather than
-// deriving one from group.color.
-const GROUP_DOT_COLOR: Record<string, string> = {
-  "border-l-slate-400": "bg-slate-400",
-  "border-l-blue-400": "bg-blue-400",
-  "border-l-cyan-400": "bg-cyan-400",
-  "border-l-green-400": "bg-green-400",
-  "border-l-amber-400": "bg-amber-400",
-  "border-l-orange-400": "bg-orange-400",
-  "border-l-purple-400": "bg-purple-400",
-};
-
 interface Part3AData {
   proposedNetworkDataUrl: string | null;
   proposedNetworkDesc: string;
@@ -80,7 +67,6 @@ function ChecklistSection({
   const proposedCount = group.items.filter((i) => proposedValues[i.key]).length;
   const mandatoryItems = group.items.filter((i) => i.mandatory);
   const proposedMandatoryCount = mandatoryItems.filter((i) => proposedValues[i.key]).length;
-  const dotColor = GROUP_DOT_COLOR[group.color] ?? "bg-muted-foreground";
 
   return (
     <div>
@@ -91,7 +77,6 @@ function ChecklistSection({
         className="flex w-full items-center justify-between gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted/40"
       >
         <div className="flex items-center gap-2.5">
-          <span className={cn("h-2.5 w-2.5 shrink-0 rounded-full", dotColor)} aria-hidden="true" />
           <span className="text-sm font-semibold">{group.label}</span>
           <span className="text-xs bg-muted text-muted-foreground px-1.5 py-0.5 rounded">
             {proposedCount}/{group.items.length} proposed
