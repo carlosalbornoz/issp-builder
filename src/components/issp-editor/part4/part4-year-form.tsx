@@ -404,7 +404,7 @@ function LineTable({
                   <th className="border-r px-3 py-2 text-left font-semibold w-36">UACS</th>
                   <th className="border-r px-3 py-2 text-left font-semibold w-44">Fund Source</th>
                   <th className="border-r px-3 py-2 text-right font-semibold w-28">Unit Cost ₱</th>
-                  <th className="border-r px-3 py-2 text-right font-semibold w-20">Phys. Target</th>
+                  <th className="border-r px-3 py-2 text-right font-semibold w-24">Physical Target</th>
                   <th className="border-r px-3 py-2 text-right font-semibold w-28">Total ₱</th>
                   <th className="px-2 py-2 w-8" />
                 </tr>
@@ -743,7 +743,7 @@ export function Part4YearForm({
                 }
               />
               <LineTable
-                title="MOOE"
+                title="Maintenance & Other Operating Expenses (MOOE)"
                 context="mooe"
                 lines={pb.mooe}
                 mode={lineMode}
@@ -794,7 +794,7 @@ export function Part4YearForm({
                 }
               />
               <LineTable
-                title="MOOE"
+                title="Maintenance & Other Operating Expenses (MOOE)"
                 context="mooe"
                 lines={pb.mooe}
                 mode={lineMode}
@@ -819,7 +819,7 @@ export function Part4YearForm({
         color="#F43F5E"
       >
         <LineTable
-          title="MOOE"
+          title="Maintenance & Other Operating Expenses (MOOE)"
           context="mooe"
           lines={budget.continuingCosts.mooe}
           mode={lineMode}

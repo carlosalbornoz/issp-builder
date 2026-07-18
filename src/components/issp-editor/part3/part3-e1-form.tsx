@@ -352,7 +352,7 @@ function ProjectCard({
         </div>
         <ConfirmDeleteButton
           ariaLabel="Remove project"
-          confirmText="Delete project + its KPIs/budget?"
+          confirmText="Delete project and its KPIs and budget?"
           onDelete={onRemove}
         />
         <button

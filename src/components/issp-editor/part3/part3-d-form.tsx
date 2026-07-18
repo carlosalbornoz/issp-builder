@@ -397,7 +397,7 @@ function SystemCard({
                 onChange={(e) => onUpdate("owner", e.target.value)}
               />
             </FormField>
-            <FormField label="Dev Strategy" tooltip="Indicate whether the IS is for in-house development, outsourcing, or a combination of both. Ready-made / off-the-shelf software may also be considered.">
+            <FormField label="Development Strategy" tooltip="Indicate whether the IS is for in-house development, outsourcing, or a combination of both. Ready-made / off-the-shelf software may also be considered.">
               <Select
                 items={STRATEGY_OPTIONS}
                 value={sys.developmentStrategy}
@@ -439,14 +439,14 @@ function SystemCard({
                 </SelectContent>
               </Select>
             </FormField>
-            <FormField label="Internal Users (units)" tooltip="Units within the organization who may access the system in whole or in part.">
+            <FormField label="Internal Users (units with access)" tooltip="Units within the organization who may access the system in whole or in part.">
               <Input
                 placeholder="e.g., HR Division, Finance"
                 value={sys.internalUsers}
                 onChange={(e) => onUpdate("internalUsers", e.target.value)}
               />
             </FormField>
-            <FormField label="External Users (orgs)" tooltip="External organizations, stakeholders, or private entities that may be given authority to access the system with certain restrictions.">
+            <FormField label="External Users (orgs with access)" tooltip="External organizations, stakeholders, or private entities that may be given authority to access the system with certain restrictions.">
               <Input
                 placeholder="e.g., GSIS, general public"
                 value={sys.externalUsers}
@@ -562,7 +562,7 @@ function SystemReadView({ sys, onEdit }: { sys: ProposedSystem; onEdit: () => vo
         />
       )}
       <ReadRow label="Owner" value={sys.owner} />
-      <ReadRow label="Dev Strategy" value={sys.developmentStrategy ? labelOf(STRATEGY_OPTIONS, sys.developmentStrategy) : ""} />
+      <ReadRow label="Development Strategy" value={sys.developmentStrategy ? labelOf(STRATEGY_OPTIONS, sys.developmentStrategy) : ""} />
       <ReadRow label="Platform" value={sys.developmentPlatform} />
       <ReadRow label="Database" value={sys.databaseName} />
       <ReadRow label="Data Storage" value={sys.dataStorage ? labelOf(STORAGE_OPTIONS, sys.dataStorage) : ""} />

@@ -274,7 +274,7 @@ export function Part2BForm({ initialData }: Part2BFormProps) {
   return (
     <SectionShell
       sectionId="part2/b"
-      title="Network &amp; Cybersecurity"
+      title="Network & Cybersecurity"
       description="Describe the current network infrastructure and cybersecurity controls in place."
     >
 

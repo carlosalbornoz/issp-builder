@@ -101,12 +101,6 @@ const CLASSIFICATION_OPTIONS = [
   { value: "OPERATIONS", label: "Operations" },
 ];
 
-const CLASSIFICATION_BADGES: Record<string, string> = {
-  SUPPORT_TO_OPERATIONS: "Support to Ops",
-  GENERAL_ADMIN: "Gen. Admin",
-  OPERATIONS: "Operations",
-};
-
 // Template Frontline sub-question "Identify if: Online / On-premise / Hybrid" —
 // labels must match the PDF renderer's comparison strings exactly.
 const FRONTLINE_ACCESS_OPTIONS = [
@@ -230,7 +224,7 @@ function ISCard({
             <span className="text-xs font-semibold text-muted-foreground">IS #{index + 1}</span>
             {sys.classification && (
               <span className={cn("text-xs font-medium px-1.5 py-0.5 rounded", CLASSIFICATION_COLORS[sys.classification] ?? "bg-muted")}>
-                {CLASSIFICATION_BADGES[sys.classification] ?? sys.classification}
+                {CLASSIFICATION_OPTIONS.find((o) => o.value === sys.classification)?.label ?? sys.classification}
               </span>
             )}
             {sys.frontline && (
@@ -562,7 +556,7 @@ function ISReadView({ sys, onEdit }: { sys: InformationSystem; onEdit: () => voi
       )}
       <ReadRow label="Description" value={sys.description} />
       <ReadRow label="Owner / Custodian" value={sys.owner} />
-      <ReadRow label="Dev Strategy" value={sys.developmentStrategy ? labelOf(STRATEGY_OPTIONS, sys.developmentStrategy) : ""} />
+      <ReadRow label="Development Strategy" value={sys.developmentStrategy ? labelOf(STRATEGY_OPTIONS, sys.developmentStrategy) : ""} />
       <ReadRow label="Platform" value={sys.developmentPlatform} />
       <ReadRow label="Database" value={sys.databaseName} />
       <ReadRow label="Data Storage" value={sys.dataStorage ? labelOf(STORAGE_OPTIONS, sys.dataStorage) : ""} />
