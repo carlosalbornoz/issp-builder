@@ -151,7 +151,7 @@ function UacsTable({
 
 function AutoCalculatedBanner() {
   return (
-    <div className="sticky top-[41px] z-[9] -mx-4 flex items-center gap-2 border-b border-info-border bg-info-bg px-4 py-2 text-xs text-info md:-mx-8 md:px-8">
+    <div className="sticky top-[41px] z-[9] -mx-4 -mt-6 flex items-center gap-2 border-b border-info-border bg-info-bg px-4 py-2 text-xs text-info md:-mx-8 md:px-8">
       <Info className="h-3.5 w-3.5 shrink-0" />
       <p>
         This page is just for your review — totals are auto-calculated based on your Year 1 to

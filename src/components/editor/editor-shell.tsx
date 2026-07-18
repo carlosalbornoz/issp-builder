@@ -61,7 +61,7 @@ export function EditorShell({ children }: { children: React.ReactNode }) {
         />
         <main
           className={cn(
-            "h-full overflow-y-auto overscroll-contain bg-background transition-[padding] duration-200 ease-out",
+            "h-full overflow-y-auto overscroll-contain bg-background transition-[padding] duration-200 ease-out [overflow-anchor:none]",
             sidebarCollapsed ? "md:pl-12" : "md:pl-72"
           )}
         >

@@ -10,9 +10,11 @@ import { useIsspStore } from "@/lib/store";
 import { ALL_SECTIONS, PARTS, computeStatus } from "@/lib/sections";
 import { useEditorMobileSidebar } from "./editor-mobile-sidebar-context";
 
-// Header collapses once the section's scroll container has moved past this
-// many pixels, so a brief scroll doesn't cause flicker.
-const COLLAPSE_THRESHOLD_PX = 40;
+// Header collapses past COLLAPSE_PX and only expands again once scrolled back
+// above EXPAND_PX. The gap between the two (hysteresis) stops the header from
+// flapping open/closed when the scroll position hovers near a single boundary.
+const COLLAPSE_PX = 40;
+const EXPAND_PX = 10;
 
 // ─── SectionShell ─────────────────────────────────────────────────────────────
 
@@ -48,7 +50,11 @@ export function SectionShell({
     if (!scrollContainer) return;
 
     const handleScroll = () => {
-      setIsCompact(scrollContainer.scrollTop > COLLAPSE_THRESHOLD_PX);
+      const top = scrollContainer.scrollTop;
+      setIsCompact((prev) => {
+        if (prev) return top > EXPAND_PX;
+        return top > COLLAPSE_PX;
+      });
     };
     handleScroll();
     scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
@@ -90,7 +96,7 @@ export function SectionShell({
       {/* ── Sticky section header — collapses to a compact bar once scrolled ── */}
       <div
         ref={headerRef}
-        className="sticky top-0 z-10 -mx-4 px-4 md:-mx-8 md:px-8 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8"
+        className="sticky top-0 z-10 -mx-4 px-4 md:-mx-8 md:px-8 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b mb-6 -mt-4 md:-mt-8 pt-[env(safe-area-inset-top)] [overflow-anchor:none] [transform:translateZ(0)]"
       >
         {/* Compact bar — title + status dot only, shown once collapsed */}
         <div
