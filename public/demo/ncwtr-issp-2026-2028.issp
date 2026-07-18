@@ -3,7 +3,7 @@
   "fileType": "issp-main",
   "exportedAt": "2026-06-14T17:29:03.628Z",
   "tool": "issp-platform",
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "title": "NCWTR Information Systems Strategic Plan 2026–2028",
   "startYear": 2026,
   "endYear": 2028,
@@ -111,12 +111,14 @@
           {
             "id": "s1a1b2c3d4e5f6a7b8c9d0e",
             "name": "Filing of complaints on government waiting time violations",
-            "complexity": "Simple"
+            "complexity": "Simple",
+            "direction": "INCOMING"
           },
           {
             "id": "s2a1b2c3d4e5f6a7b8c9d0e",
             "name": "Requesting queue compliance certificates",
-            "complexity": "Simple"
+            "complexity": "Simple",
+            "direction": "INCOMING"
           }
         ]
       },
@@ -127,12 +129,14 @@
           {
             "id": "s3a1b2c3d4e5f6a7b8c9d0e",
             "name": "Submission of monthly queue time reports and compliance audits",
-            "complexity": "Complex"
+            "complexity": "Complex",
+            "direction": "INCOMING"
           },
           {
             "id": "s4a1b2c3d4e5f6a7b8c9d0e",
             "name": "Receipt of improvement directives from NCWTR",
-            "complexity": "Simple"
+            "complexity": "Simple",
+            "direction": "OUTGOING"
           }
         ]
       },
@@ -143,7 +147,8 @@
           {
             "id": "s5a1b2c3d4e5f6a7b8c9d0e",
             "name": "Enrollment in NCWTR monitoring program and submission of service delivery data",
-            "complexity": "Complex"
+            "complexity": "Complex",
+            "direction": "INCOMING"
           }
         ]
       },
@@ -154,12 +159,14 @@
           {
             "id": "s6a1b2c3d4e5f6a7b8c9d0e",
             "name": "Joint policy formulation on government service standards",
-            "complexity": "Highly Technical"
+            "complexity": "Highly Technical",
+            "direction": "OUTGOING"
           },
           {
             "id": "s7a1b2c3d4e5f6a7b8c9d0e",
             "name": "Referral of non-compliant agencies and citizen feedback data sharing",
-            "complexity": "Complex"
+            "complexity": "Complex",
+            "direction": "OUTGOING"
           }
         ]
       },
@@ -170,7 +177,8 @@
           {
             "id": "s8a1b2c3d4e5f6a7b8c9d0e",
             "name": "Coordination on service delivery standards and joint training programs",
-            "complexity": "Complex"
+            "complexity": "Complex",
+            "direction": "OUTGOING"
           }
         ]
       },
@@ -181,12 +189,14 @@
           {
             "id": "s9a1b2c3d4e5f6a7b8c9d0e",
             "name": "Annual audit of NCWTR operations and fund utilization",
-            "complexity": "Complex"
+            "complexity": "Complex",
+            "direction": "INCOMING"
           },
           {
             "id": "saa1b2c3d4e5f6a7b8c9d0e",
             "name": "ICT expenditure review and compliance assessment",
-            "complexity": "Highly Technical"
+            "complexity": "Highly Technical",
+            "direction": "INCOMING"
           }
         ]
       },
@@ -197,12 +207,14 @@
           {
             "id": "sba1b2c3d4e5f6a7b8c9d0e",
             "name": "Budget deliberations and legislative oversight of NCWTR mandate",
-            "complexity": "Simple"
+            "complexity": "Simple",
+            "direction": "INCOMING"
           },
           {
             "id": "sca1b2c3d4e5f6a7b8c9d0e",
             "name": "Submission of annual performance reports and review",
-            "complexity": "Simple"
+            "complexity": "Simple",
+            "direction": "OUTGOING"
           }
         ]
       },
@@ -213,17 +225,20 @@
           {
             "id": "sda1b2c3d4e5f6a7b8c9d0e",
             "name": "Technical assistance for ICT project implementation",
-            "complexity": "Complex"
+            "complexity": "Complex",
+            "direction": "INCOMING"
           },
           {
             "id": "sea1b2c3d4e5f6a7b8c9d0e",
             "name": "Government cloud services provisioning",
-            "complexity": "Complex"
+            "complexity": "Complex",
+            "direction": "INCOMING"
           },
           {
             "id": "sfa1b2c3d4e5f6a7b8c9d0e",
             "name": "Cybersecurity advisories and compliance review",
-            "complexity": "Highly Technical"
+            "complexity": "Highly Technical",
+            "direction": "INCOMING"
           }
         ]
       }
