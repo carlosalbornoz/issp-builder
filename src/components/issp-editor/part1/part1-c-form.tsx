@@ -595,7 +595,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                     const groups: { key: "INCOMING" | "OUTGOING" | "UNSPECIFIED"; label: string; items: StakeholderService[] }[] = [
                       { key: "INCOMING", label: "Incoming", items: s.services.filter((sv) => sv.direction === "INCOMING") },
                       { key: "OUTGOING", label: "Outgoing", items: s.services.filter((sv) => sv.direction === "OUTGOING") },
-                      { key: "UNSPECIFIED", label: "Unspecified — needs review", items: s.services.filter((sv) => sv.direction !== "INCOMING" && sv.direction !== "OUTGOING") },
+                      { key: "UNSPECIFIED", label: "Unspecified", items: s.services.filter((sv) => sv.direction !== "INCOMING" && sv.direction !== "OUTGOING") },
                     ];
                     // Edit mode always offers Incoming/Outgoing (even empty, so there's
                     // somewhere to add into); Unspecified only appears if it has content.
