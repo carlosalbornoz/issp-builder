@@ -1,7 +1,7 @@
 "use client";
 
+import { Info } from "lucide-react";
 import { cn, php } from "@/lib/utils";
-import { Callout } from "@/components/ui/callout";
 import { SectionShell } from "@/components/editor/section-shell";
 import type { SummaryRow, UacsRow, Part4SummaryData } from "./part4-aggregations";
 
@@ -151,10 +151,13 @@ function UacsTable({
 
 function AutoCalculatedBanner() {
   return (
-    <Callout variant="info" className="sticky top-[41px] z-[9]">
-      This page is just for your review — totals are auto-calculated based on your Year 1 to
-      Year 3 inputs. Review this section for accuracy before exporting your ISSP.
-    </Callout>
+    <div className="sticky top-[41px] z-[9] -mx-4 flex items-center gap-2 border-b border-info-border bg-info-bg px-4 py-2 text-xs text-info md:-mx-8 md:px-8">
+      <Info className="h-3.5 w-3.5 shrink-0" />
+      <p>
+        This page is just for your review — totals are auto-calculated based on your Year 1 to
+        Year 3 inputs. Review this section for accuracy before exporting your ISSP.
+      </p>
+    </div>
   );
 }
 
