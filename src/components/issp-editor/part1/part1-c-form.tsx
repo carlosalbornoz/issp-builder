@@ -255,7 +255,7 @@ function StakeholderDrawer({ open, stakeholder, isNew, onSave, onDelete, onClose
           {!isNew ? (
             <ConfirmDeleteButton
               ariaLabel="Delete stakeholder"
-              confirmText="Delete stakeholder + services?"
+              confirmText="Delete stakeholder and its services?"
               onDelete={onDelete}
             />
           ) : <span />}
@@ -619,7 +619,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                             />
                             <ConfirmDeleteButton
                               ariaLabel="Remove stakeholder"
-                              confirmText="Delete stakeholder + services?"
+                              confirmText="Delete stakeholder and its services?"
                               onDelete={() => removeStakeholder(s.id)}
                               className="self-start"
                               iconClassName="h-3 w-3"
