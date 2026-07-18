@@ -21,17 +21,20 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Trash2, Pencil, Table2, LayoutList, LayoutGrid, ChevronDown } from "lucide-react";
+import { Plus, Trash2, Pencil, Table2, LayoutList, LayoutGrid, ChevronDown, ArrowDownToLine, ArrowUpFromLine } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 import { revealNewItem } from "@/lib/reveal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+type TransactionDirection = "INCOMING" | "OUTGOING" | "";
+
 interface StakeholderService {
   id: string;
   name: string;
   complexity: "Simple" | "Complex" | "Highly Technical";
+  direction: TransactionDirection;
 }
 
 interface Stakeholder {
@@ -63,7 +66,7 @@ const COMPLEXITY_COLORS: Record<string, string> = {
 };
 
 function makeService(): StakeholderService {
-  return { id: generateId(), name: "", complexity: "Simple" };
+  return { id: generateId(), name: "", complexity: "Simple", direction: "" };
 }
 
 function makeStakeholder(): Stakeholder {
@@ -230,6 +233,48 @@ function ViewToggle({ mode, onChange }: { mode: ViewMode; onChange: (m: ViewMode
           onClick={() => onChange(m)}
           className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs transition-colors ${
             mode === m
+              ? "bg-card shadow-sm font-medium text-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          {icon}
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ─── Direction toggle (Incoming / Outgoing) ──────────────────────────────────
+
+const DIRECTION_OPTIONS: { value: Exclude<TransactionDirection, "">; label: string; icon: React.ReactNode }[] = [
+  { value: "INCOMING", label: "Incoming", icon: <ArrowDownToLine className="h-3 w-3" /> },
+  { value: "OUTGOING", label: "Outgoing", icon: <ArrowUpFromLine className="h-3 w-3" /> },
+];
+
+function directionIcon(direction: TransactionDirection, className = "h-3 w-3") {
+  if (direction === "INCOMING") return <ArrowDownToLine className={className} />;
+  if (direction === "OUTGOING") return <ArrowUpFromLine className={className} />;
+  return null;
+}
+
+function DirectionToggle({
+  value,
+  onChange,
+}: {
+  value: TransactionDirection;
+  onChange: (d: TransactionDirection) => void;
+}) {
+  return (
+    <div className="inline-flex items-center rounded-md border p-0.5 bg-muted/30" role="group" aria-label="Transaction direction">
+      {DIRECTION_OPTIONS.map(({ value: v, label, icon }) => (
+        <button
+          key={v}
+          type="button"
+          aria-pressed={value === v}
+          onClick={() => onChange(v)}
+          className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
+            value === v
               ? "bg-card shadow-sm font-medium text-foreground"
               : "text-muted-foreground hover:text-foreground"
           }`}
@@ -420,7 +465,10 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                       Stakeholder / Client
                     </th>
                     <th className="border px-3 py-2 text-left font-semibold">
-                      Transaction / Service
+                      Transaction Processed
+                    </th>
+                    <th className="border px-3 py-2 text-left font-semibold w-40">
+                      Direction
                     </th>
                     <th className="border px-3 py-2 text-left font-semibold w-44">
                       Complexity
@@ -431,7 +479,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                 <tbody>
                   {stakeholders.length === 0 && (
                     <tr>
-                      <td colSpan={4} className="border px-3 py-8 text-center text-muted-foreground text-sm">
+                      <td colSpan={5} className="border px-3 py-8 text-center text-muted-foreground text-sm">
                         No stakeholders added yet.{" "}
                         <button
                           type="button"
@@ -473,7 +521,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                         {!hasServices ? (
                           <tr className={sIdx > 0 ? "border-t-2 border-t-border/60" : ""}>
                             {nameCell(1)}
-                            <td colSpan={3} className="border px-3 py-3 text-center">
+                            <td colSpan={4} className="border px-3 py-3 text-center">
                               <button
                                 type="button"
                                 onClick={() => addService(s.id)}
@@ -499,6 +547,12 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                                     placeholder="Describe transaction / service..."
                                     value={sv.name}
                                     onChange={(e) => updateService(s.id, sv.id, "name", e.target.value)}
+                                  />
+                                </td>
+                                <td className="border px-2 py-1 text-center">
+                                  <DirectionToggle
+                                    value={sv.direction}
+                                    onChange={(d) => updateService(s.id, sv.id, "direction", d)}
                                   />
                                 </td>
                                 <td className="border px-2 py-1">
@@ -541,7 +595,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                               </tr>
                             ))}
                             <tr>
-                              <td colSpan={3} className="border px-3 py-1.5 bg-muted/20">
+                              <td colSpan={4} className="border px-3 py-1.5 bg-muted/20">
                                 <button
                                   type="button"
                                   onClick={() => addService(s.id)}
