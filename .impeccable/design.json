@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-18T00:00:00Z",
+  "title": "Design System: ISSP Builder",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "primary", "displayName": "Ink", "canonical": "#1D1D1F", "tonalRamp": ["#0A0A0B", "#1D1D1F", "#3A3A3D", "#57575B", "#747479", "#919197", "#AEAEB4", "#D2D2D7"] },
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#FFFFFF", "tonalRamp": ["#E5E5E5", "#EDEDED", "#F5F5F5", "#FAFAFA", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"] },
+      "fog": { "role": "neutral", "displayName": "Fog", "canonical": "#F5F5F7", "tonalRamp": ["#C4C4C8", "#D5D5D9", "#E5E5E8", "#EFEFF1", "#F5F5F7", "#F9F9FA", "#FCFCFC", "#FFFFFF"] },
+      "slate-text": { "role": "neutral", "displayName": "Slate Text", "canonical": "#6E6E73", "tonalRamp": ["#1E1E20", "#333335", "#4B4B4E", "#6E6E73", "#8C8C90", "#ABABAE", "#C9C9CC", "#E8E8E9"] },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "#D2D2D7", "tonalRamp": ["#8E8E93", "#A5A5AA", "#BCBCC1", "#D2D2D7", "#DFDFE3", "#EBEBED", "#F3F3F4", "#FAFAFB"] },
+      "field-green": { "role": "success", "displayName": "Field Green", "canonical": "#15803D", "tonalRamp": ["#052E12", "#0B4A20", "#116330", "#15803D", "#22A356", "#4CC378", "#8ADFA8", "#D3F5DF"] },
+      "amber-flag": { "role": "warning", "displayName": "Amber Flag", "canonical": "#B45309", "tonalRamp": ["#3D1C03", "#5F2C05", "#833C07", "#B45309", "#DA7A1E", "#F0A24D", "#F7C687", "#FCE6C4"] },
+      "desk-blue": { "role": "info", "displayName": "Desk Blue", "canonical": "#1D4ED8", "tonalRamp": ["#0A1B57", "#122E8C", "#1740B5", "#1D4ED8", "#3E6DEE", "#7699F5", "#B0C4FA", "#DEE8FD"] },
+      "alert-red": { "role": "destructive", "displayName": "Alert Red", "canonical": "#FF3B30", "tonalRamp": ["#4D0400", "#800B02", "#B31607", "#FF3B30", "#FF6B5E", "#FF988E", "#FFC2BB", "#FFE5E2"] },
+      "part-one": { "role": "identity", "displayName": "Part One Blue", "canonical": "#0064D1" },
+      "part-two": { "role": "identity", "displayName": "Part Two Teal", "canonical": "#0A7280" },
+      "part-three": { "role": "identity", "displayName": "Part Three Green", "canonical": "#1F7735" },
+      "part-four": { "role": "identity", "displayName": "Part Four Purple", "canonical": "#9D2BD7" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Section H1 titles at the top of every editor page." },
+      "body": { "displayName": "Body", "purpose": "Form labels, descriptions, running copy." },
+      "label": { "displayName": "Label", "purpose": "Breadcrumb eyebrows, field micro-labels, status pills." }
+    },
+    "shadows": [
+      { "name": "overlay-medium", "value": "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)", "purpose": "Dropdown menus, select popovers." },
+      { "name": "overlay-high", "value": "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)", "purpose": "Context menus, slide-out sheets." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default easing for hover/focus/state transitions." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default action button — form submits, primary CTAs.",
+      "html": "<button class=\"ds-btn-primary\">Save changes</button>",
+      "css": ".ds-btn-primary { background: #1D1D1F; color: #FFFFFF; padding: 0 0.625rem; height: 2rem; border-radius: 0.5rem; border: none; font-size: 0.875rem; font-weight: 500; transition: background 0.15s ease, transform 0.1s ease; } .ds-btn-primary:hover { background: rgba(29,29,31,0.8); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(110,110,115,0.5); } .ds-btn-primary:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action — cancel, alternate choice.",
+      "html": "<button class=\"ds-btn-outline\">Cancel</button>",
+      "css": ".ds-btn-outline { background: #FFFFFF; color: #1D1D1F; padding: 0 0.625rem; height: 2rem; border-radius: 0.5rem; border: 1px solid #D2D2D7; font-size: 0.875rem; font-weight: 500; transition: background 0.15s ease; } .ds-btn-outline:hover { background: #E8E8ED; } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(110,110,115,0.5); }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge-status",
+      "description": "Read-only state pill, e.g. \"Already in place\".",
+      "html": "<span class=\"ds-badge-success\">Already in place</span>",
+      "css": ".ds-badge-success { display: inline-flex; align-items: center; background: #F0FDF4; color: #15803D; border: 1px solid #BBF7D0; border-radius: 9999px; padding: 0.125rem 0.5rem; font-size: 0.75rem; height: 1.25rem; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Standard single-line field.",
+      "html": "<input class=\"ds-input\" placeholder=\"Enter a value\" />",
+      "css": ".ds-input { background: #FFFFFF; color: #1D1D1F; border: 1px solid #D2D2D7; border-radius: 0.625rem; padding: 0.25rem 0.625rem; height: 2rem; font-size: 0.875rem; transition: border-color 0.15s ease; } .ds-input::placeholder { color: #6E6E73; } .ds-input:hover { border-color: rgba(110,110,115,0.6); } .ds-input:focus-visible { outline: none; border-color: #6E6E73; box-shadow: 0 0 0 3px rgba(110,110,115,0.5); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card-container",
+      "description": "Standard content container — flat, bordered, no shadow.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-title\">Card title</div><div class=\"ds-card-body\">Card content goes here.</div></div>",
+      "css": ".ds-card { background: #FFFFFF; border: 1px solid #D2D2D7; border-radius: 0.875rem; padding: 1rem; } .ds-card-title { font-weight: 600; font-size: 1rem; color: #1D1D1F; margin-bottom: 0.25rem; } .ds-card-body { font-size: 0.875rem; color: #6E6E73; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Field Office Desk",
+    "overview": "ISSP Builder looks like a well-organized public servant's desk, not a corporate SaaS dashboard: plain, dependable, and built for someone getting real compliance work done under a deadline, not for someone being sold a product. The system defaults to the OS's own native font stack rather than a custom display face — the app is meant to disappear into the task the way a well-worn desk does, not announce itself as software. Density is generous but not cramped: forms breathe enough to read comfortably, but nothing is padded out for visual effect. The system explicitly rejects two things: it should never read as a sterile government Word-doc clone, and it should never read as a flashy consumer SaaS product.",
+    "keyCharacteristics": [
+      "Flat by default; shadow is a functional signal reserved for floating overlays, never decoration.",
+      "One neutral, near-black ink color carries nearly all text and primary actions — color is spent on state and Part identity, not on flourish.",
+      "Native-feeling typography (system font stack) over a custom display face, reinforcing tool over product.",
+      "Every interactive control has an honest affordance: if it looks clickable, it acts clickable."
+    ],
+    "rules": [
+      { "name": "The Spent-Not-Spread Rule", "body": "Color is either a semantic state or a Part identity marker. It is never applied for visual variety alone.", "section": "colors" },
+      { "name": "The One Face Rule", "body": "Exactly one font family per theme mode carries display, body, and label together.", "section": "typography" },
+      { "name": "The Floating-Only Rule", "body": "Shadow is never applied to anything in normal page flow, no matter how important.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep color attached to meaning — semantic state or Part identity — never decoration.",
+      "Do keep every surface flat at rest; reserve shadow strictly for floating overlays.",
+      "Do give every checklist/toggle control an honest, minimal form.",
+      "Do use the system font stack for the default themes so the app feels native to the OS."
+    ],
+    "donts": [
+      "Don't make this feel like a sterile government Word-doc clone.",
+      "Don't make this feel like a flashy consumer SaaS product.",
+      "Don't use a colored left-stripe border as a decorative accent on any card, list item, or callout.",
+      "Don't nest bordered card containers inside other bordered card containers.",
+      "Don't apply an arbitrary rainbow of colors to differentiate items already identified by their label text."
+    ]
+  }
+}
