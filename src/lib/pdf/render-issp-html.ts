@@ -33,7 +33,7 @@ interface Part1 {
     contractual: { it: { male: number; female: number }; nonIt: { male: number; female: number } };
     outsourced: { it: { male: number; female: number }; nonIt: { male: number; female: number } };
   };
-  stakeholders: { name: string; services: { name: string; complexity: string }[] }[];
+  stakeholders: { name: string; services: { name: string; complexity: string; direction: string }[] }[];
 }
 
 interface CyberGroup {
@@ -696,7 +696,7 @@ function renderPart1(issp: IsspData): string {
 
     <div class="section-heading">${tocMark("part1-c")}C. Stakeholder Analysis</div>
     <table>
-      <thead><tr><th style="width:33%">Stakeholders</th><th style="width:40%">Transaction / Service</th><th>Complexity</th></tr></thead>
+      <thead><tr><th style="width:33%">Stakeholders</th><th style="width:40%">Transaction Processed</th><th>Complexity</th></tr></thead>
       <tbody>
         ${p.stakeholders.length === 0
           ? `<tr><td colspan="3" style="text-align:center;font-style:italic;">No stakeholders specified.</td></tr>`
@@ -705,16 +705,24 @@ function renderPart1(issp: IsspData): string {
               if (svs.length === 0) {
                 return `<tr class="avoid-break"><td>${esc(s.name)}</td><td colspan="2" style="text-align:center;font-style:italic;">No services listed.</td></tr>`;
               }
-              const firstRow = `<tr class="avoid-break">
-                <td rowspan="${svs.length}" style="vertical-align:top;">${esc(s.name)}</td>
-                <td>${esc(svs[0].name)}</td>
-                <td style="text-align:center;">${esc(svs[0].complexity)}</td>
-              </tr>`;
-              const restRows = svs.slice(1).map(sv => `<tr class="avoid-break">
-                <td>${esc(sv.name)}</td>
-                <td style="text-align:center;">${esc(sv.complexity)}</td>
-              </tr>`).join("");
-              return firstRow + restRows;
+              type Svc = { name: string; complexity: string; direction: string };
+              const groups: { label: string; items: Svc[] }[] = [
+                { label: "INCOMING:", items: svs.filter(sv => sv.direction === "INCOMING") },
+                { label: "OUTGOING:", items: svs.filter(sv => sv.direction === "OUTGOING") },
+                { label: "UNSPECIFIED:", items: svs.filter(sv => sv.direction !== "INCOMING" && sv.direction !== "OUTGOING") },
+              ].filter(g => g.items.length > 0);
+              const totalRows = groups.reduce((n, g) => n + 1 + g.items.length, 0);
+              return groups.map((g, gi) => {
+                const labelRow = `<tr class="avoid-break">
+                  ${gi === 0 ? `<td rowspan="${totalRows}" style="vertical-align:top;">${esc(s.name)}</td>` : ""}
+                  <td colspan="2" class="field-label" style="background:#d9d9d9;">${g.label}</td>
+                </tr>`;
+                const itemRows = g.items.map(sv => `<tr class="avoid-break">
+                  <td>${esc(sv.name)}</td>
+                  <td style="text-align:center;">${esc(sv.complexity)}</td>
+                </tr>`).join("");
+                return labelRow + itemRows;
+              }).join("");
             }).join("")
         }
       </tbody>
