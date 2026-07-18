@@ -69,12 +69,12 @@ function ChecklistSection({
   const proposedMandatoryCount = mandatoryItems.filter((i) => proposedValues[i.key]).length;
 
   return (
-    <div>
+    <div className="rounded-lg border border-border overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-muted/40"
+        className="flex w-full items-center justify-between gap-3 px-3 py-2.5 transition-colors hover:bg-muted/40"
       >
         <div className="flex items-center gap-2.5">
           <span className="text-sm font-semibold">{group.label}</span>
@@ -192,18 +192,18 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {initialData.currentNetworkDesc && (
-            <CurrentNetworkDisclosure description={initialData.currentNetworkDesc} />
-          )}
-          <div className="rounded-lg border bg-muted/20 px-4 py-3 text-xs text-muted-foreground">
-            <p className="font-medium text-foreground mb-1">Your proposed network plan should show:</p>
-            <ul className="list-disc list-inside space-y-0.5">
+          <div className="rounded-lg border border-info-border bg-info-bg p-4 text-sm text-info">
+            <p className="font-medium mb-1">Your proposed network plan should show:</p>
+            <ul className="list-disc list-inside space-y-0.5 text-xs text-info">
               <li>Planned connectivity type per office or site</li>
               <li>Target upload/download speeds per office or site</li>
               <li>IPv6 readiness improvements</li>
               <li>Cybersecurity components to add or strengthen</li>
             </ul>
           </div>
+          {initialData.currentNetworkDesc && (
+            <CurrentNetworkDisclosure description={initialData.currentNetworkDesc} />
+          )}
           <Textarea
             placeholder="Describe proposed network infrastructure improvements, new equipment, topology changes, cloud migrations, etc."
             value={networkDesc}
