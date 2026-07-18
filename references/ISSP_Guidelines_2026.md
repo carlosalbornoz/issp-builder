@@ -56,13 +56,15 @@ Directly lift these statements from official documents like the Strategic Plan o
 
 ### C. Stakeholder Analysis
 
-Identify groups affected by ICT programs (citizens, other agencies, LGUs, private sector, NGOs) and classify transaction complexity:
+Identify groups affected by ICT programs (citizens, other agencies, LGUs, private sector, NGOs). For each stakeholder, list every **Transaction Processed** — tagging each one as **Incoming** (the stakeholder-initiated transaction reaching the agency, e.g. a citizen complaint or an NGA report submission) or **Outgoing** (the agency-initiated transaction reaching the stakeholder, e.g. a directive or an advisory) — and classify its complexity:
 
 | Type | Description | Processing Time |
 |---|---|---|
 | **Simple** | Ministerial actions only; routine, inconsequential issues | Max 3 working days |
 | **Complex** | Requires in-depth evaluation; determined by the office concerned | Max 7 working days |
 | **Highly Technical** | Requires technical knowledge, specialized skills, or training | Max 20 working days |
+
+Source: DICT 2026 ISSP Template v2 (2026-06-12) Part I-C table — column header is "Transaction Processed", with rows grouped under "INCOMING:" and "OUTGOING:" per stakeholder.
 
 ---
 

@@ -717,6 +717,20 @@ Mobile always shows the Cards view regardless of the desktop toggle.
 
 **Demo file:** All 8 stakeholders migrated to multi-service format; several have 2–3 services to demonstrate the feature.
 
+### ✅ Part I-C transaction direction (Incoming/Outgoing) — DONE (2026-07-18)
+
+**Schema change (v9 → v10):** Added `direction: "INCOMING" | "OUTGOING" | ""` to `StakeholderService`, matching the current DICT v2 template's Transaction Processed column (which groups each stakeholder's rows under "INCOMING:"/"OUTGOING:"). Every pre-existing service defaults to `""` (unset — never guessed); `part1/c` was added to `MIGRATION_REVIEW_SECTIONS` (`src/lib/migration-review.ts`), reusing the same dialog/sidebar/overview review-flagging machinery built for the II-C/II-D/III-D 2026 alignment (session 9's follow-on work, see the migration-review plan doc) rather than any new UI.
+
+**All three view modes updated** with a new `DirectionToggle` (segmented Incoming/Outgoing control, visually identical to the existing view-mode `ViewToggle` — no new color, per `DESIGN.md`'s Spent-Not-Spread Rule): Table gets a dedicated Direction column; Cards' accordion body and the Summary drawer get the toggle inline per service; collapsed badge previews (Cards header, Summary list) get an icon-only direction marker.
+
+**Nested-card fix, same session:** auditing these views surfaced a real violation of `DESIGN.md`'s "don't nest bordered cards" rule — the Cards accordion body and the drawer each rendered one bordered box per service, nested inside the per-stakeholder box, nested inside the outer `Card`. Flattened both to a single `rounded-md border divide-y` list per stakeholder.
+
+**PDF rendering:** `render-issp-html.ts`'s Part I-C table now groups each stakeholder's services into INCOMING:/OUTGOING:/UNSPECIFIED: labeled sub-blocks (grey label row + rowspan over the whole group) instead of one flat list; column header corrected from "Transaction / Service" to "Transaction Processed" to match the current template exactly.
+
+**Demo file:** All 15 existing services hand-tagged with a direction (see the implementation plan's mapping table); `schemaVersion` bumped to 10.
+
+Full implementation plan: `docs/superpowers/plans/2026-07-18-part1c-transaction-direction.md`.
+
 ### 🟡 Validation & Review (post UI refresh)
 - **Pre-export validation** — required fields, budget-IS linkage, KPI completeness. Client-side, runs before PDF export. Surface issue count per section in the sidebar/overview.
 - **Read-only review mode** — full document view (all parts on one scrollable page or tabbed), useful before submission.
