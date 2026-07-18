@@ -652,13 +652,15 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                       />
                       {/* Collapsed summary badges */}
                       {!isOpen && s.services.length > 0 && (
-                        <div className="hidden sm:flex gap-1 shrink-0">
+                        <div className="hidden sm:flex gap-1.5 items-center shrink-0">
                           {s.services.slice(0, 2).map((sv) => (
-                            <span
-                              key={sv.id}
-                              className={`text-xs rounded px-1.5 py-0.5 font-medium ${COMPLEXITY_COLORS[sv.complexity]}`}
-                            >
-                              {sv.complexity === "Highly Technical" ? "H.Tech" : sv.complexity}
+                            <span key={sv.id} className="flex items-center gap-1">
+                              {directionIcon(sv.direction, "h-3 w-3 text-muted-foreground")}
+                              <span
+                                className={`text-xs rounded px-1.5 py-0.5 font-medium ${COMPLEXITY_COLORS[sv.complexity]}`}
+                              >
+                                {sv.complexity === "Highly Technical" ? "H.Tech" : sv.complexity}
+                              </span>
                             </span>
                           ))}
                           {s.services.length > 2 && (
@@ -701,41 +703,49 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                           <Label className="text-xs font-medium text-muted-foreground">
                             Transactions / Services
                           </Label>
-                          {s.services.map((sv) => (
-                            <div key={sv.id} className="rounded-md border bg-muted/20 p-3 space-y-2">
-                              <div className="flex items-center gap-2">
-                                <Input
-                                  className="flex-1 text-sm"
-                                  placeholder="Describe transaction or service..."
-                                  value={sv.name}
-                                  onChange={(e) => updateService(s.id, sv.id, "name", e.target.value)}
-                                />
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
-                                  onClick={() => removeService(s.id, sv.id)}
-                                  disabled={s.services.length <= 1}
-                                >
-                                  <Trash2 className="h-3.5 w-3.5" />
-                                </Button>
+                          <div className="rounded-md border divide-y">
+                            {s.services.map((sv) => (
+                              <div key={sv.id} className="p-3 space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <Input
+                                    className="flex-1 text-sm"
+                                    placeholder="Describe transaction or service..."
+                                    value={sv.name}
+                                    onChange={(e) => updateService(s.id, sv.id, "name", e.target.value)}
+                                  />
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
+                                    onClick={() => removeService(s.id, sv.id)}
+                                    disabled={s.services.length <= 1}
+                                  >
+                                    <Trash2 className="h-3.5 w-3.5" />
+                                  </Button>
+                                </div>
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <DirectionToggle
+                                    value={sv.direction}
+                                    onChange={(d) => updateService(s.id, sv.id, "direction", d)}
+                                  />
+                                  <Select
+                                    items={COMPLEXITY_OPTIONS}
+                                    value={sv.complexity}
+                                    onValueChange={(v: string | null) =>
+                                      v && updateService(s.id, sv.id, "complexity", v)
+                                    }
+                                  >
+                                    <SelectTrigger className="flex-1 min-w-[140px]"><SelectValue /></SelectTrigger>
+                                    <SelectContent>
+                                      {COMPLEXITY_OPTIONS.map((o) => (
+                                        <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
                               </div>
-                              <Select
-                                items={COMPLEXITY_OPTIONS}
-                                value={sv.complexity}
-                                onValueChange={(v: string | null) =>
-                                  v && updateService(s.id, sv.id, "complexity", v)
-                                }
-                              >
-                                <SelectTrigger><SelectValue /></SelectTrigger>
-                                <SelectContent>
-                                  {COMPLEXITY_OPTIONS.map((o) => (
-                                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                           <Button
                             variant="outline"
                             size="sm"
