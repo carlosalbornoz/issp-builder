@@ -318,27 +318,48 @@ function StakeholderDrawer({ open, stakeholder, isNew, onSave, onDelete, onClose
 
 // ─── Read-only presentation of a stakeholder's services (principle 2) ────────
 // Edit lives in the row header (the always-visible pencil) — not duplicated
-// as a trailing button here. `services` is already filter-scoped by the caller.
+// as a trailing button here. The All/Incoming/Outgoing filter is this card's
+// own, local state — see above.
 
 function StakeholderReadView({ services }: { services: StakeholderService[] }) {
+  // Per-stakeholder filter, local to this card — not a global view preference.
+  // Defaults to All each time a card first opens; persists across collapse/expand
+  // (the body stays mounted, just clipped by the grid animation).
+  const [filter, setFilter] = useState<DirectionFilter>("all");
+  const counts: Record<DirectionFilter, number> = {
+    all: services.length,
+    INCOMING: services.filter((sv) => sv.direction === "INCOMING").length,
+    OUTGOING: services.filter((sv) => sv.direction === "OUTGOING").length,
+  };
+  const visible = filter === "all" ? services : services.filter((sv) => sv.direction === filter);
+
   return (
-    <div className="px-3 pb-3 pt-1">
+    <div className="px-3 pb-3 pt-1 space-y-2">
       {services.length === 0 ? (
         <p className="text-sm text-muted-foreground italic">No transactions/services listed.</p>
       ) : (
-        <div className="rounded-md border divide-y">
-          {services.map((sv) => (
-            <div key={sv.id} className="p-3 flex items-center gap-3 flex-wrap">
-              <span className="flex-1 min-w-[10rem] text-sm">
-                {sv.name || <span className="italic text-muted-foreground/60">Untitled transaction</span>}
-              </span>
-              <DirectionLabel direction={sv.direction} />
-              <span className={`text-xs rounded px-1.5 py-0.5 font-medium shrink-0 ${COMPLEXITY_COLORS[sv.complexity]}`}>
-                {sv.complexity}
-              </span>
+        <>
+          <DirectionFilterTabs value={filter} counts={counts} onChange={setFilter} />
+          {visible.length === 0 ? (
+            <p className="text-sm text-muted-foreground italic py-2">
+              No {filter === "INCOMING" ? "incoming" : "outgoing"} transactions.
+            </p>
+          ) : (
+            <div className="rounded-md border divide-y">
+              {visible.map((sv) => (
+                <div key={sv.id} className="p-3 flex items-center gap-3 flex-wrap">
+                  <span className="flex-1 min-w-[10rem] text-sm">
+                    {sv.name || <span className="italic text-muted-foreground/60">Untitled transaction</span>}
+                  </span>
+                  <DirectionLabel direction={sv.direction} />
+                  <span className={`text-xs rounded px-1.5 py-0.5 font-medium shrink-0 ${COMPLEXITY_COLORS[sv.complexity]}`}>
+                    {sv.complexity}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -414,15 +435,10 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
 
   // List view: rows open collapsed by default (principle 2). Expanding shows a
   // read-only view; editing is the explicit pencil in the row header, which
-  // opens the drawer above — that's the per-stakeholder "edit mode".
+  // opens the drawer above — that's the per-stakeholder "edit mode". Each
+  // expanded card carries its own All/Incoming/Outgoing filter (local state
+  // inside StakeholderReadView), not a global one.
   const [openIds, setOpenIds] = useState<Set<string>>(() => new Set());
-
-  // List view: a working filter, not a persisted preference — defaults to All
-  // every visit. Hides stakeholders with no matching services and scopes the
-  // services shown inside each expanded row. Unspecified services (legacy /
-  // in-progress) only appear under All, since they're neither incoming nor
-  // outgoing yet.
-  const [directionFilter, setDirectionFilter] = useState<DirectionFilter>("all");
 
   function toggleOpen(id: string) {
     setOpenIds((prev) => {
@@ -524,18 +540,6 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
   }
 
   const canAddStakeholder = viewMode === "list" || tableEditing;
-
-  // ── List view: direction filter aggregates + scoped lists ────────────────
-  const allServices = stakeholders.flatMap((s) => s.services);
-  const filterCounts: Record<DirectionFilter, number> = {
-    all: allServices.length,
-    INCOMING: allServices.filter((sv) => sv.direction === "INCOMING").length,
-    OUTGOING: allServices.filter((sv) => sv.direction === "OUTGOING").length,
-  };
-  const filteredStakeholders =
-    directionFilter === "all"
-      ? stakeholders
-      : stakeholders.filter((s) => s.services.some((sv) => sv.direction === directionFilter));
 
   return (
     <SectionShell
@@ -840,94 +844,70 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                 </p>
               </div>
             ) : (
-              <div className="space-y-3">
-                {/* Direction filter — All / Incoming / Outgoing, with live counts */}
-                <DirectionFilterTabs
-                  value={directionFilter}
-                  counts={filterCounts}
-                  onChange={setDirectionFilter}
-                />
+              <div className="space-y-2">
+                {stakeholders.map((s, sIdx) => {
+                  const isOpen = openIds.has(s.id);
+                  return (
+                    <div key={s.id} data-reveal-id={s.id} className="rounded-lg border overflow-hidden">
+                      {/* Row header — read-only identity + expand affordance (principle 2).
+                          Deliberately no badges/chips here: same plain row on every screen
+                          size, detail only appears once expanded. The pencil is the single
+                          edit affordance — no duplicate button inside the expanded view. */}
+                      <div className="flex items-center gap-2 px-3 py-2.5 bg-muted/20">
+                        <span className="text-xs text-muted-foreground shrink-0 w-5 tabular-nums">
+                          {sIdx + 1}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => toggleOpen(s.id)}
+                          className="flex-1 min-w-0 flex items-center gap-2 text-left"
+                        >
+                          <span className="text-sm font-medium truncate">
+                            {s.name || <span className="italic text-muted-foreground/60">Unnamed stakeholder</span>}
+                          </span>
+                        </button>
+                        <span className="text-xs text-muted-foreground shrink-0">
+                          {s.services.length} service{s.services.length !== 1 ? "s" : ""}
+                        </span>
+                        <button
+                          type="button"
+                          aria-label="Edit stakeholder"
+                          title="Edit stakeholder"
+                          onClick={() => openDrawerEdit(s.id)}
+                          className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          aria-label={isOpen ? "Collapse" : "Expand"}
+                          onClick={() => toggleOpen(s.id)}
+                          className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                        >
+                          <ChevronDown
+                            className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                          />
+                        </button>
+                      </div>
 
-                {filteredStakeholders.length === 0 ? (
-                  <div className="rounded-lg border border-dashed bg-muted/30 py-8 text-center">
-                    <p className="text-sm text-muted-foreground">
-                      No {directionFilter === "INCOMING" ? "incoming" : "outgoing"} transactions yet.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    {filteredStakeholders.map((s, sIdx) => {
-                      const isOpen = openIds.has(s.id);
-                      const visibleServices =
-                        directionFilter === "all"
-                          ? s.services
-                          : s.services.filter((sv) => sv.direction === directionFilter);
-                      const countLabel =
-                        directionFilter === "all"
-                          ? `${s.services.length} service${s.services.length !== 1 ? "s" : ""}`
-                          : `${visibleServices.length} ${directionFilter === "INCOMING" ? "incoming" : "outgoing"}`;
-                      return (
-                        <div key={s.id} data-reveal-id={s.id} className="rounded-lg border overflow-hidden">
-                          {/* Row header — read-only identity + expand affordance (principle 2).
-                              Deliberately no badges/chips here: same plain row on every screen
-                              size, detail only appears once expanded. The pencil is the single
-                              edit affordance — no duplicate button inside the expanded view. */}
-                          <div className="flex items-center gap-2 px-3 py-2.5 bg-muted/20">
-                            <span className="text-xs text-muted-foreground shrink-0 w-5 tabular-nums">
-                              {sIdx + 1}
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => toggleOpen(s.id)}
-                              className="flex-1 min-w-0 flex items-center gap-2 text-left"
-                            >
-                              <span className="text-sm font-medium truncate">
-                                {s.name || <span className="italic text-muted-foreground/60">Unnamed stakeholder</span>}
-                              </span>
-                            </button>
-                            <span className="text-xs text-muted-foreground shrink-0">
-                              {countLabel}
-                            </span>
-                            <button
-                              type="button"
-                              aria-label="Edit stakeholder"
-                              title="Edit stakeholder"
-                              onClick={() => openDrawerEdit(s.id)}
-                              className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                            >
-                              <Pencil className="h-3.5 w-3.5" />
-                            </button>
-                            <button
-                              type="button"
-                              aria-label={isOpen ? "Collapse" : "Expand"}
-                              onClick={() => toggleOpen(s.id)}
-                              className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                            >
-                              <ChevronDown
-                                className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                              />
-                            </button>
-                          </div>
-
-                          {/* Expanded body — read view only; editing happens in the drawer */}
-                          <div
-                            className={`grid transition-all duration-200 ease-in-out ${
-                              isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                            }`}
-                          >
-                            <div className="overflow-hidden">
-                              <div className="border-t">
-                                <StakeholderReadView services={visibleServices} />
-                              </div>
-                            </div>
+                      {/* Expanded body — read view only; editing happens in the drawer.
+                          The read view carries its own All/Incoming/Outgoing filter. */}
+                      <div
+                        className={`grid transition-all duration-200 ease-in-out ${
+                          isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                        }`}
+                      >
+                        <div className="overflow-hidden">
+                          <div className="border-t">
+                            <StakeholderReadView services={s.services} />
                           </div>
                         </div>
+                      </div>
+                    </div>
                       );
                     })}
                   </div>
                 )}
-              </div>
-            )}
           </div>
         </CardContent>
       </Card>
