@@ -802,7 +802,7 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                           </span>
                         </button>
                         <span className="text-xs text-muted-foreground shrink-0">
-                          {s.services.length} svc
+                          {s.services.length} service{s.services.length !== 1 ? "s" : ""}
                         </span>
                         <button
                           type="button"
