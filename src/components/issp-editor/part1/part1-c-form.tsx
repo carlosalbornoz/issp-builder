@@ -785,8 +785,10 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                   const isOpen = openIds.has(s.id);
                   return (
                     <div key={s.id} data-reveal-id={s.id} className="rounded-lg border overflow-hidden">
-                      {/* Row header — read-only identity + expand affordance (principle 2) */}
-                      <div className="flex items-center gap-2 px-3 py-2.5 bg-muted/20 group">
+                      {/* Row header — read-only identity + expand affordance (principle 2).
+                          Deliberately no badges/chips here: same plain row on every screen
+                          size, detail only appears once expanded. */}
+                      <div className="flex items-center gap-2 px-3 py-2.5 bg-muted/20">
                         <span className="text-xs text-muted-foreground shrink-0 w-5 tabular-nums">
                           {sIdx + 1}
                         </span>
@@ -799,33 +801,14 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                             {s.name || <span className="italic text-muted-foreground/60">Unnamed stakeholder</span>}
                           </span>
                         </button>
-                        {!isOpen && s.services.length > 0 && (
-                          <div className="hidden sm:flex gap-1.5 items-center shrink-0">
-                            {s.services.slice(0, 2).map((sv) => (
-                              <span key={sv.id} className="flex items-center gap-1">
-                                {directionIcon(sv.direction, "h-3 w-3 text-muted-foreground")}
-                                <span
-                                  className={`text-xs rounded px-1.5 py-0.5 font-medium ${COMPLEXITY_COLORS[sv.complexity]}`}
-                                >
-                                  {sv.complexity === "Highly Technical" ? "H.Tech" : sv.complexity}
-                                </span>
-                              </span>
-                            ))}
-                            {s.services.length > 2 && (
-                              <span className="text-xs rounded px-1.5 py-0.5 font-medium bg-muted text-muted-foreground">
-                                +{s.services.length - 2}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                        <span className="text-xs text-muted-foreground shrink-0 hidden sm:block">
+                        <span className="text-xs text-muted-foreground shrink-0">
                           {s.services.length} svc
                         </span>
                         <button
                           type="button"
                           aria-label="Edit stakeholder"
                           onClick={() => openDrawerEdit(s.id)}
-                          className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all"
+                          className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                         >
                           <Pencil className="h-3.5 w-3.5" />
                         </button>
