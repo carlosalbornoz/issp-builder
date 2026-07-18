@@ -4,9 +4,10 @@ import { useState, useCallback } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
+import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { cn } from "@/lib/utils";
-import { Check, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { SectionShell } from "@/components/editor/section-shell";
 import { DiagramUploadField } from "@/components/issp-editor/diagram-upload-field";
 import { CYBER_GROUPS, type CyberControlGroup } from "@/lib/cyber-controls";
@@ -114,7 +115,7 @@ function ChecklistSection({
           {group.items.map((item) => {
             const hasCurrent = !!currentValues[item.key];
             const hasProposed = !!proposedValues[item.key];
-            const proposedLabel = hasCurrent ? "Strengthen / upgrade" : "Propose to add";
+            const proposedWord = hasCurrent ? "Strengthen" : "Propose";
             return (
               <div
                 key={item.key}
@@ -140,22 +141,17 @@ function ChecklistSection({
                   >
                     {hasCurrent ? "Already in place (per Part II-B)" : "Not yet in place"}
                   </span>
-                  {/* Proposed — clickable toggle, visually paired with the status badge above */}
-                  <button
-                    type="button"
-                    aria-pressed={hasProposed}
-                    aria-label={`${item.label} — ${proposedLabel}`}
-                    onClick={() => onProposedChange(item.key, !hasProposed)}
-                    className={cn(
-                      "inline-flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-colors",
-                      hasProposed
-                        ? "border-primary/30 bg-primary/10 text-primary"
-                        : "border-border bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
-                    )}
-                  >
-                    {hasProposed && <Check className="h-3 w-3" aria-hidden="true" />}
-                    {proposedLabel}
-                  </button>
+                  {/* Proposed — the template's own tickbox, per Part III.A.2 */}
+                  <label className="flex shrink-0 cursor-pointer items-center gap-1.5">
+                    <Checkbox
+                      checked={hasProposed}
+                      onCheckedChange={(v) => onProposedChange(item.key, v === true)}
+                      aria-label={`${item.label} — ${proposedWord}`}
+                    />
+                    <span className="text-xs whitespace-nowrap text-muted-foreground">
+                      {proposedWord}
+                    </span>
+                  </label>
                 </div>
               </div>
             );
@@ -253,7 +249,7 @@ export function Part3AForm({ initialData }: { initialData: Part3AData }) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="divide-y divide-border">
+          <div className="space-y-3">
             {CYBER_GROUPS.map((group) => (
               <ChecklistSection
                 key={group.key}
