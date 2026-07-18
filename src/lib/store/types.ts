@@ -40,10 +40,13 @@ export interface HumanCapital {
 
 export type ComplexityLevel = "Simple" | "Complex" | "Highly Technical";
 
+export type TransactionDirection = "INCOMING" | "OUTGOING" | "";
+
 export interface StakeholderService {
   id: string;
   name: string;
   complexity: ComplexityLevel;
+  direction: TransactionDirection;
 }
 
 export interface Stakeholder {
