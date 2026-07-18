@@ -418,10 +418,10 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
     update(stakeholders.map((s) => (s.id === id ? { ...s, name } : s)));
   }
 
-  function addService(stakeholderId: string) {
+  function addService(stakeholderId: string, direction: TransactionDirection = "") {
     update(
       stakeholders.map((s) =>
-        s.id === stakeholderId ? { ...s, services: [...s.services, makeService()] } : s
+        s.id === stakeholderId ? { ...s, services: [...s.services, { ...makeService(), direction }] } : s
       )
     );
   }
@@ -540,6 +540,10 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
 
         <CardContent>
           {/* ── Table mode (desktop only) ─────────────────────────────────── */}
+          {/* Grouped by direction per stakeholder, matching the PDF's INCOMING:/OUTGOING:
+              layout — direction is a group label, not a per-row control, so it's set
+              once per group (via the group's own "Add" button, or a one-click "move"
+              for reclassifying) instead of repeating a 2-way toggle on every row. */}
           {viewMode === "table" && (
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-sm border-collapse">
@@ -551,19 +555,16 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                     <th className="border px-3 py-2 text-left font-semibold">
                       Transaction Processed
                     </th>
-                    <th className="border px-3 py-2 text-left font-semibold w-40">
-                      Direction
-                    </th>
                     <th className="border px-3 py-2 text-left font-semibold w-44">
                       Complexity
                     </th>
-                    {tableEditing && <th className="border px-3 py-2 w-10" />}
+                    {tableEditing && <th className="border px-3 py-2 w-48" />}
                   </tr>
                 </thead>
                 <tbody>
                   {stakeholders.length === 0 && (
                     <tr>
-                      <td colSpan={tableEditing ? 5 : 4} className="border px-3 py-8 text-center text-muted-foreground text-sm">
+                      <td colSpan={tableEditing ? 4 : 3} className="border px-3 py-8 text-center text-muted-foreground text-sm">
                         {tableEditing ? (
                           <>
                             No stakeholders added yet.{" "}
@@ -591,9 +592,22 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                     </tr>
                   )}
                   {stakeholders.map((s, sIdx) => {
-                    const hasServices = s.services.length > 0;
-                    const rowSpan = s.services.length + 1;
-                    const emptyColSpan = tableEditing ? 4 : 3;
+                    const groups: { key: "INCOMING" | "OUTGOING" | "UNSPECIFIED"; label: string; items: StakeholderService[] }[] = [
+                      { key: "INCOMING", label: "Incoming", items: s.services.filter((sv) => sv.direction === "INCOMING") },
+                      { key: "OUTGOING", label: "Outgoing", items: s.services.filter((sv) => sv.direction === "OUTGOING") },
+                      { key: "UNSPECIFIED", label: "Unspecified — needs review", items: s.services.filter((sv) => sv.direction !== "INCOMING" && sv.direction !== "OUTGOING") },
+                    ];
+                    // Edit mode always offers Incoming/Outgoing (even empty, so there's
+                    // somewhere to add into); Unspecified only appears if it has content.
+                    // Read mode shows only groups that actually have something to show.
+                    const visibleGroups = groups.filter((g) =>
+                      tableEditing ? g.key !== "UNSPECIFIED" || g.items.length > 0 : g.items.length > 0
+                    );
+                    const dataColSpan = tableEditing ? 3 : 2;
+                    const totalRows = visibleGroups.reduce(
+                      (n, g) => n + 1 + g.items.length + (tableEditing && g.key !== "UNSPECIFIED" ? 1 : 0),
+                      0
+                    );
 
                     const nameCell = (span: number) => (
                       <td rowSpan={span} data-reveal-id={s.id} className="border px-2 py-2 align-top w-52">
@@ -622,34 +636,30 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                       </td>
                     );
 
+                    if (visibleGroups.length === 0) {
+                      // Read mode only — edit mode always has Incoming/Outgoing visible.
+                      return (
+                        <tr key={s.id} className={sIdx > 0 ? "border-t-2 border-t-border/60" : ""}>
+                          {nameCell(1)}
+                          <td colSpan={dataColSpan} className="border px-3 py-3 text-center">
+                            <span className="text-xs italic text-muted-foreground">No services listed.</span>
+                          </td>
+                        </tr>
+                      );
+                    }
+
                     return (
                       <Fragment key={s.id}>
-                        {!hasServices ? (
-                          <tr className={sIdx > 0 ? "border-t-2 border-t-border/60" : ""}>
-                            {nameCell(1)}
-                            <td colSpan={emptyColSpan} className="border px-3 py-3 text-center">
-                              {tableEditing ? (
-                                <button
-                                  type="button"
-                                  onClick={() => addService(s.id)}
-                                  className="flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 mx-auto"
-                                >
-                                  <Plus className="h-3.5 w-3.5" />
-                                  Add first service
-                                </button>
-                              ) : (
-                                <span className="text-xs italic text-muted-foreground">No services listed.</span>
-                              )}
-                            </td>
-                          </tr>
-                        ) : (
-                          <>
-                            {s.services.map((sv, svIdx) => (
-                              <tr
-                                key={sv.id}
-                                className={svIdx === 0 && sIdx > 0 ? "border-t-2 border-t-border/60" : ""}
-                              >
-                                {svIdx === 0 && nameCell(rowSpan)}
+                        {visibleGroups.map((g, gi) => (
+                          <Fragment key={g.key}>
+                            <tr className={gi === 0 && sIdx > 0 ? "border-t-2 border-t-border/60" : ""}>
+                              {gi === 0 && nameCell(totalRows)}
+                              <td colSpan={dataColSpan} className="border px-3 py-1.5 bg-muted/40 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                                {g.label}
+                              </td>
+                            </tr>
+                            {g.items.map((sv) => (
+                              <tr key={sv.id}>
                                 <td className="border px-2 py-1">
                                   {tableEditing ? (
                                     <input
@@ -663,16 +673,6 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                                     <span className="px-2 py-1.5 block text-sm">
                                       {sv.name || <span className="italic text-muted-foreground/60">Untitled transaction</span>}
                                     </span>
-                                  )}
-                                </td>
-                                <td className="border px-2 py-1 text-center">
-                                  {tableEditing ? (
-                                    <DirectionToggle
-                                      value={sv.direction}
-                                      onChange={(d) => updateService(s.id, sv.id, "direction", d)}
-                                    />
-                                  ) : (
-                                    <DirectionLabel direction={sv.direction} />
                                   )}
                                 </td>
                                 <td className="border px-2 py-1">
@@ -707,37 +707,58 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                                   )}
                                 </td>
                                 {tableEditing && (
-                                  <td className="border px-2 py-2 text-center">
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      aria-label="Remove service"
-                                      className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                                      onClick={() => removeService(s.id, sv.id)}
-                                      disabled={s.services.length <= 1}
-                                    >
-                                      <Trash2 className="h-3.5 w-3.5" />
-                                    </Button>
+                                  <td className="border px-2 py-1">
+                                    <div className="flex items-center justify-center gap-1">
+                                      {g.key === "UNSPECIFIED" ? (
+                                        <DirectionToggle
+                                          value={sv.direction}
+                                          onChange={(d) => updateService(s.id, sv.id, "direction", d)}
+                                        />
+                                      ) : (
+                                        <Button
+                                          variant="ghost"
+                                          size="icon"
+                                          aria-label={g.key === "INCOMING" ? "Move to Outgoing" : "Move to Incoming"}
+                                          title={g.key === "INCOMING" ? "Move to Outgoing" : "Move to Incoming"}
+                                          className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                                          onClick={() => updateService(s.id, sv.id, "direction", g.key === "INCOMING" ? "OUTGOING" : "INCOMING")}
+                                        >
+                                          {g.key === "INCOMING"
+                                            ? <ArrowUpFromLine className="h-3.5 w-3.5" />
+                                            : <ArrowDownToLine className="h-3.5 w-3.5" />}
+                                        </Button>
+                                      )}
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        aria-label="Remove service"
+                                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                                        onClick={() => removeService(s.id, sv.id)}
+                                        disabled={s.services.length <= 1}
+                                      >
+                                        <Trash2 className="h-3.5 w-3.5" />
+                                      </Button>
+                                    </div>
                                   </td>
                                 )}
                               </tr>
                             ))}
-                            {tableEditing && (
+                            {tableEditing && g.key !== "UNSPECIFIED" && (
                               <tr>
-                                <td colSpan={4} className="border px-3 py-1.5 bg-muted/20">
+                                <td colSpan={dataColSpan} className="border px-3 py-1.5 bg-muted/20">
                                   <button
                                     type="button"
-                                    onClick={() => addService(s.id)}
+                                    onClick={() => addService(s.id, g.key as "INCOMING" | "OUTGOING")}
                                     className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary"
                                   >
                                     <Plus className="h-3 w-3" />
-                                    Add service
+                                    Add {g.label.toLowerCase()} service
                                   </button>
                                 </td>
                               </tr>
                             )}
-                          </>
-                        )}
+                          </Fragment>
+                        ))}
                       </Fragment>
                     );
                   })}
