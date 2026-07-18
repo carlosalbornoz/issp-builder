@@ -151,7 +151,7 @@ function UacsTable({
 
 function AutoCalculatedBanner() {
   return (
-    <Callout variant="info">
+    <Callout variant="info" className="sticky top-[41px] z-[9]">
       This page is just for your review — totals are auto-calculated based on your Year 1 to
       Year 3 inputs. Review this section for accuracy before exporting your ISSP.
     </Callout>
