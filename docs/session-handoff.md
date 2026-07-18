@@ -731,6 +731,41 @@ Mobile always shows the Cards view regardless of the desktop toggle.
 
 Full implementation plan: `docs/superpowers/plans/2026-07-18-part1c-transaction-direction.md`.
 
+### ✅ Part I-C view redesign — Cards+Summary merged into List, edit-mode gating — DONE (2026-07-18, same day)
+
+Follow-on to the transaction-direction work above, same session: Carlos asked for delete/edit
+controls to only appear in an explicit edit mode, across all views, and floated merging Cards
+and Summary. Both landed. `ViewMode` is now `"table" | "list"` (was `"table" | "cards" |
+"summary"`); `localStorage`'s `LS_KEY` still reads old `"cards"`/`"summary"` values and folds
+them into `"list"` so returning users don't hit a blank/broken mode.
+
+**Table:** gained a section-level "Edit table" / "Done editing" toggle (`tableEditing` state),
+defaulting to **read-only** — plain text/badges, no trash column, no Add-row affordances. The
+trash `<th>`/`<td>` and every "Add service"/"Add first service" control are conditionally
+rendered on `tableEditing`, not just visually hidden, so column counts and `colSpan`s shift
+between the two states (5 cols editing / 4 read).
+
+**List (new, replaces Cards + Summary):** rows default **collapsed** — Cards previously opened
+every stakeholder expanded-and-editable on mount, which is itself a principle-2 violation this
+redesign fixes along the way. Expanding a row shows the new `StakeholderReadView` (mirrors
+III-E's `ProjectReadView`/`ReadRow` pattern almost exactly: flat `divide-y` rows, no per-service
+boxes, an "Edit stakeholder" button at the bottom). That button — plus a small hover-revealed
+Pencil icon in the row header for a shortcut — opens the existing `StakeholderDrawer`. Nothing
+new was built to gate delete: the drawer already put `ConfirmDeleteButton` behind its own
+`!isNew` check, so "delete only works in edit mode" fell out of "edit mode is defined as the
+drawer being open" for free. List is also the mobile fallback for Table, same role Cards used
+to play (`className={viewMode === "list" ? "block" : "md:hidden"}`).
+
+**`usability-patterns` skill updated:** principle #2's applied-list now includes I-C, plus a new
+"Extension (2026-07-18, I-C)" paragraph documenting the drawer-as-edit-mode pattern as a named
+variant for sections small enough that III-E's full inline-edit-form treatment would be
+overkill, and the reasoning for why Table-shaped views get a section-level toggle instead of a
+per-row cycle.
+
+Verified: tsc + eslint clean; Puppeteer across Table read/edit, List collapsed/expanded/drawer,
+mobile List fallback, and the full add-stakeholder round trip (drawer save → new row auto-opens
+and scrolls into view, per principle 1). No console errors. **NOT deployed to prod.**
+
 ### 🟡 Validation & Review (post UI refresh)
 - **Pre-export validation** — required fields, budget-IS linkage, KPI completeness. Client-side, runs before PDF export. Surface issue count per section in the sidebar/overview.
 - **Read-only review mode** — full document view (all parts on one scrollable page or tabbed), useful before submission.
