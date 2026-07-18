@@ -145,49 +145,57 @@ function StakeholderDrawer({ open, stakeholder, isNew, onSave, onDelete, onClose
                 <Plus className="h-3 w-3" /> Add
               </Button>
             </div>
-            {services.map((sv, idx) => (
-              <div key={sv.id} className="rounded-md border bg-muted/20 p-3 space-y-2">
-                <div className="flex items-start gap-2">
-                  <span className="text-xs text-muted-foreground shrink-0 mt-2.5 w-4">{idx + 1}.</span>
-                  <Input
-                    className="flex-1 text-sm"
-                    placeholder="Describe transaction or service..."
-                    value={sv.name}
-                    onChange={(e) => updateSvc(sv.id, "name", e.target.value)}
-                  />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
-                    onClick={() => removeSvc(sv.id)}
-                    disabled={services.length <= 1}
+            <div className="rounded-md border divide-y">
+              {services.map((sv, idx) => (
+                <div key={sv.id} className="p-3 space-y-2">
+                  <div className="flex items-start gap-2">
+                    <span className="text-xs text-muted-foreground shrink-0 mt-2.5 w-4">{idx + 1}.</span>
+                    <Input
+                      className="flex-1 text-sm"
+                      placeholder="Describe transaction or service..."
+                      value={sv.name}
+                      onChange={(e) => updateSvc(sv.id, "name", e.target.value)}
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
+                      onClick={() => removeSvc(sv.id)}
+                      disabled={services.length <= 1}
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                  <div className="flex items-center gap-2 flex-wrap pl-6">
+                    <DirectionToggle
+                      value={sv.direction}
+                      onChange={(d) => updateSvc(sv.id, "direction", d)}
+                    />
+                  </div>
+                  <Select
+                    items={COMPLEXITY_OPTIONS}
+                    value={sv.complexity}
+                    onValueChange={(v: string | null) => v && updateSvc(sv.id, "complexity", v)}
                   >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
-                </div>
-                <Select
-                  items={COMPLEXITY_OPTIONS}
-                  value={sv.complexity}
-                  onValueChange={(v: string | null) => v && updateSvc(sv.id, "complexity", v)}
-                >
-                  <SelectTrigger className="h-8">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {COMPLEXITY_OPTIONS.map((o) => (
-                      <SelectItem key={o.value} value={o.value}>
-                        <span className="flex flex-col gap-0.5">
-                          <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${COMPLEXITY_COLORS[o.value]}`}>
-                            {o.label}
+                    <SelectTrigger className="h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COMPLEXITY_OPTIONS.map((o) => (
+                        <SelectItem key={o.value} value={o.value}>
+                          <span className="flex flex-col gap-0.5">
+                            <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${COMPLEXITY_COLORS[o.value]}`}>
+                              {o.label}
+                            </span>
+                            <span className="text-xs text-muted-foreground">{o.hint}</span>
                           </span>
-                          <span className="text-xs text-muted-foreground">{o.hint}</span>
-                        </span>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            ))}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -805,13 +813,15 @@ export function Part1CForm({ initialData }: Part1CFormProps) {
                             {s.services[0]?.name ? ` · ${s.services[0].name}` : ""}
                           </p>
                         </div>
-                        <div className="flex gap-1 shrink-0 flex-wrap justify-end max-w-40">
+                        <div className="flex gap-1.5 items-center shrink-0 flex-wrap justify-end max-w-40">
                           {s.services.slice(0, 3).map((sv) => (
-                            <span
-                              key={sv.id}
-                              className={`text-xs rounded px-1.5 py-0.5 font-medium ${COMPLEXITY_COLORS[sv.complexity]}`}
-                            >
-                              {sv.complexity === "Highly Technical" ? "H.Tech" : sv.complexity}
+                            <span key={sv.id} className="flex items-center gap-1">
+                              {directionIcon(sv.direction, "h-3 w-3 text-muted-foreground")}
+                              <span
+                                className={`text-xs rounded px-1.5 py-0.5 font-medium ${COMPLEXITY_COLORS[sv.complexity]}`}
+                              >
+                                {sv.complexity === "Highly Technical" ? "H.Tech" : sv.complexity}
+                              </span>
                             </span>
                           ))}
                           {s.services.length > 3 && (
