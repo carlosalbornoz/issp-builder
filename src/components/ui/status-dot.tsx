@@ -9,7 +9,7 @@ interface StatusDotProps {
 
 const COLOR: Record<SectionStatus, string> = {
   done:        "bg-success",
-  in_progress: "bg-warning",
+  in_progress: "bg-info",
   empty:       "bg-muted-foreground/30",
 };
 

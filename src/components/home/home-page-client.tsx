@@ -212,8 +212,10 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
   const [aboutOpen, setAboutOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [whatsNewOpen, setWhatsNewOpen] = useState(false);
+  const [isDraggingFile, setIsDraggingFile] = useState(false);
   const confettiRef = useRef<((opts: object) => void) | null>(null);
   const whatsNewScrollRef = useRef<HTMLDivElement>(null);
+  const dragCounterRef = useRef(0);
 
   useEffect(() => {
     if (whatsNewOpen && whatsNewScrollRef.current) whatsNewScrollRef.current.scrollTop = 0;
@@ -241,16 +243,57 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
     }, 120);
   }
 
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  async function loadIsspFile(file: File) {
     setLoadError(null);
     // Flip the guard before the doc mutates, so the splash never re-renders into
     // the Continue card between loadFromFile's setDoc and navigation.
     setNavigating(true);
     const result = await loadFromFile(file);
     if (result.success) { router.push("/editor"); } else { setNavigating(false); setLoadError(result.error ?? "Unknown error"); }
+  }
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await loadIsspFile(file);
     e.target.value = "";
+  }
+
+  // Dropping anywhere on the page loads the file, same as the "Load from File" card.
+  // A ref-backed counter (rather than a boolean) survives the enter/leave pairs fired
+  // as the drag crosses child element boundaries while still over the same drop zone.
+  function handleDragEnter(e: React.DragEvent) {
+    if (!e.dataTransfer.types.includes("Files")) return;
+    e.preventDefault();
+    dragCounterRef.current += 1;
+    setIsDraggingFile(true);
+  }
+
+  function handleDragOver(e: React.DragEvent) {
+    if (!e.dataTransfer.types.includes("Files")) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+  }
+
+  function handleDragLeave(e: React.DragEvent) {
+    if (!e.dataTransfer.types.includes("Files")) return;
+    e.preventDefault();
+    dragCounterRef.current = Math.max(0, dragCounterRef.current - 1);
+    if (dragCounterRef.current === 0) setIsDraggingFile(false);
+  }
+
+  async function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    dragCounterRef.current = 0;
+    setIsDraggingFile(false);
+    if (storeLoading || navigating || sampleLoading) return;
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+    if (!/\.issp$/i.test(file.name) && file.type !== "application/json") {
+      setLoadError("That doesn't look like a .issp file. Drop the .issp file you saved from this tool.");
+      return;
+    }
+    await loadIsspFile(file);
   }
 
   async function handleLoadSample() {
@@ -270,7 +313,24 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div
+      className="min-h-screen bg-background text-foreground"
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      {isDraggingFile && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-sm pointer-events-none">
+          <div className="flex flex-col items-center gap-3 rounded-2xl border-2 border-dashed border-primary/50 bg-card px-12 py-10 text-center shadow-xl">
+            <FolderOpen className="h-8 w-8 text-primary" />
+            <div>
+              <p className="font-semibold text-sm">Drop your .issp file to load it</p>
+              <p className="text-xs text-muted-foreground mt-1">Release anywhere on this page to continue</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Nav ── */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
@@ -312,7 +372,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               className="animate-glow-orbit inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
             >
               <Sparkles className="w-3 h-3" />
-              What&apos;s new — July 15–16, 2026
+              What&apos;s new — July 15–19, 2026
             </button>
           </div>
         </div>
@@ -359,7 +419,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
                 </div>
                 <div>
                   <p className="font-semibold text-sm">Load from File</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">Continue editing an ISSP you previously saved as a <code className="text-xs bg-muted px-1 rounded">.issp</code> file.</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Continue editing an ISSP you previously saved as a <code className="text-xs bg-muted px-1 rounded">.issp</code> file. Or drag and drop it anywhere on this page.</p>
                 </div>
               </button>
             );
@@ -637,7 +697,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
             <DialogTitle className="font-display text-lg flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              What&apos;s new — July 15–16, 2026
+              What&apos;s new — July 15–19, 2026
             </DialogTitle>
           </DialogHeader>
           <div ref={whatsNewScrollRef} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
@@ -683,6 +743,38 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               <p className="text-xs font-semibold text-foreground uppercase tracking-wide">The PDF Learned Some Navigation</p>
               <p>
                 The exported PDF now prints the full official checklist structure whether an item is answered or not, while only the checkmarks and blanks change. Its Table of Contents is also clickable, and supported PDF readers get a nested bookmark sidebar for jumping between Parts and sections. Export progress still appears in the modal, without a second spinner competing for attention on the button.
+              </p>
+            </div>
+
+            {/* Overview — responsive grid + sticky collapsing header */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">The Overview Stays With You</p>
+              <p>
+                On wider screens the Overview now lays out all four Parts side by side, and the header — your greeting and your progress bar — sticks to the top as you scroll. Scroll down and it tidies itself into a slim, frosted bar carrying the plan name and how far along you are, so your progress is never more than a glance away.
+              </p>
+            </div>
+
+            {/* Part IV — validation + restyled cards */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Part IV Catches Half-Filled Items</p>
+              <p>
+                In the Resource Requirements tables, a line item now needs a description and a unit cost above ₱0 before it can be saved. The save button points out what is missing instead of quietly adding an empty row. The section cards have been restyled, and the table headers now wrap neatly on phones.
+              </p>
+            </div>
+
+            {/* Drag-and-drop loading on the home page */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Drop a File Anywhere to Open It</p>
+              <p>
+                From the home page you can now drag your <span className="text-foreground font-medium">.issp</span> file out of your file manager and drop it anywhere on the screen to load it — the same as the Load from File button, with less clicking.
+              </p>
+            </div>
+
+            {/* Palette consistency */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">A Tidier, More Consistent Palette</p>
+              <p>
+                The Part colors have been retuned for better contrast across light and dark themes — Part II is now teal rather than orange. Sections still in progress show blue, and the budget category colors in Part IV now follow your chosen theme instead of being fixed.
               </p>
             </div>
 

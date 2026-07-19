@@ -18,17 +18,22 @@ export function PartCard({
   const pendingCount = part.sections.filter((section) => pendingSectionIds.includes(section.id)).length;
 
   return (
-    <div className="relative rounded-xl border bg-card overflow-hidden">
-      {/* 3px left color strip */}
-      <div className="absolute left-0 inset-y-0 w-[3px]" style={{ backgroundColor: part.color }} />
-
+    <div className="rounded-xl border bg-card overflow-hidden">
       {/* Card header */}
-      <div className="pl-5 pr-4 pt-4 pb-3 border-b flex items-start justify-between gap-2">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-            Part {part.part} · {part.sections.length} sections
-          </p>
-          <p className="font-display text-base font-medium mt-0.5 leading-snug">{part.title}</p>
+      <div className="pl-4 pr-4 pt-4 pb-3 border-b flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <span
+              className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-semibold"
+              style={{ backgroundColor: `color-mix(in srgb, ${part.color} 10%, transparent)`, color: part.color }}
+            >
+              Part {part.part}
+            </span>
+            <span className="text-xs text-muted-foreground">{part.sections.length} sections</span>
+          </div>
+          <div className="mt-1.5 sm:min-h-[2.75rem] sm:flex sm:items-center">
+            <p className="font-display text-base font-medium leading-snug line-clamp-2 break-words min-w-0">{part.title}</p>
+          </div>
         </div>
         <div className="flex items-center gap-2 mt-1.5">
           {pendingCount > 0 && (
@@ -41,7 +46,7 @@ export function PartCard({
       </div>
 
       {/* Section rows */}
-      <ul className="pl-5 pr-4 py-2 space-y-0">
+      <ul className="pl-4 pr-4 py-2 space-y-0">
         {part.sections.map((section) => {
           const meta = sectionMeta[section.id];
           const status = computeStatus(meta);
@@ -63,7 +68,7 @@ export function PartCard({
                 ) : (
                   <RelativeTime
                     iso={meta?.lastEditedAt}
-                    className="text-xs text-muted-foreground/50 shrink-0"
+                    className="text-xs text-muted-foreground shrink-0"
                   />
                 )}
               </Link>

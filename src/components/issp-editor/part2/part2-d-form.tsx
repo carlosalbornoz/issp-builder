@@ -309,7 +309,7 @@ function ProgramCard({
 
         {/* Template "If No" follow-ups */}
         {value.status === "no" && config.ifNoOptions && (
-          <div className="space-y-2 rounded-lg border bg-muted/20 p-3">
+          <div className="space-y-2 rounded-lg bg-muted/30 p-3">
             <p className="text-xs font-medium text-muted-foreground">If No, indicate:</p>
             <div className="space-y-2">
               {config.ifNoOptions.includes("otherPlatform") && (

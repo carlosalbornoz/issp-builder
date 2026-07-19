@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { NumberInput } from "@/components/ui/number-input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { UacsCombobox } from "@/components/issp-editor/uacs-combobox";
 import {
@@ -114,10 +113,11 @@ interface DrawerProps {
 
 function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose }: DrawerProps) {
   const [draft, setDraft] = useState<LineItem>(() => item ?? BLANK_LINE());
+  const [attemptedSave, setAttemptedSave] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (open) setDraft(item ?? BLANK_LINE());
+    if (open) { setDraft(item ?? BLANK_LINE()); setAttemptedSave(false); }
   }, [open, item]);
 
   function set<K extends keyof LineItem>(k: K, v: LineItem[K]) {
@@ -126,6 +126,15 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
 
   const lineTotal = draft.qty * draft.unitCost;
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+  const itemError = draft.item.trim() ? null : "Description is required.";
+  const costError = draft.unitCost > 0 ? null : "Unit cost must be greater than ₱0.";
+  const hasErrors = !!(itemError || costError);
+
+  function handleSaveClick() {
+    if (hasErrors) { setAttemptedSave(true); return; }
+    onSave(draft);
+  }
 
   return (
     <Sheet open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
@@ -156,7 +165,9 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
               onChange={(e) => set("item", e.target.value)}
               placeholder="Describe the item or service being procured…"
               rows={3}
+              aria-invalid={attemptedSave && !!itemError}
             />
+            {attemptedSave && itemError && <p className="text-xs text-destructive">{itemError}</p>}
           </div>
 
           <div className="space-y-1.5">
@@ -220,7 +231,9 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
                 currency
                 value={draft.unitCost}
                 onValueChange={(n) => set("unitCost", n)}
+                aria-invalid={attemptedSave && !!costError}
               />
+              {attemptedSave && costError && <p className="text-xs text-destructive">{costError}</p>}
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium">Physical Target</label>
@@ -253,7 +266,7 @@ function LineItemDrawer({ open, item, isNew, context, onSave, onDelete, onClose 
           ) : <span />}
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={onClose}>Cancel</Button>
-            <Button size="sm" onClick={() => onSave(draft)}>
+            <Button size="sm" onClick={handleSaveClick}>
               {isNew ? "Add Item" : "Save Changes"}
             </Button>
           </div>
@@ -321,14 +334,14 @@ function LineTable({
     <>
       <div className="rounded-md border overflow-hidden">
         {/* Header band */}
-        <div className="flex items-center justify-between bg-muted/40 border-b px-4 py-2.5">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 bg-muted/40 border-b px-4 py-2.5">
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold">{title}</span>
             <span className="text-xs text-muted-foreground">
               {lines.length} item{lines.length !== 1 ? "s" : ""}
             </span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between sm:justify-end gap-3">
             <span className="text-sm font-bold">{php(total)}</span>
             <Button variant="outline" size="sm" className="h-7 gap-1 text-xs" onClick={openNew}>
               <Plus className="h-3 w-3" />
@@ -542,14 +555,19 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <Card className="relative overflow-hidden pl-0">
-      <div className="absolute inset-y-0 left-0 w-[3px]" style={{ backgroundColor: color }} />
-      <CardHeader className="pb-4 pl-5">
-        <CardTitle className="text-base">{title}</CardTitle>
-        {description && <CardDescription className="mt-0.5">{description}</CardDescription>}
-      </CardHeader>
-      <CardContent className="space-y-6 pl-5">{children}</CardContent>
-    </Card>
+    <div className="space-y-4 border-t pt-6 first:border-t-0 first:pt-0">
+      <div>
+        <span
+          className="inline-flex w-fit items-center rounded-md px-1.5 py-0.5 text-[11px] font-semibold"
+          style={{ backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)`, color }}
+        >
+          {title.slice(0, title.indexOf(".") + 1)}
+        </span>
+        <h3 className="text-base font-semibold mt-1">{title.slice(title.indexOf(".") + 2)}</h3>
+        {description && <p className="text-sm text-muted-foreground mt-0.5">{description}</p>}
+      </div>
+      <div className="space-y-6">{children}</div>
+    </div>
   );
 }
 
@@ -640,10 +658,10 @@ export function Part4YearForm({
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground rounded-lg border bg-muted/20 px-4 py-2.5">
         <span className="font-medium text-foreground/50">Legend:</span>
         {[
-          { color: "#3B82F6", label: "Office Productivity" },
-          { color: "#8B5CF6", label: "Internal Projects" },
-          { color: "#F59E0B", label: "Cross-Agency Projects" },
-          { color: "#F43F5E", label: "Recurring Costs" },
+          { color: "var(--budget-1)", label: "Office Productivity" },
+          { color: "var(--budget-2)", label: "Internal Projects" },
+          { color: "var(--budget-3)", label: "Cross-Agency Projects" },
+          { color: "var(--budget-4)", label: "Recurring Costs" },
         ].map(({ color, label }) => (
           <span key={label} className="flex items-center gap-1.5">
             <span className="inline-block h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: color }} />
@@ -673,7 +691,7 @@ export function Part4YearForm({
       <SectionCard
         title="A. Office Productivity / General ICT"
         description="Agency-wide ICT expenses not tied to a specific project"
-        color="#3B82F6"
+        color="var(--budget-1)"
       >
         <LineTable
           title="Capital Outlay (CO)"
@@ -725,7 +743,7 @@ export function Part4YearForm({
               key={proj.id}
               title={`${letter}. Internal Project: ${proj.title}`}
               description="Costs directly attributable to this internal ICT project"
-              color="#8B5CF6"
+              color="var(--budget-2)"
             >
               <LineTable
                 title="Capital Outlay (CO)"
@@ -776,7 +794,7 @@ export function Part4YearForm({
               key={proj.id}
               title={`${letter}. Cross-Agency Project: ${proj.title}`}
               description="Costs for this cross-agency ICT project"
-              color="#F59E0B"
+              color="var(--budget-3)"
             >
               <LineTable
                 title="Capital Outlay (CO)"
@@ -816,7 +834,7 @@ export function Part4YearForm({
       <SectionCard
         title={`${alpha(1 + internalProjects.length + crossAgencyProjects.length)}. Continuing / Recurring Costs`}
         description="Subscriptions, maintenance contracts, and other ongoing ICT costs"
-        color="#F43F5E"
+        color="var(--budget-4)"
       >
         <LineTable
           title="Maintenance & Other Operating Expenses (MOOE)"

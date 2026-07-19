@@ -16,7 +16,84 @@
     "agency": "DICT",
     "deadline": null
   },
-  "sectionMeta": {},
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part4/year3": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    },
+    "part4/summary": {
+      "userMarkedDone": true,
+      "lastEditedAt": "2026-05-18 06:53:18"
+    }
+  },
   "createdAt": "2026-05-18 06:53:18",
   "updatedAt": "2026-05-18 06:53:18",
   "agency": {
