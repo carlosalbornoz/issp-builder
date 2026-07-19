@@ -240,7 +240,7 @@ function MarkAsDone({
       ) : (
         <Circle className="h-4 w-4 mr-2 shrink-0" />
       )}
-      {isDone ? "Marked as done · Click to undo" : "Mark this section as done"}
+      {isDone ? "Marked as done" : "Mark as done"}
     </Button>
   );
 }

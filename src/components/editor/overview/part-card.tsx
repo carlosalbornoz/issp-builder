@@ -45,9 +45,9 @@ export function PartCard({
             <p className="font-display text-base font-medium leading-snug line-clamp-2 break-words min-w-0">{part.title}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 mt-1.5">
+        <div className="flex shrink-0 items-center gap-2 mt-1.5">
           {pendingCount > 0 && (
-            <span className="rounded-full border border-warning-border bg-warning-bg px-2 py-0.5 text-[10px] font-semibold text-warning">
+            <span className="whitespace-nowrap rounded-full border border-warning-border bg-warning-bg px-2 py-0.5 text-[10px] font-semibold text-warning">
               {pendingCount} to review
             </span>
           )}
