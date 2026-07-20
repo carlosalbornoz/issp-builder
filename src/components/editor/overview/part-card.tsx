@@ -27,9 +27,9 @@ export function PartCard({
   const Icon = PART_ICONS[part.partNum];
 
   return (
-    <div className="rounded-xl border bg-card overflow-hidden transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none hover:border-foreground/30 hover:shadow-md focus-within:border-foreground/30 focus-within:shadow-md">
+    <div className="rounded-xl border bg-card overflow-hidden transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none focus-within:border-foreground/30 focus-within:shadow-md">
       {/* Card header */}
-      <div className="pl-4 pr-4 pt-4 pb-3 border-b flex items-start justify-between gap-2">
+      <div className="pl-4 pr-4 pt-4 pb-3 border-b bg-accent/50 flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <span
