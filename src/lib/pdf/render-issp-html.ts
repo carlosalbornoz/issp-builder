@@ -1061,10 +1061,14 @@ function renderPart2(issp: IsspData): string {
 
 // ─── Part III ─────────────────────────────────────────────────────────────────
 
-function renderProjectCard(proj: IctProject, crossAgency = false): string {
+function renderProjectCard(proj: IctProject, crossAgency = false, ordinal?: number): string {
   const sa = proj.strategicAlignment ?? {};
   const ha = proj.harmonization ?? {};
+  const caption = ordinal
+    ? `<p style="font-weight:bold;margin-bottom:2mm;">${crossAgency ? "Cross-Agency" : "Internal"} ICT Project #${ordinal}</p>`
+    : "";
   return `<div class="avoid-break is-card">
+    ${caption}
     <table>
       <tbody>
         <tr><td class="label-cell">PROJECT TITLE</td><td><strong>${esc(proj.title)}</strong></td></tr>
@@ -1186,23 +1190,23 @@ function renderPart3(issp: IsspData): string {
     <div class="subsection-heading">${tocMark("part3-e1")}E.1. Internal ICT Projects</div>
     <div class="subsection-block">${p.internalProjects.length === 0
       ? `<p style="font-style:italic;">No internal ICT projects specified.</p>`
-      : p.internalProjects.map(proj => renderProjectCard(proj, false)).join("")
+      : p.internalProjects.map((proj, i) => renderProjectCard(proj, false, i + 1)).join("")
     }</div>
 
     ${p.crossAgencyProjects.length > 0 ? `
     <div class="subsection-heading" style="margin-top:6mm;">${tocMark("part3-e2")}E.2. Cross-Agency ICT Projects</div>
-    <div class="subsection-block">${p.crossAgencyProjects.map(proj => renderProjectCard(proj, true)).join("")}</div>
+    <div class="subsection-block">${p.crossAgencyProjects.map((proj, i) => renderProjectCard(proj, true, i + 1)).join("")}</div>
     ` : ""}
 
     <div class="section-heading page-break">${tocMark("part3-f")}F. Performance Measurement Framework</div>
     ${pageHeader(issp)}
     <div class="subsection-heading">F.1. Internal ICT Projects</div>
-    <div class="subsection-block">${allProjects.filter(pr => pr.type === "internal").map(proj => {
+    <div class="subsection-block">${allProjects.filter(pr => pr.type === "internal").map((proj, i) => {
       const entry = issp.part3.performanceFramework[proj.id] ??
         perfEntries.find(e => e.projectTitle === proj.title);
-      if (!entry) return `<p style="font-style:italic;">No KPI data for ${esc(proj.title)}.</p>`;
+      if (!entry) return `<p style="font-style:italic;">No KPI data for Internal ICT Project #${i + 1}: ${esc(proj.title)}.</p>`;
       return `<div class="avoid-break" style="margin-bottom:6mm;">
-        <p style="font-weight:bold;margin-bottom:2mm;">ICT Project: <em>${esc(proj.title)}</em></p>
+        <p style="font-weight:bold;margin-bottom:2mm;">Internal ICT Project #${i + 1}: <em>${esc(proj.title)}</em></p>
         <table>
           <thead>
             <tr>
@@ -1230,12 +1234,12 @@ function renderPart3(issp: IsspData): string {
 
     ${allProjects.filter(pr => pr.type === "cross-agency").length > 0 ? `
     <div class="subsection-heading" style="margin-top:6mm;">F.2. Cross-Agency ICT Projects</div>
-    <div class="subsection-block">${allProjects.filter(pr => pr.type === "cross-agency").map(proj => {
+    <div class="subsection-block">${allProjects.filter(pr => pr.type === "cross-agency").map((proj, i) => {
       const entry = issp.part3.performanceFramework[proj.id] ??
         perfEntries.find(e => e.projectTitle === proj.title);
-      if (!entry) return `<p style="font-style:italic;">No KPI data for ${esc(proj.title)}.</p>`;
+      if (!entry) return `<p style="font-style:italic;">No KPI data for Cross-Agency ICT Project #${i + 1}: ${esc(proj.title)}.</p>`;
       return `<div class="avoid-break" style="margin-bottom:6mm;">
-        <p style="font-weight:bold;margin-bottom:2mm;">Cross-Agency ICT Project: <em>${esc(proj.title)}</em></p>
+        <p style="font-weight:bold;margin-bottom:2mm;">Cross-Agency ICT Project #${i + 1}: <em>${esc(proj.title)}</em></p>
         <table>
           <thead>
             <tr>
@@ -1308,21 +1312,21 @@ function renderYearTable(year: YearBudget, yearNum: number, yearLabel: number, i
   grandTotal += opTotal;
 
   // Internal projects
-  const internalRows = internalProjects.map(proj => {
+  const internalRows = internalProjects.map((proj, i) => {
     const pb = year.internalProjects[proj.id];
     if (!pb) return "";
     const t = sumLines(pb.capitalOutlay) + sumLines(pb.mooe);
     grandTotal += t;
-    return coMooeSection(esc(proj.title), pb.capitalOutlay, pb.mooe);
+    return coMooeSection(`Internal ICT Project #${i + 1}: ${proj.title}`, pb.capitalOutlay, pb.mooe);
   });
 
   // Cross-agency projects
-  const crossRows = crossAgencyProjects.map(proj => {
+  const crossRows = crossAgencyProjects.map((proj, i) => {
     const pb = year.crossAgencyProjects[proj.id];
     if (!pb) return "";
     const t = sumLines(pb.capitalOutlay) + sumLines(pb.mooe);
     grandTotal += t;
-    return coMooeSection(esc(proj.title), pb.capitalOutlay, pb.mooe);
+    return coMooeSection(`Cross-Agency ICT Project #${i + 1}: ${proj.title}`, pb.capitalOutlay, pb.mooe);
   });
 
   // Continuing costs
@@ -1360,7 +1364,7 @@ function renderYearTable(year: YearBudget, yearNum: number, yearLabel: number, i
       ` : ""}
 
       ${ccTotal > 0 || year.continuingCosts.mooe.length >= 0 ? `
-        <tr><td class="section-row" colspan="5"><strong>CONTINUING COSTS/EXPENSES</strong></td><td class="section-row total-cell">${php(ccTotal)}</td></tr>
+        <tr><td class="section-row" colspan="5"><strong>CONTINUING COSTS</strong></td><td class="section-row total-cell">${php(ccTotal)}</td></tr>
         ${year.continuingCosts.mooe.length > 0 ? `
           <tr><td class="section-row" colspan="5" style="padding-left:4mm;">MAINTENANCE AND OTHER OPERATING EXPENSES</td><td class="section-row total-cell">${php(ccTotal)}</td></tr>
           ${groupByUacs(year.continuingCosts.mooe).map(g => `
@@ -1476,7 +1480,7 @@ function renderPart4(issp: IsspData): string {
           </thead>
           <tbody>
             <tr>
-              <td>Office Productivity / General ICT</td>
+              <td>Office Productivity</td>
               <td class="num-cell">${php(sumLines(p.year1.officeProductivity.capitalOutlay) + sumLines(p.year1.officeProductivity.mooe))}</td>
               <td class="num-cell">${php(sumLines(p.year2.officeProductivity.capitalOutlay) + sumLines(p.year2.officeProductivity.mooe))}</td>
               <td class="num-cell">${php(sumLines(p.year3.officeProductivity.capitalOutlay) + sumLines(p.year3.officeProductivity.mooe))}</td>
@@ -1486,24 +1490,24 @@ function renderPart4(issp: IsspData): string {
                 sumLines(p.year3.officeProductivity.capitalOutlay) + sumLines(p.year3.officeProductivity.mooe)
               )}</td>
             </tr>
-            ${internalProjects.map(proj => {
+            ${internalProjects.map((proj, i) => {
               const t1 = (() => { const pb = p.year1.internalProjects[proj.id]; return pb ? sumLines(pb.capitalOutlay)+sumLines(pb.mooe) : 0; })();
               const t2 = (() => { const pb = p.year2.internalProjects[proj.id]; return pb ? sumLines(pb.capitalOutlay)+sumLines(pb.mooe) : 0; })();
               const t3 = (() => { const pb = p.year3.internalProjects[proj.id]; return pb ? sumLines(pb.capitalOutlay)+sumLines(pb.mooe) : 0; })();
               return `<tr>
-                <td>${esc(proj.title)}</td>
+                <td>Internal ICT Project #${i + 1}: ${esc(proj.title)}</td>
                 <td class="num-cell">${php(t1)}</td>
                 <td class="num-cell">${php(t2)}</td>
                 <td class="num-cell">${php(t3)}</td>
                 <td class="num-cell">${php(t1+t2+t3)}</td>
               </tr>`;
             }).join("")}
-            ${crossAgencyProjects.map(proj => {
+            ${crossAgencyProjects.map((proj, i) => {
               const t1 = (() => { const pb = p.year1.crossAgencyProjects[proj.id]; return pb ? sumLines(pb.capitalOutlay)+sumLines(pb.mooe) : 0; })();
               const t2 = (() => { const pb = p.year2.crossAgencyProjects[proj.id]; return pb ? sumLines(pb.capitalOutlay)+sumLines(pb.mooe) : 0; })();
               const t3 = (() => { const pb = p.year3.crossAgencyProjects[proj.id]; return pb ? sumLines(pb.capitalOutlay)+sumLines(pb.mooe) : 0; })();
               return `<tr>
-                <td>${esc(proj.title)} <em>(Cross-Agency)</em></td>
+                <td>Cross-Agency ICT Project #${i + 1}: ${esc(proj.title)}</td>
                 <td class="num-cell">${php(t1)}</td>
                 <td class="num-cell">${php(t2)}</td>
                 <td class="num-cell">${php(t3)}</td>
@@ -1511,7 +1515,7 @@ function renderPart4(issp: IsspData): string {
               </tr>`;
             }).join("")}
             <tr>
-              <td>Continuing / Recurring Costs</td>
+              <td>Continuing Costs</td>
               <td class="num-cell">${php(sumLines(p.year1.continuingCosts.mooe))}</td>
               <td class="num-cell">${php(sumLines(p.year2.continuingCosts.mooe))}</td>
               <td class="num-cell">${php(sumLines(p.year3.continuingCosts.mooe))}</td>

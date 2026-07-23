@@ -114,7 +114,7 @@ export function buildB1(years: [YearBudget, YearBudget, YearBudget]): SummaryRow
     officeProductivity: "Office Productivity",
     internalProjects: "Internal ICT Projects",
     crossAgencyProjects: "Cross-Agency ICT Projects",
-    continuingCosts: "Continuing Costs / Expenses",
+    continuingCosts: "Continuing Costs",
   };
   const rows: SummaryRow[] = fields.map((f) => ({
     label: labels[f],

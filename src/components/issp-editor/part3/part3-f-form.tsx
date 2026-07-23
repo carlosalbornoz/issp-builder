@@ -56,10 +56,12 @@ const DEFAULT_ROW: Omit<KpiRow, "id"> = {
 
 function ProjectKpiTable({
   project,
+  ordinal,
   kpiSet,
   onChange,
 }: {
   project: ProjectSummary;
+  ordinal: number;
   kpiSet: ProjectKpiSet;
   onChange: (updated: ProjectKpiSet) => void;
 }) {
@@ -90,9 +92,11 @@ function ProjectKpiTable({
             <FolderKanban className="h-4 w-4" />
           </div>
           <div className="flex-1 min-w-0">
+            <span className="text-xs font-semibold text-muted-foreground">
+              {project.projectCategory === "crossAgency" ? "Cross-Agency ICT Project" : "Internal ICT Project"} #{ordinal}
+            </span>
             <CardTitle className="text-sm font-semibold line-clamp-2 break-words">{project.title}</CardTitle>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {project.projectCategory === "crossAgency" ? "Cross-Agency" : "Internal"} ·{" "}
               {kpiSet.rows.length} KPI{kpiSet.rows.length !== 1 ? "s" : ""}
             </p>
           </div>
@@ -362,6 +366,14 @@ export function Part3FForm({
 
   const totalKpis = Object.values(framework).reduce((s, k) => s + k.rows.length, 0);
 
+  // Per-category ordinal for each project (#n restarts for Internal vs Cross-Agency).
+  const ordinals = new Map<string, number>();
+  const counters: Record<"internal" | "crossAgency", number> = { internal: 0, crossAgency: 0 };
+  for (const p of allProjects) {
+    counters[p.projectCategory] += 1;
+    ordinals.set(p.id, counters[p.projectCategory]);
+  }
+
   return (
     <SectionShell
       sectionId="part3/f"
@@ -402,6 +414,7 @@ export function Part3FForm({
             <ProjectKpiTable
               key={project.id}
               project={project}
+              ordinal={ordinals.get(project.id) ?? 0}
               kpiSet={
                 framework[project.id] ?? {
                   projectTitle: project.title,

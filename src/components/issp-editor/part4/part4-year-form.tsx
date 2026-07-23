@@ -80,10 +80,6 @@ function sumLines(lines: LineItem[]) {
   return lines.reduce((s, l) => s + totalLine(l), 0);
 }
 
-function alpha(n: number) {
-  return String.fromCharCode(65 + n);
-}
-
 const FUND_SOURCES = [
   "General Appropriations Act (GAA)",
   "Foreign-Assisted",
@@ -557,13 +553,14 @@ function SectionCard({
   return (
     <div className="space-y-4 border-t pt-6 first:border-t-0 first:pt-0">
       <div>
-        <span
-          className="inline-flex w-fit items-center rounded-md px-1.5 py-0.5 text-[11px] font-semibold"
-          style={{ backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)`, color }}
-        >
-          {title.slice(0, title.indexOf(".") + 1)}
-        </span>
-        <h3 className="text-base font-semibold mt-1">{title.slice(title.indexOf(".") + 2)}</h3>
+        <div className="flex items-center gap-2">
+          <span
+            className="inline-block h-2.5 w-2.5 rounded-sm shrink-0"
+            style={{ backgroundColor: color }}
+            aria-hidden
+          />
+          <h3 className="text-base font-semibold">{title}</h3>
+        </div>
         {description && <p className="text-sm text-muted-foreground mt-0.5">{description}</p>}
       </div>
       <div className="space-y-6">{children}</div>
@@ -659,9 +656,9 @@ export function Part4YearForm({
         <span className="font-medium text-foreground/50">Legend:</span>
         {[
           { color: "var(--budget-1)", label: "Office Productivity" },
-          { color: "var(--budget-2)", label: "Internal Projects" },
-          { color: "var(--budget-3)", label: "Cross-Agency Projects" },
-          { color: "var(--budget-4)", label: "Recurring Costs" },
+          { color: "var(--budget-2)", label: "Internal ICT Projects" },
+          { color: "var(--budget-3)", label: "Cross-Agency ICT Projects" },
+          { color: "var(--budget-4)", label: "Continuing Costs" },
         ].map(({ color, label }) => (
           <span key={label} className="flex items-center gap-1.5">
             <span className="inline-block h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: color }} />
@@ -689,7 +686,7 @@ export function Part4YearForm({
 
       {/* A — Office Productivity */}
       <SectionCard
-        title="A. Office Productivity / General ICT"
+        title="Office Productivity"
         description="Agency-wide ICT expenses not tied to a specific project"
         color="var(--budget-1)"
       >
@@ -732,7 +729,6 @@ export function Part4YearForm({
         </div>
       ) : (
         internalProjects.map((proj, idx) => {
-          const letter = alpha(1 + idx);
           const pb = budget.internalProjects[proj.id] ?? {
             projectTitle: proj.title,
             capitalOutlay: [],
@@ -741,7 +737,7 @@ export function Part4YearForm({
           return (
             <SectionCard
               key={proj.id}
-              title={`${letter}. Internal Project: ${proj.title}`}
+              title={`Internal ICT Project #${idx + 1}: ${proj.title}`}
               description="Costs directly attributable to this internal ICT project"
               color="var(--budget-2)"
             >
@@ -783,7 +779,6 @@ export function Part4YearForm({
       {/* Cross-Agency Projects */}
       {crossAgencyProjects.length > 0 &&
         crossAgencyProjects.map((proj, idx) => {
-          const letter = alpha(1 + internalProjects.length + idx);
           const pb = budget.crossAgencyProjects[proj.id] ?? {
             projectTitle: proj.title,
             capitalOutlay: [],
@@ -792,7 +787,7 @@ export function Part4YearForm({
           return (
             <SectionCard
               key={proj.id}
-              title={`${letter}. Cross-Agency Project: ${proj.title}`}
+              title={`Cross-Agency ICT Project #${idx + 1}: ${proj.title}`}
               description="Costs for this cross-agency ICT project"
               color="var(--budget-3)"
             >
@@ -832,7 +827,7 @@ export function Part4YearForm({
 
       {/* Continuing Costs */}
       <SectionCard
-        title={`${alpha(1 + internalProjects.length + crossAgencyProjects.length)}. Continuing / Recurring Costs`}
+        title="Continuing Costs"
         description="Subscriptions, maintenance contracts, and other ongoing ICT costs"
         color="var(--budget-4)"
       >
