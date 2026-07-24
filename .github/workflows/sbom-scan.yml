@@ -23,7 +23,7 @@ jobs:
       container: ${{ steps.targets.outputs.container }}
       iac: ${{ steps.targets.outputs.iac }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Detect container and infrastructure files
         id: targets
@@ -46,7 +46,7 @@ jobs:
     name: Filesystem SBOM (Syft + Grype)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Generate SBOM with Syft
         uses: anchore/sbom-action@v0
@@ -66,7 +66,7 @@ jobs:
 
       - name: Upload filesystem SBOM
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: sbom-filesystem
           path: sbom-filesystem.json
@@ -79,7 +79,7 @@ jobs:
     # Auto-aware: only runs when a Dockerfile is present
     if: needs.detect.outputs.container == 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -102,7 +102,7 @@ jobs:
 
       - name: Upload container scan results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: container-scan
           path: trivy-container.sarif
@@ -115,7 +115,7 @@ jobs:
     # Auto-aware: only runs when IaC files are present
     if: needs.detect.outputs.iac == 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Scan IaC configs with Trivy
         uses: aquasecurity/trivy-action@master
@@ -129,7 +129,7 @@ jobs:
 
       - name: Upload IaC scan results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: iac-scan
           path: trivy-iac.sarif
