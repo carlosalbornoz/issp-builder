@@ -372,7 +372,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               className="animate-glow-orbit inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
             >
               <Sparkles className="w-3 h-3" />
-              What&apos;s new — July 15–19, 2026
+              What&apos;s new: Scoped / distributable ISSPs
             </button>
           </div>
         </div>
@@ -697,11 +697,66 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
             <DialogTitle className="font-display text-lg flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              What&apos;s new — July 15–19, 2026
+              What&apos;s new: Scoped / distributable ISSPs
             </DialogTitle>
           </DialogHeader>
           <div ref={whatsNewScrollRef} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
             <div tabIndex={0} className="h-0 w-0 overflow-hidden outline-none" aria-hidden="true" />
+
+            {/* Scoped distribution — headline update */}
+            <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Distribute the Plan, Not the Whole File</p>
+              <p>
+                A large plan has many owners, and not every office needs the whole document. The master ISSP can now be carved into per-office{" "}
+                <span className="text-foreground font-medium">.issp</span> files — the secretariat picks which sections, and even which individual fields, each office may edit. An office that opens a scoped file sees only what is theirs: their sections, their fields, their rows. The Properties panel and PDF export stay with the master.
+              </p>
+              <p>
+                When the office returns their file,{" "}
+                <span className="text-foreground font-medium">Consolidate</span> pulls their changes back into the master and flags anything that needs a second look — nothing merges silently. Both Distribute and Consolidate live in the file actions (⋯) menu of a master file.
+              </p>
+            </div>
+
+            {/* Compatibility reassurance */}
+            <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 px-4 py-3.5 space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Your Master Files Are Untouched</p>
+              <p>
+                Scoped mode only switches on when a file carries a scope. Every <span className="text-foreground font-medium">.issp</span> you have today opens exactly as before — the new menu entries are the only visible difference on a master file.
+              </p>
+            </div>
+
+            {/* Annex 1 inline management */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Annex 1, Managed in One Place</p>
+              <p>
+                Offices and their equipment counts can now be added and edited directly on the editor&apos;s Annex 1 page — click a card to edit it, totals included. The standalone form remains for offices filling the inventory on their own.
+              </p>
+            </div>
+
+            {/* Part IV project numbering */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Part IV Projects, Numbered Like the Template</p>
+              <p>
+                Projects are counted the way the template counts them —{" "}
+                <span className="text-foreground font-medium">Internal ICT Project #1, #2…</span> and the same for Cross-Agency. The two budget categories answer to Office Productivity and Continuing Costs now, and the old A/B/C letters have retired.
+              </p>
+            </div>
+
+            {/* Smaller fixes */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">And the Small Things</p>
+              <p>
+                Part III-B guidance now points to the{" "}
+                <span className="text-foreground font-medium">Philippine Government Interoperability Framework (PGIF) 2.0</span>, and the Annex 1 &ldquo;Open form&rdquo; link — which worked in development but not on the live site — is fixed.
+              </p>
+            </div>
+
+            {/* Previously — July 15–19 entry, collapsed */}
+            <details className="group rounded-lg border bg-muted/30">
+              <summary className="flex cursor-pointer select-none items-center justify-between px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground list-none [&::-webkit-details-marker]:hidden">
+                Previously — July 15–19, 2026
+                <ChevronDown className="w-3.5 h-3.5 transition-transform group-open:rotate-180" />
+              </summary>
+              <div className="px-4 pb-4 pt-2 space-y-5">
 
             {/* July 15 Writeshop — headline update */}
             <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
@@ -777,6 +832,9 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
                 The Part colors have been retuned for better contrast across light and dark themes — Part II is now teal rather than orange. Sections still in progress show blue, and the budget category colors in Part IV now follow your chosen theme instead of being fixed.
               </p>
             </div>
+
+              </div>
+            </details>
 
             {/* Previously — June 20–21 entry, collapsed */}
             <details className="group rounded-lg border bg-muted/30">
@@ -877,7 +935,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
             {/* Footer gag */}
             <p className="text-xs text-muted-foreground/50 italic text-center border-t pt-4">
-              Next: making migrated-file review impossible to overlook. One schema version at a time. 🔎
+              Next: an ISSP repository so these plans stop living as PDFs at the bottom of transparency pages. One agency at a time. 📦
             </p>
 
           </div>
