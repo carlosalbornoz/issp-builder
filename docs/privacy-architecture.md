@@ -1,8 +1,9 @@
 # Privacy Architecture Notes
 ## ISSP Builder — Local-First Redesign
 
-> **Status:** Decisions finalized 2026-05-18. Implementation not yet started.
-> **Last updated:** 2026-05-18  
+> **Status:** IMPLEMENTED 2026-06-14 and shipping since. This doc is now a historical design record — the local-first redesign it proposes was executed, then went further: the server-side scaffolding it says was "kept in code" (Prisma, NextAuth, dashboard routes, `useAutoSave`) was **deleted** in the 2026-06-14 cutover. Scoped distribution (2026-09-03) later added file-based multi-office collaboration with no server involvement.
+> **What is still accurate:** the rationale (§1–2), the save-rhythm UX (§3 — shipped: 1.5s IndexedDB autosave, "Up to date"/"Unsaved changes" indicator, file-save reminder, beforeunload), and the usage-analytics disclosure (§5's analytics subsection — verify details against `src/app/api/usage/`).
+> **What is NOT accurate:** any claim that server-side code is dormant/kept, the "proposed" `.issp` envelope shapes (§4 — actual shape is flat, see `src/lib/store/types.ts`; files without `fileType` are **rejected**, not defaulted), and the §5 "changes required" list (all done). Unimplemented safeguards it recommends (export-endpoint origin check, rate limiting) remain open — tracked in `docs/project-status.md`.
 > **Context:** As the platform is intended for use by government agencies, it must be aligned with RA 10173 (Data Privacy Act), RA 10175 / E-Gov Act IRR provisions, and the principle of Privacy by Design.
 
 ---
@@ -167,29 +168,29 @@ The `.issp` envelope includes a `fileType` field to distinguish between the main
 | `"annex1"` | Annex 1 standalone module | ICT Asset Inventory + office identity |
 | `"annex2"` | Annex 2 standalone module (future) | DRBCP for ICT Resources + office identity |
 
-Files without a `fileType` field are treated as `"issp-main"` for backward compatibility.
+Files without a `fileType` field are **rejected** by the loader (`src/lib/store/index.tsx` checks `fileType === "issp-main"` for main documents). The envelope also carries `schemaVersion` (currently 11), and a master may carry `editScope`/`consolidationFlags` for scoped distribution.
 
-**Main ISSP file (`fileType: "issp-main"`)**:
+**Main ISSP file (`fileType: "issp-main"`)** — actual shape is **flat** (no `"document"` wrapper; see `src/lib/store/types.ts`):
 
 ```json
 {
   "version": "1.0",
   "fileType": "issp-main",
+  "schemaVersion": 11,
   "exportedAt": "2026-05-17T10:30:00Z",
   "tool": "issp-platform",
-  "document": {
-    "title": "NCWTR Information Systems Strategic Plan 2026–2028",
-    "startYear": 2026,
-    "endYear": 2028,
-    "status": "draft",
-    "scope": "AGENCY_WITH_REGIONAL",
-    "amendmentNumber": 0,
-    "agency": { "name": "...", "acronym": "...", "type": "NGA" },
-    "part1": { ... },
-    "part2": { ... },
-    "part3": { ... },
-    "part4": { ... }
-  }
+  "title": "NCWTR Information Systems Strategic Plan 2026–2028",
+  "startYear": 2026,
+  "endYear": 2028,
+  "status": "draft",
+  "scope": "AGENCY_WITH_REGIONAL",
+  "amendmentNumber": 0,
+  "agency": { "name": "...", "acronym": "...", "type": "NGA" },
+  "part1": { ... },
+  "part2": { ... },
+  "part3": { ... },
+  "part4": { ... },
+  "annexedOffices": [ ... ]
 }
 ```
 
@@ -204,9 +205,8 @@ Files without a `fileType` field are treated as `"issp-main"` for backward compa
   "office": {
     "type": "field",
     "region": "NCR",
-    "parentRegion": "NCR",
     "name": "UP Diliman Field Office",
-    "displayLabel": "NCR › UP Diliman Field Office"
+    "displayLabel": "Field Office — UP Diliman Field Office"
   },
   "annex1": {
     "equipment": [ ... ],
