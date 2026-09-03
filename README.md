@@ -33,24 +33,26 @@ npm run dev
 # Open http://localhost:3000/editor — no login required
 ```
 
-To try the tool immediately, download the [NCWTR demo file](public/demo/ncwtr-issp-2026-2028.issp) from the editor splash screen.
+To try the tool immediately, load the NCWTR demo from the home page ("View the sample ISSP").
 
 ---
 
 ## Production deployment
 
-The app is served at `apps.carlosanton.io/issp` via nginx → pm2 on port 3100.
+The app is served at `apps.carlosanton.io/issp` via nginx → pm2 on port 3100, with `basePath: "/issp"` **baked into the build** by `.env.production` (`NEXT_PUBLIC_BASE_PATH`).
 
 ```bash
-# Build
+# Build (deploy-only — NEVER run during feature work; see docs/production-safety.md)
 npm run build
 
 # Restart (kills any stale process first, then restarts pm2)
 ss -tlnp | grep 3100 | grep -oP 'pid=\K[0-9]+' | xargs -r kill; sleep 0.5; pm2 restart issp --update-env
 ```
 
-> Port 3000 is dev only (`npm run dev`). The pm2 process `issp` always runs on port 3100.
+> Port 3000 is dev only (`npm run dev`, no basePath). The pm2 process `issp` always runs on port 3100.
 > Before restarting, check for stale listeners on port 3100 with `ss -tlnp | grep 3100` and kill them if needed.
+
+**basePath rules (prod-only traps):** internal links must use `next/link` — a plain `<a href="/x">` works on dev but 404s on prod because Next does not prepend basePath to raw anchors. Same for any hardcoded asset path. See `docs/production-safety.md`.
 
 ---
 
@@ -61,8 +63,9 @@ ss -tlnp | grep 3100 | grep -oP 'pid=\K[0-9]+' | xargs -r kill; sleep 0.5; pm2 r
 | 1–6 | ISSP Builder (Parts I–IV) + PDF export | ✅ Done |
 | Local-first | No login, IndexedDB + `.issp` file format, stateless PDF | ✅ Done |
 | Phase E | Diagram upload (base64, client-side) | ✅ Done |
-| Phase 7 | Polish & validation (progress tracking, pre-export checks, review mode) | 🔵 Planned |
-| Annex 1 | Standalone ICT Asset Inventory module for regional/field offices | ✅ Done |
+| Annex 1 | ICT Asset Inventory — standalone office form + inline editor management | ✅ Done |
+| Scoped distribution | Carve a master into per-office copies, merge returns with conflict review — all via `.issp` files, no server | ✅ Done |
+| Phase 7 | Polish & validation (pre-export checks, review mode) | 🔵 Planned |
 | Phase 8 | ISSP Repository — searchable public archive of agency ISSPs | 🔵 Planned |
 | Phase 9 | ICT Budget Dashboard — ISSP budget requests vs. DBM actual releases | 🔵 Planned |
 
@@ -102,24 +105,27 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 ## Project structure
 
 ```
-├── docs/               # Architecture notes, session handoff, implementation plans
+├── docs/               # Canonical tracker (project-status.md), ADRs, historical notes
 ├── public/
 │   ├── demo/           # NCWTR sample .issp file (all 4 parts populated)
 │   └── uacs_active.min.json
 ├── references/         # DICT 2026 ISSP template PDFs + guidelines markdown
 ├── src/
 │   ├── app/
-│   │   ├── editor/     # Local-first editor (public, no auth) — Parts I–IV
+│   │   ├── editor/     # Local-first editor (public, no auth) — Parts I–IV + Annex 1 mgmt
+│   │   ├── annex1/     # Standalone Annex 1 form (for offices)
 │   │   ├── api/export/ # POST /api/export — stateless PDF generation
 │   │   └── api/usage/  # POST /api/usage — limited append-only usage analytics
 │   ├── components/
-│   │   ├── editor/     # EditorShell, EditorSidebar
+│   │   ├── editor/     # EditorShell, EditorSidebar, distribute/consolidate dialogs
+│   │   ├── annex1/     # Annex 1 editor components
 │   │   └── issp-editor/# All Part I–IV form components
-│   ├── hooks/          # useFileSaveReminder, useLocalSave
+│   ├── hooks/          # useFileSaveReminder, useLocalSave, useResolvedScope
 │   └── lib/
 │       ├── store/      # IndexedDB store — IsspDocument types + context
+│       ├── scope/      # Scoped-distribution engine (slice, consolidate, paths)
 │       └── pdf/        # Puppeteer wrapper + full ISSP HTML renderer
-└── uacs/               # UACS budget classification codes (1,253 entries)
+└── uacs/               # UACS budget classification codes (1,262 active / 1,290 total)
 ```
 
 ---
@@ -129,10 +135,11 @@ apt-get install -y fonts-urw-base35 && fc-cache -f
 | Doc | Purpose |
 |---|---|
 | [`docs/project-status.md`](docs/project-status.md) | **Canonical current tracker** — active architecture, backlog, next hypersession plan |
-| [`docs/code-sweep-2026-06-19.md`](docs/code-sweep-2026-06-19.md) | Latest read-only code sweep and prioritized findings |
-| [`docs/ui-refresh-plan.md`](docs/ui-refresh-plan.md) | UI refresh implementation plan (branch: `ui-refresh`) |
+| [`docs/scoped-distribution-usage.md`](docs/scoped-distribution-usage.md) | How to Distribute scoped copies and Consolidate returns |
+| [`docs/production-safety.md`](docs/production-safety.md) | Deploy rules for the shared dev+prod tree (read before building/restarting) |
+| [`docs/code-sweep-2026-06-19.md`](docs/code-sweep-2026-06-19.md) | Historical code sweep findings |
+| [`docs/ui-refresh-plan.md`](docs/ui-refresh-plan.md) | Historical UI refresh implementation plan |
 | [`docs/privacy-architecture.md`](docs/privacy-architecture.md) | Historical local-first design rationale; verify current state against `docs/project-status.md` |
-| [`docs/annex1-implementation-plan.md`](docs/annex1-implementation-plan.md) | Historical Annex 1 draft; must be refreshed before implementation |
 | [`references/ISSP_Guidelines_2026.md`](references/ISSP_Guidelines_2026.md) | Structured extraction of the DICT 2026 ISSP template |
 
 ---

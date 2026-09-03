@@ -102,5 +102,6 @@ Potential work:
 
 Notes:
 
-- Do not enable required status checks until CI exists.
+- Security/compliance CI already exists (`.github/workflows/`: compliance, security Semgrep, dependency Trivy, SBOM, secret scan — added 2026-07-16), but none of these run `tsc`, `npm run lint`, or `npm run build`. The type/lint CI gate is still to do.
+- Branch protection remains off; the existing security workflows are candidates for required status checks.
 - See `docs/git-workflow-notes.md` for the plain-English Git workflow explanation.

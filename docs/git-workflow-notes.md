@@ -12,23 +12,19 @@ This is a plain-English reference for the current Git/GitHub workflow. It is int
 
 ## What Happened Recently
 
-We created and merged a branch named `harden-local-store-import`.
+Recent merges, newest first:
 
-That branch added:
+- `feat/scoped-issp-distribution` (merged as `dda843e`, 2026-09-03; local merge, branch deleted) — scoped `.issp` distribution: Distribute per-office copies, offices edit offline, Consolidate merges returns with conflict review.
+- PR #3 `feat/annex1` (2026-06-21) — standalone Annex 1 form.
+- PR #2 `harden-local-store-import` (2026-06-19) — safer browser storage, better `.issp` import validation, better save/import/clear error messages, mobile sidebar file actions, toast notifications.
 
-- Safer browser storage handling.
-- Better `.issp` import validation.
-- Better save/import/clear error messages.
-- Mobile sidebar file actions.
-- Upper-right toast notifications.
-
-The branch was merged into `main` through PR #2.
+Note: not every merge goes through a PR — some are plain local merges (`git merge` on `main`). Both paths are fine; a PR is preferred when you want the record on GitHub.
 
 After merge cleanup:
 
 ```bash
 git fetch --prune
-git branch -d harden-local-store-import
+git branch -d <merged-branch>
 ```
 
 `git fetch --prune` removes stale remote branch references from the local machine.
@@ -100,13 +96,6 @@ git fetch --prune
 git branch -d my-feature-branch
 ```
 
-## Local Files Still Needing a Decision
+## Local Files (resolved)
 
-At the time this note was written, there were untracked local files that had not been committed:
-
-- `references/ISSP Orientation DICT May 25.json`
-- `references/ISSP Template Handout May 25.pdf`
-- `references/ISSP_Orientation_Notes_May25.md`
-- `tailwind.config.*`
-
-These are not part of the merged work yet. Decide later whether to keep/commit them or delete them.
+The previously-untracked May 25 reference files (`references/ISSP Orientation DICT May 25.json`, `references/ISSP Template Handout May 25.pdf`, `references/ISSP_Orientation_Notes_May25.md`) were committed in `0f6ff3d` (2026-06-20). `tailwind.config.*` never existed — the project uses Tailwind 4 CSS-first configuration. Nothing is pending here.

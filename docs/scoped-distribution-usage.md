@@ -24,7 +24,7 @@ Only the consolidated master produces the official PDF.
 ## 1. Distribute (secretariat)
 
 1. Open the **master** ISSP in the editor.
-2. Click **Distribute to offices** (sidebar — only visible on a master).
+2. Click **Distribute to offices…** (in the sidebar's file-actions ⋯ menu — only visible on a master).
 3. For each contributing office: type a name, then tick the areas / sections /
    fields that office owns in the tree. You can be as coarse as a whole Part or as
    fine as a single field (e.g. only *Part I-B → CIO Name*).
@@ -50,7 +50,7 @@ editing the scope by hand.
 
 ## 3. Consolidate (secretariat)
 
-1. Open the **master** → **Consolidate returned files** (sidebar).
+1. Open the **master** → **Consolidate returned files…** (sidebar file-actions ⋯ menu).
 2. Select one or more returned `.issp` files. A **review screen** shows what each
    will do: overlay fields, replace that office's shared-table rows (stakeholders,
    Annex 1), flag overlapped sections, or surface a scalar conflict.
@@ -64,9 +64,10 @@ leaves everyone else's untouched, so you can re-consolidate corrected files free
 
 ## 4. Review flags
 
-After consolidating, flagged sections show a *"Flagged during consolidation —
-review for duplicates"* banner. Check the section, remove duplicates, then click
-**Mark reviewed** to clear the flag.
+After consolidating, flagged sections show a **"Flagged during consolidation"**
+banner ("Multiple scoped files contributed to this section — review for duplicates
+or conflicting entries, then clear the flag."). Check the section, remove
+duplicates, then click **Mark reviewed** to clear the flag.
 
 ## 5. Export the official PDF
 
@@ -85,7 +86,7 @@ Scoped files cannot export PDF — only the master can.
   *could* hand-edit the JSON. That's acceptable — it's the agency's own data, and
   the secretariat reviews everything on consolidate. Tamper-proofing can come later.
 - **Legacy Annex 1 files still work.** Offices that send old-style standalone
-  Annex 1 files can still be attached via the editor's "Attach files" flow; both
+  Annex 1 files can still be attached via the editor's "Attach Annex 1 files…" flow; both
   legacy-attached and scoped-consolidated Annex 1 entries coexist in the master and
   render in the PDF.
 
