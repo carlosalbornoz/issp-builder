@@ -514,13 +514,22 @@
     ) border-box,
     linear-gradient(var(--border), var(--border)) border-box;
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.12);
+  /* The orbit animation is ALWAYS applied but paused at rest: a paused animation
+     keeps its current --glow-angle, so on un-hover the arc freezes where it is
+     and --glow-alpha's transition fades it out in place. Removing the animation
+     on un-hover (declaring it only under :hover) would snap the angle to its
+     initial value 0deg — teleporting the visible arc to the right side for the
+     duration of the alpha fade. */
+  animation: glow-orbit 2.6s linear infinite;
+  animation-play-state: paused;
   transition: --glow-alpha 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
-/* Pointer devices: the light appears and orbits only while hovered */
+/* Pointer devices: the light appears and orbits only while hovered — hover
+   resumes the paused orbit from where it last froze (and fades alpha in) */
 @media (hover: hover) and (pointer: fine) {
   .animate-glow-orbit:hover {
     --glow-alpha: 1;
-    animation: glow-orbit 2.6s linear infinite;
+    animation-play-state: running;
     box-shadow: 0 0 16px 2px rgba(170, 110, 220, 0.16);
   }
 }
