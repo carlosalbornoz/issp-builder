@@ -336,7 +336,7 @@ export function DistributeDialog({
               id="distribute-office-select"
               value={selectedIdx}
               onChange={(e) => setSelectedIdx(Number(e.target.value))}
-              className="flex-1 min-w-0 rounded-md border border-input bg-transparent px-2 py-1.5 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex-1 min-w-0 rounded-md border border-input bg-transparent px-2 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               {offices.map((e, i) => (
                 <option key={e.officeId} value={i}>

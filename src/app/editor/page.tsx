@@ -62,7 +62,7 @@ function OverviewView() {
       )}
       <ContinueEditingCard sectionMeta={sectionMeta} visibleSectionIds={continueVisibleIds} />
       {visibleFrontMatter.length > 0 && (
-        <div className="rounded-xl border bg-card overflow-hidden transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none focus-within:border-foreground/30 focus-within:shadow-md">
+        <div className="rounded-xl border bg-card overflow-hidden transition-[border-color] duration-150 motion-reduce:transition-none focus-within:border-foreground/30">
           {visibleFrontMatter.map((section) => (
             <Link
               key={section.id}

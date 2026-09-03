@@ -322,7 +322,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
     >
       {isDraggingFile && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-sm pointer-events-none">
-          <div className="flex flex-col items-center gap-3 rounded-2xl border-2 border-dashed border-primary/50 bg-card px-12 py-10 text-center shadow-xl">
+          <div className="flex flex-col items-center gap-3 rounded-2xl border-2 border-dashed border-primary/50 bg-card px-12 py-10 text-center">
             <FolderOpen className="h-8 w-8 text-primary" />
             <div>
               <p className="font-semibold text-sm">Drop your .issp file to load it</p>
@@ -509,7 +509,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
 
         {/* Attribution chip — docked at the bottom of the first viewport, macOS-dock style */}
         <div className="flex justify-center pb-9 px-6">
-          <p className="chip-attr select-none rounded-full bg-foreground text-background/85 px-4 py-1.5 text-xs font-semibold text-center shadow-lg shadow-foreground/20">
+          <p className="chip-attr select-none rounded-full bg-foreground text-background/85 px-4 py-1.5 text-xs font-semibold text-center">
             Made with <span className="chip-heart">❤️</span> <em>para sa bayan</em> ·{" "}
             <a
               href="https://www.instagram.com/carlosanton.io"

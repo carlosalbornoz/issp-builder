@@ -213,7 +213,7 @@ function ISCard({
   }
 
   return (
-    <div data-reveal-id={sys.id} className="rounded-xl border bg-card overflow-hidden shadow-sm">
+    <div data-reveal-id={sys.id} className="rounded-xl border bg-card overflow-hidden">
       {/* Card header */}
       <div className="flex items-center gap-3 px-4 py-3 bg-muted/30 border-b">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">

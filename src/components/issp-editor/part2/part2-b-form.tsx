@@ -112,7 +112,7 @@ function ChecklistGroup({
   const checkedMandatoryCount = mandatoryItems.filter((i) => values[i.key]).length;
 
   return (
-    <div className={cn("rounded-lg border border-l-4 overflow-hidden", group.color)}>
+    <div className="rounded-lg border overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
