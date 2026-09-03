@@ -1,7 +1,8 @@
 # ISSP Builder — Session Handoff & Continuation Guide
 
-> **Last updated:** 2026-06-20 — covers all work through the June 12–19 sessions (form usability fixes, SEO/sitemap, mobile sidebar actions). **Note:** the PDF export section below predates the 2026-06-11 pipeline split (`renderFrontMatterHtml`/`renderContentHtml` + `IsspPdfParts`); trust the session log and `src/lib/pdf/` over this file for PDF details.  
-> **Purpose:** Complete handoff for the next session to resume work exactly where we left off.
+> **⚠️ HISTORICAL (2026-06-20, with additions through 2026-07-18). Do not use as a current source.**
+> For current state, architecture, and backlog, read `docs/project-status.md`. This file predates: scoped distribution (2026-09-03), Annex 1 inline management, schemaVersion 11, Part IV project numbering, and the Part I-C List-view redesign.
+> Two sections below are known-wrong today: (1) "the old server-side DB/auth code remains in the repo" — that code was deleted 2026-06-14; (2) the production-deploy section predates the 2026-08-03 incident — follow `docs/production-safety.md` for deploys instead (never `npm run build` outside a deploy; build from `main` then restart pm2).
 
 ---
 
@@ -810,6 +811,8 @@ node scripts/build-demo.js
 ```
 
 ### Production deployment (apps.carlosanton.io/issp)
+
+> ⚠️ **SUPERSEDED — see `docs/production-safety.md`.** This procedure predates the 2026-08-03 shared-tree incident: running `npm run build` in this tree while pm2 serves from it desyncs prod (manifest 500s). Build only from `main` as a deliberate deploy, then restart pm2. The stale-pid note below remains valid.
 
 > ⚠️ **Always kill the stale process before restarting.** Skipping step 2 is the #1 cause of "fix deployed but nothing changed" — pm2 silently fails with `EADDRINUSE`, the new process dies immediately, and the old pre-build code keeps serving. `pm2 status` shows "online" (for the sh wrapper) so it looks fine, but `ss` reveals the actual listening pid hasn't changed.
 

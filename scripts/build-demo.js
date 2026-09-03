@@ -33,7 +33,7 @@ const issp = {
   "fileType": "issp-main",
   "exportedAt": new Date().toISOString(),
   "tool": "issp-platform",
-  "schemaVersion": 6,
+  "schemaVersion": 11,
   "title": "NCWTR Information Systems Strategic Plan 2026–2028",
   "startYear": 2026,
   "endYear": 2028,
