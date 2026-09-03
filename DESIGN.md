@@ -161,6 +161,8 @@ The system is flat at rest. Cards, inputs, buttons, and badges carry no shadow â
 ### Named Rules
 **The Floating-Only Rule.** Shadow is never applied to anything that sits in normal page flow, no matter how important. A card that needs to stand out gets a border treatment or a background tint, never a drop shadow.
 
+*One deliberate exception:* the home page's **What's New announcement pill** (`.animate-glow-orbit`) reads as a floating chip at rest (`0 3px 14px` shadow + animated conic-gradient border on hover/touch). It is a marketing/announcement surface whose explicit goal is noticeability, not app chrome â€” the Floating-Only Rule governs editor/app UI.
+
 ## 5. Components
 
 Components are grounded and unfussy: flat surfaces read as settled and trustworthy rather than experimental, with every state (hover, focus, active, disabled) implemented rather than approximated.
