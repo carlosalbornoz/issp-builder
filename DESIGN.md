@@ -18,10 +18,6 @@ colors:
   desk-blue: "#1D4ED8"
   desk-blue-bg: "#EFF6FF"
   desk-blue-border: "#BFDBFE"
-  part-one: "#0064D1"
-  part-two: "#0A7280"
-  part-three: "#1F7735"
-  part-four: "#9D2BD7"
 typography:
   display:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif"
@@ -109,7 +105,7 @@ The palette is a near-monochrome neutral scale (ink on paper) carrying the vast 
 - **Ink** (#1D1D1F): The near-black used for body text, headings, and primary button fills. Carries nearly all typographic weight in the system.
 
 ### Secondary
-- **Desk Blue** (#1D4ED8, bg #EFF6FF, border #BFDBFE): Informational callouts — guidance boxes, tooltips, "here's what this section needs" hints. The system's one recurring "helpful, not alarming" accent.
+- **Desk Blue / info** (`--info` #1D4ED8, bg #EFF6FF, border #BFDBFE — system-light reference): Informational callouts — guidance boxes, tooltips, "here's what this section needs" hints. The system's one recurring "helpful, not alarming" accent.
 
 ### Tertiary (semantic state)
 - **Field Green** (#15803D, bg #F0FDF4, border #BBF7D0): Success / "already in place" / completed states.
@@ -124,10 +120,17 @@ The palette is a near-monochrome neutral scale (ink on paper) carrying the vast 
 - **Hairline** (#D2D2D7): Borders and dividers throughout; the system's only line weight.
 
 ### Part Identity
-- **Part One Blue** (#0064D1), **Part Two Teal** (#0A7280), **Part Three Green** (#1F7735), **Part Four Purple** (#9D2BD7): One color per ISSP Part (I–IV), used consistently in the sidebar, breadcrumbs, and section eyebrow labels so a user always knows which Part they're in at a glance. This is the system's one deliberately "colorful" wayfinding device — everywhere else, color means state, not identity.
+Parts I–IV are differentiated by **label + icon only** — all four Parts share one neutral `--part: var(--foreground)` ink in every theme (decided 2026-07-19: with distinct icons + "Part X" labels, per-Part hues were redundant noise). Do not reintroduce per-Part colors without revisiting that decision.
+
+### Data Visualization
+- **Budget category swatches** (`--budget-1..4`, theme tokens in `globals.css`): the one recurring multi-hue palette — Part IV budget category identity in SectionCard swatches and the PDF's summary tables. Legit data-viz, not decoration.
+- Home-page logo bars / OG image use a fixed four-color set (`#2563EB #D97706 #16A34A #7C3AED`) — brand artifact only, not an app palette.
+
+### Themes
+There are **four themes** (`theme-system-light`, `theme-system-dark`, `theme-warm-light`, `theme-warm-dark`); `:root` aliases the warm-light values, and the system themes override fonts to the OS stack. Hex values above are the **system-light** reference; warm themes use their own near-equivalents (e.g. warm-light destructive `#B91C1C`, hairline `#E5E3DC`) and a smaller radius scale (`--radius: 0.5rem`). Check `globals.css` for the live token per theme.
 
 ### Named Rules
-**The Spent-Not-Spread Rule.** Color is either a semantic state (success/warning/info/danger) or a Part identity marker. It is never applied to a control, a label, or an icon simply for visual variety — an unattached color with no state or identity behind it doesn't belong in this system.
+**The Spent-Not-Spread Rule.** Color is either a semantic state (success/warning/info/danger) or carries real data (budget-category identity). It is never applied to a control, a label, or an icon simply for visual variety — an unattached color with no state or data behind it doesn't belong in this system.
 
 ## 3. Typography
 
@@ -185,7 +188,7 @@ Components are grounded and unfussy: flat surfaces read as settled and trustwort
 - **Error:** Border and ring shift to Alert Red at reduced opacity; disabled state drops to Fog background with reduced-opacity text.
 
 ### Navigation
-- **Style:** A persistent left sidebar (desktop) listing all ISSP Parts and sections, each Part labeled in its own identity color; a sticky in-page header repeats the current Part/section as a breadcrumb plus an H1 title. Active section is highlighted with a Fog background. Mobile collapses the sidebar behind a hamburger trigger in the sticky header.
+- **Style:** A persistent left sidebar (desktop) listing all ISSP Parts and sections (Part identity by label + icon, shared ink — see Part Identity above); a sticky in-page header repeats the current Part/section as a breadcrumb plus an H1 title. Active section is highlighted with the sidebar-active background token. Mobile collapses the sidebar behind a hamburger trigger in the sticky header.
 
 ## 6. Do's and Don'ts
 

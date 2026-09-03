@@ -59,3 +59,29 @@ prod desynced.
 Same as a deploy: rebuild from `main` + `pm2 restart issp`. Symptom:
 `client reference manifest … does not exist` / 500s on routes, while `/issp/`
 may 308 → error.
+
+## Other dev-works-prod-breaks traps
+
+**basePath `/issp` and raw anchors (2026-08-28 incident).** Prod is built with
+`NEXT_PUBLIC_BASE_PATH=/issp`; dev is not. `next/link` applies basePath
+automatically — a plain `<a href="/x">` does **not**. Such a link works on
+dev and 404s on prod (this shipped in the Annex 1 "Open form" link and was
+found by a user). Same rule for any hardcoded asset path. Always use
+`next/link` for internal links.
+
+**nginx `client_max_body_size 50m`.** The `/issp` nginx block sets this to
+match the app's 50 MB upload cap (`MAX_ISSP_FILE_SIZE_BYTES`). Default nginx
+is 1 MB — any nginx rebuild/new vhost that drops this line silently breaks
+PDF export of any doc with embedded diagrams (HTTP 413; the UI surfaces a
+readable error). Config: `/etc/nginx/sites-available/apps.carlosanton.io`.
+
+**CSP `connect-src 'self'`.** Prod sends a Content-Security-Policy that
+blocks `fetch()` against `data:` URIs (dev sends none). The PDF-export client
+therefore decodes the returned base64 with `atob()` — do not "simplify" it
+back to `fetch("data:…")`. Any new client-side fetch/network path must be
+smoke-tested on **prod**, not just dev.
+
+**SSE + `X-Accel-Buffering: no`.** PDF-export progress streams rely on nginx
+*not* buffering the proxied response. If `proxy_buffering` is ever enabled
+globally, progress silently degrades to everything-at-the-end.
+
