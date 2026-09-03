@@ -369,9 +369,9 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           <div className="flex justify-center pt-4">
             <button
               onClick={openWhatsNew}
-              className="animate-glow-orbit inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
+              className="animate-glow-orbit inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold text-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:text-sm"
             >
-              <Sparkles className="w-3 h-3" />
+              <Sparkles className="h-4 w-4" />
               What&apos;s new: Scoped / distributable ISSPs
             </button>
           </div>
