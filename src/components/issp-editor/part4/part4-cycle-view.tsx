@@ -258,7 +258,7 @@ function CycleSubTable({
           <tbody>
             {rows.length === 0 && (
               <tr>
-                <td colSpan={10} className="px-3 py-6 text-center text-muted-foreground text-sm border-b">
+                <td colSpan={11} className="px-3 py-6 text-center text-muted-foreground text-sm border-b">
                   No items yet.{" "}
                   <button type="button" onClick={onAdd} className="font-medium text-primary hover:underline">Add one.</button>
                 </td>
