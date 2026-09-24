@@ -73,7 +73,7 @@ export const ALL_SECTIONS: readonly SectionDef[] = [
   ...PARTS.flatMap((p) => p.sections),
 ];
 
-export const TOTAL_SECTIONS = ALL_SECTIONS.length; // 19
+export const TOTAL_SECTIONS = ALL_SECTIONS.length; // 20, incl. 2 readOnly (not completion-tracked)
 
 export function computeStatus(meta: SectionMeta | undefined): SectionStatus {
   if (!meta) return "empty";

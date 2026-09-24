@@ -121,7 +121,10 @@ function ContinueCard({
   const [clearing, setClearing] = useState(false);
 
   const sectionMeta = doc.sectionMeta ?? {};
-  const doneCount = ALL_SECTIONS.filter((s) => computeStatus(sectionMeta[s.id]) === "done").length;
+  // readOnly sections (Cycle View, Summary) can never be marked done, so they
+  // are excluded from both sides of the completion ratio.
+  const trackedSections = ALL_SECTIONS.filter((s) => !s.readOnly);
+  const doneCount = trackedSections.filter((s) => computeStatus(sectionMeta[s.id]) === "done").length;
 
   return (
     <div className="space-y-2 min-w-0">
@@ -139,7 +142,7 @@ function ContinueCard({
           </p>
         </div>
       </div>
-      <CompletionBar numerator={doneCount} denominator={ALL_SECTIONS.length} showLabel />
+      <CompletionBar numerator={doneCount} denominator={trackedSections.length} showLabel />
       {!confirmingClear ? (
         <div className="flex flex-wrap items-center gap-3">
           <Button size="sm" className="gap-1.5" onClick={onContinue}>

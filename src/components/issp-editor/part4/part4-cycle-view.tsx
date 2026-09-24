@@ -169,7 +169,14 @@ export function Part4CycleView({
                 groups={groups}
                 currentGroup={group}
                 currentExpenseClass={expenseClass}
-                onAdd={() => { const r = addNewRow(part4, group, expenseClass); save(r.part4, r.touchedYears); }}
+                onAdd={() => {
+                  // The new row starts with an empty item name, so an active
+                  // search would filter it out and the click would look like a
+                  // no-op (repeat clicks silently piling up hidden blank rows).
+                  setQuery("");
+                  const r = addNewRow(part4, group, expenseClass);
+                  save(r.part4, r.touchedYears);
+                }}
                 onEditShared={(row, patch) => { const r = updateRowSharedFields(part4, row, patch); save(r.part4, r.touchedYears); }}
                 onEditYear={(row, year, patch) => { const r = updateYearCell(part4, row, year, patch); save(r.part4, r.touchedYears); }}
                 onAddYear={(row, year) => { const r = addYearCell(part4, row, year); save(r.part4, r.touchedYears); }}
@@ -193,6 +200,43 @@ export function Part4CycleView({
         </div>
       )}
     </SectionShell>
+  );
+}
+
+/**
+ * Item-description input that writes to the store only on blur / Enter.
+ *
+ * The item name is the ONLY field `groupLineItemsAcrossCycle` matches rows on,
+ * and grouping re-runs from scratch on every store change. Committing on every
+ * keystroke would let an in-progress name transiently equal another row's name
+ * (typing "Laptop Bag" passes through "Laptop"), and the regroup would then
+ * split this row's year cells onto the unrelated row. Holding the text in a
+ * local draft until the edit is finished keeps the store's `item` unchanged
+ * while typing, so no transient collision can happen.
+ *
+ * While not focused the input renders `value` directly, so it always shows the
+ * store's current name (external changes from another tab / the per-year page,
+ * or a different row reusing this positional `rowKey` after a regroup). The
+ * draft is re-seeded from `value` on every focus. Enter blurs, so blur is the
+ * single commit path and the input is never left focused on a stale draft
+ * after the regroup its own commit triggers.
+ */
+function ItemNameInput({ value, onCommit }: { value: string; onCommit: (item: string) => void }) {
+  const [draft, setDraft] = useState(value);
+  const [focused, setFocused] = useState(false);
+
+  return (
+    <input
+      type="text" className={INPUT_CLS} placeholder="Item description…"
+      value={focused ? draft : value}
+      onFocus={() => { setDraft(value); setFocused(true); }}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={() => {
+        setFocused(false);
+        if (draft !== value) onCommit(draft);
+      }}
+      onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); }}
+    />
   );
 }
 
@@ -290,10 +334,7 @@ function CycleSubTable({
                   </select>
                 </td>
                 <td className="border-r px-2 py-1">
-                  <input
-                    type="text" className={INPUT_CLS} placeholder="Item description…"
-                    value={row.item} onChange={(e) => onEditShared(row, { item: e.target.value })}
-                  />
+                  <ItemNameInput value={row.item} onCommit={(item) => onEditShared(row, { item })} />
                 </td>
                 <td className="border-r px-2 py-1">
                   <input

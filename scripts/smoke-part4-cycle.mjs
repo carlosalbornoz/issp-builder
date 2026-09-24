@@ -116,7 +116,7 @@ try {
   if (afterAddCount <= beforeCount) fail(`expected line count to grow, before=${beforeCount} after=${afterAddCount}`);
   else ok(`Add Line grew total line count ${beforeCount} → ${afterAddCount}`);
 
-  console.log("\n=== Edit the new row's item name and Year 1 unit cost ===");
+  console.log("\n=== Edit the new row's item name ===");
   // The placeholder attribute is static per input (every item-description
   // input carries it, populated or not), so a plain
   // page.$('table input[placeholder="Item description…"]') matches the FIRST
