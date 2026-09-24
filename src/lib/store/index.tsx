@@ -385,8 +385,8 @@ function deriveMetaFromContent(doc: IsspDocument): Record<string, SectionMeta> {
   maybeSet("part4/year1", hasYearContent(p4.year1));
   maybeSet("part4/year2", hasYearContent(p4.year2));
   maybeSet("part4/year3", hasYearContent(p4.year3));
-  maybeSet("part4/cycle", anyYear);
   maybeSet("part4/summary", anyYear);
+  maybeSet("part4/cycle", anyYear);
 
   // Annex 1 is driven by the attached-office list (no field-level diff). Derive
   // in_progress so a freshly loaded master with offices shows the dot without
