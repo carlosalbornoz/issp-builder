@@ -1,5 +1,8 @@
 node_modules
 
+# Local git worktrees (subagent-driven-development isolated workspaces)
+.worktrees/
+
 # Environment variables — keep deployment configuration outside Git
 .env*
 !.env.example
