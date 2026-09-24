@@ -23,10 +23,14 @@ function OverviewView() {
 
   const sectionMeta = doc.sectionMeta ?? {};
   // Scope-filter both counts so a scoped doc's header matches the visible cards
-  // (e.g. "2 of 4", not "2 of 21"). Null scope ⇒ isSectionVisible is always true,
+  // (e.g. "2 of 4", not "2 of 18"). Null scope ⇒ isSectionVisible is always true,
   // so visibleSections === ALL_SECTIONS and behavior is unchanged when unscoped.
   const visibleSections = ALL_SECTIONS.filter((s) => isSectionVisible(scope, s.id));
-  const doneCount = visibleSections.filter(
+  // readOnly sections (Cycle View, Summary) can never be marked done, so they
+  // are excluded from both sides of the completion ratio. visibleSections itself
+  // stays unfiltered — it also drives scope gating (continueVisibleIds).
+  const trackedVisibleSections = visibleSections.filter((s) => !s.readOnly);
+  const doneCount = trackedVisibleSections.filter(
     (s) => computeStatus(sectionMeta[s.id]) === "done"
   ).length;
   // A scoped office should only ever be told to review sections it actually
@@ -45,7 +49,7 @@ function OverviewView() {
 
   return (
     <div className="space-y-6">
-      <OverviewStickyHeader doc={doc} doneCount={doneCount} totalCount={visibleSections.length} />
+      <OverviewStickyHeader doc={doc} doneCount={doneCount} totalCount={trackedVisibleSections.length} />
       {pendingSectionIds.length > 0 && (
         <div className="flex flex-col gap-3 rounded-xl border border-warning-border bg-warning-bg px-5 py-4 text-warning sm:flex-row sm:items-center">
           <AlertTriangle className="h-5 w-5 shrink-0" />
