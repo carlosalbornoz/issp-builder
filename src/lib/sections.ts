@@ -52,6 +52,7 @@ export const PARTS: readonly PartDef[] = [
       { id: "part4/year1",   label: "Year 1 Breakdown",       href: "/editor/part4/year1"   },
       { id: "part4/year2",   label: "Year 2 Breakdown",       href: "/editor/part4/year2"   },
       { id: "part4/year3",   label: "Year 3 Breakdown",       href: "/editor/part4/year3"   },
+      { id: "part4/cycle",   label: "Cycle View (All Years)", href: "/editor/part4/cycle",  readOnly: true },
       { id: "part4/summary", label: "Summary of Investments", href: "/editor/part4/summary", readOnly: true },
     ],
   },

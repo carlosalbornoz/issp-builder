@@ -126,6 +126,10 @@ export const SECTION_FIELDS: Record<string, SectionFieldDef> = {
     partKey: "part4",
     fields: [{ key: "year3", label: "Year 3 Budget" }],
   },
+  "part4/cycle": {
+    partKey: "part4",
+    fields: [], // writable, but every field belongs to part4/year1-3 — no unique data of its own
+  },
   "part4/summary": {
     partKey: "part4",
     fields: [], // read-only computed view; no writable fields
