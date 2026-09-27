@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Info } from "lucide-react";
+import { Plus, Info, ArrowUp, ArrowDown } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 import { revealNewItem } from "@/lib/reveal";
@@ -82,6 +82,36 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
 
   function removeConcern(id: string) {
     update(concerns.filter((c) => c.id !== id));
+  }
+
+  /** Swap a concern with its neighbour. Array order is the order shown in the PDF. */
+  function moveConcern(id: string, direction: "up" | "down") {
+    const fromIndex = concerns.findIndex((c) => c.id === id);
+    if (fromIndex === -1) {
+      return;
+    }
+
+    let toIndex: number;
+    if (direction === "up") {
+      toIndex = fromIndex - 1;
+    } else {
+      toIndex = fromIndex + 1;
+    }
+
+    const isBeforeFirst = toIndex < 0;
+    if (isBeforeFirst) {
+      return;
+    }
+    const isAfterLast = toIndex >= concerns.length;
+    if (isAfterLast) {
+      return;
+    }
+
+    const next = [...concerns];
+    const movedConcern = next[fromIndex];
+    next[fromIndex] = next[toIndex];
+    next[toIndex] = movedConcern;
+    update(next);
   }
 
   function updateConcern<K extends keyof StrategicConcern>(
@@ -179,6 +209,26 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
                 <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mr-auto">
                   Concern #{idx + 1}
                 </span>
+                <button
+                  type="button"
+                  aria-label={`Move concern #${idx + 1} up`}
+                  title="Move up"
+                  onClick={() => moveConcern(concern.id, "up")}
+                  disabled={idx === 0}
+                  className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+                >
+                  <ArrowUp className="h-3.5 w-3.5" />
+                </button>
+                <button
+                  type="button"
+                  aria-label={`Move concern #${idx + 1} down`}
+                  title="Move down"
+                  onClick={() => moveConcern(concern.id, "down")}
+                  disabled={idx === concerns.length - 1}
+                  className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+                >
+                  <ArrowDown className="h-3.5 w-3.5" />
+                </button>
                 <ConfirmDeleteButton
                   ariaLabel="Remove concern"
                   onDelete={() => removeConcern(concern.id)}
