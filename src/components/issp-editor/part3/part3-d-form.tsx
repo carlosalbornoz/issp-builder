@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, Sparkles, Link2, Pencil, Info } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Sparkles, Link2, Pencil, Info, ArrowUp, ArrowDown } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
@@ -198,6 +198,10 @@ function SystemCard({
   onUpdate,
   onPatch,
   onRemove,
+  onMoveUp,
+  onMoveDown,
+  isFirst,
+  isLast,
 }: {
   sys: ProposedSystem;
   index: number;
@@ -208,6 +212,10 @@ function SystemCard({
   /** Apply several sibling top-level fields atomically. */
   onPatch: (patch: Partial<ProposedSystem>) => void;
   onRemove: () => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  isFirst: boolean;
+  isLast: boolean;
 }) {
   const isLinked = linkedProjectTitles.length > 0;
   // Existing systems open collapsed→read; new ones mount expanded in edit (principle 2).
@@ -263,6 +271,26 @@ function SystemCard({
             {sys.name || <span className="text-muted-foreground italic">Unnamed System</span>}
           </p>
         </div>
+        <button
+          type="button"
+          aria-label={`Move proposed IS #${index + 1} up`}
+          title="Move up"
+          onClick={onMoveUp}
+          disabled={isFirst}
+          className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+        >
+          <ArrowUp className="h-3.5 w-3.5" />
+        </button>
+        <button
+          type="button"
+          aria-label={`Move proposed IS #${index + 1} down`}
+          title="Move down"
+          onClick={onMoveDown}
+          disabled={isLast}
+          className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+        >
+          <ArrowDown className="h-3.5 w-3.5" />
+        </button>
         <ConfirmDeleteButton
           ariaLabel="Remove proposed system"
           confirmText="Delete this system?"
@@ -642,6 +670,36 @@ export function Part3DForm({
     update(systems.filter((s) => s.id !== id));
   }
 
+  /** Swap a system with its neighbour. Array order is the order shown in the PDF. */
+  function moveSystem(id: string, direction: "up" | "down") {
+    const fromIndex = systems.findIndex((s) => s.id === id);
+    if (fromIndex === -1) {
+      return;
+    }
+
+    let toIndex: number;
+    if (direction === "up") {
+      toIndex = fromIndex - 1;
+    } else {
+      toIndex = fromIndex + 1;
+    }
+
+    const isBeforeFirst = toIndex < 0;
+    if (isBeforeFirst) {
+      return;
+    }
+    const isAfterLast = toIndex >= systems.length;
+    if (isAfterLast) {
+      return;
+    }
+
+    const next = [...systems];
+    const movedSystem = next[fromIndex];
+    next[fromIndex] = next[toIndex];
+    next[toIndex] = movedSystem;
+    update(next);
+  }
+
   function updateSystem(id: string, field: string, value: unknown) {
     update(systems.map((s) => (s.id === id ? { ...s, [field]: value } : s)));
   }
@@ -710,6 +768,10 @@ export function Part3DForm({
             onUpdate={(field, value) => updateSystem(sys.id, field, value)}
             onPatch={(patch) => updateSystemPatch(sys.id, patch)}
             onRemove={() => removeSystem(sys.id)}
+            onMoveUp={() => moveSystem(sys.id, "up")}
+            onMoveDown={() => moveSystem(sys.id, "down")}
+            isFirst={idx === 0}
+            isLast={idx === systems.length - 1}
           />
         ))}
       </div>
