@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info, Pencil } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info, Pencil, ArrowUp, ArrowDown } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { computeProjectCosts } from "@/components/issp-editor/part4/part4-aggregations";
 import type { Part4Data } from "@/lib/store/types";
@@ -230,6 +230,10 @@ function ProjectCard({
   initiallyEditing = false,
   onUpdate,
   onRemove,
+  onMoveUp,
+  onMoveDown,
+  isFirst,
+  isLast,
 }: {
   project: IctProject;
   index: number;
@@ -246,6 +250,10 @@ function ProjectCard({
   initiallyEditing?: boolean;
   onUpdate: (field: string, value: unknown) => void;
   onRemove: () => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  isFirst: boolean;
+  isLast: boolean;
 }) {
   const [expanded, setExpanded] = useState(initiallyEditing);
   const [editing, setEditing] = useState(initiallyEditing);
@@ -342,6 +350,26 @@ function ProjectCard({
             {project.title || <span className="text-muted-foreground italic">Untitled Project</span>}
           </p>
         </div>
+        <button
+          type="button"
+          aria-label={`Move project #${index + 1} up`}
+          title="Move up"
+          onClick={onMoveUp}
+          disabled={isFirst}
+          className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+        >
+          <ArrowUp className="h-3.5 w-3.5" />
+        </button>
+        <button
+          type="button"
+          aria-label={`Move project #${index + 1} down`}
+          title="Move down"
+          onClick={onMoveDown}
+          disabled={isLast}
+          className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+        >
+          <ArrowDown className="h-3.5 w-3.5" />
+        </button>
         <ConfirmDeleteButton
           ariaLabel="Remove project"
           confirmText="Delete project and its KPIs and budget?"
@@ -781,6 +809,36 @@ function ProjectList({
     update(projects.filter((p) => p.id !== id));
   }
 
+  /** Swap a project with its neighbour. Array order is the project numbering in the PDF. */
+  function moveProject(id: string, direction: "up" | "down") {
+    const fromIndex = projects.findIndex((p) => p.id === id);
+    if (fromIndex === -1) {
+      return;
+    }
+
+    let toIndex: number;
+    if (direction === "up") {
+      toIndex = fromIndex - 1;
+    } else {
+      toIndex = fromIndex + 1;
+    }
+
+    const isBeforeFirst = toIndex < 0;
+    if (isBeforeFirst) {
+      return;
+    }
+    const isAfterLast = toIndex >= projects.length;
+    if (isAfterLast) {
+      return;
+    }
+
+    const next = [...projects];
+    const movedProject = next[fromIndex];
+    next[fromIndex] = next[toIndex];
+    next[toIndex] = movedProject;
+    update(next);
+  }
+
   function updateProject(id: string, field: string, value: unknown) {
     update(projects.map((p) => (p.id === id ? { ...p, [field]: value } : p)));
   }
@@ -835,6 +893,10 @@ function ProjectList({
             initiallyEditing={freshIds.has(project.id)}
             onUpdate={(field, value) => updateProject(project.id, field, value)}
             onRemove={() => removeProject(project.id)}
+            onMoveUp={() => moveProject(project.id, "up")}
+            onMoveDown={() => moveProject(project.id, "down")}
+            isFirst={idx === 0}
+            isLast={idx === projects.length - 1}
           />
         ))}
       </div>
