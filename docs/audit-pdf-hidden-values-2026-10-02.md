@@ -1,6 +1,6 @@
 # Audit — PDF prints values the editor hides (2026-10-02)
 
-> Status: **approved 2026-10-02 — implementing.** Decisions recorded below.
+> Status: **implemented 2026-10-02 on branch `fix/pdf-hidden-values` (phases 1–3); not merged or deployed.** Decisions recorded below.
 
 ## Trigger
 
@@ -104,7 +104,31 @@ existing file is fixed without a migration.
 
 ## Phases
 
-1. Seam + `verify-pdf-visible-values.ts` (red) → gate module → green (F1, F4–F8).
-2. Part IV counting rule + orphan warning strip (F2, F3) — editor + PDF.
-3. Project delete casualties (F2, F10) + Standalone link gating (F9).
-4. Docs, What's New, deploy.
+1. ✅ `f600559` — seam (`src/lib/pdf/to-render-data.ts`) + gate module
+   (`src/lib/visible-values.ts`) for F1, F4–F8. `scripts/verify-pdf-visible-values.ts`
+   was red first; every gate mutation-checked (turning one gate off fails its case).
+2. ✅ `7c59bde` — one counting rule `countedPart4` (part4-aggregations) for B.1–B.4
+   (editor + PDF), III-E Total Project Cost and Cycle View totals (F2, F3). Year
+   pages split the warning into "Outside project duration" / "Deleted project"
+   (with amounts; deleted-project lines removable with a two-tap bin).
+   `scripts/verify-part4-counting.ts` red first.
+3. ✅ `36d211b` — III-E delete opens a dialog listing every III-F KPI row and Part IV
+   line (per year, amounts, total); "Delete project" stays disabled until the
+   acknowledgement is ticked; the delete removes the KPI set and every year's
+   budget (`src/lib/project-delete.ts`, `scripts/verify-project-delete.ts`). F9:
+   `linkedSystemIdsOf` — Standalone projects keep stored links but nothing acts on
+   them (III-E/III-D badges, double-link owners, slicing, merge-review broken
+   links, PDF data); `verify-project-slice` case (h).
+   `5ccef42` — `scripts/smoke-hidden-values.mjs` (20 browser checks) + polish.
+4. Pending: What's New entry, merge to `main`, deploy (needs Carlos's go-ahead).
+
+## Verification
+
+- Original HTTP loop (demo + sentinel → `/api/export` → `pdftotext`): all 10 red
+  cases green on the fixed code; the control line still prints. PIA follow-up
+  prints ☐/☐ for "No"; For Enhancement prints "Enhancement to be done: …".
+- tsc + lint clean (one pre-existing warning in `store/index.tsx`); all verify
+  scripts green except `verify-v13`/`verify-ii-a-schema`, which `main` still pins
+  to schema 13 (fixed separately on `fix/v14-followups`).
+- Browser smoke on a worktree dev server (`next dev --webpack -p 3001`; Turbopack
+  rejects the worktree's symlinked `node_modules`): 20/20, desktop + 390px.

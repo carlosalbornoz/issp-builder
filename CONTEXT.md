@@ -20,6 +20,13 @@ The Medium-Term ICT Harmonization Initiative — the inter-agency framework that
 **Part I / II / III / IV**:
 The four mandatory sections of the ISSP. Part I = mandate & organization; Part II = current ICT state & concerns; Part III = proposed systems & projects; Part IV = three-year budget.
 
+**Visible value**:
+What the editor shows for a field whose display depends on another answer (a ticked box, a Yes/No answer, a status). A hidden value stays in the file, so it comes back when the answer changes back, but the PDF and every report use only visible values.
+_Avoid_: "stale value", "leftover data"
+
+**Counted budget**:
+The Part IV line items that totals include: Office Productivity, Continuing Costs, and the budget of projects that are still in Part III-E, in the years their duration covers. Year totals, Summary B.1–B.4, Total Project Cost and the PDF all use the counted budget; other stored lines are named in a warning on the year page.
+
 **Annex 1**:
 The Existing ICT Asset Inventory — equipment and software counts per office. Two surfaces: the standalone `/annex1` form (an office fills and returns a `.issp` file) and inline management at `/editor/annex1` (secretariat adds/edits offices directly or attaches returned files).
 _Avoid_: "the inventory", "asset table"
