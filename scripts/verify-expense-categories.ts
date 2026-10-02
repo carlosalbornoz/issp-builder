@@ -9,6 +9,7 @@
 import assert from "node:assert/strict";
 import { migrateLegacyDoc } from "../src/lib/store/index";
 import { createEmptyDocument } from "../src/lib/store/defaults";
+import { CURRENT_SCHEMA_VERSION } from "../src/lib/migration-review";
 import {
   EXPENSE_CATEGORIES,
   categoriesForClass,
@@ -72,7 +73,7 @@ const OP_GROUP: CycleGroupDescriptor = { kind: "officeProductivity", label: "Off
   ];
 
   const migrated = migrateLegacyDoc(doc);
-  assert.equal(migrated.schemaVersion, 14, "(a) doc lands on schema v14");
+  assert.equal(migrated.schemaVersion, CURRENT_SCHEMA_VERSION, "(a) doc lands on the current schema");
   const byId = (id: string) =>
     [migrated.part4.year1.officeProductivity.capitalOutlay, migrated.part4.year1.officeProductivity.mooe]
       .flat()

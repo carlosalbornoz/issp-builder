@@ -20,6 +20,10 @@ The Medium-Term ICT Harmonization Initiative — the inter-agency framework that
 **Part I / II / III / IV**:
 The four mandatory sections of the ISSP. Part I = mandate & organization; Part II = current ICT state & concerns; Part III = proposed systems & projects; Part IV = three-year budget.
 
+**Expense category**:
+The DICT classification of one Part IV line item — one of 30 categories from the DICT UACS classification handout, 5 under Capital Outlay and 25 under MOOE. A line item's category must belong to its expense class (Capital Outlay or MOOE). Summary B.4 totals the budget per category; a line item without one counts as "Uncategorized".
+_Avoid_: "UACS code", "object code" (the older schema stored those; they are no longer the classification)
+
 **Annex 1**:
 The Existing ICT Asset Inventory — equipment and software counts per office. Two surfaces: the standalone `/annex1` form (an office fills and returns a `.issp` file) and inline management at `/editor/annex1` (secretariat adds/edits offices directly or attaches returned files).
 _Avoid_: "the inventory", "asset table"

@@ -650,11 +650,11 @@ function brokenLinksIn(doc: IsspDocument, names: IsspDocument): RawLink[] {
   const allOutcomes = [...names.part1.orgOutcomes, ...outcomes];
   const allPrograms = allOutcomes.flatMap((o) => o.programs);
 
-  // 1. II-A concerns → I-A outcomes and programs ("general" is always valid).
+  // 1. II-A concerns → I-A outcomes and programs.
   for (const c of doc.part2.strategicConcerns) {
     const from = c.concern || c.criticalSystem || c.id;
     for (const id of c.outcomeIds) {
-      if (id === "general" || outcomeIds.has(id)) continue;
+      if (outcomeIds.has(id)) continue;
       const to = nameOf(id, allOutcomes);
       out.push({ key: `oo:${c.id}:${id}`, sectionId: "part2/a", from, to, message: `Concern "${from}" links to outcome "${to}", which is no longer in Part I-A.` });
     }

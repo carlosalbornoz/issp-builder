@@ -1,5 +1,5 @@
 // Verify v11→v12 migration: programs string[] → {id,name}[], concern programIds backfill.
-// (v13 bumped CURRENT_SCHEMA_VERSION; the chain still carries v11 docs to current.)
+// (Later bumps raised CURRENT_SCHEMA_VERSION; the chain still carries v11 docs to current.)
 // Run: npx tsx scripts/verify-ii-a-schema.ts   (expect: ALL CHECKS PASSED)
 import assert from "node:assert";
 import { migrateLegacyDoc } from "../src/lib/store/index";
@@ -7,7 +7,7 @@ import { CURRENT_SCHEMA_VERSION } from "../src/lib/migration-review";
 import { createEmptyDocument, makeDefaultPart1, makeDefaultPart2 } from "../src/lib/store/defaults";
 import type { IsspDocument } from "../src/lib/store/types";
 
-assert.equal(CURRENT_SCHEMA_VERSION, 13, "schema version must be 13");
+assert.ok(CURRENT_SCHEMA_VERSION >= 12, "the programs-as-objects shape needs schema v12 or later");
 
 // Synthetic v11 doc: programs are plain strings; concerns lack programIds.
 // Built on real part defaults: migrateLegacyDoc's idempotent normalization
