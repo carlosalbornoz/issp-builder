@@ -18,7 +18,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { Plus, Trash2, Pencil, CalendarSync, Copy, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, Trash2, Pencil, CalendarSync, Copy } from "lucide-react";
 import { LineModeToggle, usePersistedLineMode, type LineMode } from "./line-mode";
 import {
   DropdownMenu,
@@ -34,6 +34,7 @@ import { php } from "@/lib/utils";
 import { useIsspStore } from "@/lib/store";
 import { yearsBetween, durationCoversYear } from "@/lib/duration";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
+import { ReorderButtons } from "@/components/ui/reorder-buttons";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -349,9 +350,9 @@ function MoveLineMenu({
         <DropdownMenuTrigger
           aria-label="Move line item to another year"
           title="Move to another year"
-          className="h-7 w-7 shrink-0 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
+          className="h-7 w-7 coarse:h-10 coarse:w-10 shrink-0 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
         >
-          <CalendarSync className="h-3.5 w-3.5" />
+          <CalendarSync className="h-3.5 w-3.5 coarse:h-4 coarse:w-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64">
           <DropdownMenuGroup>
@@ -373,49 +374,6 @@ function MoveLineMenu({
         </DropdownMenuContent>
       </DropdownMenu>
     </span>
-  );
-}
-
-// ─── Reorder Line Buttons ─────────────────────────────────────────────────────
-
-const REORDER_BUTTON_CLS =
-  "h-7 w-7 shrink-0 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-all disabled:pointer-events-none disabled:opacity-30";
-
-function ReorderLineButtons({
-  idx,
-  lineCount,
-  onReorder,
-}: {
-  idx: number;
-  lineCount: number;
-  onReorder: (direction: "up" | "down") => void;
-}) {
-  const isFirst = idx === 0;
-  const isLast = idx === lineCount - 1;
-
-  return (
-    <>
-      <button
-        type="button"
-        aria-label={`Move line ${idx + 1} up`}
-        title="Move up"
-        className={REORDER_BUTTON_CLS}
-        disabled={isFirst}
-        onClick={(e) => { e.stopPropagation(); onReorder("up"); }}
-      >
-        <ArrowUp className="h-3.5 w-3.5" />
-      </button>
-      <button
-        type="button"
-        aria-label={`Move line ${idx + 1} down`}
-        title="Move down"
-        className={REORDER_BUTTON_CLS}
-        disabled={isLast}
-        onClick={(e) => { e.stopPropagation(); onReorder("down"); }}
-      >
-        <ArrowDown className="h-3.5 w-3.5" />
-      </button>
-    </>
   );
 }
 
@@ -540,10 +498,11 @@ function LineTable({
               {lines.map((line, idx) => (
                 <div
                   key={line.id}
-                  className="flex items-center gap-3 px-4 py-3 hover:bg-muted/30 group transition-colors cursor-pointer"
+                  className="flex flex-wrap sm:flex-nowrap items-center gap-x-3 gap-y-1 px-4 py-3 hover:bg-muted/30 group transition-colors cursor-pointer"
                   onClick={() => openEdit(idx)}
                 >
-                  <div className="flex-1 min-w-0">
+                  {/* Phones: the name gets the whole first line; amount and actions wrap below */}
+                  <div className="basis-full sm:basis-auto flex-1 min-w-0">
                     <p className="text-sm font-medium line-clamp-2 break-words">
                       {line.item || (
                         <span className="text-muted-foreground/60 italic">Unnamed item</span>
@@ -559,28 +518,24 @@ function LineTable({
                       {line.fundSource !== FUND_SOURCES[0] ? ` · ${line.fundSource}` : ""}
                     </p>
                   </div>
-                  <span className="text-sm font-semibold tabular-nums shrink-0">
+                  <span className="text-sm font-semibold tabular-nums shrink-0 mr-auto sm:mr-0">
                     {php(totalLine(line))}
                   </span>
-                  <ReorderLineButtons
-                    idx={idx}
-                    lineCount={lines.length}
-                    onReorder={(direction) => reorderLine(idx, direction)}
-                  />
+                  <ReorderButtons label={`line ${idx + 1}`} isFirst={idx === 0} isLast={idx === lines.length - 1} onMove={(d) => reorderLine(idx, d)} />
                   <button
                     type="button"
                     aria-label="Duplicate line item"
                     title="Duplicate"
-                    className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
+                    className="h-7 w-7 coarse:h-10 coarse:w-10 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
                     onClick={(e) => { e.stopPropagation(); duplicateLine(idx); }}
                   >
-                    <Copy className="h-3.5 w-3.5" />
+                    <Copy className="h-3.5 w-3.5 coarse:h-4 coarse:w-4" />
                   </button>
                   <MoveLineMenu targets={moveTargets} onMove={(targetKey) => onMove(idx, targetKey)} />
                   <button
                     type="button"
                     aria-label="Edit line item"
-                    className="h-7 w-7 shrink-0 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent opacity-0 group-hover:opacity-100 transition-all"
+                    className="h-7 w-7 shrink-0 flex coarse:hidden items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent opacity-0 group-hover:opacity-100 transition-all"
                     onClick={(e) => { e.stopPropagation(); openEdit(idx); }}
                   >
                     <Pencil className="h-3.5 w-3.5" />
@@ -704,17 +659,13 @@ function LineTable({
                     </td>
                     <td className="px-1 py-1">
                       <div className="flex items-center justify-center">
-                      <ReorderLineButtons
-                        idx={idx}
-                        lineCount={lines.length}
-                        onReorder={(direction) => reorderLine(idx, direction)}
-                      />
+                      <ReorderButtons label={`line ${idx + 1}`} isFirst={idx === 0} isLast={idx === lines.length - 1} onMove={(d) => reorderLine(idx, d)} />
                       <Button
                         variant="ghost"
                         size="icon"
                         aria-label="Duplicate line"
                         title="Duplicate"
-                        className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                        className="h-7 w-7 coarse:h-10 coarse:w-10 text-muted-foreground hover:text-foreground"
                         onClick={() => duplicateLine(idx)}
                       >
                         <Copy className="h-3.5 w-3.5" />
@@ -724,7 +675,7 @@ function LineTable({
                         variant="ghost"
                         size="icon"
                         aria-label="Delete line"
-                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                        className="h-7 w-7 coarse:h-10 coarse:w-10 text-muted-foreground hover:text-destructive"
                         onClick={() => deleteLine(idx)}
                       >
                         <Trash2 className="h-3.5 w-3.5" />

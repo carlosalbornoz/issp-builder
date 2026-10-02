@@ -47,8 +47,8 @@ export function ConfirmDeleteButton({
       className={cn(
         "shrink-0 inline-flex items-center justify-center rounded-md transition-all",
         armed
-          ? "h-7 px-2 gap-1 text-xs font-medium bg-destructive/10 text-destructive border border-destructive/40"
-          : "h-7 w-7 text-muted-foreground hover:text-destructive hover:bg-destructive/10",
+          ? "h-7 coarse:h-10 px-2 gap-1 text-xs font-medium bg-destructive/10 text-destructive border border-destructive/40"
+          : "h-7 w-7 coarse:h-10 coarse:w-10 text-muted-foreground hover:text-destructive hover:bg-destructive/10",
         className
       )}
     >

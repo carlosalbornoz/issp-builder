@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info, Pencil, Trash2, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info, Pencil, Trash2 } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { computeProjectCosts, countedPart4 } from "@/components/issp-editor/part4/part4-aggregations";
 import type { Part4Data } from "@/lib/store/types";
@@ -30,6 +30,7 @@ import { DeleteProjectDialog } from "./delete-project-dialog";
 import { linkedSystemIdsOf } from "@/lib/visible-values";
 import { cn, php } from "@/lib/utils";
 import type { ProposedSystem } from "./part3-d-form";
+import { ReorderButtons } from "@/components/ui/reorder-buttons";
 import { SectionShell } from "@/components/editor/section-shell";
 import {
   yearsBetween,
@@ -329,12 +330,13 @@ function ProjectCard({
   return (
     <div data-reveal-id={project.id} className="rounded-xl border bg-card overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-3 bg-muted/30 border-b">
+      <div className="flex flex-wrap sm:flex-nowrap items-center gap-x-3 gap-y-1 px-4 py-3 bg-muted/30 border-b">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
           <FolderKanban className="h-4 w-4" />
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
+        {/* Phones: title takes the line; the card buttons wrap below it */}
+        <div className="flex-1 min-w-0 basis-[calc(100%-2.75rem)] sm:basis-auto">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <span className="text-xs font-semibold text-muted-foreground">
               {isCrossAgency ? "Cross-Agency ICT Project" : "Internal ICT Project"} #{index + 1}
             </span>
@@ -354,45 +356,28 @@ function ProjectCard({
             {project.title || <span className="text-muted-foreground italic">Untitled Project</span>}
           </p>
         </div>
-        <button
-          type="button"
-          aria-label={`Move project #${index + 1} up`}
-          title="Move up"
-          onClick={onMoveUp}
-          disabled={isFirst}
-          className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
-        >
-          <ArrowUp className="h-3.5 w-3.5" />
-        </button>
-        <button
-          type="button"
-          aria-label={`Move project #${index + 1} down`}
-          title="Move down"
-          onClick={onMoveDown}
-          disabled={isLast}
-          className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
-        >
-          <ArrowDown className="h-3.5 w-3.5" />
-        </button>
-        {/* Opens the hard confirmation listing the KPIs and budget that go with it */}
-        <button
-          type="button"
-          aria-label="Delete project"
-          onClick={(e) => {
-            e.stopPropagation();
-            onRemove();
-          }}
-          className="h-7 w-7 coarse:h-10 coarse:w-10 shrink-0 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </button>
-        <button
-          type="button"
-          onClick={() => setExpanded((e) => !e)}
-          className="h-7 w-7 shrink-0 flex items-center justify-center rounded text-muted-foreground hover:text-foreground hover:bg-muted"
-        >
-          {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-        </button>
+        <div className="flex shrink-0 items-center ml-auto">
+          <ReorderButtons label={`project #${index + 1}`} isFirst={isFirst} isLast={isLast} onMove={(d) => (d === "up" ? onMoveUp() : onMoveDown())} />
+          {/* Opens the hard confirmation listing the KPIs and budget that go with it */}
+          <button
+            type="button"
+            aria-label="Delete project"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove();
+            }}
+            className="h-7 w-7 coarse:h-10 coarse:w-10 shrink-0 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setExpanded((e) => !e)}
+            className="h-7 w-7 coarse:h-10 coarse:w-10 shrink-0 flex items-center justify-center rounded text-muted-foreground hover:text-foreground hover:bg-muted"
+          >
+            {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+          </button>
+        </div>
       </div>
 
       {/* Read view (principle 2: read and edit are different modes) */}

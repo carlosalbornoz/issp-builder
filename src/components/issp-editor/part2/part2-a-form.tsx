@@ -14,7 +14,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Info, ArrowUp, ArrowDown, AlertTriangle } from "lucide-react";
+import { Plus, Info, AlertTriangle } from "lucide-react";
+import { ReorderButtons } from "@/components/ui/reorder-buttons";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 import { revealNewItem } from "@/lib/reveal";
@@ -226,26 +227,7 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
                     No OO/SO/MFO tagged
                   </span>
                 )}
-                <button
-                  type="button"
-                  aria-label={`Move concern #${idx + 1} up`}
-                  title="Move up"
-                  onClick={() => moveConcern(concern.id, "up")}
-                  disabled={idx === 0}
-                  className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
-                >
-                  <ArrowUp className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  type="button"
-                  aria-label={`Move concern #${idx + 1} down`}
-                  title="Move down"
-                  onClick={() => moveConcern(concern.id, "down")}
-                  disabled={idx === concerns.length - 1}
-                  className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
-                >
-                  <ArrowDown className="h-3.5 w-3.5" />
-                </button>
+                <ReorderButtons label={`concern #${idx + 1}`} isFirst={idx === 0} isLast={idx === concerns.length - 1} onMove={(d) => moveConcern(concern.id, d)} />
                 <ConfirmDeleteButton
                   ariaLabel="Remove concern"
                   onDelete={() => removeConcern(concern.id)}

@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, Sparkles, Link2, Pencil, Info, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Sparkles, Link2, Pencil, Info } from "lucide-react";
+import { ReorderButtons } from "@/components/ui/reorder-buttons";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { cn } from "@/lib/utils";
 import { SectionShell } from "@/components/editor/section-shell";
@@ -237,11 +238,12 @@ function SystemCard({
   return (
     <div data-reveal-id={sys.id} className="rounded-xl border bg-card overflow-hidden shadow-sm">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-3 bg-muted/30 border-b">
+      <div className="flex flex-wrap sm:flex-nowrap items-center gap-x-3 gap-y-1 px-4 py-3 bg-muted/30 border-b">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
           <Sparkles className="h-4 w-4" />
         </div>
-        <div className="flex-1 min-w-0">
+        {/* Phones: title takes the line; the card buttons wrap below it */}
+        <div className="flex-1 min-w-0 basis-[calc(100%-2.75rem)] sm:basis-auto">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-semibold text-muted-foreground">Proposed IS #{index + 1}</span>
             {sys.status && (
@@ -271,38 +273,21 @@ function SystemCard({
             {sys.name || <span className="text-muted-foreground italic">Unnamed System</span>}
           </p>
         </div>
-        <button
-          type="button"
-          aria-label={`Move proposed IS #${index + 1} up`}
-          title="Move up"
-          onClick={onMoveUp}
-          disabled={isFirst}
-          className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
-        >
-          <ArrowUp className="h-3.5 w-3.5" />
-        </button>
-        <button
-          type="button"
-          aria-label={`Move proposed IS #${index + 1} down`}
-          title="Move down"
-          onClick={onMoveDown}
-          disabled={isLast}
-          className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-all hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
-        >
-          <ArrowDown className="h-3.5 w-3.5" />
-        </button>
-        <ConfirmDeleteButton
-          ariaLabel="Remove proposed system"
-          confirmText="Delete this system?"
-          onDelete={onRemove}
-        />
-        <button
-          type="button"
-          onClick={() => setExpanded((e) => !e)}
-          className="h-7 w-7 shrink-0 flex items-center justify-center rounded text-muted-foreground hover:text-foreground hover:bg-muted"
-        >
-          {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-        </button>
+        <div className="flex shrink-0 items-center ml-auto">
+          <ReorderButtons label={`proposed IS #${index + 1}`} isFirst={isFirst} isLast={isLast} onMove={(d) => (d === "up" ? onMoveUp() : onMoveDown())} />
+          <ConfirmDeleteButton
+            ariaLabel="Remove proposed system"
+            confirmText="Delete this system?"
+            onDelete={onRemove}
+          />
+          <button
+            type="button"
+            onClick={() => setExpanded((e) => !e)}
+            className="h-7 w-7 coarse:h-10 coarse:w-10 shrink-0 flex items-center justify-center rounded text-muted-foreground hover:text-foreground hover:bg-muted"
+          >
+            {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+          </button>
+        </div>
       </div>
 
       {/* Read view (principle 2: read and edit are different modes) */}
