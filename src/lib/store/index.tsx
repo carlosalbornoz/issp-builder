@@ -854,11 +854,14 @@ export function migrateLegacyDoc(doc: IsspDocument): IsspDocument {
     },
     part2: {
       ...base.part2,
-      // Migrate old single outcomeId → outcomeIds array (form does this on mount)
+      // Migrate old single outcomeId → outcomeIds array, and drop the legacy
+      // "general" tag: II-A links exactly one OO; untagged concerns export as
+      // "General / Agency-Wide" (form does the same on mount)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       strategicConcerns: base.part2.strategicConcerns.map((c: any) => ({
         ...c,
-        outcomeIds: Array.isArray(c.outcomeIds) ? c.outcomeIds : (c.outcomeId ? [c.outcomeId] : []),
+        outcomeIds: (Array.isArray(c.outcomeIds) ? c.outcomeIds : (c.outcomeId ? [c.outcomeId] : []))
+          .filter((id: string) => id !== "general"),
         programIds: Array.isArray(c.programIds) ? c.programIds : [],
       })),
     },

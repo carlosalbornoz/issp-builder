@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, Info, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, Info, ArrowUp, ArrowDown, AlertTriangle } from "lucide-react";
 import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 import { SectionShell } from "@/components/editor/section-shell";
 import { revealNewItem } from "@/lib/reveal";
@@ -27,7 +27,7 @@ interface OrgOutcome {
 
 interface StrategicConcern {
   id: string;
-  /** OrgOutcome ids, or "general" */
+  /** At most one OrgOutcome id; empty = untagged (exports as "General / Agency-Wide"). */
   outcomeIds: string[];
   /** Program ids (linked OrgOutcome.programs[].id) this concern pertains to. */
   programIds: string[];
@@ -46,7 +46,7 @@ function generateId() {
 }
 
 const DEFAULT_CONCERN: Omit<StrategicConcern, "id"> = {
-  outcomeIds: ["general"],
+  outcomeIds: [],
   programIds: [],
   criticalSystem: "",
   concern: "",
@@ -55,11 +55,13 @@ const DEFAULT_CONCERN: Omit<StrategicConcern, "id"> = {
 
 export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
   const [concerns, setConcerns] = useState<StrategicConcern[]>(() => {
-    // Migrate old single outcomeId to new outcomeIds array
+    // Migrate old single outcomeId to new outcomeIds array, and drop the legacy
+    // "general" tag (mirrors the store's normalization — snapshot-sync rule)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return initialData.map((c: any) => ({
       ...c,
-      outcomeIds: Array.isArray(c.outcomeIds) ? c.outcomeIds : (c.outcomeId ? [c.outcomeId] : []),
+      outcomeIds: (Array.isArray(c.outcomeIds) ? c.outcomeIds : (c.outcomeId ? [c.outcomeId] : []))
+        .filter((id: string) => id !== "general"),
       programIds: Array.isArray(c.programIds) ? c.programIds : [],
     }));
   });
@@ -122,11 +124,22 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
     update(concerns.map((c) => (c.id === id ? { ...c, [field]: value } : c)));
   }
 
-  // Group concerns by outcome for display
-  const outcomeMap: Record<string, string> = { general: "General / Agency-Wide" };
-  orgOutcomes.forEach((oo) => {
-    outcomeMap[oo.id] = oo.name || "Untitled Outcome";
-  });
+  /** Set the concern's single linked OO, dropping programs that belong to another OO. */
+  function selectOutcome(id: string, outcomeId: string | null) {
+    update(
+      concerns.map((c) => {
+        if (c.id !== id) return c;
+        const validProgramIds = new Set(
+          orgOutcomes.find((oo) => oo.id === outcomeId)?.programs.map((p) => p.id) ?? []
+        );
+        return {
+          ...c,
+          outcomeIds: outcomeId ? [outcomeId] : [],
+          programIds: c.programIds.filter((p) => validProgramIds.has(p)),
+        };
+      })
+    );
+  }
 
   return (
     <SectionShell
@@ -142,7 +155,7 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
           <div>
             <p className="font-medium text-warning mb-1">How to fill this section</p>
             <ul className="text-xs text-warning list-disc list-inside space-y-1">
-              <li>Link each concern to an Organizational Outcome (OO) defined in Part I.</li>
+              <li>Link each concern to exactly one Organizational Outcome (OO) defined in Part I. Concerns without a linked OO export as “General / Agency-Wide”.</li>
               <li>Identify the <strong>critical management, operating, or business system</strong> affected.</li>
               <li>Describe the <strong>problem</strong> — barriers or obstacles that hinder or delay performance.</li>
               <li>Describe the <strong>intended use of ICT</strong> to address the problem in this ISSP period.</li>
@@ -193,15 +206,10 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
           )}
 
           {concerns.map((concern, idx) => {
-            const selectedOutcomeIds = concern.outcomeIds.filter((id) => id !== "general");
-            const programOptions = orgOutcomes
-              .filter((oo) => selectedOutcomeIds.includes(oo.id))
-              .flatMap((oo) =>
-                oo.programs.map((p) => ({
-                  value: p.id,
-                  label: selectedOutcomeIds.length > 1 ? `${oo.name} — ${p.name}` : p.name,
-                }))
-              );
+            const selectedOutcome = orgOutcomes.find((oo) => oo.id === concern.outcomeIds[0]);
+            const programOptions = selectedOutcome?.programs.map((p) => ({ value: p.id, label: p.name })) ?? [];
+            const hasContent = Boolean(concern.concern || concern.criticalSystem || concern.desiredStrategy);
+            const untagged = concern.outcomeIds.length === 0;
             return (
             <div key={concern.id} data-reveal-id={concern.id} className="rounded-lg border bg-card overflow-hidden">
               {/* Concern header */}
@@ -209,6 +217,15 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
                 <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mr-auto">
                   Concern #{idx + 1}
                 </span>
+                {untagged && hasContent && (
+                  <span
+                    title="No Organizational Outcome linked — this concern will export as “General / Agency-Wide”. Link an OO from Part I-A."
+                    className="inline-flex items-center gap-1 rounded-full border border-warning-border bg-warning-bg px-2 py-0.5 text-[11px] font-medium text-warning"
+                  >
+                    <AlertTriangle className="h-3 w-3" />
+                    No OO/SO/MFO tagged
+                  </span>
+                )}
                 <button
                   type="button"
                   aria-label={`Move concern #${idx + 1} up`}
@@ -240,18 +257,17 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
                 <div className="space-y-1.5 md:col-span-3">
                   <Label className="text-sm font-medium">Linked Organizational Outcome</Label>
                   <Select
-                    multiple
-                    items={[{value: "general", label: "General / Agency-Wide"}, ...orgOutcomes.map(oo => ({value: oo.id, label: oo.name}))]}
-                    value={concern.outcomeIds}
-                    onValueChange={(v: string[] | null) =>
-                      updateConcern(concern.id, "outcomeIds", v || [])
-                    }
+                    items={orgOutcomes.map((oo, i) => ({ value: oo.id, label: oo.name || `Outcome ${i + 1}` }))}
+                    value={concern.outcomeIds[0] ?? null}
+                    onValueChange={(v: string | null) => selectOutcome(concern.id, v)}
+                    disabled={orgOutcomes.length === 0}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select outcome…" />
+                      <SelectValue
+                        placeholder={orgOutcomes.length === 0 ? "Add OOs in Part I-A first…" : "Select one outcome…"}
+                      />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="general">General / Agency-Wide</SelectItem>
                       {orgOutcomes.map((oo, i) => (
                         <SelectItem key={oo.id} value={oo.id}>
                           {oo.name || `Outcome ${i + 1}`}
@@ -259,16 +275,29 @@ export function Part2AForm({ orgOutcomes, initialData }: Part2AFormProps) {
                       ))}
                     </SelectContent>
                   </Select>
+                  {untagged && orgOutcomes.length > 0 && (
+                    <p className="text-xs text-warning">
+                      No OO linked — exports as “General / Agency-Wide”.
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-1.5 md:col-span-3">
                   <Label className="text-sm font-medium">Programs (optional)</Label>
                   {programOptions.length === 0 ? (
                     <p className="text-xs text-muted-foreground">
-                      Programs come from the linked OO/SO/MFO — define them in{" "}
-                      <Link href="/editor/part1/a" className="text-primary hover:underline">
-                        Part I-A.4
-                      </Link>
-                      . Appears in the PDF as “Program n: …” under the OO/SO/MFO.
+                      {selectedOutcome ? (
+                        <>No programs defined for this OO — add them in{" "}
+                        <Link href="/editor/part1/a" className="text-primary hover:underline">
+                          Part I-A.4
+                        </Link>
+                        . Appears in the PDF as “Program n: …” under the OO/SO/MFO.</>
+                      ) : (
+                        <>Select a linked Organizational Outcome first — programs come from{" "}
+                        <Link href="/editor/part1/a" className="text-primary hover:underline">
+                          Part I-A.4
+                        </Link>
+                        .</>
+                      )}
                     </p>
                   ) : (
                     <Select

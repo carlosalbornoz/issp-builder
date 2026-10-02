@@ -100,6 +100,7 @@ export interface Part1Data {
 
 export interface StrategicConcern {
   id: string;
+  /** At most one OrgOutcome id; empty = untagged (exports as "General / Agency-Wide"). */
   outcomeIds: string[];
   /** Program ids (OrgOutcome.programs[].id) this concern pertains to. */
   programIds: string[];
