@@ -1,6 +1,6 @@
 # Audit — PDF prints values the editor hides (2026-10-02)
 
-> Status: **findings + proposed fix, awaiting approval.** No code changed yet.
+> Status: **approved 2026-10-02 — implementing.** Decisions recorded below.
 
 ## Trigger
 
@@ -92,7 +92,17 @@ existing file is fixed without a migration.
 - **Q4** III-D: append "Enhancement to be done: …" to the description cell (recommended).
 - **Q5** Online Portal legacy URL: stop printing it (recommended) — vs add a URL field back.
 
-## Phases (after approval)
+## Decisions (Carlos, 2026-10-02)
+
+- **Q1** Gate at export, keep the stored value.
+- **Q2** Yes — off-duration lines are excluded from B.1–B.4 and Total Project Cost.
+- **Q3** Yes, but a **hard confirmation**: a dialog that lists exactly which III-F
+  KPI rows and Part IV budget line items (per year, with amounts) will be removed,
+  before the project is deleted.
+- **Q4** Enhancement Details print only for "For Enhancement" systems.
+- **Q5** Stop printing the Online Portal URL.
+
+## Phases
 
 1. Seam + `verify-pdf-visible-values.ts` (red) → gate module → green (F1, F4–F8).
 2. Part IV counting rule + orphan warning strip (F2, F3) — editor + PDF.
