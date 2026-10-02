@@ -5,7 +5,7 @@
  */
 import type { IsspData } from "@/lib/pdf/render-issp-html";
 import { visibleEgpProgram, visibleEnhancementDetails, visibleInteroperability, visiblePiaCompleted } from "@/lib/visible-values";
-import { computeProjectCosts } from "@/components/issp-editor/part4/part4-aggregations";
+import { computeProjectCosts, countedPart4 } from "@/components/issp-editor/part4/part4-aggregations";
 import {
   CLASSIFICATION_LABELS,
   DEV_STRATEGY_LABELS,
@@ -199,7 +199,9 @@ function proposedDescription(sys: ProposedSystem): string {
 // ─── Document → render data ───────────────────────────────────────────────────
 
 export function toRenderData(doc: IsspDocument): IsspData {
-  const { agency, part1, part2, part3, part4 } = doc;
+  const { agency, part1, part2, part3 } = doc;
+  // Only budget the year tables list counts — not deleted projects' or off-duration lines
+  const part4 = countedPart4(doc);
 
   const outcomeMap = Object.fromEntries(part1.orgOutcomes.map((o) => [o.id, o.name]));
   const programsByOutcome = Object.fromEntries(

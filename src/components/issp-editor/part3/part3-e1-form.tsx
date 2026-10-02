@@ -20,7 +20,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
 import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info, Pencil } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { computeProjectCosts } from "@/components/issp-editor/part4/part4-aggregations";
+import { computeProjectCosts, countedPart4 } from "@/components/issp-editor/part4/part4-aggregations";
 import type { Part4Data } from "@/lib/store/types";
 import { AddItemDialog, useAddItemDraft } from "@/components/issp-editor/add-item-dialog";
 import { revealNewItem } from "@/lib/reveal";
@@ -887,7 +887,11 @@ export function Part3E1Form({
   );
   const planYears = yearsBetween(startYear, endYear);
   const planDuration = formatDuration(String(startYear), String(endYear));
-  const projectCosts = computeProjectCosts(part4, "internalProjects");
+  // Counted budget only: no deleted-project or off-duration lines (same as Part IV and the PDF)
+  const projectCosts = computeProjectCosts(
+    countedPart4({ part3: { internalProjects: initialProjects, crossAgencyProjects: otherProjects }, part4, startYear, endYear }),
+    "internalProjects"
+  );
 
   return (
     <SectionShell
@@ -934,7 +938,11 @@ export function Part3E2Form({
   );
   const planYears = yearsBetween(startYear, endYear);
   const planDuration = formatDuration(String(startYear), String(endYear));
-  const projectCosts = computeProjectCosts(part4, "crossAgencyProjects");
+  // Counted budget only: no deleted-project or off-duration lines (same as Part IV and the PDF)
+  const projectCosts = computeProjectCosts(
+    countedPart4({ part3: { internalProjects: otherProjects, crossAgencyProjects: initialProjects }, part4, startYear, endYear }),
+    "crossAgencyProjects"
+  );
 
   return (
     <SectionShell
