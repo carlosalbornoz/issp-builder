@@ -31,9 +31,13 @@ function mapStrategicConcerns(
 ): IsspData["part2"]["strategicConcerns"] {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return concerns.map((sc: any) => {
-    const ids = Array.isArray(sc.outcomeIds) && sc.outcomeIds.length > 0
-      ? sc.outcomeIds
-      : (sc.outcomeId ? [sc.outcomeId] : []);
+    // "general" is no longer storable; docs that still carry it (and untagged
+    // concerns) render the official "General / Agency-Wide" label below.
+    const ids = (
+      Array.isArray(sc.outcomeIds) && sc.outcomeIds.length > 0
+        ? sc.outcomeIds
+        : (sc.outcomeId ? [sc.outcomeId] : [])
+    ).filter((id: string) => id !== "general");
 
     const blocks = ids.map((id: string) => {
       const name = outcomeMap[id] ?? id;
@@ -48,7 +52,7 @@ function mapStrategicConcerns(
 
     const ooSoMfoText = blocks.length > 1
       ? blocks.map((b: string) => `• ${b}`).join("\n")
-      : (blocks[0] || "");
+      : (blocks[0] || "General / Agency-Wide");
 
     return {
       ooSoMfo: ooSoMfoText,
