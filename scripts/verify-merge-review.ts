@@ -8,6 +8,7 @@ import assert from "node:assert/strict";
 import { applyReviewDecisions, buildMergeReview, findBrokenLinks, type ParsedScopedFile, type ReviewChange } from "../src/lib/scope/merge-review";
 import { applyResolutions, consolidate, conflictKey } from "../src/lib/scope/consolidate";
 import { createEmptyDocument } from "../src/lib/store/defaults";
+import { cellLabel, formatValue } from "../src/components/editor/merge-review/format";
 import { CURRENT_SCHEMA_VERSION } from "../src/lib/migration-review";
 import type { Annex1FilePayload, IctProject, InformationSystem, IsspDocument, LineItem } from "../src/lib/store/types";
 
@@ -456,6 +457,24 @@ function line(id: string, item: string, qty = 1, unitCost = 1000): LineItem {
     "(17) the kept KPI set and the kept project budget are both reported"
   );
   assert.ok(review.reviewFlags.includes("part3/f") && review.reviewFlags.includes("part4/year1"), "(17) engine flags both");
+}
+
+// ─── (18) an expense-category change shows category names, not stored ids ────
+{
+  const master = makeMaster();
+  master.part4.year1.officeProductivity.capitalOutlay = [{ ...line("l1", "Laptops"), categoryId: "co-ict-machinery-equipment" }];
+  const a = returned(master, "a", ["part4/year1.year1"], (d) => {
+    d.part4.year1.officeProductivity.capitalOutlay[0].categoryId = "co-ict-software";
+  });
+  const change = buildMergeReview(master, [a]).changes.find((c) => c.rowId === "l1")!;
+  const cell = change.cells!.find((c) => c.path[0] === "categoryId")!;
+  assert.equal(cellLabel(change.fieldKey, cell), "Expense category", "(18) cell label");
+  assert.deepEqual(
+    [formatValue(cell.before, "categoryId"), formatValue(cell.after, "categoryId")],
+    ["ICT Machinery and Equipment", "ICT Software"],
+    "(18) before/after show the handout category names"
+  );
+  assert.match(formatValue(change.after), /Expense category: ICT Software/, "(18) the whole-row summary uses the name too");
 }
 
 console.log("✓ merge-review verification passed");

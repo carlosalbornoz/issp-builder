@@ -1,4 +1,5 @@
 import { CYBER_GROUPS } from "@/lib/cyber-controls";
+import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import {
   CLASSIFICATION_LABELS,
   DATA_STORAGE_LABELS,
@@ -49,6 +50,7 @@ const CODE_LABELS: Record<string, Record<string, string>> = {
   status: PROPOSED_STATUS_LABELS,
   frontlineAccessType: FRONTLINE_ACCESS_LABELS,
   employmentStatus: EMPLOYMENT_STATUS_LABELS,
+  categoryId: Object.fromEntries(EXPENSE_CATEGORIES.map((c) => [c.id, c.name])),
 };
 
 export function humanizeKey(key: string): string {

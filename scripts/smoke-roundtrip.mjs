@@ -165,7 +165,7 @@ try {
   await page.evaluate(() => {
     const dlg = document.querySelector('[role="dialog"]');
     const rows = [...dlg.querySelectorAll("li li")];
-    const bRow = rows.find((li) => /B\. Organization Structure/.test(li.textContent || ""));
+    const bRow = rows.find((li) => /B\. Organizational Structure/.test(li.textContent || ""));
     bRow?.querySelector(":scope > div button")?.click(); // expand section B
   });
   await sleep(150);
@@ -243,7 +243,7 @@ try {
   // Sidebar: only part1/b visible.
   const navText = await page.$eval("aside nav", (e) => e.textContent || "");
   const see = (t) => navText.includes(t);
-  if (!see("B. Organization Structure")) fail("sidebar missing part1/b");
+  if (!see("B. Organizational Structure")) fail("sidebar missing part1/b");
   if (see("A. Mandate")) fail("sidebar shows part1/a (should be stripped)");
   if (see("Year 1 Breakdown")) fail("sidebar shows Part IV (should be stripped)");
   if (see("Definition of Terms")) fail("sidebar shows definitions (should be stripped)");

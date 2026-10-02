@@ -1,9 +1,12 @@
 // Verify schema v13 migration: Plantilla (Unfilled) counts (Part I-B) and
 // per-KPI-row targeted-result statements (Part III-F) are additive — old docs
 // gain zeros/empty strings, existing values survive a re-migration untouched.
+// Later bumps chain on top, so a migrated doc lands on CURRENT_SCHEMA_VERSION,
+// not 13 — the v13 fields are what this script pins.
 // Run: npx tsx scripts/verify-v13.ts   (expect: ALL CHECKS PASSED)
 import assert from "node:assert";
 import { migrateLegacyDoc } from "../src/lib/store/index";
+import { CURRENT_SCHEMA_VERSION } from "../src/lib/migration-review";
 import { createEmptyDocument } from "../src/lib/store/defaults";
 import type { IsspDocument } from "../src/lib/store/types";
 
@@ -43,9 +46,9 @@ function makeLegacyV12(): IsspDocument {
   return doc;
 }
 
-// 1. v12 → v13 backfills defaults
+// 1. v12 → current backfills the v13 defaults
 const migrated = migrateLegacyDoc(makeLegacyV12());
-assert.strictEqual(migrated.schemaVersion, 13, "schemaVersion must be 13 after migration");
+assert.strictEqual(migrated.schemaVersion, CURRENT_SCHEMA_VERSION, "a v12 doc migrates to the current schema");
 assert.deepStrictEqual(migrated.part1.humanCapital.plantillaUnfilled, { it: 0, nonIt: 0 });
 assert.ok(Object.values(migrated.part3.performanceFramework).every(e =>
   e.rows.every(r => r.targetedResult === "")
@@ -74,16 +77,16 @@ partial.schemaVersion = 13;
 const coerced = migrateLegacyDoc(partial);
 assert.deepStrictEqual(coerced.part1.humanCapital.plantillaUnfilled, { it: 4, nonIt: 0 });
 
-// 4. New documents are born at 13 with both fields present
+// 4. New documents are born at the current schema
 assert.strictEqual(createEmptyDocument({
   title: "t", startYear: 2028, endYear: 2030, amendmentNumber: 0, scope: "AGENCY_WIDE",
   agencyHeadName: "h",
   agency: { name: "n", acronym: "a", type: "NGA", websiteUrl: "", logoBase64: null },
-}).schemaVersion, 13);
+}).schemaVersion, CURRENT_SCHEMA_VERSION);
 
 // 5. v12 -> v13 flags part1/b for migration review (Plantilla Filled/Unfilled
 // split is a semantic change to existing "Plantilla" data, not just an
-// additive field) -- and a v13-born doc never gets flagged.
+// additive field) -- and a newly created doc never gets flagged.
 const flaggedDoc = migrateLegacyDoc(makeLegacyV12());
 assert.ok(
   flaggedDoc.migrationReview?.pendingSectionIds.includes("part1/b"),
@@ -94,6 +97,6 @@ const freshDoc = createEmptyDocument({
   agencyHeadName: "h",
   agency: { name: "n", acronym: "a", type: "NGA", websiteUrl: "", logoBase64: null },
 });
-assert.strictEqual(freshDoc.migrationReview, undefined, "a v13-born doc must not carry a migrationReview flag");
+assert.strictEqual(freshDoc.migrationReview, undefined, "a newly created doc must not carry a migrationReview flag");
 
 console.log("ALL CHECKS PASSED");

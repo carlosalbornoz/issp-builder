@@ -1,6 +1,8 @@
 import type { YearBudget, LineItem, ProjectBudget } from "./part4-year-form";
 import { groupByFundSource } from "@/lib/fund-sources";
 import { categoryName, categoryOrder } from "@/lib/expense-categories";
+import { durationCoversYear, yearsBetween } from "@/lib/duration";
+import type { IsspDocument, Part4Data } from "@/lib/store/types";
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -219,4 +221,57 @@ export function buildB4(years: [YearBudget, YearBudget, YearBudget]): CategoryRo
       year1: amounts[0], year2: amounts[1], year3: amounts[2],
       total: amounts[0] + amounts[1] + amounts[2],
     }));
+}
+
+// ─── Counting rule ─────────────────────────────────────────────────────────────
+
+/** What counting needs: the III-E projects (id + duration), the plan years and Part IV. */
+type CountingDoc = Pick<IsspDocument, "part4" | "startYear" | "endYear"> & {
+  part3: Record<"internalProjects" | "crossAgencyProjects", { id: string; duration?: string }[]>;
+};
+
+/**
+ * The Part IV budget that counts: project budgets only for projects that still
+ * exist in Part III-E, and only in years their duration covers — exactly the
+ * records the year pages and the PDF year tables list. Every total (B.1–B.4 in
+ * the editor and the PDF, III-E Total Project Cost) reads this, never the raw
+ * `part4`, so no money is counted without a visible line. The stored records
+ * are untouched: the year pages name the excluded lines in a warning.
+ */
+export function countedPart4(doc: CountingDoc): Part4Data {
+  const planYears = yearsBetween(doc.startYear, doc.endYear);
+  const keep = (projects: { id: string; duration?: string }[], year: string, budgets: Record<string, ProjectBudget>) => {
+    const out: Record<string, ProjectBudget> = {};
+    for (const p of projects) {
+      if (budgets[p.id] && durationCoversYear(p.duration ?? "", year, planYears)) out[p.id] = budgets[p.id];
+    }
+    return out;
+  };
+  // Same year labels as the Part IV year pages (year 3 = endYear)
+  const year = (y: YearBudget, label: number): YearBudget => ({
+    ...y,
+    internalProjects: keep(doc.part3.internalProjects, String(label), y.internalProjects ?? {}),
+    crossAgencyProjects: keep(doc.part3.crossAgencyProjects, String(label), y.crossAgencyProjects ?? {}),
+  });
+  return {
+    year1: year(doc.part4.year1, doc.startYear),
+    year2: year(doc.part4.year2, doc.startYear + 1),
+    year3: year(doc.part4.year3, doc.endYear),
+  };
+}
+
+/** Summary B.1–B.4 for the editor, from the counted budget. */
+export function buildPart4Summary(doc: CountingDoc & Pick<IsspDocument, "editScope">): Part4SummaryData {
+  const part4 = countedPart4(doc);
+  const years: [YearBudget, YearBudget, YearBudget] = [part4.year1, part4.year2, part4.year3];
+  return {
+    yearLabels: [`Year 1 (${doc.startYear})`, `Year 2 (${doc.startYear + 1})`, `Year 3 (${doc.endYear})`],
+    // Project-filtered scoped files: hide the agency-wide categories (empty
+    // by slice; the year forms hide the same ones).
+    b1: buildB1(years, { hideNonProjectCategories: doc.editScope?.projectIds !== undefined }),
+    b2: buildB2(years),
+    b3: buildB3(years),
+    b4: buildB4(years),
+    grandTotals: years.map(yearTotal) as [number, number, number],
+  };
 }

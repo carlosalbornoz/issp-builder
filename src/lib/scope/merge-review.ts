@@ -1,3 +1,4 @@
+import { linkedSystemIdsOf } from "@/lib/visible-values";
 import type { IsspDocument } from "@/lib/store/types";
 import { applyResolutions, consolidate, type ScalarConflict } from "@/lib/scope/consolidate";
 import { resolveScope, SHARED_TABLE_PATHS } from "@/lib/scope/paths";
@@ -650,11 +651,11 @@ function brokenLinksIn(doc: IsspDocument, names: IsspDocument): RawLink[] {
   const allOutcomes = [...names.part1.orgOutcomes, ...outcomes];
   const allPrograms = allOutcomes.flatMap((o) => o.programs);
 
-  // 1. II-A concerns → I-A outcomes and programs ("general" is always valid).
+  // 1. II-A concerns → I-A outcomes and programs.
   for (const c of doc.part2.strategicConcerns) {
     const from = c.concern || c.criticalSystem || c.id;
     for (const id of c.outcomeIds) {
-      if (id === "general" || outcomeIds.has(id)) continue;
+      if (outcomeIds.has(id)) continue;
       const to = nameOf(id, allOutcomes);
       out.push({ key: `oo:${c.id}:${id}`, sectionId: "part2/a", from, to, message: `Concern "${from}" links to outcome "${to}", which is no longer in Part I-A.` });
     }
@@ -670,7 +671,7 @@ function brokenLinksIn(doc: IsspDocument, names: IsspDocument): RawLink[] {
   const allSystems = [...names.part3.proposedSystems, ...doc.part3.proposedSystems];
   for (const [sectionId, projects] of [["part3/e1", doc.part3.internalProjects], ["part3/e2", doc.part3.crossAgencyProjects]] as const) {
     for (const p of projects) {
-      for (const id of p.linkedSystemIds) {
+      for (const id of linkedSystemIdsOf(p)) {
         if (systemIds.has(id)) continue;
         const from = p.title || p.id;
         const to = nameOf(id, allSystems);

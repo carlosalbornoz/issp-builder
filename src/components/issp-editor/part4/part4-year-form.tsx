@@ -33,6 +33,7 @@ import { SectionShell } from "@/components/editor/section-shell";
 import { php } from "@/lib/utils";
 import { useIsspStore } from "@/lib/store";
 import { yearsBetween, durationCoversYear } from "@/lib/duration";
+import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -93,6 +94,9 @@ interface Part4YearFormProps {
   /** Hide the two agency-wide budget categories — project-filtered scoped
    *  files only (the slice also empties their data). Default false. */
   hideNonProjectCategories?: boolean;
+  /** Every Part III-E project id (any duration). A budget for an id not in
+   *  this list belongs to a deleted project. */
+  liveProjectIds: string[];
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -808,6 +812,7 @@ export function Part4YearForm({
   internalProjects,
   crossAgencyProjects,
   hideNonProjectCategories = false,
+  liveProjectIds,
 }: Part4YearFormProps) {
   const [budget, setBudget] = useState<YearBudget>(() => {
     const base = EMPTY_BUDGET();
@@ -953,16 +958,33 @@ export function Part4YearForm({
     crossAgencyProjects.reduce((s, p) => s + bucketTotal(p.id), 0) +
     sumLines(budget.continuingCosts.mooe);
 
-  // Legacy data guard: lines whose project's Part III-E duration does not
-  // cover this year. The duration picker now blocks creating these; loaded
-  // files may still carry them — name them instead of silently dropping.
-  const orphanedBuckets = (Object.entries(initialData?.internalProjects ?? {}) as [string, ProjectBudget][])
-    .concat(Object.entries(initialData?.crossAgencyProjects ?? {}) as [string, ProjectBudget][])
+  // Legacy data guard: budget lines this page does not list, so no total
+  // counts them (countedPart4). Two causes — the project's Part III-E duration
+  // does not cover this year (the duration picker now blocks creating these),
+  // or the project was deleted (project delete now removes its budget). Loaded
+  // files may still carry either — name them instead of silently dropping.
+  const unlistedBuckets = (Object.entries(budget.internalProjects) as [string, ProjectBudget][])
+    .concat(Object.entries(budget.crossAgencyProjects) as [string, ProjectBudget][])
     .filter(([pid, pb]) =>
       (pb.capitalOutlay?.length ?? 0) + (pb.mooe?.length ?? 0) > 0 &&
       !internalProjects.some((p) => p.id === pid) &&
       !crossAgencyProjects.some((p) => p.id === pid),
     );
+  const deletedBuckets = unlistedBuckets.filter(([pid]) => !liveProjectIds.includes(pid));
+  const offDurationBuckets = unlistedBuckets.filter(([pid]) => liveProjectIds.includes(pid));
+  const describeBuckets = (buckets: [string, ProjectBudget][]) =>
+    buckets
+      .map(([pid, pb]) => {
+        const lines = [...(pb.capitalOutlay ?? []), ...(pb.mooe ?? [])];
+        return `${pb.projectTitle || pid} (${lines.length} line${lines.length === 1 ? "" : "s"}, ${php(sumLines(lines))})`;
+      })
+      .join(", ");
+
+  function removeDeletedProjectLines() {
+    const drop = new Set(deletedBuckets.map(([pid]) => pid));
+    const keep = (m: Record<string, ProjectBudget>) => Object.fromEntries(Object.entries(m).filter(([pid]) => !drop.has(pid)));
+    save({ ...budget, internalProjects: keep(budget.internalProjects), crossAgencyProjects: keep(budget.crossAgencyProjects) });
+  }
 
   const sectionTitle = `Resource Requirements — ${year}`;
   const sectionDesc = `Enter all ICT expenditures for ${year}. Totals are computed automatically.`;
@@ -979,12 +1001,28 @@ export function Part4YearForm({
           <option key={office} value={office} />
         ))}
       </datalist>
-      {orphanedBuckets.length > 0 && (
+      {offDurationBuckets.length > 0 && (
         <div className="rounded-lg border border-warning-border bg-warning-bg px-4 py-3 text-xs text-warning" role="alert">
           <span className="font-medium">Outside project duration:</span>{" "}
-          {orphanedBuckets.map(([pid, pb]) => `${pb.projectTitle || pid} (${(pb.capitalOutlay?.length ?? 0) + (pb.mooe?.length ?? 0)} lines)`).join(", ")}.
-          These lines are hidden from {year} because the project&rsquo;s Part III-E duration does not cover it, and they are not counted in the year total.
+          {describeBuckets(offDurationBuckets)}.
+          These lines are hidden from {year} because the project&rsquo;s Part III-E duration does not cover it. They are
+          not counted in any total (year, Summary B.1–B.4, Total Project Cost) and are not printed.
           Lengthen the duration in Part III-E or move the lines to another category.
+        </div>
+      )}
+      {deletedBuckets.length > 0 && (
+        <div className="flex items-start gap-3 rounded-lg border border-warning-border bg-warning-bg px-4 py-3 text-xs text-warning" role="alert">
+          <p className="flex-1 min-w-0">
+            <span className="font-medium">Deleted project:</span>{" "}
+            {describeBuckets(deletedBuckets)}.
+            These lines belong to a project that is no longer in Part III-E. They are not counted in any total and
+            are not printed. To remove them from the file, tap the bin twice.
+          </p>
+          <ConfirmDeleteButton
+            onDelete={removeDeletedProjectLines}
+            ariaLabel="Remove the deleted project's lines"
+            confirmText="Remove lines?"
+          />
         </div>
       )}
 

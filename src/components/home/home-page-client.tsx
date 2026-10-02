@@ -375,7 +375,7 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               className="animate-glow-orbit inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold text-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:text-sm"
             >
               <Sparkles className="h-4 w-4" />
-              What&apos;s new: Merge review + Cycle View
+              What&apos;s new: PDF matches the editor
             </button>
           </div>
         </div>
@@ -700,11 +700,49 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
           <DialogHeader className="px-6 pt-5 pb-4 border-b flex-shrink-0">
             <DialogTitle className="font-display text-lg flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              What&apos;s new: Merge Review + Cycle View
+              What&apos;s new: PDF Matches the Editor
             </DialogTitle>
           </DialogHeader>
           <div ref={whatsNewScrollRef} className="overflow-y-auto px-6 py-5 space-y-5 text-sm text-muted-foreground leading-relaxed">
             <div tabIndex={0} className="h-0 w-0 overflow-hidden outline-none" aria-hidden="true" />
+
+            {/* PDF matches the editor — headline */}
+            <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Your PDF Prints Only What You See</p>
+              <p>
+                When an answer hides a follow-up field — unticking <span className="text-foreground font-medium">Integration with another system</span>, switching an e-Government program from No to Yes, or answering No to the personal-information question — the PDF used to keep printing what you had typed there. It now prints exactly what the editor shows.
+              </p>
+              <p>
+                Nothing you typed is lost: the hidden text stays in your file and comes back if you change the answer back. The same rule now covers Enhancement Details (printed under the description, and only for For Enhancement systems), eLGU answers on a plan that is not an LGU, and the old Online Portal URL, which the template no longer asks for. If you exported a PDF before, export it again.
+              </p>
+            </div>
+
+            {/* Part IV counted budget */}
+            <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Part IV Totals Match the Line Items</p>
+              <p>
+                Summary B.1–B.4, each project&apos;s Total Project Cost and Cycle View now count only the line items you can see. Budget lines of a deleted project, or in a year outside a project&apos;s duration, are no longer added in.
+              </p>
+              <p>
+                The year pages name those lines with their amounts, so you can lengthen the project&apos;s duration, move the lines, or remove a deleted project&apos;s lines with the bin.
+              </p>
+            </div>
+
+            {/* Project delete hard confirmation */}
+            <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 px-4 py-3.5 space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Deleting a Project Shows What Goes With It</p>
+              <p>
+                Deleting a Part III-E project now opens a confirmation that lists every Performance Framework KPI and every Part IV budget line that belongs to it, with the total. Tick the acknowledgement to delete them together. Before, only the project was removed and its budget stayed in the totals.
+              </p>
+            </div>
+
+            {/* Previously — September 27–29, 2026 entry, collapsed */}
+            <details className="group rounded-lg border bg-muted/30">
+              <summary className="flex cursor-pointer select-none items-center justify-between px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground list-none [&::-webkit-details-marker]:hidden">
+                Previously — September 27–29, 2026
+                <ChevronDown className="w-3.5 h-3.5 transition-transform group-open:rotate-180" />
+              </summary>
+              <div className="px-4 pb-4 pt-2 space-y-5">
 
             {/* Merge review — headline */}
             <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3.5 space-y-1.5">
@@ -757,6 +795,9 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
                 Plans started before September 17 stored &ldquo;General Appropriations Act (GAA)&rdquo;, &ldquo;Foreign-Assisted&rdquo; and &ldquo;Locally Funded&rdquo;, while newer line items used the updated wording — so the Part IV Summary and the PDF&apos;s B.2 Fund Source table could show GAA twice, and the fund-source dropdowns did not show the stored choice. Older files are now updated automatically when you open them, and B.2 always shows one row per fund source. Your totals were never affected.
               </p>
             </div>
+
+              </div>
+            </details>
 
             {/* Previously — September 15–17, 2026 entry, collapsed */}
             <details className="group rounded-lg border bg-muted/30">

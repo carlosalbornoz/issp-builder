@@ -54,8 +54,10 @@ const SELECT_CLS =
 function lineTotal(cell: CycleYearCell | null) {
   return cell ? cell.qty * cell.unitCost : 0;
 }
+/** Counted years only: a cell outside the project's duration is shown (so it
+ * can be fixed) but, like everywhere else in Part IV, not counted (countedPart4). */
 function rowTotal(row: CycleRowData) {
-  return YEAR_KEYS.reduce((s, y) => s + lineTotal(row.cells[y]), 0);
+  return YEAR_KEYS.reduce((s, y) => s + (row.group.activeYears.includes(y) ? lineTotal(row.cells[y]) : 0), 0);
 }
 function groupKeyOf(g: CycleGroupDescriptor) {
   return `${g.kind}::${g.projectId ?? ""}`;
@@ -363,7 +365,13 @@ function YearCellControls({
           <Trash2 className="h-3 w-3" />
         </button>
       </div>
-      <div className="text-right text-xs text-muted-foreground tabular-nums">{php(lineTotal(cell))}</div>
+      {canAdd ? (
+        <div className="text-right text-xs text-muted-foreground tabular-nums">{php(lineTotal(cell))}</div>
+      ) : (
+        <div className="text-right text-xs text-warning" title="The project's Part III-E duration does not cover this year, so this amount is not counted in any total and is not printed.">
+          Outside duration · not counted
+        </div>
+      )}
     </div>
   );
 }
