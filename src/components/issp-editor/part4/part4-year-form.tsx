@@ -678,7 +678,7 @@ export function Part4YearForm({
             <span className="font-medium">Deleted project:</span>{" "}
             {describeBuckets(deletedBuckets)}.
             These lines belong to a project that is no longer in Part III-E. They are not counted in any total and
-            are not printed.
+            are not printed. To remove them from the file, tap the bin twice.
           </p>
           <ConfirmDeleteButton
             onDelete={removeDeletedProjectLines}

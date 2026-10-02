@@ -81,12 +81,12 @@ export function DeleteProjectDialog({
                 </p>
                 <ul className="space-y-0.5 pl-3">
                   {budgetLines.map(({ year, expenseClass, line }) => (
-                    <li key={line.id} className="flex gap-2">
+                    <li key={line.id} className="flex flex-col sm:flex-row sm:gap-2">
                       <span className="min-w-0 flex-1 break-words">
                         <span className="text-muted-foreground">{year} · {CLASS_LABEL[expenseClass]}:</span>{" "}
                         {line.item || <span className="italic text-muted-foreground">Unnamed item</span>}
                       </span>
-                      <span className="shrink-0 tabular-nums">
+                      <span className="shrink-0 tabular-nums text-muted-foreground sm:text-foreground">
                         {line.qty} × {php(line.unitCost)} = {php(line.qty * line.unitCost)}
                       </span>
                     </li>
