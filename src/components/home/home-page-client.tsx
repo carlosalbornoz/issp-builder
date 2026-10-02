@@ -736,6 +736,17 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
               </p>
             </div>
 
+            {/* Sorting + Part IV line-item operations */}
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Reorder Lists, Move and Duplicate Line Items</p>
+              <p>
+                Strategic concerns (II-A), proposed systems (III-D) and internal projects (III-E) now have <span className="text-foreground font-medium">move up / move down</span> buttons, so the PDF lists them in the order you choose.
+              </p>
+              <p>
+                In each Part IV year, a line item can be moved up or down, <span className="text-foreground font-medium">duplicated</span>, or <span className="text-foreground font-medium">moved to another year</span> — a project&apos;s lines only to years its Part III-E duration covers. On phones, these buttons are full-size tap targets and the item name keeps its own line.
+              </p>
+            </div>
+
             {/* Previously — September 27–29, 2026 entry, collapsed */}
             <details className="group rounded-lg border bg-muted/30">
               <summary className="flex cursor-pointer select-none items-center justify-between px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground list-none [&::-webkit-details-marker]:hidden">
