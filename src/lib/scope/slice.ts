@@ -1,3 +1,4 @@
+import { linkedSystemIdsOf } from "@/lib/visible-values";
 import type { IsspDocument } from "@/lib/store/types";
 import type { EditPath, EditScope, OfficeIdentity } from "@/lib/scope/types";
 import { resolveScope, SHARED_TABLE_PATHS } from "@/lib/scope/paths";
@@ -107,7 +108,7 @@ export function sliceScopedDoc(master: IsspDocument, spec: DistributeSpec): Issp
     // Linked systems of carried projects are the ONLY systems in the file —
     // owned III-D included. Systems the office adds ride the owned field.
     const carried = [...sliced.part3.internalProjects, ...sliced.part3.crossAgencyProjects];
-    const linked = new Set(carried.flatMap((p) => p.linkedSystemIds));
+    const linked = new Set(carried.flatMap(linkedSystemIdsOf));
     sliced.part3.proposedSystems = master.part3.proposedSystems.filter((s) =>
       linked.has(s.id)
     );

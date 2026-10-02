@@ -18,13 +18,16 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocalSave } from "@/hooks/use-local-save";
-import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info, Pencil } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, FolderKanban, Link2, Info, Pencil, Trash2 } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { computeProjectCosts, countedPart4 } from "@/components/issp-editor/part4/part4-aggregations";
 import type { Part4Data } from "@/lib/store/types";
 import { AddItemDialog, useAddItemDraft } from "@/components/issp-editor/add-item-dialog";
 import { revealNewItem } from "@/lib/reveal";
-import { ConfirmDeleteButton } from "@/components/ui/confirm-delete-button";
+import { useIsspStore } from "@/lib/store";
+import { projectCasualties, withoutProjectData } from "@/lib/project-delete";
+import { DeleteProjectDialog } from "./delete-project-dialog";
+import { linkedSystemIdsOf } from "@/lib/visible-values";
 import { cn, php } from "@/lib/utils";
 import type { ProposedSystem } from "./part3-d-form";
 import { SectionShell } from "@/components/editor/section-shell";
@@ -251,8 +254,9 @@ function ProjectCard({
   const [editing, setEditing] = useState(initiallyEditing);
   const [pendingLink, setPendingLink] = useState<string | null>(null);
 
+  // Standalone projects keep stored links but show none (visible-values.ts)
   const linkedSystems = proposedSystems.filter((s) =>
-    project.linkedSystemIds.includes(s.id)
+    linkedSystemIdsOf(project).includes(s.id)
   );
 
   function ownersElsewhere(sysId: string) {
@@ -342,11 +346,18 @@ function ProjectCard({
             {project.title || <span className="text-muted-foreground italic">Untitled Project</span>}
           </p>
         </div>
-        <ConfirmDeleteButton
-          ariaLabel="Remove project"
-          confirmText="Delete project and its KPIs and budget?"
-          onDelete={onRemove}
-        />
+        {/* Opens the hard confirmation listing the KPIs and budget that go with it */}
+        <button
+          type="button"
+          aria-label="Delete project"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove();
+          }}
+          className="h-7 w-7 coarse:h-10 coarse:w-10 shrink-0 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+        >
+          <Trash2 className="h-3.5 w-3.5" />
+        </button>
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}
@@ -744,7 +755,7 @@ function ProjectList({
 
   const linkOwners: Record<string, { id: string; title: string }[]> = {};
   for (const proj of [...projects, ...otherProjects]) {
-    for (const sysId of proj.linkedSystemIds ?? []) {
+    for (const sysId of linkedSystemIdsOf(proj)) {
       (linkOwners[sysId] ??= []).push({ id: proj.id, title: proj.title });
     }
   }
@@ -777,8 +788,28 @@ function ProjectList({
     revealNewItem(project.id);
   }
 
+  // Deleting a project also deletes its III-F KPI set and Part IV budget, behind
+  // a dialog that lists them (lib/project-delete.ts).
+  const { doc, updatePart3, updatePart4, updateSectionMeta } = useIsspStore();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const deleting = projects.find((p) => p.id === deletingId) ?? null;
+  const casualties = deleting && doc
+    ? projectCasualties(doc, bucketKey, deleting.id)
+    : { kpiRows: [], budgetLines: [], budgetTotal: 0 };
+
   function removeProject(id: string) {
     update(projects.filter((p) => p.id !== id));
+    if (!doc) return;
+    const { kpiRows, budgetLines } = projectCasualties(doc, bucketKey, id);
+    if (kpiRows.length === 0 && budgetLines.length === 0) return;
+    const { performanceFramework, part4: nextPart4 } = withoutProjectData(doc, bucketKey, id);
+    updatePart3({ performanceFramework });
+    updatePart4(nextPart4);
+    const ts = new Date().toISOString();
+    if (kpiRows.length > 0) updateSectionMeta("part3/f", { lastEditedAt: ts });
+    for (const y of ["year1", "year2", "year3"] as const) {
+      if (doc.part4[y]?.[bucketKey]?.[id]) updateSectionMeta(`part4/${y}`, { lastEditedAt: ts });
+    }
   }
 
   function updateProject(id: string, field: string, value: unknown) {
@@ -834,10 +865,18 @@ function ProjectList({
             blockedYears={linesByYear[project.id] ?? []}
             initiallyEditing={freshIds.has(project.id)}
             onUpdate={(field, value) => updateProject(project.id, field, value)}
-            onRemove={() => removeProject(project.id)}
+            onRemove={() => setDeletingId(project.id)}
           />
         ))}
       </div>
+
+      <DeleteProjectDialog
+        open={deleting !== null}
+        onOpenChange={(open) => !open && setDeletingId(null)}
+        projectTitle={deleting?.title ?? ""}
+        casualties={casualties}
+        onConfirm={() => deleting && removeProject(deleting.id)}
+      />
 
       <AddItemDialog
         open={addDialog.open}

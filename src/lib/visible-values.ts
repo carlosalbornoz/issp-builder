@@ -65,3 +65,15 @@ export function visibleEgpProgram<T extends EgpEntry>(key: string, p: T, agencyT
   }
   return out;
 }
+
+/**
+ * III-E: linked proposed systems belong to IS-driven projects — the link
+ * picker shows only there. A project switched to Standalone keeps its stored
+ * links (switching back restores them) but nothing may act on them. An unset
+ * type with links counts as IS-driven, as the load normalization
+ * (normalizeProjectType) decides — documents POSTed straight to the export
+ * route skip that step.
+ */
+export function linkedSystemIdsOf(p: { projectType?: string; linkedSystemIds?: string[] }): string[] {
+  return p.projectType === "STANDALONE" ? [] : p.linkedSystemIds ?? [];
+}

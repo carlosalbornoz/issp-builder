@@ -4,7 +4,7 @@
  * can render a document without the server.
  */
 import type { IsspData } from "@/lib/pdf/render-issp-html";
-import { visibleEgpProgram, visibleEnhancementDetails, visibleInteroperability, visiblePiaCompleted } from "@/lib/visible-values";
+import { linkedSystemIdsOf, visibleEgpProgram, visibleEnhancementDetails, visibleInteroperability, visiblePiaCompleted } from "@/lib/visible-values";
 import { computeProjectCosts, countedPart4 } from "@/components/issp-editor/part4/part4-aggregations";
 import {
   CLASSIFICATION_LABELS,
@@ -104,7 +104,7 @@ function mapProject(proj: IctProject, crossAgency: boolean, totalProjectCost: nu
     description: proj.description,
     objectives: proj.objectives,
     projectType: proj.projectType || undefined,
-    linkedSystemIds: proj.linkedSystemIds,
+    linkedSystemIds: linkedSystemIdsOf(proj),
     strategicAlignment,
     harmonization,
     duration: proj.duration,
