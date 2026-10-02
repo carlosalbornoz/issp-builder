@@ -3,9 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useIsspStore } from "@/lib/store";
 import { Part4Summary } from "@/components/issp-editor/part4/part4-summary";
-import type { Part4SummaryData } from "@/components/issp-editor/part4/part4-aggregations";
-import { buildB1, buildB2, buildB3, buildB4, yearTotal } from "@/components/issp-editor/part4/part4-aggregations";
-import type { YearBudget } from "@/components/issp-editor/part4/part4-year-form";
+import { buildPart4Summary } from "@/components/issp-editor/part4/part4-aggregations";
 
 export default function Part4SummaryPage() {
   const { doc, loading } = useIsspStore();
@@ -17,25 +15,8 @@ export default function Part4SummaryPage() {
     return null;
   }
 
-  const years: [YearBudget, YearBudget, YearBudget] = [doc.part4.year1, doc.part4.year2, doc.part4.year3];
-  const yearLabels: [string, string, string] = [
-    `Year 1 (${doc.startYear})`,
-    `Year 2 (${doc.startYear + 1})`,
-    `Year 3 (${doc.endYear})`,
-  ];
-
-  const data: Part4SummaryData = {
-    yearLabels,
-    // Project-filtered scoped files: hide the agency-wide categories (empty
-    // by slice; the year forms hide the same ones).
-    b1: buildB1(years, {
-      hideNonProjectCategories: doc.editScope?.projectIds !== undefined,
-    }),
-    b2: buildB2(years),
-    b3: buildB3(years),
-    b4: buildB4(years),
-    grandTotals: years.map(yearTotal) as [number, number, number],
-  };
+  // Counted budget only (part4-aggregations countedPart4) — same totals as the PDF
+  const data = buildPart4Summary(doc);
 
   return <Part4Summary data={data} />;
 }

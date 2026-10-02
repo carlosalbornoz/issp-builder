@@ -24,6 +24,13 @@ The four mandatory sections of the ISSP. Part I = mandate & organization; Part I
 The DICT classification of one Part IV line item — one of 30 categories from the DICT UACS classification handout, 5 under Capital Outlay and 25 under MOOE. A line item's category must belong to its expense class (Capital Outlay or MOOE). Summary B.4 totals the budget per category; a line item without one counts as "Uncategorized".
 _Avoid_: "UACS code", "object code" (the older schema stored those; they are no longer the classification)
 
+**Visible value**:
+What the editor shows for a field whose display depends on another answer (a ticked box, a Yes/No answer, a status). A hidden value stays in the file, so it comes back when the answer changes back, but the PDF and every report use only visible values.
+_Avoid_: "stale value", "leftover data"
+
+**Counted budget**:
+The Part IV line items that totals include: Office Productivity, Continuing Costs, and the budget of projects that are still in Part III-E, in the years their duration covers. Year totals, Summary B.1–B.4, Total Project Cost and the PDF all use the counted budget; other stored lines are named in a warning on the year page.
+
 **Annex 1**:
 The Existing ICT Asset Inventory — equipment and software counts per office. Two surfaces: the standalone `/annex1` form (an office fills and returns a `.issp` file) and inline management at `/editor/annex1` (secretariat adds/edits offices directly or attaches returned files).
 _Avoid_: "the inventory", "asset table"

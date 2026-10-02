@@ -27,6 +27,7 @@ export default function Part4Year1Page() {
       internalProjects={doc.part3.internalProjects.filter((p) => inDuration(p.duration)).map((p) => ({ id: p.id, title: p.title }))}
       crossAgencyProjects={doc.part3.crossAgencyProjects.filter((p) => inDuration(p.duration)).map((p) => ({ id: p.id, title: p.title }))}
       hideNonProjectCategories={doc.editScope?.projectIds !== undefined}
+      liveProjectIds={[...doc.part3.internalProjects, ...doc.part3.crossAgencyProjects].map((p) => p.id)}
     />
   );
 }

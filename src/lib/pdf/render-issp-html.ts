@@ -1040,12 +1040,9 @@ function renderPart2(issp: IsspData): string {
   function egpDetailsCell(cfg: EgpRowConfig, e: EgpEntry | undefined): string {
     if (cfg.key === "pnpki") return "—";
     if (cfg.key === "onlinePortal") {
-      const lines: string[] = [
-        `Are these mechanisms already connected with online public service portals?<br><br>` +
-          egpYesNoStack(e?.connectedToPortal === "yes", e?.connectedToPortal === "no"),
-      ];
-      if (e?.url) lines.push(`URL: ${esc(e.url)}`);
-      return lines.join("<br>");
+      // No URL here: the template row has none and the II-D form shows none (F7).
+      return `Are these mechanisms already connected with online public service portals?<br><br>` +
+        egpYesNoStack(e?.connectedToPortal === "yes", e?.connectedToPortal === "no");
     }
     const blocks: string[] = [];
     if (cfg.showUrlOnYes) {

@@ -208,4 +208,22 @@ function makeMaster() {
     "(g) internal budget still filtered to the selected project");
 }
 
+// ── (h) a Standalone project's stored links carry no systems ────────────────
+// The III-E link picker exists only for IS-driven projects; a project switched
+// to Standalone keeps its old linkedSystemIds (so switching back restores
+// them), but nothing may act on them (audit 2026-10-02, F9).
+{
+  const master = makeMaster();
+  master.part3.internalProjects[0] = { ...master.part3.internalProjects[0], projectType: "STANDALONE" };
+  const s = sliceScopedDoc(master, {
+    office: { id: "imp", name: "Implementor", displayLabel: "Implementor" },
+    editable: ["part3/e1"],
+    projectIds: ["proj-sikap"],
+  });
+  assert.deepEqual(s.part3.proposedSystems.map((x) => x.id), [],
+    "(h) Standalone project: its hidden links carry no systems");
+  assert.deepEqual(s.part3.internalProjects[0].linkedSystemIds, ["sys-hris"],
+    "(h) the stored links themselves are kept");
+}
+
 console.log("✓ project-slice verification passed");

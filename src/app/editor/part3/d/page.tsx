@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useIsspStore } from "@/lib/store";
+import { linkedSystemIdsOf } from "@/lib/visible-values";
 import { Part3DForm } from "@/components/issp-editor/part3/part3-d-form";
 
 export default function Part3DPage() {
@@ -18,7 +19,7 @@ export default function Part3DPage() {
   const linkingProjects = [
     ...doc.part3.internalProjects,
     ...doc.part3.crossAgencyProjects,
-  ].map((p) => ({ id: p.id, title: p.title, linkedSystemIds: p.linkedSystemIds ?? [] }));
+  ].map((p) => ({ id: p.id, title: p.title, linkedSystemIds: linkedSystemIdsOf(p) }));
 
   return (
     <Part3DForm
