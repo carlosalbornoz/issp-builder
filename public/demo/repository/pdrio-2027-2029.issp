@@ -1,0 +1,1333 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-04-28T09:05:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "Philippine Disaster Risk Insurance Office Information Systems Strategic Plan 2027–2029",
+  "startYear": 2027,
+  "endYear": 2029,
+  "amendmentNumber": 0,
+  "scope": "DEPARTMENT_CENTRAL_ONLY",
+  "agencyHeadName": "Insurance Commissioner Josefa B. Lardizabal",
+  "agency": {
+    "name": "Philippine Disaster Risk Insurance Office",
+    "acronym": "PDRIO",
+    "type": "NGA",
+    "websiteUrl": "https://www.pdrio.gov.ph",
+    "logoBase64": null
+  },
+  "planStatus": "submitted",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": "2026-04-30"
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year3": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/summary": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    }
+  },
+  "part1": {
+    "legalBasis": "Republic Act No. 11954 (Local Government Disaster Risk Insurance Act of 2024), creating the Philippine Disaster Risk Insurance Office to design, price and administer parametric insurance pools for provinces, cities and municipalities.",
+    "mandateFunction": "The PDRIO designs parametric insurance products for LGU assets, pools and prices risk across provinces, administers payouts triggered by official hazard data, and advises on risk transfer for public infrastructure. It maintains exposure models for roads, buildings, schools and hospitals nationwide.",
+    "visionStatement": "Local governments that recover from disasters in weeks, not years, because risk was transferred before the storm.",
+    "missionStatement": "To pool, price and pay disaster risk for local governments with actuarially sound, transparent and fast-settling parametric products.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Faster, fairer parametric payouts to LGUs",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "Parametric Payout Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Actuarially sound national risk data",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "Risk Data Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Capable and secure PDRIO operations",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "Operations Strengthening Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "Dir. Anselmo R. Quijano",
+    "cioPosition": "Director III — ICT Division",
+    "cioUnit": "ICT Division",
+    "cioEmail": "cio@pdrio.gov.ph",
+    "cioContact": "+63 2 8581 3421",
+    "focalSameAsCio": false,
+    "focalName": "Ms. Perla T. Gatchalian",
+    "focalPosition": "Chief, Product Development Division",
+    "focalUnit": "ICT Division",
+    "focalEmail": "focal@pdrio.gov.ph",
+    "focalContact": "+63 2 8661 8290",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 11,
+          "female": 14
+        },
+        "nonIt": {
+          "male": 58,
+          "female": 96
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 4,
+        "nonIt": 17
+      },
+      "contractual": {
+        "it": {
+          "male": 6,
+          "female": 5
+        },
+        "nonIt": {
+          "male": 14,
+          "female": 24
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 8,
+          "female": 3
+        },
+        "nonIt": {
+          "male": 2,
+          "female": 2
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Provinces, cities and municipalities",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Parametric policy enrolment and payout claims",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          },
+          {
+            "id": "st-1-sv-2",
+            "name": "Risk advisory and coverage statements",
+            "complexity": "Complex",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "National Coastal Resilience Authority",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Trigger data exchange for parametric products (RAPIDE)",
+            "complexity": "Highly Technical",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Insurance Commission and reinsurance partners",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Submission of pool accounts and treaty reports",
+            "complexity": "Highly Technical",
+            "direction": "OUTGOING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "PRISM (Policy Registry & Insurance Servicing Mainframe)",
+        "concern": "Payout computation runs as an overnight batch on PRISM; after Typhoon Barangas, nineteen LGUs waited 18 days for payouts because trigger data arrived as scanned documents that had to be re-keyed before the batch could price them.",
+        "desiredStrategy": "Replace manual trigger intake with automated hazard-data feeds (RAPIDE) and a modern claims platform under Project UNDERWRITE, targeting payout within 7 days of trigger."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-2"
+        ],
+        "criticalSystem": "Exposure models (single workstation)",
+        "concern": "National exposure models are maintained on one licensed workstation; two pricing seasons have been delayed by queueing, and no one else can run the full model stack.",
+        "desiredStrategy": "Migrate modeling to a governed geospatial data warehouse with elastic compute and versioned model runs."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "The Office operates from one central building with a well-maintained but aging network. The PRISM policy mainframe sits in a glass-walled machine room that features in visitor tours; its batch windows dictate office hours for policy servicing. Actuarial models run on one licensed workstation; the modeling team queues for it during pricing season. A single cloud tenancy hosts the public product pages.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": false,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-prism",
+        "name": "PRISM — Policy Registry & Insurance Servicing Mainframe",
+        "classification": "OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "COBOL-based policy administration covering enrolment, premium billing and payout computation in overnight batches. Servicing windows are planned around batch schedules.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "COBOL / DB2",
+        "databaseName": "prism_prod",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Underwriting, finance and claims (~210 staff)",
+        "externalUsers": "",
+        "owner": "Underwriting and Actuarial Division",
+        "interoperability": {
+          "integrated": true,
+          "internalSystems": "See system description",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-productsite",
+        "name": "Parametric product information site",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "https://products.pdrio.gov.ph",
+        "description": "Public site describing available parametric coverages; no enrolment or claims intake.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Static site (managed hosting)",
+        "databaseName": "N/A",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Product Development (~15 staff)",
+        "externalUsers": "",
+        "owner": "Product Development Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "eGovPay": {
+        "status": "no",
+        "ifNo": {
+          "manual": true,
+          "proposedDevelopment": true
+        }
+      },
+      "pnpki": {
+        "status": "",
+        "adoptionPercentage": 47
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "yes",
+        "url": "https://ifmis.dbm.gov.ph"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.pdrio.gov.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": true,
+          "mobile": true
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "yes"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates Philippine Disaster Risk Insurance Office's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 3
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 4
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 3
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-underwrite",
+        "name": "UNDERWRITE Platform",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "Modern policy and claims platform for parametric products: LGU self-service enrolment, automated trigger ingestion, and straight-through payout computation.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Java / Kafka / PostgreSQL",
+        "databaseName": "underwrite_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Underwriting, actuarial and claims (~230 staff)",
+        "externalUsers": "LGU policy focal persons (~1,640)",
+        "owner": "Underwriting and Actuarial Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-geowarehouse",
+        "name": "Geospatial Risk Data Warehouse",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Governed warehouse of exposure, hazard and claims data with versioned model runs and elastic actuarial compute.",
+        "developmentStrategy": "HYBRID",
+        "developmentPlatform": "PostGIS / object storage / notebooks",
+        "databaseName": "risk_wh",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Actuarial and research teams (~60 staff)",
+        "externalUsers": "",
+        "owner": "Risk Management Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-underwrite",
+        "title": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
+        "description": "Builds the modern policy and claims platform: LGU self-service enrolment, automated trigger ingestion from RAPIDE, straight-through payout computation, and PRISM decommissioning.",
+        "objectives": "1. LGU self-service enrolment live by 2028\n2. Automated trigger ingestion for all covered perils\n3. Median payout time from trigger to release: 7 days\n4. PRISM decommissioned by end of 2028",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-underwrite"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "National Cybersecurity Plan"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Interoperability Framework"
+        ],
+        "implementingUnit": "ICT Division",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Core platform live; 3 pilot provinces enrolled; automated windstorm triggers",
+        "year2Deliverables": "All perils automated; national enrolment wave; PRISM decommissioned",
+        "year3Deliverables": "",
+        "duration": "2027–2028"
+      },
+      {
+        "id": "p-geo",
+        "title": "Geospatial Risk Data Warehouse",
+        "description": "Consolidates exposure, hazard and claims data into a governed warehouse with versioned model runs, ending single-workstation model dependency.",
+        "objectives": "1. Warehouse live with national exposure data by 2027\n2. Versioned, reviewable model runs\n3. Elastic compute for pricing season",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-geowarehouse"
+        ],
+        "strategicAlignment": [
+          "Public Investment Program"
+        ],
+        "harmonizationFramework": [
+          "Resource Optimization",
+          "Scalability and Sustainability"
+        ],
+        "implementingUnit": "Risk Management Division",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Warehouse live; exposure data migrated; first versioned model run",
+        "year2Deliverables": "Claims and hazard data integrated; peer review workflow live",
+        "year3Deliverables": "Elastic pricing-season compute validated; workstation dependency retired",
+        "duration": "2027–2029"
+      }
+    ],
+    "crossAgencyProjects": [
+      {
+        "id": "cx-rapide",
+        "title": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
+        "description": "The Office's share of RAPIDE: consuming NCRA hazard feeds as automated payout triggers and contributing exposure aggregates back to the exchange.",
+        "objectives": "1. Automated trigger feeds for windstorm and surge perils by 2027\n2. Exposure aggregates published to partner agencies\n3. Joint payout drills each season",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "Program Convergence Budgeting",
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Cross-Agency Collaboration"
+        ],
+        "implementingUnit": "ICT Division",
+        "leadAgency": "National Coastal Resilience Authority",
+        "implementingAgencies": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Windstorm trigger feed live; first automated test payout executed in drill",
+        "year2Deliverables": "Surge trigger feed live; exposure aggregates published",
+        "year3Deliverables": "",
+        "duration": "2027–2028"
+      }
+    ],
+    "performanceFramework": {
+      "p-underwrite": {
+        "projectTitle": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-underwrite-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Median payout time (trigger to release)",
+            "indicator": "Median payout time (trigger to release)",
+            "baseline": "18 days",
+            "year1Target": "12 days",
+            "year2Target": "7 days",
+            "year3Target": "7 days",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Division"
+          },
+          {
+            "id": "p-underwrite-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "LGUs on self-service enrolment",
+            "indicator": "LGUs on self-service enrolment",
+            "baseline": "0",
+            "year1Target": "120",
+            "year2Target": "1,640",
+            "year3Target": "1,640",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Division"
+          },
+          {
+            "id": "p-underwrite-kpi-3",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Claims requiring manual re-keying of trigger data",
+            "indicator": "Claims requiring manual re-keying of trigger data",
+            "baseline": "100%",
+            "year1Target": "40%",
+            "year2Target": "0%",
+            "year3Target": "0%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Division"
+          }
+        ]
+      },
+      "p-geo": {
+        "projectTitle": "Geospatial Risk Data Warehouse",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-geo-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of Geospatial Risk Warehouse deliverables",
+            "indicator": "% completion of Geospatial Risk Warehouse deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Risk Management Division"
+          },
+          {
+            "id": "p-geo-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by Geospatial Risk Warehouse (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by Geospatial Risk Warehouse (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Risk Management Division"
+          }
+        ]
+      },
+      "cx-rapide": {
+        "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
+        "projectCategory": "crossAgency",
+        "rows": [
+          {
+            "id": "cx-rapide-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of RAPIDE participation deliverables",
+            "indicator": "% completion of RAPIDE participation deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Division"
+          },
+          {
+            "id": "cx-rapide-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by RAPIDE participation (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by RAPIDE participation (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Division"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-201",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 38,
+            "unitCost": 56500
+          },
+          {
+            "id": "y1-co-202",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 21,
+            "unitCost": 61000
+          },
+          {
+            "id": "y1-co-203",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 401000
+          },
+          {
+            "id": "y1-co-204",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 92000
+          },
+          {
+            "id": "y1-co-205",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Division",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 356500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-198",
+            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "office": "ICT Division",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 26000
+          },
+          {
+            "id": "y1-mooe-199",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Division",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 209500
+          },
+          {
+            "id": "y1-mooe-200",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Division",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 431500
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-underwrite": {
+          "projectTitle": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-217",
+              "item": "Project UNDERWRITE — system development and acquisition (Year 1 milestone)",
+              "office": "ICT Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 141288000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-218",
+              "item": "Project management office — Project UNDERWRITE",
+              "office": "ICT Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 12110500
+            },
+            {
+              "id": "y1-mooe-219",
+              "item": "Hosting, support and licences — Project UNDERWRITE (Year 1)",
+              "office": "ICT Division",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 8073500
+            },
+            {
+              "id": "y1-mooe-220",
+              "item": "ICT training and change management — Project UNDERWRITE",
+              "office": "ICT Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 6728000
+            }
+          ]
+        },
+        "p-geo": {
+          "projectTitle": "Geospatial Risk Data Warehouse",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-225",
+              "item": "Geospatial Risk Warehouse — system development and acquisition (Year 1 milestone)",
+              "office": "Risk Management Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 29988000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-226",
+              "item": "Project management office — Geospatial Risk Warehouse",
+              "office": "Risk Management Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2570500
+            },
+            {
+              "id": "y1-mooe-227",
+              "item": "Hosting, support and licences — Geospatial Risk Warehouse (Year 1)",
+              "office": "Risk Management Division",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1713500
+            },
+            {
+              "id": "y1-mooe-228",
+              "item": "ICT training and change management — Geospatial Risk Warehouse",
+              "office": "Risk Management Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1428000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-rapide": {
+          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-237",
+              "item": "RAPIDE participation — system development and acquisition (Year 1 milestone)",
+              "office": "ICT Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 19488000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-238",
+              "item": "Project management office — RAPIDE participation",
+              "office": "ICT Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1670500
+            },
+            {
+              "id": "y1-mooe-239",
+              "item": "Hosting, support and licences — RAPIDE participation (Year 1)",
+              "office": "ICT Division",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1113500
+            },
+            {
+              "id": "y1-mooe-240",
+              "item": "ICT training and change management — RAPIDE participation",
+              "office": "ICT Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 928000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-245",
+            "item": "PRISM mainframe support (until decommission)",
+            "office": "ICT Division",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 4800000
+          },
+          {
+            "id": "y1-mooe-248",
+            "item": "Reinsurance market data subscriptions",
+            "office": "ICT Division",
+            "categoryId": "mooe-ict-software-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2600000
+          },
+          {
+            "id": "y1-mooe-251",
+            "item": "Records management services (policy archives)",
+            "office": "ICT Division",
+            "categoryId": "mooe-professional-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 900000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-209",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 38,
+            "unitCost": 51000
+          },
+          {
+            "id": "y2-co-210",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 21,
+            "unitCost": 58500
+          },
+          {
+            "id": "y2-co-211",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 388500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-206",
+            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "office": "ICT Division",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 23000
+          },
+          {
+            "id": "y2-mooe-207",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Division",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 264500
+          },
+          {
+            "id": "y2-mooe-208",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Division",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 176500
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-underwrite": {
+          "projectTitle": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-221",
+              "item": "Project UNDERWRITE — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 102312000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-222",
+              "item": "Project management office — Project UNDERWRITE",
+              "office": "ICT Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 8769500
+            },
+            {
+              "id": "y2-mooe-223",
+              "item": "Hosting, support and licences — Project UNDERWRITE (Year 2)",
+              "office": "ICT Division",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 5846500
+            },
+            {
+              "id": "y2-mooe-224",
+              "item": "ICT training and change management — Project UNDERWRITE",
+              "office": "ICT Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 4872000
+            }
+          ]
+        },
+        "p-geo": {
+          "projectTitle": "Geospatial Risk Data Warehouse",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-229",
+              "item": "Geospatial Risk Warehouse — system development and acquisition (Year 2 milestone)",
+              "office": "Risk Management Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 24276000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-230",
+              "item": "Project management office — Geospatial Risk Warehouse",
+              "office": "Risk Management Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2081000
+            },
+            {
+              "id": "y2-mooe-231",
+              "item": "Hosting, support and licences — Geospatial Risk Warehouse (Year 2)",
+              "office": "Risk Management Division",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1387000
+            },
+            {
+              "id": "y2-mooe-232",
+              "item": "ICT training and change management — Geospatial Risk Warehouse",
+              "office": "Risk Management Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1156000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-rapide": {
+          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-241",
+              "item": "RAPIDE participation — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 14112000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-242",
+              "item": "Project management office — RAPIDE participation",
+              "office": "ICT Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1209500
+            },
+            {
+              "id": "y2-mooe-243",
+              "item": "Hosting, support and licences — RAPIDE participation (Year 2)",
+              "office": "ICT Division",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 806500
+            },
+            {
+              "id": "y2-mooe-244",
+              "item": "ICT training and change management — RAPIDE participation",
+              "office": "ICT Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 672000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-246",
+            "item": "PRISM mainframe support (until decommission)",
+            "office": "ICT Division",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 4992000
+          },
+          {
+            "id": "y2-mooe-249",
+            "item": "Reinsurance market data subscriptions",
+            "office": "ICT Division",
+            "categoryId": "mooe-ict-software-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2704000
+          },
+          {
+            "id": "y2-mooe-252",
+            "item": "Records management services (policy archives)",
+            "office": "ICT Division",
+            "categoryId": "mooe-professional-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 936000
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y3-co-215",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 38,
+            "unitCost": 50000
+          },
+          {
+            "id": "y3-co-216",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 21,
+            "unitCost": 29500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y3-mooe-212",
+            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "office": "ICT Division",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 19500
+          },
+          {
+            "id": "y3-mooe-213",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Division",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 128000
+          },
+          {
+            "id": "y3-mooe-214",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Division",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 196000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-geo": {
+          "projectTitle": "Geospatial Risk Data Warehouse",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-233",
+              "item": "Geospatial Risk Warehouse — system development and acquisition (Year 3 milestone)",
+              "office": "Risk Management Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 17136000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-234",
+              "item": "Project management office — Geospatial Risk Warehouse",
+              "office": "Risk Management Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1469000
+            },
+            {
+              "id": "y3-mooe-235",
+              "item": "Hosting, support and licences — Geospatial Risk Warehouse (Year 3)",
+              "office": "Risk Management Division",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 979000
+            },
+            {
+              "id": "y3-mooe-236",
+              "item": "ICT training and change management — Geospatial Risk Warehouse",
+              "office": "Risk Management Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 816000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-247",
+            "item": "PRISM mainframe support (until decommission)",
+            "office": "ICT Division",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 5184000
+          },
+          {
+            "id": "y3-mooe-250",
+            "item": "Reinsurance market data subscriptions",
+            "office": "ICT Division",
+            "categoryId": "mooe-ict-software-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2808000
+          },
+          {
+            "id": "y3-mooe-253",
+            "item": "Records management services (policy archives)",
+            "office": "ICT Division",
+            "categoryId": "mooe-professional-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 972000
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2026-01-26T07:40:00.000Z",
+  "updatedAt": "2026-04-28T09:05:00.000Z"
+}

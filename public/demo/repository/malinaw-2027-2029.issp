@@ -1,0 +1,1428 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-04-30T07:55:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "City Government of Malinaw Information Systems Strategic Plan 2027–2029",
+  "startYear": 2027,
+  "endYear": 2029,
+  "amendmentNumber": 0,
+  "scope": "LGU_SCOPE",
+  "agencyHeadName": "City Mayor Hon. Artemio B. Villanueva Jr.",
+  "agency": {
+    "name": "City Government of Malinaw",
+    "acronym": "MAL",
+    "type": "LGU",
+    "websiteUrl": "https://www.malinawcity.gov.ph",
+    "logoBase64": null
+  },
+  "planStatus": "submitted",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": "2026-04-30"
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year3": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/summary": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    }
+  },
+  "part1": {
+    "legalBasis": "Republic Act No. 11877, converting the Municipality of Malinaw into a component city, with full corporate powers for local governance and service delivery.",
+    "mandateFunction": "The City Government of Malinaw delivers local governance services for 42 barangays: business permits and licensing, real property taxation, civil registry, health services, social welfare and disaster response, supported by a city hall workforce of roughly 600 personnel.",
+    "visionStatement": "A city where every government service that can be online is online — and works.",
+    "missionStatement": "To deliver fast, transparent city services through integrated digital systems that citizens can use from any barangay.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Faster, more transparent business and property transactions",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "One-Stop Digital Services Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Connected barangays",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "Barangay Connectivity Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Disaster-ready city operations",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "City Resilience Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "Engr. Liza K. Panganiban",
+    "cioPosition": "City ICT Officer",
+    "cioUnit": "City ICT Office",
+    "cioEmail": "cio@mal.gov.ph",
+    "cioContact": "+63 2 8597 1269",
+    "focalSameAsCio": false,
+    "focalName": "Mr. Efren D. Salonga",
+    "focalPosition": "City Planning and Development Coordinator",
+    "focalUnit": "City ICT Office",
+    "focalEmail": "focal@mal.gov.ph",
+    "focalContact": "+63 2 8925 7803",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 5,
+          "female": 7
+        },
+        "nonIt": {
+          "male": 110,
+          "female": 208
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 2,
+        "nonIt": 23
+      },
+      "contractual": {
+        "it": {
+          "male": 3,
+          "female": 2
+        },
+        "nonIt": {
+          "male": 28,
+          "female": 45
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 4,
+          "female": 1
+        },
+        "nonIt": {
+          "male": 6,
+          "female": 4
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Business owners and taxpayers",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Business permit application and renewal",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          },
+          {
+            "id": "st-1-sv-2",
+            "name": "Real property tax payment and records",
+            "complexity": "Simple",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "Barangay governments",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Submission of barangay reports and requests",
+            "complexity": "Simple",
+            "direction": "INCOMING"
+          },
+          {
+            "id": "st-2-sv-2",
+            "name": "City-to-barangay advisories and bulletins",
+            "complexity": "Simple",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Neighboring LGUs (San Prospero)",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Cross-border permit and inspection verification (PXNet)",
+            "complexity": "Complex",
+            "direction": "OUTGOING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "eBPLS (vendor-hosted business permits)",
+        "concern": "The vendor-hosted permit system's data exports cost extra and arrive as PDFs; the city cannot do its own analytics on its own permit data, and renewals queue twice — once to file, once to pay.",
+        "desiredStrategy": "Bring permits into the city-owned One-Stop portal with integrated payment and open data exports."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-2"
+        ],
+        "criticalSystem": "Barangay reporting (personal hotspots)",
+        "concern": "Nineteen barangays submit reports through councilors' personal hotspots; during the last flood, three barangays' damage reports arrived two days late because the hotspots were in the flood.",
+        "desiredStrategy": "Deploy a barangay mesh connectivity network with solar-powered nodes and city-managed backhaul."
+      },
+      {
+        "id": "c-3",
+        "outcomeIds": [
+          "oo-3"
+        ],
+        "programIds": [
+          "oo-3-pg-3"
+        ],
+        "criticalSystem": "City incident management (group chat)",
+        "concern": "Disaster response coordination runs on a group chat; situation reports are screenshots, and the RAPIDE hazard feed the city is entitled to has never been integrated.",
+        "desiredStrategy": "Stand up a city incident dashboard consuming RAPIDE feeds and barangay mesh reports."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "City hall runs a single flat network shared by admin offices and the public Wi-Fi; the business permit system is hosted by its vendor with data exports available on request (and a fee); real property tax records live in an Access database backed up to the treasurer's personal external drive. Of 42 barangays, 19 have no city-provided connectivity and use councilors' personal hotspots for submissions.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": false,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": false,
+        "networkSegmentation": false
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": false,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": false
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": false,
+        "accessReviews": false,
+        "securityLogs": true,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-ebpls",
+        "name": "eBPLS — Business Permits and Licensing System",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "https://ebpls.malinawcity.gov.ph",
+        "description": "Vendor-hosted permit processing; data exports billable; no API; renewals require two visits.",
+        "developmentStrategy": "COTS",
+        "developmentPlatform": "Vendor SaaS",
+        "databaseName": "Vendor-hosted",
+        "dataStorage": "CLOUD",
+        "internalUsers": "BPLO (~35 staff)",
+        "externalUsers": "Business owners (~8,900)",
+        "owner": "Business Permits and Licensing Office",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-rpt",
+        "name": "Real Property Tax records (Access)",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Access database of property records since 2009, backed up to the treasurer's personal external drive.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Microsoft Access",
+        "databaseName": "rpt.mdb",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "City Treasurer's Office (~25 staff)",
+        "externalUsers": "",
+        "owner": "City Treasurer's Office",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-civilreg",
+        "name": "Civil Registry System",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ON_PREMISE",
+        "url": "",
+        "description": "National civil registry front-end operated by the city registry; offline encoding, batch upload.",
+        "developmentStrategy": "COTS",
+        "developmentPlatform": "National system client",
+        "databaseName": "National",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "City Civil Registry (~14 staff)",
+        "externalUsers": "",
+        "owner": "Office of the City Civil Registrar",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "elgu": {
+        "status": "yes",
+        "url": "https://ebpls.malinawcity.gov.ph/elgu"
+      },
+      "eGovPay": {
+        "status": "yes"
+      },
+      "pnpki": {
+        "status": "",
+        "adoptionPercentage": 29
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "yes",
+        "url": "https://ifmis.dbm.gov.ph"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.malinawcity.gov.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": false,
+          "mobile": false
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "no"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates City Government of Malinaw's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 6
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 5
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-portal",
+        "name": "Malinaw One-Stop Digital Services Portal",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "City-owned portal integrating business permits, property tax payments, civil registry requests and barangay services with online payment.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Next.js / PostgreSQL",
+        "databaseName": "onestop_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "All frontline offices (~120 staff)",
+        "externalUsers": "Residents and businesses (~120,000)",
+        "owner": "City ICT Office",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-incident",
+        "name": "City Incident Dashboard",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Disaster operations dashboard consuming RAPIDE hazard feeds, barangay mesh reports and city asset status.",
+        "developmentStrategy": "OPEN_SOURCE",
+        "developmentPlatform": "Grafana / PostGIS",
+        "databaseName": "incident",
+        "dataStorage": "CLOUD",
+        "internalUsers": "City DRRMO, command group (~40 staff)",
+        "externalUsers": "",
+        "owner": "City DRRMO",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-portal",
+        "title": "Malinaw One-Stop Digital Services Portal",
+        "description": "Builds the city-owned services portal: permits, property tax payments, civil registry requests and barangay services with integrated online payment — ending the two-queue renewal and the billable data export.",
+        "objectives": "1. Portal live with permits and property tax by 2028\n2. Online payment integrated for all covered services\n3. City-owned data with open exports\n4. Cut average renewal processing from 3 visits to 0",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-portal"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Interoperability Framework"
+        ],
+        "implementingUnit": "City ICT Office",
+        "fundingSource": "Locally funded",
+        "year1Deliverables": "Permits and property tax modules live with online payment; first paperless renewals",
+        "year2Deliverables": "Civil registry requests and barangay services onboarded; open data exports live",
+        "year3Deliverables": "",
+        "duration": "2027–2028"
+      },
+      {
+        "id": "p-mesh",
+        "title": "Barangay Connectivity Mesh",
+        "description": "Deploys solar-powered mesh nodes across the 19 unconnected barangays with city-managed backhaul, carrying reports, advisories and incident data.",
+        "objectives": "1. Connect all 19 unconnected barangays by 2027\n2. Carry barangay reporting and advisories\n3. Withstand flood-season power and link outages",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "Public Investment Program"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Scalability and Sustainability"
+        ],
+        "implementingUnit": "City ICT Office",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "All 42 barangays connected; mesh carrying reports and advisories; flood-season failover tested",
+        "year2Deliverables": "",
+        "year3Deliverables": "",
+        "duration": "2027"
+      }
+    ],
+    "crossAgencyProjects": [
+      {
+        "id": "cx-rapide",
+        "title": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
+        "description": "The city's share of RAPIDE: consuming coastal hazard feeds into the city incident dashboard and contributing barangay incident reports to the exchange.",
+        "objectives": "1. City incident dashboard consuming RAPIDE feeds by 2028\n2. Barangay incident reports flowing to the exchange\n3. Joint drills with NCRA and PDRIO",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-incident"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "Program Convergence Budgeting"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Cross-Agency Collaboration"
+        ],
+        "implementingUnit": "City DRRMO",
+        "leadAgency": "National Coastal Resilience Authority",
+        "implementingAgencies": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Dashboard live consuming surge and windstorm feeds; first joint drill",
+        "year2Deliverables": "Barangay reports flowing to the exchange; season after-action review",
+        "year3Deliverables": "",
+        "duration": "2027–2028"
+      },
+      {
+        "id": "cx-pxnet",
+        "title": "Permits Exchange Network (PXNet) — Malinaw lead share",
+        "description": "The city's lead share of PXNet: operating the inter-LGU verification exchange so businesses relocating between member LGUs do not re-submit records both cities hold.",
+        "objectives": "1. PXNet verification live with San Prospero by 2028\n2. Shared inspection record schema\n3. Zero re-submission for relocating businesses between members",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "Program Convergence Budgeting"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Cross-Agency Collaboration"
+        ],
+        "implementingUnit": "Business Permits and Licensing Office",
+        "leadAgency": "City Government of Malinaw",
+        "implementingAgencies": "Permits Exchange Network (PXNet)",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Exchange live; permit and inspection verification with San Prospero operating",
+        "year2Deliverables": "Schema v2 (health and safety inspections); onboarding pack for next LGU",
+        "year3Deliverables": "",
+        "duration": "2027–2028"
+      }
+    ],
+    "performanceFramework": {
+      "p-portal": {
+        "projectTitle": "Malinaw One-Stop Digital Services Portal",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-portal-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Average visits per permit renewal",
+            "indicator": "Average visits per permit renewal",
+            "baseline": "3",
+            "year1Target": "1",
+            "year2Target": "0 (online)",
+            "year3Target": "0 (online)",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "City ICT Office"
+          },
+          {
+            "id": "p-portal-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "City services available on the portal",
+            "indicator": "City services available on the portal",
+            "baseline": "0",
+            "year1Target": "5",
+            "year2Target": "12",
+            "year3Target": "15",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "City ICT Office"
+          }
+        ]
+      },
+      "p-mesh": {
+        "projectTitle": "Barangay Connectivity Mesh",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-mesh-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of Barangay Connectivity Mesh deliverables",
+            "indicator": "% completion of Barangay Connectivity Mesh deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "City ICT Office"
+          },
+          {
+            "id": "p-mesh-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by Barangay Connectivity Mesh (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by Barangay Connectivity Mesh (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "City ICT Office"
+          }
+        ]
+      },
+      "cx-rapide": {
+        "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
+        "projectCategory": "crossAgency",
+        "rows": [
+          {
+            "id": "cx-rapide-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of RAPIDE participation deliverables",
+            "indicator": "% completion of RAPIDE participation deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "City DRRMO"
+          },
+          {
+            "id": "cx-rapide-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by RAPIDE participation (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by RAPIDE participation (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "City DRRMO"
+          }
+        ]
+      },
+      "cx-pxnet": {
+        "projectTitle": "Permits Exchange Network (PXNet) — Malinaw lead share",
+        "projectCategory": "crossAgency",
+        "rows": [
+          {
+            "id": "cx-pxnet-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of PXNet lead share deliverables",
+            "indicator": "% completion of PXNet lead share deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Business Permits and Licensing Office"
+          },
+          {
+            "id": "cx-pxnet-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by PXNet lead share (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by PXNet lead share (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Business Permits and Licensing Office"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-325",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "City ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 15,
+            "unitCost": 52500
+          },
+          {
+            "id": "y1-co-326",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "City ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 9,
+            "unitCost": 51500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-321",
+            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 26000
+          },
+          {
+            "id": "y1-mooe-322",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 200500
+          },
+          {
+            "id": "y1-mooe-323",
+            "item": "ICT training — staff capability building",
+            "office": "City ICT Office",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 267500
+          },
+          {
+            "id": "y1-mooe-324",
+            "item": "Semi-expendable tablets for field assessors and inspectors",
+            "office": "City ICT Office",
+            "categoryId": "mooe-semi-expendable-ict-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 25,
+            "unitCost": 18000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-portal": {
+          "projectTitle": "Malinaw One-Stop Digital Services Portal",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-336",
+              "item": "One-Stop Portal — system development and acquisition (Year 1 milestone)",
+              "office": "City ICT Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 13641500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-337",
+              "item": "Project management office — One-Stop Portal",
+              "office": "City ICT Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 1169500
+            },
+            {
+              "id": "y1-mooe-338",
+              "item": "Hosting, support and licences — One-Stop Portal (Year 1)",
+              "office": "City ICT Office",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 779500
+            },
+            {
+              "id": "y1-mooe-339",
+              "item": "ICT training and change management — One-Stop Portal",
+              "office": "City ICT Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 649500
+            }
+          ]
+        },
+        "p-mesh": {
+          "projectTitle": "Barangay Connectivity Mesh",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-344",
+              "item": "Solar-powered barangay mesh nodes",
+              "office": "City ICT Office",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 42,
+              "unitCost": 156500
+            },
+            {
+              "id": "y1-co-345",
+              "item": "Backhaul towers and links (city-managed)",
+              "office": "City ICT Office",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 8,
+              "unitCost": 465500
+            },
+            {
+              "id": "y1-co-346",
+              "item": "Barangay Connectivity Mesh — engineering, installation and commissioning (Year 1)",
+              "office": "City ICT Office",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1532500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-347",
+              "item": "Project management office — Barangay Connectivity Mesh",
+              "office": "City ICT Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 76500
+            },
+            {
+              "id": "y1-mooe-348",
+              "item": "Hosting, support and licences — Barangay Connectivity Mesh (Year 1)",
+              "office": "City ICT Office",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 51000
+            },
+            {
+              "id": "y1-mooe-349",
+              "item": "ICT training and change management — Barangay Connectivity Mesh",
+              "office": "City ICT Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 42500
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-rapide": {
+          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-350",
+              "item": "RAPIDE participation — system development and acquisition (Year 1 milestone)",
+              "office": "City DRRMO",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2923000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-351",
+              "item": "Project management office — RAPIDE participation",
+              "office": "City DRRMO",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 250500
+            },
+            {
+              "id": "y1-mooe-352",
+              "item": "Hosting, support and licences — RAPIDE participation (Year 1)",
+              "office": "City DRRMO",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 167000
+            },
+            {
+              "id": "y1-mooe-353",
+              "item": "ICT training and change management — RAPIDE participation",
+              "office": "City DRRMO",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 139000
+            }
+          ]
+        },
+        "cx-pxnet": {
+          "projectTitle": "Permits Exchange Network (PXNet) — Malinaw lead share",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-358",
+              "item": "PXNet lead share — system development and acquisition (Year 1 milestone)",
+              "office": "Business Permits and Licensing Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 4385000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-359",
+              "item": "Project management office — PXNet lead share",
+              "office": "Business Permits and Licensing Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 376000
+            },
+            {
+              "id": "y1-mooe-360",
+              "item": "Hosting, support and licences — PXNet lead share (Year 1)",
+              "office": "Business Permits and Licensing Office",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 250500
+            },
+            {
+              "id": "y1-mooe-361",
+              "item": "ICT training and change management — PXNet lead share",
+              "office": "Business Permits and Licensing Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 209000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-366",
+            "item": "eBPLS vendor subscription (transition period)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1900000
+          },
+          {
+            "id": "y1-mooe-369",
+            "item": "City portal hosting and SMS gateway",
+            "office": "City ICT Office",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 450000
+          },
+          {
+            "id": "y1-mooe-372",
+            "item": "Mesh node repairs and maintenance",
+            "office": "City ICT Office",
+            "categoryId": "mooe-rm-communication-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 350000
+          },
+          {
+            "id": "y1-mooe-375",
+            "item": "Barcode scanner servicing (assessors)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-rm-semi-communication",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 150000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-330",
+            "item": "Networked multifunction printers (frontline offices)",
+            "office": "City ICT Office",
+            "categoryId": "co-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 70500
+          },
+          {
+            "id": "y2-co-331",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "City ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 15,
+            "unitCost": 46500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-327",
+            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 18500
+          },
+          {
+            "id": "y2-mooe-328",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 261500
+          },
+          {
+            "id": "y2-mooe-329",
+            "item": "ICT training — staff capability building",
+            "office": "City ICT Office",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 162000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-portal": {
+          "projectTitle": "Malinaw One-Stop Digital Services Portal",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-340",
+              "item": "One-Stop Portal — system development and acquisition (Year 2 milestone)",
+              "office": "City ICT Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 9878500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-341",
+              "item": "Project management office — One-Stop Portal",
+              "office": "City ICT Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 846500
+            },
+            {
+              "id": "y2-mooe-342",
+              "item": "Hosting, support and licences — One-Stop Portal (Year 2)",
+              "office": "City ICT Office",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 564500
+            },
+            {
+              "id": "y2-mooe-343",
+              "item": "ICT training and change management — One-Stop Portal",
+              "office": "City ICT Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 470500
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-rapide": {
+          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-354",
+              "item": "RAPIDE participation — system development and acquisition (Year 2 milestone)",
+              "office": "City DRRMO",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2117000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-355",
+              "item": "Project management office — RAPIDE participation",
+              "office": "City DRRMO",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 181500
+            },
+            {
+              "id": "y2-mooe-356",
+              "item": "Hosting, support and licences — RAPIDE participation (Year 2)",
+              "office": "City DRRMO",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 121000
+            },
+            {
+              "id": "y2-mooe-357",
+              "item": "ICT training and change management — RAPIDE participation",
+              "office": "City DRRMO",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 101000
+            }
+          ]
+        },
+        "cx-pxnet": {
+          "projectTitle": "Permits Exchange Network (PXNet) — Malinaw lead share",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-362",
+              "item": "PXNet lead share — system development and acquisition (Year 2 milestone)",
+              "office": "Business Permits and Licensing Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3175000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-363",
+              "item": "Project management office — PXNet lead share",
+              "office": "Business Permits and Licensing Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 272000
+            },
+            {
+              "id": "y2-mooe-364",
+              "item": "Hosting, support and licences — PXNet lead share (Year 2)",
+              "office": "Business Permits and Licensing Office",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 181500
+            },
+            {
+              "id": "y2-mooe-365",
+              "item": "ICT training and change management — PXNet lead share",
+              "office": "Business Permits and Licensing Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 151000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-367",
+            "item": "eBPLS vendor subscription (transition period)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1976000
+          },
+          {
+            "id": "y2-mooe-370",
+            "item": "City portal hosting and SMS gateway",
+            "office": "City ICT Office",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 468000
+          },
+          {
+            "id": "y2-mooe-373",
+            "item": "Mesh node repairs and maintenance",
+            "office": "City ICT Office",
+            "categoryId": "mooe-rm-communication-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 364000
+          },
+          {
+            "id": "y2-mooe-376",
+            "item": "Barcode scanner servicing (assessors)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-rm-semi-communication",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 156000
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y3-co-335",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "City ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 15,
+            "unitCost": 37500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y3-mooe-332",
+            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 28000
+          },
+          {
+            "id": "y3-mooe-333",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 165000
+          },
+          {
+            "id": "y3-mooe-334",
+            "item": "ICT training — staff capability building",
+            "office": "City ICT Office",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 156000
+          }
+        ]
+      },
+      "internalProjects": {},
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-368",
+            "item": "eBPLS vendor subscription (transition period)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2052000
+          },
+          {
+            "id": "y3-mooe-371",
+            "item": "City portal hosting and SMS gateway",
+            "office": "City ICT Office",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 486000
+          },
+          {
+            "id": "y3-mooe-374",
+            "item": "Mesh node repairs and maintenance",
+            "office": "City ICT Office",
+            "categoryId": "mooe-rm-communication-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 378000
+          },
+          {
+            "id": "y3-mooe-377",
+            "item": "Barcode scanner servicing (assessors)",
+            "office": "City ICT Office",
+            "categoryId": "mooe-rm-semi-communication",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 162000
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2026-02-02T01:25:00.000Z",
+  "updatedAt": "2026-04-30T07:55:00.000Z"
+}

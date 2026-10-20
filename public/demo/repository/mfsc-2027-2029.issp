@@ -1,0 +1,1465 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-10-06T08:35:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "Metro Ferry Systems Corporation Information Systems Strategic Plan 2027–2029",
+  "startYear": 2027,
+  "endYear": 2029,
+  "amendmentNumber": 0,
+  "scope": "AGENCY_WIDE",
+  "agencyHeadName": "General Manager Fernando K. Limjoco",
+  "agency": {
+    "name": "Metro Ferry Systems Corporation",
+    "acronym": "MFSC",
+    "type": "GOCC",
+    "websiteUrl": "https://www.mfsc.gov.ph",
+    "logoBase64": null
+  },
+  "planStatus": "for_review",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": null
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year3": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    },
+    "part4/summary": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    }
+  },
+  "part1": {
+    "legalBasis": "Executive Order No. 914 (s. 2023), incorporating the Metro Ferry Systems Corporation under the Office of the President to operate the metro ferry network piers, vessels and fare systems as one integrated public transport service.",
+    "mandateFunction": "MFSC operates 48 passenger vessels across 14 piers on the metro ferry network: fare collection, pier maintenance, fleet operations, safety compliance, and the ferry commons program that keeps fares integrated with other metro transport. It earns fare and retail income and receives corporate subsidies for service obligations.",
+    "visionStatement": "A ferry network people can trust with their commute: tap-and-go boarding, live arrivals, and vessels that sail on schedule.",
+    "missionStatement": "To run safe, punctual, and financially sustainable ferry services with modern ticketing and fleet intelligence.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Seamless, trusted fare collection",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "Account-Based Ticketing Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Reliable and punctual ferry operations",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "Fleet Intelligence Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Financially sustainable operations",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "Revenue Stewardship Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "VP for ICT Ma. Concepcion D. Ybañez",
+    "cioPosition": "Vice President for ICT",
+    "cioUnit": "ICT Department",
+    "cioEmail": "cio@mfsc.gov.ph",
+    "cioContact": "+63 2 8735 6432",
+    "focalSameAsCio": false,
+    "focalName": "Mr. Dennis O. Kabigting",
+    "focalPosition": "Department Manager, Corporate Planning",
+    "focalUnit": "ICT Department",
+    "focalEmail": "focal@mfsc.gov.ph",
+    "focalContact": "+63 2 8617 3735",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 18,
+          "female": 22
+        },
+        "nonIt": {
+          "male": 190,
+          "female": 285
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 6,
+        "nonIt": 31
+      },
+      "contractual": {
+        "it": {
+          "male": 10,
+          "female": 8
+        },
+        "nonIt": {
+          "male": 55,
+          "female": 74
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 12,
+          "female": 5
+        },
+        "nonIt": {
+          "male": 10,
+          "female": 8
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Daily commuters and ferry passengers",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Ticket purchase, boarding and fare disputes",
+            "complexity": "Simple",
+            "direction": "INCOMING"
+          },
+          {
+            "id": "st-1-sv-2",
+            "name": "Service advisories and arrival information",
+            "complexity": "Simple",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "Metro transport councils",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Fare integration and commons settlement reporting",
+            "complexity": "Complex",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Maritime safety regulators",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Vessel safety compliance and incident reporting",
+            "complexity": "Highly Technical",
+            "direction": "OUTGOING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "FERRYCARD AFC (automated fare collection)",
+        "concern": "The 2014 vendor-locked AFC charges license fees rising 9% yearly, cannot support account-based ticketing or QR, and its reconciliation runs T+3 — conductors cash up against estimates. One in 400 card taps fails at legacy validators.",
+        "desiredStrategy": "Deploy an open, account-based ticketing stack with mobile QR and instant settlement (Project BIYAHE), and retire per-transaction licensing."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-2"
+        ],
+        "criticalSystem": "Fleet maintenance planning (whiteboard)",
+        "concern": "Vessel maintenance is planned from a photographed whiteboard; two avoidable engine failures in 2025 were traced to parts that were on order but not visible to the planning meeting.",
+        "desiredStrategy": "Instrument the fleet with telemetry and deploy fleet health analytics (Project DALOY) so parts, hours and defects are planned from data."
+      },
+      {
+        "id": "c-3",
+        "outcomeIds": [
+          "oo-3"
+        ],
+        "programIds": [
+          "oo-3-pg-3"
+        ],
+        "criticalSystem": "Pier connectivity (patchwork broadband)",
+        "concern": "Pier POS and validators share consumer broadband; when the mall Wi-Fi blinks, two piers drop to offline mode and reconcile next day — the source of most cash-up variances.",
+        "desiredStrategy": "Give every pier resilient dedicated connectivity with automatic failover (Pier Network Connectivity project)."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "The fare collection system is a 2014 vendor-locked account-based stack whose license fees grow 9% a year; validators at older piers run firmware from 2018 and fail card reads roughly once every 400 taps, which staff resolve by waving passengers through. Pier connectivity is a patchwork of consumer broadband; two piers run on the mall Wi-Fi next door. Fleet maintenance planning happens on a whiteboard photographed each Monday.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": false,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": false,
+        "accessReviews": false,
+        "securityLogs": true,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-ferrycard",
+        "name": "FERRYCARD AFC",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "HYBRID",
+        "url": "",
+        "description": "Vendor-locked card-based fare collection across 14 piers and 48 vessels; T+3 reconciliation; per-transaction licensing.",
+        "developmentStrategy": "COTS",
+        "developmentPlatform": "Vendor stack (2014)",
+        "databaseName": "Vendor-hosted",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Operations, finance (~300 staff)",
+        "externalUsers": "Passengers (~210,000 stored cards)",
+        "owner": "ICT Department",
+        "interoperability": {
+          "integrated": true,
+          "internalSystems": "See system description",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-fleetworks",
+        "name": "FLEETWORKS maintenance records",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Access-based maintenance logging plus the Monday whiteboard; parts on order are not visible to planners.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Microsoft Access / shared drive",
+        "databaseName": "fleetworks.mdb",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Fleet Maintenance (~140 staff)",
+        "externalUsers": "",
+        "owner": "Fleet Operations Department",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-crewboard",
+        "name": "Crew scheduling board",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Printed rosters annotated by hand; crew hours compliance is verified manually at month-end.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Paper / spreadsheet",
+        "databaseName": "N/A",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Operations (~60 staff)",
+        "externalUsers": "",
+        "owner": "Operations Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "eGovPay": {
+        "status": "yes"
+      },
+      "pnpki": {
+        "status": "yes",
+        "adoptionPercentage": 58
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "no"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.mfsc.gov.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": false,
+          "mobile": false
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "no"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates Metro Ferry Systems Corporation's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 2
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 2
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 4
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-biyahe",
+        "name": "BIYAHE — Account-Based Ticketing & Handy App",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "Open account-based ticketing: card, QR and mobile app fares with instant settlement and ferry-commons interoperability.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Kotlin / Node.js / Kafka",
+        "databaseName": "biyahe_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Operations, finance (~320 staff)",
+        "externalUsers": "Passengers (~260,000 projected accounts)",
+        "owner": "ICT Department",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-daloy",
+        "name": "DALOY — Fleet Health & Operations Intelligence",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Telemetry-based fleet health monitoring, parts planning and punctuality analytics across all vessels and piers.",
+        "developmentStrategy": "HYBRID",
+        "developmentPlatform": "Python / TimescaleDB / Grafana",
+        "databaseName": "daloy_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Fleet Operations and Maintenance (~200 staff)",
+        "externalUsers": "",
+        "owner": "Fleet Operations Department",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-biyahe",
+        "title": "Project BIYAHE — Account-Based Ticketing & Handy App",
+        "description": "Replaces the vendor-locked FERRYCARD AFC with an open account-based stack: card, QR and mobile app fares, instant settlement, and ferry-commons interoperability — ending per-transaction licensing.",
+        "objectives": "1. Account-based ticketing live on all 14 piers by 2028\n2. Mobile QR fares with instant settlement\n3. Cut cash-up variance by 90%\n4. Retire per-transaction vendor licensing",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-biyahe"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Resource Optimization"
+        ],
+        "implementingUnit": "ICT Department",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Core account platform live; 6 pilot piers migrated; mobile app in open beta",
+        "year2Deliverables": "All 14 piers migrated; instant settlement live; FERRYCARD AFC retired",
+        "year3Deliverables": "",
+        "duration": "2027–2028"
+      },
+      {
+        "id": "p-daloy",
+        "title": "Project DALOY — Fleet Health & Operations Intelligence",
+        "description": "Instruments all 48 vessels with telemetry and deploys fleet health analytics: engine hours, defects, parts planning and punctuality, replacing the Monday whiteboard.",
+        "objectives": "1. Telemetry on all 48 vessels by 2028\n2. Parts planning driven by live defect and hours data\n3. Raise schedule adherence from 82% to 95%",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [
+          "ps-daloy"
+        ],
+        "strategicAlignment": [
+          "Public Investment Program",
+          "National Cybersecurity Plan"
+        ],
+        "harmonizationFramework": [
+          "Resource Optimization",
+          "Scalability and Sustainability"
+        ],
+        "implementingUnit": "Fleet Operations Department",
+        "fundingSource": "Other Income Generating Sources",
+        "year1Deliverables": "24 vessels instrumented; fleet dashboard live; parts module piloted",
+        "year2Deliverables": "All 48 vessels instrumented; whiteboard retired; punctuality analytics live",
+        "year3Deliverables": "Predictive maintenance models tuned on two seasons of data",
+        "duration": "2027–2029"
+      },
+      {
+        "id": "p-pier",
+        "title": "Pier Network Connectivity and Passenger Information",
+        "description": "Gives every pier resilient dedicated connectivity with automatic failover, plus passenger information displays and free passenger Wi-Fi funded under the service obligation.",
+        "objectives": "1. Dedicated resilient links at all 14 piers by 2027\n2. Passenger information displays at all piers\n3. Eliminate offline-mode cash-up variances from connectivity",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "Public Investment Program"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization"
+        ],
+        "implementingUnit": "ICT Department",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "All 14 piers on dedicated resilient links; passenger displays installed; failover tested",
+        "year2Deliverables": "",
+        "year3Deliverables": "",
+        "duration": "2027"
+      }
+    ],
+    "crossAgencyProjects": [],
+    "performanceFramework": {
+      "p-biyahe": {
+        "projectTitle": "Project BIYAHE — Account-Based Ticketing & Handy App",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-biyahe-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Fare reconciliation window",
+            "indicator": "Fare reconciliation window",
+            "baseline": "T+3",
+            "year1Target": "T+1",
+            "year2Target": "instant",
+            "year3Target": "instant",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Department"
+          },
+          {
+            "id": "p-biyahe-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "Piers on account-based ticketing",
+            "indicator": "Piers on account-based ticketing",
+            "baseline": "0 of 14",
+            "year1Target": "6",
+            "year2Target": "14",
+            "year3Target": "14",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Department"
+          },
+          {
+            "id": "p-biyahe-kpi-3",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Monthly cash-up variance (% of gross fares)",
+            "indicator": "Monthly cash-up variance (% of gross fares)",
+            "baseline": "1.8%",
+            "year1Target": "0.6%",
+            "year2Target": "0.2%",
+            "year3Target": "0.2%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Department"
+          }
+        ]
+      },
+      "p-daloy": {
+        "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-daloy-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Schedule adherence (departures within 5 minutes)",
+            "indicator": "Schedule adherence (departures within 5 minutes)",
+            "baseline": "82%",
+            "year1Target": "88%",
+            "year2Target": "93%",
+            "year3Target": "95%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Fleet Operations Department"
+          },
+          {
+            "id": "p-daloy-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "Vessels with live telemetry",
+            "indicator": "Vessels with live telemetry",
+            "baseline": "0 of 48",
+            "year1Target": "24",
+            "year2Target": "48",
+            "year3Target": "48",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Fleet Operations Department"
+          },
+          {
+            "id": "p-daloy-kpi-3",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Avoidable mechanical cancellations per quarter",
+            "indicator": "Avoidable mechanical cancellations per quarter",
+            "baseline": "11",
+            "year1Target": "6",
+            "year2Target": "3",
+            "year3Target": "2",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Fleet Operations Department"
+          }
+        ]
+      },
+      "p-pier": {
+        "projectTitle": "Pier Network Connectivity and Passenger Information",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-pier-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of Pier Network Connectivity deliverables",
+            "indicator": "% completion of Pier Network Connectivity deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Department"
+          },
+          {
+            "id": "p-pier-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by Pier Network Connectivity (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by Pier Network Connectivity (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Department"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-258",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 69,
+            "unitCost": 51000
+          },
+          {
+            "id": "y1-co-259",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 38,
+            "unitCost": 51500
+          },
+          {
+            "id": "y1-co-260",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 346000
+          },
+          {
+            "id": "y1-co-261",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 95500
+          },
+          {
+            "id": "y1-co-262",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Department",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 567500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-254",
+            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "office": "ICT Department",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 22000
+          },
+          {
+            "id": "y1-mooe-255",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Department",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 155500
+          },
+          {
+            "id": "y1-mooe-256",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Department",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 412500
+          },
+          {
+            "id": "y1-mooe-257",
+            "item": "Mobile expenses — operations and maintenance crews",
+            "office": "ICT Department",
+            "categoryId": "mooe-mobile-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 340,
+            "unitCost": 11000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-biyahe": {
+          "projectTitle": "Project BIYAHE — Account-Based Ticketing & Handy App",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-277",
+              "item": "Account-based ticket validators (pier gates and vessel poles)",
+              "office": "ICT Department",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 120,
+              "unitCost": 154500
+            },
+            {
+              "id": "y1-co-278",
+              "item": "Ticket printers and POS terminals (piers)",
+              "office": "ICT Department",
+              "categoryId": "co-printing-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 40,
+              "unitCost": 21500
+            },
+            {
+              "id": "y1-co-279",
+              "item": "Account-based ticket validators — succeeding tranche",
+              "office": "ICT Department",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 36,
+              "unitCost": 130500
+            },
+            {
+              "id": "y1-co-280",
+              "item": "Ticket printers and POS terminals — succeeding tranche",
+              "office": "ICT Department",
+              "categoryId": "co-printing-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 12,
+              "unitCost": 18000
+            },
+            {
+              "id": "y1-co-281",
+              "item": "Project BIYAHE — system development and acquisition (Year 1 milestone)",
+              "office": "ICT Department",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 96504000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-282",
+              "item": "Project management office — Project BIYAHE",
+              "office": "ICT Department",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 8272000
+            },
+            {
+              "id": "y1-mooe-283",
+              "item": "Hosting, support and licences — Project BIYAHE (Year 1)",
+              "office": "ICT Department",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 5514500
+            },
+            {
+              "id": "y1-mooe-284",
+              "item": "ICT training and change management — Project BIYAHE",
+              "office": "ICT Department",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 4595500
+            }
+          ]
+        },
+        "p-daloy": {
+          "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-289",
+              "item": "Vessel telemetry units (engine, GPS, fuel, cabin)",
+              "office": "Fleet Operations Department",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 48,
+              "unitCost": 198500
+            },
+            {
+              "id": "y1-co-290",
+              "item": "Bridge data loggers and displays",
+              "office": "Fleet Operations Department",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 48,
+              "unitCost": 101500
+            },
+            {
+              "id": "y1-co-291",
+              "item": "Pier edge servers (analytics nodes)",
+              "office": "Fleet Operations Department",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 14,
+              "unitCost": 243000
+            },
+            {
+              "id": "y1-co-292",
+              "item": "Vessel telemetry units — succeeding tranche",
+              "office": "Fleet Operations Department",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 14,
+              "unitCost": 166500
+            },
+            {
+              "id": "y1-co-293",
+              "item": "Bridge data loggers and displays — succeeding tranche",
+              "office": "Fleet Operations Department",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 14,
+              "unitCost": 77000
+            },
+            {
+              "id": "y1-co-294",
+              "item": "Project DALOY — engineering, installation and commissioning (Year 1)",
+              "office": "Fleet Operations Department",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 37610000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-295",
+              "item": "Project management office — Project DALOY",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1880500
+            },
+            {
+              "id": "y1-mooe-296",
+              "item": "Hosting, support and licences — Project DALOY (Year 1)",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1253500
+            },
+            {
+              "id": "y1-mooe-297",
+              "item": "ICT training and change management — Project DALOY",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1044500
+            }
+          ]
+        },
+        "p-pier": {
+          "projectTitle": "Pier Network Connectivity and Passenger Information",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-306",
+              "item": "Pier fiber builds and resilient last-mile (14 piers)",
+              "office": "ICT Department",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 14,
+              "unitCost": 3124000
+            },
+            {
+              "id": "y1-co-307",
+              "item": "Marine VHF radios (fleet communications refresh)",
+              "office": "ICT Department",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 96,
+              "unitCost": 46000
+            },
+            {
+              "id": "y1-co-308",
+              "item": "Pier Network Connectivity — engineering, installation and commissioning (Year 1)",
+              "office": "ICT Department",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 19663000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-309",
+              "item": "Project management office — Pier Network Connectivity",
+              "office": "ICT Department",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 983000
+            },
+            {
+              "id": "y1-mooe-310",
+              "item": "Hosting, support and licences — Pier Network Connectivity (Year 1)",
+              "office": "ICT Department",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 655500
+            },
+            {
+              "id": "y1-mooe-311",
+              "item": "ICT training and change management — Pier Network Connectivity",
+              "office": "ICT Department",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 546000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-312",
+            "item": "FERRYCARD AFC vendor licensing and settlement (until retirement)",
+            "office": "ICT Department",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "Other Income Generating Sources",
+            "qty": 1,
+            "unitCost": 28000000
+          },
+          {
+            "id": "y1-mooe-315",
+            "item": "Vessel broadband and marine communications",
+            "office": "ICT Department",
+            "categoryId": "mooe-cable-satellite-radio",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 6500000
+          },
+          {
+            "id": "y1-mooe-318",
+            "item": "Fare media production and card stock",
+            "office": "ICT Department",
+            "categoryId": "mooe-semi-expendable-ict-equipment",
+            "fundSource": "Other Income Generating Sources",
+            "qty": 1,
+            "unitCost": 1800000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-267",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 69,
+            "unitCost": 50000
+          },
+          {
+            "id": "y2-co-268",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 38,
+            "unitCost": 61500
+          },
+          {
+            "id": "y2-co-269",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 360000
+          },
+          {
+            "id": "y2-co-270",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 103000
+          },
+          {
+            "id": "y2-co-271",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Department",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 617000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-263",
+            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "office": "ICT Department",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 14500
+          },
+          {
+            "id": "y2-mooe-264",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Department",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 201500
+          },
+          {
+            "id": "y2-mooe-265",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Department",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 210500
+          },
+          {
+            "id": "y2-mooe-266",
+            "item": "Landline and pier hotline subscriptions",
+            "office": "ICT Department",
+            "categoryId": "mooe-landline-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 645000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-biyahe": {
+          "projectTitle": "Project BIYAHE — Account-Based Ticketing & Handy App",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-285",
+              "item": "Project BIYAHE — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Department",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 84672000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-286",
+              "item": "Project management office — Project BIYAHE",
+              "office": "ICT Department",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 7257500
+            },
+            {
+              "id": "y2-mooe-287",
+              "item": "Hosting, support and licences — Project BIYAHE (Year 2)",
+              "office": "ICT Department",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 4838500
+            },
+            {
+              "id": "y2-mooe-288",
+              "item": "ICT training and change management — Project BIYAHE",
+              "office": "ICT Department",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 4032000
+            }
+          ]
+        },
+        "p-daloy": {
+          "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-298",
+              "item": "Project DALOY — engineering, installation and commissioning (Year 2)",
+              "office": "Fleet Operations Department",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 44550000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-299",
+              "item": "Project management office — Project DALOY",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 2227500
+            },
+            {
+              "id": "y2-mooe-300",
+              "item": "Hosting, support and licences — Project DALOY (Year 2)",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1485000
+            },
+            {
+              "id": "y2-mooe-301",
+              "item": "ICT training and change management — Project DALOY",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1237500
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-313",
+            "item": "FERRYCARD AFC vendor licensing and settlement (until retirement)",
+            "office": "ICT Department",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "Other Income Generating Sources",
+            "qty": 1,
+            "unitCost": 29120000
+          },
+          {
+            "id": "y2-mooe-316",
+            "item": "Vessel broadband and marine communications",
+            "office": "ICT Department",
+            "categoryId": "mooe-cable-satellite-radio",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 6760000
+          },
+          {
+            "id": "y2-mooe-319",
+            "item": "Fare media production and card stock",
+            "office": "ICT Department",
+            "categoryId": "mooe-semi-expendable-ict-equipment",
+            "fundSource": "Other Income Generating Sources",
+            "qty": 1,
+            "unitCost": 1872000
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y3-co-275",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 69,
+            "unitCost": 53500
+          },
+          {
+            "id": "y3-co-276",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Department",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 38,
+            "unitCost": 35500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y3-mooe-272",
+            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "office": "ICT Department",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 28000
+          },
+          {
+            "id": "y3-mooe-273",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Department",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 156000
+          },
+          {
+            "id": "y3-mooe-274",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Department",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 515500
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-daloy": {
+          "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-302",
+              "item": "Project DALOY — engineering, installation and commissioning (Year 3)",
+              "office": "Fleet Operations Department",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 33750000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-303",
+              "item": "Project management office — Project DALOY",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1687500
+            },
+            {
+              "id": "y3-mooe-304",
+              "item": "Hosting, support and licences — Project DALOY (Year 3)",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1125000
+            },
+            {
+              "id": "y3-mooe-305",
+              "item": "ICT training and change management — Project DALOY",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 937500
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-314",
+            "item": "FERRYCARD AFC vendor licensing and settlement (until retirement)",
+            "office": "ICT Department",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "Other Income Generating Sources",
+            "qty": 1,
+            "unitCost": 30240000
+          },
+          {
+            "id": "y3-mooe-317",
+            "item": "Vessel broadband and marine communications",
+            "office": "ICT Department",
+            "categoryId": "mooe-cable-satellite-radio",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 7020000
+          },
+          {
+            "id": "y3-mooe-320",
+            "item": "Fare media production and card stock",
+            "office": "ICT Department",
+            "categoryId": "mooe-semi-expendable-ict-equipment",
+            "fundSource": "Other Income Generating Sources",
+            "qty": 1,
+            "unitCost": 1944000
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2026-02-10T05:00:00.000Z",
+  "updatedAt": "2026-10-06T08:35:00.000Z"
+}

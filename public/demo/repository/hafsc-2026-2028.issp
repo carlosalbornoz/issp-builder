@@ -1,0 +1,1185 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-01-22T06:10:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "Highland Agri-Forestry State College Information Systems Strategic Plan 2026–2028",
+  "startYear": 2026,
+  "endYear": 2028,
+  "amendmentNumber": 0,
+  "scope": "AGENCY_WIDE",
+  "agencyHeadName": "President Dr. Estelito R. Cablayan",
+  "agency": {
+    "name": "Highland Agri-Forestry State College",
+    "acronym": "HAFSC",
+    "type": "OTHER",
+    "websiteUrl": "https://www.hafsc.edu.ph",
+    "logoBase64": null
+  },
+  "planStatus": "submitted",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": "2025-04-30"
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year3": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/summary": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    }
+  },
+  "part1": {
+    "legalBasis": "Republic Act No. 11245, converting the highland agri-forestry school into a state college, with instruction, research and extension mandates in sustainable highland agriculture and community forestry.",
+    "mandateFunction": "HAFSC provides higher education in agriculture, forestry and environmental science for highland farming communities; runs research on climate-resilient upland farming; and delivers extension services to farmer cooperatives across three provinces through its extension network and demonstration farms.",
+    "visionStatement": "A state college whose farms, laboratories and classrooms operate as one connected campus serving highland farming communities.",
+    "missionStatement": "To deliver quality agri-forestry education, research and extension backed by reliable information systems and campus connectivity.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Efficient and transparent academic administration",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "Digital Campus Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Wider reach and relevance of extension services",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "e-Extension Learning Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Institutional resilience and data protection",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "Campus Cybersecurity Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "Engr. Maricel T. Bungubung",
+    "cioPosition": "Director, ICT Office",
+    "cioUnit": "ICT Office",
+    "cioEmail": "cio@hafsc.gov.ph",
+    "cioContact": "+63 2 8210 5448",
+    "focalSameAsCio": false,
+    "focalName": "Mr. Noel S. Diffang",
+    "focalPosition": "Administrative Officer V",
+    "focalUnit": "ICT Office",
+    "focalEmail": "focal@hafsc.gov.ph",
+    "focalContact": "+63 2 8294 5916",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 3,
+          "female": 4
+        },
+        "nonIt": {
+          "male": 52,
+          "female": 88
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 2,
+        "nonIt": 14
+      },
+      "contractual": {
+        "it": {
+          "male": 2,
+          "female": 2
+        },
+        "nonIt": {
+          "male": 8,
+          "female": 15
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 1,
+          "female": 0
+        },
+        "nonIt": {
+          "male": 4,
+          "female": 2
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Students and enrollees",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Enrolment, records and graduation transactions",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "Farmer cooperatives and LGU agriculture offices",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Access to extension training and demonstration materials",
+            "complexity": "Simple",
+            "direction": "OUTGOING"
+          },
+          {
+            "id": "st-2-sv-2",
+            "name": "Requests for technical assistance and soil advisories",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Commission on Higher Education",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Submission of enrolment, graduation and program reports",
+            "complexity": "Complex",
+            "direction": "OUTGOING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "Enrolment records (spreadsheets)",
+        "concern": "Enrolment runs on a registrar-maintained spreadsheet gridlocked to one workstation; during enrolment week the queue for the single encoding station wraps around the registrar's corridor, and sectioning is finalized by acetate boards.",
+        "desiredStrategy": "Deploy an integrated student information system with self-service enrolment and faculty grade capture."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-2"
+        ],
+        "criticalSystem": "Extension training records (manual)",
+        "concern": "Extension training for cooperatives is delivered in person with printed modules; farmers who cannot travel lose access entirely, and training completion records exist only on attendance sheets.",
+        "desiredStrategy": "Launch an e-extension learning platform with offline-capable modules mapped to the college's demonstration farm calendar."
+      },
+      {
+        "id": "c-3",
+        "outcomeIds": [
+          "oo-3"
+        ],
+        "programIds": [
+          "oo-3-pg-3"
+        ],
+        "criticalSystem": "Campus network (unmanaged)",
+        "concern": "The unmanaged campus network has no segregation between the registrar's server, laboratory machines and dormitory Wi-Fi; a ransomware scare in the computer laboratory in 2025 was contained by unplugging the building.",
+        "desiredStrategy": "Execute the campus network modernization and cybersecurity hardening project: fiber backbone, managed segmentation, central authentication and backups."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "The main campus network is a mix of unmanaged switches and home routers installed building-by-building over fifteen years; two remote demonstration farms have no connectivity at all and report by SMS. The student information system runs on a single tower server in the registrar's storeroom, cooled by an electric fan. Backup is an external hard drive rotated weekly to the vault — when staff remember.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": false,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": false,
+        "networkSegmentation": false
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": false,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": false
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": false,
+        "accessReviews": false,
+        "securityLogs": false,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-sis",
+        "name": "Student Information System (in-house)",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Spreadsheet-based enrolment and records management maintained by the Office of the Registrar; one encoding workstation; no self-service.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Microsoft Excel",
+        "databaseName": "N/A",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Registrar's Office (9 staff)",
+        "externalUsers": "",
+        "owner": "Office of the Registrar",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-koha",
+        "name": "Library System (Koha)",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Open-source library management for the main library; the online catalog is reachable only on campus.",
+        "developmentStrategy": "OPEN_SOURCE",
+        "developmentPlatform": "Koha / MySQL",
+        "databaseName": "koha",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Library staff (6)",
+        "externalUsers": "",
+        "owner": "Library",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "eGovPay": {
+        "status": "no",
+        "ifNo": {
+          "manual": true,
+          "proposedDevelopment": true
+        }
+      },
+      "pnpki": {
+        "status": "",
+        "adoptionPercentage": 11
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "yes",
+        "url": "https://ifmis.dbm.gov.ph"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.hafsc.edu.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": false,
+          "mobile": false
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "no"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates Highland Agri-Forestry State College's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 5
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 3
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 3
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-one-hafsc",
+        "name": "Integrated Student Information System",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Web-based SIS with self-service enrolment, grade capture, and CHED reporting exports; hosted for reliability during enrolment peaks.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Managed SIS platform",
+        "databaseName": "Vendor-managed",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Registrar, faculty, academic heads (~140 staff)",
+        "externalUsers": "Students (~4,800)",
+        "owner": "Office of the Registrar",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-eext",
+        "name": "e-Extension Learning Platform",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "Offline-capable learning platform for farmer cooperatives: training modules, demonstration videos, quiz and certification, synced when connectivity allows.",
+        "developmentStrategy": "OPEN_SOURCE",
+        "developmentPlatform": "Moodle (customized) / PostgreSQL",
+        "databaseName": "eext",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Extension Office (~25 staff)",
+        "externalUsers": "Farmer cooperatives (~3,200 learners)",
+        "owner": "Extension and Training Office",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-net",
+        "title": "Campus Network Modernization and Cybersecurity Hardening",
+        "description": "Replaces the unmanaged building-by-building network with a fiber backbone, managed segmentation, campus Wi-Fi and a hardened server room with central authentication and tested backups.",
+        "objectives": "1. Complete the fiber backbone across all academic buildings by Q3 2026\n2. Segment registrar, laboratory and dormitory networks\n3. Establish tested daily offsite backups and central authentication",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "National Cybersecurity Plan",
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Scalability and Sustainability"
+        ],
+        "implementingUnit": "ICT Office",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Fiber backbone lit; segmentation enforced; server room hardened; backup regime operational",
+        "year2Deliverables": "",
+        "year3Deliverables": "",
+        "duration": "2026"
+      },
+      {
+        "id": "p-ext",
+        "title": "e-Extension Learning Platform for Farmer Cooperatives",
+        "description": "Launches an offline-capable learning platform delivering the college's extension curriculum to cooperatives that cannot always travel to campus, with certification tracking.",
+        "objectives": "1. Migrate 12 core extension modules to the platform by Q4 2026\n2. Enroll 1,500 cooperative learners by 2027\n3. Issue verifiable training certificates through the platform",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-eext"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Resource Optimization",
+          "Scalability and Sustainability"
+        ],
+        "implementingUnit": "Extension and Training Office",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Platform launched; 12 modules migrated; first 600 cooperative learners enrolled",
+        "year2Deliverables": "Offline kiosks at 3 partner coops; 1,500 cumulative learners; certification flow live",
+        "year3Deliverables": "",
+        "duration": "2026–2027"
+      }
+    ],
+    "crossAgencyProjects": [],
+    "performanceFramework": {
+      "p-net": {
+        "projectTitle": "Campus Network Modernization and Cybersecurity Hardening",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-net-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "Buildings on managed fiber backbone",
+            "indicator": "Buildings on managed fiber backbone",
+            "baseline": "0 of 8",
+            "year1Target": "8",
+            "year2Target": "8",
+            "year3Target": "8",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Office"
+          },
+          {
+            "id": "p-net-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Campus network segments with enforced policy",
+            "indicator": "Campus network segments with enforced policy",
+            "baseline": "0",
+            "year1Target": "4 (registrar, labs, dorms, admin)",
+            "year2Target": "4",
+            "year3Target": "4",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Office"
+          },
+          {
+            "id": "p-net-kpi-3",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Backup restore tests passed per year",
+            "indicator": "Backup restore tests passed per year",
+            "baseline": "0",
+            "year1Target": "4 (quarterly)",
+            "year2Target": "4",
+            "year3Target": "4",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Office"
+          }
+        ]
+      },
+      "p-ext": {
+        "projectTitle": "e-Extension Learning Platform for Farmer Cooperatives",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-ext-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "Extension modules available online",
+            "indicator": "Extension modules available online",
+            "baseline": "0",
+            "year1Target": "12",
+            "year2Target": "20",
+            "year3Target": "24",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Extension and Training Office"
+          },
+          {
+            "id": "p-ext-kpi-2",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Cooperative learners completing at least one module",
+            "indicator": "Cooperative learners completing at least one module",
+            "baseline": "0",
+            "year1Target": "600",
+            "year2Target": "1,500",
+            "year3Target": "2,400",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Extension and Training Office"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-075",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 22,
+            "unitCost": 46500
+          },
+          {
+            "id": "y1-co-076",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 12,
+            "unitCost": 61000
+          },
+          {
+            "id": "y1-co-077",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 349000
+          },
+          {
+            "id": "y1-co-078",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 98500
+          },
+          {
+            "id": "y1-co-079",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Office",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 222000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-071",
+            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "office": "ICT Office",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 18000
+          },
+          {
+            "id": "y1-mooe-072",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Office",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 164500
+          },
+          {
+            "id": "y1-mooe-073",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Office",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 551500
+          },
+          {
+            "id": "y1-mooe-074",
+            "item": "Semi-expendable projectors and teaching peripherals",
+            "office": "ICT Office",
+            "categoryId": "mooe-semi-expendable-ict-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 12,
+            "unitCost": 18000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-net": {
+          "projectTitle": "Campus Network Modernization and Cybersecurity Hardening",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-091",
+              "item": "Campus fiber backbone and civil works (6 buildings + 2 farms)",
+              "office": "ICT Office",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 12032500
+            },
+            {
+              "id": "y1-co-092",
+              "item": "Next-generation firewalls and core switches",
+              "office": "ICT Office",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 2,
+              "unitCost": 2986000
+            },
+            {
+              "id": "y1-co-093",
+              "item": "Campus Wi-Fi access points (outdoor-rated)",
+              "office": "ICT Office",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 180,
+              "unitCost": 47500
+            },
+            {
+              "id": "y1-co-094",
+              "item": "Virtualization host for SIS and library systems",
+              "office": "ICT Office",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3708500
+            },
+            {
+              "id": "y1-co-095",
+              "item": "Campus Network & Cybersecurity — engineering, installation and commissioning (Year 1)",
+              "office": "ICT Office",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 4263500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-096",
+              "item": "Project management office — Campus Network & Cybersecurity",
+              "office": "ICT Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 213000
+            },
+            {
+              "id": "y1-mooe-097",
+              "item": "Hosting, support and licences — Campus Network & Cybersecurity (Year 1)",
+              "office": "ICT Office",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 142000
+            },
+            {
+              "id": "y1-mooe-098",
+              "item": "ICT training and change management — Campus Network & Cybersecurity",
+              "office": "ICT Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 118500
+            }
+          ]
+        },
+        "p-ext": {
+          "projectTitle": "e-Extension Learning Platform for Farmer Cooperatives",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-099",
+              "item": "e-Extension Platform — system development and acquisition (Year 1 milestone)",
+              "office": "Extension and Training Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 13641500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-100",
+              "item": "Project management office — e-Extension Platform",
+              "office": "Extension and Training Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1169500
+            },
+            {
+              "id": "y1-mooe-101",
+              "item": "Hosting, support and licences — e-Extension Platform (Year 1)",
+              "office": "Extension and Training Office",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 779500
+            },
+            {
+              "id": "y1-mooe-102",
+              "item": "ICT training and change management — e-Extension Platform",
+              "office": "Extension and Training Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 649500
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-107",
+            "item": "Koha library system support and hosting",
+            "office": "ICT Office",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 250000
+          },
+          {
+            "id": "y1-mooe-110",
+            "item": "Enrolment system maintenance (transition)",
+            "office": "ICT Office",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1200000
+          },
+          {
+            "id": "y1-mooe-113",
+            "item": "Computer laboratory repairs and maintenance",
+            "office": "ICT Office",
+            "categoryId": "mooe-rm-ict-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 900000
+          },
+          {
+            "id": "y1-mooe-116",
+            "item": "Landline subscriptions (legacy lines, winding down)",
+            "office": "ICT Office",
+            "categoryId": "mooe-landline-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 380000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-083",
+            "item": "Networked multifunction printers (registrar and records)",
+            "office": "ICT Office",
+            "categoryId": "co-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 3,
+            "unitCost": 88500
+          },
+          {
+            "id": "y2-co-085",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 22,
+            "unitCost": 48000
+          },
+          {
+            "id": "y2-co-086",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 12,
+            "unitCost": 48000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-080",
+            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "office": "ICT Office",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 27000
+          },
+          {
+            "id": "y2-mooe-081",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Office",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 293500
+          },
+          {
+            "id": "y2-mooe-082",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Office",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 200000
+          },
+          {
+            "id": "y2-mooe-084",
+            "item": "Landline and fax subscriptions (all offices)",
+            "office": "ICT Office",
+            "categoryId": "mooe-landline-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 374500
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-ext": {
+          "projectTitle": "e-Extension Learning Platform for Farmer Cooperatives",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-103",
+              "item": "e-Extension Platform — system development and acquisition (Year 2 milestone)",
+              "office": "Extension and Training Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 9878500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-104",
+              "item": "Project management office — e-Extension Platform",
+              "office": "Extension and Training Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 846500
+            },
+            {
+              "id": "y2-mooe-105",
+              "item": "Hosting, support and licences — e-Extension Platform (Year 2)",
+              "office": "Extension and Training Office",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 564500
+            },
+            {
+              "id": "y2-mooe-106",
+              "item": "ICT training and change management — e-Extension Platform",
+              "office": "Extension and Training Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 470500
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-108",
+            "item": "Koha library system support and hosting",
+            "office": "ICT Office",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 260000
+          },
+          {
+            "id": "y2-mooe-111",
+            "item": "Enrolment system maintenance (transition)",
+            "office": "ICT Office",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1248000
+          },
+          {
+            "id": "y2-mooe-114",
+            "item": "Computer laboratory repairs and maintenance",
+            "office": "ICT Office",
+            "categoryId": "mooe-rm-ict-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 936000
+          },
+          {
+            "id": "y2-mooe-117",
+            "item": "Landline subscriptions (legacy lines, winding down)",
+            "office": "ICT Office",
+            "categoryId": "mooe-landline-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 395000
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y3-co-090",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 22,
+            "unitCost": 51000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y3-mooe-087",
+            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "office": "ICT Office",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 24000
+          },
+          {
+            "id": "y3-mooe-088",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Office",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 168500
+          },
+          {
+            "id": "y3-mooe-089",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Office",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 264000
+          }
+        ]
+      },
+      "internalProjects": {},
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-109",
+            "item": "Koha library system support and hosting",
+            "office": "ICT Office",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 270000
+          },
+          {
+            "id": "y3-mooe-112",
+            "item": "Enrolment system maintenance (transition)",
+            "office": "ICT Office",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1296000
+          },
+          {
+            "id": "y3-mooe-115",
+            "item": "Computer laboratory repairs and maintenance",
+            "office": "ICT Office",
+            "categoryId": "mooe-rm-ict-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 972000
+          },
+          {
+            "id": "y3-mooe-118",
+            "item": "Landline subscriptions (legacy lines, winding down)",
+            "office": "ICT Office",
+            "categoryId": "mooe-landline-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 410500
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2025-08-28T02:30:00.000Z",
+  "updatedAt": "2026-01-22T06:10:00.000Z"
+}

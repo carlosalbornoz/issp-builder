@@ -1,0 +1,1484 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-01-30T04:45:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "Bureau of Cold Chain Management Information Systems Strategic Plan 2026–2028",
+  "startYear": 2026,
+  "endYear": 2028,
+  "amendmentNumber": 0,
+  "scope": "AGENCY_WIDE",
+  "agencyHeadName": "Director-General Corazon M. Alcantara",
+  "agency": {
+    "name": "Bureau of Cold Chain Management",
+    "acronym": "BCCM",
+    "type": "NGA",
+    "websiteUrl": "https://www.bccm.gov.ph",
+    "logoBase64": null
+  },
+  "planStatus": "submitted",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": "2025-04-30"
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year3": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/summary": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    }
+  },
+  "part1": {
+    "legalBasis": "Republic Act No. 11988 (Cold Chain Integrity Act of 2024), which created the Bureau of Cold Chain Management under the Department of Trade, with authority to set, monitor and enforce temperature-controlled storage and transport standards for health and food commodities.",
+    "mandateFunction": "The BCCM regulates and monitors the national cold chain: it accredits cold storage facilities, inspects refrigerated transport, maintains the national registry of cold chain equipment, and coordinates with health and food safety agencies on temperature excursion incidents. It operates a central laboratory in Metro Manila and inspection teams across all regions.",
+    "visionStatement": "A national cold chain where no vaccine, food commodity or perishable is lost to a break in temperature integrity.",
+    "missionStatement": "To set and enforce cold chain standards, maintain an accurate national equipment registry, and provide regulators and the public with reliable, near-real-time visibility of cold chain conditions.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Reduced temperature-excursion losses across the national cold chain",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "Cold Room Monitoring Program"
+          },
+          {
+            "id": "oo-1-pg-2",
+            "name": "Excursion Response and Traceback Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Complete and current national registry of cold chain equipment",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "Registry Digitalization Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Strengthened BCCM regulatory and inspection capability",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "Inspector Enablement Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "Chief Ramil D. Espejo",
+    "cioPosition": "Chief, ICT Unit",
+    "cioUnit": "ICT Unit",
+    "cioEmail": "cio@bccm.gov.ph",
+    "cioContact": "+63 2 8337 3147",
+    "focalSameAsCio": false,
+    "focalName": "Ms. Divina P. Osorio",
+    "focalPosition": "Supervising Administrative Officer",
+    "focalUnit": "ICT Unit",
+    "focalEmail": "focal@bccm.gov.ph",
+    "focalContact": "+63 2 8876 5636",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 6,
+          "female": 9
+        },
+        "nonIt": {
+          "male": 38,
+          "female": 61
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 3,
+        "nonIt": 11
+      },
+      "contractual": {
+        "it": {
+          "male": 4,
+          "female": 3
+        },
+        "nonIt": {
+          "male": 12,
+          "female": 18
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 5,
+          "female": 2
+        },
+        "nonIt": {
+          "male": 2,
+          "female": 1
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Accredited cold storage operators",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Submission of facility temperature logs and excursion reports",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          },
+          {
+            "id": "st-1-sv-2",
+            "name": "Receipt of accreditation and audit findings",
+            "complexity": "Simple",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "Department of Health (immunization program)",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Coordination on vaccine cold chain incidents and recalls",
+            "complexity": "Highly Technical",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Local Government Units",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Verification of cold chain compliance for local health facilities",
+            "complexity": "Simple",
+            "direction": "INCOMING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "TEMPMON (temperature monitoring exports)",
+        "concern": "TEMPMON collects readings from 240 accredited cold rooms but only as end-of-week PDF exports; inspectors discover excursions an average of nine days after they happen, and two vaccine batches in 2025 were written off before any alert fired.",
+        "desiredStrategy": "Deploy continuous LoRa-based sensors with a central gateway (Project LAMIG) that alerts inspectors within fifteen minutes of an excursion."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-2"
+        ],
+        "criticalSystem": "COMET (cold storage equipment tracker — spreadsheets)",
+        "concern": "The national equipment registry is maintained in seventeen regional spreadsheet variants with no common identifier; the same chiller appears under three different serial formats, and the annual registry reconciliation consumes two person-months.",
+        "desiredStrategy": "Consolidate the registry into a single digital system with unique equipment IDs, QR tagging, and inspection history (Registry Digitalization Program)."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "The Central Office runs a flat 1 Gbps LAN with a single ISP fiber link and a DSL backup that has never been tested under load. Seventeen regional inspection teams connect through consumer-grade LTE routers; temperature excursion reports from accredited facilities arrive as weekly e-mailed PDF exports that staff re-encode into a shared spreadsheet. The equipment registry lives on a single on-premise server protected by one aging UPS.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": false,
+        "networkSegmentation": false
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": false,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": false,
+        "accessReviews": false,
+        "securityLogs": true,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-tempmon",
+        "name": "TEMPMON — Temperature Monitoring Aggregator",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Vendor portal that receives weekly PDF temperature exports from accredited facilities. No alerting; no API; exports must be re-encoded by hand.",
+        "developmentStrategy": "COTS",
+        "developmentPlatform": "Vendor SaaS portal",
+        "databaseName": "Vendor-hosted",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Inspection Division (~45 staff)",
+        "externalUsers": "",
+        "owner": "Inspection Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-comet",
+        "name": "COMET — Cold Storage Equipment Tracker",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "A shared workbook per region listing chillers, freezers and transport units. Serial numbers are free-text; three regions still print and file copies.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Microsoft Excel",
+        "databaseName": "N/A (workbooks)",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "All regional inspection teams (~120 staff)",
+        "externalUsers": "",
+        "owner": "Registry Section",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-accsys",
+        "name": "Accreditation System (AccSys)",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "https://accreditation.bccm.gov.ph",
+        "description": "Online application and renewal portal for cold storage accreditation. Payments are handled off-platform; status tracking is by e-mail.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "PHP / MySQL",
+        "databaseName": "accsys_db",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Accreditation Section (~20 staff)",
+        "externalUsers": "Accredited operators (~610 accounts)",
+        "owner": "Accreditation Section",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "eGovPay": {
+        "status": "no",
+        "ifNo": {
+          "manual": true,
+          "proposedDevelopment": true
+        }
+      },
+      "pnpki": {
+        "status": "",
+        "adoptionPercentage": 34
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "yes",
+        "url": "https://ifmis.dbm.gov.ph"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.bccm.gov.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": false,
+          "mobile": false
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "no"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates Bureau of Cold Chain Management's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 3
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 2
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 2
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-lamig",
+        "name": "LAMIG Gateway — National Cold Chain Monitoring Platform",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "Continuous sensor ingestion, excursion alerting and inspector dispatch for all accredited cold rooms and refrigerated vehicles.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "LoRaWAN / Node.js / PostgreSQL",
+        "databaseName": "lamig_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Inspection Division, regional teams (~180 staff)",
+        "externalUsers": "Accredited operators (portal dashboards)",
+        "owner": "ICT Unit",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-registry",
+        "name": "Digital Cold Chain Registry",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Single registry of cold chain equipment with unique IDs, QR tags, inspection history and operator ownership records.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Next.js / PostgreSQL",
+        "databaseName": "registry_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Registry Section, Inspection Division (~70 staff)",
+        "externalUsers": "",
+        "owner": "Registry Section",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-lamig",
+        "title": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
+        "description": "Installs continuous temperature and door sensors in all 240 accredited cold rooms plus LoRa gateways and a cloud monitoring platform, replacing weekly PDF exports with fifteen-minute excursion alerts.",
+        "objectives": "1. Instrument all 240 accredited cold rooms by Q4 2026\n2. Cut excursion detection time from 9 days to 15 minutes\n3. Give operators self-service dashboards by 2027\n4. Feed standardized custody events to the Cold Chain Traceability Backbone",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [
+          "ps-lamig"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "National Cybersecurity Plan"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Scalability and Sustainability"
+        ],
+        "implementingUnit": "ICT Unit",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Sensor rollout for priority vaccine cold rooms (120); gateway platform live; excursion alerting operational",
+        "year2Deliverables": "Remaining 120 cold rooms instrumented; operator dashboards launched; CTB event feed enabled",
+        "year3Deliverables": "",
+        "duration": "2026–2027"
+      },
+      {
+        "id": "p-registry",
+        "title": "Cold Chain Equipment Registry Digitalization",
+        "description": "Consolidates seventeen regional spreadsheet variants into one digital registry with unique equipment IDs, QR tagging and full inspection history.",
+        "objectives": "1. Migrate all regional equipment records into the digital registry by Q3 2026\n2. Issue unique IDs and QR tags for all registered equipment\n3. Link registry records to inspection and accreditation histories",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-registry"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Interoperability Framework"
+        ],
+        "implementingUnit": "Registry Section",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Registry system developed and deployed; all regional records migrated and reconciled; QR tagging completed",
+        "year2Deliverables": "",
+        "year3Deliverables": "",
+        "duration": "2026"
+      }
+    ],
+    "crossAgencyProjects": [
+      {
+        "id": "cx-ctb",
+        "title": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+        "description": "The Bureau's lead share of the cross-agency CTB program: publishing standardized custody events from LAMIG and maintaining the shared data standards with the National Food Traceability Council and academic partners.",
+        "objectives": "1. Publish LAMIG custody events in the shared CTB format\n2. Co-lead the CTB standards working group\n3. Provide sandbox access for research partners",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "Program Convergence Budgeting"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Cross-Agency Collaboration"
+        ],
+        "implementingUnit": "ICT Unit",
+        "leadAgency": "Bureau of Cold Chain Management",
+        "implementingAgencies": "Cold Chain Traceability Backbone (CTB)",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "CTB event schema v1.0 ratified with partners; BCCM event gateway live",
+        "year2Deliverables": "Sandbox access for research partners; schema v1.1 (transport segment)",
+        "year3Deliverables": "Program review; handover of standards stewardship to the working group",
+        "duration": "2026–2028"
+      }
+    ],
+    "performanceFramework": {
+      "p-lamig": {
+        "projectTitle": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-lamig-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Median time from temperature excursion to inspector alert",
+            "indicator": "Median time from temperature excursion to inspector alert",
+            "baseline": "9 days",
+            "year1Target": "30 minutes",
+            "year2Target": "15 minutes",
+            "year3Target": "15 minutes",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Unit"
+          },
+          {
+            "id": "p-lamig-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "Accredited cold rooms with continuous monitoring",
+            "indicator": "Accredited cold rooms with continuous monitoring",
+            "baseline": "0 of 240",
+            "year1Target": "120",
+            "year2Target": "240",
+            "year3Target": "240",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Unit"
+          },
+          {
+            "id": "p-lamig-kpi-3",
+            "hierarchy": "Output",
+            "targetedResult": "% of excursion reports submitted as structured events (not PDF)",
+            "indicator": "% of excursion reports submitted as structured events (not PDF)",
+            "baseline": "0%",
+            "year1Target": "50%",
+            "year2Target": "100%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Unit"
+          }
+        ]
+      },
+      "p-registry": {
+        "projectTitle": "Cold Chain Equipment Registry Digitalization",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-registry-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "Equipment records with unique registry IDs",
+            "indicator": "Equipment records with unique registry IDs",
+            "baseline": "0%",
+            "year1Target": "100%",
+            "year2Target": "100%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Registry Section"
+          },
+          {
+            "id": "p-registry-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Annual registry reconciliation effort (person-months)",
+            "indicator": "Annual registry reconciliation effort (person-months)",
+            "baseline": "2.0",
+            "year1Target": "0.1",
+            "year2Target": "0.1",
+            "year3Target": "0.1",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Registry Section"
+          }
+        ]
+      },
+      "cx-ctb": {
+        "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+        "projectCategory": "crossAgency",
+        "rows": [
+          {
+            "id": "cx-ctb-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of CTB participation deliverables",
+            "indicator": "% completion of CTB participation deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Unit"
+          },
+          {
+            "id": "cx-ctb-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by CTB participation (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by CTB participation (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Unit"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-004",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 17,
+            "unitCost": 47500
+          },
+          {
+            "id": "y1-co-005",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 9,
+            "unitCost": 56000
+          },
+          {
+            "id": "y1-co-006",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 378000
+          },
+          {
+            "id": "y1-co-007",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 83500
+          },
+          {
+            "id": "y1-co-008",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 137000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-001",
+            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 26000
+          },
+          {
+            "id": "y1-mooe-002",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 320000
+          },
+          {
+            "id": "y1-mooe-003",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Unit",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 296500
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-lamig": {
+          "projectTitle": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-027",
+              "item": "LoRa gateway concentrators — 240 accredited cold rooms",
+              "office": "ICT Unit",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 240,
+              "unitCost": 18500
+            },
+            {
+              "id": "y1-co-028",
+              "item": "Temperature and door sensors (calibrated, 5-year battery)",
+              "office": "ICT Unit",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 1200,
+              "unitCost": 28000
+            },
+            {
+              "id": "y1-co-029",
+              "item": "Edge servers and NVR — regional monitoring nodes (48)",
+              "office": "ICT Unit",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 48,
+              "unitCost": 250000
+            },
+            {
+              "id": "y1-co-030",
+              "item": "LoRa gateway concentrators — 240 accredited cold rooms — succeeding tranche",
+              "office": "ICT Unit",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 72,
+              "unitCost": 16500
+            },
+            {
+              "id": "y1-co-031",
+              "item": "Temperature and door sensors — succeeding tranche",
+              "office": "ICT Unit",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 360,
+              "unitCost": 22500
+            },
+            {
+              "id": "y1-co-032",
+              "item": "Project LAMIG — engineering, installation and commissioning (Year 1)",
+              "office": "ICT Unit",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 12125000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-033",
+              "item": "Project management office — Project LAMIG",
+              "office": "ICT Unit",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 606000
+            },
+            {
+              "id": "y1-mooe-034",
+              "item": "Hosting, support and licences — Project LAMIG (Year 1)",
+              "office": "ICT Unit",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 404000
+            },
+            {
+              "id": "y1-mooe-035",
+              "item": "ICT training and change management — Project LAMIG",
+              "office": "ICT Unit",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 337000
+            }
+          ]
+        },
+        "p-registry": {
+          "projectTitle": "Cold Chain Equipment Registry Digitalization",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-040",
+              "item": "Registry Digitalization — system development and acquisition (Year 1 milestone)",
+              "office": "Registry Section",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 37800000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-041",
+              "item": "Project management office — Registry Digitalization",
+              "office": "Registry Section",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3240000
+            },
+            {
+              "id": "y1-mooe-042",
+              "item": "Hosting, support and licences — Registry Digitalization (Year 1)",
+              "office": "Registry Section",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2160000
+            },
+            {
+              "id": "y1-mooe-043",
+              "item": "ICT training and change management — Registry Digitalization",
+              "office": "Registry Section",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1800000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-ctb": {
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-044",
+              "item": "CTB participation — system development and acquisition (Year 1 milestone)",
+              "office": "ICT Unit",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 28224000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-045",
+              "item": "Project management office — CTB participation",
+              "office": "ICT Unit",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2419000
+            },
+            {
+              "id": "y1-mooe-046",
+              "item": "Hosting, support and licences — CTB participation (Year 1)",
+              "office": "ICT Unit",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1613000
+            },
+            {
+              "id": "y1-mooe-047",
+              "item": "ICT training and change management — CTB participation",
+              "office": "ICT Unit",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1344000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-056",
+            "item": "TEMPMON vendor subscription (transition period)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 6500000
+          },
+          {
+            "id": "y1-mooe-059",
+            "item": "Sensor calibration and field services",
+            "office": "ICT Unit",
+            "categoryId": "mooe-professional-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 3200000
+          },
+          {
+            "id": "y1-mooe-062",
+            "item": "Cold room equipment repairs and maintenance",
+            "office": "ICT Unit",
+            "categoryId": "mooe-rm-ict-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2100000
+          },
+          {
+            "id": "y1-mooe-065",
+            "item": "Leased datalogger servicing (pre-LAMIG stock)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-rm-leased-ict",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 300000
+          },
+          {
+            "id": "y1-mooe-068",
+            "item": "Label printer servicing and consumables",
+            "office": "ICT Unit",
+            "categoryId": "mooe-rm-semi-printing",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 180000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-012",
+            "item": "Cold-room monitoring display panels (registry wall)",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 4,
+            "unitCost": 333000
+          },
+          {
+            "id": "y2-co-013",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 17,
+            "unitCost": 48500
+          },
+          {
+            "id": "y2-co-014",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 9,
+            "unitCost": 62500
+          },
+          {
+            "id": "y2-co-015",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 421500
+          },
+          {
+            "id": "y2-co-016",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 103500
+          },
+          {
+            "id": "y2-co-017",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 163500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-009",
+            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 27000
+          },
+          {
+            "id": "y2-mooe-010",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 294000
+          },
+          {
+            "id": "y2-mooe-011",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Unit",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 146000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-lamig": {
+          "projectTitle": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-036",
+              "item": "Project LAMIG — engineering, installation and commissioning (Year 2)",
+              "office": "ICT Unit",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 60480000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-037",
+              "item": "Project management office — Project LAMIG",
+              "office": "ICT Unit",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3024000
+            },
+            {
+              "id": "y2-mooe-038",
+              "item": "Hosting, support and licences — Project LAMIG (Year 2)",
+              "office": "ICT Unit",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2016000
+            },
+            {
+              "id": "y2-mooe-039",
+              "item": "ICT training and change management — Project LAMIG",
+              "office": "ICT Unit",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1680000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-ctb": {
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-048",
+              "item": "CTB participation — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Unit",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 22848000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-049",
+              "item": "Project management office — CTB participation",
+              "office": "ICT Unit",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1958500
+            },
+            {
+              "id": "y2-mooe-050",
+              "item": "Hosting, support and licences — CTB participation (Year 2)",
+              "office": "ICT Unit",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1305500
+            },
+            {
+              "id": "y2-mooe-051",
+              "item": "ICT training and change management — CTB participation",
+              "office": "ICT Unit",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1088000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-057",
+            "item": "TEMPMON vendor subscription (transition period)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 6760000
+          },
+          {
+            "id": "y2-mooe-060",
+            "item": "Sensor calibration and field services",
+            "office": "ICT Unit",
+            "categoryId": "mooe-professional-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 3328000
+          },
+          {
+            "id": "y2-mooe-063",
+            "item": "Cold room equipment repairs and maintenance",
+            "office": "ICT Unit",
+            "categoryId": "mooe-rm-ict-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2184000
+          },
+          {
+            "id": "y2-mooe-066",
+            "item": "Leased datalogger servicing (pre-LAMIG stock)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-rm-leased-ict",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 312000
+          },
+          {
+            "id": "y2-mooe-069",
+            "item": "Label printer servicing and consumables",
+            "office": "ICT Unit",
+            "categoryId": "mooe-rm-semi-printing",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 187000
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y3-co-022",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 17,
+            "unitCost": 46000
+          },
+          {
+            "id": "y3-co-023",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 9,
+            "unitCost": 57000
+          },
+          {
+            "id": "y3-co-024",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 366000
+          },
+          {
+            "id": "y3-co-025",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 90500
+          },
+          {
+            "id": "y3-co-026",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 142000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y3-mooe-018",
+            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 28000
+          },
+          {
+            "id": "y3-mooe-019",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 158000
+          },
+          {
+            "id": "y3-mooe-020",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Unit",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 570500
+          },
+          {
+            "id": "y3-mooe-021",
+            "item": "Semi-expendable label printers for QR tagging",
+            "office": "ICT Unit",
+            "categoryId": "mooe-semi-expendable-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 30,
+            "unitCost": 9000
+          }
+        ]
+      },
+      "internalProjects": {},
+      "crossAgencyProjects": {
+        "cx-ctb": {
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-052",
+              "item": "CTB participation — system development and acquisition (Year 3 milestone)",
+              "office": "ICT Unit",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 16128000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-053",
+              "item": "Project management office — CTB participation",
+              "office": "ICT Unit",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1382500
+            },
+            {
+              "id": "y3-mooe-054",
+              "item": "Hosting, support and licences — CTB participation (Year 3)",
+              "office": "ICT Unit",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 921500
+            },
+            {
+              "id": "y3-mooe-055",
+              "item": "ICT training and change management — CTB participation",
+              "office": "ICT Unit",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 768000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-058",
+            "item": "TEMPMON vendor subscription (transition period)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 7020000
+          },
+          {
+            "id": "y3-mooe-061",
+            "item": "Sensor calibration and field services",
+            "office": "ICT Unit",
+            "categoryId": "mooe-professional-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 3456000
+          },
+          {
+            "id": "y3-mooe-064",
+            "item": "Cold room equipment repairs and maintenance",
+            "office": "ICT Unit",
+            "categoryId": "mooe-rm-ict-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2268000
+          },
+          {
+            "id": "y3-mooe-067",
+            "item": "Leased datalogger servicing (pre-LAMIG stock)",
+            "office": "ICT Unit",
+            "categoryId": "mooe-rm-leased-ict",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 324000
+          },
+          {
+            "id": "y3-mooe-070",
+            "item": "Label printer servicing and consumables",
+            "office": "ICT Unit",
+            "categoryId": "mooe-rm-semi-printing",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 194500
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2025-09-12T09:15:00.000Z",
+  "updatedAt": "2026-01-30T04:45:00.000Z"
+}

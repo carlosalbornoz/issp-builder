@@ -1,0 +1,1290 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-10-08T07:30:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "Visayas Maritime State College Information Systems Strategic Plan 2028–2030",
+  "startYear": 2028,
+  "endYear": 2030,
+  "amendmentNumber": 0,
+  "scope": "AGENCY_WIDE",
+  "agencyHeadName": "President Dr. Susana L. Villaruel",
+  "agency": {
+    "name": "Visayas Maritime State College",
+    "acronym": "VMSC",
+    "type": "OTHER",
+    "websiteUrl": "https://www.vmsc.edu.ph",
+    "logoBase64": null
+  },
+  "planStatus": "for_review",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": null
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year3": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    },
+    "part4/summary": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    }
+  },
+  "part1": {
+    "legalBasis": "Republic Act No. 11322, establishing the Visayas Maritime State College with mandates in maritime higher education, simulator-based training, and maritime research.",
+    "mandateFunction": "VMSC delivers maritime higher education and simulator-based training for the domestic shipping industry, runs maritime research programs, and provides continuing education for seafarers through its extension campus network.",
+    "visionStatement": "A maritime college whose graduates train on simulators as modern as the ships they will sail.",
+    "missionStatement": "To provide quality maritime education and research supported by modern simulation, laboratory and campus systems.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Globally benchmarked simulator training",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "Simulator Modernization Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Integrated campus systems and services",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "ONE-VMSC Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Research data stewardship",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "Research Data Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "Engr. Damian C. Oquias",
+    "cioPosition": "Director, Management Information System Office",
+    "cioUnit": "Management Information System Office",
+    "cioEmail": "cio@vmsc.gov.ph",
+    "cioContact": "+63 2 8441 1080",
+    "focalSameAsCio": false,
+    "focalName": "Mr. Roderick T. Baldos",
+    "focalPosition": "Registrar III",
+    "focalUnit": "Management Information System Office",
+    "focalEmail": "focal@vmsc.gov.ph",
+    "focalContact": "+63 2 8896 1980",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 4,
+          "female": 6
+        },
+        "nonIt": {
+          "male": 66,
+          "female": 104
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 2,
+        "nonIt": 12
+      },
+      "contractual": {
+        "it": {
+          "male": 2,
+          "female": 1
+        },
+        "nonIt": {
+          "male": 12,
+          "female": 19
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 2,
+          "female": 0
+        },
+        "nonIt": {
+          "male": 5,
+          "female": 3
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Maritime students and cadets",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Enrolment, records and simulator scheduling",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "Domestic shipping companies",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Contract training and simulator certification",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Maritime industry regulators",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Compliance reports on simulator standards and training quality",
+            "complexity": "Highly Technical",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-4",
+        "name": "Bureau of Cold Chain Management",
+        "services": [
+          {
+            "id": "st-4-sv-1",
+            "name": "Research collaboration on cold chain corridor data (CTB)",
+            "complexity": "Highly Technical",
+            "direction": "INCOMING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "Full mission bridge simulator (2012)",
+        "concern": "The 2012 simulator cannot run current exercise databases or log trainee performance electronically; instructors assess by checklist on paper, and two shipping companies have moved contract training to a competitor with newer suites.",
+        "desiredStrategy": "Refresh the simulator estate with modern bridge suites and performance logging under the Simulator Modernization Program."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-2"
+        ],
+        "criticalSystem": "SIS (in-house PHP)",
+        "concern": "The one-programmer student information system has no test environment and no documentation; enrolment peaks are survived, not managed, and simulator scheduling is a whiteboard.",
+        "desiredStrategy": "Integrate campus systems under ONE-VMSC with a supported SIS core, scheduling and single sign-on."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "The main campus network is adequate for e-mail and browsing but not for the simulator building, whose full-mission bridge suite (acquired 2012) cannot run current exercise databases. The student information system is an in-house PHP application maintained by one programmer; the library runs Koha; research datasets live on individual external drives labeled by principal investigator.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": false,
+        "networkSegmentation": false
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": false,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": false,
+        "accessReviews": false,
+        "securityLogs": true,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-sis-vmsc",
+        "name": "Student Information System (in-house PHP)",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "In-house SIS maintained by one programmer; no test environment; simulator scheduling handled separately on a whiteboard.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "PHP / MySQL",
+        "databaseName": "sis",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Registrar and colleges (~85 staff)",
+        "externalUsers": "",
+        "owner": "MIS Office",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-koha-vmsc",
+        "name": "Library System (Koha)",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Koha library management; research datasets are not managed here — they live on investigators' drives.",
+        "developmentStrategy": "OPEN_SOURCE",
+        "developmentPlatform": "Koha / MySQL",
+        "databaseName": "koha",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Library staff (7)",
+        "externalUsers": "",
+        "owner": "Library",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "eGovPay": {
+        "status": "no",
+        "ifNo": {
+          "manual": true,
+          "proposedDevelopment": true
+        }
+      },
+      "pnpki": {
+        "status": "",
+        "adoptionPercentage": 17
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "yes",
+        "url": "https://ifmis.dbm.gov.ph"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.vmsc.edu.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": false,
+          "mobile": false
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "no"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates Visayas Maritime State College's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 2
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 4
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 3
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-one-vmsc",
+        "name": "ONE-VMSC Campus Systems Integration",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Supported SIS core with simulator scheduling, single sign-on and research data management replacing the one-programmer stack.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Supported SaaS SIS + integrations",
+        "databaseName": "Vendor-managed",
+        "dataStorage": "CLOUD",
+        "internalUsers": "All academic and administrative offices (~230 staff)",
+        "externalUsers": "Students (~5,600)",
+        "owner": "MIS Office",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-sim",
+        "title": "Full Mission Bridge Simulator Refresh",
+        "description": "Replaces the 2012 full-mission bridge suite with modern simulators, current exercise databases, and electronic trainee performance logging.",
+        "objectives": "1. New full-mission bridge suite operational by 2029\n2. Electronic performance logging for all simulator courses\n3. Win back the two lapsed contract training accounts",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "Public Investment Program"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Scalability and Sustainability"
+        ],
+        "implementingUnit": "Simulator Training Center",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Full-mission suite installed and certified; instructor training completed",
+        "year2Deliverables": "Part-task pods live; performance logging across all courses",
+        "year3Deliverables": "",
+        "duration": "2028–2029"
+      },
+      {
+        "id": "p-one",
+        "title": "ONE-VMSC Campus Systems Integration",
+        "description": "Integrates campus systems on a supported SIS core with simulator scheduling, single sign-on and research data management.",
+        "objectives": "1. Supported SIS core live by 2029\n2. Simulator scheduling integrated (whiteboard retired)\n3. Research datasets under institutional stewardship",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-one-vmsc"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Resource Optimization",
+          "Interoperability Framework"
+        ],
+        "implementingUnit": "MIS Office",
+        "fundingSource": "Locally funded",
+        "year1Deliverables": "SIS core live with enrolment migrated; SSO rolled out to staff",
+        "year2Deliverables": "Simulator scheduling integrated; research data repository live",
+        "year3Deliverables": "Analytics and early-alert modules; full records digitization completed",
+        "duration": "2028–2030"
+      }
+    ],
+    "crossAgencyProjects": [
+      {
+        "id": "cx-ctb",
+        "title": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+        "description": "The College's research share of CTB: studying shipping-route cold chain corridor data from the sandbox and publishing findings back to the program.",
+        "objectives": "1. Sandbox access and first corridor study by 2028\n2. Annual research publication to the program\n3. Capstone projects using CTB data",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "Program Convergence Budgeting"
+        ],
+        "harmonizationFramework": [
+          "Cross-Agency Collaboration"
+        ],
+        "implementingUnit": "Research and Extension Office",
+        "leadAgency": "Bureau of Cold Chain Management",
+        "implementingAgencies": "Cold Chain Traceability Backbone (CTB)",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Sandbox access live; first corridor study scoped",
+        "year2Deliverables": "First annual research publication delivered to the program",
+        "year3Deliverables": "Capstone program using CTB data established",
+        "duration": "2028–2030"
+      }
+    ],
+    "performanceFramework": {
+      "p-sim": {
+        "projectTitle": "Full Mission Bridge Simulator Refresh",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-sim-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Simulator courses with electronic performance logs",
+            "indicator": "Simulator courses with electronic performance logs",
+            "baseline": "0%",
+            "year1Target": "60%",
+            "year2Target": "100%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Simulator Training Center"
+          },
+          {
+            "id": "p-sim-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "Contract training accounts (shipping companies)",
+            "indicator": "Contract training accounts (shipping companies)",
+            "baseline": "5",
+            "year1Target": "6",
+            "year2Target": "7",
+            "year3Target": "8",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Simulator Training Center"
+          }
+        ]
+      },
+      "p-one": {
+        "projectTitle": "ONE-VMSC Campus Systems Integration",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-one-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of ONE-VMSC deliverables",
+            "indicator": "% completion of ONE-VMSC deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "MIS Office"
+          },
+          {
+            "id": "p-one-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by ONE-VMSC (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by ONE-VMSC (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "MIS Office"
+          }
+        ]
+      },
+      "cx-ctb": {
+        "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+        "projectCategory": "crossAgency",
+        "rows": [
+          {
+            "id": "cx-ctb-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of CTB research share deliverables",
+            "indicator": "% completion of CTB research share deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Research and Extension Office"
+          },
+          {
+            "id": "cx-ctb-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by CTB research share (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by CTB research share (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Research and Extension Office"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-533",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "Management Information System Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 37,
+            "unitCost": 49000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-530",
+            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 26000
+          },
+          {
+            "id": "y1-mooe-531",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 154500
+          },
+          {
+            "id": "y1-mooe-532",
+            "item": "ICT training — staff capability building",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 329000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-sim": {
+          "projectTitle": "Full Mission Bridge Simulator Refresh",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-543",
+              "item": "Full mission bridge simulator suite (330° visual)",
+              "office": "Simulator Training Center",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 27888500
+            },
+            {
+              "id": "y1-co-544",
+              "item": "Projection and visual system upgrade",
+              "office": "Simulator Training Center",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 13206000
+            },
+            {
+              "id": "y1-co-545",
+              "item": "Cadet workstation pods (part-task trainers)",
+              "office": "Simulator Training Center",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 24,
+              "unitCost": 354500
+            },
+            {
+              "id": "y1-co-546",
+              "item": "Full mission bridge simulator suite — succeeding tranche",
+              "office": "Simulator Training Center",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 25650000
+            },
+            {
+              "id": "y1-co-547",
+              "item": "Projection and visual system upgrade — succeeding tranche",
+              "office": "Simulator Training Center",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 10368000
+            }
+          ],
+          "mooe": []
+        },
+        "p-one": {
+          "projectTitle": "ONE-VMSC Campus Systems Integration",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-552",
+              "item": "ONE-VMSC — system development and acquisition (Year 1 milestone)",
+              "office": "MIS Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 15876000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-553",
+              "item": "Project management office — ONE-VMSC",
+              "office": "MIS Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 1361000
+            },
+            {
+              "id": "y1-mooe-554",
+              "item": "Hosting, support and licences — ONE-VMSC (Year 1)",
+              "office": "MIS Office",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 907000
+            },
+            {
+              "id": "y1-mooe-555",
+              "item": "ICT training and change management — ONE-VMSC",
+              "office": "MIS Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 756000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-ctb": {
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-564",
+              "item": "CTB research share — system development and acquisition (Year 1 milestone)",
+              "office": "Research and Extension Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2822500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-565",
+              "item": "Project management office — CTB research share",
+              "office": "Research and Extension Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 242000
+            },
+            {
+              "id": "y1-mooe-566",
+              "item": "Hosting, support and licences — CTB research share (Year 1)",
+              "office": "Research and Extension Office",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 161500
+            },
+            {
+              "id": "y1-mooe-567",
+              "item": "ICT training and change management — CTB research share",
+              "office": "Research and Extension Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 134500
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-576",
+            "item": "SIS maintenance contract (transition)",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 900000
+          },
+          {
+            "id": "y1-mooe-579",
+            "item": "Library system hosting and support",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 250000
+          },
+          {
+            "id": "y1-mooe-582",
+            "item": "Maritime research data subscriptions",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-ict-research",
+            "fundSource": "Locally funded",
+            "qty": 1,
+            "unitCost": 700000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-537",
+            "item": "Plotting and chart printers (navigation training)",
+            "office": "Management Information System Office",
+            "categoryId": "co-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 47000
+          },
+          {
+            "id": "y2-co-538",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "Management Information System Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 37,
+            "unitCost": 33500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-534",
+            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 18500
+          },
+          {
+            "id": "y2-mooe-535",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 253500
+          },
+          {
+            "id": "y2-mooe-536",
+            "item": "ICT training — staff capability building",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 304000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-sim": {
+          "projectTitle": "Full Mission Bridge Simulator Refresh",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-548",
+              "item": "Simulator Refresh — engineering, installation and commissioning (Year 2)",
+              "office": "Simulator Training Center",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 32400000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-549",
+              "item": "Project management office — Simulator Refresh",
+              "office": "Simulator Training Center",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1620000
+            },
+            {
+              "id": "y2-mooe-550",
+              "item": "Hosting, support and licences — Simulator Refresh (Year 2)",
+              "office": "Simulator Training Center",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1080000
+            },
+            {
+              "id": "y2-mooe-551",
+              "item": "ICT training and change management — Simulator Refresh",
+              "office": "Simulator Training Center",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 900000
+            }
+          ]
+        },
+        "p-one": {
+          "projectTitle": "ONE-VMSC Campus Systems Integration",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-556",
+              "item": "ONE-VMSC — system development and acquisition (Year 2 milestone)",
+              "office": "MIS Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 12852000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-557",
+              "item": "Project management office — ONE-VMSC",
+              "office": "MIS Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 1101500
+            },
+            {
+              "id": "y2-mooe-558",
+              "item": "Hosting, support and licences — ONE-VMSC (Year 2)",
+              "office": "MIS Office",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 734500
+            },
+            {
+              "id": "y2-mooe-559",
+              "item": "ICT training and change management — ONE-VMSC",
+              "office": "MIS Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 612000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-ctb": {
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-568",
+              "item": "CTB research share — system development and acquisition (Year 2 milestone)",
+              "office": "Research and Extension Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2285000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-569",
+              "item": "Project management office — CTB research share",
+              "office": "Research and Extension Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 196000
+            },
+            {
+              "id": "y2-mooe-570",
+              "item": "Hosting, support and licences — CTB research share (Year 2)",
+              "office": "Research and Extension Office",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 130500
+            },
+            {
+              "id": "y2-mooe-571",
+              "item": "ICT training and change management — CTB research share",
+              "office": "Research and Extension Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 109000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-577",
+            "item": "SIS maintenance contract (transition)",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 936000
+          },
+          {
+            "id": "y2-mooe-580",
+            "item": "Library system hosting and support",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 260000
+          },
+          {
+            "id": "y2-mooe-583",
+            "item": "Maritime research data subscriptions",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-ict-research",
+            "fundSource": "Locally funded",
+            "qty": 1,
+            "unitCost": 728000
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y3-co-542",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "Management Information System Office",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 37,
+            "unitCost": 22500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y3-mooe-539",
+            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 28000
+          },
+          {
+            "id": "y3-mooe-540",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 223000
+          },
+          {
+            "id": "y3-mooe-541",
+            "item": "ICT training — staff capability building",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 317000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-one": {
+          "projectTitle": "ONE-VMSC Campus Systems Integration",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-560",
+              "item": "ONE-VMSC — system development and acquisition (Year 3 milestone)",
+              "office": "MIS Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 9072000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-561",
+              "item": "Project management office — ONE-VMSC",
+              "office": "MIS Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 777500
+            },
+            {
+              "id": "y3-mooe-562",
+              "item": "Hosting, support and licences — ONE-VMSC (Year 3)",
+              "office": "MIS Office",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 518500
+            },
+            {
+              "id": "y3-mooe-563",
+              "item": "ICT training and change management — ONE-VMSC",
+              "office": "MIS Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Locally funded",
+              "qty": 1,
+              "unitCost": 432000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-ctb": {
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-572",
+              "item": "CTB research share — system development and acquisition (Year 3 milestone)",
+              "office": "Research and Extension Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1613000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-573",
+              "item": "Project management office — CTB research share",
+              "office": "Research and Extension Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 138000
+            },
+            {
+              "id": "y3-mooe-574",
+              "item": "Hosting, support and licences — CTB research share (Year 3)",
+              "office": "Research and Extension Office",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 92000
+            },
+            {
+              "id": "y3-mooe-575",
+              "item": "ICT training and change management — CTB research share",
+              "office": "Research and Extension Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 77000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-578",
+            "item": "SIS maintenance contract (transition)",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 972000
+          },
+          {
+            "id": "y3-mooe-581",
+            "item": "Library system hosting and support",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 270000
+          },
+          {
+            "id": "y3-mooe-584",
+            "item": "Maritime research data subscriptions",
+            "office": "Management Information System Office",
+            "categoryId": "mooe-ict-research",
+            "fundSource": "Locally funded",
+            "qty": 1,
+            "unitCost": 756000
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2026-06-30T06:45:00.000Z",
+  "updatedAt": "2026-10-08T07:30:00.000Z"
+}

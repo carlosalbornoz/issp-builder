@@ -1,0 +1,998 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-10-17T05:40:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "Municipality of San Prospero Information Systems Strategic Plan 2028–2030",
+  "startYear": 2028,
+  "endYear": 2030,
+  "amendmentNumber": 0,
+  "scope": "LGU_SCOPE",
+  "agencyHeadName": "Municipal Mayor Hon. Rosalinda G. Espinosa",
+  "agency": {
+    "name": "Municipality of San Prospero",
+    "acronym": "SP",
+    "type": "LGU",
+    "websiteUrl": "https://www.sanprospero.gov.ph",
+    "logoBase64": null
+  },
+  "planStatus": "draft",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": null
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    },
+    "part3/f": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    },
+    "part4/year1": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    },
+    "part4/year2": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    },
+    "part4/year3": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    },
+    "part4/summary": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    }
+  },
+  "part1": {
+    "legalBasis": "Republic Act No. 11654, creating the Municipality of San Prospero as an independent local government unit.",
+    "mandateFunction": "The Municipality of San Prospero delivers basic local government services across 23 barangays: business permits, property tax, civil registry front-line services, health and social welfare, with a municipal hall workforce of roughly 120 personnel.",
+    "visionStatement": "A municipality where no resident travels to the hall twice for the same transaction.",
+    "missionStatement": "To deliver honest, fast municipal services and bring digital front-liners to every barangay.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Faster municipal transactions for residents",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "Digital Frontline Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Preserved and searchable municipal records",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "Records Digitization Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Interoperable services with neighboring LGUs",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "PXNet Participation Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "Mr. Jomar E. Balila",
+    "cioPosition": "Municipal ICT Officer (Designate)",
+    "cioUnit": "Municipal ICT Desk",
+    "cioEmail": "cio@sp.gov.ph",
+    "cioContact": "+63 2 8913 2143",
+    "focalSameAsCio": false,
+    "focalName": "Ms. Lourdes M. Padiernos",
+    "focalPosition": "Municipal Planning and Development Coordinator",
+    "focalUnit": "Municipal ICT Desk",
+    "focalEmail": "focal@sp.gov.ph",
+    "focalContact": "+63 2 8202 1860",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 1,
+          "female": 1
+        },
+        "nonIt": {
+          "male": 28,
+          "female": 56
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 1,
+        "nonIt": 9
+      },
+      "contractual": {
+        "it": {
+          "male": 1,
+          "female": 0
+        },
+        "nonIt": {
+          "male": 8,
+          "female": 14
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 1,
+          "female": 0
+        },
+        "nonIt": {
+          "male": 2,
+          "female": 1
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Residents and sari-sari businesses",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Permits, clearances and certifications",
+            "complexity": "Simple",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "City Government of Malinaw",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Permit and inspection verification (PXNet)",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Provincial government",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Submission of local finance and compliance reports",
+            "complexity": "Complex",
+            "direction": "OUTGOING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "Manual frontline transactions",
+        "concern": "Every transaction is a walk-in; a business renewal means two tricycle trips and an average of 3.5 hours away from the shop, and the municipality's own 2025 citizen feedback card shows 'waiting time' as the top complaint three years running.",
+        "desiredStrategy": "Launch the San Prospero Digital Frontline: eBPLS-lite permits and certifications with barangay intake kiosks."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-2"
+        ],
+        "criticalSystem": "Ledger books and bond paper records",
+        "concern": "Municipal records since 1998 are ledger books in filing cabinets; a retrospective birth certification requires three staff-days of searching, and the 2024 roof leak destroyed a shelf of ordinances.",
+        "desiredStrategy": "Digitize priority record series with a searchable records system under the Records Digitization Program."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "The municipal hall has one consumer broadband connection shared by office Wi-Fi; records are ledger books and bond paper; requests from residents arrive by walk-in, tricycle-delivered letter, or the municipal Facebook page, whichever is fastest that day. The treasury maintains tax records in a spreadsheet on a shared laptop.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": false,
+        "idsIps": false,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": false,
+        "networkSegmentation": false
+      },
+      "endpoint": {
+        "antivirus": false,
+        "appControl": false,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": false
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": false,
+        "strongPasswords": false,
+        "mfa": false,
+        "accessReviews": false,
+        "securityLogs": false,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-ledger",
+        "name": "Municipal records (ledger books)",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Paper-based records of permits, ordinances and certifications dating to 1998; searchable only by the staff who remember where things are filed.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Paper",
+        "databaseName": "N/A",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "All offices (~120 staff)",
+        "externalUsers": "",
+        "owner": "Office of the Municipal Clerk",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "elgu": {
+        "status": "no",
+        "ifNo": {
+          "manual": true,
+          "proposedDevelopment": true
+        }
+      },
+      "eGovPay": {
+        "status": "no",
+        "ifNo": {
+          "manual": true,
+          "proposedDevelopment": true
+        }
+      },
+      "pnpki": {
+        "status": "",
+        "adoptionPercentage": 8
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "yes",
+        "url": "https://ifmis.dbm.gov.ph"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.sanprospero.gov.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": false,
+          "mobile": false
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "no"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates Municipality of San Prospero's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 5
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 4
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 3
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-frontline",
+        "name": "San Prospero Digital Frontline",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "Municipal services platform: eBPLS-lite permits, certifications and clearances with online payment and barangay intake kiosks.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "PHP / PostgreSQL (LGU-tailored)",
+        "databaseName": "frontline_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Frontline offices (~45 staff)",
+        "externalUsers": "Residents and businesses (~28,000)",
+        "owner": "Municipal ICT Desk",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-frontline",
+        "title": "San Prospero Digital Frontline (eBPLS-lite and Records Digitization)",
+        "description": "Launches the municipality's first services platform — permits, certifications and clearances with online payment and barangay kiosks — and digitizes priority record series.",
+        "objectives": "1. Top 10 municipal transactions online by 2029\n2. Barangay intake kiosks at 5 pilot barangays\n3. Priority records digitized and searchable",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-frontline"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Interoperability Framework"
+        ],
+        "implementingUnit": "Municipal ICT Desk",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Permits and certifications live; online payment; 2 pilot kiosks; records digitization started",
+        "year2Deliverables": "Top 10 transactions online; 5 kiosks; priority records searchable",
+        "year3Deliverables": "",
+        "duration": "2028–2029"
+      }
+    ],
+    "crossAgencyProjects": [
+      {
+        "id": "cx-pxnet",
+        "title": "Permits Exchange Network (PXNet) — San Prospero share",
+        "description": "The municipality's share of PXNet: verifying permits and inspections with Malinaw so relocating businesses do not re-submit records either LGU already holds.",
+        "objectives": "1. Verification live with Malinaw by 2029\n2. Shared inspection schema adopted\n3. Staff trained on the exchange",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "Program Convergence Budgeting"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Cross-Agency Collaboration"
+        ],
+        "implementingUnit": "Municipal Treasurer's Office",
+        "leadAgency": "City Government of Malinaw",
+        "implementingAgencies": "Permits Exchange Network (PXNet)",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Verification live with Malinaw; staff trained",
+        "year2Deliverables": "Shared inspection schema adopted",
+        "year3Deliverables": "",
+        "duration": "2028–2029"
+      }
+    ],
+    "performanceFramework": {
+      "p-frontline": {
+        "projectTitle": "San Prospero Digital Frontline (eBPLS-lite and Records Digitization)",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-frontline-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Average resident time per transaction (incl. travel)",
+            "indicator": "Average resident time per transaction (incl. travel)",
+            "baseline": "3.5 hours",
+            "year1Target": "1 hour",
+            "year2Target": "30 minutes (kiosk/online)",
+            "year3Target": "30 minutes",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Municipal ICT Desk"
+          },
+          {
+            "id": "p-frontline-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "Municipal transactions available online",
+            "indicator": "Municipal transactions available online",
+            "baseline": "0",
+            "year1Target": "6",
+            "year2Target": "10",
+            "year3Target": "12",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Municipal ICT Desk"
+          }
+        ]
+      },
+      "cx-pxnet": {
+        "projectTitle": "Permits Exchange Network (PXNet) — San Prospero share",
+        "projectCategory": "crossAgency",
+        "rows": [
+          {
+            "id": "cx-pxnet-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of PXNet participation deliverables",
+            "indicator": "% completion of PXNet participation deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Municipal Treasurer's Office"
+          },
+          {
+            "id": "cx-pxnet-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by PXNet participation (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by PXNet participation (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Municipal Treasurer's Office"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-499",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 8,
+            "unitCost": 57000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-495",
+            "item": "Internet subscription — 2 offices, pooled (Year 1)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 24,
+            "unitCost": 14000
+          },
+          {
+            "id": "y1-mooe-496",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 220500
+          },
+          {
+            "id": "y1-mooe-497",
+            "item": "ICT training — staff capability building",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 382000
+          },
+          {
+            "id": "y1-mooe-498",
+            "item": "Semi-expendable tablets (kiosk intake and assessors)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-semi-expendable-ict-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 15,
+            "unitCost": 16000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-frontline": {
+          "projectTitle": "San Prospero Digital Frontline (eBPLS-lite and Records Digitization)",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-508",
+              "item": "Digital Frontline — system development and acquisition (Year 1 milestone)",
+              "office": "Municipal ICT Desk",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 7795000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-509",
+              "item": "Project management office — Digital Frontline",
+              "office": "Municipal ICT Desk",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 668000
+            },
+            {
+              "id": "y1-mooe-510",
+              "item": "Hosting, support and licences — Digital Frontline (Year 1)",
+              "office": "Municipal ICT Desk",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 445500
+            },
+            {
+              "id": "y1-mooe-511",
+              "item": "ICT training and change management — Digital Frontline",
+              "office": "Municipal ICT Desk",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 371000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-pxnet": {
+          "projectTitle": "Permits Exchange Network (PXNet) — San Prospero share",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-516",
+              "item": "PXNet participation — system development and acquisition (Year 1 milestone)",
+              "office": "Municipal Treasurer's Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1949000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-517",
+              "item": "Project management office — PXNet participation",
+              "office": "Municipal Treasurer's Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 167000
+            },
+            {
+              "id": "y1-mooe-518",
+              "item": "Hosting, support and licences — PXNet participation (Year 1)",
+              "office": "Municipal Treasurer's Office",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 111500
+            },
+            {
+              "id": "y1-mooe-519",
+              "item": "ICT training and change management — PXNet participation",
+              "office": "Municipal Treasurer's Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 93000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-524",
+            "item": "Records digitization services (priority series)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-professional-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 900000
+          },
+          {
+            "id": "y1-mooe-527",
+            "item": "Landline subscriptions (municipal hall)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-landline-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 240000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-503",
+            "item": "Networked multifunction printer (records)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "co-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 70500
+          },
+          {
+            "id": "y2-co-504",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 8,
+            "unitCost": 38500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-500",
+            "item": "Internet subscription — 2 offices, pooled (Year 2)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 24,
+            "unitCost": 27000
+          },
+          {
+            "id": "y2-mooe-501",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 226500
+          },
+          {
+            "id": "y2-mooe-502",
+            "item": "ICT training — staff capability building",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 485000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-frontline": {
+          "projectTitle": "San Prospero Digital Frontline (eBPLS-lite and Records Digitization)",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-512",
+              "item": "Digital Frontline — system development and acquisition (Year 2 milestone)",
+              "office": "Municipal ICT Desk",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 5645000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-513",
+              "item": "Project management office — Digital Frontline",
+              "office": "Municipal ICT Desk",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 484000
+            },
+            {
+              "id": "y2-mooe-514",
+              "item": "Hosting, support and licences — Digital Frontline (Year 2)",
+              "office": "Municipal ICT Desk",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 322500
+            },
+            {
+              "id": "y2-mooe-515",
+              "item": "ICT training and change management — Digital Frontline",
+              "office": "Municipal ICT Desk",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 269000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-pxnet": {
+          "projectTitle": "Permits Exchange Network (PXNet) — San Prospero share",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-520",
+              "item": "PXNet participation — system development and acquisition (Year 2 milestone)",
+              "office": "Municipal Treasurer's Office",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1411000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-521",
+              "item": "Project management office — PXNet participation",
+              "office": "Municipal Treasurer's Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 121000
+            },
+            {
+              "id": "y2-mooe-522",
+              "item": "Hosting, support and licences — PXNet participation (Year 2)",
+              "office": "Municipal Treasurer's Office",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 80500
+            },
+            {
+              "id": "y2-mooe-523",
+              "item": "ICT training and change management — PXNet participation",
+              "office": "Municipal Treasurer's Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 67000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-525",
+            "item": "Records digitization services (priority series)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-professional-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 936000
+          },
+          {
+            "id": "y2-mooe-528",
+            "item": "Landline subscriptions (municipal hall)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-landline-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 249500
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [],
+        "mooe": [
+          {
+            "id": "y3-mooe-505",
+            "item": "Internet subscription — 2 offices, pooled (Year 3)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 24,
+            "unitCost": 15000
+          },
+          {
+            "id": "y3-mooe-506",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 252500
+          },
+          {
+            "id": "y3-mooe-507",
+            "item": "ICT training — staff capability building",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 201500
+          }
+        ]
+      },
+      "internalProjects": {},
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-526",
+            "item": "Records digitization services (priority series)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-professional-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 972000
+          },
+          {
+            "id": "y3-mooe-529",
+            "item": "Landline subscriptions (municipal hall)",
+            "office": "Municipal ICT Desk",
+            "categoryId": "mooe-landline-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 259000
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2026-09-01T01:50:00.000Z",
+  "updatedAt": "2026-10-17T05:40:00.000Z"
+}

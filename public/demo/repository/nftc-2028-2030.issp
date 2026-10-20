@@ -1,0 +1,1352 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-09-29T02:15:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "National Food Traceability Council Information Systems Strategic Plan 2028–2030",
+  "startYear": 2028,
+  "endYear": 2030,
+  "amendmentNumber": 0,
+  "scope": "AGENCY_WIDE",
+  "agencyHeadName": "Chairperson Wilhelmina R. Dacuycuy",
+  "agency": {
+    "name": "National Food Traceability Council",
+    "acronym": "NFTC",
+    "type": "NGA",
+    "websiteUrl": "https://www.nftc.gov.ph",
+    "logoBase64": null
+  },
+  "planStatus": "for_review",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": null
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year3": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    },
+    "part4/summary": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    }
+  },
+  "part1": {
+    "legalBasis": "Republic Act No. 12034 (Food Supply Chain Traceability Act of 2025), creating the National Food Traceability Council to operate the national traceability registry for high-value agricultural and marine commodities.",
+    "mandateFunction": "The NFTC operates the national traceability registry for high-value commodities, accredits traceability service providers, runs field inspection and sampling programs, and coordinates traceback investigations during food safety incidents.",
+    "visionStatement": "Every high-value commodity traceable from farm or dock to fork within hours, not weeks.",
+    "missionStatement": "To operate a trustworthy national traceability registry and inspection service that protects consumers and opens premium markets for producers.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Rapid, reliable traceback during food safety incidents",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "National Traceability Registry Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Digitally capable inspection and laboratory operations",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "Inspector Enablement Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Interoperable food supply chain data",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "Supply Chain Data Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "Dir. Alfonso L. Bumanglag",
+    "cioPosition": "Director III — ICT Service",
+    "cioUnit": "ICT Service",
+    "cioEmail": "cio@nftc.gov.ph",
+    "cioContact": "+63 2 8355 4986",
+    "focalSameAsCio": false,
+    "focalName": "Ms. Imelda C. Tiongson",
+    "focalPosition": "Chief, Program Management Division",
+    "focalUnit": "ICT Service",
+    "focalEmail": "focal@nftc.gov.ph",
+    "focalContact": "+63 2 8106 6928",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 8,
+          "female": 11
+        },
+        "nonIt": {
+          "male": 64,
+          "female": 102
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 3,
+        "nonIt": 16
+      },
+      "contractual": {
+        "it": {
+          "male": 4,
+          "female": 3
+        },
+        "nonIt": {
+          "male": 16,
+          "female": 26
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 3,
+          "female": 1
+        },
+        "nonIt": {
+          "male": 4,
+          "female": 3
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Registered producers, processors and exporters",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Registration and traceability compliance",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "Food safety regulators",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Traceback investigation support during incidents",
+            "complexity": "Highly Technical",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Bureau of Cold Chain Management",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Cold chain custody event exchange (CTB)",
+            "complexity": "Highly Technical",
+            "direction": "INCOMING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "FTS-1 registry (FoxPro)",
+        "concern": "The registry of registered establishments still runs on FoxPro; entity resolution during the 2025 mango pulp incident required nine staff-days of cross-checking three inconsistent lists.",
+        "desiredStrategy": "Build the National Traceability Registry (NTR) platform with unique lot IDs and event-level traceability."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-2"
+        ],
+        "criticalSystem": "Field sampling (paper forms)",
+        "concern": "Inspectors record samples on paper; results return as PDFs in 2–3 weeks, and one in five samples cannot be matched to its establishment record at entry.",
+        "desiredStrategy": "Equip inspectors with mobile sampling tools under the Inspector Mobility Program."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "The Council's systems estate is thin: a FoxPro-era registry of registered establishments, a WordPress permits portal, and traceback investigations that run on e-mail chains. Field inspectors carry paper sampling forms; laboratory results return as PDFs after two to three weeks. The central office shares a building network with two other agencies.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": false,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": false,
+        "networkSegmentation": false
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": false,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": false
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": false,
+        "accessReviews": false,
+        "securityLogs": false,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-fts1",
+        "name": "FTS-1 Establishment Registry",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "FoxPro registry of registered establishments, maintained on one workstation with a printed manual of record codes.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Visual FoxPro",
+        "databaseName": "fts1.dbc",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Registry Section (~30 staff)",
+        "externalUsers": "",
+        "owner": "Registration Bureau",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-permits",
+        "name": "Permits and clearances portal (WordPress)",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "https://permits.nftc.gov.ph",
+        "description": "WordPress site hosting downloadable forms; submissions arrive by e-mail with photo attachments of filled forms.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "WordPress / MySQL",
+        "databaseName": "wp_permits",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Frontline section (~20 staff)",
+        "externalUsers": "Registered establishments",
+        "owner": "Registration Bureau",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "eGovPay": {
+        "status": "no",
+        "ifNo": {
+          "manual": true,
+          "proposedDevelopment": true
+        }
+      },
+      "pnpki": {
+        "status": "",
+        "adoptionPercentage": 38
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "yes",
+        "url": "https://ifmis.dbm.gov.ph"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.nftc.gov.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": false,
+          "mobile": true
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "no"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates National Food Traceability Council's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 5
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 2
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-ntr",
+        "name": "National Traceability Registry (NTR)",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "Event-level traceability registry: unique establishment and lot IDs, custody events, traceback query tools and open verification APIs.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Node.js / PostgreSQL",
+        "databaseName": "ntr_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Registry, inspection and labs (~180 staff)",
+        "externalUsers": "Establishments, partner agencies (~4,200)",
+        "owner": "ICT Service",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-fieldkit",
+        "name": "Inspector Field Kit platform",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Mobile sampling and inspection application with offline capture, barcode/QR lot scanning, and direct laboratory intake.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Flutter / PostgreSQL",
+        "databaseName": "fieldkit",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Inspection and laboratory bureaus (~220 staff)",
+        "externalUsers": "",
+        "owner": "Inspection Bureau",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-ntr",
+        "title": "National Traceability Registry (NTR) Platform",
+        "description": "Builds the event-level traceability registry with unique establishment and lot IDs, custody events, traceback query tools and verification APIs — replacing the FoxPro registry.",
+        "objectives": "1. NTR live with establishments migrated by 2029\n2. Event-level custody tracking for all registered commodities\n3. Traceback query time under 24 hours",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-ntr"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "Public Investment Program"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Interoperability Framework"
+        ],
+        "implementingUnit": "ICT Service",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Registry core live; establishments migrated; first commodity events flowing",
+        "year2Deliverables": "Custody events across the full pilot commodity set; traceback queries under 24h",
+        "year3Deliverables": "",
+        "duration": "2028–2029"
+      },
+      {
+        "id": "p-inspect",
+        "title": "Inspector Mobility and Field Sampling Program",
+        "description": "Equips field inspectors with rugged mobile tools: offline sampling capture, lot scanning and direct laboratory intake, replacing paper forms and PDF results.",
+        "objectives": "1. Mobile sampling live for all inspection teams by 2028\n2. Sample-to-establishment match rate above 98%\n3. Laboratory result turnaround halved",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [
+          "ps-fieldkit"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Resource Optimization"
+        ],
+        "implementingUnit": "Inspection Bureau",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "All inspection teams equipped; mobile sampling live; lab intake direct",
+        "year2Deliverables": "",
+        "year3Deliverables": "",
+        "duration": "2028"
+      }
+    ],
+    "crossAgencyProjects": [
+      {
+        "id": "cx-ctb",
+        "title": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+        "description": "The Council's share of CTB: consuming cold chain custody events into the NTR and co-chairing the shared data standards working group.",
+        "objectives": "1. Ingest CTB custody events into NTR by 2028\n2. Co-chair standards working group\n3. Joint traceback exercise with BCCM annually",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "Program Convergence Budgeting",
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Cross-Agency Collaboration"
+        ],
+        "implementingUnit": "ICT Service",
+        "leadAgency": "Bureau of Cold Chain Management",
+        "implementingAgencies": "Cold Chain Traceability Backbone (CTB)",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "CTB event ingestion live; first joint traceback exercise completed",
+        "year2Deliverables": "Standards v1.1 adopted (transport segment); sandbox for research partners",
+        "year3Deliverables": "Program review and stewardship handover",
+        "duration": "2028–2030"
+      }
+    ],
+    "performanceFramework": {
+      "p-ntr": {
+        "projectTitle": "National Traceability Registry (NTR) Platform",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-ntr-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Traceback query turnaround (incident to custody chain)",
+            "indicator": "Traceback query turnaround (incident to custody chain)",
+            "baseline": "9 staff-days",
+            "year1Target": "72 hours",
+            "year2Target": "24 hours",
+            "year3Target": "24 hours",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          },
+          {
+            "id": "p-ntr-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "Registered establishments on NTR",
+            "indicator": "Registered establishments on NTR",
+            "baseline": "0",
+            "year1Target": "2,800",
+            "year2Target": "4,200",
+            "year3Target": "4,200",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          }
+        ]
+      },
+      "p-inspect": {
+        "projectTitle": "Inspector Mobility and Field Sampling Program",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-inspect-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of Inspector Mobility deliverables",
+            "indicator": "% completion of Inspector Mobility deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Inspection Bureau"
+          },
+          {
+            "id": "p-inspect-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by Inspector Mobility (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by Inspector Mobility (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Inspection Bureau"
+          }
+        ]
+      },
+      "cx-ctb": {
+        "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+        "projectCategory": "crossAgency",
+        "rows": [
+          {
+            "id": "cx-ctb-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of CTB participation deliverables",
+            "indicator": "% completion of CTB participation deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          },
+          {
+            "id": "cx-ctb-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by CTB participation (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by CTB participation (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-381",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 33,
+            "unitCost": 51000
+          },
+          {
+            "id": "y1-co-382",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 18,
+            "unitCost": 62000
+          },
+          {
+            "id": "y1-co-383",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 421000
+          },
+          {
+            "id": "y1-co-384",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 90000
+          },
+          {
+            "id": "y1-co-385",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Service",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 302500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-378",
+            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "office": "ICT Service",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 14000
+          },
+          {
+            "id": "y1-mooe-379",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 153500
+          },
+          {
+            "id": "y1-mooe-380",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 177500
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-ntr": {
+          "projectTitle": "National Traceability Registry (NTR) Platform",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-397",
+              "item": "NTR Platform — system development and acquisition (Year 1 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 87696000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-398",
+              "item": "Project management office — NTR Platform",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 7517000
+            },
+            {
+              "id": "y1-mooe-399",
+              "item": "Hosting, support and licences — NTR Platform (Year 1)",
+              "office": "ICT Service",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 5011000
+            },
+            {
+              "id": "y1-mooe-400",
+              "item": "ICT training and change management — NTR Platform",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 4176000
+            }
+          ]
+        },
+        "p-inspect": {
+          "projectTitle": "Inspector Mobility and Field Sampling Program",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-405",
+              "item": "Rugged field tablets (inspectors)",
+              "office": "Inspection Bureau",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 220,
+              "unitCost": 40500
+            },
+            {
+              "id": "y1-co-406",
+              "item": "Portable QR/barcode lot scanners",
+              "office": "Inspection Bureau",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 120,
+              "unitCost": 24500
+            },
+            {
+              "id": "y1-co-407",
+              "item": "Field sampling kits (printers and labelers)",
+              "office": "Inspection Bureau",
+              "categoryId": "co-printing-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 60,
+              "unitCost": 37000
+            },
+            {
+              "id": "y1-co-408",
+              "item": "Inspector Mobility — engineering, installation and commissioning (Year 1)",
+              "office": "Inspection Bureau",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 41337000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-409",
+              "item": "Project management office — Inspector Mobility",
+              "office": "Inspection Bureau",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2067000
+            },
+            {
+              "id": "y1-mooe-410",
+              "item": "Hosting, support and licences — Inspector Mobility (Year 1)",
+              "office": "Inspection Bureau",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1378000
+            },
+            {
+              "id": "y1-mooe-411",
+              "item": "ICT training and change management — Inspector Mobility",
+              "office": "Inspection Bureau",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1148500
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-ctb": {
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-412",
+              "item": "CTB participation — system development and acquisition (Year 1 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 19404000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-413",
+              "item": "Project management office — CTB participation",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1663000
+            },
+            {
+              "id": "y1-mooe-414",
+              "item": "Hosting, support and licences — CTB participation (Year 1)",
+              "office": "ICT Service",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1109000
+            },
+            {
+              "id": "y1-mooe-415",
+              "item": "ICT training and change management — CTB participation",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 924000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-424",
+            "item": "FTS-1 registry support (transition period)",
+            "office": "ICT Service",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2200000
+          },
+          {
+            "id": "y1-mooe-427",
+            "item": "Permits portal hosting",
+            "office": "ICT Service",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 800000
+          },
+          {
+            "id": "y1-mooe-430",
+            "item": "Laboratory data center services",
+            "office": "ICT Service",
+            "categoryId": "mooe-data-center-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1400000
+          },
+          {
+            "id": "y1-mooe-433",
+            "item": "Mobile data plans for field inspectors",
+            "office": "ICT Service",
+            "categoryId": "mooe-mobile-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1600000
+          },
+          {
+            "id": "y1-mooe-436",
+            "item": "Rugged tablet repairs and maintenance",
+            "office": "ICT Service",
+            "categoryId": "mooe-rm-semi-ict",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 400000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-389",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 33,
+            "unitCost": 52000
+          },
+          {
+            "id": "y2-co-390",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 18,
+            "unitCost": 57000
+          },
+          {
+            "id": "y2-co-391",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 414000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-386",
+            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "office": "ICT Service",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 27000
+          },
+          {
+            "id": "y2-mooe-387",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 253500
+          },
+          {
+            "id": "y2-mooe-388",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 262500
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-ntr": {
+          "projectTitle": "National Traceability Registry (NTR) Platform",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-401",
+              "item": "NTR Platform — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 63504000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-402",
+              "item": "Project management office — NTR Platform",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 5443000
+            },
+            {
+              "id": "y2-mooe-403",
+              "item": "Hosting, support and licences — NTR Platform (Year 2)",
+              "office": "ICT Service",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3629000
+            },
+            {
+              "id": "y2-mooe-404",
+              "item": "ICT training and change management — NTR Platform",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3024000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-ctb": {
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-416",
+              "item": "CTB participation — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 15708000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-417",
+              "item": "Project management office — CTB participation",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1346500
+            },
+            {
+              "id": "y2-mooe-418",
+              "item": "Hosting, support and licences — CTB participation (Year 2)",
+              "office": "ICT Service",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 897500
+            },
+            {
+              "id": "y2-mooe-419",
+              "item": "ICT training and change management — CTB participation",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 748000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-425",
+            "item": "FTS-1 registry support (transition period)",
+            "office": "ICT Service",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2288000
+          },
+          {
+            "id": "y2-mooe-428",
+            "item": "Permits portal hosting",
+            "office": "ICT Service",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 832000
+          },
+          {
+            "id": "y2-mooe-431",
+            "item": "Laboratory data center services",
+            "office": "ICT Service",
+            "categoryId": "mooe-data-center-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1456000
+          },
+          {
+            "id": "y2-mooe-434",
+            "item": "Mobile data plans for field inspectors",
+            "office": "ICT Service",
+            "categoryId": "mooe-mobile-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1664000
+          },
+          {
+            "id": "y2-mooe-437",
+            "item": "Rugged tablet repairs and maintenance",
+            "office": "ICT Service",
+            "categoryId": "mooe-rm-semi-ict",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 416000
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y3-co-395",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 33,
+            "unitCost": 49000
+          },
+          {
+            "id": "y3-co-396",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 18,
+            "unitCost": 34500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y3-mooe-392",
+            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "office": "ICT Service",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 28000
+          },
+          {
+            "id": "y3-mooe-393",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 132500
+          },
+          {
+            "id": "y3-mooe-394",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 280000
+          }
+        ]
+      },
+      "internalProjects": {},
+      "crossAgencyProjects": {
+        "cx-ctb": {
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-420",
+              "item": "CTB participation — system development and acquisition (Year 3 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 11088000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-421",
+              "item": "Project management office — CTB participation",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 950500
+            },
+            {
+              "id": "y3-mooe-422",
+              "item": "Hosting, support and licences — CTB participation (Year 3)",
+              "office": "ICT Service",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 633500
+            },
+            {
+              "id": "y3-mooe-423",
+              "item": "ICT training and change management — CTB participation",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 528000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-426",
+            "item": "FTS-1 registry support (transition period)",
+            "office": "ICT Service",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2376000
+          },
+          {
+            "id": "y3-mooe-429",
+            "item": "Permits portal hosting",
+            "office": "ICT Service",
+            "categoryId": "mooe-web-hosting",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 864000
+          },
+          {
+            "id": "y3-mooe-432",
+            "item": "Laboratory data center services",
+            "office": "ICT Service",
+            "categoryId": "mooe-data-center-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1512000
+          },
+          {
+            "id": "y3-mooe-435",
+            "item": "Mobile data plans for field inspectors",
+            "office": "ICT Service",
+            "categoryId": "mooe-mobile-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1728000
+          },
+          {
+            "id": "y3-mooe-438",
+            "item": "Rugged tablet repairs and maintenance",
+            "office": "ICT Service",
+            "categoryId": "mooe-rm-semi-ict",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 432000
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2026-06-15T03:20:00.000Z",
+  "updatedAt": "2026-09-29T02:15:00.000Z"
+}

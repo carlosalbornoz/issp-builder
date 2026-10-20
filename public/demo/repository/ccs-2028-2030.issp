@@ -1,0 +1,1095 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-10-02T09:50:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "Commission on Cooperative Standards Information Systems Strategic Plan 2028–2030",
+  "startYear": 2028,
+  "endYear": 2030,
+  "amendmentNumber": 0,
+  "scope": "AGENCY_WIDE",
+  "agencyHeadName": "Chairperson Bienvenido T. Ordoñez",
+  "agency": {
+    "name": "Commission on Cooperative Standards",
+    "acronym": "CCS",
+    "type": "OTHER",
+    "websiteUrl": "https://www.ccs.gov.ph",
+    "logoBase64": null
+  },
+  "planStatus": "for_review",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": null
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year3": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    },
+    "part4/summary": {
+      "userMarkedDone": false,
+      "lastEditedAt": "2026-10-14 09:00:00"
+    }
+  },
+  "part1": {
+    "legalBasis": "Republic Act No. 11893 (Cooperative Standards Commission Act of 2023), creating the Commission on Cooperative Standards to maintain the national registry of cooperatives, set governance and audit standards, and administer the cooperative audit framework.",
+    "mandateFunction": "The CCS maintains the national registry of cooperatives, sets governance, financial reporting and audit standards for the sector, schedules and quality-assures cooperative audits, and publishes sector statistics.",
+    "visionStatement": "A cooperative sector the public can trust, on a registry anyone can verify.",
+    "missionStatement": "To maintain an authoritative cooperative registry, set clear standards, and run a credible audit framework.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Authoritative, verifiable cooperative registry",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "Registry and Audit Ledger Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Clear, teachable standards for the sector",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "Standards Dissemination Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Modern, secure Commission operations",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "Commission Modernization Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "Dir. Katrina S. Almendral",
+    "cioPosition": "Director IV — ICT Service",
+    "cioUnit": "ICT Service",
+    "cioEmail": "cio@ccs.gov.ph",
+    "cioContact": "+63 2 8348 7125",
+    "focalSameAsCio": false,
+    "focalName": "Ms. Adelaida R. Manalastas",
+    "focalPosition": "Chief, Standards Development Division",
+    "focalUnit": "ICT Service",
+    "focalEmail": "focal@ccs.gov.ph",
+    "focalContact": "+63 2 8942 1977",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 7,
+          "female": 9
+        },
+        "nonIt": {
+          "male": 46,
+          "female": 78
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 2,
+        "nonIt": 11
+      },
+      "contractual": {
+        "it": {
+          "male": 3,
+          "female": 2
+        },
+        "nonIt": {
+          "male": 10,
+          "female": 17
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 4,
+          "female": 1
+        },
+        "nonIt": {
+          "male": 3,
+          "female": 2
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Registered cooperatives",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Registration, annual reports and audit compliance",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          },
+          {
+            "id": "st-1-sv-2",
+            "name": "Standards guidance and advisories",
+            "complexity": "Simple",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "Cooperative audit organizations",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Audit scheduling, quality review and findings submission",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Sector researchers and the public",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Sector statistics and registry verification",
+            "complexity": "Simple",
+            "direction": "OUTGOING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "CDRS (Cooperative Development Registry System)",
+        "concern": "CDRS cannot verify a cooperative's audit status in real time; members of the public asking whether a cooperative is in good standing receive a certified printout that takes five working days, and the monthly extension-office re-merge has introduced three duplicate registry identities this year.",
+        "desiredStrategy": "Build the TALA registry and audit ledger with a public verification portal and unique cooperative identities."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-2"
+        ],
+        "criticalSystem": "Standards dissemination (PDFs and seminars)",
+        "concern": "Standards are published as PDFs and taught in person; compliance reports show cooperatives citing superseded standard versions years after revisions.",
+        "desiredStrategy": "Launch the standards portal with versioned standards, plain-language guides and e-learning."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "The cooperative registry (CDRS) descends from a dBase system modernized twice but never migrated cleanly; extension offices e-mail registry extracts as attachments that headquarters re-merges monthly. Audit scheduling is a physical board with magnet letters. The registry server room doubles as the records archive and, on Fridays, the supply stockroom.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": false,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": false,
+        "accessReviews": false,
+        "securityLogs": true,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-cdrs",
+        "name": "CDRS — Cooperative Development Registry System",
+        "classification": "OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Registry of roughly 78,000 cooperatives descended from dBase; extension offices e-mail extracts that headquarters re-merges monthly; no public verification.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Visual FoxPro lineage / SQL Server",
+        "databaseName": "cdrs",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Registry bureau (~120 staff)",
+        "externalUsers": "",
+        "owner": "Cooperative Registry Bureau",
+        "interoperability": {
+          "integrated": true,
+          "internalSystems": "See system description",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-auditboard",
+        "name": "Audit scheduling board (physical)",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Physical board with magnet letters tracking audit assignments across regions; photographed for records each month.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Physical board",
+        "databaseName": "N/A",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Standards and Audit Bureau (~60 staff)",
+        "externalUsers": "",
+        "owner": "Standards and Audit Bureau",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "eGovPay": {
+        "status": "yes"
+      },
+      "pnpki": {
+        "status": "",
+        "adoptionPercentage": 44
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "yes",
+        "url": "https://ifmis.dbm.gov.ph"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.ccs.gov.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": true,
+          "mobile": true
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "yes"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates Commission on Cooperative Standards's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 3
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 2
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 6
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-tala",
+        "name": "TALA — Cooperative Registry & Audit Ledger",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "Modern registry with unique cooperative identities, audit workflow and ledger, and a public verification portal answering good-standing queries in seconds.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Java / PostgreSQL",
+        "databaseName": "tala_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Registry and audit bureaus (~190 staff)",
+        "externalUsers": "Cooperatives, auditors, the public",
+        "owner": "ICT Service",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-standards",
+        "name": "Standards Portal and e-Learning",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "Versioned standards library with plain-language guides, e-learning and compliance self-checks for cooperatives.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Next.js / LMS",
+        "databaseName": "standards",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Standards Development (~35 staff)",
+        "externalUsers": "Cooperatives (~78,000 entities)",
+        "owner": "Standards Development Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-tala",
+        "title": "Project TALA — Cooperative Registry & Audit Ledger",
+        "description": "Builds the modern registry and audit ledger: unique cooperative identities, real audit workflow replacing the magnet board, and a public verification portal answering good-standing queries in seconds.",
+        "objectives": "1. TALA live with the full registry migrated by 2029\n2. Public verification portal live\n3. Duplicate registry identities resolved\n4. Audit scheduling fully digital",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-tala"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "National Cybersecurity Plan"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Interoperability Framework"
+        ],
+        "implementingUnit": "ICT Service",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Registry core live with migration completed; audit workflow piloted in two regions",
+        "year2Deliverables": "Public verification portal live; magnet board retired; duplicates resolved",
+        "year3Deliverables": "",
+        "duration": "2028–2029"
+      },
+      {
+        "id": "p-standards",
+        "title": "Standards Portal and e-Learning for Cooperatives",
+        "description": "Launches the versioned standards library with plain-language guides, e-learning and compliance self-checks, ending citations of superseded standard versions.",
+        "objectives": "1. All current standards versioned and published by 2028\n2. E-learning paths for the top five compliance topics\n3. Superseded-version citations below 5% in audit samples",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-standards"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Resource Optimization"
+        ],
+        "implementingUnit": "Standards Development Division",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Portal live with all current standards versioned; first e-learning paths released",
+        "year2Deliverables": "",
+        "year3Deliverables": "",
+        "duration": "2028"
+      }
+    ],
+    "crossAgencyProjects": [],
+    "performanceFramework": {
+      "p-tala": {
+        "projectTitle": "Project TALA — Cooperative Registry & Audit Ledger",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-tala-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Public good-standing verification time",
+            "indicator": "Public good-standing verification time",
+            "baseline": "5 working days",
+            "year1Target": "1 day (portal beta)",
+            "year2Target": "seconds (portal)",
+            "year3Target": "seconds",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          },
+          {
+            "id": "p-tala-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "Registry records with verified unique identities",
+            "indicator": "Registry records with verified unique identities",
+            "baseline": "0%",
+            "year1Target": "70%",
+            "year2Target": "100%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          }
+        ]
+      },
+      "p-standards": {
+        "projectTitle": "Standards Portal and e-Learning for Cooperatives",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-standards-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of Standards Portal deliverables",
+            "indicator": "% completion of Standards Portal deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Standards Development Division"
+          },
+          {
+            "id": "p-standards-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by Standards Portal (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by Standards Portal (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Standards Development Division"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-588",
+            "item": "High-volume registry printers",
+            "office": "ICT Service",
+            "categoryId": "co-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 4,
+            "unitCost": 185000
+          },
+          {
+            "id": "y1-co-590",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 29,
+            "unitCost": 50000
+          },
+          {
+            "id": "y1-co-591",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 16,
+            "unitCost": 50500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-585",
+            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "office": "ICT Service",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 14000
+          },
+          {
+            "id": "y1-mooe-586",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 315500
+          },
+          {
+            "id": "y1-mooe-587",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 415500
+          },
+          {
+            "id": "y1-mooe-589",
+            "item": "Semi-expendable barcode scanners (records and audit)",
+            "office": "ICT Service",
+            "categoryId": "mooe-semi-expendable-communication-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 30,
+            "unitCost": 12000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-tala": {
+          "projectTitle": "Project TALA — Cooperative Registry & Audit Ledger",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-602",
+              "item": "Project TALA — system development and acquisition (Year 1 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 73080000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-603",
+              "item": "Project management office — Project TALA",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 6264000
+            },
+            {
+              "id": "y1-mooe-604",
+              "item": "Hosting, support and licences — Project TALA (Year 1)",
+              "office": "ICT Service",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 4176000
+            },
+            {
+              "id": "y1-mooe-605",
+              "item": "ICT training and change management — Project TALA",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3480000
+            }
+          ]
+        },
+        "p-standards": {
+          "projectTitle": "Standards Portal and e-Learning for Cooperatives",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-610",
+              "item": "Standards Portal — system development and acquisition (Year 1 milestone)",
+              "office": "Standards Development Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 25200000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-611",
+              "item": "Project management office — Standards Portal",
+              "office": "Standards Development Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2160000
+            },
+            {
+              "id": "y1-mooe-612",
+              "item": "Hosting, support and licences — Standards Portal (Year 1)",
+              "office": "Standards Development Division",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1440000
+            },
+            {
+              "id": "y1-mooe-613",
+              "item": "ICT training and change management — Standards Portal",
+              "office": "Standards Development Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1200000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-614",
+            "item": "CDRS maintenance and support (transition)",
+            "office": "ICT Service",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2400000
+          },
+          {
+            "id": "y1-mooe-617",
+            "item": "Registry data center services",
+            "office": "ICT Service",
+            "categoryId": "mooe-data-center-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1800000
+          },
+          {
+            "id": "y1-mooe-620",
+            "item": "Rented ICT equipment for audit field events",
+            "office": "ICT Service",
+            "categoryId": "mooe-rents-ict",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 900000
+          },
+          {
+            "id": "y1-mooe-623",
+            "item": "Registry printer servicing",
+            "office": "ICT Service",
+            "categoryId": "mooe-rm-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 220000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-595",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 29,
+            "unitCost": 46500
+          },
+          {
+            "id": "y2-co-596",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 16,
+            "unitCost": 46500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-592",
+            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "office": "ICT Service",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 23000
+          },
+          {
+            "id": "y2-mooe-593",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 133500
+          },
+          {
+            "id": "y2-mooe-594",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 147000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-tala": {
+          "projectTitle": "Project TALA — Cooperative Registry & Audit Ledger",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-606",
+              "item": "Project TALA — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 52920000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-607",
+              "item": "Project management office — Project TALA",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 4536000
+            },
+            {
+              "id": "y2-mooe-608",
+              "item": "Hosting, support and licences — Project TALA (Year 2)",
+              "office": "ICT Service",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3024000
+            },
+            {
+              "id": "y2-mooe-609",
+              "item": "ICT training and change management — Project TALA",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2520000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-615",
+            "item": "CDRS maintenance and support (transition)",
+            "office": "ICT Service",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2496000
+          },
+          {
+            "id": "y2-mooe-618",
+            "item": "Registry data center services",
+            "office": "ICT Service",
+            "categoryId": "mooe-data-center-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1872000
+          },
+          {
+            "id": "y2-mooe-621",
+            "item": "Rented ICT equipment for audit field events",
+            "office": "ICT Service",
+            "categoryId": "mooe-rents-ict",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 936000
+          },
+          {
+            "id": "y2-mooe-624",
+            "item": "Registry printer servicing",
+            "office": "ICT Service",
+            "categoryId": "mooe-rm-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 229000
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y3-co-600",
+            "item": "Registry printers (second tranche)",
+            "office": "ICT Service",
+            "categoryId": "co-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 200000
+          },
+          {
+            "id": "y3-co-601",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 29,
+            "unitCost": 34500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y3-mooe-597",
+            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "office": "ICT Service",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 28000
+          },
+          {
+            "id": "y3-mooe-598",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 230500
+          },
+          {
+            "id": "y3-mooe-599",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 547000
+          }
+        ]
+      },
+      "internalProjects": {},
+      "crossAgencyProjects": {},
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-616",
+            "item": "CDRS maintenance and support (transition)",
+            "office": "ICT Service",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 2592000
+          },
+          {
+            "id": "y3-mooe-619",
+            "item": "Registry data center services",
+            "office": "ICT Service",
+            "categoryId": "mooe-data-center-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1944000
+          },
+          {
+            "id": "y3-mooe-622",
+            "item": "Rented ICT equipment for audit field events",
+            "office": "ICT Service",
+            "categoryId": "mooe-rents-ict",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 972000
+          },
+          {
+            "id": "y3-mooe-625",
+            "item": "Registry printer servicing",
+            "office": "ICT Service",
+            "categoryId": "mooe-rm-printing-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 237500
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2026-07-07T02:10:00.000Z",
+  "updatedAt": "2026-10-02T09:50:00.000Z"
+}

@@ -1,0 +1,1777 @@
+{
+  "version": "1.0",
+  "fileType": "issp-main",
+  "exportedAt": "2026-04-29T10:20:00.000Z",
+  "tool": "issp-platform",
+  "schemaVersion": 14,
+  "title": "National Coastal Resilience Authority Information Systems Strategic Plan 2027–2029",
+  "startYear": 2027,
+  "endYear": 2029,
+  "amendmentNumber": 0,
+  "scope": "WITH_REGIONAL",
+  "agencyHeadName": "Administrator Leandra V. Kawada",
+  "agency": {
+    "name": "National Coastal Resilience Authority",
+    "acronym": "NCRA",
+    "type": "NGA",
+    "websiteUrl": "https://www.ncra.gov.ph",
+    "logoBase64": null
+  },
+  "planStatus": "submitted",
+  "submissionTarget": {
+    "agency": "DICT",
+    "deadline": "2026-04-30"
+  },
+  "sectionMeta": {
+    "definitions": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part1/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part2/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/a": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/b": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/c": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/d": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/e2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part3/f": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year1": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year2": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/year3": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    },
+    "part4/summary": {
+      "userMarkedDone": true,
+      "lastEditedAt": null
+    }
+  },
+  "part1": {
+    "legalBasis": "Republic Act No. 12021 (Coastal Resilience Act of 2025), establishing the National Coastal Resilience Authority to unify sea-level, storm surge and coastal hazard monitoring, and to operate the national community early warning system for coastal areas.",
+    "mandateFunction": "The NCRA operates the national coastal hazard monitoring network, produces official storm surge and coastal flood forecasts, runs the community early warning system for 832 coastal municipalities, and maintains the national coastal hazard data infrastructure. It coordinates closely with the national disaster risk reduction council, meteorological services, and local government units.",
+    "visionStatement": "Zero-surprise coastal hazards: every at-risk barangay warned in time, every decision backed by live coastal data.",
+    "missionStatement": "To monitor, model and communicate coastal hazards with authoritative, timely, and openly accessible data.",
+    "orgOutcomes": [
+      {
+        "id": "oo-1",
+        "name": "Reduced loss of life and property in coastal hazard events",
+        "programs": [
+          {
+            "id": "oo-1-pg-1",
+            "name": "Community Early Warning Program"
+          },
+          {
+            "id": "oo-1-pg-2",
+            "name": "Hazard Intelligence Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-2",
+        "name": "Authoritative, open national coastal data infrastructure",
+        "programs": [
+          {
+            "id": "oo-2-pg-1",
+            "name": "Coastal Digital Twin Program"
+          },
+          {
+            "id": "oo-2-pg-2",
+            "name": "Open Tides Data Program"
+          }
+        ]
+      },
+      {
+        "id": "oo-3",
+        "name": "Institutionally capable and connected NCRA",
+        "programs": [
+          {
+            "id": "oo-3-pg-1",
+            "name": "Operations Modernization Program"
+          }
+        ]
+      }
+    ],
+    "cioName": "Dir. Pablo S. Tungpalan",
+    "cioPosition": "Director IV — ICT Service",
+    "cioUnit": "ICT Service",
+    "cioEmail": "cio@ncra.gov.ph",
+    "cioContact": "+63 2 8389 5059",
+    "focalSameAsCio": false,
+    "focalName": "Ms. Rowena U. Magsaysay",
+    "focalPosition": "Chief, Planning and Policy Division",
+    "focalUnit": "ICT Service",
+    "focalEmail": "focal@ncra.gov.ph",
+    "focalContact": "+63 2 8648 3358",
+    "humanCapital": {
+      "plantilla": {
+        "it": {
+          "male": 42,
+          "female": 58
+        },
+        "nonIt": {
+          "male": 180,
+          "female": 302
+        }
+      },
+      "plantillaUnfilled": {
+        "it": 12,
+        "nonIt": 44
+      },
+      "contractual": {
+        "it": {
+          "male": 22,
+          "female": 16
+        },
+        "nonIt": {
+          "male": 60,
+          "female": 88
+        }
+      },
+      "outsourced": {
+        "it": {
+          "male": 30,
+          "female": 12
+        },
+        "nonIt": {
+          "male": 8,
+          "female": 6
+        }
+      }
+    },
+    "stakeholders": [
+      {
+        "id": "st-1",
+        "name": "Coastal municipalities and barangays",
+        "services": [
+          {
+            "id": "st-1-sv-1",
+            "name": "Receipt of official surge and coastal flood warnings",
+            "complexity": "Simple",
+            "direction": "OUTGOING"
+          },
+          {
+            "id": "st-1-sv-2",
+            "name": "Requests for localized hazard assessments",
+            "complexity": "Complex",
+            "direction": "INCOMING"
+          }
+        ]
+      },
+      {
+        "id": "st-2",
+        "name": "National disaster risk reduction council",
+        "services": [
+          {
+            "id": "st-2-sv-1",
+            "name": "Provision of real-time hazard situation feeds during events",
+            "complexity": "Highly Technical",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-3",
+        "name": "Philippine Disaster Risk Insurance Office",
+        "services": [
+          {
+            "id": "st-3-sv-1",
+            "name": "Exposure data exchange for parametric insurance triggers",
+            "complexity": "Highly Technical",
+            "direction": "OUTGOING"
+          }
+        ]
+      },
+      {
+        "id": "st-4",
+        "name": "Research community and academia",
+        "services": [
+          {
+            "id": "st-4-sv-1",
+            "name": "Access to open coastal hazard datasets (Open Tides)",
+            "complexity": "Complex",
+            "direction": "OUTGOING"
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "strategicConcerns": [
+      {
+        "id": "c-1",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-1"
+        ],
+        "criticalSystem": "CHIMES (Coastal Hazard Integration & Monitoring Enterprise System)",
+        "concern": "CHIMES ingests sensor data in overnight batches, so warning desks work from projections up to eleven hours old. During Typhoon Barangas the surge height at San Vicente reef was underestimated because the 03:00 reading arrived after the 06:00 briefing had been issued.",
+        "desiredStrategy": "Replace CHIMES with the streaming AWARE platform (Project SIGWA): real-time ingestion, model runs every ten minutes, and warning products generated in minutes, not shifts."
+      },
+      {
+        "id": "c-2",
+        "outcomeIds": [
+          "oo-1"
+        ],
+        "programIds": [
+          "oo-1-pg-2"
+        ],
+        "criticalSystem": "Community warning dissemination (manual cascades)",
+        "concern": "Warnings reach barangays through a cascade of text messages, Facebook posts and, in some areas, bell-ringing protocols; verification of receipt is impossible, and the last full cascade drill logged 2 hours 40 minutes from decision to last barangay.",
+        "desiredStrategy": "Automate multi-channel dissemination with delivery receipts under the Community Early Warning Program, integrated with AWARE decision triggers."
+      },
+      {
+        "id": "c-3",
+        "outcomeIds": [
+          "oo-2"
+        ],
+        "programIds": [
+          "oo-2-pg-3"
+        ],
+        "criticalSystem": "TIDEWATCH buoy telemetry (vendor portal)",
+        "concern": "Buoy telemetry lives in a vendor portal with per-station license fees and no bulk export; researchers cannot access raw observations, and the Authority cannot verify vendor uptime claims independently.",
+        "desiredStrategy": "Take ownership of telemetry via the WATCHFUL sensor network and publish the archive through Open Tides under an open data license."
+      }
+    ],
+    "networkDiagrams": [],
+    "networkDescription": "The Authority's monitoring estate includes 340 legacy tide gauges reporting over GSM in batch windows, a vendor-locked buoy telemetry portal, and seventeen regional warning desks that receive data by a mix of e-mail and, in two regions, VHF radio. The central CHIMES platform ingests everything overnight; during Typhoon Barangas (2025) the overnight batch meant surge projections used data eleven hours old. Field stations on small islands share satellite time purchased in weekly blocks.",
+    "cybersecurityControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": false,
+        "dmz": false
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": false,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": false
+      },
+      "other": {
+        "vulnAssessment": false,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": false,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": false,
+        "incidentResponse": false,
+        "siem": false,
+        "penTesting": false,
+        "secureSdlc": false
+      }
+    },
+    "informationSystems": [
+      {
+        "id": "is-chimes",
+        "name": "CHIMES — Coastal Hazard Integration & Monitoring Enterprise System",
+        "classification": "OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "The Authority's core monitoring platform: nightly batch ingestion from 340 gauges, model post-processing and static warning bulletins. Java monolith, single on-premise cluster.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Java EE / Oracle",
+        "databaseName": "chimes_prod",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Monitoring and Warning Bureau, regional desks (~420 staff)",
+        "externalUsers": "",
+        "owner": "Monitoring and Warning Bureau",
+        "interoperability": {
+          "integrated": true,
+          "internalSystems": "See system description",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-tidewatch",
+        "name": "TIDEWATCH buoy telemetry portal",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Vendor-operated telemetry for the deep-water buoy array; per-station licensing; no bulk export or API.",
+        "developmentStrategy": "COTS",
+        "developmentPlatform": "Vendor SaaS",
+        "databaseName": "Vendor-hosted",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Oceanography Division (~60 staff)",
+        "externalUsers": "",
+        "owner": "Oceanography Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      },
+      {
+        "id": "is-lason",
+        "name": "LASON — Local Adaptation Studies Online Network",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Drupal archive of local adaptation research and hazard assessments; search is site-wide only and attachments are scanned PDFs.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Drupal 7 / MySQL",
+        "databaseName": "lason",
+        "dataStorage": "ON_PREMISE",
+        "internalUsers": "Planning and Policy Division (~45 staff)",
+        "externalUsers": "Academic partners",
+        "owner": "Planning and Policy Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaCompleted": false
+        }
+      }
+    ],
+    "egpChecklist": {
+      "eGovPay": {
+        "status": "no",
+        "ifNo": {
+          "manual": true,
+          "proposedDevelopment": true
+        }
+      },
+      "pnpki": {
+        "status": "yes",
+        "adoptionPercentage": 62
+      },
+      "hcmis": {
+        "status": "no",
+        "ifNo": {
+          "usingEquivalent": true,
+          "proposedDevelopment": true
+        },
+        "equivalentName": "None — HR records maintained manually"
+      },
+      "ifmis": {
+        "status": "yes",
+        "url": "https://ifmis.dbm.gov.ph"
+      },
+      "onlinePortal": {
+        "status": "yes",
+        "url": "https://www.ncra.gov.ph",
+        "mechanisms": {
+          "website": true,
+          "email": true,
+          "landline": true,
+          "socialMedia": false,
+          "mobile": false
+        },
+        "connectedToPortal": "no"
+      },
+      "procurement": {
+        "status": "yes",
+        "url": "https://philgeps.gov.ph"
+      },
+      "recordsMgmt": {
+        "status": "yes"
+      },
+      "pscp": {
+        "status": "no"
+      }
+    }
+  },
+  "part3": {
+    "proposedNetworkDataUrl": null,
+    "proposedNetworkDesc": "The target architecture consolidates National Coastal Resilience Authority's infrastructure under a unified security and connectivity baseline: redundant links for critical offices, centrally managed cloud-hosted core platforms, and network segmentation between administrative, operations and public-facing zones.",
+    "proposedCybersecControls": {
+      "physical": {
+        "perimeterProtection": true,
+        "accessControl": true,
+        "surveillance": true,
+        "detection": true
+      },
+      "perimeter": {
+        "ngfw": true,
+        "idsIps": true,
+        "waf": true,
+        "dmz": true
+      },
+      "network": {
+        "dataEncryption": true,
+        "networkSegmentation": true
+      },
+      "endpoint": {
+        "antivirus": true,
+        "appControl": true,
+        "byod": false,
+        "xdr": false
+      },
+      "data": {
+        "dataClassification": true,
+        "dlp": false,
+        "backupRecovery": true
+      },
+      "application": {
+        "securityScanning": true
+      },
+      "other": {
+        "vulnAssessment": true,
+        "patchMgmt": true,
+        "strongPasswords": true,
+        "mfa": true,
+        "accessReviews": true,
+        "securityLogs": true,
+        "logAnalysis": true,
+        "incidentResponse": true,
+        "siem": true,
+        "penTesting": true,
+        "secureSdlc": true
+      }
+    },
+    "enterpriseArchDataUrl": null,
+    "proposedHumanCapital": [
+      {
+        "id": "hc-1",
+        "position": "Chief Information Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 1
+      },
+      {
+        "id": "hc-2",
+        "position": "Systems Development Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 2
+      },
+      {
+        "id": "hc-3",
+        "position": "Network and Cybersecurity Officer",
+        "employmentStatus": "PLANTILLA",
+        "quantity": 4
+      },
+      {
+        "id": "hc-4",
+        "position": "ICT Project Support Staff",
+        "employmentStatus": "CONTRACTUAL",
+        "quantity": 4
+      }
+    ],
+    "proposedSystems": [
+      {
+        "id": "ps-aware",
+        "name": "AWARE — Analytics & Warning for At-Risk Environments",
+        "classification": "OPERATIONS",
+        "frontline": true,
+        "frontlineAccessType": "ONLINE",
+        "url": "",
+        "description": "Cloud-native successor to CHIMES: streaming ingestion from all sensor classes, ten-minute model cycling, automated warning products, and RAPIDE inter-agency exchange.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Kotlin / Kafka / Kubernetes / TimescaleDB",
+        "databaseName": "aware_prod",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Monitoring and Warning Bureau, 17 regional desks (~460 staff)",
+        "externalUsers": "Partner agencies via RAPIDE",
+        "owner": "ICT Service",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-twin",
+        "name": "Coastal Digital Twin & Open Tides Data Platform",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "National coastal hazard data infrastructure: curated sensor archive, digital twin models, and the public Open Tides open-data API.",
+        "developmentStrategy": "HYBRID",
+        "developmentPlatform": "Python geospatial stack / PostGIS / object storage",
+        "databaseName": "twin",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Research, planning and oceanography teams (~150 staff)",
+        "externalUsers": "Academia, civil society, developers",
+        "owner": "Planning and Policy Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-lason2",
+        "name": "LASON Archive Modernization",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Rebuild of the adaptation studies archive with structured metadata, full-text search and open licensing.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Next.js / PostgreSQL",
+        "databaseName": "lason2",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Planning and Policy Division (~45 staff)",
+        "externalUsers": "",
+        "owner": "Planning and Policy Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_ENHANCEMENT",
+        "enhancementDetails": "Drupal 7 end-of-life; content migrated with structured metadata."
+      }
+    ],
+    "internalProjects": [
+      {
+        "id": "p-watchful",
+        "title": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+        "description": "Expands and takes ownership of the national sensor estate: 140 new real-time tide and oceanographic stations, VSAT backhaul for off-grid sites, coastal CCTV for visual verification, and the retirement of per-station vendor licensing.",
+        "objectives": "1. Commission 140 new real-time sensor stations by 2028\n2. Bring all off-grid sites onto managed VSAT backhaul\n3. Eliminate per-station vendor telemetry licensing\n4. Achieve 99.5% sensor uptime during typhoon events",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [
+          "ps-aware"
+        ],
+        "strategicAlignment": [
+          "Public Investment Program",
+          "National Cybersecurity Plan"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization",
+          "Scalability and Sustainability"
+        ],
+        "implementingUnit": "ICT Service — Field Engineering Section",
+        "fundingSource": "Foreign-assisted projects",
+        "year1Deliverables": "60 stations commissioned; VSAT backhaul for first 18 off-grid sites; telemetry ownership transition started",
+        "year2Deliverables": "Cumulative 140 stations; vendor licensing retired; uptime dashboards live",
+        "year3Deliverables": "Network at target density; typhoon-season readiness review passed",
+        "duration": "2027–2029"
+      },
+      {
+        "id": "p-sigwa",
+        "title": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
+        "description": "Builds the AWARE platform: streaming ingestion from all sensor classes, ten-minute model cycling, automated warning products, and the RAPIDE exchange — retiring the overnight CHIMES batch.",
+        "objectives": "1. AWARE platform live with all sensor classes streaming by 2028\n2. Warning product generation time under 10 minutes end-to-end\n3. Regional desks fully migrated from CHIMES\n4. RAPIDE exchange operational for partner agencies",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-aware"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "National Cybersecurity Plan"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Cross-Agency Collaboration"
+        ],
+        "implementingUnit": "ICT Service",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Core platform live; 4 pilot regional desks migrated; first automated warning products issued",
+        "year2Deliverables": "All 17 desks migrated; CHIMES decommissioned; RAPIDE exchange operational",
+        "year3Deliverables": "",
+        "duration": "2027–2028"
+      },
+      {
+        "id": "p-twin",
+        "title": "Coastal Digital Twin and Open Tides Data Platform",
+        "description": "National coastal hazard data infrastructure: the curated sensor archive, digital twin model environment, and the public Open Tides open-data API serving researchers and developers.",
+        "objectives": "1. Publish the historical sensor archive under an open license\n2. Stand up the digital twin modeling environment by 2029\n3. Serve 50 registered applications through the Open Tides API",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-twin"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Resource Optimization",
+          "Interoperability Framework"
+        ],
+        "implementingUnit": "Planning and Policy Division",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "",
+        "year2Deliverables": "Archive published; API v1 live with first 20 registered applications",
+        "year3Deliverables": "Digital twin environment operational; 50 registered applications",
+        "duration": "2028–2029"
+      },
+      {
+        "id": "p-lason",
+        "title": "LASON Archive Modernization",
+        "description": "Rebuilds the end-of-life Drupal 7 adaptation studies archive with structured metadata, full-text search and open licensing before security support lapses.",
+        "objectives": "1. Migrate all studies with structured metadata by 2027\n2. Restore full-text search\n3. Adopt open data licensing for published research",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-lason2"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "National Cybersecurity Plan"
+        ],
+        "harmonizationFramework": [
+          "National Prioritization"
+        ],
+        "implementingUnit": "Planning and Policy Division",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "New archive live; all studies migrated with structured metadata; Drupal 7 retired",
+        "year2Deliverables": "",
+        "year3Deliverables": "",
+        "duration": "2027"
+      }
+    ],
+    "crossAgencyProjects": [
+      {
+        "id": "cx-rapide",
+        "title": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+        "description": "The Authority's lead share of RAPIDE: operating the shared analytics exchange, publishing AWARE hazard feeds, and onboarding partner agencies during typhoon response.",
+        "objectives": "1. RAPIDE exchange operational before the 2027 typhoon season\n2. Onboard PDRIO and Malinaw city feeds\n3. Joint after-action reviews each season",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "E-Government Master Plan",
+          "Program Convergence Budgeting"
+        ],
+        "harmonizationFramework": [
+          "Interoperability Framework",
+          "Cross-Agency Collaboration"
+        ],
+        "implementingUnit": "ICT Service",
+        "leadAgency": "National Coastal Resilience Authority",
+        "implementingAgencies": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "Exchange live; AWARE feeds published; first joint drill with partners",
+        "year2Deliverables": "Partner onboarding complete; season after-action review",
+        "year3Deliverables": "Program governance handed to the standing working group",
+        "duration": "2027–2029"
+      }
+    ],
+    "performanceFramework": {
+      "p-watchful": {
+        "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-watchful-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "Real-time sensor stations commissioned",
+            "indicator": "Real-time sensor stations commissioned",
+            "baseline": "0",
+            "year1Target": "60",
+            "year2Target": "140",
+            "year3Target": "140",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service — Field Engineering Section"
+          },
+          {
+            "id": "p-watchful-kpi-2",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Sensor data latency (ingest to dashboard)",
+            "indicator": "Sensor data latency (ingest to dashboard)",
+            "baseline": "up to 11 hours (batch)",
+            "year1Target": "< 2 minutes",
+            "year2Target": "< 1 minute",
+            "year3Target": "< 1 minute",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service — Field Engineering Section"
+          },
+          {
+            "id": "p-watchful-kpi-3",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Sensor network uptime during typhoon events",
+            "indicator": "Sensor network uptime during typhoon events",
+            "baseline": "71%",
+            "year1Target": "95%",
+            "year2Target": "99%",
+            "year3Target": "99.5%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service — Field Engineering Section"
+          }
+        ]
+      },
+      "p-sigwa": {
+        "projectTitle": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-sigwa-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Warning product generation time (event detected to product issued)",
+            "indicator": "Warning product generation time (event detected to product issued)",
+            "baseline": "up to 11 hours",
+            "year1Target": "30 minutes",
+            "year2Target": "10 minutes",
+            "year3Target": "10 minutes",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          },
+          {
+            "id": "p-sigwa-kpi-2",
+            "hierarchy": "Output",
+            "targetedResult": "Regional warning desks on AWARE",
+            "indicator": "Regional warning desks on AWARE",
+            "baseline": "0 of 17",
+            "year1Target": "4",
+            "year2Target": "17",
+            "year3Target": "17",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          },
+          {
+            "id": "p-sigwa-kpi-3",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Warning drills: decision-to-last-barangay time",
+            "indicator": "Warning drills: decision-to-last-barangay time",
+            "baseline": "2h 40m",
+            "year1Target": "45 minutes",
+            "year2Target": "20 minutes",
+            "year3Target": "15 minutes",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          }
+        ]
+      },
+      "p-twin": {
+        "projectTitle": "Coastal Digital Twin and Open Tides Data Platform",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-twin-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "Registered Open Tides API applications",
+            "indicator": "Registered Open Tides API applications",
+            "baseline": "0",
+            "year1Target": "0",
+            "year2Target": "20",
+            "year3Target": "50",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Planning and Policy Division"
+          },
+          {
+            "id": "p-twin-kpi-2",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Historical coastal datasets available under open license",
+            "indicator": "Historical coastal datasets available under open license",
+            "baseline": "0%",
+            "year1Target": "0%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Planning and Policy Division"
+          }
+        ]
+      },
+      "p-lason": {
+        "projectTitle": "LASON Archive Modernization",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-lason-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of LASON Modernization deliverables",
+            "indicator": "% completion of LASON Modernization deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Planning and Policy Division"
+          },
+          {
+            "id": "p-lason-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by LASON Modernization (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by LASON Modernization (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "Planning and Policy Division"
+          }
+        ]
+      },
+      "cx-rapide": {
+        "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+        "projectCategory": "crossAgency",
+        "rows": [
+          {
+            "id": "cx-rapide-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "% completion of RAPIDE lead share deliverables",
+            "indicator": "% completion of RAPIDE lead share deliverables",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "80%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          },
+          {
+            "id": "cx-rapide-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Offices/units actively served by RAPIDE lead share (vs. manual process at baseline)",
+            "indicator": "Offices/units actively served by RAPIDE lead share (vs. manual process at baseline)",
+            "baseline": "0",
+            "year1Target": "Pilot units",
+            "year2Target": "Majority of units",
+            "year3Target": "Full coverage",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          }
+        ]
+      }
+    }
+  },
+  "part4": {
+    "year1": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y1-co-123",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 115,
+            "unitCost": 54000
+          },
+          {
+            "id": "y1-co-124",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 64,
+            "unitCost": 57500
+          },
+          {
+            "id": "y1-co-125",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 402500
+          },
+          {
+            "id": "y1-co-126",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 89000
+          },
+          {
+            "id": "y1-co-127",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Service",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1133500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y1-mooe-119",
+            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "office": "ICT Service",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 22000
+          },
+          {
+            "id": "y1-mooe-120",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 135000
+          },
+          {
+            "id": "y1-mooe-121",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 214000
+          },
+          {
+            "id": "y1-mooe-122",
+            "item": "Mobile expenses — field engineering and warning officers",
+            "office": "ICT Service",
+            "categoryId": "mooe-mobile-expenses",
+            "fundSource": "General Appropriations Act",
+            "qty": 260,
+            "unitCost": 12000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-watchful": {
+          "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-141",
+              "item": "Real-time tide and oceanographic sensor stations (buoy and pier-mount)",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 140,
+              "unitCost": 1457000
+            },
+            {
+              "id": "y1-co-142",
+              "item": "VSAT terminals and installation — off-grid sites",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 36,
+              "unitCost": 1922500
+            },
+            {
+              "id": "y1-co-143",
+              "item": "Coastal verification cameras (pan-tilt, solar)",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 30,
+              "unitCost": 635500
+            },
+            {
+              "id": "y1-co-144",
+              "item": "Real-time tide and oceanographic sensor stations — succeeding tranche",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 42,
+              "unitCost": 1395000
+            },
+            {
+              "id": "y1-co-145",
+              "item": "VSAT terminals and installation — off-grid sites — succeeding tranche",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "co-communication-equipment",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 11,
+              "unitCost": 1458000
+            }
+          ],
+          "mooe": []
+        },
+        "p-sigwa": {
+          "projectTitle": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-154",
+              "item": "Project SIGWA — system development and acquisition (Year 1 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 151032000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-155",
+              "item": "Project management office — Project SIGWA",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 12945500
+            },
+            {
+              "id": "y1-mooe-156",
+              "item": "Hosting, support and licences — Project SIGWA (Year 1)",
+              "office": "ICT Service",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 8630500
+            },
+            {
+              "id": "y1-mooe-157",
+              "item": "ICT training and change management — Project SIGWA",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 7192000
+            }
+          ]
+        },
+        "p-lason": {
+          "projectTitle": "LASON Archive Modernization",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-170",
+              "item": "LASON Modernization — system development and acquisition (Year 1 milestone)",
+              "office": "Planning and Policy Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 37800000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-171",
+              "item": "Project management office — LASON Modernization",
+              "office": "Planning and Policy Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3240000
+            },
+            {
+              "id": "y1-mooe-172",
+              "item": "Hosting, support and licences — LASON Modernization (Year 1)",
+              "office": "Planning and Policy Division",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2160000
+            },
+            {
+              "id": "y1-mooe-173",
+              "item": "ICT training and change management — LASON Modernization",
+              "office": "Planning and Policy Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1800000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-rapide": {
+          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-174",
+              "item": "RAPIDE lead share — system development and acquisition (Year 1 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 33516000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-175",
+              "item": "Project management office — RAPIDE lead share",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2873000
+            },
+            {
+              "id": "y1-mooe-176",
+              "item": "Hosting, support and licences — RAPIDE lead share (Year 1)",
+              "office": "ICT Service",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1915000
+            },
+            {
+              "id": "y1-mooe-177",
+              "item": "ICT training and change management — RAPIDE lead share",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1596000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y1-mooe-186",
+            "item": "CHIMES platform support and licenses (until decommission)",
+            "office": "ICT Service",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 9500000
+          },
+          {
+            "id": "y1-mooe-189",
+            "item": "Sensor network operations and maintenance",
+            "office": "ICT Service",
+            "categoryId": "mooe-rm-infra-communications-network",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 12000000
+          },
+          {
+            "id": "y1-mooe-192",
+            "item": "Satellite capacity and VSAT service leases",
+            "office": "ICT Service",
+            "categoryId": "mooe-cable-satellite-radio",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 6800000
+          },
+          {
+            "id": "y1-mooe-195",
+            "item": "TIDEWATCH vendor licensing (wind-down)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-software-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 4200000
+          }
+        ]
+      }
+    },
+    "year2": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y2-co-131",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 115,
+            "unitCost": 52500
+          },
+          {
+            "id": "y2-co-132",
+            "item": "Laptop computers (mobile staff and field officers)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 64,
+            "unitCost": 58000
+          },
+          {
+            "id": "y2-co-133",
+            "item": "Network switches and structured cabling refresh",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 340000
+          },
+          {
+            "id": "y2-co-134",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 88000
+          },
+          {
+            "id": "y2-co-135",
+            "item": "Enterprise antivirus / endpoint protection licenses",
+            "office": "ICT Service",
+            "categoryId": "co-ict-software",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 1074500
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y2-mooe-128",
+            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "office": "ICT Service",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 14500
+          },
+          {
+            "id": "y2-mooe-129",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 286500
+          },
+          {
+            "id": "y2-mooe-130",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 299000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-watchful": {
+          "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-146",
+              "item": "Project WATCHFUL — engineering, installation and commissioning (Year 2)",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 1,
+              "unitCost": 113400000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-147",
+              "item": "Project management office — Project WATCHFUL",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 1,
+              "unitCost": 5670000
+            },
+            {
+              "id": "y2-mooe-148",
+              "item": "Hosting, support and licences — Project WATCHFUL (Year 2)",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 1,
+              "unitCost": 3780000
+            },
+            {
+              "id": "y2-mooe-149",
+              "item": "ICT training and change management — Project WATCHFUL",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 1,
+              "unitCost": 3150000
+            }
+          ]
+        },
+        "p-sigwa": {
+          "projectTitle": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-158",
+              "item": "Project SIGWA — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 109368000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-159",
+              "item": "Project management office — Project SIGWA",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 9374500
+            },
+            {
+              "id": "y2-mooe-160",
+              "item": "Hosting, support and licences — Project SIGWA (Year 2)",
+              "office": "ICT Service",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 6249500
+            },
+            {
+              "id": "y2-mooe-161",
+              "item": "ICT training and change management — Project SIGWA",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 5208000
+            }
+          ]
+        },
+        "p-twin": {
+          "projectTitle": "Coastal Digital Twin and Open Tides Data Platform",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-162",
+              "item": "Coastal Digital Twin — system development and acquisition (Year 2 milestone)",
+              "office": "Planning and Policy Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 63336000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-163",
+              "item": "Project management office — Coastal Digital Twin",
+              "office": "Planning and Policy Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 5429000
+            },
+            {
+              "id": "y2-mooe-164",
+              "item": "Hosting, support and licences — Coastal Digital Twin (Year 2)",
+              "office": "Planning and Policy Division",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3619000
+            },
+            {
+              "id": "y2-mooe-165",
+              "item": "ICT training and change management — Coastal Digital Twin",
+              "office": "Planning and Policy Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3016000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-rapide": {
+          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-178",
+              "item": "RAPIDE lead share — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 27132000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-179",
+              "item": "Project management office — RAPIDE lead share",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2325500
+            },
+            {
+              "id": "y2-mooe-180",
+              "item": "Hosting, support and licences — RAPIDE lead share (Year 2)",
+              "office": "ICT Service",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1550500
+            },
+            {
+              "id": "y2-mooe-181",
+              "item": "ICT training and change management — RAPIDE lead share",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1292000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y2-mooe-187",
+            "item": "CHIMES platform support and licenses (until decommission)",
+            "office": "ICT Service",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 9880000
+          },
+          {
+            "id": "y2-mooe-190",
+            "item": "Sensor network operations and maintenance",
+            "office": "ICT Service",
+            "categoryId": "mooe-rm-infra-communications-network",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 12480000
+          },
+          {
+            "id": "y2-mooe-193",
+            "item": "Satellite capacity and VSAT service leases",
+            "office": "ICT Service",
+            "categoryId": "mooe-cable-satellite-radio",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 7072000
+          },
+          {
+            "id": "y2-mooe-196",
+            "item": "TIDEWATCH vendor licensing (wind-down)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-software-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 4368000
+          }
+        ]
+      }
+    },
+    "year3": {
+      "officeProductivity": {
+        "capitalOutlay": [
+          {
+            "id": "y3-co-139",
+            "item": "Warning desk display walls (regional, 6 sites)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 6,
+            "unitCost": 1566000
+          },
+          {
+            "id": "y3-co-140",
+            "item": "Desktop computer sets (productivity replacement cycle)",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 115,
+            "unitCost": 28000
+          }
+        ],
+        "mooe": [
+          {
+            "id": "y3-mooe-136",
+            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "office": "ICT Service",
+            "categoryId": "mooe-internet-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 36,
+            "unitCost": 15000
+          },
+          {
+            "id": "y3-mooe-137",
+            "item": "ICT supplies (consumables, cartridges, peripherals)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-supplies",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 128500
+          },
+          {
+            "id": "y3-mooe-138",
+            "item": "ICT training — staff capability building",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-training",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 302000
+          }
+        ]
+      },
+      "internalProjects": {
+        "p-watchful": {
+          "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-150",
+              "item": "Project WATCHFUL — engineering, installation and commissioning (Year 3)",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 1,
+              "unitCost": 68040000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-151",
+              "item": "Project management office — Project WATCHFUL",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 1,
+              "unitCost": 3402000
+            },
+            {
+              "id": "y3-mooe-152",
+              "item": "Hosting, support and licences — Project WATCHFUL (Year 3)",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 1,
+              "unitCost": 2268000
+            },
+            {
+              "id": "y3-mooe-153",
+              "item": "ICT training and change management — Project WATCHFUL",
+              "office": "ICT Service — Field Engineering Section",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Foreign-assisted projects",
+              "qty": 1,
+              "unitCost": 1890000
+            }
+          ]
+        },
+        "p-twin": {
+          "projectTitle": "Coastal Digital Twin and Open Tides Data Platform",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-166",
+              "item": "Coastal Digital Twin — system development and acquisition (Year 3 milestone)",
+              "office": "Planning and Policy Division",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 45864000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-167",
+              "item": "Project management office — Coastal Digital Twin",
+              "office": "Planning and Policy Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 3931000
+            },
+            {
+              "id": "y3-mooe-168",
+              "item": "Hosting, support and licences — Coastal Digital Twin (Year 3)",
+              "office": "Planning and Policy Division",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2621000
+            },
+            {
+              "id": "y3-mooe-169",
+              "item": "ICT training and change management — Coastal Digital Twin",
+              "office": "Planning and Policy Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 2184000
+            }
+          ]
+        }
+      },
+      "crossAgencyProjects": {
+        "cx-rapide": {
+          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-182",
+              "item": "RAPIDE lead share — system development and acquisition (Year 3 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 19152000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-183",
+              "item": "Project management office — RAPIDE lead share",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1641500
+            },
+            {
+              "id": "y3-mooe-184",
+              "item": "Hosting, support and licences — RAPIDE lead share (Year 3)",
+              "office": "ICT Service",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1094500
+            },
+            {
+              "id": "y3-mooe-185",
+              "item": "ICT training and change management — RAPIDE lead share",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 912000
+            }
+          ]
+        }
+      },
+      "continuingCosts": {
+        "mooe": [
+          {
+            "id": "y3-mooe-188",
+            "item": "CHIMES platform support and licenses (until decommission)",
+            "office": "ICT Service",
+            "categoryId": "mooe-other-general-ict-services",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 10260000
+          },
+          {
+            "id": "y3-mooe-191",
+            "item": "Sensor network operations and maintenance",
+            "office": "ICT Service",
+            "categoryId": "mooe-rm-infra-communications-network",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 12960000
+          },
+          {
+            "id": "y3-mooe-194",
+            "item": "Satellite capacity and VSAT service leases",
+            "office": "ICT Service",
+            "categoryId": "mooe-cable-satellite-radio",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 7344000
+          },
+          {
+            "id": "y3-mooe-197",
+            "item": "TIDEWATCH vendor licensing (wind-down)",
+            "office": "ICT Service",
+            "categoryId": "mooe-ict-software-subscription",
+            "fundSource": "General Appropriations Act",
+            "qty": 1,
+            "unitCost": 4536000
+          }
+        ]
+      }
+    }
+  },
+  "createdAt": "2026-01-19T08:00:00.000Z",
+  "updatedAt": "2026-04-29T10:20:00.000Z"
+}
