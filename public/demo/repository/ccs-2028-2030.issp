@@ -540,6 +540,36 @@
         },
         "status": "FOR_DEVELOPMENT",
         "enhancementDetails": ""
+      },
+      {
+        "id": "ps-personnel",
+        "name": "CCS Personnel Information System",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Personnel records and 201 files for Commission staff, replacing shared-drive folders named after former clerks.",
+        "developmentStrategy": "IN_HOUSE",
+        "developmentPlatform": "Next.js / PostgreSQL",
+        "databaseName": "personnel",
+        "dataStorage": "CLOUD",
+        "internalUsers": "HR Section (~15 staff)",
+        "externalUsers": "",
+        "owner": "Human Resources Section",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
       }
     ],
     "internalProjects": [

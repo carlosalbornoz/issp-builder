@@ -100,6 +100,47 @@ ok(corpus.totals.byYear.reduce((s, y) => s + y.total, 0) === grand, "byYear tota
 ok(corpus.totals.byType.reduce((s, t) => s + t.total, 0) === grand, "byType totals sum to grandTotal");
 ok(corpus.totals.cycles.reduce((s, c) => s + c.total, 0) === grand, "cycle totals sum to grandTotal");
 
+// ─── Mock COMPASS layer ───────────────────────────────────────────────────────
+console.log("COMPASS layer (mock)");
+const compass = corpus.compass;
+ok(compass.fictitious === true && /COMPASS/.test(compass.note), "compass layer carries the fictitious/proposed-link note");
+ok(compass.agencies.length === 12, `compass covers all 12 agencies (got ${compass.agencies.agents?.length ?? compass.agencies.length})`);
+ok(compass.agencies.filter((a) => a.route === "GAA").length === 8, "8 of 12 agencies travel the GAA route");
+const papCodes = corpus.agencies.flatMap((a) => a.projects.filter((p) => p.papCode).map((p) => p.papCode));
+ok(new Set(papCodes).size === papCodes.length, "mock PAP codes are unique");
+ok(papCodes.length === 27, `27 of 35 projects carry a PAP code (got ${papCodes.length})`);
+const orgCodes = corpus.agencies.map((a) => a.identifiers.uacsOrgCode);
+ok(new Set(orgCodes).size === orgCodes.length, "mock UACS org codes are unique");
+
+for (const ca of compass.agencies) {
+  const profile = corpus.agencies.find((a) => a.slug === ca.slug);
+  for (const rec of ca.years) {
+    if (rec.planFromCorpus) {
+      const idx = rec.year - profile.cycle.startYear;
+      ok(rec.plan === profile.budget.grandTotals[idx], `${ca.acronym} FY${rec.year}: compass plan == corpus year total`);
+    }
+    if (rec.nep !== undefined) ok(rec.nep <= rec.plan * 1.1, `${ca.acronym} FY${rec.year}: NEP ≤ 110% of plan`);
+    if (rec.gaa !== undefined && rec.nep !== undefined) ok(rec.gaa >= rec.nep * 0.8 && rec.gaa <= rec.nep * 1.2, `${ca.acronym} FY${rec.year}: GAA within 80–120% of NEP`);
+    if (rec.allotment !== undefined && rec.gaa !== undefined) ok(rec.allotment <= rec.gaa * 1.05, `${ca.acronym} FY${rec.year}: allotment ≤ 105% of GAA`);
+    if (rec.obligated !== undefined && rec.allotment !== undefined) ok(rec.obligated <= rec.allotment, `${ca.acronym} FY${rec.year}: obligated ≤ allotment`);
+    if (rec.disbursed !== undefined && rec.obligated !== undefined) ok(rec.disbursed <= rec.obligated, `${ca.acronym} FY${rec.year}: disbursed ≤ obligated`);
+  }
+}
+const fy27Corpus = corpus.totals.byYear.find((y) => y.year === 2027)?.total ?? 0;
+const fy27Compass = compass.agencies.reduce((s, a) => s + (a.years.find((y) => y.year === 2027 && y.planFromCorpus)?.plan ?? 0), 0);
+ok(fy27Compass === fy27Corpus, `compass FY2027 corpus-covered plans sum to the corpus FY2027 total (₱${fy27Compass.toLocaleString("en-PH")})`);
+
+const ncwtrP = corpus.agencies.find((a) => a.acronym === "NCWTR");
+const trace = compass.agencies.flatMap((a) => a.traces).find((t) => t.projectId === "proj-sikap");
+ok(!!trace, "SIKAP project trace exists");
+if (trace) {
+  const sikapY1 = ncwtrP.lineItems.filter((l) => l.projectId === "proj-sikap" && l.year === 2026).reduce((s, l) => s + l.total, 0);
+  ok(trace.money.plan === sikapY1, `SIKAP trace FY2026 plan == Part IV line items (₱${sikapY1.toLocaleString("en-PH")})`);
+  ok(trace.kpiActuals.length >= 3, "SIKAP trace carries KPI actuals");
+}
+const dupFunding = corpus.agencies.every((a) => a.proposedSystems.length === a.counts.proposedSystems);
+ok(dupFunding, "every proposed system (III-D) is exported for duplication watch");
+
 // ─── 4. Determinism ───────────────────────────────────────────────────────────
 if (!process.argv.includes("--skip-determinism")) {
   console.log("Determinism");

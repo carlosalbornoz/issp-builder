@@ -579,6 +579,36 @@
         },
         "status": "FOR_DEVELOPMENT",
         "enhancementDetails": ""
+      },
+      {
+        "id": "ps-crewhr",
+        "name": "Crew HR and Scheduling System (CREWHR)",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Crew records, hours compliance and digital rosters replacing the printed scheduling board photographed every Monday.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Flutter / PostgreSQL",
+        "databaseName": "crewhr",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Operations (~60 staff)",
+        "externalUsers": "",
+        "owner": "Operations Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "yes",
+          "piaRequired": true
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
       }
     ],
     "internalProjects": [

@@ -65,6 +65,8 @@ export interface CorpusProject {
   title: string;
   shortTitle: string;
   category: "internal" | "crossAgency";
+  /** IS_DRIVEN projects build/enhance Part III-D systems; STANDALONE do not. */
+  projectType: "IS_DRIVEN" | "STANDALONE" | "";
   description: string;
   duration: string;
   alignment: string[];
@@ -74,10 +76,25 @@ export interface CorpusProject {
   fundingSource: string;
   leadAgency?: string;
   implementingAgencies?: string;
+  /** Mock UACS PAP code for the COMPASS join-key demonstration (absent on some projects on purpose). */
+  papCode?: string;
   /** Derived total cost across the plan years (CO + MOOE), never stored in the doc. */
   totalCost: number;
   deliverables: [string, string, string];
   kpis: CorpusKpi[];
+}
+
+/** A Part III-D proposed system, exported for the duplication-watch view. */
+export interface CorpusProposedSystem {
+  id: string;
+  name: string;
+  shortName: string;
+  classification: string;
+  status: string;
+  dataStorage: string;
+  integrated: boolean;
+  /** Total cost of the linked III-E project where one exists. */
+  fundingProject?: string;
 }
 
 export interface CorpusLineItem {
@@ -144,6 +161,13 @@ export interface CorpusProfile {
   vision: string;
   mission: string;
   legalBasis: string;
+  /** Mock identity codes for the COMPASS join-key demonstration. */
+  identifiers: {
+    /** Fictitious UACS organization code. */
+    uacsOrgCode: string;
+    /** Fictitious DICT endorsement reference (submitted plans only). */
+    dictEndorsement?: { ref: string; date: string };
+  };
   counts: {
     outcomes: number;
     programs: number;
@@ -154,11 +178,16 @@ export interface CorpusProfile {
     crossAgencyProjects: number;
     kpis: number;
     lineItems: number;
+    /** Line items with an expense category set. */
+    categorizedLineItems: number;
+    /** KPI rows that carry both a baseline and all three targets. */
+    completeKpis: number;
   };
   humanCapital: CorpusHumanCapital;
   egp: { adopted: number; total: number; pnpkiAdoption?: number };
   outcomes: { name: string; programs: string[] }[];
   systems: CorpusSystem[];
+  proposedSystems: CorpusProposedSystem[];
   projects: CorpusProject[];
   budget: CorpusBudget;
   lineItems: CorpusLineItem[];
@@ -189,10 +218,76 @@ export interface CorpusTotals {
   crossAgencyCount: number;
 }
 
+// ─── Mock COMPASS layer ───────────────────────────────────────────────────────
+// Execution-side demonstration data standing in for a future DBM COMPASS feed.
+// Plan figures come from the corpus; everything past the NEP column is invented,
+// in the shape COMPASS data would take. Fictitious, always labelled as proposed.
+
+export type CompassStage = "closed" | "executing" | "nep" | "budget-call" | "pre-plan";
+
+/** One agency's money at one fiscal year, through the budget cycle. */
+export interface CompassYearRecord {
+  year: number;
+  stage: CompassStage;
+  /** ISSP plan for the year (from the corpus where its cycle covers it, else a prior-plan stand-in). */
+  plan: number;
+  /** True when `plan` comes from this corpus (not a prior-plan stand-in). */
+  planFromCorpus: boolean;
+  nep?: number;
+  gaa?: number;
+  allotment?: number;
+  /** As of Q2 for executing years. */
+  obligated?: number;
+  disbursed?: number;
+}
+
+export interface CompassTraceStep {
+  date: string;
+  stage: string;
+  source: string;
+  title: string;
+  detail?: string;
+}
+
+export interface CompassKpiActual {
+  indicator: string;
+  target: string;
+  actual: string;
+  status: "on-track" | "behind";
+}
+
+/** A single project followed from plan to payment for one fiscal year. */
+export interface CompassProjectTrace {
+  projectId: string;
+  projectTitle: string;
+  fiscalYear: number;
+  money: { plan: number; nep: number; gaa: number; allotment: number; obligated: number; disbursed: number };
+  steps: CompassTraceStep[];
+  kpiActuals: CompassKpiActual[];
+}
+
+export interface CompassAgency {
+  slug: string;
+  acronym: string;
+  /** GAA money is trackable in COMPASS; GOCC/LGU budgets travel their own routes. */
+  route: "GAA" | "corporate" | "local";
+  years: CompassYearRecord[];
+  traces: CompassProjectTrace[];
+}
+
+export interface CompassLayer {
+  fictitious: true;
+  note: string;
+  /** FY2025 obligation rate per agency (for the absorptive-capacity view). */
+  agencies: CompassAgency[];
+}
+
 export interface RepositoryCorpus {
   disclaimer: string;
   generatedAt: string;
   totals: CorpusTotals;
   crossAgencyPrograms: CorpusCrossAgencyProgram[];
+  /** Mock execution layer — proposed COMPASS link, all figures fictitious. */
+  compass: CompassLayer;
   agencies: CorpusProfile[];
 }

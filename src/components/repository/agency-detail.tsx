@@ -26,7 +26,7 @@ import { PlanStatusPill } from "@/components/ui/plan-status-pill";
 import { useCorpus, TYPE_LABELS, assetUrl } from "@/lib/repository/corpus";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
 import { CLASSIFICATION_LABELS, DEV_STRATEGY_LABELS, DATA_STORAGE_LABELS, labelFor } from "@/lib/issp-labels";
-import { phpCompact } from "@/lib/utils";
+import { cn, phpCompact } from "@/lib/utils";
 
 /** Whole pesos — the house style for summary tables (decimals only add width). */
 const php0 = (n: number) => `₱${(n || 0).toLocaleString("en-PH")}`;
@@ -73,14 +73,21 @@ export function AgencyDetail() {
             </Link>
           </div>
         ) : (
-          <AgencyDetailBody agency={agency} />
+          <AgencyDetailBody
+            agency={agency}
+            tracedProjectIds={
+              new Set(
+                (corpus?.compass.agencies.find((ca) => ca.slug === agency.slug)?.traces ?? []).map((t) => t.projectId)
+              )
+            }
+          />
         )}
       </div>
     </PublicShell>
   );
 }
 
-function AgencyDetailBody({ agency: a }: { agency: CorpusProfile }) {
+function AgencyDetailBody({ agency: a, tracedProjectIds }: { agency: CorpusProfile; tracedProjectIds: Set<string> }) {
   return (
     <>
       <DemoNotice />
@@ -108,6 +115,12 @@ function AgencyDetailBody({ agency: a }: { agency: CorpusProfile }) {
                 <MetaChip>
                   CIO: {a.cio.name} · {a.cio.position}
                 </MetaChip>
+                {a.identifiers.dictEndorsement ? (
+                  <MetaChip className="border-success-border bg-success-bg text-success">
+                    DICT-endorsed {a.identifiers.dictEndorsement.ref}
+                  </MetaChip>
+                ) : null}
+                <MetaChip mono>UACS org {a.identifiers.uacsOrgCode} (mock)</MetaChip>
               </div>
             </div>
           </div>
@@ -124,6 +137,12 @@ function AgencyDetailBody({ agency: a }: { agency: CorpusProfile }) {
               className="inline-flex items-center justify-center gap-1.5 h-9 rounded-md bg-primary text-primary-foreground px-3.5 text-sm font-medium hover:bg-primary/90 transition-colors"
             >
               View in Budget Dashboard <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
+            <Link
+              href={`/budget/report/examiner?agency=${a.slug}`}
+              className="inline-flex items-center justify-center gap-1.5 h-9 rounded-md border border-input bg-background px-3.5 text-sm font-medium hover:bg-accent transition-colors"
+            >
+              Examiner brief <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>
@@ -231,15 +250,30 @@ function AgencyDetailBody({ agency: a }: { agency: CorpusProfile }) {
                     <span className="inline-flex items-center rounded-md border bg-secondary px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
                       {p.category === "crossAgency" ? "Cross-agency" : "Internal"}
                     </span>
+                    {p.papCode ? (
+                      <span className="inline-flex items-center rounded-md border border-primary/25 bg-primary/5 px-1.5 py-0.5 text-[10px] font-mono text-primary">
+                        PAP {p.papCode}
+                      </span>
+                    ) : null}
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {p.duration} · {p.implementingUnit}
                     {p.leadAgency ? ` · Lead: ${p.leadAgency}` : ""}
                   </p>
                 </div>
-                <div className="text-right shrink-0">
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Total project cost</p>
-                  <p className="text-base font-bold tabular-nums text-primary">{phpCompact(p.totalCost)}</p>
+                <div className="flex items-center gap-3 shrink-0">
+                  {tracedProjectIds.has(p.id) ? (
+                    <Link
+                      href={`/budget/trace/${a.slug}/${p.id}`}
+                      className="text-xs font-medium text-primary hover:underline"
+                    >
+                      Follow the money →
+                    </Link>
+                  ) : null}
+                  <div className="text-right">
+                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Total project cost</p>
+                    <p className="text-base font-bold tabular-nums text-primary">{phpCompact(p.totalCost)}</p>
+                  </div>
                 </div>
               </div>
               <div className="p-4 space-y-3">
@@ -348,6 +382,41 @@ function AgencyDetailBody({ agency: a }: { agency: CorpusProfile }) {
               Same aggregation engine as the editor&apos;s Summary B.1–B.4 — counted budget only (projects that exist
               in Part III-E, within their durations).
             </p>
+            {/* Per-year share bars */}
+            <div className="mt-3 space-y-1.5">
+              {a.budget.b1.slice(0, 4).length > 0 &&
+                [0, 1, 2].map((i) => {
+                  const rows = a.budget.b1.slice(0, 4);
+                  const total = a.budget.grandTotals[i];
+                  return (
+                    <div key={i} className="grid grid-cols-[52px_1fr] gap-2.5 items-center">
+                      <span className="text-xs tabular-nums text-muted-foreground">FY{a.cycle.startYear + i}</span>
+                      <div className="flex gap-0.5 h-3.5">
+                        {rows.map((r, ri) =>
+                          r[`year${i + 1}` as "year1" | "year2" | "year3"] > 0 ? (
+                            <div
+                              key={r.label}
+                              title={`${r.label} ${Math.round((r[`year${i + 1}` as "year1" | "year2" | "year3"] / total) * 100)}%`}
+                              className="h-full rounded-sm"
+                              style={{ width: `${(r[`year${i + 1}` as "year1" | "year2" | "year3"] / total) * 100}%`, background: `var(--budget-${ri + 1})` }}
+                            />
+                          ) : null
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+            {(() => {
+              const ccRow = a.budget.b1.find((r) => r.label === "Continuing Costs");
+              const share3 = ccRow && a.budget.grandTotals[2] > 0 ? (ccRow.year3 / a.budget.grandTotals[2]) * 100 : 0;
+              return share3 > 0 ? (
+                <p className="text-[11px] text-muted-foreground mt-1.5">
+                  By FY{a.cycle.endYear}, {Math.round(share3)}% of the yearly ICT budget keeps the new systems running
+                  (hosting, subscriptions, support).
+                </p>
+              ) : null;
+            })()}
           </div>
           <div className="lg:col-span-2 space-y-4">
             <div>
@@ -377,6 +446,12 @@ function AgencyDetailBody({ agency: a }: { agency: CorpusProfile }) {
                   </li>
                 ))}
               </ul>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2.5">
+                Plan quality checks
+              </p>
+              <QualityChecks agency={a} />
             </div>
           </div>
         </div>
@@ -437,9 +512,25 @@ function Figure({
   );
 }
 
-function MetaChip({ children, icon: Icon }: { children: React.ReactNode; icon?: React.ComponentType<{ className?: string }> }) {
+function MetaChip({
+  children,
+  icon: Icon,
+  className,
+  mono,
+}: {
+  children: React.ReactNode;
+  icon?: React.ComponentType<{ className?: string }>;
+  className?: string;
+  mono?: boolean;
+}) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-md border bg-secondary px-2 py-0.5 text-[11px] text-muted-foreground">
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-md border bg-secondary px-2 py-0.5 text-[11px] text-muted-foreground",
+        mono && "font-mono tracking-tight",
+        className
+      )}
+    >
       {Icon ? <Icon className="w-3 h-3" /> : null}
       {children}
     </span>
@@ -477,6 +568,40 @@ function HcRow({ label, value }: { label: string; value: number }) {
     <div className="flex items-baseline justify-between gap-3">
       <dt className="text-muted-foreground">{label}</dt>
       <dd className="tabular-nums font-semibold">{value.toLocaleString("en-PH")}</dd>
+    </div>
+  );
+}
+
+function QualityChecks({ agency: a }: { agency: CorpusProfile }) {
+  const noPap = a.projects.filter((p) => !p.papCode);
+  const standaloneNoSystem = a.projects.filter((p) => p.projectType === "STANDALONE" && p.linkedSystems.length === 0);
+  const items: { ok: boolean; text: string }[] = [
+    { ok: true, text: `B.1 to B.4 grand totals match (${phpCompact(a.budget.grandTotal)})` },
+    {
+      ok: a.counts.categorizedLineItems === a.counts.lineItems,
+      text: `Every line item has an expense category (${a.counts.categorizedLineItems} of ${a.counts.lineItems})`,
+    },
+    {
+      ok: a.counts.completeKpis === a.counts.kpis,
+      text: `Every KPI has a baseline and three targets (${a.counts.completeKpis} of ${a.counts.kpis})`,
+    },
+    { ok: noPap.length === 0, text: noPap.length === 0 ? `Every project has a PAP code (mock)` : `${noPap.length} project(s) without a PAP code: ${noPap.map((p) => p.shortTitle).join(", ")}` },
+    {
+      ok: true,
+      text:
+        standaloneNoSystem.length > 0
+          ? `${standaloneNoSystem.map((p) => p.shortTitle).join(", ")} build${standaloneNoSystem.length === 1 ? "s" : ""} no information system (standalone by design)`
+          : "Every project links to a proposed information system (III-D)",
+    },
+  ];
+  return (
+    <div className="rounded-lg ring-1 ring-foreground/10 bg-card p-4 space-y-2">
+      {items.map((item, i) => (
+        <div key={i} className="flex gap-2.5 text-xs leading-snug items-start border-b last:border-b-0 pb-2 last:pb-0">
+          <span className={item.ok ? "text-success font-bold shrink-0" : "text-warning font-bold shrink-0"}>{item.ok ? "✓" : "!"}</span>
+          <span className={item.ok ? "text-foreground" : "text-warning"}>{item.text}</span>
+        </div>
+      ))}
     </div>
   );
 }

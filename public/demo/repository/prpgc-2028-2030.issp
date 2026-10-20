@@ -515,7 +515,7 @@
         "frontline": false,
         "frontlineAccessType": "",
         "url": "",
-        "description": "Governed exposure data platform with versioned risk models and portfolio analytics replacing the spreadsheet cube.",
+        "description": "Governed exposure data platform with versioned risk models and portfolio analytics replacing the twenty-minute spreadsheet cube.",
         "developmentStrategy": "HYBRID",
         "developmentPlatform": "Python / dbt / columnar warehouse",
         "databaseName": "portfolio_wh",
@@ -523,6 +523,36 @@
         "internalUsers": "Risk and finance teams (~60 staff)",
         "externalUsers": "",
         "owner": "Risk Management Division",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
+      },
+      {
+        "id": "ps-records-prpgc",
+        "name": "Corporate Records and Document Management System",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Corporate records, guarantee documents and audit trails with retention scheduling, replacing the records archive that doubles as the supply stockroom.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Alfresco / PostgreSQL",
+        "databaseName": "records",
+        "dataStorage": "CLOUD",
+        "internalUsers": "All divisions (~260 staff)",
+        "externalUsers": "",
+        "owner": "Corporate Planning Division",
         "interoperability": {
           "integrated": false,
           "internalSystems": "",

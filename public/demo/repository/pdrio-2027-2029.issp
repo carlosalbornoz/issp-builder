@@ -544,6 +544,36 @@
         },
         "status": "FOR_DEVELOPMENT",
         "enhancementDetails": ""
+      },
+      {
+        "id": "ps-hris-pdrio",
+        "name": "PDRIO Human Resource Information System",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Cloud HR and payroll system replacing spreadsheet personnel records and the shared-drive 201 files.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Government-certified HR SaaS",
+        "databaseName": "hris_pdrio",
+        "dataStorage": "CLOUD",
+        "internalUsers": "HR and Finance (~40 staff)",
+        "externalUsers": "",
+        "owner": "Human Resources Unit",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
       }
     ],
     "internalProjects": [

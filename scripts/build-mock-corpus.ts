@@ -49,6 +49,10 @@ import {
 import { EXPENSE_CATEGORIES } from "../src/lib/expense-categories";
 import type { FundSource } from "../src/lib/fund-sources";
 import type {
+  CompassAgency,
+  CompassLayer,
+  CompassProjectTrace,
+  CompassYearRecord,
   CorpusKpi,
   CorpusLineItem,
   CorpusProfile,
@@ -1218,6 +1222,7 @@ const SEEDS: AgencySeed[] = [
     proposed: [
       { id: "ps-underwrite", name: "UNDERWRITE Platform", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Modern policy and claims platform for parametric products: LGU self-service enrolment, automated trigger ingestion, and straight-through payout computation.", strategy: "OUTSOURCED", platform: "Java / Kafka / PostgreSQL", database: "underwrite_prod", storage: "CLOUD", internalUsers: "Underwriting, actuarial and claims (~230 staff)", externalUsers: "LGU policy focal persons (~1,640)", owner: "Underwriting and Actuarial Division", pia: true, status: "FOR_DEVELOPMENT" },
       { id: "ps-geowarehouse", name: "Geospatial Risk Data Warehouse", classification: "SUPPORT_TO_OPERATIONS", description: "Governed warehouse of exposure, hazard and claims data with versioned model runs and elastic actuarial compute.", strategy: "HYBRID", platform: "PostGIS / object storage / notebooks", database: "risk_wh", storage: "CLOUD", internalUsers: "Actuarial and research teams (~60 staff)", owner: "Risk Management Division", status: "FOR_DEVELOPMENT" },
+      { id: "ps-hris-pdrio", name: "PDRIO Human Resource Information System", classification: "GENERAL_ADMIN", description: "Cloud HR and payroll system replacing spreadsheet personnel records and the shared-drive 201 files.", strategy: "OUTSOURCED", platform: "Government-certified HR SaaS", database: "hris_pdrio", storage: "CLOUD", internalUsers: "HR and Finance (~40 staff)", owner: "Human Resources Unit", status: "FOR_DEVELOPMENT" },
     ],
     projects: [
       {
@@ -1353,6 +1358,7 @@ const SEEDS: AgencySeed[] = [
     proposed: [
       { id: "ps-biyahe", name: "BIYAHE — Account-Based Ticketing & Handy App", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Open account-based ticketing: card, QR and mobile app fares with instant settlement and ferry-commons interoperability.", strategy: "OUTSOURCED", platform: "Kotlin / Node.js / Kafka", database: "biyahe_prod", storage: "CLOUD", internalUsers: "Operations, finance (~320 staff)", externalUsers: "Passengers (~260,000 projected accounts)", owner: "ICT Department", pia: true, status: "FOR_DEVELOPMENT" },
       { id: "ps-daloy", name: "DALOY — Fleet Health & Operations Intelligence", classification: "SUPPORT_TO_OPERATIONS", description: "Telemetry-based fleet health monitoring, parts planning and punctuality analytics across all vessels and piers.", strategy: "HYBRID", platform: "Python / TimescaleDB / Grafana", database: "daloy_prod", storage: "CLOUD", internalUsers: "Fleet Operations and Maintenance (~200 staff)", owner: "Fleet Operations Department", status: "FOR_DEVELOPMENT" },
+      { id: "ps-crewhr", name: "Crew HR and Scheduling System (CREWHR)", classification: "GENERAL_ADMIN", description: "Crew records, hours compliance and digital rosters replacing the printed scheduling board photographed every Monday.", strategy: "OUTSOURCED", platform: "Flutter / PostgreSQL", database: "crewhr", storage: "CLOUD", internalUsers: "Operations (~60 staff)", owner: "Operations Division", pia: true, status: "FOR_DEVELOPMENT" },
     ],
     projects: [
       {
@@ -1805,7 +1811,8 @@ const SEEDS: AgencySeed[] = [
     ],
     proposed: [
       { id: "ps-watts", name: "WATTS — Workflows for Account Tracking & Surety", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "End-to-end guarantee platform: application intake, straight-through processing for standard products, digital signatures, and claims servicing.", strategy: "OUTSOURCED", platform: "Java / PostgreSQL / BPMN engine", database: "watts_prod", storage: "CLOUD", internalUsers: "Guarantee Operations (~200 staff)", externalUsers: "Sponsors and lenders (~640)", owner: "ICT and Data Division", pia: true, status: "FOR_DEVELOPMENT" },
-      { id: "ps-portfolio", name: "Renewables Portfolio Data Platform", classification: "SUPPORT_TO_OPERATIONS", description: "Governed exposure data platform with versioned risk models and portfolio analytics replacing the spreadsheet cube.", strategy: "HYBRID", platform: "Python / dbt / columnar warehouse", database: "portfolio_wh", storage: "CLOUD", internalUsers: "Risk and finance teams (~60 staff)", owner: "Risk Management Division", status: "FOR_DEVELOPMENT" },
+      { id: "ps-portfolio", name: "Renewables Portfolio Data Platform", classification: "SUPPORT_TO_OPERATIONS", description: "Governed exposure data platform with versioned risk models and portfolio analytics replacing the twenty-minute spreadsheet cube.", strategy: "HYBRID", platform: "Python / dbt / columnar warehouse", database: "portfolio_wh", storage: "CLOUD", internalUsers: "Risk and finance teams (~60 staff)", owner: "Risk Management Division", status: "FOR_DEVELOPMENT" },
+      { id: "ps-records-prpgc", name: "Corporate Records and Document Management System", classification: "GENERAL_ADMIN", description: "Corporate records, guarantee documents and audit trails with retention scheduling, replacing the records archive that doubles as the supply stockroom.", strategy: "OUTSOURCED", platform: "Alfresco / PostgreSQL", database: "records", storage: "CLOUD", internalUsers: "All divisions (~260 staff)", owner: "Corporate Planning Division", status: "FOR_DEVELOPMENT" },
     ],
     projects: [
       {
@@ -2032,6 +2039,7 @@ const SEEDS: AgencySeed[] = [
     ],
     proposed: [
       { id: "ps-one-vmsc", name: "ONE-VMSC Campus Systems Integration", classification: "SUPPORT_TO_OPERATIONS", description: "Supported SIS core with simulator scheduling, single sign-on and research data management replacing the one-programmer stack.", strategy: "OUTSOURCED", platform: "Supported SaaS SIS + integrations", database: "Vendor-managed", storage: "CLOUD", internalUsers: "All academic and administrative offices (~230 staff)", externalUsers: "Students (~5,600)", owner: "MIS Office", pia: true, status: "FOR_DEVELOPMENT" },
+      { id: "ps-hr-module", name: "ONE-VMSC HR and Payroll Module", classification: "GENERAL_ADMIN", description: "HR and payroll module of the ONE-VMSC integration, replacing the in-house SIS payroll fork maintained by one programmer.", strategy: "OUTSOURCED", platform: "Supported SaaS SIS module", database: "Vendor-managed", storage: "CLOUD", internalUsers: "HR and Finance (~30 staff)", owner: "MIS Office", status: "FOR_ENHANCEMENT", enhancementDetails: "Extends the ONE-VMSC SIS core." },
     ],
     projects: [
       {
@@ -2171,6 +2179,7 @@ const SEEDS: AgencySeed[] = [
     proposed: [
       { id: "ps-tala", name: "TALA — Cooperative Registry & Audit Ledger", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Modern registry with unique cooperative identities, audit workflow and ledger, and a public verification portal answering good-standing queries in seconds.", strategy: "OUTSOURCED", platform: "Java / PostgreSQL", database: "tala_prod", storage: "CLOUD", internalUsers: "Registry and audit bureaus (~190 staff)", externalUsers: "Cooperatives, auditors, the public", owner: "ICT Service", pia: true, status: "FOR_DEVELOPMENT" },
       { id: "ps-standards", name: "Standards Portal and e-Learning", classification: "SUPPORT_TO_OPERATIONS", frontline: true, accessType: "ONLINE", description: "Versioned standards library with plain-language guides, e-learning and compliance self-checks for cooperatives.", strategy: "OUTSOURCED", platform: "Next.js / LMS", database: "standards", storage: "CLOUD", internalUsers: "Standards Development (~35 staff)", externalUsers: "Cooperatives (~78,000 entities)", owner: "Standards Development Division", status: "FOR_DEVELOPMENT" },
+      { id: "ps-personnel", name: "CCS Personnel Information System", classification: "GENERAL_ADMIN", description: "Personnel records and 201 files for Commission staff, replacing shared-drive folders named after former clerks.", strategy: "IN_HOUSE", platform: "Next.js / PostgreSQL", database: "personnel", storage: "CLOUD", internalUsers: "HR Section (~15 staff)", owner: "Human Resources Section", status: "FOR_DEVELOPMENT" },
     ],
     projects: [
       {
@@ -2256,6 +2265,205 @@ function loadNcwtr(): IsspDocument {
   return JSON.parse(fs.readFileSync(p, "utf-8")) as IsspDocument;
 }
 
+// ─── Mock COMPASS layer ───────────────────────────────────────────────────────
+// Execution-side demonstration data standing in for a future DBM COMPASS feed.
+// Plan columns come from the corpus where its cycle covers the year; everything
+// from the NEP onward is invented, shaped like COMPASS data. Always labelled
+// "proposed link" in the UI. Present date of the corpus: October 2026, so
+// FY2025 is closed, FY2026 is executing (as of Q2), FY2027 is at NEP stage,
+// FY2028 is at Budget Call stage.
+
+/** Agencies whose ICT money does not pass through the GAA (own budget routes). */
+const NON_GAA_ROUTES: Record<string, "corporate" | "local"> = {
+  "mfsc-2027-2029": "corporate",
+  "prpgc-2028-2030": "corporate",
+  "malinaw-2027-2029": "local",
+  "sanprospero-2028-2030": "local",
+};
+
+/** Prior-cycle / stand-in ISSP plan levels per agency-year not covered by this corpus (₱ full units). */
+const PRIOR_PLAN_M: Record<string, Partial<Record<number, [plan: number, nep: number, gaa: number, allotment: number, obligated: number, disbursed: number]>>> = {
+  "bccm-2026-2028": { 2025: [210e6, 178e6, 186e6, 176e6, 154e6, 132e6] },
+  "hafsc-2026-2028": { 2025: [62e6, 52e6, 55e6, 52e6, 46e6, 39e6] },
+  "ncra-2027-2029": {
+    2025: [940e6, 780e6, 812e6, 760e6, 684e6, 582e6],
+    2026: [850e6, 720e6, 748e6, 702e6, 316e6, 158e6], // Q2 executing, prior plan
+  },
+  "pdrio-2027-2029": {
+    2025: [310e6, 258e6, 268e6, 254e6, 132e6, 96e6], // low performer: 52% obligation rate
+    2026: [330e6, 276e6, 286e6, 268e6, 92e6, 41e6],
+  },
+  "nftc-2028-2030": {
+    2025: [138e6, 115e6, 120e6, 112e6, 99e6, 84e6],
+    2026: [142e6, 118e6, 124e6, 117e6, 52e6, 23e6],
+    2027: [136e6, 112e6, 0, 0, 0, 0], // NEP stage on a prior plan
+  },
+  "ccs-2028-2030": {
+    2025: [92e6, 76e6, 80e6, 75e6, 68e6, 57e6],
+    2026: [96e6, 80e6, 84e6, 79e6, 36e6, 16e6],
+    2027: [90e6, 74e6, 0, 0, 0, 0],
+  },
+  "vmsc-2028-2030": {
+    2025: [58e6, 48e6, 50e6, 47e6, 27e6, 19e6], // low performer: 58% obligation rate
+    2026: [60e6, 50e6, 52e6, 48e6, 17e6, 8e6],
+    2027: [56e6, 46e6, 0, 0, 0, 0],
+  },
+};
+
+/** Execution shape for corpus-covered fiscal years: [nepRate, gaaMult, allotRate, obligRate(Q2 for FY2026), disbRate]. */
+const EXEC_RATES: Record<string, { nep: number; gaa: number; allot: number; oblig: number; disb: number }> = {
+  "bccm-2026-2028": { nep: 0.83, gaa: 1.02, allot: 0.97, oblig: 0.48, disb: 0.55 },
+  "hafsc-2026-2028": { nep: 0.85, gaa: 1.0, allot: 0.98, oblig: 0.41, disb: 0.52 },
+  "ncra-2027-2029": { nep: 0.82, gaa: 0, allot: 0, oblig: 0, disb: 0 },
+  "pdrio-2027-2029": { nep: 0.84, gaa: 0, allot: 0, oblig: 0, disb: 0 },
+};
+
+/** NCWTR's FY2026 record — first ISSP, exact figures shared with the budget-canvas boards. */
+const NCWTR_FY2026 = { plan: 20_972_000, nep: 20_972_000, gaa: 20_440_000, allotment: 20_440_000, obligated: 14_800_000, disbursed: 6_040_000 };
+
+/** Projects deliberately left without a mock PAP code, so the traceability KPI is honestly imperfect. */
+const NO_PAP = new Set([
+  "bccm-2026-2028:p-registry",
+  "hafsc-2026-2028:p-ext",
+  "malinaw-2027-2029:p-mesh",
+  "sanprospero-2028-2030:p-frontline",
+  "sanprospero-2028-2030:cx-pxnet",
+  "vmsc-2028-2030:cx-ctb",
+  "ccs-2028-2030:p-standards",
+  "nftc-2028-2030:p-inspect",
+]);
+
+/** NCWTR keeps the exact codes shown on the budget-canvas boards; the rest continue the sequence. */
+const FIXED_PAP: Record<string, string> = {
+  "ncwtr-2026-2028:proj-sikap": "310100100001000",
+  "ncwtr-2026-2028:proj-bilis": "310100100002000",
+  "ncwtr-2026-2028:proj-handa": "310100100003000",
+};
+
+function buildPapCodes(docs: { doc: IsspDocument; meta: { slug: string } }[]): Map<string, string> {
+  const codes = new Map<string, string>();
+  // 1000–3000 are NCWTR's fixed codes; the sequence continues after them.
+  let n = 4000;
+  for (const { doc, meta } of docs) {
+    const projects = [...doc.part3.internalProjects, ...doc.part3.crossAgencyProjects];
+    for (const p of projects) {
+      const key = `${meta.slug}:${p.id}`;
+      if (NO_PAP.has(key)) continue;
+      if (FIXED_PAP[key]) codes.set(key, FIXED_PAP[key]);
+      else {
+        codes.set(key, `3101001000${String(n).padStart(5, "0")}`);
+        n += 1000;
+      }
+    }
+  }
+  return codes;
+}
+
+function stageFor(year: number): "closed" | "executing" | "nep" | "budget-call" {
+  if (year <= 2025) return "closed";
+  if (year === 2026) return "executing";
+  if (year === 2027) return "nep";
+  return "budget-call";
+}
+
+function roundM(n: number): number {
+  return Math.round(n / 10_000) * 10_000;
+}
+
+/** The SIKAP trace: one project followed from plan to payment, FY2026. */
+function sikapTrace(): CompassProjectTrace {
+  return {
+    projectId: "proj-sikap",
+    projectTitle: "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
+    fiscalYear: 2026,
+    money: { plan: 10_520_000, nep: 10_520_000, gaa: 10_520_000, allotment: 10_520_000, obligated: 9_860_000, disbursed: 2_810_000 },
+    steps: [
+      { date: "30 Apr 2025", stage: "Plan", source: ".issp · Part III-E.1 + Part IV", title: "ISSP 2026–2028 submitted to DICT", detail: "FY2026 line items: ₱9.50M UQMP and CFCP development (CO · ICT Software) · ₱0.54M GovCloud hosting (MOOE · Internet Subscription) · ₱0.48M project management (MOOE · Professional Services). Aligned to the E-Government Master Plan and the National Cybersecurity Plan." },
+      { date: "Jul 2025", stage: "Endorse", source: "DICT", title: "DICT endorses the ISSP", detail: "Endorsement reference DICT-GSSPD-2026-001 links the plan to the budget proposal." },
+      { date: "Aug 2025", stage: "Propose", source: "COMPASS · NEP", title: "In the FY2026 NEP: ₱10.52M (100% of plan)" },
+      { date: "Dec 2025", stage: "Authorize", source: "COMPASS · GAA", title: "FY2026 GAA: ₱10.52M, no change" },
+      { date: "Jan 2026", stage: "Release", source: "COMPASS · BTMS", title: "Allotment released: ₱10.52M" },
+      { date: "Feb–Apr 2026", stage: "Procure", source: "PhilGEPS", title: "Bid posted 9 Feb · awarded 14 Apr", detail: "Approved budget for the contract ₱9.50M · contract price ₱9.38M · PhilGEPS reference [REF-NO.]" },
+      { date: "Apr–May 2026", stage: "Commit", source: "COMPASS · IFMIS", title: "Obligated ₱9.86M", detail: "Development contract ₱9.38M + project management ₱0.48M. Hosting (₱0.54M) starts after go-live." },
+      { date: "Jun 2026", stage: "Pay", source: "COMPASS · NCA", title: "Disbursed ₱2.81M — 30% mobilization payment" },
+      { date: "Q2 2026", stage: "Deliver", source: "ISSP KPIs (proposed actuals) · DIME", title: "Results against the ISSP targets" },
+    ],
+    kpiActuals: [
+      { indicator: "Agencies reporting via UQMP API", target: "25% (Y1)", actual: "9%", status: "behind" },
+      { indicator: "National queue report time", target: "10 days (Y1)", actual: "14 days", status: "behind" },
+      { indicator: "Complaints filed online", target: "30% (Y1)", actual: "22%", status: "on-track" },
+      { indicator: "Legacy Windows XP workstations in use", target: "3 (Y1)", actual: "3", status: "on-track" },
+    ],
+  };
+}
+
+function buildCompass(docs: { doc: IsspDocument; meta: { slug: string } }[], profiles: CorpusProfile[]): CompassLayer {
+  const profileBySlug = new Map(profiles.map((p) => [p.slug, p]));
+  const agencies: CompassAgency[] = [];
+
+  for (const { meta } of docs) {
+    const profile = profileBySlug.get(meta.slug)!;
+    const route = NON_GAA_ROUTES[meta.slug] ?? "GAA";
+    const years: CompassYearRecord[] = [];
+    const prior = PRIOR_PLAN_M[meta.slug] ?? {};
+    const rates = EXEC_RATES[meta.slug];
+
+    for (const year of [2025, 2026, 2027, 2028]) {
+      const idx = year - profile.cycle.startYear;
+      const fromCorpus = idx >= 0 && idx < 3;
+      const corpusPlan = fromCorpus ? profile.budget.grandTotals[idx] : undefined;
+      const stage = stageFor(year);
+
+      // Years this corpus does not cover and no prior stand-in exists → skip.
+      if (!fromCorpus && !prior[year]) continue;
+
+      // NCWTR's first plan starts FY2026 — no FY2025 record at all.
+      if (meta.slug === NCWTR_META.slug && year === 2025) continue;
+
+      if (!fromCorpus) {
+        const [plan, nep, gaa, allotment, obligated, disbursed] = prior[year]!;
+        years.push({ year, stage, plan, planFromCorpus: false, ...(nep > 0 ? { nep } : {}), ...(gaa > 0 ? { gaa, allotment, obligated, disbursed } : {}) });
+        continue;
+      }
+
+      const plan = corpusPlan!;
+      if (meta.slug === NCWTR_META.slug && year === 2026) {
+        years.push({ year, stage, planFromCorpus: true, ...NCWTR_FY2026 });
+        continue;
+      }
+      if (!rates || stage === "budget-call") {
+        years.push({ year, stage, plan, planFromCorpus: true });
+        continue;
+      }
+      const nep = roundM(plan * rates.nep);
+      if (stage === "nep") {
+        years.push({ year, stage, plan, planFromCorpus: true, nep });
+        continue;
+      }
+      // FY2026 executing for the 2026–2028 cohort
+      const gaa = roundM(nep * rates.gaa);
+      const allotment = roundM(gaa * rates.allot);
+      const obligated = roundM(allotment * rates.oblig);
+      years.push({ year, stage, plan, planFromCorpus: true, nep, gaa, allotment, obligated, disbursed: roundM(obligated * rates.disb) });
+    }
+
+    agencies.push({
+      slug: meta.slug,
+      acronym: profile.acronym,
+      route,
+      years,
+      traces: meta.slug === NCWTR_META.slug ? [sikapTrace()] : [],
+    });
+  }
+
+  return {
+    fictitious: true,
+    note:
+      "Execution-side demonstration data in the shape of a future DBM COMPASS feed — NEP, GAA, allotments, obligations and disbursements are invented. Plan columns come from the .issp corpus. COMPASS itself is a proposed link, not live DBM data.",
+    agencies,
+  };
+}
+
 // ─── Derivation ───────────────────────────────────────────────────────────────
 
 function docLineItems(doc: IsspDocument): CorpusLineItem[] {
@@ -2303,7 +2511,7 @@ function toCorpusLine(
 
 function deriveProfile(
   doc: IsspDocument,
-  opts: { slug: string; tagline: string; hero: boolean; allotFactor?: number }
+  opts: { slug: string; tagline: string; hero: boolean; allotFactor?: number; agencyIndex: number; papCodes: Map<string, string> }
 ): CorpusProfile {
   const counted = countedPart4(doc);
   const years: [YearBudget, YearBudget, YearBudget] = [counted.year1, counted.year2, counted.year3];
@@ -2316,6 +2524,7 @@ function deriveProfile(
   const [coRow, mooeRow] = b3;
   const totalCo = coRow.total;
   const totalMooe = mooeRow.total;
+  const allLines = docLineItems(doc);
 
   const byFundSource = b2
     .filter((r) => !r.isTotal)
@@ -2368,6 +2577,7 @@ function deriveProfile(
       title: p.title,
       shortTitle,
       category,
+      projectType: p.projectType,
       description: p.description,
       duration: p.duration,
       alignment: p.strategicAlignment,
@@ -2377,6 +2587,7 @@ function deriveProfile(
       fundingSource: p.fundingSource,
       ...(p.leadAgency ? { leadAgency: p.leadAgency } : {}),
       ...(p.implementingAgencies ? { implementingAgencies: p.implementingAgencies } : {}),
+      ...(opts.papCodes.get(`${opts.slug}:${p.id}`) ? { papCode: opts.papCodes.get(`${opts.slug}:${p.id}`)! } : {}),
       totalCost: cost,
       deliverables: [p.year1Deliverables, p.year2Deliverables, p.year3Deliverables] as [string, string, string],
       kpis: (kpiSet?.rows ?? []).map((r) => ({
@@ -2385,6 +2596,27 @@ function deriveProfile(
         baseline: r.baseline,
         targets: [r.year1Target, r.year2Target, r.year3Target] as [string, string, string],
       })),
+    };
+  });
+
+  const shortNameOf = (name: string) => {
+    const head = name.split(/[—–(]/)[0].trim();
+    return head.length >= 3 ? head : name.split(" ").slice(0, 3).join(" ");
+  };
+  const linkedIdsOf = new Map<string, string[]>(
+    [...doc.part3.internalProjects, ...doc.part3.crossAgencyProjects].map((dp) => [dp.id, dp.linkedSystemIds ?? []])
+  );
+  const proposedSystems = doc.part3.proposedSystems.map((s) => {
+    const funding = projects.find((p) => (linkedIdsOf.get(p.id) ?? []).includes(s.id));
+    return {
+      id: s.id,
+      name: s.name,
+      shortName: shortNameOf(s.name),
+      classification: s.classification,
+      status: s.status,
+      dataStorage: s.dataStorage,
+      integrated: s.interoperability.integrated,
+      ...(funding ? { fundingProject: funding.shortTitle } : {}),
     };
   });
 
@@ -2421,6 +2653,12 @@ function deriveProfile(
     vision: doc.part1.visionStatement,
     mission: doc.part1.missionStatement,
     legalBasis: doc.part1.legalBasis,
+    identifiers: {
+      uacsOrgCode: `0100103${String(10000 + opts.agencyIndex)}`,
+      ...(doc.planStatus === "submitted"
+        ? { dictEndorsement: { ref: `DICT-GSSPD-${doc.startYear - 1}-${String(opts.agencyIndex + 1).padStart(3, "0")}`, date: `${doc.startYear - 1}-05-${String(8 + opts.agencyIndex).padStart(2, "0")}` } }
+        : {}),
+    },
     counts: {
       outcomes: doc.part1.orgOutcomes.length,
       programs: doc.part1.orgOutcomes.reduce((s, o) => s + o.programs.length, 0),
@@ -2430,7 +2668,14 @@ function deriveProfile(
       internalProjects: doc.part3.internalProjects.length,
       crossAgencyProjects: doc.part3.crossAgencyProjects.length,
       kpis: Object.values(doc.part3.performanceFramework).reduce((s, k) => s + k.rows.length, 0),
-      lineItems: docLineItems(doc).length,
+      lineItems: allLines.length,
+      categorizedLineItems: allLines.filter((l) => l.categoryId !== "").length,
+      completeKpis: Object.values(doc.part3.performanceFramework).reduce(
+        (s, k) =>
+          s +
+          k.rows.filter((r) => r.baseline.trim() !== "" && r.year1Target.trim() !== "" && r.year2Target.trim() !== "" && r.year3Target.trim() !== "").length,
+        0
+      ),
     },
     humanCapital,
     egp: { adopted, total: 9, ...(egp.pnpki.adoptionPercentage !== undefined ? { pnpkiAdoption: egp.pnpki.adoptionPercentage } : {}) },
@@ -2444,6 +2689,7 @@ function deriveProfile(
       dataStorage: s.dataStorage,
       integrated: s.interoperability.integrated,
     })),
+    proposedSystems,
     projects,
     budget: {
       yearLabels: [`Year 1 (${doc.startYear})`, `Year 2 (${doc.startYear + 1})`, `Year 3 (${doc.endYear})`],
@@ -2455,7 +2701,7 @@ function deriveProfile(
       byFundSource,
       byCategory,
     },
-    lineItems: docLineItems(doc),
+    lineItems: allLines,
     allotments: {
       fictitious: true,
       note: "Demonstration-only figures. Allotments exist only for fiscal years that have elapsed; later years are pending the GAA.",
@@ -2507,7 +2753,8 @@ function buildOutputs() {
     meta: { slug: NCWTR_META.slug, tagline: NCWTR_META.tagline, hero: NCWTR_META.hero, allotFactor: NCWTR_META.allotFactor },
   });
 
-  const profiles = docs.map(({ doc, meta }) => deriveProfile(doc, meta));
+  const papCodes = buildPapCodes(docs);
+  const profiles = docs.map(({ doc, meta }, i) => deriveProfile(doc, { ...meta, agencyIndex: i, papCodes }));
   const seedsBySlug = new Map(SEEDS.map((s) => [s.slug, s]));
 
   const byYearMap = new Map<number, number>();
@@ -2543,6 +2790,7 @@ function buildOutputs() {
       crossAgencyCount: 0,
     },
     crossAgencyPrograms: crossAgencyPrograms(profiles, seedsBySlug),
+    compass: buildCompass(docs, profiles),
     agencies: profiles,
   };
   corpus.totals.crossAgencyCount = corpus.crossAgencyPrograms.length;

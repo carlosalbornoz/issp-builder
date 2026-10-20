@@ -1289,3 +1289,60 @@
 ::-webkit-scrollbar-corner { background: transparent; }
 /* Firefox */
 * { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted-foreground) 35%, transparent) transparent; }
+
+/* ─── A4 stakeholder reports (demonstration mockups) ───────────────────────── */
+/* Examiner brief / citizen one-pager: fixed A4 canvas on screen, clean print. */
+
+.report-page {
+  width: 794px;
+  max-width: 100%;
+  min-height: 1050px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 40px 44px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 30px rgb(0 0 0 / 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 12px;
+}
+.report-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.report-table th {
+  text-align: right;
+  font-weight: 600;
+  padding: 4px 6px;
+  border-bottom: 1.5px solid var(--foreground);
+  font-size: 10px;
+  color: var(--muted-foreground);
+}
+.report-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.report-table tr.report-total td {
+  font-weight: 700;
+  border-top: 1.5px solid var(--foreground);
+  border-bottom: 0;
+  background: var(--muted);
+}
+.report-footnote {
+  font-size: 10px;
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}

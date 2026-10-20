@@ -520,6 +520,36 @@
         },
         "status": "FOR_DEVELOPMENT",
         "enhancementDetails": ""
+      },
+      {
+        "id": "ps-hr-module",
+        "name": "ONE-VMSC HR and Payroll Module",
+        "classification": "GENERAL_ADMIN",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "HR and payroll module of the ONE-VMSC integration, replacing the in-house SIS payroll fork maintained by one programmer.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Supported SaaS SIS module",
+        "databaseName": "Vendor-managed",
+        "dataStorage": "CLOUD",
+        "internalUsers": "HR and Finance (~30 staff)",
+        "externalUsers": "",
+        "owner": "MIS Office",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_ENHANCEMENT",
+        "enhancementDetails": "Extends the ONE-VMSC SIS core."
       }
     ],
     "internalProjects": [

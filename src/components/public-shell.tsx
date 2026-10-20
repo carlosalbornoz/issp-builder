@@ -57,6 +57,9 @@ export function PublicShell({
             <Link href="/budget" className={navCls(active === "budget")}>
               Budget Dashboard
             </Link>
+            <Link href="/budget/data-standard" className={cn(navCls(false), "hidden md:block")}>
+              Data standard
+            </Link>
             <Link href="/" className={cn(navCls(false), "hidden sm:block")}>
               ISSP Builder
             </Link>

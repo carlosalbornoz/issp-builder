@@ -65,8 +65,10 @@ async function expectNoOverflow(p, label) {
 }
 
 async function expectText(p, text, label) {
-  const body = await p.evaluate(() => document.body.innerText);
-  (body.includes(text) ? ok : fail)(`${label}: page contains "${text}"`);
+  // Case-insensitive: eyebrow labels render via CSS text-transform, which
+  // Chrome's innerText reflects as uppercase.
+  const body = (await p.evaluate(() => document.body.innerText)).toLowerCase();
+  (body.includes(text.toLowerCase()) ? ok : fail)(`${label}: page contains "${text}"`);
 }
 
 // 1 — Repository list (cards)
@@ -123,8 +125,11 @@ async function expectText(p, text, label) {
   await expectText(p, "ICT Budget Dashboard", "budget title");
   await expectText(p, "Fund sources", "budget fund panel");
   await expectText(p, "Agencies by proposed investment", "budget ranking");
-  await expectText(p, "Requests vs. allotments", "budget allotment panel");
-  await expectText(p, "Cross-agency programs", "budget programs");
+  await expectText(p, "Follow every peso", "budget lifecycle");
+  await expectText(p, "Can each agency spend what it asks for?", "budget absorptive");
+  await expectText(p, "duplication watch", "budget convergence");
+  await expectText(p, "Projects with PAP code", "budget traceability KPI");
+  await expectText(p, "Line items (CSV)", "budget CSV export");
   await expectNoOverflow(p, "budget");
   await p.screenshot({ path: path.join(OUT_DIR, "budget.png"), fullPage: true });
   ok("shot budget.png");
@@ -136,6 +141,73 @@ async function expectText(p, text, label) {
   await expectNoOverflow(p, "budget program");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-program.png"), fullPage: true });
   ok("shot budget-program.png");
+
+// 4b — FY selector interaction
+{
+  const p = await newPage();
+  await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await p.evaluate(() => [...document.querySelectorAll("button")].find((b) => b.textContent?.trim() === "FY2027")?.click());
+  await settle(p);
+  await expectText(p, "FY2027 ISSP ask", "budget FY selector KPI");
+  await expectText(p, "vs FY2026", "budget FY selector YoY");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-fy2027.png"), fullPage: false });
+  ok("shot budget-fy2027.png (viewport)");
+  await p.close();
+}
+
+// 5b — Project trace
+{
+  const p = await newPage();
+  const errors = [];
+  p.on("pageerror", (e) => errors.push(String(e)));
+  await p.goto(`${BASE}/budget/trace/ncwtr-2026-2028/proj-sikap`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Project SIKAP", "trace title");
+  await expectText(p, "money trail", "trace money trail");
+  await expectText(p, "From plan to payment to result", "trace timeline");
+  await expectText(p, "Agencies reporting via UQMP API", "trace KPI actuals");
+  await expectText(p, "What each source knows", "trace sources card");
+  await expectNoOverflow(p, "project trace");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-trace.png"), fullPage: true });
+  ok("shot budget-trace.png");
+  errors.forEach((e) => fail(`trace pageerror: ${e}`));
+  await p.close();
+}
+
+// 5c — Data standard
+{
+  const p = await newPage();
+  await p.goto(`${BASE}/budget/data-standard`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "What structured ISSP data should know", "data standard title");
+  await expectText(p, "UACS PAP code per project", "data standard join key");
+  await expectText(p, "The row COMPASS can join", "data standard sample");
+  await expectNoOverflow(p, "data standard");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-data-standard.png"), fullPage: true });
+  ok("shot budget-data-standard.png");
+  await p.close();
+}
+
+// 5d — Examiner brief + Citizen one-pager (A4 reports)
+{
+  const p = await newPage();
+  await p.goto(`${BASE}/budget/report/examiner`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Budget Examiner Brief", "examiner header");
+  await expectText(p, "Questions for the hearing", "examiner questions");
+  await p.screenshot({ path: path.join(OUT_DIR, "report-examiner.png"), fullPage: true });
+  ok("shot report-examiner.png");
+
+  await p.goto(`${BASE}/budget/report/citizen`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Saan napupunta ang pondo", "citizen headline");
+  await expectText(p, "Out of every", "citizen waffle legend");
+  await p.screenshot({ path: path.join(OUT_DIR, "report-citizen.png"), fullPage: true });
+  ok("shot report-citizen.png");
+  await p.close();
+}
+
   errors.forEach((e) => fail(`budget pageerror: ${e}`));
   await p.close();
 }

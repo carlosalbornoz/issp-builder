@@ -177,6 +177,512 @@
       ]
     }
   ],
+  "compass": {
+    "fictitious": true,
+    "note": "Execution-side demonstration data in the shape of a future DBM COMPASS feed — NEP, GAA, allotments, obligations and disbursements are invented. Plan columns come from the .issp corpus. COMPASS itself is a proposed link, not live DBM data.",
+    "agencies": [
+      {
+        "slug": "ncwtr-2026-2028",
+        "acronym": "NCWTR",
+        "route": "GAA",
+        "years": [
+          {
+            "year": 2026,
+            "stage": "executing",
+            "planFromCorpus": true,
+            "plan": 20972000,
+            "nep": 20972000,
+            "gaa": 20440000,
+            "allotment": 20440000,
+            "obligated": 14800000,
+            "disbursed": 6040000
+          },
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 15207000,
+            "planFromCorpus": true
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 7971000,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": [
+          {
+            "projectId": "proj-sikap",
+            "projectTitle": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
+            "fiscalYear": 2026,
+            "money": {
+              "plan": 10520000,
+              "nep": 10520000,
+              "gaa": 10520000,
+              "allotment": 10520000,
+              "obligated": 9860000,
+              "disbursed": 2810000
+            },
+            "steps": [
+              {
+                "date": "30 Apr 2025",
+                "stage": "Plan",
+                "source": ".issp · Part III-E.1 + Part IV",
+                "title": "ISSP 2026–2028 submitted to DICT",
+                "detail": "FY2026 line items: ₱9.50M UQMP and CFCP development (CO · ICT Software) · ₱0.54M GovCloud hosting (MOOE · Internet Subscription) · ₱0.48M project management (MOOE · Professional Services). Aligned to the E-Government Master Plan and the National Cybersecurity Plan."
+              },
+              {
+                "date": "Jul 2025",
+                "stage": "Endorse",
+                "source": "DICT",
+                "title": "DICT endorses the ISSP",
+                "detail": "Endorsement reference DICT-GSSPD-2026-001 links the plan to the budget proposal."
+              },
+              {
+                "date": "Aug 2025",
+                "stage": "Propose",
+                "source": "COMPASS · NEP",
+                "title": "In the FY2026 NEP: ₱10.52M (100% of plan)"
+              },
+              {
+                "date": "Dec 2025",
+                "stage": "Authorize",
+                "source": "COMPASS · GAA",
+                "title": "FY2026 GAA: ₱10.52M, no change"
+              },
+              {
+                "date": "Jan 2026",
+                "stage": "Release",
+                "source": "COMPASS · BTMS",
+                "title": "Allotment released: ₱10.52M"
+              },
+              {
+                "date": "Feb–Apr 2026",
+                "stage": "Procure",
+                "source": "PhilGEPS",
+                "title": "Bid posted 9 Feb · awarded 14 Apr",
+                "detail": "Approved budget for the contract ₱9.50M · contract price ₱9.38M · PhilGEPS reference [REF-NO.]"
+              },
+              {
+                "date": "Apr–May 2026",
+                "stage": "Commit",
+                "source": "COMPASS · IFMIS",
+                "title": "Obligated ₱9.86M",
+                "detail": "Development contract ₱9.38M + project management ₱0.48M. Hosting (₱0.54M) starts after go-live."
+              },
+              {
+                "date": "Jun 2026",
+                "stage": "Pay",
+                "source": "COMPASS · NCA",
+                "title": "Disbursed ₱2.81M — 30% mobilization payment"
+              },
+              {
+                "date": "Q2 2026",
+                "stage": "Deliver",
+                "source": "ISSP KPIs (proposed actuals) · DIME",
+                "title": "Results against the ISSP targets"
+              }
+            ],
+            "kpiActuals": [
+              {
+                "indicator": "Agencies reporting via UQMP API",
+                "target": "25% (Y1)",
+                "actual": "9%",
+                "status": "behind"
+              },
+              {
+                "indicator": "National queue report time",
+                "target": "10 days (Y1)",
+                "actual": "14 days",
+                "status": "behind"
+              },
+              {
+                "indicator": "Complaints filed online",
+                "target": "30% (Y1)",
+                "actual": "22%",
+                "status": "on-track"
+              },
+              {
+                "indicator": "Legacy Windows XP workstations in use",
+                "target": "3 (Y1)",
+                "actual": "3",
+                "status": "on-track"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "slug": "bccm-2026-2028",
+        "acronym": "BCCM",
+        "route": "GAA",
+        "years": [
+          {
+            "year": 2025,
+            "stage": "closed",
+            "plan": 210000000,
+            "planFromCorpus": false,
+            "nep": 178000000,
+            "gaa": 186000000,
+            "allotment": 176000000,
+            "obligated": 154000000,
+            "disbursed": 132000000
+          },
+          {
+            "year": 2026,
+            "stage": "executing",
+            "plan": 167226000,
+            "planFromCorpus": true,
+            "nep": 138800000,
+            "gaa": 141580000,
+            "allotment": 137330000,
+            "obligated": 65920000,
+            "disbursed": 36260000
+          },
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 112094000,
+            "planFromCorpus": true,
+            "nep": 93040000
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 36453000,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "hafsc-2026-2028",
+        "acronym": "HAFSC",
+        "route": "GAA",
+        "years": [
+          {
+            "year": 2025,
+            "stage": "closed",
+            "plan": 62000000,
+            "planFromCorpus": false,
+            "nep": 52000000,
+            "gaa": 55000000,
+            "allotment": 52000000,
+            "obligated": 46000000,
+            "disbursed": 39000000
+          },
+          {
+            "year": 2026,
+            "stage": "executing",
+            "plan": 58073000,
+            "planFromCorpus": true,
+            "nep": 49360000,
+            "gaa": 49360000,
+            "allotment": 48370000,
+            "obligated": 19830000,
+            "disbursed": 10310000
+          },
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 18336500,
+            "planFromCorpus": true,
+            "nep": 15590000
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 5367000,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "ncra-2027-2029",
+        "acronym": "NCRA",
+        "route": "GAA",
+        "years": [
+          {
+            "year": 2025,
+            "stage": "closed",
+            "plan": 940000000,
+            "planFromCorpus": false,
+            "nep": 780000000,
+            "gaa": 812000000,
+            "allotment": 760000000,
+            "obligated": 684000000,
+            "disbursed": 582000000
+          },
+          {
+            "year": 2026,
+            "stage": "executing",
+            "plan": 850000000,
+            "planFromCorpus": false,
+            "nep": 720000000,
+            "gaa": 748000000,
+            "allotment": 702000000,
+            "obligated": 316000000,
+            "disbursed": 158000000
+          },
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 679948000,
+            "planFromCorpus": true,
+            "nep": 557560000
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 410147500,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "pdrio-2027-2029",
+        "acronym": "PDRIO",
+        "route": "GAA",
+        "years": [
+          {
+            "year": 2025,
+            "stage": "closed",
+            "plan": 310000000,
+            "planFromCorpus": false,
+            "nep": 258000000,
+            "gaa": 268000000,
+            "allotment": 254000000,
+            "obligated": 132000000,
+            "disbursed": 96000000
+          },
+          {
+            "year": 2026,
+            "stage": "executing",
+            "plan": 330000000,
+            "planFromCorpus": false,
+            "nep": 276000000,
+            "gaa": 286000000,
+            "allotment": 268000000,
+            "obligated": 92000000,
+            "disbursed": 41000000
+          },
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 241346500,
+            "planFromCorpus": true,
+            "nep": 202730000
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 180956000,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "mfsc-2027-2029",
+        "acronym": "MFSC",
+        "route": "corporate",
+        "years": [
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 320179500,
+            "planFromCorpus": true
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 196601000,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "malinaw-2027-2029",
+        "acronym": "MAL",
+        "route": "local",
+        "years": [
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 42894500,
+            "planFromCorpus": true
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 22952000,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "nftc-2028-2030",
+        "acronym": "NFTC",
+        "route": "GAA",
+        "years": [
+          {
+            "year": 2025,
+            "stage": "closed",
+            "plan": 138000000,
+            "planFromCorpus": false,
+            "nep": 115000000,
+            "gaa": 120000000,
+            "allotment": 112000000,
+            "obligated": 99000000,
+            "disbursed": 84000000
+          },
+          {
+            "year": 2026,
+            "stage": "executing",
+            "plan": 142000000,
+            "planFromCorpus": false,
+            "nep": 118000000,
+            "gaa": 124000000,
+            "allotment": 117000000,
+            "obligated": 52000000,
+            "disbursed": 23000000
+          },
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 136000000,
+            "planFromCorpus": false,
+            "nep": 112000000
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 198438000,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "prpgc-2028-2030",
+        "acronym": "PRPGC",
+        "route": "corporate",
+        "years": [
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 417092500,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "sanprospero-2028-2030",
+        "acronym": "SP",
+        "route": "local",
+        "years": [
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 14374500,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "vmsc-2028-2030",
+        "acronym": "VMSC",
+        "route": "GAA",
+        "years": [
+          {
+            "year": 2025,
+            "stage": "closed",
+            "plan": 58000000,
+            "planFromCorpus": false,
+            "nep": 48000000,
+            "gaa": 50000000,
+            "allotment": 47000000,
+            "obligated": 27000000,
+            "disbursed": 19000000
+          },
+          {
+            "year": 2026,
+            "stage": "executing",
+            "plan": 60000000,
+            "planFromCorpus": false,
+            "nep": 50000000,
+            "gaa": 52000000,
+            "allotment": 48000000,
+            "obligated": 17000000,
+            "disbursed": 8000000
+          },
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 56000000,
+            "planFromCorpus": false,
+            "nep": 46000000
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 112963500,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      },
+      {
+        "slug": "ccs-2028-2030",
+        "acronym": "CCS",
+        "route": "GAA",
+        "years": [
+          {
+            "year": 2025,
+            "stage": "closed",
+            "plan": 92000000,
+            "planFromCorpus": false,
+            "nep": 76000000,
+            "gaa": 80000000,
+            "allotment": 75000000,
+            "obligated": 68000000,
+            "disbursed": 57000000
+          },
+          {
+            "year": 2026,
+            "stage": "executing",
+            "plan": 96000000,
+            "planFromCorpus": false,
+            "nep": 80000000,
+            "gaa": 84000000,
+            "allotment": 79000000,
+            "obligated": 36000000,
+            "disbursed": 16000000
+          },
+          {
+            "year": 2027,
+            "stage": "nep",
+            "plan": 90000000,
+            "planFromCorpus": false,
+            "nep": 74000000
+          },
+          {
+            "year": 2028,
+            "stage": "budget-call",
+            "plan": 126913000,
+            "planFromCorpus": true
+          }
+        ],
+        "traces": []
+      }
+    ]
+  },
   "agencies": [
     {
       "slug": "ncwtr-2026-2028",
@@ -208,6 +714,9 @@
       "vision": "A Philippines where no Filipino citizen waits more than thirty (30) minutes for any government transaction — ideally before the year 2045, but we remain optimistic.",
       "mission": "The NCWTR is committed to monitoring, regulating, documenting, and filing comprehensive reports about the waiting times of all government offices, for the ultimate benefit of the Filipino people and the perpetual generation of actionable data that informs future monitoring, regulation, documentation, and report-filing activities.",
       "legalBasis": "Republic Act No. 12087, otherwise known as the \"Waiting Time Reduction and Queue Management Act of 2023,\" which established the National Commission on Waiting Time Reduction (NCWTR) as an attached agency of the Office of the President. The Commission draws additional authority from Republic Act No. 11032 (Ease of Doing Business and Efficient Government Service Delivery Act of 2018) and Executive Order No. 92, s. 2019 (Institutionalizing the Whole-of-Government Approach in the Delivery of Government Services).",
+      "identifiers": {
+        "uacsOrgCode": "010010310000"
+      },
       "counts": {
         "outcomes": 3,
         "programs": 9,
@@ -217,7 +726,9 @@
         "internalProjects": 3,
         "crossAgencyProjects": 0,
         "kpis": 10,
-        "lineItems": 43
+        "lineItems": 43,
+        "categorizedLineItems": 43,
+        "completeKpis": 10
       },
       "humanCapital": {
         "plantilla": 153,
@@ -295,12 +806,45 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-uqmp",
+          "name": "Unified Queue Monitoring Platform (UQMP)",
+          "shortName": "Unified Queue Monitoring Platform",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": true,
+          "fundingProject": "Project SIKAP"
+        },
+        {
+          "id": "ps-cfcp",
+          "name": "Citizen Feedback and Complaints Portal (CFCP)",
+          "shortName": "Citizen Feedback and Complaints Portal",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": true,
+          "fundingProject": "Project SIKAP"
+        },
+        {
+          "id": "ps-ihrps",
+          "name": "Integrated Human Resources and Payroll System (iHRPS)",
+          "shortName": "Integrated Human Resources and Payroll System",
+          "classification": "GENERAL_ADMIN",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": true,
+          "fundingProject": "Project HANDA"
+        }
+      ],
       "projects": [
         {
           "id": "proj-sikap",
           "title": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
           "shortTitle": "Project SIKAP",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "SIKAP covers the full development and deployment of the Unified Queue Monitoring Platform (UQMP) and the Citizen Feedback and Complaints Portal (CFCP). It consolidates 17 fragmented regional systems into a single cloud-hosted platform, retires the Windows XP computers, and inaugurates NCWTR's transition from fax-based public service to actual digital government.",
           "duration": "2026–2027",
           "alignment": [
@@ -317,6 +861,7 @@
           ],
           "implementingUnit": "ICT Division",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100001000",
           "totalCost": 19446000,
           "deliverables": [
             "System design and architecture finalized; API specifications published; development contract awarded; UQMP v1.0 beta released for NCR pilot; eCLAS replacement module (CFCP) launched in public beta",
@@ -371,6 +916,7 @@
           "title": "Project BILIS — Broadband Infrastructure for Linked Information Systems",
           "shortTitle": "Project BILIS",
           "category": "internal",
+          "projectType": "STANDALONE",
           "description": "Project BILIS will upgrade internet connectivity for 12 regional offices currently on DSL (5–10 Mbps) to dedicated fiber connections of at least 100 Mbps each. The three regional offices on shared LTE pocket WiFi will receive dedicated fixed wireless broadband. All connections will be terminated on government-grade routers with failover capability.",
           "duration": "2026–2028",
           "alignment": [
@@ -384,6 +930,7 @@
           "linkedSystems": [],
           "implementingUnit": "ICT Division — Infrastructure and Networks Section",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100002000",
           "totalCost": 10923000,
           "deliverables": [
             "ISP contracts awarded; fiber installations completed in 12 regional offices; fixed wireless deployed in 3 isolated offices; all connections tested and certified",
@@ -428,6 +975,7 @@
           "title": "Project HANDA — Human Resource and Administrative Network for Departmental Automation",
           "shortTitle": "Project HANDA",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Project HANDA procures, configures, and deploys the Integrated HR and Payroll System (iHRPS) for all NCWTR offices nationwide. Includes data migration from the 47 Excel workbooks (and the USB-recovered employee records), integration with CSC and DBM systems, and a 3-month change management and training program.",
           "duration": "2026",
           "alignment": [
@@ -443,6 +991,7 @@
           ],
           "implementingUnit": "Human Resources Division and ICT Division",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100003000",
           "totalCost": 2000000,
           "deliverables": [
             "iHRPS vendor selected; data migration from 47 Excel workbooks completed (including recovery and verification of USB records); system deployed and Go-Live achieved; CSC and DBM integration operational",
@@ -1282,6 +1831,13 @@
       "vision": "A national cold chain where no vaccine, food commodity or perishable is lost to a break in temperature integrity.",
       "mission": "To set and enforce cold chain standards, maintain an accurate national equipment registry, and provide regulators and the public with reliable, near-real-time visibility of cold chain conditions.",
       "legalBasis": "Republic Act No. 11988 (Cold Chain Integrity Act of 2024), which created the Bureau of Cold Chain Management under the Department of Trade, with authority to set, monitor and enforce temperature-controlled storage and transport standards for health and food commodities.",
+      "identifiers": {
+        "uacsOrgCode": "010010310001",
+        "dictEndorsement": {
+          "ref": "DICT-GSSPD-2025-002",
+          "date": "2025-05-09"
+        }
+      },
       "counts": {
         "outcomes": 3,
         "programs": 4,
@@ -1291,7 +1847,9 @@
         "internalProjects": 2,
         "crossAgencyProjects": 1,
         "kpis": 7,
-        "lineItems": 70
+        "lineItems": 70,
+        "categorizedLineItems": 70,
+        "completeKpis": 7
       },
       "humanCapital": {
         "plantilla": 114,
@@ -1355,12 +1913,35 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-lamig",
+          "name": "LAMIG Gateway — National Cold Chain Monitoring Platform",
+          "shortName": "LAMIG Gateway",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Project LAMIG"
+        },
+        {
+          "id": "ps-registry",
+          "name": "Digital Cold Chain Registry",
+          "shortName": "Digital Cold Chain Registry",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Cold Chain Equipment Registry Digitalization"
+        }
+      ],
       "projects": [
         {
           "id": "p-lamig",
           "title": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
           "shortTitle": "Project LAMIG",
           "category": "internal",
+          "projectType": "STANDALONE",
           "description": "Installs continuous temperature and door sensors in all 240 accredited cold rooms plus LoRa gateways and a cloud monitoring platform, replacing weekly PDF exports with fifteen-minute excursion alerts.",
           "duration": "2026–2027",
           "alignment": [
@@ -1376,6 +1957,7 @@
           ],
           "implementingUnit": "ICT Unit",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100004000",
           "totalCost": 140000000,
           "deliverables": [
             "Sensor rollout for priority vaccine cold rooms (120); gateway platform live; excursion alerting operational",
@@ -1420,6 +2002,7 @@
           "title": "Cold Chain Equipment Registry Digitalization",
           "shortTitle": "Cold Chain Equipment Registry Digitalization",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Consolidates seventeen regional spreadsheet variants into one digital registry with unique equipment IDs, QR tagging and full inspection history.",
           "duration": "2026",
           "alignment": [
@@ -1468,6 +2051,7 @@
           "title": "Cold Chain Traceability Backbone (CTB) — BCCM share",
           "shortTitle": "Cold Chain Traceability Backbone (CTB)",
           "category": "crossAgency",
+          "projectType": "IS_DRIVEN",
           "description": "The Bureau's lead share of the cross-agency CTB program: publishing standardized custody events from LAMIG and maintaining the shared data standards with the National Food Traceability Council and academic partners.",
           "duration": "2026–2028",
           "alignment": [
@@ -1483,6 +2067,7 @@
           "fundingSource": "General Appropriations Act",
           "leadAgency": "Bureau of Cold Chain Management",
           "implementingAgencies": "Cold Chain Traceability Backbone (CTB)",
+          "papCode": "310100100005000",
           "totalCost": 80000000,
           "deliverables": [
             "CTB event schema v1.0 ratified with partners; BCCM event gateway live",
@@ -2770,6 +3355,13 @@
       "vision": "A state college whose farms, laboratories and classrooms operate as one connected campus serving highland farming communities.",
       "mission": "To deliver quality agri-forestry education, research and extension backed by reliable information systems and campus connectivity.",
       "legalBasis": "Republic Act No. 11245, converting the highland agri-forestry school into a state college, with instruction, research and extension mandates in sustainable highland agriculture and community forestry.",
+      "identifiers": {
+        "uacsOrgCode": "010010310002",
+        "dictEndorsement": {
+          "ref": "DICT-GSSPD-2025-003",
+          "date": "2025-05-10"
+        }
+      },
       "counts": {
         "outcomes": 3,
         "programs": 3,
@@ -2779,7 +3371,9 @@
         "internalProjects": 2,
         "crossAgencyProjects": 0,
         "kpis": 5,
-        "lineItems": 48
+        "lineItems": 48,
+        "categorizedLineItems": 48,
+        "completeKpis": 5
       },
       "humanCapital": {
         "plantilla": 147,
@@ -2833,12 +3427,34 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-one-hafsc",
+          "name": "Integrated Student Information System",
+          "shortName": "Integrated Student Information System",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false
+        },
+        {
+          "id": "ps-eext",
+          "name": "e-Extension Learning Platform",
+          "shortName": "e-Extension Learning Platform",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "e-Extension Learning Platform for Farmer Cooperatives"
+        }
+      ],
       "projects": [
         {
           "id": "p-net",
           "title": "Campus Network Modernization and Cybersecurity Hardening",
           "shortTitle": "Campus Network Modernization and Cybersecurity Hardening",
           "category": "internal",
+          "projectType": "STANDALONE",
           "description": "Replaces the unmanaged building-by-building network with a fiber backbone, managed segmentation, campus Wi-Fi and a hardened server room with central authentication and tested backups.",
           "duration": "2026",
           "alignment": [
@@ -2852,6 +3468,7 @@
           "linkedSystems": [],
           "implementingUnit": "ICT Office",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100006000",
           "totalCost": 35000000,
           "deliverables": [
             "Fiber backbone lit; segmentation enforced; server room hardened; backup regime operational",
@@ -2896,6 +3513,7 @@
           "title": "e-Extension Learning Platform for Farmer Cooperatives",
           "shortTitle": "e-Extension Learning Platform for Farmer Cooperatives",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Launches an offline-capable learning platform delivering the college's extension curriculum to cooperatives that cannot always travel to campus, with certification tracking.",
           "duration": "2026–2027",
           "alignment": [
@@ -3907,6 +4525,13 @@
       "vision": "Zero-surprise coastal hazards: every at-risk barangay warned in time, every decision backed by live coastal data.",
       "mission": "To monitor, model and communicate coastal hazards with authoritative, timely, and openly accessible data.",
       "legalBasis": "Republic Act No. 12021 (Coastal Resilience Act of 2025), establishing the National Coastal Resilience Authority to unify sea-level, storm surge and coastal hazard monitoring, and to operate the national community early warning system for coastal areas.",
+      "identifiers": {
+        "uacsOrgCode": "010010310003",
+        "dictEndorsement": {
+          "ref": "DICT-GSSPD-2026-004",
+          "date": "2026-05-11"
+        }
+      },
       "counts": {
         "outcomes": 3,
         "programs": 5,
@@ -3916,7 +4541,9 @@
         "internalProjects": 4,
         "crossAgencyProjects": 1,
         "kpis": 12,
-        "lineItems": 79
+        "lineItems": 79,
+        "categorizedLineItems": 79,
+        "completeKpis": 12
       },
       "humanCapital": {
         "plantilla": 582,
@@ -3981,12 +4608,45 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-aware",
+          "name": "AWARE — Analytics & Warning for At-Risk Environments",
+          "shortName": "AWARE",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Project WATCHFUL"
+        },
+        {
+          "id": "ps-twin",
+          "name": "Coastal Digital Twin & Open Tides Data Platform",
+          "shortName": "Coastal Digital Twin & Open Tides Data Platform",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Coastal Digital Twin and Open Tides Data Platform"
+        },
+        {
+          "id": "ps-lason2",
+          "name": "LASON Archive Modernization",
+          "shortName": "LASON Archive Modernization",
+          "classification": "GENERAL_ADMIN",
+          "status": "FOR_ENHANCEMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "LASON Archive Modernization"
+        }
+      ],
       "projects": [
         {
           "id": "p-watchful",
           "title": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
           "shortTitle": "Project WATCHFUL",
           "category": "internal",
+          "projectType": "STANDALONE",
           "description": "Expands and takes ownership of the national sensor estate: 140 new real-time tide and oceanographic stations, VSAT backhaul for off-grid sites, coastal CCTV for visual verification, and the retirement of per-station vendor licensing.",
           "duration": "2027–2029",
           "alignment": [
@@ -4002,6 +4662,7 @@
           ],
           "implementingUnit": "ICT Service — Field Engineering Section",
           "fundingSource": "Foreign-assisted projects",
+          "papCode": "310100100007000",
           "totalCost": 568483000,
           "deliverables": [
             "60 stations commissioned; VSAT backhaul for first 18 off-grid sites; telemetry ownership transition started",
@@ -4046,6 +4707,7 @@
           "title": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
           "shortTitle": "Project SIGWA",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Builds the AWARE platform: streaming ingestion from all sensor classes, ten-minute model cycling, automated warning products, and the RAPIDE exchange — retiring the overnight CHIMES batch.",
           "duration": "2027–2028",
           "alignment": [
@@ -4061,6 +4723,7 @@
           ],
           "implementingUnit": "ICT Service",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100008000",
           "totalCost": 310000000,
           "deliverables": [
             "Core platform live; 4 pilot regional desks migrated; first automated warning products issued",
@@ -4105,6 +4768,7 @@
           "title": "Coastal Digital Twin and Open Tides Data Platform",
           "shortTitle": "Coastal Digital Twin and Open Tides Data Platform",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "National coastal hazard data infrastructure: the curated sensor archive, digital twin model environment, and the public Open Tides open-data API serving researchers and developers.",
           "duration": "2028–2029",
           "alignment": [
@@ -4119,6 +4783,7 @@
           ],
           "implementingUnit": "Planning and Policy Division",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100009000",
           "totalCost": 130000000,
           "deliverables": [
             "",
@@ -4153,6 +4818,7 @@
           "title": "LASON Archive Modernization",
           "shortTitle": "LASON Archive Modernization",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Rebuilds the end-of-life Drupal 7 adaptation studies archive with structured metadata, full-text search and open licensing before security support lapses.",
           "duration": "2027",
           "alignment": [
@@ -4167,6 +4833,7 @@
           ],
           "implementingUnit": "Planning and Policy Division",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100010000",
           "totalCost": 45000000,
           "deliverables": [
             "New archive live; all studies migrated with structured metadata; Drupal 7 retired",
@@ -4201,6 +4868,7 @@
           "title": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
           "shortTitle": "RAPIDE",
           "category": "crossAgency",
+          "projectType": "IS_DRIVEN",
           "description": "The Authority's lead share of RAPIDE: operating the shared analytics exchange, publishing AWARE hazard feeds, and onboarding partner agencies during typhoon response.",
           "duration": "2027–2029",
           "alignment": [
@@ -4216,6 +4884,7 @@
           "fundingSource": "General Appropriations Act",
           "leadAgency": "National Coastal Resilience Authority",
           "implementingAgencies": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+          "papCode": "310100100011000",
           "totalCost": 95000000,
           "deliverables": [
             "Exchange live; AWARE feeds published; first joint drill with partners",
@@ -5648,16 +6317,25 @@
       "vision": "Local governments that recover from disasters in weeks, not years, because risk was transferred before the storm.",
       "mission": "To pool, price and pay disaster risk for local governments with actuarially sound, transparent and fast-settling parametric products.",
       "legalBasis": "Republic Act No. 11954 (Local Government Disaster Risk Insurance Act of 2024), creating the Philippine Disaster Risk Insurance Office to design, price and administer parametric insurance pools for provinces, cities and municipalities.",
+      "identifiers": {
+        "uacsOrgCode": "010010310004",
+        "dictEndorsement": {
+          "ref": "DICT-GSSPD-2026-005",
+          "date": "2026-05-12"
+        }
+      },
       "counts": {
         "outcomes": 3,
         "programs": 3,
         "stakeholders": 3,
         "systems": 2,
-        "proposedSystems": 2,
+        "proposedSystems": 3,
         "internalProjects": 2,
         "crossAgencyProjects": 1,
         "kpis": 7,
-        "lineItems": 56
+        "lineItems": 56,
+        "categorizedLineItems": 56,
+        "completeKpis": 7
       },
       "humanCapital": {
         "plantilla": 179,
@@ -5711,12 +6389,44 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-underwrite",
+          "name": "UNDERWRITE Platform",
+          "shortName": "UNDERWRITE Platform",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Project UNDERWRITE"
+        },
+        {
+          "id": "ps-geowarehouse",
+          "name": "Geospatial Risk Data Warehouse",
+          "shortName": "Geospatial Risk Data Warehouse",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Geospatial Risk Data Warehouse"
+        },
+        {
+          "id": "ps-hris-pdrio",
+          "name": "PDRIO Human Resource Information System",
+          "shortName": "PDRIO Human Resource Information System",
+          "classification": "GENERAL_ADMIN",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false
+        }
+      ],
       "projects": [
         {
           "id": "p-underwrite",
           "title": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
           "shortTitle": "Project UNDERWRITE",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Builds the modern policy and claims platform: LGU self-service enrolment, automated trigger ingestion from RAPIDE, straight-through payout computation, and PRISM decommissioning.",
           "duration": "2027–2028",
           "alignment": [
@@ -5732,6 +6442,7 @@
           ],
           "implementingUnit": "ICT Division",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100012000",
           "totalCost": 290000000,
           "deliverables": [
             "Core platform live; 3 pilot provinces enrolled; automated windstorm triggers",
@@ -5776,6 +6487,7 @@
           "title": "Geospatial Risk Data Warehouse",
           "shortTitle": "Geospatial Risk Data Warehouse",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Consolidates exposure, hazard and claims data into a governed warehouse with versioned model runs, ending single-workstation model dependency.",
           "duration": "2027–2029",
           "alignment": [
@@ -5790,6 +6502,7 @@
           ],
           "implementingUnit": "Risk Management Division",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100013000",
           "totalCost": 85000000,
           "deliverables": [
             "Warehouse live; exposure data migrated; first versioned model run",
@@ -5824,6 +6537,7 @@
           "title": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
           "shortTitle": "RAPIDE",
           "category": "crossAgency",
+          "projectType": "IS_DRIVEN",
           "description": "The Office's share of RAPIDE: consuming NCRA hazard feeds as automated payout triggers and contributing exposure aggregates back to the exchange.",
           "duration": "2027–2028",
           "alignment": [
@@ -5839,6 +6553,7 @@
           "fundingSource": "General Appropriations Act",
           "leadAgency": "National Coastal Resilience Authority",
           "implementingAgencies": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+          "papCode": "310100100014000",
           "totalCost": 40000000,
           "deliverables": [
             "Windstorm trigger feed live; first automated test payout executed in drill",
@@ -6880,16 +7595,21 @@
       "vision": "A ferry network people can trust with their commute: tap-and-go boarding, live arrivals, and vessels that sail on schedule.",
       "mission": "To run safe, punctual, and financially sustainable ferry services with modern ticketing and fleet intelligence.",
       "legalBasis": "Executive Order No. 914 (s. 2023), incorporating the Metro Ferry Systems Corporation under the Office of the President to operate the metro ferry network piers, vessels and fare systems as one integrated public transport service.",
+      "identifiers": {
+        "uacsOrgCode": "010010310005"
+      },
       "counts": {
         "outcomes": 3,
         "programs": 3,
         "stakeholders": 3,
         "systems": 3,
-        "proposedSystems": 2,
+        "proposedSystems": 3,
         "internalProjects": 3,
         "crossAgencyProjects": 0,
         "kpis": 8,
-        "lineItems": 67
+        "lineItems": 67,
+        "categorizedLineItems": 67,
+        "completeKpis": 8
       },
       "humanCapital": {
         "plantilla": 515,
@@ -6952,12 +7672,44 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-biyahe",
+          "name": "BIYAHE — Account-Based Ticketing & Handy App",
+          "shortName": "BIYAHE",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Project BIYAHE"
+        },
+        {
+          "id": "ps-daloy",
+          "name": "DALOY — Fleet Health & Operations Intelligence",
+          "shortName": "DALOY",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Project DALOY"
+        },
+        {
+          "id": "ps-crewhr",
+          "name": "Crew HR and Scheduling System (CREWHR)",
+          "shortName": "Crew HR and Scheduling System",
+          "classification": "GENERAL_ADMIN",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false
+        }
+      ],
       "projects": [
         {
           "id": "p-biyahe",
           "title": "Project BIYAHE — Account-Based Ticketing & Handy App",
           "shortTitle": "Project BIYAHE",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Replaces the vendor-locked FERRYCARD AFC with an open account-based stack: card, QR and mobile app fares, instant settlement, and ferry-commons interoperability — ending per-transaction licensing.",
           "duration": "2027–2028",
           "alignment": [
@@ -6972,6 +7724,7 @@
           ],
           "implementingUnit": "ICT Department",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100015000",
           "totalCost": 240000000,
           "deliverables": [
             "Core account platform live; 6 pilot piers migrated; mobile app in open beta",
@@ -7016,6 +7769,7 @@
           "title": "Project DALOY — Fleet Health & Operations Intelligence",
           "shortTitle": "Project DALOY",
           "category": "internal",
+          "projectType": "STANDALONE",
           "description": "Instruments all 48 vessels with telemetry and deploys fleet health analytics: engine hours, defects, parts planning and punctuality, replacing the Monday whiteboard.",
           "duration": "2027–2029",
           "alignment": [
@@ -7031,6 +7785,7 @@
           ],
           "implementingUnit": "Fleet Operations Department",
           "fundingSource": "Other Income Generating Sources",
+          "papCode": "310100100016000",
           "totalCost": 149999500,
           "deliverables": [
             "24 vessels instrumented; fleet dashboard live; parts module piloted",
@@ -7075,6 +7830,7 @@
           "title": "Pier Network Connectivity and Passenger Information",
           "shortTitle": "Pier Network Connectivity and Passenger Information",
           "category": "internal",
+          "projectType": "STANDALONE",
           "description": "Gives every pier resilient dedicated connectivity with automatic failover, plus passenger information displays and free passenger Wi-Fi funded under the service obligation.",
           "duration": "2027",
           "alignment": [
@@ -7086,6 +7842,7 @@
           "linkedSystems": [],
           "implementingUnit": "ICT Department",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100017000",
           "totalCost": 69999500,
           "deliverables": [
             "All 14 piers on dedicated resilient links; passenger displays installed; failover tested",
@@ -8368,6 +9125,13 @@
       "vision": "A city where every government service that can be online is online — and works.",
       "mission": "To deliver fast, transparent city services through integrated digital systems that citizens can use from any barangay.",
       "legalBasis": "Republic Act No. 11877, converting the Municipality of Malinaw into a component city, with full corporate powers for local governance and service delivery.",
+      "identifiers": {
+        "uacsOrgCode": "010010310006",
+        "dictEndorsement": {
+          "ref": "DICT-GSSPD-2026-007",
+          "date": "2026-05-14"
+        }
+      },
       "counts": {
         "outcomes": 3,
         "programs": 3,
@@ -8377,7 +9141,9 @@
         "internalProjects": 2,
         "crossAgencyProjects": 2,
         "kpis": 8,
-        "lineItems": 57
+        "lineItems": 57,
+        "categorizedLineItems": 57,
+        "completeKpis": 8
       },
       "humanCapital": {
         "plantilla": 330,
@@ -8440,12 +9206,35 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-portal",
+          "name": "Malinaw One-Stop Digital Services Portal",
+          "shortName": "Malinaw One-Stop Digital Services Portal",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Malinaw One-Stop Digital Services Portal"
+        },
+        {
+          "id": "ps-incident",
+          "name": "City Incident Dashboard",
+          "shortName": "City Incident Dashboard",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "RAPIDE"
+        }
+      ],
       "projects": [
         {
           "id": "p-portal",
           "title": "Malinaw One-Stop Digital Services Portal",
           "shortTitle": "Malinaw One-Stop Digital Services Portal",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Builds the city-owned services portal: permits, property tax payments, civil registry requests and barangay services with integrated online payment — ending the two-queue renewal and the billable data export.",
           "duration": "2027–2028",
           "alignment": [
@@ -8460,6 +9249,7 @@
           ],
           "implementingUnit": "City ICT Office",
           "fundingSource": "Locally funded",
+          "papCode": "310100100018000",
           "totalCost": 28000000,
           "deliverables": [
             "Permits and property tax modules live with online payment; first paperless renewals",
@@ -8494,6 +9284,7 @@
           "title": "Barangay Connectivity Mesh",
           "shortTitle": "Barangay Connectivity Mesh",
           "category": "internal",
+          "projectType": "STANDALONE",
           "description": "Deploys solar-powered mesh nodes across the 19 unconnected barangays with city-managed backhaul, carrying reports, advisories and incident data.",
           "duration": "2027",
           "alignment": [
@@ -8540,6 +9331,7 @@
           "title": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
           "shortTitle": "RAPIDE",
           "category": "crossAgency",
+          "projectType": "IS_DRIVEN",
           "description": "The city's share of RAPIDE: consuming coastal hazard feeds into the city incident dashboard and contributing barangay incident reports to the exchange.",
           "duration": "2027–2028",
           "alignment": [
@@ -8557,6 +9349,7 @@
           "fundingSource": "General Appropriations Act",
           "leadAgency": "National Coastal Resilience Authority",
           "implementingAgencies": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+          "papCode": "310100100019000",
           "totalCost": 6000000,
           "deliverables": [
             "Dashboard live consuming surge and windstorm feeds; first joint drill",
@@ -8591,6 +9384,7 @@
           "title": "Permits Exchange Network (PXNet) — Malinaw lead share",
           "shortTitle": "Permits Exchange Network (PXNet)",
           "category": "crossAgency",
+          "projectType": "IS_DRIVEN",
           "description": "The city's lead share of PXNet: operating the inter-LGU verification exchange so businesses relocating between member LGUs do not re-submit records both cities hold.",
           "duration": "2027–2028",
           "alignment": [
@@ -8606,6 +9400,7 @@
           "fundingSource": "General Appropriations Act",
           "leadAgency": "City Government of Malinaw",
           "implementingAgencies": "Permits Exchange Network (PXNet)",
+          "papCode": "310100100020000",
           "totalCost": 9000000,
           "deliverables": [
             "Exchange live; permit and inspection verification with San Prospero operating",
@@ -9744,6 +10539,9 @@
       "vision": "Every high-value commodity traceable from farm or dock to fork within hours, not weeks.",
       "mission": "To operate a trustworthy national traceability registry and inspection service that protects consumers and opens premium markets for producers.",
       "legalBasis": "Republic Act No. 12034 (Food Supply Chain Traceability Act of 2025), creating the National Food Traceability Council to operate the national traceability registry for high-value agricultural and marine commodities.",
+      "identifiers": {
+        "uacsOrgCode": "010010310007"
+      },
       "counts": {
         "outcomes": 3,
         "programs": 3,
@@ -9753,7 +10551,9 @@
         "internalProjects": 2,
         "crossAgencyProjects": 1,
         "kpis": 6,
-        "lineItems": 61
+        "lineItems": 61,
+        "categorizedLineItems": 61,
+        "completeKpis": 6
       },
       "humanCapital": {
         "plantilla": 185,
@@ -9807,12 +10607,35 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-ntr",
+          "name": "National Traceability Registry (NTR)",
+          "shortName": "National Traceability Registry",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "National Traceability Registry (NTR) Platform"
+        },
+        {
+          "id": "ps-fieldkit",
+          "name": "Inspector Field Kit platform",
+          "shortName": "Inspector Field Kit platform",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Inspector Mobility and Field Sampling Program"
+        }
+      ],
       "projects": [
         {
           "id": "p-ntr",
           "title": "National Traceability Registry (NTR) Platform",
           "shortTitle": "National Traceability Registry (NTR) Platform",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Builds the event-level traceability registry with unique establishment and lot IDs, custody events, traceback query tools and verification APIs — replacing the FoxPro registry.",
           "duration": "2028–2029",
           "alignment": [
@@ -9828,6 +10651,7 @@
           ],
           "implementingUnit": "ICT Service",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100021000",
           "totalCost": 180000000,
           "deliverables": [
             "Registry core live; establishments migrated; first commodity events flowing",
@@ -9862,6 +10686,7 @@
           "title": "Inspector Mobility and Field Sampling Program",
           "shortTitle": "Inspector Mobility and Field Sampling Program",
           "category": "internal",
+          "projectType": "STANDALONE",
           "description": "Equips field inspectors with rugged mobile tools: offline sampling capture, lot scanning and direct laboratory intake, replacing paper forms and PDF results.",
           "duration": "2028",
           "alignment": [
@@ -9909,6 +10734,7 @@
           "title": "Cold Chain Traceability Backbone (CTB) — NFTC share",
           "shortTitle": "Cold Chain Traceability Backbone (CTB)",
           "category": "crossAgency",
+          "projectType": "IS_DRIVEN",
           "description": "The Council's share of CTB: consuming cold chain custody events into the NTR and co-chairing the shared data standards working group.",
           "duration": "2028–2030",
           "alignment": [
@@ -9924,6 +10750,7 @@
           "fundingSource": "General Appropriations Act",
           "leadAgency": "Bureau of Cold Chain Management",
           "implementingAgencies": "Cold Chain Traceability Backbone (CTB)",
+          "papCode": "310100100022000",
           "totalCost": 55000000,
           "deliverables": [
             "CTB event ingestion live; first joint traceback exercise completed",
@@ -11093,16 +11920,21 @@
       "vision": "Renewable energy projects financed faster because a credible public guarantee stands behind them.",
       "mission": "To provide rigorous, transparent and financially sustainable guarantee products that accelerate the renewable energy buildout.",
       "legalBasis": "Republic Act No. 11997 (Renewable Energy Finance Act of 2024), creating the Philippine Renewable Power Guarantee Corporation to provide guarantees and credit enhancement that crowd in private financing for renewable energy projects.",
+      "identifiers": {
+        "uacsOrgCode": "010010310008"
+      },
       "counts": {
         "outcomes": 3,
         "programs": 3,
         "stakeholders": 3,
         "systems": 2,
-        "proposedSystems": 2,
+        "proposedSystems": 3,
         "internalProjects": 2,
         "crossAgencyProjects": 0,
         "kpis": 4,
-        "lineItems": 56
+        "lineItems": 56,
+        "categorizedLineItems": 56,
+        "completeKpis": 4
       },
       "humanCapital": {
         "plantilla": 203,
@@ -11156,12 +11988,44 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-watts",
+          "name": "WATTS — Workflows for Account Tracking & Surety",
+          "shortName": "WATTS",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Project WATTS"
+        },
+        {
+          "id": "ps-portfolio",
+          "name": "Renewables Portfolio Data Platform",
+          "shortName": "Renewables Portfolio Data Platform",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Renewables Portfolio Data Platform"
+        },
+        {
+          "id": "ps-records-prpgc",
+          "name": "Corporate Records and Document Management System",
+          "shortName": "Corporate Records and Document Management System",
+          "classification": "GENERAL_ADMIN",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false
+        }
+      ],
       "projects": [
         {
           "id": "p-watts",
           "title": "Project WATTS — Workflows for Account Tracking & Surety",
           "shortTitle": "Project WATTS",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Rebuilds guarantee workflows end-to-end: digital application intake, straight-through processing for standard products, digital signatures and claims servicing — cutting issuance from 94 days to 20.",
           "duration": "2028–2029",
           "alignment": [
@@ -11177,6 +12041,7 @@
           ],
           "implementingUnit": "ICT and Data Division",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100023000",
           "totalCost": 520000000,
           "deliverables": [
             "Intake and straight-through processing live for two standard products; digital signatures live",
@@ -11211,6 +12076,7 @@
           "title": "Renewables Portfolio Data Platform",
           "shortTitle": "Renewables Portfolio Data Platform",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Builds the governed exposure data platform with versioned risk models and portfolio analytics, replacing the twenty-minute spreadsheet cube.",
           "duration": "2028–2030",
           "alignment": [
@@ -11225,6 +12091,7 @@
           ],
           "implementingUnit": "Risk Management Division",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100024000",
           "totalCost": 210000000,
           "deliverables": [
             "Exposure history migrated; first versioned model runs",
@@ -12275,6 +13142,9 @@
       "vision": "A municipality where no resident travels to the hall twice for the same transaction.",
       "mission": "To deliver honest, fast municipal services and bring digital front-liners to every barangay.",
       "legalBasis": "Republic Act No. 11654, creating the Municipality of San Prospero as an independent local government unit.",
+      "identifiers": {
+        "uacsOrgCode": "010010310009"
+      },
       "counts": {
         "outcomes": 3,
         "programs": 3,
@@ -12284,7 +13154,9 @@
         "internalProjects": 1,
         "crossAgencyProjects": 1,
         "kpis": 4,
-        "lineItems": 35
+        "lineItems": 35,
+        "categorizedLineItems": 35,
+        "completeKpis": 4
       },
       "humanCapital": {
         "plantilla": 86,
@@ -12329,12 +13201,25 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-frontline",
+          "name": "San Prospero Digital Frontline",
+          "shortName": "San Prospero Digital Frontline",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "San Prospero Digital Frontline (eBPLS-lite and Records Digitization)"
+        }
+      ],
       "projects": [
         {
           "id": "p-frontline",
           "title": "San Prospero Digital Frontline (eBPLS-lite and Records Digitization)",
           "shortTitle": "San Prospero Digital Frontline (eBPLS-lite and Records Digitization)",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Launches the municipality's first services platform — permits, certifications and clearances with online payment and barangay kiosks — and digitizes priority record series.",
           "duration": "2028–2029",
           "alignment": [
@@ -12383,6 +13268,7 @@
           "title": "Permits Exchange Network (PXNet) — San Prospero share",
           "shortTitle": "Permits Exchange Network (PXNet)",
           "category": "crossAgency",
+          "projectType": "IS_DRIVEN",
           "description": "The municipality's share of PXNet: verifying permits and inspections with Malinaw so relocating businesses do not re-submit records either LGU already holds.",
           "duration": "2028–2029",
           "alignment": [
@@ -13163,16 +14049,21 @@
       "vision": "A maritime college whose graduates train on simulators as modern as the ships they will sail.",
       "mission": "To provide quality maritime education and research supported by modern simulation, laboratory and campus systems.",
       "legalBasis": "Republic Act No. 11322, establishing the Visayas Maritime State College with mandates in maritime higher education, simulator-based training, and maritime research.",
+      "identifiers": {
+        "uacsOrgCode": "010010310010"
+      },
       "counts": {
         "outcomes": 3,
         "programs": 3,
         "stakeholders": 4,
         "systems": 2,
-        "proposedSystems": 1,
+        "proposedSystems": 2,
         "internalProjects": 2,
         "crossAgencyProjects": 1,
         "kpis": 6,
-        "lineItems": 55
+        "lineItems": 55,
+        "categorizedLineItems": 55,
+        "completeKpis": 6
       },
       "humanCapital": {
         "plantilla": 180,
@@ -13226,12 +14117,34 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-one-vmsc",
+          "name": "ONE-VMSC Campus Systems Integration",
+          "shortName": "ONE-VMSC Campus Systems Integration",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "ONE-VMSC Campus Systems Integration"
+        },
+        {
+          "id": "ps-hr-module",
+          "name": "ONE-VMSC HR and Payroll Module",
+          "shortName": "ONE-VMSC HR and Payroll Module",
+          "classification": "GENERAL_ADMIN",
+          "status": "FOR_ENHANCEMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false
+        }
+      ],
       "projects": [
         {
           "id": "p-sim",
           "title": "Full Mission Bridge Simulator Refresh",
           "shortTitle": "Full Mission Bridge Simulator Refresh",
           "category": "internal",
+          "projectType": "STANDALONE",
           "description": "Replaces the 2012 full-mission bridge suite with modern simulators, current exercise databases, and electronic trainee performance logging.",
           "duration": "2028–2029",
           "alignment": [
@@ -13244,6 +14157,7 @@
           "linkedSystems": [],
           "implementingUnit": "Simulator Training Center",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100025000",
           "totalCost": 121620500,
           "deliverables": [
             "Full-mission suite installed and certified; instructor training completed",
@@ -13278,6 +14192,7 @@
           "title": "ONE-VMSC Campus Systems Integration",
           "shortTitle": "ONE-VMSC Campus Systems Integration",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Integrates campus systems on a supported SIS core with simulator scheduling, single sign-on and research data management.",
           "duration": "2028–2030",
           "alignment": [
@@ -13292,6 +14207,7 @@
           ],
           "implementingUnit": "MIS Office",
           "fundingSource": "Locally funded",
+          "papCode": "310100100026000",
           "totalCost": 45000000,
           "deliverables": [
             "SIS core live with enrolment migrated; SSO rolled out to staff",
@@ -13326,6 +14242,7 @@
           "title": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
           "shortTitle": "Cold Chain Traceability Backbone (CTB)",
           "category": "crossAgency",
+          "projectType": "IS_DRIVEN",
           "description": "The College's research share of CTB: studying shipping-route cold chain corridor data from the sandbox and publishing findings back to the program.",
           "duration": "2028–2030",
           "alignment": [
@@ -14417,16 +15334,21 @@
       "vision": "A cooperative sector the public can trust, on a registry anyone can verify.",
       "mission": "To maintain an authoritative cooperative registry, set clear standards, and run a credible audit framework.",
       "legalBasis": "Republic Act No. 11893 (Cooperative Standards Commission Act of 2023), creating the Commission on Cooperative Standards to maintain the national registry of cooperatives, set governance and audit standards, and administer the cooperative audit framework.",
+      "identifiers": {
+        "uacsOrgCode": "010010310011"
+      },
       "counts": {
         "outcomes": 3,
         "programs": 3,
         "stakeholders": 3,
         "systems": 2,
-        "proposedSystems": 2,
+        "proposedSystems": 3,
         "internalProjects": 2,
         "crossAgencyProjects": 0,
         "kpis": 4,
-        "lineItems": 41
+        "lineItems": 41,
+        "categorizedLineItems": 41,
+        "completeKpis": 4
       },
       "humanCapital": {
         "plantilla": 140,
@@ -14480,12 +15402,44 @@
           "integrated": false
         }
       ],
+      "proposedSystems": [
+        {
+          "id": "ps-tala",
+          "name": "TALA — Cooperative Registry & Audit Ledger",
+          "shortName": "TALA",
+          "classification": "OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Project TALA"
+        },
+        {
+          "id": "ps-standards",
+          "name": "Standards Portal and e-Learning",
+          "shortName": "Standards Portal and e-Learning",
+          "classification": "SUPPORT_TO_OPERATIONS",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false,
+          "fundingProject": "Standards Portal and e-Learning for Cooperatives"
+        },
+        {
+          "id": "ps-personnel",
+          "name": "CCS Personnel Information System",
+          "shortName": "CCS Personnel Information System",
+          "classification": "GENERAL_ADMIN",
+          "status": "FOR_DEVELOPMENT",
+          "dataStorage": "CLOUD",
+          "integrated": false
+        }
+      ],
       "projects": [
         {
           "id": "p-tala",
           "title": "Project TALA — Cooperative Registry & Audit Ledger",
           "shortTitle": "Project TALA",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Builds the modern registry and audit ledger: unique cooperative identities, real audit workflow replacing the magnet board, and a public verification portal answering good-standing queries in seconds.",
           "duration": "2028–2029",
           "alignment": [
@@ -14501,6 +15455,7 @@
           ],
           "implementingUnit": "ICT Service",
           "fundingSource": "General Appropriations Act",
+          "papCode": "310100100027000",
           "totalCost": 150000000,
           "deliverables": [
             "Registry core live with migration completed; audit workflow piloted in two regions",
@@ -14535,6 +15490,7 @@
           "title": "Standards Portal and e-Learning for Cooperatives",
           "shortTitle": "Standards Portal and e-Learning for Cooperatives",
           "category": "internal",
+          "projectType": "IS_DRIVEN",
           "description": "Launches the versioned standards library with plain-language guides, e-learning and compliance self-checks, ending citations of superseded standard versions.",
           "duration": "2028",
           "alignment": [
