@@ -2356,11 +2356,7 @@ function deriveProfile(
 
   const internalCosts = computeProjectCosts(counted, "internalProjects");
   const crossCosts = computeProjectCosts(counted, "crossAgencyProjects");
-  const projectNameById = new Map<string, string>([
-    ...doc.part3.internalProjects.map((p) => [p.id, p.title]),
-    ...doc.part3.crossAgencyProjects.map((p) => [p.id, p.title]),
-  ]);
-  const systemNameById = new Map(doc.part3.proposedSystems.map((s) => [s.id, s.name]));
+  const systemNameById = new Map(doc.part3.proposedSystems.map((s) => [s.id, s.name] as [string, string]));
   const projects = [
     ...doc.part3.internalProjects.map((p) => ({ p, category: "internal" as const, cost: internalCosts[p.id] ?? 0 })),
     ...doc.part3.crossAgencyProjects.map((p) => ({ p, category: "crossAgency" as const, cost: crossCosts[p.id] ?? 0 })),

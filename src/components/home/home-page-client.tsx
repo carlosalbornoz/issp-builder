@@ -21,8 +21,8 @@ import { toast } from "sonner";
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const ROADMAP_FEATURES = [
-  { icon: Database, title: "ISSP Repository", body: "A centralized, searchable archive of agency ISSPs — structured data instead of buried PDFs on transparency pages." },
-  { icon: BarChart2, title: "ICT Budget Dashboard", body: "Visualizing ISSP budget requests vs. actual DBM releases across agencies and years. Fiscal transparency for ICT." },
+  { icon: Database, title: "ISSP Repository", body: "A centralized, searchable archive of agency ISSPs — structured data instead of buried PDFs on transparency pages.", href: "/repository" },
+  { icon: BarChart2, title: "ICT Budget Dashboard", body: "Visualizing ISSP budget requests vs. actual DBM releases across agencies and years. Fiscal transparency for ICT.", href: "/budget" },
 ] as const;
 
 const PAIN_POINTS = [
@@ -585,10 +585,13 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
                     <div className="w-8 h-8 rounded-md border flex items-center justify-center bg-secondary">
                       <Icon className="w-4 h-4 text-muted-foreground" />
                     </div>
-                    <span className="inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium bg-secondary text-muted-foreground border">Coming Soon</span>
+                    <span className="inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium bg-secondary text-muted-foreground border">Mockup preview</span>
                   </div>
                   <h3 className="text-sm font-semibold text-muted-foreground mb-1.5">{f.title}</h3>
-                  <p className="text-xs text-muted-foreground/70 leading-relaxed">{f.body}</p>
+                  <p className="text-xs text-muted-foreground/70 leading-relaxed mb-3">{f.body}</p>
+                  <a href={f.href} className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:opacity-70 transition-opacity">
+                    Open the preview <ArrowRight className="w-3 h-3" />
+                  </a>
                 </div>
               );
             })}
