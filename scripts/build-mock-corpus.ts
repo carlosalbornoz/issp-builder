@@ -2371,8 +2371,7 @@ function roundM(n: number): number {
 }
 
 /** The SIKAP trace: one project followed from plan to payment, FY2026. */
-function sikapTrace(): CompassProjectTrace {
-  return {
+function sikapTrace(): CompassProjectTrace {  return {
     projectId: "proj-sikap",
     projectTitle: "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
     fiscalYear: 2026,
@@ -2394,6 +2393,27 @@ function sikapTrace(): CompassProjectTrace {
       { indicator: "Complaints filed online", target: "30% (Y1)", actual: "22%", status: "on-track" },
       { indicator: "Legacy Windows XP workstations in use", target: "3 (Y1)", actual: "3", status: "on-track" },
     ],
+  };
+}
+
+/** The WATCHFUL trace: a project still at the NEP stage — what a trace looks like before money moves. */
+function watchfulTrace(profile: CorpusProfile): CompassProjectTrace {
+  const plan = profile.lineItems
+    .filter((l) => l.projectId === "p-watchful" && l.year === 2027)
+    .reduce((s, l) => s + l.total, 0);
+  const nep = roundM(plan * 0.82);
+  return {
+    projectId: "p-watchful",
+    projectTitle: "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+    fiscalYear: 2027,
+    money: { plan, nep, gaa: 0, allotment: 0, obligated: 0, disbursed: 0 },
+    steps: [
+      { date: "29 Apr 2026", stage: "Plan", source: ".issp · Part III-E.1 + Part IV", title: "ISSP 2027–2029 submitted to DICT", detail: "FY2027 line items: real-time tide and oceanographic sensor stations, VSAT backhaul for off-grid sites, and coastal verification cameras. Aligned to the Public Investment Program and the National Cybersecurity Plan." },
+      { date: "May 2026", stage: "Endorse", source: "DICT", title: "DICT endorses the ISSP", detail: "Endorsement reference DICT-GSSPD-2026-006." },
+      { date: "Jul 2026", stage: "Propose", source: "COMPASS · NEP", title: `In the FY2027 NEP: ₱${Math.round(nep / 1e6)}M (82% of plan)`, detail: "The 18% gap is sensor stations deferred to FY2028 — visible today because the plan is structured data." },
+      { date: "Dec 2026 · ahead", stage: "Authorize", source: "COMPASS · GAA", title: "FY2027 GAA pending in Congress" },
+    ],
+    kpiActuals: [],
   };
 }
 
@@ -2447,12 +2467,15 @@ function buildCompass(docs: { doc: IsspDocument; meta: { slug: string } }[], pro
       years.push({ year, stage, plan, planFromCorpus: true, nep, gaa, allotment, obligated, disbursed: roundM(obligated * rates.disb) });
     }
 
+    const traces: CompassProjectTrace[] = [];
+    if (meta.slug === NCWTR_META.slug) traces.push(sikapTrace());
+    if (meta.slug === "ncra-2027-2029") traces.push(watchfulTrace(profile));
     agencies.push({
       slug: meta.slug,
       acronym: profile.acronym,
       route,
       years,
-      traces: meta.slug === NCWTR_META.slug ? [sikapTrace()] : [],
+      traces,
     });
   }
 

@@ -25,7 +25,7 @@ const WAFfle_META = [
 const PROMISES = [
   { tag: "Coastal warnings · NCRA", title: "Time for a warning to reach barangays", value: "2h 40m → 15 min", en: "by 2029, through the AWARE platform" },
   { tag: "Food safety · NFTC", title: "Time to trace a food safety incident", value: "9 days → 24 hrs", en: "by 2029, through the National Traceability Registry" },
-  { tag: "Municipal services · San Prospero", title: "Time per transaction, including travel", value: "3.5 hrs → 30 min", en: "by 2029, through the Digital Frontline" },
+  { tag: "Municipal · San Prospero", title: "Time per transaction, including travel", value: "3.5 hrs → 30 min", en: "by 2029, through the Digital Frontline" },
 ] as const;
 
 export function CitizenReport() {

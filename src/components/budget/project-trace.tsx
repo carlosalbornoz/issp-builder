@@ -61,7 +61,7 @@ export function ProjectTrace() {
                   <p className="text-sm text-muted-foreground leading-relaxed mt-2 max-w-2xl">{project.description}</p>
                   <div className="flex flex-wrap gap-1.5 mt-3">
                     <Pill>{project.duration} · {project.implementingUnit}</Pill>
-                    <Pill>Total project cost {phpCompact(project.totalCost)}</Pill>
+                    <Pill>Total project cost {phpCompact(project.totalCost)} over {project.duration}</Pill>
                     {project.papCode ? (
                       <Pill className="border-primary/25 bg-primary/5 text-primary" mono>PAP {project.papCode} (mock)</Pill>
                     ) : null}
@@ -86,22 +86,32 @@ export function ProjectTrace() {
                       { label: "Obligated", value: trace.money.obligated, color: FUNNEL.spend },
                       { label: "Disbursed", value: trace.money.disbursed, color: FUNNEL.spend },
                     ].map((row) => (
-                      <div key={row.label} className="grid grid-cols-[92px_1fr_92px] gap-2.5 items-center">
+                      <div key={row.label} className="grid grid-cols-[92px_1fr_118px] gap-2.5 items-center">
                         <span className="text-xs text-muted-foreground">{row.label}</span>
                         <div className="h-4 rounded-sm bg-muted overflow-hidden">
-                          <div
-                            className="h-full rounded-sm"
-                            style={{ width: `${Math.max((row.value / trace.money.plan) * 100, 1)}%`, background: row.color }}
-                          />
+                          {row.value > 0 ? (
+                            <div
+                              className="h-full rounded-sm"
+                              style={{ width: `${Math.max((row.value / trace.money.plan) * 100, 1)}%`, background: row.color }}
+                            />
+                          ) : (
+                            <div className="h-full w-[70%] border border-dashed border-muted-foreground/40 rounded-sm" />
+                          )}
                         </div>
-                        <span className="text-xs font-medium tabular-nums text-right">{php(row.value)}</span>
+                        <span className="text-xs font-medium tabular-nums text-right">
+                          {row.value > 0 ? php(row.value) : <span className="text-muted-foreground font-normal">pending</span>}
+                        </span>
                       </div>
                     ))}
                   </div>
                   <p className="text-xs text-foreground leading-relaxed mt-3 max-w-3xl">
-                    Fully funded and {Math.round((trace.money.obligated / trace.money.allotment) * 100)}% obligated. Only{" "}
-                    {Math.round((trace.money.disbursed / trace.money.obligated) * 100)}% is paid, because the contract
-                    pays on milestones. The KPI cards below show whether the work is on schedule.
+                    {trace.money.allotment > 0
+                      ? `Fully funded and ${Math.round((trace.money.obligated / trace.money.allotment) * 100)}% obligated. Only ${Math.round(
+                          (trace.money.disbursed / trace.money.obligated) * 100
+                        )}% is paid, because the contract pays on milestones. The KPI cards below show whether the work is on schedule.`
+                      : `At the NEP stage: ${phpCompact(trace.money.nep)} — ${Math.round(
+                          (trace.money.nep / trace.money.plan) * 100
+                        )}% of the ask — is in the FY${trace.fiscalYear} NEP. The GAA, release and obligation bars fill as the budget cycle advances; nothing can be obligated before Congress signs.`}
                   </p>
                 </section>
 
@@ -145,29 +155,46 @@ export function ProjectTrace() {
                   <div className="space-y-4">
                     <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
                       <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-3">
-                        Results against the ISSP targets (Q2)
+                        {trace.kpiActuals.length > 0 ? "Results against the ISSP targets (Q2)" : "Results promised (targets from the ISSP)"}
                       </p>
-                      <div className="space-y-2.5">
-                        {trace.kpiActuals.map((k) => (
-                          <div key={k.indicator} className="rounded-lg border px-3 py-2.5">
-                            <p className="text-xs text-muted-foreground leading-snug">{k.indicator}</p>
-                            <p className="text-base font-bold tabular-nums mt-0.5">
-                              {k.actual} <span className="text-xs font-normal text-muted-foreground">/ {k.target}</span>
-                            </p>
-                            <span
-                              className={cn(
-                                "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold mt-1.5",
-                                k.status === "on-track"
-                                  ? "bg-success-bg text-success border border-success-border"
-                                  : "bg-warning-bg text-warning border border-warning-border"
-                              )}
-                            >
-                              {k.status === "on-track" ? <CircleCheck className="w-3 h-3" /> : <CircleX className="w-3 h-3" />}
-                              {k.status === "on-track" ? "On track" : "Behind"}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
+                      {trace.kpiActuals.length > 0 ? (
+                        <div className="space-y-2.5">
+                          {trace.kpiActuals.map((k) => (
+                            <div key={k.indicator} className="rounded-lg border px-3 py-2.5">
+                              <p className="text-xs text-muted-foreground leading-snug">{k.indicator}</p>
+                              <p className="text-base font-bold tabular-nums mt-0.5">
+                                {k.actual} <span className="text-xs font-normal text-muted-foreground">/ {k.target}</span>
+                              </p>
+                              <span
+                                className={cn(
+                                  "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold mt-1.5",
+                                  k.status === "on-track"
+                                    ? "bg-success-bg text-success border border-success-border"
+                                    : "bg-warning-bg text-warning border border-warning-border"
+                                )}
+                              >
+                                {k.status === "on-track" ? <CircleCheck className="w-3 h-3" /> : <CircleX className="w-3 h-3" />}
+                                {k.status === "on-track" ? "On track" : "Behind"}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="space-y-2.5">
+                          {project.kpis.slice(0, 4).map((k) => (
+                            <div key={k.indicator} className="rounded-lg border px-3 py-2.5">
+                              <p className="text-xs text-muted-foreground leading-snug">{k.indicator}</p>
+                              <p className="text-base font-bold tabular-nums mt-0.5">
+                                {k.baseline} <span className="text-xs font-normal text-muted-foreground">→ {k.targets[0]} (Year 1)</span>
+                              </p>
+                            </div>
+                          ))}
+                          <p className="text-[11px] text-muted-foreground leading-relaxed">
+                            FY{trace.fiscalYear} has not started, so there are no actuals to report — the trace will
+                            carry them as the year advances (proposed ISSP field).
+                          </p>
+                        </div>
+                      )}
                     </section>
 
                     <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5 text-sm space-y-3 leading-relaxed">

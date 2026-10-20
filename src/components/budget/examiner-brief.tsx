@@ -123,7 +123,9 @@ export function ExaminerBrief() {
                       <td className="text-left text-muted-foreground">{r.type}</td>
                       <td>{php(r.ask)}</td>
                       <td>{r.nep === null ? "—" : php(r.nep)}</td>
-                      <td>{r.nep === null ? "—" : php(r.nep - r.ask)}</td>
+                      <td className={cn("whitespace-nowrap", r.nep !== null && r.nep < r.ask ? "text-destructive" : "")}>
+                        {r.nep === null ? "—" : r.nep < r.ask ? `(${php(r.ask - r.nep)})` : php(r.nep - r.ask)}
+                      </td>
                       <td className={cn("text-left", r.noteDestructive ? "text-destructive" : "text-muted-foreground")}>{r.note}</td>
                     </tr>
                   ))}
@@ -132,7 +134,9 @@ export function ExaminerBrief() {
                     <td />
                     <td>{php(brief.ask ?? 0)}</td>
                     <td>{brief.nep === null ? "—" : php(brief.nep)}</td>
-                    <td>{brief.nep === null ? "—" : php(brief.nep - (brief.ask ?? 0))}</td>
+                    <td className="whitespace-nowrap">
+                      {brief.nep === null ? "—" : brief.nep < (brief.ask ?? 0) ? `(${php((brief.ask ?? 0) - brief.nep)})` : php(brief.nep - (brief.ask ?? 0))}
+                    </td>
                     <td />
                   </tr>
                 </tbody>

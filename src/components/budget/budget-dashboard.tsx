@@ -146,20 +146,22 @@ export function BudgetDashboard() {
   const agencyBars = useMemo(
     () =>
       [...selected]
-        .map((a) => ({
-          slug: a.slug,
-          acronym: a.acronym,
-          name: a.name,
-          value:
+        .map((a) => {
+          const ca = compassBySlug.get(a.slug);
+          const oblig25 = ca ? fyRecord(ca, 2025)?.obligated : undefined;
+          const value =
             (fyForRanking ? yearTotalOf(a, fyForRanking) : null) ??
-            a.lineItems.filter((l) => fund === "all" || l.fundSource === fund).reduce((s, l) => s + l.total, 0),
-          flagged: (() => {
-            const ca = compassBySlug.get(a.slug);
-            const oblig25 = ca ? fyRecord(ca, 2025)?.obligated : undefined;
-            const ask = fyForRanking ? yearTotalOf(a, fyForRanking) : a.budget.grandTotal / 3;
-            return oblig25 && ask ? ask > oblig25 * 2 : false;
-          })(),
-        }))
+            a.lineItems.filter((l) => fund === "all" || l.fundSource === fund).reduce((s, l) => s + l.total, 0);
+          const basis = fyForRanking ? yearTotalOf(a, fyForRanking) : a.budget.grandTotal / 3;
+          const ratio = oblig25 && basis ? basis / oblig25 : null;
+          return {
+            slug: a.slug,
+            acronym: a.acronym,
+            name: a.name,
+            value,
+            ratio,
+          };
+        })
         .filter((a) => a.value !== null)
         .sort((x, y) => y.value - x.value),
     [selected, fund, fyForRanking, compassBySlug]
@@ -321,9 +323,9 @@ export function BudgetDashboard() {
                 <StackedColumns columns={byYearColumns} format={phpCompact} />
                 <SwatchLegend className="mt-4" items={BUCKETS.map((b) => ({ key: b.key, label: b.label, color: b.color }))} />
                 <InsightBox className="mt-4">
-                  <strong>Continuing costs are the quiet story.</strong> New systems become yearly subscriptions, hosting
-                  and licences — the future MOOE floor of every approved project. Watch the ochre share grow year over
-                  year in the stacked bars above.
+                  <strong>Continuing costs are the quiet story.</strong> New systems become yearly subscriptions,
+                  hosting and licences — the future MOOE floor of every approved project. Watch the Continuing Costs
+                  share of each year grow in the stacked bars above.
                 </InsightBox>
               </Panel>
               <Panel title="Fund sources" sub="B.2 across the selection" icon={PieChart}>
@@ -382,10 +384,20 @@ export function BudgetDashboard() {
                   label: `${a.acronym} — ${a.name}`,
                   value: a.value,
                   href: `/repository/${a.slug}`,
-                  ...(a.flagged ? { sub: "Ask is more than 2× the agency's FY2025 ICT obligations (mock)" } : {}),
+                  ...(a.ratio && a.ratio > 2
+                    ? {
+                        sub: `${fyForRanking ? `FY${fyForRanking} ask` : "Average yearly ask"} is ${a.ratio.toFixed(
+                          1
+                        )}× the agency's FY2025 ICT obligations (mock)`,
+                      }
+                    : {}),
                 }))}
                 format={phpCompact}
               />
+              <p className="text-[11px] text-muted-foreground mt-3">
+                Annotation basis: {fyForRanking ? `FY${fyForRanking} ask` : "3-year plan total ÷ 3"} vs FY2025
+                obligations — the same comparison as the absorptive-capacity table below.
+              </p>
             </Panel>
 
             {/* ── Convergence ── */}

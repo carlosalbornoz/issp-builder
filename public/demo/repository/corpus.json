@@ -439,7 +439,51 @@
             "planFromCorpus": true
           }
         ],
-        "traces": []
+        "traces": [
+          {
+            "projectId": "p-watchful",
+            "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+            "fiscalYear": 2027,
+            "money": {
+              "plan": 366883000,
+              "nep": 300840000,
+              "gaa": 0,
+              "allotment": 0,
+              "obligated": 0,
+              "disbursed": 0
+            },
+            "steps": [
+              {
+                "date": "29 Apr 2026",
+                "stage": "Plan",
+                "source": ".issp · Part III-E.1 + Part IV",
+                "title": "ISSP 2027–2029 submitted to DICT",
+                "detail": "FY2027 line items: real-time tide and oceanographic sensor stations, VSAT backhaul for off-grid sites, and coastal verification cameras. Aligned to the Public Investment Program and the National Cybersecurity Plan."
+              },
+              {
+                "date": "May 2026",
+                "stage": "Endorse",
+                "source": "DICT",
+                "title": "DICT endorses the ISSP",
+                "detail": "Endorsement reference DICT-GSSPD-2026-006."
+              },
+              {
+                "date": "Jul 2026",
+                "stage": "Propose",
+                "source": "COMPASS · NEP",
+                "title": "In the FY2027 NEP: ₱301M (82% of plan)",
+                "detail": "The 18% gap is sensor stations deferred to FY2028 — visible today because the plan is structured data."
+              },
+              {
+                "date": "Dec 2026 · ahead",
+                "stage": "Authorize",
+                "source": "COMPASS · GAA",
+                "title": "FY2027 GAA pending in Congress"
+              }
+            ],
+            "kpiActuals": []
+          }
+        ]
       },
       {
         "slug": "pdrio-2027-2029",

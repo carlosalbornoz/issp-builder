@@ -186,7 +186,7 @@ function AgencyDetailBody({ agency: a, tracedProjectIds }: { agency: CorpusProfi
                 <HcRow label="Outsourced" value={a.humanCapital.outsourced} />
                 <HcRow label="Unfilled plantilla" value={a.humanCapital.unfilled} />
                 <div className="pt-1 border-t mt-1.5">
-                  <HcRow label="Total ICT personnel" value={a.humanCapital.totalIt} />
+                  <HcRow label="of which: ICT personnel" value={a.humanCapital.totalIt} />
                 </div>
               </dl>
             </MiniCard>
