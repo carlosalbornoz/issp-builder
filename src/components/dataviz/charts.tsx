@@ -39,7 +39,7 @@ export function BarList({
         const row = (
           <div className="group">
             <div className="flex items-baseline justify-between gap-3 mb-1">
-              <span className="text-sm text-foreground truncate">{item.label}</span>
+              <span className="text-sm text-foreground break-words line-clamp-2">{item.label}</span>
               <span className="text-sm font-semibold tabular-nums text-foreground shrink-0">{format(item.value)}</span>
             </div>
             <div className="h-2 rounded-sm bg-muted overflow-hidden" aria-hidden>
@@ -83,17 +83,28 @@ export function StackedColumns({
 }) {
   const totals = columns.map((c) => c.segments.reduce((s, x) => s + x.value, 0));
   const max = Math.max(...totals, 1);
+  // Pixel heights, not percentages: the value/year labels live outside the bar,
+  // so every bar's height is exactly proportional to its total.
+  const LABEL_SPACE = 48;
+  const chartH = height - LABEL_SPACE;
   return (
     <div>
       <div className="flex items-end gap-3 sm:gap-6" style={{ height }}>
         {columns.map((col, ci) => {
           const total = totals[ci];
+          const barH = Math.max(Math.round((total / max) * chartH), total > 0 ? 3 : 0);
           return (
-            <div key={col.label} className="flex-1 flex flex-col items-center justify-end h-full min-w-0" aria-label={`${col.label}: ${format(total)}`}>
-              <span className="text-xs font-semibold tabular-nums mb-1.5 text-foreground">{format(total)}</span>
+            <div
+              key={col.label}
+              className="flex-1 min-w-0 flex flex-col items-center justify-end h-full"
+              aria-label={`${col.label}: ${format(total)}`}
+            >
+              <span className="text-xs font-semibold tabular-nums mb-1.5 text-foreground whitespace-nowrap">
+                {format(total)}
+              </span>
               <div
                 className="w-full max-w-24 sm:max-w-28 rounded-sm overflow-hidden flex flex-col-reverse border border-foreground/10"
-                style={{ height: `${Math.max((total / max) * 100, total > 0 ? 4 : 0)}%` }}
+                style={{ height: barH }}
               >
                 {col.segments
                   .filter((s) => s.value > 0)
@@ -110,7 +121,7 @@ export function StackedColumns({
                     />
                   ))}
               </div>
-              <span className="text-xs text-muted-foreground mt-1.5 tabular-nums">{col.label}</span>
+              <span className="text-xs text-muted-foreground mt-1.5 tabular-nums whitespace-nowrap">{col.label}</span>
             </div>
           );
         })}
@@ -134,12 +145,15 @@ export function Donut({
   centerValue,
   format,
   size = 176,
+  stackLegend = false,
 }: {
   segments: DonutSegment[];
   centerLabel?: string;
   centerValue?: string;
   format: (n: number) => string;
   size?: number;
+  /** Legend below the ring at full width — for narrow panels where side legends truncate. */
+  stackLegend?: boolean;
 }) {
   const total = segments.reduce((s, x) => s + x.value, 0) || 1;
   const r = 42;
@@ -151,7 +165,7 @@ export function Donut({
     return out;
   }, []);
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-6">
+    <div className={cn("flex items-center gap-6", stackLegend ? "flex-col" : "flex-col sm:flex-row")}>
       <div className="relative shrink-0" style={{ width: size, height: size }} role="img" aria-label={segments.map((s) => `${s.label}: ${format(s.value)}`).join(", ")}>
         <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
           <circle cx="60" cy="60" r={r} fill="none" stroke="var(--muted)" strokeWidth="16" />
@@ -174,12 +188,12 @@ export function Donut({
           {centerLabel ? <span className="text-[10px] uppercase tracking-widest text-muted-foreground mt-0.5">{centerLabel}</span> : null}
         </div>
       </div>
-      <ul className="space-y-2 w-full min-w-0">
+      <ul className={cn("space-y-2 min-w-0", stackLegend ? "w-full" : "w-full sm:w-auto sm:flex-1")}>
         {segments.map((s) => (
           <li key={s.key} className="flex items-center gap-2.5 text-sm">
             <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: s.color }} aria-hidden />
-            <span className="text-foreground truncate flex-1">{s.label}</span>
-            <span className="text-muted-foreground tabular-nums text-xs">{Math.round((s.value / total) * 100)}%</span>
+            <span className="text-foreground break-words min-w-0">{s.label}</span>
+            <span className="text-muted-foreground tabular-nums text-xs ml-auto shrink-0">{Math.round((s.value / total) * 100)}%</span>
             <span className="font-semibold tabular-nums shrink-0">{format(s.value)}</span>
           </li>
         ))}

@@ -26,7 +26,10 @@ import { PlanStatusPill } from "@/components/ui/plan-status-pill";
 import { useCorpus, TYPE_LABELS, assetUrl } from "@/lib/repository/corpus";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
 import { CLASSIFICATION_LABELS, DEV_STRATEGY_LABELS, DATA_STORAGE_LABELS, labelFor } from "@/lib/issp-labels";
-import { php, phpCompact } from "@/lib/utils";
+import { phpCompact } from "@/lib/utils";
+
+/** Whole pesos — the house style for summary tables (decimals only add width). */
+const php0 = (n: number) => `₱${(n || 0).toLocaleString("en-PH")}`;
 
 const SCOPE_LABELS: Record<string, string> = {
   DEPARTMENT_WIDE: "Department-wide",
@@ -86,8 +89,8 @@ function AgencyDetailBody({ agency: a }: { agency: CorpusProfile }) {
       <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-5 sm:p-6">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-5">
           <div className="flex items-start gap-4 min-w-0">
-            <span className="w-14 h-14 rounded-lg bg-primary/10 border border-primary/20 text-primary text-base font-bold flex items-center justify-center shrink-0">
-              {a.acronym.slice(0, 4)}
+            <span className="min-w-14 h-14 rounded-lg bg-primary/10 border border-primary/20 text-primary text-sm font-bold flex items-center justify-center shrink-0 px-1.5">
+              {a.acronym}
             </span>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 mb-1.5">
@@ -309,20 +312,20 @@ function AgencyDetailBody({ agency: a }: { agency: CorpusProfile }) {
           <div className="lg:col-span-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">B.1 General summary</p>
             <div className="overflow-x-auto rounded-lg border bg-card">
-              <table className="min-w-full text-sm border-collapse">
+              <table className="min-w-[560px] w-full text-xs sm:text-sm border-collapse">
                 <thead>
                   <tr className="bg-muted/50">
-                    <th className="border-b px-3 py-2 text-left font-semibold">Category</th>
-                    <th className="border-b px-3 py-2 text-right font-semibold">{a.cycle.startYear}</th>
-                    <th className="border-b px-3 py-2 text-right font-semibold">{a.cycle.startYear + 1}</th>
-                    <th className="border-b px-3 py-2 text-right font-semibold">{a.cycle.endYear}</th>
-                    <th className="border-b px-3 py-2 text-right font-semibold">Total</th>
+                    <th className="border-b px-2.5 py-2 text-left font-semibold">Category</th>
+                    <th className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">{a.cycle.startYear}</th>
+                    <th className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">{a.cycle.startYear + 1}</th>
+                    <th className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">{a.cycle.endYear}</th>
+                    <th className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">Total</th>
                   </tr>
                 </thead>
                 <tbody>
                   {a.budget.b1.map((r) => (
                     <tr key={r.label} className={r.isTotal ? "bg-muted/40 font-bold" : "border-b last:border-b-0 hover:bg-accent/20"}>
-                      <td className="px-3 py-2 flex items-center gap-2">
+                      <td className="px-2.5 py-2 flex items-center gap-2">
                         {!r.isTotal && (
                           <span
                             className="w-2.5 h-2.5 rounded-sm shrink-0"
@@ -332,10 +335,10 @@ function AgencyDetailBody({ agency: a }: { agency: CorpusProfile }) {
                         )}
                         {r.label}
                       </td>
-                      <td className="px-3 py-2 text-right tabular-nums">{php(r.year1)}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{php(r.year2)}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{php(r.year3)}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{php(r.total)}</td>
+                      <td className="px-2.5 py-2 text-right tabular-nums whitespace-nowrap">{php0(r.year1)}</td>
+                      <td className="px-2.5 py-2 text-right tabular-nums whitespace-nowrap">{php0(r.year2)}</td>
+                      <td className="px-2.5 py-2 text-right tabular-nums whitespace-nowrap">{php0(r.year3)}</td>
+                      <td className="px-2.5 py-2 text-right tabular-nums whitespace-nowrap">{php0(r.total)}</td>
                     </tr>
                   ))}
                 </tbody>

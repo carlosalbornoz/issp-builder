@@ -38,7 +38,30 @@ async function newPage(width = 1440, height = 900) {
 
 async function settle(p) {
   await p.waitForNetworkIdle({ idleTime: 400, timeout: 30000 }).catch(() => {});
+  await p.addStyleTag({ content: "nextjs-portal{display:none!important}" }).catch(() => {});
   await new Promise((r) => setTimeout(r, 600));
+}
+
+/** Assert the page does not force horizontal scrolling; log offenders when it does. */
+async function expectNoOverflow(p, label) {
+  const probe = await p.evaluate(() => {
+    const doc = document.documentElement;
+    const offenders = [];
+    if (doc.scrollWidth <= doc.clientWidth + 1) return { overflow: false, offenders };
+    for (const el of doc.querySelectorAll("body *")) {
+      const r = el.getBoundingClientRect();
+      if (r.right > doc.clientWidth + 1 && r.width > 12) {
+        offenders.push(`${el.tagName.toLowerCase()}.${String(el.className).slice(0, 80)} right=${Math.round(r.right)}`);
+        if (offenders.length >= 8) break;
+      }
+    }
+    return { overflow: true, offenders, scrollWidth: doc.scrollWidth, clientWidth: doc.clientWidth };
+  });
+  if (probe.overflow) {
+    fail(`${label}: page overflows horizontally (${probe.scrollWidth} > ${probe.clientWidth}) — ${probe.offenders.join(" | ")}`);
+  } else {
+    ok(`${label}: no horizontal overflow`);
+  }
 }
 
 async function expectText(p, text, label) {
@@ -57,6 +80,7 @@ async function expectText(p, text, label) {
   await expectText(p, "Public ISSP Repository", "repository list");
   await expectText(p, "fictitious", "repository list disclaimer");
   await expectText(p, "₱", "repository list money");
+  await expectNoOverflow(p, "repository list");
   await p.screenshot({ path: path.join(OUT_DIR, "repository-list.png"), fullPage: true });
   ok("shot repository-list.png");
   errors.forEach((e) => fail(`repository list pageerror: ${e}`));
@@ -65,6 +89,7 @@ async function expectText(p, text, label) {
   await p.click('button[aria-label="Table view"]');
   await settle(p);
   await expectText(p, "3-yr total", "repository table header");
+  await expectNoOverflow(p, "repository table");
   await p.screenshot({ path: path.join(OUT_DIR, "repository-table.png"), fullPage: true });
   ok("shot repository-table.png");
   await p.close();
@@ -81,6 +106,7 @@ async function expectText(p, text, label) {
   await expectText(p, "Summary of investments", "detail B.1 section");
   await expectText(p, "Project WATCHFUL", "detail hero project");
   await expectText(p, "Download .issp", "detail download");
+  await expectNoOverflow(p, "repository detail");
   await p.screenshot({ path: path.join(OUT_DIR, "repository-detail.png"), fullPage: true });
   ok("shot repository-detail.png");
   errors.forEach((e) => fail(`detail pageerror: ${e}`));
@@ -99,6 +125,7 @@ async function expectText(p, text, label) {
   await expectText(p, "Agencies by proposed investment", "budget ranking");
   await expectText(p, "Requests vs. allotments", "budget allotment panel");
   await expectText(p, "Cross-agency programs", "budget programs");
+  await expectNoOverflow(p, "budget");
   await p.screenshot({ path: path.join(OUT_DIR, "budget.png"), fullPage: true });
   ok("shot budget.png");
 
@@ -106,6 +133,7 @@ async function expectText(p, text, label) {
   await p.goto(`${BASE}/budget?program=rapide`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "RAPIDE", "budget program spotlight");
+  await expectNoOverflow(p, "budget program");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-program.png"), fullPage: true });
   ok("shot budget-program.png");
   errors.forEach((e) => fail(`budget pageerror: ${e}`));
@@ -117,6 +145,7 @@ async function expectText(p, text, label) {
   const p = await newPage(390, 844);
   await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
+  await expectNoOverflow(p, "budget mobile");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-mobile.png"), fullPage: true });
   ok("shot budget-mobile.png");
   await p.close();

@@ -94,11 +94,7 @@ export function RepositoryBrowser() {
             <dl className="grid grid-cols-2 lg:grid-cols-4 gap-3">
               <Stat label="Plans on file" value={corpus ? String(corpus.totals.plans) : "…"} icon={Layers} />
               <Stat label="Agencies" value={corpus ? String(corpus.totals.agencies) : "…"} icon={Building2} />
-              <Stat
-                label="Proposed ICT investment (3-yr)"
-                value={corpus ? phpCompact(corpus.totals.grandTotal) : "…"}
-                icon={CalendarRange}
-              />
+              <Stat label="3-yr ICT investment" value={corpus ? phpCompact(corpus.totals.grandTotal) : "…"} icon={CalendarRange} />
               <Stat
                 label="Cross-agency programs"
                 value={corpus ? String(corpus.totals.crossAgencyCount) : "…"}
@@ -128,7 +124,7 @@ export function RepositoryBrowser() {
                   <input
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
-                    placeholder="Search agency, acronym, project or system…"
+                    placeholder="Search agency, project or system…"
                     className="w-full h-9 rounded-md border border-input bg-background pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring/50"
                   />
                 </label>
@@ -264,20 +260,20 @@ export function RepositoryBrowser() {
                 </p>
                 <h2 className="font-display text-lg font-bold tracking-tight mb-4">Cross-agency programs in this corpus</h2>
                 <div className="grid md:grid-cols-3 gap-4">
-                  {corpus.crossAgencyPrograms.map((p) => (
-                    <Link
-                      key={p.key}
-                      href={`/budget?program=${p.key}`}
-                      className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 hover:bg-accent/30 transition-colors"
-                    >
-                      <p className="text-sm font-semibold leading-snug mb-2">{p.title}</p>
-                      <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-3">{p.description}</p>
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs text-muted-foreground">{p.participants.join(" · ")}</span>
-                        <span className="text-xs font-semibold tabular-nums text-primary whitespace-nowrap">{phpCompact(p.combinedCost)}</span>
-                      </div>
-                    </Link>
-                  ))}
+                {corpus.crossAgencyPrograms.map((p) => (
+                  <Link
+                    key={p.key}
+                    href={`/budget?program=${p.key}`}
+                    className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 hover:bg-accent/30 transition-colors flex flex-col"
+                  >
+                    <p className="text-sm font-semibold leading-snug mb-2">{p.title}</p>
+                    <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-3">{p.description}</p>
+                    <div className="mt-auto flex items-center justify-between gap-2">
+                      <span className="text-xs text-muted-foreground">{p.participants.join(" · ")}</span>
+                      <span className="text-xs font-semibold tabular-nums text-primary whitespace-nowrap">{phpCompact(p.combinedCost)}</span>
+                    </div>
+                  </Link>
+                ))}
                 </div>
               </section>
             )}
@@ -346,15 +342,17 @@ function AgencyCard({ agency: a }: { agency: CorpusProfile }) {
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2.5 min-w-0">
-          <span className="w-9 h-9 rounded-md bg-primary/10 border border-primary/20 text-primary text-[11px] font-bold flex items-center justify-center shrink-0">
-            {a.acronym.slice(0, 4)}
+          <span className="min-w-9 h-9 rounded-md bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold flex items-center justify-center shrink-0 px-1 leading-none">
+            {a.acronym}
           </span>
           <div className="min-w-0">
             <p className="text-sm font-semibold truncate">{a.acronym}</p>
             <p className="text-xs text-muted-foreground truncate">{a.name}</p>
           </div>
         </div>
-        <PlanStatusPill status={a.planStatus} />
+        <span className="shrink-0 whitespace-nowrap">
+          <PlanStatusPill status={a.planStatus} />
+        </span>
       </div>
 
       <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{a.tagline}</p>
@@ -363,9 +361,17 @@ function AgencyCard({ agency: a }: { agency: CorpusProfile }) {
         <Chip>{TYPE_SHORT[a.type]}</Chip>
         <Chip>{a.cycleLabel}</Chip>
         <Chip>
-          {a.counts.internalProjects + a.counts.crossAgencyProjects} projects
+          {(() => {
+            const n = a.counts.internalProjects + a.counts.crossAgencyProjects;
+            return `${n} ${n === 1 ? "project" : "projects"}`;
+          })()}
         </Chip>
-        <Chip>{a.counts.systems} systems</Chip>
+        <Chip>
+          {(() => {
+            const n = a.counts.systems;
+            return `${n} ${n === 1 ? "system" : "systems"}`;
+          })()}
+        </Chip>
       </div>
 
       <div className="mt-auto pt-1">

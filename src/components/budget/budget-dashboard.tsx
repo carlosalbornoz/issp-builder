@@ -213,7 +213,7 @@ export function BudgetDashboard() {
                 <SwatchLegend className="mt-4" items={BUCKETS.map((b) => ({ key: b.key, label: b.label, color: b.color }))} />
               </Panel>
               <Panel title="Fund sources" sub="B.2 across the selection" icon={PieChart}>
-                <Donut segments={fundSegments} centerValue={phpCompact(totals.total)} centerLabel="proposed" format={phpCompact} />
+                <Donut segments={fundSegments} centerValue={phpCompact(totals.total)} centerLabel="proposed" format={phpCompact} size={160} stackLegend />
               </Panel>
             </div>
 
@@ -506,7 +506,7 @@ function Kpi({
       <p className={cn("text-lg font-bold tabular-nums leading-tight truncate", highlight && "text-primary")} title={value}>
         {value}
       </p>
-      {sub ? <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{sub}</p> : null}
+      {sub ? <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{sub}</p> : null}
     </div>
   );
 }
