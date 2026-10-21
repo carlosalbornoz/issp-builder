@@ -96,12 +96,15 @@ export function Kpi({
   label,
   value,
   sub,
+  title,
   highlight,
   icon: Icon,
 }: {
   label: string;
   value: string;
   sub?: string;
+  /** Exact value for the tooltip when `value` is compacted or truncated; defaults to `value`. */
+  title?: string;
   highlight?: boolean;
   icon?: React.ComponentType<{ className?: string }>;
 }) {
@@ -117,7 +120,7 @@ export function Kpi({
         {Icon ? <Icon className="w-3 h-3" /> : null}
         {label}
       </div>
-      <p className={cn("text-lg font-bold tabular-nums leading-tight truncate", highlight && "text-primary")} title={value}>
+      <p className={cn("text-lg font-bold tabular-nums leading-tight truncate", highlight && "text-primary")} title={title ?? value}>
         {value}
       </p>
       {sub ? <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{sub}</p> : null}

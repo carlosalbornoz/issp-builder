@@ -26,21 +26,38 @@ export function BarList({
   items,
   format,
   className,
+  total,
 }: {
   items: BarListItem[];
   format: (n: number) => string;
   className?: string;
+  /** Whole the rows are a part of; when given, each row also shows its share of it. */
+  total?: number;
 }) {
   const max = Math.max(...items.map((i) => i.value), 1);
+  if (items.length === 0) {
+    return <p className={cn("text-xs text-muted-foreground", className)}>Nothing matches the current filters.</p>;
+  }
   return (
     <div className={cn("space-y-3", className)}>
       {items.map((item) => {
         const pct = Math.max((item.value / max) * 100, item.value > 0 ? 1.5 : 0);
+        const share = total ? item.value / total : null;
         const row = (
           <div className="group">
             <div className="flex items-baseline justify-between gap-3 mb-1">
-              <span className="text-sm text-foreground break-words line-clamp-2">{item.label}</span>
-              <span className="text-sm font-semibold tabular-nums text-foreground shrink-0">{format(item.value)}</span>
+              <span className="text-sm text-foreground break-words line-clamp-2" title={item.label}>
+                {item.label}
+              </span>
+              {/* Value right-aligned against the fixed share column, so both columns stay tidy. */}
+              <span className="flex items-baseline justify-end gap-2 shrink-0">
+                <span className="text-sm font-semibold tabular-nums text-foreground">{format(item.value)}</span>
+                {share !== null ? (
+                  <span className="text-xs text-muted-foreground tabular-nums w-9 text-right">
+                    {share > 0 && share < 0.001 ? "<0.1%" : `${Math.round(share * 100)}%`}
+                  </span>
+                ) : null}
+              </span>
             </div>
             <div className="h-2 rounded-sm bg-muted overflow-hidden" aria-hidden>
               <div
@@ -196,9 +213,9 @@ export function Donut({
         {segments.map((s) => (
           <li key={s.key} className="flex items-center gap-2.5 text-sm">
             <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: s.color }} aria-hidden />
-            <span className="text-foreground break-words min-w-0">{s.label}</span>
-            <span className="text-muted-foreground tabular-nums text-xs ml-auto shrink-0">{Math.round((s.value / total) * 100)}%</span>
-            <span className="font-semibold tabular-nums shrink-0">{format(s.value)}</span>
+            <span className="text-foreground break-words min-w-0 flex-1">{s.label}</span>
+            <span className="font-semibold tabular-nums shrink-0 text-right">{format(s.value)}</span>
+            <span className="text-muted-foreground tabular-nums text-xs shrink-0 w-9 text-right">{Math.round((s.value / total) * 100)}%</span>
           </li>
         ))}
       </ul>
