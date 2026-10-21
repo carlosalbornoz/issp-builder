@@ -146,7 +146,7 @@
       }
     ],
     "cioName": "Dir. Pablo S. Tungpalan",
-    "cioPosition": "Director IV — ICT Service",
+    "cioPosition": "Director IV · ICT Service",
     "cioUnit": "ICT Service",
     "cioEmail": "cio@ncra.gov.ph",
     "cioContact": "+63 2 8257 7970",
@@ -338,7 +338,7 @@
     "informationSystems": [
       {
         "id": "is-chimes",
-        "name": "CHIMES — Coastal Hazard Integration & Monitoring Enterprise System",
+        "name": "CHIMES · Coastal Hazard Integration & Monitoring Enterprise System",
         "classification": "OPERATIONS",
         "frontline": false,
         "frontlineAccessType": "",
@@ -394,7 +394,7 @@
       },
       {
         "id": "is-lason",
-        "name": "LASON — Local Adaptation Studies Online Network",
+        "name": "LASON · Local Adaptation Studies Online Network",
         "classification": "GENERAL_ADMIN",
         "frontline": false,
         "frontlineAccessType": "",
@@ -439,7 +439,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "yes",
@@ -547,7 +547,7 @@
     "proposedSystems": [
       {
         "id": "ps-aware",
-        "name": "AWARE — Analytics & Warning for At-Risk Environments",
+        "name": "AWARE · Analytics & Warning for At-Risk Environments",
         "classification": "OPERATIONS",
         "frontline": true,
         "frontlineAccessType": "ONLINE",
@@ -639,7 +639,7 @@
     "internalProjects": [
       {
         "id": "p-watchful",
-        "title": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+        "title": "Project WATCHFUL · Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
         "description": "Expands and takes ownership of the national sensor estate: 140 new real-time tide and oceanographic stations, VSAT backhaul for off-grid sites, coastal CCTV for visual verification, and the retirement of per-station vendor licensing.",
         "objectives": "1. Commission 140 new real-time sensor stations by 2028\n2. Bring all off-grid sites onto managed VSAT backhaul\n3. Eliminate per-station vendor telemetry licensing\n4. Achieve 99.5% sensor uptime during typhoon events",
         "projectType": "STANDALONE",
@@ -654,7 +654,7 @@
           "National Prioritization",
           "Scalability and Sustainability"
         ],
-        "implementingUnit": "ICT Service — Field Engineering Section",
+        "implementingUnit": "ICT Service · Field Engineering Section",
         "fundingSource": "Foreign-assisted projects",
         "year1Deliverables": "60 stations commissioned; VSAT backhaul for first 18 off-grid sites; telemetry ownership transition started",
         "year2Deliverables": "Cumulative 140 stations; vendor licensing retired; uptime dashboards live",
@@ -663,8 +663,8 @@
       },
       {
         "id": "p-sigwa",
-        "title": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
-        "description": "Builds the AWARE platform: streaming ingestion from all sensor classes, ten-minute model cycling, automated warning products, and the RAPIDE exchange — retiring the overnight CHIMES batch.",
+        "title": "Project SIGWA · Streaming Integration Gateway for Warning Analytics",
+        "description": "Builds the AWARE platform: streaming ingestion from all sensor classes, ten-minute model cycling, automated warning products, and the RAPIDE exchange, retiring the overnight CHIMES batch.",
         "objectives": "1. AWARE platform live with all sensor classes streaming by 2028\n2. Warning product generation time under 10 minutes end-to-end\n3. Regional desks fully migrated from CHIMES\n4. RAPIDE exchange operational for partner agencies",
         "projectType": "IS_DRIVEN",
         "linkedSystemIds": [
@@ -735,7 +735,7 @@
     "crossAgencyProjects": [
       {
         "id": "cx-rapide",
-        "title": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+        "title": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
         "description": "The Authority's lead share of RAPIDE: operating the shared analytics exchange, publishing AWARE hazard feeds, and onboarding partner agencies during typhoon response.",
         "objectives": "1. RAPIDE exchange operational before the 2027 typhoon season\n2. Onboard PDRIO and Malinaw city feeds\n3. Joint after-action reviews each season",
         "projectType": "IS_DRIVEN",
@@ -750,7 +750,7 @@
         ],
         "implementingUnit": "ICT Service",
         "leadAgency": "National Coastal Resilience Authority",
-        "implementingAgencies": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+        "implementingAgencies": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events",
         "fundingSource": "General Appropriations Act",
         "year1Deliverables": "Exchange live; AWARE feeds published; first joint drill with partners",
         "year2Deliverables": "Partner onboarding complete; season after-action review",
@@ -760,7 +760,7 @@
     ],
     "performanceFramework": {
       "p-watchful": {
-        "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+        "projectTitle": "Project WATCHFUL · Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
         "projectCategory": "internal",
         "rows": [
           {
@@ -773,7 +773,7 @@
             "year2Target": "140",
             "year3Target": "140",
             "dataCollectionMethod": "Quarterly project accomplishment reports",
-            "responsibleUnit": "ICT Service — Field Engineering Section"
+            "responsibleUnit": "ICT Service · Field Engineering Section"
           },
           {
             "id": "p-watchful-kpi-2",
@@ -785,7 +785,7 @@
             "year2Target": "< 1 minute",
             "year3Target": "< 1 minute",
             "dataCollectionMethod": "Quarterly project accomplishment reports",
-            "responsibleUnit": "ICT Service — Field Engineering Section"
+            "responsibleUnit": "ICT Service · Field Engineering Section"
           },
           {
             "id": "p-watchful-kpi-3",
@@ -797,12 +797,12 @@
             "year2Target": "99%",
             "year3Target": "99.5%",
             "dataCollectionMethod": "Quarterly project accomplishment reports",
-            "responsibleUnit": "ICT Service — Field Engineering Section"
+            "responsibleUnit": "ICT Service · Field Engineering Section"
           }
         ]
       },
       "p-sigwa": {
-        "projectTitle": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
+        "projectTitle": "Project SIGWA · Streaming Integration Gateway for Warning Analytics",
         "projectCategory": "internal",
         "rows": [
           {
@@ -904,7 +904,7 @@
         ]
       },
       "cx-rapide": {
-        "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+        "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
         "projectCategory": "crossAgency",
         "rows": [
           {
@@ -968,7 +968,7 @@
           },
           {
             "id": "y1-co-124",
-            "item": "Rack-mounted UPS — equipment room",
+            "item": "Rack-mounted UPS · equipment room",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -988,7 +988,7 @@
         "mooe": [
           {
             "id": "y1-mooe-117",
-            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "item": "Internet subscription · 3 offices, pooled (Year 1)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1006,7 +1006,7 @@
           },
           {
             "id": "y1-mooe-119",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1015,7 +1015,7 @@
           },
           {
             "id": "y1-mooe-120",
-            "item": "Mobile expenses — field engineering and warning officers",
+            "item": "Mobile expenses · field engineering and warning officers",
             "office": "ICT Service",
             "categoryId": "mooe-mobile-expenses",
             "fundSource": "General Appropriations Act",
@@ -1026,12 +1026,12 @@
       },
       "internalProjects": {
         "p-watchful": {
-          "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+          "projectTitle": "Project WATCHFUL · Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
           "capitalOutlay": [
             {
               "id": "y1-co-139",
               "item": "Real-time tide and oceanographic sensor stations (buoy and pier-mount)",
-              "office": "ICT Service — Field Engineering Section",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "Foreign-assisted projects",
               "qty": 140,
@@ -1039,8 +1039,8 @@
             },
             {
               "id": "y1-co-140",
-              "item": "VSAT terminals and installation — off-grid sites",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "VSAT terminals and installation · off-grid sites",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "co-communication-equipment",
               "fundSource": "Foreign-assisted projects",
               "qty": 36,
@@ -1049,7 +1049,7 @@
             {
               "id": "y1-co-141",
               "item": "Coastal verification cameras (pan-tilt, solar)",
-              "office": "ICT Service — Field Engineering Section",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "co-communication-equipment",
               "fundSource": "Foreign-assisted projects",
               "qty": 30,
@@ -1057,8 +1057,8 @@
             },
             {
               "id": "y1-co-142",
-              "item": "Real-time tide and oceanographic sensor stations — succeeding tranche",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "Real-time tide and oceanographic sensor stations · succeeding tranche",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "Foreign-assisted projects",
               "qty": 42,
@@ -1066,8 +1066,8 @@
             },
             {
               "id": "y1-co-143",
-              "item": "VSAT terminals and installation — off-grid sites — succeeding tranche",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "VSAT terminals and installation · off-grid sites · succeeding tranche",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "co-communication-equipment",
               "fundSource": "Foreign-assisted projects",
               "qty": 11,
@@ -1077,11 +1077,11 @@
           "mooe": []
         },
         "p-sigwa": {
-          "projectTitle": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
+          "projectTitle": "Project SIGWA · Streaming Integration Gateway for Warning Analytics",
           "capitalOutlay": [
             {
               "id": "y1-co-152",
-              "item": "Project SIGWA — system development and acquisition (Year 1 milestone)",
+              "item": "Project SIGWA · system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1092,7 +1092,7 @@
           "mooe": [
             {
               "id": "y1-mooe-153",
-              "item": "Project management office — Project SIGWA",
+              "item": "Project management office · Project SIGWA",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1101,7 +1101,7 @@
             },
             {
               "id": "y1-mooe-154",
-              "item": "Hosting, support and licences — Project SIGWA (Year 1)",
+              "item": "Hosting, support and licences · Project SIGWA (Year 1)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1110,7 +1110,7 @@
             },
             {
               "id": "y1-mooe-155",
-              "item": "ICT training and change management — Project SIGWA",
+              "item": "ICT training and change management · Project SIGWA",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1124,7 +1124,7 @@
           "capitalOutlay": [
             {
               "id": "y1-co-168",
-              "item": "LASON Modernization — system development and acquisition (Year 1 milestone)",
+              "item": "LASON Modernization · system development and acquisition (Year 1 milestone)",
               "office": "Planning and Policy Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1135,7 +1135,7 @@
           "mooe": [
             {
               "id": "y1-mooe-169",
-              "item": "Project management office — LASON Modernization",
+              "item": "Project management office · LASON Modernization",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1144,7 +1144,7 @@
             },
             {
               "id": "y1-mooe-170",
-              "item": "Hosting, support and licences — LASON Modernization (Year 1)",
+              "item": "Hosting, support and licences · LASON Modernization (Year 1)",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1153,7 +1153,7 @@
             },
             {
               "id": "y1-mooe-171",
-              "item": "ICT training and change management — LASON Modernization",
+              "item": "ICT training and change management · LASON Modernization",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1165,11 +1165,11 @@
       },
       "crossAgencyProjects": {
         "cx-rapide": {
-          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+          "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
           "capitalOutlay": [
             {
               "id": "y1-co-172",
-              "item": "RAPIDE lead share — system development and acquisition (Year 1 milestone)",
+              "item": "RAPIDE lead share · system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1180,7 +1180,7 @@
           "mooe": [
             {
               "id": "y1-mooe-173",
-              "item": "Project management office — RAPIDE lead share",
+              "item": "Project management office · RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1189,7 +1189,7 @@
             },
             {
               "id": "y1-mooe-174",
-              "item": "Hosting, support and licences — RAPIDE lead share (Year 1)",
+              "item": "Hosting, support and licences · RAPIDE lead share (Year 1)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1198,7 +1198,7 @@
             },
             {
               "id": "y1-mooe-175",
-              "item": "ICT training and change management — RAPIDE lead share",
+              "item": "ICT training and change management · RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1281,7 +1281,7 @@
           },
           {
             "id": "y2-co-132",
-            "item": "Rack-mounted UPS — equipment room",
+            "item": "Rack-mounted UPS · equipment room",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1301,7 +1301,7 @@
         "mooe": [
           {
             "id": "y2-mooe-126",
-            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "item": "Internet subscription · 3 offices, pooled (Year 2)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1319,7 +1319,7 @@
           },
           {
             "id": "y2-mooe-128",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1330,12 +1330,12 @@
       },
       "internalProjects": {
         "p-watchful": {
-          "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+          "projectTitle": "Project WATCHFUL · Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
           "capitalOutlay": [
             {
               "id": "y2-co-144",
-              "item": "Project WATCHFUL — engineering, installation and commissioning (Year 2)",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "Project WATCHFUL · engineering, installation and commissioning (Year 2)",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "Foreign-assisted projects",
               "qty": 1,
@@ -1345,8 +1345,8 @@
           "mooe": [
             {
               "id": "y2-mooe-145",
-              "item": "Project management office — Project WATCHFUL",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "Project management office · Project WATCHFUL",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "mooe-professional-services",
               "fundSource": "Foreign-assisted projects",
               "qty": 1,
@@ -1354,8 +1354,8 @@
             },
             {
               "id": "y2-mooe-146",
-              "item": "Hosting, support and licences — Project WATCHFUL (Year 2)",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "Hosting, support and licences · Project WATCHFUL (Year 2)",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "mooe-web-hosting",
               "fundSource": "Foreign-assisted projects",
               "qty": 1,
@@ -1363,8 +1363,8 @@
             },
             {
               "id": "y2-mooe-147",
-              "item": "ICT training and change management — Project WATCHFUL",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "ICT training and change management · Project WATCHFUL",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "mooe-ict-training",
               "fundSource": "Foreign-assisted projects",
               "qty": 1,
@@ -1373,11 +1373,11 @@
           ]
         },
         "p-sigwa": {
-          "projectTitle": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
+          "projectTitle": "Project SIGWA · Streaming Integration Gateway for Warning Analytics",
           "capitalOutlay": [
             {
               "id": "y2-co-156",
-              "item": "Project SIGWA — system development and acquisition (Year 2 milestone)",
+              "item": "Project SIGWA · system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1388,7 +1388,7 @@
           "mooe": [
             {
               "id": "y2-mooe-157",
-              "item": "Project management office — Project SIGWA",
+              "item": "Project management office · Project SIGWA",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1397,7 +1397,7 @@
             },
             {
               "id": "y2-mooe-158",
-              "item": "Hosting, support and licences — Project SIGWA (Year 2)",
+              "item": "Hosting, support and licences · Project SIGWA (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1406,7 +1406,7 @@
             },
             {
               "id": "y2-mooe-159",
-              "item": "ICT training and change management — Project SIGWA",
+              "item": "ICT training and change management · Project SIGWA",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1420,7 +1420,7 @@
           "capitalOutlay": [
             {
               "id": "y2-co-160",
-              "item": "Coastal Digital Twin — system development and acquisition (Year 2 milestone)",
+              "item": "Coastal Digital Twin · system development and acquisition (Year 2 milestone)",
               "office": "Planning and Policy Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1431,7 +1431,7 @@
           "mooe": [
             {
               "id": "y2-mooe-161",
-              "item": "Project management office — Coastal Digital Twin",
+              "item": "Project management office · Coastal Digital Twin",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1440,7 +1440,7 @@
             },
             {
               "id": "y2-mooe-162",
-              "item": "Hosting, support and licences — Coastal Digital Twin (Year 2)",
+              "item": "Hosting, support and licences · Coastal Digital Twin (Year 2)",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1449,7 +1449,7 @@
             },
             {
               "id": "y2-mooe-163",
-              "item": "ICT training and change management — Coastal Digital Twin",
+              "item": "ICT training and change management · Coastal Digital Twin",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1461,11 +1461,11 @@
       },
       "crossAgencyProjects": {
         "cx-rapide": {
-          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+          "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
           "capitalOutlay": [
             {
               "id": "y2-co-176",
-              "item": "RAPIDE lead share — system development and acquisition (Year 2 milestone)",
+              "item": "RAPIDE lead share · system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1476,7 +1476,7 @@
           "mooe": [
             {
               "id": "y2-mooe-177",
-              "item": "Project management office — RAPIDE lead share",
+              "item": "Project management office · RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1485,7 +1485,7 @@
             },
             {
               "id": "y2-mooe-178",
-              "item": "Hosting, support and licences — RAPIDE lead share (Year 2)",
+              "item": "Hosting, support and licences · RAPIDE lead share (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1494,7 +1494,7 @@
             },
             {
               "id": "y2-mooe-179",
-              "item": "ICT training and change management — RAPIDE lead share",
+              "item": "ICT training and change management · RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1570,7 +1570,7 @@
         "mooe": [
           {
             "id": "y3-mooe-134",
-            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "item": "Internet subscription · 3 offices, pooled (Year 3)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1588,7 +1588,7 @@
           },
           {
             "id": "y3-mooe-136",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1599,12 +1599,12 @@
       },
       "internalProjects": {
         "p-watchful": {
-          "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+          "projectTitle": "Project WATCHFUL · Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
           "capitalOutlay": [
             {
               "id": "y3-co-148",
-              "item": "Project WATCHFUL — engineering, installation and commissioning (Year 3)",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "Project WATCHFUL · engineering, installation and commissioning (Year 3)",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "Foreign-assisted projects",
               "qty": 1,
@@ -1614,8 +1614,8 @@
           "mooe": [
             {
               "id": "y3-mooe-149",
-              "item": "Project management office — Project WATCHFUL",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "Project management office · Project WATCHFUL",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "mooe-professional-services",
               "fundSource": "Foreign-assisted projects",
               "qty": 1,
@@ -1623,8 +1623,8 @@
             },
             {
               "id": "y3-mooe-150",
-              "item": "Hosting, support and licences — Project WATCHFUL (Year 3)",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "Hosting, support and licences · Project WATCHFUL (Year 3)",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "Foreign-assisted projects",
               "qty": 1,
@@ -1632,8 +1632,8 @@
             },
             {
               "id": "y3-mooe-151",
-              "item": "ICT training and change management — Project WATCHFUL",
-              "office": "ICT Service — Field Engineering Section",
+              "item": "ICT training and change management · Project WATCHFUL",
+              "office": "ICT Service · Field Engineering Section",
               "categoryId": "mooe-ict-training",
               "fundSource": "Foreign-assisted projects",
               "qty": 1,
@@ -1646,7 +1646,7 @@
           "capitalOutlay": [
             {
               "id": "y3-co-164",
-              "item": "Coastal Digital Twin — system development and acquisition (Year 3 milestone)",
+              "item": "Coastal Digital Twin · system development and acquisition (Year 3 milestone)",
               "office": "Planning and Policy Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1657,7 +1657,7 @@
           "mooe": [
             {
               "id": "y3-mooe-165",
-              "item": "Project management office — Coastal Digital Twin",
+              "item": "Project management office · Coastal Digital Twin",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1666,7 +1666,7 @@
             },
             {
               "id": "y3-mooe-166",
-              "item": "Hosting, support and licences — Coastal Digital Twin (Year 3)",
+              "item": "Hosting, support and licences · Coastal Digital Twin (Year 3)",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1675,7 +1675,7 @@
             },
             {
               "id": "y3-mooe-167",
-              "item": "ICT training and change management — Coastal Digital Twin",
+              "item": "ICT training and change management · Coastal Digital Twin",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1687,11 +1687,11 @@
       },
       "crossAgencyProjects": {
         "cx-rapide": {
-          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+          "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
           "capitalOutlay": [
             {
               "id": "y3-co-180",
-              "item": "RAPIDE lead share — system development and acquisition (Year 3 milestone)",
+              "item": "RAPIDE lead share · system development and acquisition (Year 3 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1702,7 +1702,7 @@
           "mooe": [
             {
               "id": "y3-mooe-181",
-              "item": "Project management office — RAPIDE lead share",
+              "item": "Project management office · RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1711,7 +1711,7 @@
             },
             {
               "id": "y3-mooe-182",
-              "item": "Hosting, support and licences — RAPIDE lead share (Year 3)",
+              "item": "Hosting, support and licences · RAPIDE lead share (Year 3)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1720,7 +1720,7 @@
             },
             {
               "id": "y3-mooe-183",
-              "item": "ICT training and change management — RAPIDE lead share",
+              "item": "ICT training and change management · RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",

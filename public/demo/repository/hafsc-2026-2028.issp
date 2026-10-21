@@ -269,7 +269,7 @@
       }
     ],
     "networkDiagrams": [],
-    "networkDescription": "The main campus network is a mix of unmanaged switches and home routers installed building-by-building over fifteen years; two remote demonstration farms have no connectivity at all and report by SMS. The student information system runs on a single tower server in the registrar's storeroom, cooled by an electric fan. Backup is an external hard drive rotated weekly to the vault — when staff remember.",
+    "networkDescription": "The main campus network is a mix of unmanaged switches and home routers installed building-by-building over fifteen years; two remote demonstration farms have no connectivity at all and report by SMS. The student information system runs on a single tower server in the registrar's storeroom, cooled by an electric fan. Backup is an external hard drive rotated weekly to the vault, when staff remember.",
     "cybersecurityControls": {
       "physical": {
         "perimeterProtection": true,
@@ -391,7 +391,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "yes",
@@ -607,7 +607,7 @@
       {
         "id": "p-ailab",
         "title": "AI Teaching and Research Laboratory",
-        "description": "Equips a teaching laboratory with accelerator-capable workstations and a departmental training server so the College can offer AI electives across its agri-forestry programs and train faculty — capability-building on shared curriculum workloads, not a production cluster.",
+        "description": "Equips a teaching laboratory with accelerator-capable workstations and a departmental training server so the College can offer AI electives across its agri-forestry programs and train faculty: capability-building on shared curriculum workloads, not a production cluster.",
         "objectives": "1. AI elective track launched in AY 2027-2028\n2. 24-seat laboratory operational with a departmental training server\n3. 12 faculty certified to teach AI modules by 2028",
         "projectType": "STANDALONE",
         "linkedSystemIds": [],
@@ -765,7 +765,7 @@
           },
           {
             "id": "y1-co-069",
-            "item": "Rack-mounted UPS — equipment room",
+            "item": "Rack-mounted UPS · equipment room",
             "office": "ICT Office",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -785,7 +785,7 @@
         "mooe": [
           {
             "id": "y1-mooe-062",
-            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "item": "Internet subscription · 3 offices, pooled (Year 1)",
             "office": "ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -803,7 +803,7 @@
           },
           {
             "id": "y1-mooe-064",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -863,7 +863,7 @@
             },
             {
               "id": "y1-co-086",
-              "item": "Campus Network & Cybersecurity — engineering, installation and commissioning (Year 1)",
+              "item": "Campus Network & Cybersecurity · engineering, installation and commissioning (Year 1)",
               "office": "ICT Office",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
@@ -874,7 +874,7 @@
           "mooe": [
             {
               "id": "y1-mooe-087",
-              "item": "Project management office — Campus Network & Cybersecurity",
+              "item": "Project management office · Campus Network & Cybersecurity",
               "office": "ICT Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -883,7 +883,7 @@
             },
             {
               "id": "y1-mooe-088",
-              "item": "Hosting, support and licences — Campus Network & Cybersecurity (Year 1)",
+              "item": "Hosting, support and licences · Campus Network & Cybersecurity (Year 1)",
               "office": "ICT Office",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -892,7 +892,7 @@
             },
             {
               "id": "y1-mooe-089",
-              "item": "ICT training and change management — Campus Network & Cybersecurity",
+              "item": "ICT training and change management · Campus Network & Cybersecurity",
               "office": "ICT Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -906,7 +906,7 @@
           "capitalOutlay": [
             {
               "id": "y1-co-090",
-              "item": "e-Extension Platform — system development and acquisition (Year 1 milestone)",
+              "item": "e-Extension Platform · system development and acquisition (Year 1 milestone)",
               "office": "Extension and Training Office",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -917,7 +917,7 @@
           "mooe": [
             {
               "id": "y1-mooe-091",
-              "item": "Project management office — e-Extension Platform",
+              "item": "Project management office · e-Extension Platform",
               "office": "Extension and Training Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -926,7 +926,7 @@
             },
             {
               "id": "y1-mooe-092",
-              "item": "Hosting, support and licences — e-Extension Platform (Year 1)",
+              "item": "Hosting, support and licences · e-Extension Platform (Year 1)",
               "office": "Extension and Training Office",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -935,7 +935,7 @@
             },
             {
               "id": "y1-mooe-093",
-              "item": "ICT training and change management — e-Extension Platform",
+              "item": "ICT training and change management · e-Extension Platform",
               "office": "Extension and Training Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1021,7 +1021,7 @@
         "mooe": [
           {
             "id": "y2-mooe-071",
-            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "item": "Internet subscription · 3 offices, pooled (Year 2)",
             "office": "ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1039,7 +1039,7 @@
           },
           {
             "id": "y2-mooe-073",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1063,7 +1063,7 @@
           "capitalOutlay": [
             {
               "id": "y2-co-094",
-              "item": "e-Extension Platform — system development and acquisition (Year 2 milestone)",
+              "item": "e-Extension Platform · system development and acquisition (Year 2 milestone)",
               "office": "Extension and Training Office",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1074,7 +1074,7 @@
           "mooe": [
             {
               "id": "y2-mooe-095",
-              "item": "Project management office — e-Extension Platform",
+              "item": "Project management office · e-Extension Platform",
               "office": "Extension and Training Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1083,7 +1083,7 @@
             },
             {
               "id": "y2-mooe-096",
-              "item": "Hosting, support and licences — e-Extension Platform (Year 2)",
+              "item": "Hosting, support and licences · e-Extension Platform (Year 2)",
               "office": "Extension and Training Office",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1092,7 +1092,7 @@
             },
             {
               "id": "y2-mooe-097",
-              "item": "ICT training and change management — e-Extension Platform",
+              "item": "ICT training and change management · e-Extension Platform",
               "office": "Extension and Training Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1133,7 +1133,7 @@
             },
             {
               "id": "y2-co-101",
-              "item": "AI Teaching & Research Lab — engineering, installation and commissioning (Year 2)",
+              "item": "AI Teaching & Research Lab · engineering, installation and commissioning (Year 2)",
               "office": "ICT Office",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
@@ -1144,7 +1144,7 @@
           "mooe": [
             {
               "id": "y2-mooe-102",
-              "item": "Project management office — AI Teaching & Research Lab",
+              "item": "Project management office · AI Teaching & Research Lab",
               "office": "ICT Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1153,7 +1153,7 @@
             },
             {
               "id": "y2-mooe-103",
-              "item": "Hosting, support and licences — AI Teaching & Research Lab (Year 2)",
+              "item": "Hosting, support and licences · AI Teaching & Research Lab (Year 2)",
               "office": "ICT Office",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1162,7 +1162,7 @@
             },
             {
               "id": "y2-mooe-104",
-              "item": "ICT training and change management — AI Teaching & Research Lab",
+              "item": "ICT training and change management · AI Teaching & Research Lab",
               "office": "ICT Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1230,7 +1230,7 @@
         "mooe": [
           {
             "id": "y3-mooe-078",
-            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "item": "Internet subscription · 3 offices, pooled (Year 3)",
             "office": "ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1248,7 +1248,7 @@
           },
           {
             "id": "y3-mooe-080",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",

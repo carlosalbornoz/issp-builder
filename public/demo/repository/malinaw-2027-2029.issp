@@ -103,7 +103,7 @@
   "part1": {
     "legalBasis": "Republic Act No. 11877, converting the Municipality of Malinaw into a component city, with full corporate powers for local governance and service delivery.",
     "mandateFunction": "The City Government of Malinaw delivers local governance services for 42 barangays: business permits and licensing, real property taxation, civil registry, health services, social welfare and disaster response, supported by a city hall workforce of roughly 600 personnel.",
-    "visionStatement": "A city where every government service that can be online is online — and works.",
+    "visionStatement": "A city where every government service that can be online is online, and works.",
     "missionStatement": "To deliver fast, transparent city services through integrated digital systems that citizens can use from any barangay.",
     "orgOutcomes": [
       {
@@ -246,7 +246,7 @@
           "oo-1-pg-1"
         ],
         "criticalSystem": "eBPLS (vendor-hosted business permits)",
-        "concern": "The vendor-hosted permit system's data exports cost extra and arrive as PDFs; the city cannot do its own analytics on its own permit data, and renewals queue twice — once to file, once to pay.",
+        "concern": "The vendor-hosted permit system's data exports cost extra and arrive as PDFs; the city cannot do its own analytics on its own permit data, and renewals queue twice: once to file, once to pay.",
         "desiredStrategy": "Bring permits into the city-owned One-Stop portal with integrated payment and open data exports."
       },
       {
@@ -324,7 +324,7 @@
     "informationSystems": [
       {
         "id": "is-ebpls",
-        "name": "eBPLS — Business Permits and Licensing System",
+        "name": "eBPLS · Business Permits and Licensing System",
         "classification": "OPERATIONS",
         "frontline": true,
         "frontlineAccessType": "ONLINE",
@@ -425,7 +425,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "yes",
@@ -596,7 +596,7 @@
       {
         "id": "p-portal",
         "title": "Malinaw One-Stop Digital Services Portal",
-        "description": "Builds the city-owned services portal: permits, property tax payments, civil registry requests and barangay services with integrated online payment — ending the two-queue renewal and the billable data export.",
+        "description": "Builds the city-owned services portal: permits, property tax payments, civil registry requests and barangay services with integrated online payment, ending the two-queue renewal and the billable data export.",
         "objectives": "1. Portal live with permits and property tax by 2028\n2. Online payment integrated for all covered services\n3. City-owned data with open exports\n4. Cut average renewal processing from 3 visits to 0",
         "projectType": "IS_DRIVEN",
         "linkedSystemIds": [
@@ -641,7 +641,7 @@
     "crossAgencyProjects": [
       {
         "id": "cx-rapide",
-        "title": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
+        "title": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
         "description": "The city's share of RAPIDE: consuming coastal hazard feeds into the city incident dashboard and contributing barangay incident reports to the exchange.",
         "objectives": "1. City incident dashboard consuming RAPIDE feeds by 2028\n2. Barangay incident reports flowing to the exchange\n3. Joint drills with NCRA and PDRIO",
         "projectType": "IS_DRIVEN",
@@ -658,7 +658,7 @@
         ],
         "implementingUnit": "City DRRMO",
         "leadAgency": "National Coastal Resilience Authority",
-        "implementingAgencies": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+        "implementingAgencies": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events",
         "fundingSource": "General Appropriations Act",
         "year1Deliverables": "Dashboard live consuming surge and windstorm feeds; first joint drill",
         "year2Deliverables": "Barangay reports flowing to the exchange; season after-action review",
@@ -667,7 +667,7 @@
       },
       {
         "id": "cx-pxnet",
-        "title": "Permits Exchange Network (PXNet) — Malinaw lead share",
+        "title": "Permits Exchange Network (PXNet) · Malinaw lead share",
         "description": "The city's lead share of PXNet: operating the inter-LGU verification exchange so businesses relocating between member LGUs do not re-submit records both cities hold.",
         "objectives": "1. PXNet verification live with San Prospero by 2028\n2. Shared inspection record schema\n3. Zero re-submission for relocating businesses between members",
         "projectType": "IS_DRIVEN",
@@ -752,7 +752,7 @@
         ]
       },
       "cx-rapide": {
-        "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
+        "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
         "projectCategory": "crossAgency",
         "rows": [
           {
@@ -782,7 +782,7 @@
         ]
       },
       "cx-pxnet": {
-        "projectTitle": "Permits Exchange Network (PXNet) — Malinaw lead share",
+        "projectTitle": "Permits Exchange Network (PXNet) · Malinaw lead share",
         "projectCategory": "crossAgency",
         "rows": [
           {
@@ -839,7 +839,7 @@
         "mooe": [
           {
             "id": "y1-mooe-331",
-            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "item": "Internet subscription · 3 offices, pooled (Year 1)",
             "office": "City ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -857,7 +857,7 @@
           },
           {
             "id": "y1-mooe-333",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "City ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -881,7 +881,7 @@
           "capitalOutlay": [
             {
               "id": "y1-co-346",
-              "item": "One-Stop Portal — system development and acquisition (Year 1 milestone)",
+              "item": "One-Stop Portal · system development and acquisition (Year 1 milestone)",
               "office": "City ICT Office",
               "categoryId": "co-ict-software",
               "fundSource": "Locally funded",
@@ -892,7 +892,7 @@
           "mooe": [
             {
               "id": "y1-mooe-347",
-              "item": "Project management office — One-Stop Portal",
+              "item": "Project management office · One-Stop Portal",
               "office": "City ICT Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "Locally funded",
@@ -901,7 +901,7 @@
             },
             {
               "id": "y1-mooe-348",
-              "item": "Hosting, support and licences — One-Stop Portal (Year 1)",
+              "item": "Hosting, support and licences · One-Stop Portal (Year 1)",
               "office": "City ICT Office",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "Locally funded",
@@ -910,7 +910,7 @@
             },
             {
               "id": "y1-mooe-349",
-              "item": "ICT training and change management — One-Stop Portal",
+              "item": "ICT training and change management · One-Stop Portal",
               "office": "City ICT Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "Locally funded",
@@ -942,7 +942,7 @@
             },
             {
               "id": "y1-co-356",
-              "item": "Barangay Connectivity Mesh — engineering, installation and commissioning (Year 1)",
+              "item": "Barangay Connectivity Mesh · engineering, installation and commissioning (Year 1)",
               "office": "City ICT Office",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
@@ -953,7 +953,7 @@
           "mooe": [
             {
               "id": "y1-mooe-357",
-              "item": "Project management office — Barangay Connectivity Mesh",
+              "item": "Project management office · Barangay Connectivity Mesh",
               "office": "City ICT Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -962,7 +962,7 @@
             },
             {
               "id": "y1-mooe-358",
-              "item": "Hosting, support and licences — Barangay Connectivity Mesh (Year 1)",
+              "item": "Hosting, support and licences · Barangay Connectivity Mesh (Year 1)",
               "office": "City ICT Office",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -971,7 +971,7 @@
             },
             {
               "id": "y1-mooe-359",
-              "item": "ICT training and change management — Barangay Connectivity Mesh",
+              "item": "ICT training and change management · Barangay Connectivity Mesh",
               "office": "City ICT Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -983,11 +983,11 @@
       },
       "crossAgencyProjects": {
         "cx-rapide": {
-          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
+          "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
           "capitalOutlay": [
             {
               "id": "y1-co-360",
-              "item": "RAPIDE participation — system development and acquisition (Year 1 milestone)",
+              "item": "RAPIDE participation · system development and acquisition (Year 1 milestone)",
               "office": "City DRRMO",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -998,7 +998,7 @@
           "mooe": [
             {
               "id": "y1-mooe-361",
-              "item": "Project management office — RAPIDE participation",
+              "item": "Project management office · RAPIDE participation",
               "office": "City DRRMO",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1007,7 +1007,7 @@
             },
             {
               "id": "y1-mooe-362",
-              "item": "Hosting, support and licences — RAPIDE participation (Year 1)",
+              "item": "Hosting, support and licences · RAPIDE participation (Year 1)",
               "office": "City DRRMO",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1016,7 +1016,7 @@
             },
             {
               "id": "y1-mooe-363",
-              "item": "ICT training and change management — RAPIDE participation",
+              "item": "ICT training and change management · RAPIDE participation",
               "office": "City DRRMO",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1026,11 +1026,11 @@
           ]
         },
         "cx-pxnet": {
-          "projectTitle": "Permits Exchange Network (PXNet) — Malinaw lead share",
+          "projectTitle": "Permits Exchange Network (PXNet) · Malinaw lead share",
           "capitalOutlay": [
             {
               "id": "y1-co-368",
-              "item": "PXNet lead share — system development and acquisition (Year 1 milestone)",
+              "item": "PXNet lead share · system development and acquisition (Year 1 milestone)",
               "office": "Business Permits and Licensing Office",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1041,7 +1041,7 @@
           "mooe": [
             {
               "id": "y1-mooe-369",
-              "item": "Project management office — PXNet lead share",
+              "item": "Project management office · PXNet lead share",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1050,7 +1050,7 @@
             },
             {
               "id": "y1-mooe-370",
-              "item": "Hosting, support and licences — PXNet lead share (Year 1)",
+              "item": "Hosting, support and licences · PXNet lead share (Year 1)",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1059,7 +1059,7 @@
             },
             {
               "id": "y1-mooe-371",
-              "item": "ICT training and change management — PXNet lead share",
+              "item": "ICT training and change management · PXNet lead share",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1135,7 +1135,7 @@
         "mooe": [
           {
             "id": "y2-mooe-337",
-            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "item": "Internet subscription · 3 offices, pooled (Year 2)",
             "office": "City ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1153,7 +1153,7 @@
           },
           {
             "id": "y2-mooe-339",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "City ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1168,7 +1168,7 @@
           "capitalOutlay": [
             {
               "id": "y2-co-350",
-              "item": "One-Stop Portal — system development and acquisition (Year 2 milestone)",
+              "item": "One-Stop Portal · system development and acquisition (Year 2 milestone)",
               "office": "City ICT Office",
               "categoryId": "co-ict-software",
               "fundSource": "Locally funded",
@@ -1179,7 +1179,7 @@
           "mooe": [
             {
               "id": "y2-mooe-351",
-              "item": "Project management office — One-Stop Portal",
+              "item": "Project management office · One-Stop Portal",
               "office": "City ICT Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "Locally funded",
@@ -1188,7 +1188,7 @@
             },
             {
               "id": "y2-mooe-352",
-              "item": "Hosting, support and licences — One-Stop Portal (Year 2)",
+              "item": "Hosting, support and licences · One-Stop Portal (Year 2)",
               "office": "City ICT Office",
               "categoryId": "mooe-web-hosting",
               "fundSource": "Locally funded",
@@ -1197,7 +1197,7 @@
             },
             {
               "id": "y2-mooe-353",
-              "item": "ICT training and change management — One-Stop Portal",
+              "item": "ICT training and change management · One-Stop Portal",
               "office": "City ICT Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "Locally funded",
@@ -1209,11 +1209,11 @@
       },
       "crossAgencyProjects": {
         "cx-rapide": {
-          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
+          "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
           "capitalOutlay": [
             {
               "id": "y2-co-364",
-              "item": "RAPIDE participation — system development and acquisition (Year 2 milestone)",
+              "item": "RAPIDE participation · system development and acquisition (Year 2 milestone)",
               "office": "City DRRMO",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1224,7 +1224,7 @@
           "mooe": [
             {
               "id": "y2-mooe-365",
-              "item": "Project management office — RAPIDE participation",
+              "item": "Project management office · RAPIDE participation",
               "office": "City DRRMO",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1233,7 +1233,7 @@
             },
             {
               "id": "y2-mooe-366",
-              "item": "Hosting, support and licences — RAPIDE participation (Year 2)",
+              "item": "Hosting, support and licences · RAPIDE participation (Year 2)",
               "office": "City DRRMO",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1242,7 +1242,7 @@
             },
             {
               "id": "y2-mooe-367",
-              "item": "ICT training and change management — RAPIDE participation",
+              "item": "ICT training and change management · RAPIDE participation",
               "office": "City DRRMO",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1252,11 +1252,11 @@
           ]
         },
         "cx-pxnet": {
-          "projectTitle": "Permits Exchange Network (PXNet) — Malinaw lead share",
+          "projectTitle": "Permits Exchange Network (PXNet) · Malinaw lead share",
           "capitalOutlay": [
             {
               "id": "y2-co-372",
-              "item": "PXNet lead share — system development and acquisition (Year 2 milestone)",
+              "item": "PXNet lead share · system development and acquisition (Year 2 milestone)",
               "office": "Business Permits and Licensing Office",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1267,7 +1267,7 @@
           "mooe": [
             {
               "id": "y2-mooe-373",
-              "item": "Project management office — PXNet lead share",
+              "item": "Project management office · PXNet lead share",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1276,7 +1276,7 @@
             },
             {
               "id": "y2-mooe-374",
-              "item": "Hosting, support and licences — PXNet lead share (Year 2)",
+              "item": "Hosting, support and licences · PXNet lead share (Year 2)",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1285,7 +1285,7 @@
             },
             {
               "id": "y2-mooe-375",
-              "item": "ICT training and change management — PXNet lead share",
+              "item": "ICT training and change management · PXNet lead share",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1352,7 +1352,7 @@
         "mooe": [
           {
             "id": "y3-mooe-342",
-            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "item": "Internet subscription · 3 offices, pooled (Year 3)",
             "office": "City ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1370,7 +1370,7 @@
           },
           {
             "id": "y3-mooe-344",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "City ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",

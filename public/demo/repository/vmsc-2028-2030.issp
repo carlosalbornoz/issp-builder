@@ -345,7 +345,7 @@
         "frontline": false,
         "frontlineAccessType": "",
         "url": "",
-        "description": "Koha library management; research datasets are not managed here — they live on investigators' drives.",
+        "description": "Koha library management; research datasets are not managed here, they live on investigators' drives.",
         "developmentStrategy": "OPEN_SOURCE",
         "developmentPlatform": "Koha / MySQL",
         "databaseName": "koha",
@@ -385,7 +385,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "yes",
@@ -601,7 +601,7 @@
     "crossAgencyProjects": [
       {
         "id": "cx-ctb",
-        "title": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+        "title": "Cold Chain Traceability Backbone (CTB) · VMSC research share",
         "description": "The College's research share of CTB: studying shipping-route cold chain corridor data from the sandbox and publishing findings back to the program.",
         "objectives": "1. Sandbox access and first corridor study by 2028\n2. Annual research publication to the program\n3. Capstone projects using CTB data",
         "projectType": "IS_DRIVEN",
@@ -684,7 +684,7 @@
         ]
       },
       "cx-ctb": {
-        "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+        "projectTitle": "Cold Chain Traceability Backbone (CTB) · VMSC research share",
         "projectCategory": "crossAgency",
         "rows": [
           {
@@ -732,7 +732,7 @@
         "mooe": [
           {
             "id": "y1-mooe-554",
-            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "item": "Internet subscription · 3 offices, pooled (Year 1)",
             "office": "Management Information System Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -750,7 +750,7 @@
           },
           {
             "id": "y1-mooe-556",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -792,7 +792,7 @@
             },
             {
               "id": "y1-co-570",
-              "item": "Full mission bridge simulator suite — succeeding tranche",
+              "item": "Full mission bridge simulator suite · succeeding tranche",
               "office": "Simulator Training Center",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
@@ -801,7 +801,7 @@
             },
             {
               "id": "y1-co-571",
-              "item": "Projection and visual system upgrade — succeeding tranche",
+              "item": "Projection and visual system upgrade · succeeding tranche",
               "office": "Simulator Training Center",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
@@ -816,7 +816,7 @@
           "capitalOutlay": [
             {
               "id": "y1-co-576",
-              "item": "ONE-VMSC — system development and acquisition (Year 1 milestone)",
+              "item": "ONE-VMSC · system development and acquisition (Year 1 milestone)",
               "office": "MIS Office",
               "categoryId": "co-ict-software",
               "fundSource": "Locally funded",
@@ -827,7 +827,7 @@
           "mooe": [
             {
               "id": "y1-mooe-577",
-              "item": "Project management office — ONE-VMSC",
+              "item": "Project management office · ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "Locally funded",
@@ -836,7 +836,7 @@
             },
             {
               "id": "y1-mooe-578",
-              "item": "Hosting, support and licences — ONE-VMSC (Year 1)",
+              "item": "Hosting, support and licences · ONE-VMSC (Year 1)",
               "office": "MIS Office",
               "categoryId": "mooe-web-hosting",
               "fundSource": "Locally funded",
@@ -845,7 +845,7 @@
             },
             {
               "id": "y1-mooe-579",
-              "item": "ICT training and change management — ONE-VMSC",
+              "item": "ICT training and change management · ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "Locally funded",
@@ -857,11 +857,11 @@
       },
       "crossAgencyProjects": {
         "cx-ctb": {
-          "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) · VMSC research share",
           "capitalOutlay": [
             {
               "id": "y1-co-588",
-              "item": "CTB research share — system development and acquisition (Year 1 milestone)",
+              "item": "CTB research share · system development and acquisition (Year 1 milestone)",
               "office": "Research and Extension Office",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -872,7 +872,7 @@
           "mooe": [
             {
               "id": "y1-mooe-589",
-              "item": "Project management office — CTB research share",
+              "item": "Project management office · CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -881,7 +881,7 @@
             },
             {
               "id": "y1-mooe-590",
-              "item": "Hosting, support and licences — CTB research share (Year 1)",
+              "item": "Hosting, support and licences · CTB research share (Year 1)",
               "office": "Research and Extension Office",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -890,7 +890,7 @@
             },
             {
               "id": "y1-mooe-591",
-              "item": "ICT training and change management — CTB research share",
+              "item": "ICT training and change management · CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -957,7 +957,7 @@
         "mooe": [
           {
             "id": "y2-mooe-558",
-            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "item": "Internet subscription · 3 offices, pooled (Year 2)",
             "office": "Management Information System Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -975,7 +975,7 @@
           },
           {
             "id": "y2-mooe-560",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -990,7 +990,7 @@
           "capitalOutlay": [
             {
               "id": "y2-co-572",
-              "item": "Simulator Refresh — engineering, installation and commissioning (Year 2)",
+              "item": "Simulator Refresh · engineering, installation and commissioning (Year 2)",
               "office": "Simulator Training Center",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
@@ -1001,7 +1001,7 @@
           "mooe": [
             {
               "id": "y2-mooe-573",
-              "item": "Project management office — Simulator Refresh",
+              "item": "Project management office · Simulator Refresh",
               "office": "Simulator Training Center",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1010,7 +1010,7 @@
             },
             {
               "id": "y2-mooe-574",
-              "item": "Hosting, support and licences — Simulator Refresh (Year 2)",
+              "item": "Hosting, support and licences · Simulator Refresh (Year 2)",
               "office": "Simulator Training Center",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1019,7 +1019,7 @@
             },
             {
               "id": "y2-mooe-575",
-              "item": "ICT training and change management — Simulator Refresh",
+              "item": "ICT training and change management · Simulator Refresh",
               "office": "Simulator Training Center",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1033,7 +1033,7 @@
           "capitalOutlay": [
             {
               "id": "y2-co-580",
-              "item": "ONE-VMSC — system development and acquisition (Year 2 milestone)",
+              "item": "ONE-VMSC · system development and acquisition (Year 2 milestone)",
               "office": "MIS Office",
               "categoryId": "co-ict-software",
               "fundSource": "Locally funded",
@@ -1044,7 +1044,7 @@
           "mooe": [
             {
               "id": "y2-mooe-581",
-              "item": "Project management office — ONE-VMSC",
+              "item": "Project management office · ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "Locally funded",
@@ -1053,7 +1053,7 @@
             },
             {
               "id": "y2-mooe-582",
-              "item": "Hosting, support and licences — ONE-VMSC (Year 2)",
+              "item": "Hosting, support and licences · ONE-VMSC (Year 2)",
               "office": "MIS Office",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "Locally funded",
@@ -1062,7 +1062,7 @@
             },
             {
               "id": "y2-mooe-583",
-              "item": "ICT training and change management — ONE-VMSC",
+              "item": "ICT training and change management · ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "Locally funded",
@@ -1074,11 +1074,11 @@
       },
       "crossAgencyProjects": {
         "cx-ctb": {
-          "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) · VMSC research share",
           "capitalOutlay": [
             {
               "id": "y2-co-592",
-              "item": "CTB research share — system development and acquisition (Year 2 milestone)",
+              "item": "CTB research share · system development and acquisition (Year 2 milestone)",
               "office": "Research and Extension Office",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1089,7 +1089,7 @@
           "mooe": [
             {
               "id": "y2-mooe-593",
-              "item": "Project management office — CTB research share",
+              "item": "Project management office · CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1098,7 +1098,7 @@
             },
             {
               "id": "y2-mooe-594",
-              "item": "Hosting, support and licences — CTB research share (Year 2)",
+              "item": "Hosting, support and licences · CTB research share (Year 2)",
               "office": "Research and Extension Office",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1107,7 +1107,7 @@
             },
             {
               "id": "y2-mooe-595",
-              "item": "ICT training and change management — CTB research share",
+              "item": "ICT training and change management · CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1165,7 +1165,7 @@
         "mooe": [
           {
             "id": "y3-mooe-563",
-            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "item": "Internet subscription · 3 offices, pooled (Year 3)",
             "office": "Management Information System Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1183,7 +1183,7 @@
           },
           {
             "id": "y3-mooe-565",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1198,7 +1198,7 @@
           "capitalOutlay": [
             {
               "id": "y3-co-584",
-              "item": "ONE-VMSC — system development and acquisition (Year 3 milestone)",
+              "item": "ONE-VMSC · system development and acquisition (Year 3 milestone)",
               "office": "MIS Office",
               "categoryId": "co-ict-software",
               "fundSource": "Locally funded",
@@ -1209,7 +1209,7 @@
           "mooe": [
             {
               "id": "y3-mooe-585",
-              "item": "Project management office — ONE-VMSC",
+              "item": "Project management office · ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "Locally funded",
@@ -1218,7 +1218,7 @@
             },
             {
               "id": "y3-mooe-586",
-              "item": "Hosting, support and licences — ONE-VMSC (Year 3)",
+              "item": "Hosting, support and licences · ONE-VMSC (Year 3)",
               "office": "MIS Office",
               "categoryId": "mooe-web-hosting",
               "fundSource": "Locally funded",
@@ -1227,7 +1227,7 @@
             },
             {
               "id": "y3-mooe-587",
-              "item": "ICT training and change management — ONE-VMSC",
+              "item": "ICT training and change management · ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "Locally funded",
@@ -1239,11 +1239,11 @@
       },
       "crossAgencyProjects": {
         "cx-ctb": {
-          "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) · VMSC research share",
           "capitalOutlay": [
             {
               "id": "y3-co-596",
-              "item": "CTB research share — system development and acquisition (Year 3 milestone)",
+              "item": "CTB research share · system development and acquisition (Year 3 milestone)",
               "office": "Research and Extension Office",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1254,7 +1254,7 @@
           "mooe": [
             {
               "id": "y3-mooe-597",
-              "item": "Project management office — CTB research share",
+              "item": "Project management office · CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1263,7 +1263,7 @@
             },
             {
               "id": "y3-mooe-598",
-              "item": "Hosting, support and licences — CTB research share (Year 3)",
+              "item": "Hosting, support and licences · CTB research share (Year 3)",
               "office": "Research and Extension Office",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1272,7 +1272,7 @@
             },
             {
               "id": "y3-mooe-599",
-              "item": "ICT training and change management — CTB research share",
+              "item": "ICT training and change management · CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",

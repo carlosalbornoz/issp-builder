@@ -155,7 +155,7 @@ const issp = {
   "part1": {
     "legalBasis": "Republic Act No. 12087, otherwise known as the \"Waiting Time Reduction and Queue Management Act of 2023,\" which established the National Commission on Waiting Time Reduction (NCWTR) as an attached agency of the Office of the President. The Commission draws additional authority from Republic Act No. 11032 (Ease of Doing Business and Efficient Government Service Delivery Act of 2018) and Executive Order No. 92, s. 2019 (Institutionalizing the Whole-of-Government Approach in the Delivery of Government Services).",
     "mandateFunction": "The NCWTR is mandated to establish, enforce, and continuously review standards for service delivery queuing across all national government agencies, government-owned and controlled corporations, and local government units. Its primary functions include: (1) monitoring compliance with queuing time standards through its network of 17 regional offices and 82 provincial field offices; (2) conducting annual and spot-audit reviews of government service delivery efficiency; (3) issuing compliance ratings and improvement directives to non-compliant agencies; (4) receiving and resolving citizen complaints regarding excessive government waiting times; and (5) publishing quarterly national waiting time indices.\n\nNotably, the Commission's own Central Office in Quezon City holds a Platinum Irony Award (self-bestowed) for maintaining the single most efficient complaint management process for offices with slow complaint management processes.",
-    "visionStatement": "A Philippines where no Filipino citizen waits more than thirty (30) minutes for any government transaction — ideally before the year 2045, but we remain optimistic.",
+    "visionStatement": "A Philippines where no Filipino citizen waits more than thirty (30) minutes for any government transaction, ideally before the year 2045, but we remain optimistic.",
     "missionStatement": "The NCWTR is committed to monitoring, regulating, documenting, and filing comprehensive reports about the waiting times of all government offices, for the ultimate benefit of the Filipino people and the perpetual generation of actionable data that informs future monitoring, regulation, documentation, and report-filing activities.",
     "orgOutcomes": [
       {
@@ -187,7 +187,7 @@ const issp = {
       }
     ],
     "cioName": "Dir. Reginaldo T. Tambunting Jr.",
-    "cioPosition": "Director IV — ICT Division",
+    "cioPosition": "Director IV · ICT Division",
     "cioUnit": "Information and Communications Technology Division",
     "cioEmail": "cio@ncwtr.gov.ph",
     "cioContact": "+63 2 8888 1234",
@@ -386,7 +386,7 @@ const issp = {
         ],
         "criticalSystem": "National Queue Monitoring System (NQMS)",
         "concern": "The NQMS, built on Visual Basic 6 in 2009 and running exclusively on three Windows XP computers in the Monitoring Division, requires manual data entry from 847 monitored agencies. Each agency submits a monthly Excel file via email attachment, which NCWTR staff then re-encodes by hand into NQMS. Processing the monthly national report takes approximately three weeks, meaning the data published in any given month is already outdated. The system crashes an average of 4.7 times per week, with the last full system restoration requiring 11 working days, three printed manuals, and a retired contractor who was contacted through his nephew.",
-        "desiredStrategy": "Develop and deploy a cloud-based Unified Queue Monitoring Platform (UQMP) with a RESTful API for direct data submission by monitored agencies, real-time dashboards, automated report generation, and a mobile app for field validation officers — eliminating the need for manual re-encoding and the three Windows XP computers."
+        "desiredStrategy": "Develop and deploy a cloud-based Unified Queue Monitoring Platform (UQMP) with a RESTful API for direct data submission by monitored agencies, real-time dashboards, automated report generation, and a mobile app for field validation officers, eliminating the need for manual re-encoding and the three Windows XP computers."
       },
       {
         "id": "c82b1b7adcc1e09dc61aa9c",
@@ -397,8 +397,8 @@ const issp = {
           "oo-1-pg-2"
         ],
         "criticalSystem": "Electronic Complaints Logging and Archival System (eCLAS)",
-        "concern": "Despite its optimistic name, eCLAS's primary input mechanism remains a fax machine — specifically, the only functioning fax machine in the NCR, which is shared with three other divisions and also used to order office supplies. Citizens who wish to file a complaint must download a PDF from the NCWTR website, print it, fill it out in triplicate (blue ink only), and mail or personally deliver it to the Central Office. Walk-in complainants join a queue — average wait time: 47 minutes — to file complaints about excessive government waiting times. Online complaint submission was proposed in 2018, funded in 2020, procured in 2021, and is currently in User Acceptance Testing.",
-        "desiredStrategy": "Launch the Citizen Feedback and Complaints Portal (CFCP) — a web and mobile platform allowing citizens to file complaints, track status in real time, and receive SMS notifications. Integration with UQMP will enable automatic cross-referencing of complaints against monitored agency queue data."
+        "concern": "Despite its optimistic name, eCLAS's primary input mechanism remains a fax machine: specifically, the only functioning fax machine in the NCR, which is shared with three other divisions and also used to order office supplies. Citizens who wish to file a complaint must download a PDF from the NCWTR website, print it, fill it out in triplicate (blue ink only), and mail or personally deliver it to the Central Office. Walk-in complainants join a queue · average wait time: 47 minutes · to file complaints about excessive government waiting times. Online complaint submission was proposed in 2018, funded in 2020, procured in 2021, and is currently in User Acceptance Testing.",
+        "desiredStrategy": "Launch the Citizen Feedback and Complaints Portal (CFCP): a web and mobile platform allowing citizens to file complaints, track status in real time, and receive SMS notifications. Integration with UQMP will enable automatic cross-referencing of complaints against monitored agency queue data."
       },
       {
         "id": "cbe7864c2ff4434350aba4c",
@@ -409,8 +409,8 @@ const issp = {
           "oo-2-pg-1",
           "oo-2-pg-2"
         ],
-        "criticalSystem": "Regional Compliance Tracking (manual — per regional office)",
-        "concern": "Each of the 17 regional offices maintains its own compliance tracking system, which in practice means 17 different Excel workbook formats, 17 different naming conventions, and 17 different definitions of 'compliant.' One regional office (not to be named, but located in a province starting with 'P') tracks compliance using a physical corkboard with color-coded index cards. Consolidating regional reports for the monthly national compliance index requires a dedicated staff member to manually reconcile data formats — a process that takes four days and results in an average of 23 conflicting data points per report.",
+        "criticalSystem": "Regional Compliance Tracking (manual, per regional office)",
+        "concern": "Each of the 17 regional offices maintains its own compliance tracking system, which in practice means 17 different Excel workbook formats, 17 different naming conventions, and 17 different definitions of 'compliant.' One regional office (not to be named, but located in a province starting with 'P') tracks compliance using a physical corkboard with color-coded index cards. Consolidating regional reports for the monthly national compliance index requires a dedicated staff member to manually reconcile data formats · a process that takes four days and results in an average of 23 conflicting data points per report.",
         "desiredStrategy": "Deploy the Regional Compliance Module of the UQMP, with standardized data fields, automated roll-up to the national dashboard, and mandatory digital submission replacing the corkboard system."
       },
       {
@@ -422,13 +422,13 @@ const issp = {
           "oo-3-pg-1",
           "oo-3-pg-3"
         ],
-        "criticalSystem": "Agency Human Resources Information System (AHRIS — 47 Excel Workbooks)",
-        "concern": "NCWTR's human resources data resides in a collection of 47 Microsoft Excel workbooks, the oldest dating to 2009 (Excel 2003 format, requiring a compatibility pack). The workbooks are stored on a shared network drive accessible only from the Central Office, making remote HR management impossible for all 17 regional offices. Employee records for three staff members hired between 2020 and 2022 were found in a folder labelled 'TEMPORARY — DO NOT DELETE' on a USB flash drive discovered in a desk drawer during an office clean-up drive. Three knowledge-transfer attempts have failed — the most recent trainee resigned mid-handover.",
+        "criticalSystem": "Agency Human Resources Information System (AHRIS, 47 Excel Workbooks)",
+        "concern": "NCWTR's human resources data resides in a collection of 47 Microsoft Excel workbooks, the oldest dating to 2009 (Excel 2003 format, requiring a compatibility pack). The workbooks are stored on a shared network drive accessible only from the Central Office, making remote HR management impossible for all 17 regional offices. Employee records for three staff members hired between 2020 and 2022 were found in a folder labelled 'TEMPORARY · DO NOT DELETE' on a USB flash drive discovered in a desk drawer during an office clean-up drive. Three knowledge-transfer attempts have failed · the most recent trainee resigned mid-handover.",
         "desiredStrategy": "Procure and configure a modern, cloud-based Human Resources Information System (iHRPS) integrated with CSC's HRMIS and DBM's eBudget systems, accessible to all regional and field offices."
       }
     ],
     "networkDiagrams": [],
-    "networkDescription": "The NCWTR operates a deeply fragmented network infrastructure, inherited largely from its predecessor agency — the Presidential Committee on Queuing Excellence (PCQE), dissolved in 2018 after a 6-month queue formed at its building entrance.\n\nCENTRAL OFFICE (Quezon City): Connected via 1 Gbps fiber leased from a telecommunications provider. Hosts an on-premise server room containing four physical servers: two running Windows Server 2012 R2 (\"Production\" and \"Production-Backup,\" which has never been tested), one dedicated to the NQMS database, and one that has been \"under scheduled maintenance\" since March 2022. There is no disaster recovery site. The server room door bears a laminated sign: \"DO NOT ENTER unless you have filed Form NCWTR-IT-003-B (Rev. 2016) and obtained two signatures from the Division Chief.\"\n\nREGIONAL OFFICES (17 total): 5 regional offices have fiber connections ranging from 50–100 Mbps (NCR, Region III, Region VII, Region XI, and the one that submitted its connectivity upgrade request in the correct format). 9 regional offices operate on DSL connections at 5–10 Mbps — sufficient for email and not much else. 3 regional offices in geographically isolated areas share a single LTE pocket WiFi device among all staff, rotating custody based on who has the most urgent task.\n\nPROVINCIAL FIELD OFFICES (82 total): Access the NCWTR intranet via VPN tunnel routed through their regional office connection, resulting in effective speeds that make printing and faxing documents measurably faster than uploading them. File transfers of the monthly compliance report (average size: 4.2 MB) have been observed to take up to 25 minutes.\n\nINTERNAL NETWORK: The Central Office LAN uses a mix of Cat5e and Cat6 cabling installed at different points between 2008 and 2019. Network documentation exists in a hand-drawn diagram on Manila paper, last updated in 2017, now laminated and kept in the property officer's cabinet \"for safekeeping.\"",
+    "networkDescription": "The NCWTR operates a deeply fragmented network infrastructure, inherited largely from its predecessor agency, the Presidential Committee on Queuing Excellence (PCQE), dissolved in 2018 after a 6-month queue formed at its building entrance.\n\nCENTRAL OFFICE (Quezon City): Connected via 1 Gbps fiber leased from a telecommunications provider. Hosts an on-premise server room containing four physical servers: two running Windows Server 2012 R2 (\"Production\" and \"Production-Backup,\" which has never been tested), one dedicated to the NQMS database, and one that has been \"under scheduled maintenance\" since March 2022. There is no disaster recovery site. The server room door bears a laminated sign: \"DO NOT ENTER unless you have filed Form NCWTR-IT-003-B (Rev. 2016) and obtained two signatures from the Division Chief.\"\n\nREGIONAL OFFICES (17 total): 5 regional offices have fiber connections ranging from 50–100 Mbps (NCR, Region III, Region VII, Region XI, and the one that submitted its connectivity upgrade request in the correct format). 9 regional offices operate on DSL connections at 5–10 Mbps · sufficient for email and not much else. 3 regional offices in geographically isolated areas share a single LTE pocket WiFi device among all staff, rotating custody based on who has the most urgent task.\n\nPROVINCIAL FIELD OFFICES (82 total): Access the NCWTR intranet via VPN tunnel routed through their regional office connection, resulting in effective speeds that make printing and faxing documents measurably faster than uploading them. File transfers of the monthly compliance report (average size: 4.2 MB) have been observed to take up to 25 minutes.\n\nINTERNAL NETWORK: The Central Office LAN uses a mix of Cat5e and Cat6 cabling installed at different points between 2008 and 2019. Network documentation exists in a hand-drawn diagram on Manila paper, last updated in 2017, now laminated and kept in the property officer's cabinet \"for safekeeping.\"",
     "cybersecurityControls": {
       "physical": {
         "perimeterProtection": true,
@@ -510,7 +510,7 @@ const issp = {
         "frontline": true,
         "frontlineAccessType": "ONLINE",
         "url": "https://www.ncwtr.gov.ph/complaints",
-        "description": "Accepts citizen complaints via fax, which are scanned, printed again for logging purposes, then re-scanned into eCLAS by a data encoder. The public-facing URL leads to a page that says 'Online complaints coming soon!' posted in 2019 alongside a stock photo of a smiling government employee. The 'Electronic' in the name refers to the computer used to view the faxes. Currently in User Acceptance Testing for its web-based upgrade — the UAT has been ongoing since Q3 2021 with 7 UAT reports generated and 0 UAT cycles completed.",
+        "description": "Accepts citizen complaints via fax, which are scanned, printed again for logging purposes, then re-scanned into eCLAS by a data encoder. The public-facing URL leads to a page that says 'Online complaints coming soon!' posted in 2019 alongside a stock photo of a smiling government employee. The 'Electronic' in the name refers to the computer used to view the faxes. Currently in User Acceptance Testing for its web-based upgrade · the UAT has been ongoing since Q3 2021 with 7 UAT reports generated and 0 UAT cycles completed.",
         "developmentStrategy": "COTS",
         "developmentPlatform": "PHP 5.6 / MySQL 5.1",
         "databaseName": "eclas_db",
@@ -538,7 +538,7 @@ const issp = {
         "frontline": false,
         "frontlineAccessType": "",
         "url": "",
-        "description": "Seventeen separate ROMS instances — one per regional office — deployed between 2013 and 2020, each customized by different contractors using different technology stacks. ROMS-NCR (ASP Classic), ROMS-CAR (PHP/MySQL), ROMS-R3 (VB.NET/SQL Server Express), and so on. None can communicate with any other, nor with the Central Office. Attempts to standardize have failed three times, once resulting in an emergency ROMS-R11 restoration that took six working days. The regional offices refer to data consolidation as 'the reconciliation,' spoken in hushed tones.",
+        "description": "Seventeen separate ROMS instances (one per regional office) deployed between 2013 and 2020, each customized by different contractors using different technology stacks. ROMS-NCR (ASP Classic), ROMS-CAR (PHP/MySQL), ROMS-R3 (VB.NET/SQL Server Express), and so on. None can communicate with any other, nor with the Central Office. Attempts to standardize have failed three times, once resulting in an emergency ROMS-R11 restoration that took six working days. The regional offices refer to data consolidation as 'the reconciliation,' spoken in hushed tones.",
         "developmentStrategy": "OUTSOURCED",
         "developmentPlatform": "Mixed (ASP Classic / PHP / VB.NET per region)",
         "databaseName": "roms_[region] (17 separate databases)",
@@ -606,7 +606,7 @@ const issp = {
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "AHRIS (Agency Human Resource Information System — 47 Excel workbooks)"
+        "equivalentName": "AHRIS (Agency Human Resource Information System, 47 Excel workbooks)"
       },
       "ifmis": {
         "status": "yes",
@@ -638,7 +638,7 @@ const issp = {
   },
   "part3": {
     "proposedNetworkDataUrl": null,
-    "proposedNetworkDesc": "NCWTR's target network architecture consolidates the current 17-silo infrastructure into a unified hub-and-spoke model with the Central Office as the primary hub and each regional office as a resilient spoke. All 17 regional offices will be connected via dedicated fiber (≥100 Mbps) or fixed wireless broadband, replacing DSL and LTE connections. The Central Office will upgrade to dual 1 Gbps fiber links with automatic failover. A government cloud environment (GovCloud PH) will host UQMP and CFCP, with a secondary disaster recovery node at the DICT GovCloud DR site in Davao City — the first time NCWTR has had a disaster recovery plan that does not consist of the phrase \"call the ICT Director.\"",
+    "proposedNetworkDesc": "NCWTR's target network architecture consolidates the current 17-silo infrastructure into a unified hub-and-spoke model with the Central Office as the primary hub and each regional office as a resilient spoke. All 17 regional offices will be connected via dedicated fiber (≥100 Mbps) or fixed wireless broadband, replacing DSL and LTE connections. The Central Office will upgrade to dual 1 Gbps fiber links with automatic failover. A government cloud environment (GovCloud PH) will host UQMP and CFCP, with a secondary disaster recovery node at the DICT GovCloud DR site in Davao City · the first time NCWTR has had a disaster recovery plan that does not consist of the phrase \"call the ICT Director.\"",
     "proposedCybersecControls": {
       "physical": {
         "perimeterProtection": true,
@@ -836,7 +836,7 @@ const issp = {
     "internalProjects": [
       {
         "id": "proj-sikap",
-        "title": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
+        "title": "Project SIKAP · Streamlined ICT for Konsolidadong Agency Platform",
         "description": "SIKAP covers the full development and deployment of the Unified Queue Monitoring Platform (UQMP) and the Citizen Feedback and Complaints Portal (CFCP). It consolidates 17 fragmented regional systems into a single cloud-hosted platform, retires the Windows XP computers, and inaugurates NCWTR's transition from fax-based public service to actual digital government.",
         "objectives": "1. Retire NQMS and eCLAS legacy systems by end of 2027\n2. Onboard all 847 monitored agencies onto the UQMP API by Q4 2027\n3. Achieve 80% of citizen complaints filed via CFCP portal by end of 2028\n4. Reduce monthly national report generation time from 3 weeks to 2 hours",
         "projectType": "IS_DRIVEN",
@@ -861,7 +861,7 @@ const issp = {
       },
       {
         "id": "proj-bilis",
-        "title": "Project BILIS — Broadband Infrastructure for Linked Information Systems",
+        "title": "Project BILIS · Broadband Infrastructure for Linked Information Systems",
         "description": "Project BILIS will upgrade internet connectivity for 12 regional offices currently on DSL (5–10 Mbps) to dedicated fiber connections of at least 100 Mbps each. The three regional offices on shared LTE pocket WiFi will receive dedicated fixed wireless broadband. All connections will be terminated on government-grade routers with failover capability.",
         "objectives": "1. Upgrade 12 DSL regional offices to fiber (≥100 Mbps) by Q3 2026\n2. Provide dedicated fixed-wireless broadband to 3 geographically isolated regional offices by Q4 2026\n3. Reduce average UQMP data submission time from regional offices from 25 minutes to under 2 minutes\n4. Achieve 99.5% network uptime for regional offices in 2027 and 2028",
         "projectType": "STANDALONE",
@@ -878,12 +878,12 @@ const issp = {
         "year1Deliverables": "ISP contracts awarded; fiber installations completed in 12 regional offices; fixed wireless deployed in 3 isolated offices; all connections tested and certified",
         "year2Deliverables": "Network monitoring dashboard operational; 99.5% uptime SLA compliance verified; redundant connection established for Central Office",
         "year3Deliverables": "Network refresh and capacity planning assessment; options for 10 Gbps Central Office upgrade evaluated",
-        "implementingUnit": "ICT Division — Infrastructure and Networks Section",
+        "implementingUnit": "ICT Division · Infrastructure and Networks Section",
         "fundingSource": "General Appropriations Act"
       },
       {
         "id": "proj-handa",
-        "title": "Project HANDA — Human Resource and Administrative Network for Departmental Automation",
+        "title": "Project HANDA · Human Resource and Administrative Network for Departmental Automation",
         "description": "Project HANDA procures, configures, and deploys the Integrated HR and Payroll System (iHRPS) for all NCWTR offices nationwide. Includes data migration from the 47 Excel workbooks (and the USB-recovered employee records), integration with CSC and DBM systems, and a 3-month change management and training program.",
         "objectives": "1. Complete data migration of all 252 employee records from AHRIS to iHRPS by Q2 2026\n2. Achieve full NCWTR-wide adoption of iHRPS by Q3 2026\n3. Establish live integration with CSC HRMIS and DBM eBudget by Q4 2026\n4. Eliminate reliance on Excel workbooks for HR processes by end of 2026",
         "projectType": "IS_DRIVEN",
@@ -909,7 +909,7 @@ const issp = {
     "crossAgencyProjects": [],
     "performanceFramework": {
       "proj-sikap": {
-        "projectTitle": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
+        "projectTitle": "Project SIKAP · Streamlined ICT for Konsolidadong Agency Platform",
         "rows": [
           {
             "id": "cdd811ce8b3e36f87b30df1",
@@ -963,7 +963,7 @@ const issp = {
         "projectCategory": "internal"
       },
       "proj-bilis": {
-        "projectTitle": "Project BILIS — Broadband Infrastructure for Linked Information Systems",
+        "projectTitle": "Project BILIS · Broadband Infrastructure for Linked Information Systems",
         "rows": [
           {
             "id": "cf393af50610a2a7f7111dd",
@@ -975,7 +975,7 @@ const issp = {
             "year2Target": "100 Mbps",
             "year3Target": "100 Mbps",
             "dataCollectionMethod": "Monthly network performance monitoring reports from regional offices",
-            "responsibleUnit": "ICT Division — Infrastructure Section"
+            "responsibleUnit": "ICT Division · Infrastructure Section"
           },
           {
             "id": "cb53cd67140442f3cd51ac4",
@@ -999,13 +999,13 @@ const issp = {
             "year2Target": "17",
             "year3Target": "17",
             "dataCollectionMethod": "ISP-certified connection speed test reports",
-            "responsibleUnit": "ICT Division — Infrastructure Section"
+            "responsibleUnit": "ICT Division · Infrastructure Section"
           }
         ],
         "projectCategory": "internal"
       },
       "proj-handa": {
-        "projectTitle": "Project HANDA — Human Resource and Administrative Network for Departmental Automation",
+        "projectTitle": "Project HANDA · Human Resource and Administrative Network for Departmental Automation",
         "rows": [
           {
             "id": "cfdb31a5ca7d5440fec5cfa",
@@ -1054,7 +1054,7 @@ const issp = {
         "capitalOutlay": [
           {
             "id": "6hvky9v",
-            "item": "Desktop computers (replacement — retiring XP units)",
+            "item": "Desktop computers (replacement · retiring XP units)",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1063,7 +1063,7 @@ const issp = {
           },
           {
             "id": "po4xzzw",
-            "item": "Network switches and cabling — Central Office LAN refresh",
+            "item": "Network switches and cabling · Central Office LAN refresh",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1092,7 +1092,7 @@ const issp = {
         "mooe": [
           {
             "id": "z5qqaqw",
-            "item": "Internet subscription — Central Office (1 Gbps fiber)",
+            "item": "Internet subscription · Central Office (1 Gbps fiber)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1110,7 +1110,7 @@ const issp = {
           },
           {
             "id": "k7lb5r0",
-            "item": "ICT consultancy — UQMP requirements analysis and architecture design",
+            "item": "ICT consultancy · UQMP requirements analysis and architecture design",
             "office": "ICT Division",
             "categoryId": "mooe-professional-services",
             "fundSource": "General Appropriations Act",
@@ -1121,11 +1121,11 @@ const issp = {
       },
       "internalProjects": {
         "proj-sikap": {
-          "projectTitle": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
+          "projectTitle": "Project SIKAP · Streamlined ICT for Konsolidadong Agency Platform",
           "capitalOutlay": [
             {
               "id": "3ga0nh4",
-              "item": "UQMP and CFCP system development (outsourced — Year 1 milestone)",
+              "item": "UQMP and CFCP system development (outsourced · Year 1 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1136,7 +1136,7 @@ const issp = {
           "mooe": [
             {
               "id": "endx3fj",
-              "item": "GovCloud PH hosting — UQMP/CFCP beta environment (12 months)",
+              "item": "GovCloud PH hosting · UQMP/CFCP beta environment (12 months)",
               "office": "ICT Division",
               "categoryId": "mooe-internet-subscription",
               "fundSource": "General Appropriations Act",
@@ -1145,7 +1145,7 @@ const issp = {
             },
             {
               "id": "daxxbig",
-              "item": "Project management — SIKAP implementation team",
+              "item": "Project management · SIKAP implementation team",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1155,12 +1155,12 @@ const issp = {
           ]
         },
         "proj-bilis": {
-          "projectTitle": "Project BILIS — Broadband Infrastructure for Linked Information Systems",
+          "projectTitle": "Project BILIS · Broadband Infrastructure for Linked Information Systems",
           "capitalOutlay": [
             {
               "id": "l6t4qth",
-              "item": "Government-grade routers with failover — 15 regional offices",
-              "office": "ICT Division — Infrastructure Section",
+              "item": "Government-grade routers with failover · 15 regional offices",
+              "office": "ICT Division · Infrastructure Section",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 15,
@@ -1168,8 +1168,8 @@ const issp = {
             },
             {
               "id": "aexyrmb",
-              "item": "Fixed wireless broadband equipment — 3 geographically isolated regional offices",
-              "office": "ICT Division — Infrastructure Section",
+              "item": "Fixed wireless broadband equipment · 3 geographically isolated regional offices",
+              "office": "ICT Division · Infrastructure Section",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 3,
@@ -1179,7 +1179,7 @@ const issp = {
           "mooe": [
             {
               "id": "ole4air",
-              "item": "Fiber ISP subscription — 12 regional office upgrades (100 Mbps, 12 months)",
+              "item": "Fiber ISP subscription · 12 regional office upgrades (100 Mbps, 12 months)",
               "office": "ICT Division",
               "categoryId": "mooe-internet-subscription",
               "fundSource": "General Appropriations Act",
@@ -1188,7 +1188,7 @@ const issp = {
             },
             {
               "id": "qxqkkcg",
-              "item": "Fixed wireless broadband subscription — 3 isolated regional offices (12 months)",
+              "item": "Fixed wireless broadband subscription · 3 isolated regional offices (12 months)",
               "office": "ICT Division",
               "categoryId": "mooe-internet-subscription",
               "fundSource": "General Appropriations Act",
@@ -1198,11 +1198,11 @@ const issp = {
           ]
         },
         "proj-handa": {
-          "projectTitle": "Project HANDA — Human Resource and Administrative Network for Departmental Automation",
+          "projectTitle": "Project HANDA · Human Resource and Administrative Network for Departmental Automation",
           "capitalOutlay": [
             {
               "id": "94ldz8t",
-              "item": "iHRPS SaaS license — initial 1-year subscription (agency-wide)",
+              "item": "iHRPS SaaS license · initial 1-year subscription (agency-wide)",
               "office": "Human Resources Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1213,7 +1213,7 @@ const issp = {
           "mooe": [
             {
               "id": "h83f44b",
-              "item": "Data migration consultancy — AHRIS to iHRPS (Excel workbook extraction and mapping)",
+              "item": "Data migration consultancy · AHRIS to iHRPS (Excel workbook extraction and mapping)",
               "office": "Human Resources Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1222,7 +1222,7 @@ const issp = {
             },
             {
               "id": "vi2a9hk",
-              "item": "ICT training — iHRPS user training for all 17 regional offices and Central Office HR staff",
+              "item": "ICT training · iHRPS user training for all 17 regional offices and Central Office HR staff",
               "office": "Human Resources Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1237,7 +1237,7 @@ const issp = {
         "mooe": [
           {
             "id": "zpirri8",
-            "item": "Annual software maintenance — ROMS regional instances (pre-decommission)",
+            "item": "Annual software maintenance · ROMS regional instances (pre-decommission)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1252,7 +1252,7 @@ const issp = {
         "capitalOutlay": [
           {
             "id": "anv76ca",
-            "item": "Laptops for field validation officers — 17 regional offices (1 each)",
+            "item": "Laptops for field validation officers · 17 regional offices (1 each)",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1261,7 +1261,7 @@ const issp = {
           },
           {
             "id": "ltmflpb",
-            "item": "Central Office server decommission and disposal — Windows Server 2012 R2 units",
+            "item": "Central Office server decommission and disposal · Windows Server 2012 R2 units",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1272,7 +1272,7 @@ const issp = {
         "mooe": [
           {
             "id": "9k8wie5",
-            "item": "Internet subscription — Central Office (1 Gbps fiber, continued)",
+            "item": "Internet subscription · Central Office (1 Gbps fiber, continued)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1292,11 +1292,11 @@ const issp = {
       },
       "internalProjects": {
         "proj-sikap": {
-          "projectTitle": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
+          "projectTitle": "Project SIKAP · Streamlined ICT for Konsolidadong Agency Platform",
           "capitalOutlay": [
             {
               "id": "xmy42aa",
-              "item": "UQMP v2.0 national deployment — development completion and rollout (Year 2 milestone)",
+              "item": "UQMP v2.0 national deployment · development completion and rollout (Year 2 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1307,7 +1307,7 @@ const issp = {
           "mooe": [
             {
               "id": "45rinih",
-              "item": "GovCloud PH hosting — UQMP/CFCP production environment (12 months)",
+              "item": "GovCloud PH hosting · UQMP/CFCP production environment (12 months)",
               "office": "ICT Division",
               "categoryId": "mooe-internet-subscription",
               "fundSource": "General Appropriations Act",
@@ -1316,7 +1316,7 @@ const issp = {
             },
             {
               "id": "92mtsf7",
-              "item": "Monitored agency onboarding support — API integration assistance (60% target)",
+              "item": "Monitored agency onboarding support · API integration assistance (60% target)",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1325,7 +1325,7 @@ const issp = {
             },
             {
               "id": "c7fqy3x",
-              "item": "CFCP SMS notification service (DICT gateway — estimated 500K SMS/year)",
+              "item": "CFCP SMS notification service (DICT gateway · estimated 500K SMS/year)",
               "office": "ICT Division",
               "categoryId": "mooe-mobile-expenses",
               "fundSource": "General Appropriations Act",
@@ -1335,12 +1335,12 @@ const issp = {
           ]
         },
         "proj-bilis": {
-          "projectTitle": "Project BILIS — Broadband Infrastructure for Linked Information Systems",
+          "projectTitle": "Project BILIS · Broadband Infrastructure for Linked Information Systems",
           "capitalOutlay": [],
           "mooe": [
             {
               "id": "ldqwh0h",
-              "item": "Fiber ISP subscription — 12 regional offices (100 Mbps, Year 2 full year)",
+              "item": "Fiber ISP subscription · 12 regional offices (100 Mbps, Year 2 full year)",
               "office": "ICT Division",
               "categoryId": "mooe-internet-subscription",
               "fundSource": "General Appropriations Act",
@@ -1349,7 +1349,7 @@ const issp = {
             },
             {
               "id": "oba5au5",
-              "item": "Fixed wireless broadband — 3 isolated offices (Year 2 full year)",
+              "item": "Fixed wireless broadband · 3 isolated offices (Year 2 full year)",
               "office": "ICT Division",
               "categoryId": "mooe-internet-subscription",
               "fundSource": "General Appropriations Act",
@@ -1359,7 +1359,7 @@ const issp = {
           ]
         },
         "proj-handa": {
-          "projectTitle": "Project HANDA — Human Resource and Administrative Network for Departmental Automation",
+          "projectTitle": "Project HANDA · Human Resource and Administrative Network for Departmental Automation",
           "capitalOutlay": [],
           "mooe": [
 
@@ -1371,7 +1371,7 @@ const issp = {
         "mooe": [
           {
             "id": "ettlnjd",
-            "item": "Cybersecurity vulnerability assessment — annual (Central Office and 5 pilot regional offices)",
+            "item": "Cybersecurity vulnerability assessment · annual (Central Office and 5 pilot regional offices)",
             "office": "ICT Division",
             "categoryId": "mooe-professional-services",
             "fundSource": "General Appropriations Act",
@@ -1380,7 +1380,7 @@ const issp = {
           },
             {
               "id": "bwx8n7h",
-              "item": "iHRPS SaaS license — Year 2 renewal",
+              "item": "iHRPS SaaS license · Year 2 renewal",
               "office": "Human Resources Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1389,7 +1389,7 @@ const issp = {
             },
             {
               "id": "zlaap2f",
-              "item": "iHRPS self-service portal rollout — regional office training and support",
+              "item": "iHRPS self-service portal rollout · regional office training and support",
               "office": "Human Resources Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1404,7 +1404,7 @@ const issp = {
         "capitalOutlay": [
           {
             "id": "nj14rpu",
-            "item": "UQMP analytics server upgrade — Central Office (dedicated on-prem analytics node)",
+            "item": "UQMP analytics server upgrade · Central Office (dedicated on-prem analytics node)",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1415,7 +1415,7 @@ const issp = {
         "mooe": [
           {
             "id": "vgp2wpn",
-            "item": "Internet subscription — Central Office (1 Gbps, continued)",
+            "item": "Internet subscription · Central Office (1 Gbps, continued)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1435,19 +1435,19 @@ const issp = {
       },
       "internalProjects": {
         "proj-sikap": {
-          "projectTitle": "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
+          "projectTitle": "Project SIKAP · Streamlined ICT for Konsolidadong Agency Platform",
           "capitalOutlay": [],
           "mooe": [
 
           ]
         },
         "proj-bilis": {
-          "projectTitle": "Project BILIS — Broadband Infrastructure for Linked Information Systems",
+          "projectTitle": "Project BILIS · Broadband Infrastructure for Linked Information Systems",
           "capitalOutlay": [],
           "mooe": [
             {
               "id": "fmemlfk",
-              "item": "Fiber ISP subscription — all 12 upgraded offices (100 Mbps, Year 3)",
+              "item": "Fiber ISP subscription · all 12 upgraded offices (100 Mbps, Year 3)",
               "office": "ICT Division",
               "categoryId": "mooe-internet-subscription",
               "fundSource": "General Appropriations Act",
@@ -1456,7 +1456,7 @@ const issp = {
             },
             {
               "id": "c58xfvo",
-              "item": "Fixed wireless broadband — 3 isolated offices (Year 3)",
+              "item": "Fixed wireless broadband · 3 isolated offices (Year 3)",
               "office": "ICT Division",
               "categoryId": "mooe-internet-subscription",
               "fundSource": "General Appropriations Act",
@@ -1466,7 +1466,7 @@ const issp = {
           ]
         },
         "proj-handa": {
-          "projectTitle": "Project HANDA — Human Resource and Administrative Network for Departmental Automation",
+          "projectTitle": "Project HANDA · Human Resource and Administrative Network for Departmental Automation",
           "capitalOutlay": [],
           "mooe": [
 
@@ -1478,7 +1478,7 @@ const issp = {
         "mooe": [
           {
             "id": "39gaa2q",
-            "item": "Annual cybersecurity vulnerability assessment — all 17 regional offices",
+            "item": "Annual cybersecurity vulnerability assessment · all 17 regional offices",
             "office": "ICT Division",
             "categoryId": "mooe-professional-services",
             "fundSource": "General Appropriations Act",
@@ -1487,7 +1487,7 @@ const issp = {
           },
           {
             "id": "6w2efdg",
-            "item": "CFCP SMS notification service — Year 3 (estimated 1.2M SMS)",
+            "item": "CFCP SMS notification service · Year 3 (estimated 1.2M SMS)",
             "office": "ICT Division",
             "categoryId": "mooe-mobile-expenses",
             "fundSource": "General Appropriations Act",
@@ -1496,7 +1496,7 @@ const issp = {
           },
             {
               "id": "tcgxut2",
-              "item": "iHRPS SaaS license — Year 3 renewal",
+              "item": "iHRPS SaaS license · Year 3 renewal",
               "office": "Human Resources Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1505,7 +1505,7 @@ const issp = {
             },
             {
               "id": "8kpdzl6",
-              "item": "iHRPS system administration training — succession planning documentation",
+              "item": "iHRPS system administration training · succession planning documentation",
               "office": "Human Resources Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1514,7 +1514,7 @@ const issp = {
             },
             {
               "id": "mi32nlg",
-              "item": "GovCloud PH hosting — UQMP/CFCP production (12 months, full load)",
+              "item": "GovCloud PH hosting · UQMP/CFCP production (12 months, full load)",
               "office": "ICT Division",
               "categoryId": "mooe-internet-subscription",
               "fundSource": "General Appropriations Act",
@@ -1523,7 +1523,7 @@ const issp = {
             },
             {
               "id": "daszwvp",
-              "item": "UQMP system maintenance and enhancement (Year 3 — 100% agency onboarding drive)",
+              "item": "UQMP system maintenance and enhancement (Year 3 · 100% agency onboarding drive)",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1532,7 +1532,7 @@ const issp = {
             },
             {
               "id": "qmr9huo",
-              "item": "Ceremonial decommissioning of NQMS and XP workstations — event logistics",
+              "item": "Ceremonial decommissioning of NQMS and XP workstations · event logistics",
               "office": "ICT Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",

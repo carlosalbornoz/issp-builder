@@ -255,7 +255,7 @@
         "programIds": [
           "oo-2-pg-2"
         ],
-        "criticalSystem": "COMET (cold storage equipment tracker — spreadsheets)",
+        "criticalSystem": "COMET (cold storage equipment tracker, spreadsheets)",
         "concern": "The national equipment registry is maintained in seventeen regional spreadsheet variants with no common identifier; the same chiller appears under three different serial formats, and the annual registry reconciliation consumes two person-months.",
         "desiredStrategy": "Consolidate the registry into a single digital system with unique equipment IDs, QR tagging, and inspection history (Registry Digitalization Program)."
       }
@@ -310,7 +310,7 @@
     "informationSystems": [
       {
         "id": "is-tempmon",
-        "name": "TEMPMON — Temperature Monitoring Aggregator",
+        "name": "TEMPMON · Temperature Monitoring Aggregator",
         "classification": "SUPPORT_TO_OPERATIONS",
         "frontline": false,
         "frontlineAccessType": "",
@@ -338,7 +338,7 @@
       },
       {
         "id": "is-comet",
-        "name": "COMET — Cold Storage Equipment Tracker",
+        "name": "COMET · Cold Storage Equipment Tracker",
         "classification": "GENERAL_ADMIN",
         "frontline": false,
         "frontlineAccessType": "",
@@ -411,7 +411,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "yes",
@@ -519,7 +519,7 @@
     "proposedSystems": [
       {
         "id": "ps-lamig",
-        "name": "LAMIG Gateway — National Cold Chain Monitoring Platform",
+        "name": "LAMIG Gateway · National Cold Chain Monitoring Platform",
         "classification": "OPERATIONS",
         "frontline": true,
         "frontlineAccessType": "ONLINE",
@@ -581,7 +581,7 @@
     "internalProjects": [
       {
         "id": "p-lamig",
-        "title": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
+        "title": "Project LAMIG · LoRa Ambient Monitoring & Integrity Gateway",
         "description": "Installs continuous temperature and door sensors in all 240 accredited cold rooms plus LoRa gateways and a cloud monitoring platform, replacing weekly PDF exports with fifteen-minute excursion alerts.",
         "objectives": "1. Instrument all 240 accredited cold rooms by Q4 2026\n2. Cut excursion detection time from 9 days to 15 minutes\n3. Give operators self-service dashboards by 2027\n4. Feed standardized custody events to the Cold Chain Traceability Backbone",
         "projectType": "STANDALONE",
@@ -630,7 +630,7 @@
     "crossAgencyProjects": [
       {
         "id": "cx-ctb",
-        "title": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+        "title": "Cold Chain Traceability Backbone (CTB) · BCCM share",
         "description": "The Bureau's lead share of the cross-agency CTB program: publishing standardized custody events from LAMIG and maintaining the shared data standards with the National Food Traceability Council and academic partners.",
         "objectives": "1. Publish LAMIG custody events in the shared CTB format\n2. Co-lead the CTB standards working group\n3. Provide sandbox access for research partners",
         "projectType": "IS_DRIVEN",
@@ -655,7 +655,7 @@
     ],
     "performanceFramework": {
       "p-lamig": {
-        "projectTitle": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
+        "projectTitle": "Project LAMIG · LoRa Ambient Monitoring & Integrity Gateway",
         "projectCategory": "internal",
         "rows": [
           {
@@ -727,7 +727,7 @@
         ]
       },
       "cx-ctb": {
-        "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+        "projectTitle": "Cold Chain Traceability Backbone (CTB) · BCCM share",
         "projectCategory": "crossAgency",
         "rows": [
           {
@@ -775,7 +775,7 @@
         "mooe": [
           {
             "id": "y1-mooe-001",
-            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "item": "Internet subscription · 3 offices, pooled (Year 1)",
             "office": "ICT Unit",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -793,7 +793,7 @@
           },
           {
             "id": "y1-mooe-003",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Unit",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -804,11 +804,11 @@
       },
       "internalProjects": {
         "p-lamig": {
-          "projectTitle": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
+          "projectTitle": "Project LAMIG · LoRa Ambient Monitoring & Integrity Gateway",
           "capitalOutlay": [
             {
               "id": "y1-co-018",
-              "item": "LoRa gateway concentrators — 240 accredited cold rooms",
+              "item": "LoRa gateway concentrators · 240 accredited cold rooms",
               "office": "ICT Unit",
               "categoryId": "co-communication-equipment",
               "fundSource": "General Appropriations Act",
@@ -826,7 +826,7 @@
             },
             {
               "id": "y1-co-020",
-              "item": "Edge servers and NVR — regional monitoring nodes (48)",
+              "item": "Edge servers and NVR · regional monitoring nodes (48)",
               "office": "ICT Unit",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
@@ -835,7 +835,7 @@
             },
             {
               "id": "y1-co-021",
-              "item": "LoRa gateway concentrators — 240 accredited cold rooms — succeeding tranche",
+              "item": "LoRa gateway concentrators · 240 accredited cold rooms · succeeding tranche",
               "office": "ICT Unit",
               "categoryId": "co-communication-equipment",
               "fundSource": "General Appropriations Act",
@@ -844,7 +844,7 @@
             },
             {
               "id": "y1-co-022",
-              "item": "Temperature and door sensors — succeeding tranche",
+              "item": "Temperature and door sensors · succeeding tranche",
               "office": "ICT Unit",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
@@ -853,7 +853,7 @@
             },
             {
               "id": "y1-co-023",
-              "item": "Project LAMIG — engineering, installation and commissioning (Year 1)",
+              "item": "Project LAMIG · engineering, installation and commissioning (Year 1)",
               "office": "ICT Unit",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
@@ -864,7 +864,7 @@
           "mooe": [
             {
               "id": "y1-mooe-024",
-              "item": "Project management office — Project LAMIG",
+              "item": "Project management office · Project LAMIG",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -873,7 +873,7 @@
             },
             {
               "id": "y1-mooe-025",
-              "item": "Hosting, support and licences — Project LAMIG (Year 1)",
+              "item": "Hosting, support and licences · Project LAMIG (Year 1)",
               "office": "ICT Unit",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -882,7 +882,7 @@
             },
             {
               "id": "y1-mooe-026",
-              "item": "ICT training and change management — Project LAMIG",
+              "item": "ICT training and change management · Project LAMIG",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -896,7 +896,7 @@
           "capitalOutlay": [
             {
               "id": "y1-co-031",
-              "item": "Registry Digitalization — system development and acquisition (Year 1 milestone)",
+              "item": "Registry Digitalization · system development and acquisition (Year 1 milestone)",
               "office": "Registry Section",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -907,7 +907,7 @@
           "mooe": [
             {
               "id": "y1-mooe-032",
-              "item": "Project management office — Registry Digitalization",
+              "item": "Project management office · Registry Digitalization",
               "office": "Registry Section",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -916,7 +916,7 @@
             },
             {
               "id": "y1-mooe-033",
-              "item": "Hosting, support and licences — Registry Digitalization (Year 1)",
+              "item": "Hosting, support and licences · Registry Digitalization (Year 1)",
               "office": "Registry Section",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -925,7 +925,7 @@
             },
             {
               "id": "y1-mooe-034",
-              "item": "ICT training and change management — Registry Digitalization",
+              "item": "ICT training and change management · Registry Digitalization",
               "office": "Registry Section",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -937,11 +937,11 @@
       },
       "crossAgencyProjects": {
         "cx-ctb": {
-          "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) · BCCM share",
           "capitalOutlay": [
             {
               "id": "y1-co-035",
-              "item": "CTB participation — system development and acquisition (Year 1 milestone)",
+              "item": "CTB participation · system development and acquisition (Year 1 milestone)",
               "office": "ICT Unit",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -952,7 +952,7 @@
           "mooe": [
             {
               "id": "y1-mooe-036",
-              "item": "Project management office — CTB participation",
+              "item": "Project management office · CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -961,7 +961,7 @@
             },
             {
               "id": "y1-mooe-037",
-              "item": "Hosting, support and licences — CTB participation (Year 1)",
+              "item": "Hosting, support and licences · CTB participation (Year 1)",
               "office": "ICT Unit",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -970,7 +970,7 @@
             },
             {
               "id": "y1-mooe-038",
-              "item": "ICT training and change management — CTB participation",
+              "item": "ICT training and change management · CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1035,7 +1035,7 @@
         "capitalOutlay": [
           {
             "id": "y2-co-008",
-            "item": "Ruggedized inspection laptops — second tranche (regional cold-chain teams)",
+            "item": "Ruggedized inspection laptops · second tranche (regional cold-chain teams)",
             "office": "ICT Unit",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1064,7 +1064,7 @@
         "mooe": [
           {
             "id": "y2-mooe-005",
-            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "item": "Internet subscription · 3 offices, pooled (Year 2)",
             "office": "ICT Unit",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1082,7 +1082,7 @@
           },
           {
             "id": "y2-mooe-007",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Unit",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1093,11 +1093,11 @@
       },
       "internalProjects": {
         "p-lamig": {
-          "projectTitle": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
+          "projectTitle": "Project LAMIG · LoRa Ambient Monitoring & Integrity Gateway",
           "capitalOutlay": [
             {
               "id": "y2-co-027",
-              "item": "Project LAMIG — engineering, installation and commissioning (Year 2)",
+              "item": "Project LAMIG · engineering, installation and commissioning (Year 2)",
               "office": "ICT Unit",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
@@ -1108,7 +1108,7 @@
           "mooe": [
             {
               "id": "y2-mooe-028",
-              "item": "Project management office — Project LAMIG",
+              "item": "Project management office · Project LAMIG",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1117,7 +1117,7 @@
             },
             {
               "id": "y2-mooe-029",
-              "item": "Hosting, support and licences — Project LAMIG (Year 2)",
+              "item": "Hosting, support and licences · Project LAMIG (Year 2)",
               "office": "ICT Unit",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1126,7 +1126,7 @@
             },
             {
               "id": "y2-mooe-030",
-              "item": "ICT training and change management — Project LAMIG",
+              "item": "ICT training and change management · Project LAMIG",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1138,11 +1138,11 @@
       },
       "crossAgencyProjects": {
         "cx-ctb": {
-          "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) · BCCM share",
           "capitalOutlay": [
             {
               "id": "y2-co-039",
-              "item": "CTB participation — system development and acquisition (Year 2 milestone)",
+              "item": "CTB participation · system development and acquisition (Year 2 milestone)",
               "office": "ICT Unit",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1153,7 +1153,7 @@
           "mooe": [
             {
               "id": "y2-mooe-040",
-              "item": "Project management office — CTB participation",
+              "item": "Project management office · CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1162,7 +1162,7 @@
             },
             {
               "id": "y2-mooe-041",
-              "item": "Hosting, support and licences — CTB participation (Year 2)",
+              "item": "Hosting, support and licences · CTB participation (Year 2)",
               "office": "ICT Unit",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1171,7 +1171,7 @@
             },
             {
               "id": "y2-mooe-042",
-              "item": "ICT training and change management — CTB participation",
+              "item": "ICT training and change management · CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1265,7 +1265,7 @@
         "mooe": [
           {
             "id": "y3-mooe-011",
-            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "item": "Internet subscription · 3 offices, pooled (Year 3)",
             "office": "ICT Unit",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1283,7 +1283,7 @@
           },
           {
             "id": "y3-mooe-013",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Unit",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1304,11 +1304,11 @@
       "internalProjects": {},
       "crossAgencyProjects": {
         "cx-ctb": {
-          "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) · BCCM share",
           "capitalOutlay": [
             {
               "id": "y3-co-043",
-              "item": "CTB participation — system development and acquisition (Year 3 milestone)",
+              "item": "CTB participation · system development and acquisition (Year 3 milestone)",
               "office": "ICT Unit",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1319,7 +1319,7 @@
           "mooe": [
             {
               "id": "y3-mooe-044",
-              "item": "Project management office — CTB participation",
+              "item": "Project management office · CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1328,7 +1328,7 @@
             },
             {
               "id": "y3-mooe-045",
-              "item": "Hosting, support and licences — CTB participation (Year 3)",
+              "item": "Hosting, support and licences · CTB participation (Year 3)",
               "office": "ICT Unit",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1337,7 +1337,7 @@
             },
             {
               "id": "y3-mooe-046",
-              "item": "ICT training and change management — CTB participation",
+              "item": "ICT training and change management · CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",

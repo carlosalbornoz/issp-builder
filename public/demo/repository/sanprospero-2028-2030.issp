@@ -352,7 +352,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "yes",
@@ -493,7 +493,7 @@
       {
         "id": "p-frontline",
         "title": "San Prospero Digital Frontline (eBPLS-lite and Records Digitization)",
-        "description": "Launches the municipality's first services platform — permits, certifications and clearances with online payment and barangay kiosks — and digitizes priority record series.",
+        "description": "Launches the municipality's first services platform (permits, certifications and clearances with online payment and barangay kiosks) and digitizes priority record series.",
         "objectives": "1. Top 10 municipal transactions online by 2029\n2. Barangay intake kiosks at 5 pilot barangays\n3. Priority records digitized and searchable",
         "projectType": "IS_DRIVEN",
         "linkedSystemIds": [
@@ -517,7 +517,7 @@
     "crossAgencyProjects": [
       {
         "id": "cx-pxnet",
-        "title": "Permits Exchange Network (PXNet) — San Prospero share",
+        "title": "Permits Exchange Network (PXNet) · San Prospero share",
         "description": "The municipality's share of PXNet: verifying permits and inspections with Malinaw so relocating businesses do not re-submit records either LGU already holds.",
         "objectives": "1. Verification live with Malinaw by 2029\n2. Shared inspection schema adopted\n3. Staff trained on the exchange",
         "projectType": "IS_DRIVEN",
@@ -572,7 +572,7 @@
         ]
       },
       "cx-pxnet": {
-        "projectTitle": "Permits Exchange Network (PXNet) — San Prospero share",
+        "projectTitle": "Permits Exchange Network (PXNet) · San Prospero share",
         "projectCategory": "crossAgency",
         "rows": [
           {
@@ -620,7 +620,7 @@
         "mooe": [
           {
             "id": "y1-mooe-519",
-            "item": "Internet subscription — 2 offices, pooled (Year 1)",
+            "item": "Internet subscription · 2 offices, pooled (Year 1)",
             "office": "Municipal ICT Desk",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -638,7 +638,7 @@
           },
           {
             "id": "y1-mooe-521",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "Municipal ICT Desk",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -662,7 +662,7 @@
           "capitalOutlay": [
             {
               "id": "y1-co-532",
-              "item": "Digital Frontline — system development and acquisition (Year 1 milestone)",
+              "item": "Digital Frontline · system development and acquisition (Year 1 milestone)",
               "office": "Municipal ICT Desk",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -673,7 +673,7 @@
           "mooe": [
             {
               "id": "y1-mooe-533",
-              "item": "Project management office — Digital Frontline",
+              "item": "Project management office · Digital Frontline",
               "office": "Municipal ICT Desk",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -682,7 +682,7 @@
             },
             {
               "id": "y1-mooe-534",
-              "item": "Hosting, support and licences — Digital Frontline (Year 1)",
+              "item": "Hosting, support and licences · Digital Frontline (Year 1)",
               "office": "Municipal ICT Desk",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -691,7 +691,7 @@
             },
             {
               "id": "y1-mooe-535",
-              "item": "ICT training and change management — Digital Frontline",
+              "item": "ICT training and change management · Digital Frontline",
               "office": "Municipal ICT Desk",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -703,11 +703,11 @@
       },
       "crossAgencyProjects": {
         "cx-pxnet": {
-          "projectTitle": "Permits Exchange Network (PXNet) — San Prospero share",
+          "projectTitle": "Permits Exchange Network (PXNet) · San Prospero share",
           "capitalOutlay": [
             {
               "id": "y1-co-540",
-              "item": "PXNet participation — system development and acquisition (Year 1 milestone)",
+              "item": "PXNet participation · system development and acquisition (Year 1 milestone)",
               "office": "Municipal Treasurer's Office",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -718,7 +718,7 @@
           "mooe": [
             {
               "id": "y1-mooe-541",
-              "item": "Project management office — PXNet participation",
+              "item": "Project management office · PXNet participation",
               "office": "Municipal Treasurer's Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -727,7 +727,7 @@
             },
             {
               "id": "y1-mooe-542",
-              "item": "Hosting, support and licences — PXNet participation (Year 1)",
+              "item": "Hosting, support and licences · PXNet participation (Year 1)",
               "office": "Municipal Treasurer's Office",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -736,7 +736,7 @@
             },
             {
               "id": "y1-mooe-543",
-              "item": "ICT training and change management — PXNet participation",
+              "item": "ICT training and change management · PXNet participation",
               "office": "Municipal Treasurer's Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -794,7 +794,7 @@
         "mooe": [
           {
             "id": "y2-mooe-524",
-            "item": "Internet subscription — 2 offices, pooled (Year 2)",
+            "item": "Internet subscription · 2 offices, pooled (Year 2)",
             "office": "Municipal ICT Desk",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -812,7 +812,7 @@
           },
           {
             "id": "y2-mooe-526",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "Municipal ICT Desk",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -827,7 +827,7 @@
           "capitalOutlay": [
             {
               "id": "y2-co-536",
-              "item": "Digital Frontline — system development and acquisition (Year 2 milestone)",
+              "item": "Digital Frontline · system development and acquisition (Year 2 milestone)",
               "office": "Municipal ICT Desk",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -838,7 +838,7 @@
           "mooe": [
             {
               "id": "y2-mooe-537",
-              "item": "Project management office — Digital Frontline",
+              "item": "Project management office · Digital Frontline",
               "office": "Municipal ICT Desk",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -847,7 +847,7 @@
             },
             {
               "id": "y2-mooe-538",
-              "item": "Hosting, support and licences — Digital Frontline (Year 2)",
+              "item": "Hosting, support and licences · Digital Frontline (Year 2)",
               "office": "Municipal ICT Desk",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -856,7 +856,7 @@
             },
             {
               "id": "y2-mooe-539",
-              "item": "ICT training and change management — Digital Frontline",
+              "item": "ICT training and change management · Digital Frontline",
               "office": "Municipal ICT Desk",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -868,11 +868,11 @@
       },
       "crossAgencyProjects": {
         "cx-pxnet": {
-          "projectTitle": "Permits Exchange Network (PXNet) — San Prospero share",
+          "projectTitle": "Permits Exchange Network (PXNet) · San Prospero share",
           "capitalOutlay": [
             {
               "id": "y2-co-544",
-              "item": "PXNet participation — system development and acquisition (Year 2 milestone)",
+              "item": "PXNet participation · system development and acquisition (Year 2 milestone)",
               "office": "Municipal Treasurer's Office",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -883,7 +883,7 @@
           "mooe": [
             {
               "id": "y2-mooe-545",
-              "item": "Project management office — PXNet participation",
+              "item": "Project management office · PXNet participation",
               "office": "Municipal Treasurer's Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -892,7 +892,7 @@
             },
             {
               "id": "y2-mooe-546",
-              "item": "Hosting, support and licences — PXNet participation (Year 2)",
+              "item": "Hosting, support and licences · PXNet participation (Year 2)",
               "office": "Municipal Treasurer's Office",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -901,7 +901,7 @@
             },
             {
               "id": "y2-mooe-547",
-              "item": "ICT training and change management — PXNet participation",
+              "item": "ICT training and change management · PXNet participation",
               "office": "Municipal Treasurer's Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -940,7 +940,7 @@
         "mooe": [
           {
             "id": "y3-mooe-529",
-            "item": "Internet subscription — 2 offices, pooled (Year 3)",
+            "item": "Internet subscription · 2 offices, pooled (Year 3)",
             "office": "Municipal ICT Desk",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -958,7 +958,7 @@
           },
           {
             "id": "y3-mooe-531",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "Municipal ICT Desk",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",

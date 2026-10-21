@@ -138,7 +138,7 @@
       }
     ],
     "cioName": "Dir. Alfonso L. Bumanglag",
-    "cioPosition": "Director III — ICT Service",
+    "cioPosition": "Director III · ICT Service",
     "cioUnit": "ICT Service",
     "cioEmail": "cio@nftc.gov.ph",
     "cioContact": "+63 2 8322 1790",
@@ -373,7 +373,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "yes",
@@ -544,7 +544,7 @@
       {
         "id": "p-ntr",
         "title": "National Traceability Registry (NTR) Platform",
-        "description": "Builds the event-level traceability registry with unique establishment and lot IDs, custody events, traceback query tools and verification APIs — replacing the FoxPro registry.",
+        "description": "Builds the event-level traceability registry with unique establishment and lot IDs, custody events, traceback query tools and verification APIs, replacing the FoxPro registry.",
         "objectives": "1. NTR live with establishments migrated by 2029\n2. Event-level custody tracking for all registered commodities\n3. Traceback query time under 24 hours",
         "projectType": "IS_DRIVEN",
         "linkedSystemIds": [
@@ -591,7 +591,7 @@
     "crossAgencyProjects": [
       {
         "id": "cx-ctb",
-        "title": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+        "title": "Cold Chain Traceability Backbone (CTB) · NFTC share",
         "description": "The Council's share of CTB: consuming cold chain custody events into the NTR and co-chairing the shared data standards working group.",
         "objectives": "1. Ingest CTB custody events into NTR by 2028\n2. Co-chair standards working group\n3. Joint traceback exercise with BCCM annually",
         "projectType": "IS_DRIVEN",
@@ -676,7 +676,7 @@
         ]
       },
       "cx-ctb": {
-        "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+        "projectTitle": "Cold Chain Traceability Backbone (CTB) · NFTC share",
         "projectCategory": "crossAgency",
         "rows": [
           {
@@ -740,7 +740,7 @@
           },
           {
             "id": "y1-co-394",
-            "item": "Rack-mounted UPS — equipment room",
+            "item": "Rack-mounted UPS · equipment room",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -760,7 +760,7 @@
         "mooe": [
           {
             "id": "y1-mooe-388",
-            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "item": "Internet subscription · 3 offices, pooled (Year 1)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -778,7 +778,7 @@
           },
           {
             "id": "y1-mooe-390",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -793,7 +793,7 @@
           "capitalOutlay": [
             {
               "id": "y1-co-408",
-              "item": "NTR Platform — system development and acquisition (Year 1 milestone)",
+              "item": "NTR Platform · system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -804,7 +804,7 @@
           "mooe": [
             {
               "id": "y1-mooe-409",
-              "item": "Project management office — NTR Platform",
+              "item": "Project management office · NTR Platform",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -813,7 +813,7 @@
             },
             {
               "id": "y1-mooe-410",
-              "item": "Hosting, support and licences — NTR Platform (Year 1)",
+              "item": "Hosting, support and licences · NTR Platform (Year 1)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -822,7 +822,7 @@
             },
             {
               "id": "y1-mooe-411",
-              "item": "ICT training and change management — NTR Platform",
+              "item": "ICT training and change management · NTR Platform",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -863,7 +863,7 @@
             },
             {
               "id": "y1-co-419",
-              "item": "Inspector Mobility — engineering, installation and commissioning (Year 1)",
+              "item": "Inspector Mobility · engineering, installation and commissioning (Year 1)",
               "office": "Inspection Bureau",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
@@ -874,7 +874,7 @@
           "mooe": [
             {
               "id": "y1-mooe-420",
-              "item": "Project management office — Inspector Mobility",
+              "item": "Project management office · Inspector Mobility",
               "office": "Inspection Bureau",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -883,7 +883,7 @@
             },
             {
               "id": "y1-mooe-421",
-              "item": "Hosting, support and licences — Inspector Mobility (Year 1)",
+              "item": "Hosting, support and licences · Inspector Mobility (Year 1)",
               "office": "Inspection Bureau",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -892,7 +892,7 @@
             },
             {
               "id": "y1-mooe-422",
-              "item": "ICT training and change management — Inspector Mobility",
+              "item": "ICT training and change management · Inspector Mobility",
               "office": "Inspection Bureau",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -904,11 +904,11 @@
       },
       "crossAgencyProjects": {
         "cx-ctb": {
-          "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) · NFTC share",
           "capitalOutlay": [
             {
               "id": "y1-co-423",
-              "item": "CTB participation — system development and acquisition (Year 1 milestone)",
+              "item": "CTB participation · system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -919,7 +919,7 @@
           "mooe": [
             {
               "id": "y1-mooe-424",
-              "item": "Project management office — CTB participation",
+              "item": "Project management office · CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -928,7 +928,7 @@
             },
             {
               "id": "y1-mooe-425",
-              "item": "Hosting, support and licences — CTB participation (Year 1)",
+              "item": "Hosting, support and licences · CTB participation (Year 1)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -937,7 +937,7 @@
             },
             {
               "id": "y1-mooe-426",
-              "item": "ICT training and change management — CTB participation",
+              "item": "ICT training and change management · CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1029,7 +1029,7 @@
           },
           {
             "id": "y2-co-402",
-            "item": "Rack-mounted UPS — equipment room",
+            "item": "Rack-mounted UPS · equipment room",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1040,7 +1040,7 @@
         "mooe": [
           {
             "id": "y2-mooe-396",
-            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "item": "Internet subscription · 3 offices, pooled (Year 2)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1058,7 +1058,7 @@
           },
           {
             "id": "y2-mooe-398",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1073,7 +1073,7 @@
           "capitalOutlay": [
             {
               "id": "y2-co-412",
-              "item": "NTR Platform — system development and acquisition (Year 2 milestone)",
+              "item": "NTR Platform · system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1084,7 +1084,7 @@
           "mooe": [
             {
               "id": "y2-mooe-413",
-              "item": "Project management office — NTR Platform",
+              "item": "Project management office · NTR Platform",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1093,7 +1093,7 @@
             },
             {
               "id": "y2-mooe-414",
-              "item": "Hosting, support and licences — NTR Platform (Year 2)",
+              "item": "Hosting, support and licences · NTR Platform (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1102,7 +1102,7 @@
             },
             {
               "id": "y2-mooe-415",
-              "item": "ICT training and change management — NTR Platform",
+              "item": "ICT training and change management · NTR Platform",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1114,11 +1114,11 @@
       },
       "crossAgencyProjects": {
         "cx-ctb": {
-          "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) · NFTC share",
           "capitalOutlay": [
             {
               "id": "y2-co-427",
-              "item": "CTB participation — system development and acquisition (Year 2 milestone)",
+              "item": "CTB participation · system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1129,7 +1129,7 @@
           "mooe": [
             {
               "id": "y2-mooe-428",
-              "item": "Project management office — CTB participation",
+              "item": "Project management office · CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1138,7 +1138,7 @@
             },
             {
               "id": "y2-mooe-429",
-              "item": "Hosting, support and licences — CTB participation (Year 2)",
+              "item": "Hosting, support and licences · CTB participation (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1147,7 +1147,7 @@
             },
             {
               "id": "y2-mooe-430",
-              "item": "ICT training and change management — CTB participation",
+              "item": "ICT training and change management · CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1232,7 +1232,7 @@
         "mooe": [
           {
             "id": "y3-mooe-403",
-            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "item": "Internet subscription · 3 offices, pooled (Year 3)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1250,7 +1250,7 @@
           },
           {
             "id": "y3-mooe-405",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1262,11 +1262,11 @@
       "internalProjects": {},
       "crossAgencyProjects": {
         "cx-ctb": {
-          "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
+          "projectTitle": "Cold Chain Traceability Backbone (CTB) · NFTC share",
           "capitalOutlay": [
             {
               "id": "y3-co-431",
-              "item": "CTB participation — system development and acquisition (Year 3 milestone)",
+              "item": "CTB participation · system development and acquisition (Year 3 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1277,7 +1277,7 @@
           "mooe": [
             {
               "id": "y3-mooe-432",
-              "item": "Project management office — CTB participation",
+              "item": "Project management office · CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1286,7 +1286,7 @@
             },
             {
               "id": "y3-mooe-433",
-              "item": "Hosting, support and licences — CTB participation (Year 3)",
+              "item": "Hosting, support and licences · CTB participation (Year 3)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1295,7 +1295,7 @@
             },
             {
               "id": "y3-mooe-434",
-              "item": "ICT training and change management — CTB participation",
+              "item": "ICT training and change management · CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",

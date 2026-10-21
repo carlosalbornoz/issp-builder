@@ -137,7 +137,7 @@
         ]
       }
     ],
-    "cioName": "VP for ICT Ma. Concepcion D. Ybañez",
+    "cioName": "Ma. Concepcion D. Ybañez",
     "cioPosition": "Vice President for ICT",
     "cioUnit": "ICT Department",
     "cioEmail": "cio@mfsc.gov.ph",
@@ -240,7 +240,7 @@
           "oo-1-pg-1"
         ],
         "criticalSystem": "FERRYCARD AFC (automated fare collection)",
-        "concern": "The 2014 vendor-locked AFC charges license fees rising 9% yearly, cannot support account-based ticketing or QR, and its reconciliation runs T+3 — conductors cash up against estimates. One in 400 card taps fails at legacy validators.",
+        "concern": "The 2014 vendor-locked AFC charges license fees rising 9% yearly, cannot support account-based ticketing or QR, and its reconciliation runs T+3: conductors cash up against estimates. One in 400 card taps fails at legacy validators.",
         "desiredStrategy": "Deploy an open, account-based ticketing stack with mobile QR and instant settlement (Project BIYAHE), and retire per-transaction licensing."
       },
       {
@@ -264,7 +264,7 @@
           "oo-3-pg-3"
         ],
         "criticalSystem": "Pier connectivity (patchwork broadband)",
-        "concern": "Pier POS and validators share consumer broadband; when the mall Wi-Fi blinks, two piers drop to offline mode and reconcile next day — the source of most cash-up variances.",
+        "concern": "Pier POS and validators share consumer broadband; when the mall Wi-Fi blinks, two piers drop to offline mode and reconcile next day, the source of most cash-up variances.",
         "desiredStrategy": "Give every pier resilient dedicated connectivity with automatic failover (Pier Network Connectivity project)."
       }
     ],
@@ -415,7 +415,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "no"
@@ -522,7 +522,7 @@
     "proposedSystems": [
       {
         "id": "ps-biyahe",
-        "name": "BIYAHE — Account-Based Ticketing & Handy App",
+        "name": "BIYAHE · Account-Based Ticketing & Handy App",
         "classification": "OPERATIONS",
         "frontline": true,
         "frontlineAccessType": "ONLINE",
@@ -552,7 +552,7 @@
       },
       {
         "id": "ps-daloy",
-        "name": "DALOY — Fleet Health & Operations Intelligence",
+        "name": "DALOY · Fleet Health & Operations Intelligence",
         "classification": "SUPPORT_TO_OPERATIONS",
         "frontline": false,
         "frontlineAccessType": "",
@@ -614,8 +614,8 @@
     "internalProjects": [
       {
         "id": "p-biyahe",
-        "title": "Project BIYAHE — Account-Based Ticketing & Handy App",
-        "description": "Replaces the vendor-locked FERRYCARD AFC with an open account-based stack: card, QR and mobile app fares, instant settlement, and ferry-commons interoperability — ending per-transaction licensing.",
+        "title": "Project BIYAHE · Account-Based Ticketing & Handy App",
+        "description": "Replaces the vendor-locked FERRYCARD AFC with an open account-based stack: card, QR and mobile app fares, instant settlement, and ferry-commons interoperability, ending per-transaction licensing.",
         "objectives": "1. Account-based ticketing live on all 14 piers by 2028\n2. Mobile QR fares with instant settlement\n3. Cut cash-up variance by 90%\n4. Retire per-transaction vendor licensing",
         "projectType": "IS_DRIVEN",
         "linkedSystemIds": [
@@ -637,7 +637,7 @@
       },
       {
         "id": "p-daloy",
-        "title": "Project DALOY — Fleet Health & Operations Intelligence",
+        "title": "Project DALOY · Fleet Health & Operations Intelligence",
         "description": "Instruments all 48 vessels with telemetry and deploys fleet health analytics: engine hours, defects, parts planning and punctuality, replacing the Monday whiteboard.",
         "objectives": "1. Telemetry on all 48 vessels by 2028\n2. Parts planning driven by live defect and hours data\n3. Raise schedule adherence from 82% to 95%",
         "projectType": "STANDALONE",
@@ -681,7 +681,7 @@
       },
       {
         "id": "p-hula",
-        "title": "Project HULA — Fleet AI Models and On-Premise Inference Cluster",
+        "title": "Project HULA · Fleet AI Models and On-Premise Inference Cluster",
         "description": "Trains and serves DALOY's predictive-maintenance and fare-demand models on a Corporation-owned GPU cluster sited at the operations center: commuter movement and vessel telemetry stay on-premise by policy, with model serving integrated into the fleet health platform.",
         "objectives": "1. GPU inference cluster commissioned at the operations center by 2028\n2. Predictive maintenance and fare-demand models in production by 2029\n3. Model training and serving entirely on Corporation-owned infrastructure",
         "projectType": "STANDALONE",
@@ -707,7 +707,7 @@
     "crossAgencyProjects": [],
     "performanceFramework": {
       "p-biyahe": {
-        "projectTitle": "Project BIYAHE — Account-Based Ticketing & Handy App",
+        "projectTitle": "Project BIYAHE · Account-Based Ticketing & Handy App",
         "projectCategory": "internal",
         "rows": [
           {
@@ -749,7 +749,7 @@
         ]
       },
       "p-daloy": {
-        "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
+        "projectTitle": "Project DALOY · Fleet Health & Operations Intelligence",
         "projectCategory": "internal",
         "rows": [
           {
@@ -821,7 +821,7 @@
         ]
       },
       "p-hula": {
-        "projectTitle": "Project HULA — Fleet AI Models and On-Premise Inference Cluster",
+        "projectTitle": "Project HULA · Fleet AI Models and On-Premise Inference Cluster",
         "projectCategory": "internal",
         "rows": [
           {
@@ -897,7 +897,7 @@
           },
           {
             "id": "y1-co-260",
-            "item": "Rack-mounted UPS — equipment room",
+            "item": "Rack-mounted UPS · equipment room",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -917,7 +917,7 @@
         "mooe": [
           {
             "id": "y1-mooe-253",
-            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "item": "Internet subscription · 3 offices, pooled (Year 1)",
             "office": "ICT Department",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -935,7 +935,7 @@
           },
           {
             "id": "y1-mooe-255",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Department",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -944,7 +944,7 @@
           },
           {
             "id": "y1-mooe-256",
-            "item": "Mobile expenses — operations and maintenance crews",
+            "item": "Mobile expenses · operations and maintenance crews",
             "office": "ICT Department",
             "categoryId": "mooe-mobile-expenses",
             "fundSource": "General Appropriations Act",
@@ -955,7 +955,7 @@
       },
       "internalProjects": {
         "p-biyahe": {
-          "projectTitle": "Project BIYAHE — Account-Based Ticketing & Handy App",
+          "projectTitle": "Project BIYAHE · Account-Based Ticketing & Handy App",
           "capitalOutlay": [
             {
               "id": "y1-co-276",
@@ -977,7 +977,7 @@
             },
             {
               "id": "y1-co-278",
-              "item": "Account-based ticket validators — succeeding tranche",
+              "item": "Account-based ticket validators · succeeding tranche",
               "office": "ICT Department",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
@@ -986,7 +986,7 @@
             },
             {
               "id": "y1-co-279",
-              "item": "Ticket printers and POS terminals — succeeding tranche",
+              "item": "Ticket printers and POS terminals · succeeding tranche",
               "office": "ICT Department",
               "categoryId": "co-printing-equipment",
               "fundSource": "General Appropriations Act",
@@ -995,7 +995,7 @@
             },
             {
               "id": "y1-co-280",
-              "item": "Project BIYAHE — system development and acquisition (Year 1 milestone)",
+              "item": "Project BIYAHE · system development and acquisition (Year 1 milestone)",
               "office": "ICT Department",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1006,7 +1006,7 @@
           "mooe": [
             {
               "id": "y1-mooe-281",
-              "item": "Project management office — Project BIYAHE",
+              "item": "Project management office · Project BIYAHE",
               "office": "ICT Department",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1015,7 +1015,7 @@
             },
             {
               "id": "y1-mooe-282",
-              "item": "Hosting, support and licences — Project BIYAHE (Year 1)",
+              "item": "Hosting, support and licences · Project BIYAHE (Year 1)",
               "office": "ICT Department",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1024,7 +1024,7 @@
             },
             {
               "id": "y1-mooe-283",
-              "item": "ICT training and change management — Project BIYAHE",
+              "item": "ICT training and change management · Project BIYAHE",
               "office": "ICT Department",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1034,7 +1034,7 @@
           ]
         },
         "p-daloy": {
-          "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
+          "projectTitle": "Project DALOY · Fleet Health & Operations Intelligence",
           "capitalOutlay": [
             {
               "id": "y1-co-288",
@@ -1065,7 +1065,7 @@
             },
             {
               "id": "y1-co-291",
-              "item": "Vessel telemetry units — succeeding tranche",
+              "item": "Vessel telemetry units · succeeding tranche",
               "office": "Fleet Operations Department",
               "categoryId": "co-communication-equipment",
               "fundSource": "Other Income Generating Sources",
@@ -1074,7 +1074,7 @@
             },
             {
               "id": "y1-co-292",
-              "item": "Bridge data loggers and displays — succeeding tranche",
+              "item": "Bridge data loggers and displays · succeeding tranche",
               "office": "Fleet Operations Department",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "Other Income Generating Sources",
@@ -1083,7 +1083,7 @@
             },
             {
               "id": "y1-co-293",
-              "item": "Project DALOY — engineering, installation and commissioning (Year 1)",
+              "item": "Project DALOY · engineering, installation and commissioning (Year 1)",
               "office": "Fleet Operations Department",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "Other Income Generating Sources",
@@ -1094,7 +1094,7 @@
           "mooe": [
             {
               "id": "y1-mooe-294",
-              "item": "Project management office — Project DALOY",
+              "item": "Project management office · Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-professional-services",
               "fundSource": "Other Income Generating Sources",
@@ -1103,7 +1103,7 @@
             },
             {
               "id": "y1-mooe-295",
-              "item": "Hosting, support and licences — Project DALOY (Year 1)",
+              "item": "Hosting, support and licences · Project DALOY (Year 1)",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-web-hosting",
               "fundSource": "Other Income Generating Sources",
@@ -1112,7 +1112,7 @@
             },
             {
               "id": "y1-mooe-296",
-              "item": "ICT training and change management — Project DALOY",
+              "item": "ICT training and change management · Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-ict-training",
               "fundSource": "Other Income Generating Sources",
@@ -1153,7 +1153,7 @@
             },
             {
               "id": "y1-co-308",
-              "item": "Pier Network Connectivity — engineering, installation and commissioning (Year 1)",
+              "item": "Pier Network Connectivity · engineering, installation and commissioning (Year 1)",
               "office": "ICT Department",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
@@ -1164,7 +1164,7 @@
           "mooe": [
             {
               "id": "y1-mooe-309",
-              "item": "Project management office — Pier Network Connectivity",
+              "item": "Project management office · Pier Network Connectivity",
               "office": "ICT Department",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1173,7 +1173,7 @@
             },
             {
               "id": "y1-mooe-310",
-              "item": "Hosting, support and licences — Pier Network Connectivity (Year 1)",
+              "item": "Hosting, support and licences · Pier Network Connectivity (Year 1)",
               "office": "ICT Department",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1182,7 +1182,7 @@
             },
             {
               "id": "y1-mooe-311",
-              "item": "ICT training and change management — Pier Network Connectivity",
+              "item": "ICT training and change management · Pier Network Connectivity",
               "office": "ICT Department",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1266,7 +1266,7 @@
           },
           {
             "id": "y2-co-269",
-            "item": "Rack-mounted UPS — equipment room",
+            "item": "Rack-mounted UPS · equipment room",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1286,7 +1286,7 @@
         "mooe": [
           {
             "id": "y2-mooe-262",
-            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "item": "Internet subscription · 3 offices, pooled (Year 2)",
             "office": "ICT Department",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1304,7 +1304,7 @@
           },
           {
             "id": "y2-mooe-264",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Department",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1324,11 +1324,11 @@
       },
       "internalProjects": {
         "p-biyahe": {
-          "projectTitle": "Project BIYAHE — Account-Based Ticketing & Handy App",
+          "projectTitle": "Project BIYAHE · Account-Based Ticketing & Handy App",
           "capitalOutlay": [
             {
               "id": "y2-co-284",
-              "item": "Project BIYAHE — system development and acquisition (Year 2 milestone)",
+              "item": "Project BIYAHE · system development and acquisition (Year 2 milestone)",
               "office": "ICT Department",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1339,7 +1339,7 @@
           "mooe": [
             {
               "id": "y2-mooe-285",
-              "item": "Project management office — Project BIYAHE",
+              "item": "Project management office · Project BIYAHE",
               "office": "ICT Department",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1348,7 +1348,7 @@
             },
             {
               "id": "y2-mooe-286",
-              "item": "Hosting, support and licences — Project BIYAHE (Year 2)",
+              "item": "Hosting, support and licences · Project BIYAHE (Year 2)",
               "office": "ICT Department",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1357,7 +1357,7 @@
             },
             {
               "id": "y2-mooe-287",
-              "item": "ICT training and change management — Project BIYAHE",
+              "item": "ICT training and change management · Project BIYAHE",
               "office": "ICT Department",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1367,11 +1367,11 @@
           ]
         },
         "p-daloy": {
-          "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
+          "projectTitle": "Project DALOY · Fleet Health & Operations Intelligence",
           "capitalOutlay": [
             {
               "id": "y2-co-297",
-              "item": "Project DALOY — engineering, installation and commissioning (Year 2)",
+              "item": "Project DALOY · engineering, installation and commissioning (Year 2)",
               "office": "Fleet Operations Department",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "Other Income Generating Sources",
@@ -1382,7 +1382,7 @@
           "mooe": [
             {
               "id": "y2-mooe-298",
-              "item": "Project management office — Project DALOY",
+              "item": "Project management office · Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-professional-services",
               "fundSource": "Other Income Generating Sources",
@@ -1391,7 +1391,7 @@
             },
             {
               "id": "y2-mooe-299",
-              "item": "Hosting, support and licences — Project DALOY (Year 2)",
+              "item": "Hosting, support and licences · Project DALOY (Year 2)",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "Other Income Generating Sources",
@@ -1400,7 +1400,7 @@
             },
             {
               "id": "y2-mooe-300",
-              "item": "ICT training and change management — Project DALOY",
+              "item": "ICT training and change management · Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-ict-training",
               "fundSource": "Other Income Generating Sources",
@@ -1410,7 +1410,7 @@
           ]
         },
         "p-hula": {
-          "projectTitle": "Project HULA — Fleet AI Models and On-Premise Inference Cluster",
+          "projectTitle": "Project HULA · Fleet AI Models and On-Premise Inference Cluster",
           "capitalOutlay": [
             {
               "id": "y2-co-312",
@@ -1441,7 +1441,7 @@
             },
             {
               "id": "y2-co-315",
-              "item": "Project HULA — engineering, installation and commissioning (Year 2)",
+              "item": "Project HULA · engineering, installation and commissioning (Year 2)",
               "office": "ICT Department",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "Other Income Generating Sources",
@@ -1452,7 +1452,7 @@
           "mooe": [
             {
               "id": "y2-mooe-316",
-              "item": "Project management office — Project HULA",
+              "item": "Project management office · Project HULA",
               "office": "ICT Department",
               "categoryId": "mooe-professional-services",
               "fundSource": "Other Income Generating Sources",
@@ -1461,7 +1461,7 @@
             },
             {
               "id": "y2-mooe-317",
-              "item": "Hosting, support and licences — Project HULA (Year 2)",
+              "item": "Hosting, support and licences · Project HULA (Year 2)",
               "office": "ICT Department",
               "categoryId": "mooe-web-hosting",
               "fundSource": "Other Income Generating Sources",
@@ -1470,7 +1470,7 @@
             },
             {
               "id": "y2-mooe-318",
-              "item": "ICT training and change management — Project HULA",
+              "item": "ICT training and change management · Project HULA",
               "office": "ICT Department",
               "categoryId": "mooe-ict-training",
               "fundSource": "Other Income Generating Sources",
@@ -1547,7 +1547,7 @@
         "mooe": [
           {
             "id": "y3-mooe-271",
-            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "item": "Internet subscription · 3 offices, pooled (Year 3)",
             "office": "ICT Department",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1565,7 +1565,7 @@
           },
           {
             "id": "y3-mooe-273",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Department",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1576,11 +1576,11 @@
       },
       "internalProjects": {
         "p-daloy": {
-          "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
+          "projectTitle": "Project DALOY · Fleet Health & Operations Intelligence",
           "capitalOutlay": [
             {
               "id": "y3-co-301",
-              "item": "Project DALOY — engineering, installation and commissioning (Year 3)",
+              "item": "Project DALOY · engineering, installation and commissioning (Year 3)",
               "office": "Fleet Operations Department",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "Other Income Generating Sources",
@@ -1591,7 +1591,7 @@
           "mooe": [
             {
               "id": "y3-mooe-302",
-              "item": "Project management office — Project DALOY",
+              "item": "Project management office · Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-professional-services",
               "fundSource": "Other Income Generating Sources",
@@ -1600,7 +1600,7 @@
             },
             {
               "id": "y3-mooe-303",
-              "item": "Hosting, support and licences — Project DALOY (Year 3)",
+              "item": "Hosting, support and licences · Project DALOY (Year 3)",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-web-hosting",
               "fundSource": "Other Income Generating Sources",
@@ -1609,7 +1609,7 @@
             },
             {
               "id": "y3-mooe-304",
-              "item": "ICT training and change management — Project DALOY",
+              "item": "ICT training and change management · Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-ict-training",
               "fundSource": "Other Income Generating Sources",

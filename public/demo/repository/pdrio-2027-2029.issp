@@ -138,7 +138,7 @@
       }
     ],
     "cioName": "Dir. Anselmo R. Quijano",
-    "cioPosition": "Director III — ICT Division",
+    "cioPosition": "Director III · ICT Division",
     "cioUnit": "ICT Division",
     "cioEmail": "cio@pdrio.gov.ph",
     "cioContact": "+63 2 8617 4286",
@@ -306,7 +306,7 @@
     "informationSystems": [
       {
         "id": "is-prism",
-        "name": "PRISM — Policy Registry & Insurance Servicing Mainframe",
+        "name": "PRISM · Policy Registry & Insurance Servicing Mainframe",
         "classification": "OPERATIONS",
         "frontline": false,
         "frontlineAccessType": "",
@@ -379,7 +379,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "yes",
@@ -579,7 +579,7 @@
     "internalProjects": [
       {
         "id": "p-underwrite",
-        "title": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
+        "title": "Project UNDERWRITE · Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
         "description": "Builds the modern policy and claims platform: LGU self-service enrolment, automated trigger ingestion from RAPIDE, straight-through payout computation, and PRISM decommissioning.",
         "objectives": "1. LGU self-service enrolment live by 2028\n2. Automated trigger ingestion for all covered perils\n3. Median payout time from trigger to release: 7 days\n4. PRISM decommissioned by end of 2028",
         "projectType": "IS_DRIVEN",
@@ -628,7 +628,7 @@
     "crossAgencyProjects": [
       {
         "id": "cx-rapide",
-        "title": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
+        "title": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
         "description": "The Office's share of RAPIDE: consuming NCRA hazard feeds as automated payout triggers and contributing exposure aggregates back to the exchange.",
         "objectives": "1. Automated trigger feeds for windstorm and surge perils by 2027\n2. Exposure aggregates published to partner agencies\n3. Joint payout drills each season",
         "projectType": "IS_DRIVEN",
@@ -643,7 +643,7 @@
         ],
         "implementingUnit": "ICT Division",
         "leadAgency": "National Coastal Resilience Authority",
-        "implementingAgencies": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+        "implementingAgencies": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events",
         "fundingSource": "General Appropriations Act",
         "year1Deliverables": "Windstorm trigger feed live; first automated test payout executed in drill",
         "year2Deliverables": "Surge trigger feed live; exposure aggregates published",
@@ -653,7 +653,7 @@
     ],
     "performanceFramework": {
       "p-underwrite": {
-        "projectTitle": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
+        "projectTitle": "Project UNDERWRITE · Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
         "projectCategory": "internal",
         "rows": [
           {
@@ -725,7 +725,7 @@
         ]
       },
       "cx-rapide": {
-        "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
+        "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
         "projectCategory": "crossAgency",
         "rows": [
           {
@@ -789,7 +789,7 @@
           },
           {
             "id": "y1-co-202",
-            "item": "Rack-mounted UPS — equipment room",
+            "item": "Rack-mounted UPS · equipment room",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -809,7 +809,7 @@
         "mooe": [
           {
             "id": "y1-mooe-196",
-            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "item": "Internet subscription · 3 offices, pooled (Year 1)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -827,7 +827,7 @@
           },
           {
             "id": "y1-mooe-198",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Division",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -838,11 +838,11 @@
       },
       "internalProjects": {
         "p-underwrite": {
-          "projectTitle": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
+          "projectTitle": "Project UNDERWRITE · Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
           "capitalOutlay": [
             {
               "id": "y1-co-216",
-              "item": "Project UNDERWRITE — system development and acquisition (Year 1 milestone)",
+              "item": "Project UNDERWRITE · system development and acquisition (Year 1 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -853,7 +853,7 @@
           "mooe": [
             {
               "id": "y1-mooe-217",
-              "item": "Project management office — Project UNDERWRITE",
+              "item": "Project management office · Project UNDERWRITE",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -862,7 +862,7 @@
             },
             {
               "id": "y1-mooe-218",
-              "item": "Hosting, support and licences — Project UNDERWRITE (Year 1)",
+              "item": "Hosting, support and licences · Project UNDERWRITE (Year 1)",
               "office": "ICT Division",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -871,7 +871,7 @@
             },
             {
               "id": "y1-mooe-219",
-              "item": "ICT training and change management — Project UNDERWRITE",
+              "item": "ICT training and change management · Project UNDERWRITE",
               "office": "ICT Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -885,7 +885,7 @@
           "capitalOutlay": [
             {
               "id": "y1-co-224",
-              "item": "Geospatial Risk Warehouse — system development and acquisition (Year 1 milestone)",
+              "item": "Geospatial Risk Warehouse · system development and acquisition (Year 1 milestone)",
               "office": "Risk Management Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -896,7 +896,7 @@
           "mooe": [
             {
               "id": "y1-mooe-225",
-              "item": "Project management office — Geospatial Risk Warehouse",
+              "item": "Project management office · Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -905,7 +905,7 @@
             },
             {
               "id": "y1-mooe-226",
-              "item": "Hosting, support and licences — Geospatial Risk Warehouse (Year 1)",
+              "item": "Hosting, support and licences · Geospatial Risk Warehouse (Year 1)",
               "office": "Risk Management Division",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -914,7 +914,7 @@
             },
             {
               "id": "y1-mooe-227",
-              "item": "ICT training and change management — Geospatial Risk Warehouse",
+              "item": "ICT training and change management · Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -926,11 +926,11 @@
       },
       "crossAgencyProjects": {
         "cx-rapide": {
-          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
+          "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
           "capitalOutlay": [
             {
               "id": "y1-co-236",
-              "item": "RAPIDE participation — system development and acquisition (Year 1 milestone)",
+              "item": "RAPIDE participation · system development and acquisition (Year 1 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -941,7 +941,7 @@
           "mooe": [
             {
               "id": "y1-mooe-237",
-              "item": "Project management office — RAPIDE participation",
+              "item": "Project management office · RAPIDE participation",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -950,7 +950,7 @@
             },
             {
               "id": "y1-mooe-238",
-              "item": "Hosting, support and licences — RAPIDE participation (Year 1)",
+              "item": "Hosting, support and licences · RAPIDE participation (Year 1)",
               "office": "ICT Division",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -959,7 +959,7 @@
             },
             {
               "id": "y1-mooe-239",
-              "item": "ICT training and change management — RAPIDE participation",
+              "item": "ICT training and change management · RAPIDE participation",
               "office": "ICT Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1033,7 +1033,7 @@
           },
           {
             "id": "y2-co-210",
-            "item": "Rack-mounted UPS — equipment room",
+            "item": "Rack-mounted UPS · equipment room",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
@@ -1044,7 +1044,7 @@
         "mooe": [
           {
             "id": "y2-mooe-204",
-            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "item": "Internet subscription · 3 offices, pooled (Year 2)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1062,7 +1062,7 @@
           },
           {
             "id": "y2-mooe-206",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Division",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1073,11 +1073,11 @@
       },
       "internalProjects": {
         "p-underwrite": {
-          "projectTitle": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
+          "projectTitle": "Project UNDERWRITE · Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
           "capitalOutlay": [
             {
               "id": "y2-co-220",
-              "item": "Project UNDERWRITE — system development and acquisition (Year 2 milestone)",
+              "item": "Project UNDERWRITE · system development and acquisition (Year 2 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1088,7 +1088,7 @@
           "mooe": [
             {
               "id": "y2-mooe-221",
-              "item": "Project management office — Project UNDERWRITE",
+              "item": "Project management office · Project UNDERWRITE",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1097,7 +1097,7 @@
             },
             {
               "id": "y2-mooe-222",
-              "item": "Hosting, support and licences — Project UNDERWRITE (Year 2)",
+              "item": "Hosting, support and licences · Project UNDERWRITE (Year 2)",
               "office": "ICT Division",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1106,7 +1106,7 @@
             },
             {
               "id": "y2-mooe-223",
-              "item": "ICT training and change management — Project UNDERWRITE",
+              "item": "ICT training and change management · Project UNDERWRITE",
               "office": "ICT Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1120,7 +1120,7 @@
           "capitalOutlay": [
             {
               "id": "y2-co-228",
-              "item": "Geospatial Risk Warehouse — system development and acquisition (Year 2 milestone)",
+              "item": "Geospatial Risk Warehouse · system development and acquisition (Year 2 milestone)",
               "office": "Risk Management Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1131,7 +1131,7 @@
           "mooe": [
             {
               "id": "y2-mooe-229",
-              "item": "Project management office — Geospatial Risk Warehouse",
+              "item": "Project management office · Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1140,7 +1140,7 @@
             },
             {
               "id": "y2-mooe-230",
-              "item": "Hosting, support and licences — Geospatial Risk Warehouse (Year 2)",
+              "item": "Hosting, support and licences · Geospatial Risk Warehouse (Year 2)",
               "office": "Risk Management Division",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1149,7 +1149,7 @@
             },
             {
               "id": "y2-mooe-231",
-              "item": "ICT training and change management — Geospatial Risk Warehouse",
+              "item": "ICT training and change management · Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1161,11 +1161,11 @@
       },
       "crossAgencyProjects": {
         "cx-rapide": {
-          "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
+          "projectTitle": "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
           "capitalOutlay": [
             {
               "id": "y2-co-240",
-              "item": "RAPIDE participation — system development and acquisition (Year 2 milestone)",
+              "item": "RAPIDE participation · system development and acquisition (Year 2 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1176,7 +1176,7 @@
           "mooe": [
             {
               "id": "y2-mooe-241",
-              "item": "Project management office — RAPIDE participation",
+              "item": "Project management office · RAPIDE participation",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1185,7 +1185,7 @@
             },
             {
               "id": "y2-mooe-242",
-              "item": "Hosting, support and licences — RAPIDE participation (Year 2)",
+              "item": "Hosting, support and licences · RAPIDE participation (Year 2)",
               "office": "ICT Division",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1194,7 +1194,7 @@
             },
             {
               "id": "y2-mooe-243",
-              "item": "ICT training and change management — RAPIDE participation",
+              "item": "ICT training and change management · RAPIDE participation",
               "office": "ICT Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1261,7 +1261,7 @@
         "mooe": [
           {
             "id": "y3-mooe-211",
-            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "item": "Internet subscription · 3 offices, pooled (Year 3)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1279,7 +1279,7 @@
           },
           {
             "id": "y3-mooe-213",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Division",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1294,7 +1294,7 @@
           "capitalOutlay": [
             {
               "id": "y3-co-232",
-              "item": "Geospatial Risk Warehouse — system development and acquisition (Year 3 milestone)",
+              "item": "Geospatial Risk Warehouse · system development and acquisition (Year 3 milestone)",
               "office": "Risk Management Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1305,7 +1305,7 @@
           "mooe": [
             {
               "id": "y3-mooe-233",
-              "item": "Project management office — Geospatial Risk Warehouse",
+              "item": "Project management office · Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1314,7 +1314,7 @@
             },
             {
               "id": "y3-mooe-234",
-              "item": "Hosting, support and licences — Geospatial Risk Warehouse (Year 3)",
+              "item": "Hosting, support and licences · Geospatial Risk Warehouse (Year 3)",
               "office": "Risk Management Division",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1323,7 +1323,7 @@
             },
             {
               "id": "y3-mooe-235",
-              "item": "ICT training and change management — Geospatial Risk Warehouse",
+              "item": "ICT training and change management · Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",

@@ -243,7 +243,7 @@ interface AgencySeed {
 const CROSS_PROGRAMS = {
   rapide: {
     key: "rapide",
-    title: "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events",
+    title: "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events",
     description:
       "A shared analytics exchange that fuses coastal hazard telemetry, insurance exposure data and city incident reports into one operating picture during typhoon response. Each participating agency carries its integration share in its own ISSP.",
     leadAgencyName: "National Coastal Resilience Authority",
@@ -318,7 +318,7 @@ function egpChecklist(seed: AgencySeed): EgpChecklist {
     hcmis: {
       status: "no",
       ifNo: { usingEquivalent: true, proposedDevelopment: true },
-      equivalentName: e.hcmisEquivalent ?? "None — HR records maintained manually",
+      equivalentName: e.hcmisEquivalent ?? "None (HR records maintained manually)",
     },
     ifmis: { status: e.ifmis === "no" ? "no" : "yes", ...(e.ifmis === "no" ? {} : { url: "https://ifmis.dbm.gov.ph" }) },
     onlinePortal: {
@@ -466,13 +466,13 @@ function buildBudget(seed: AgencySeed): Part4Data {
 
     const internetMonthly = pick([14000, 18000, 22000, 26000]);
     opMooe.push(mkLine(y, "mooe",
-      `Internet subscription — ${offices.length > 1 ? `${offices.length} offices, pooled` : ict} (${yearLabel[y]})`,
+      `Internet subscription · ${offices.length > 1 ? `${offices.length} offices, pooled` : ict} (${yearLabel[y]})`,
       ict, "mooe-internet-subscription", GAA, offices.length * 12, round500(internetMonthly * ESCALATION[y])));
     opMooe.push(mkLine(y, "mooe",
       "ICT supplies (consumables, cartridges, peripherals)", ict, "mooe-ict-supplies", GAA, 1,
       money(pick([150000, 220000, 280000]), 0.15)));
     opMooe.push(mkLine(y, "mooe",
-      "ICT training — staff capability building", ict, "mooe-ict-training", GAA, 1,
+      "ICT training · staff capability building", ict, "mooe-ict-training", GAA, 1,
       money(pick([180000, 320000, 480000]), 0.2)));
 
     let coFeatured = 0;
@@ -486,7 +486,7 @@ function buildBudget(seed: AgencySeed): Part4Data {
       { item: "Desktop computer sets (productivity replacement cycle)", qty: Math.max(3, Math.round(staff * 0.18)), unitCost: 52000, categoryId: "co-ict-machinery-equipment" },
       { item: "Laptop computers (mobile staff and field officers)", qty: Math.max(2, Math.round(staff * 0.1)), unitCost: 58000, categoryId: "co-ict-machinery-equipment" },
       { item: "Network switches and structured cabling refresh", qty: 1, unitCost: 380000, categoryId: "co-ict-machinery-equipment" },
-      { item: "Rack-mounted UPS — equipment room", qty: 2, unitCost: 95000, categoryId: "co-ict-machinery-equipment" },
+      { item: "Rack-mounted UPS · equipment room", qty: 2, unitCost: 95000, categoryId: "co-ict-machinery-equipment" },
       { item: "Enterprise antivirus / endpoint protection licenses", qty: 1, unitCost: Math.round((staff * 1600) / 500) * 500, categoryId: "co-ict-software" },
     ];
     let coRest = coTarget - coFeatured;
@@ -517,7 +517,7 @@ function buildBudget(seed: AgencySeed): Part4Data {
         if (p.span[1] > y) {
           p.hw.slice(0, 2).forEach((h, i) => {
             coLines.push(mkLine(y as 0 | 1 | 2, "co",
-              `${h.item.split("(")[0].trim()} — succeeding tranche`, p.unit, h.categoryId, h.fund ?? fund,
+              `${h.item.split("(")[0].trim()} · succeeding tranche`, p.unit, h.categoryId, h.fund ?? fund,
               Math.max(1, Math.round(h.qty * 0.3)), round500(h.unitCost * 0.9 * (1 - i * 0.1))));
           });
         }
@@ -532,18 +532,18 @@ function buildBudget(seed: AgencySeed): Part4Data {
         if (coAmt > 300000) {
           coLines.push(mkLine(y as 0 | 1 | 2, "co",
             isSoftware
-              ? `${p.shortTitle} — system development and acquisition (${yearLabel[y]} milestone)`
-              : `${p.shortTitle} — engineering, installation and commissioning (${yearLabel[y]})`,
+              ? `${p.shortTitle} · system development and acquisition (${yearLabel[y]} milestone)`
+              : `${p.shortTitle} · engineering, installation and commissioning (${yearLabel[y]})`,
             p.unit, isSoftware ? "co-ict-software" : "co-infrastructure-communications-network", fund, 1, round500(coAmt)));
         }
         mooeLines.push(mkLine(y as 0 | 1 | 2, "mooe",
-          `Project management office — ${p.shortTitle}`, p.unit, "mooe-professional-services", fund, 1, round500(mooeAmt * 0.45)));
+          `Project management office · ${p.shortTitle}`, p.unit, "mooe-professional-services", fund, 1, round500(mooeAmt * 0.45)));
         mooeLines.push(mkLine(y as 0 | 1 | 2, "mooe",
-          `Hosting, support and licences — ${p.shortTitle} (${yearLabel[y]})`, p.unit,
+          `Hosting, support and licences · ${p.shortTitle} (${yearLabel[y]})`, p.unit,
           // Deterministic per project+year so adding seed projects cannot reshuffle later agencies' filler lines.
           (p.id.length + y * 7) % 2 === 0 ? "mooe-cloud-computing" : "mooe-web-hosting", fund, 1, round500(mooeAmt * 0.3)));
         mooeLines.push(mkLine(y as 0 | 1 | 2, "mooe",
-          `ICT training and change management — ${p.shortTitle}`, p.unit, "mooe-ict-training", fund, 1, round500(mooeAmt * 0.25)));
+          `ICT training and change management · ${p.shortTitle}`, p.unit, "mooe-ict-training", fund, 1, round500(mooeAmt * 0.25)));
       }
       years[y][bucketKey][p.id] = { projectTitle: p.title, capitalOutlay: coLines, mooe: mooeLines };
     }
@@ -745,22 +745,22 @@ const SEEDS: AgencySeed[] = [
     ],
     concerns: [
       { outcome: 1, program: 1, system: "TEMPMON (temperature monitoring exports)", concern: "TEMPMON collects readings from 240 accredited cold rooms but only as end-of-week PDF exports; inspectors discover excursions an average of nine days after they happen, and two vaccine batches in 2025 were written off before any alert fired.", strategy: "Deploy continuous LoRa-based sensors with a central gateway (Project LAMIG) that alerts inspectors within fifteen minutes of an excursion." },
-      { outcome: 2, program: 2, system: "COMET (cold storage equipment tracker — spreadsheets)", concern: "The national equipment registry is maintained in seventeen regional spreadsheet variants with no common identifier; the same chiller appears under three different serial formats, and the annual registry reconciliation consumes two person-months.", strategy: "Consolidate the registry into a single digital system with unique equipment IDs, QR tagging, and inspection history (Registry Digitalization Program)." },
+      { outcome: 2, program: 2, system: "COMET (cold storage equipment tracker, spreadsheets)", concern: "The national equipment registry is maintained in seventeen regional spreadsheet variants with no common identifier; the same chiller appears under three different serial formats, and the annual registry reconciliation consumes two person-months.", strategy: "Consolidate the registry into a single digital system with unique equipment IDs, QR tagging, and inspection history (Registry Digitalization Program)." },
     ],
     systems: [
-      { id: "is-tempmon", name: "TEMPMON — Temperature Monitoring Aggregator", classification: "SUPPORT_TO_OPERATIONS", description: "Vendor portal that receives weekly PDF temperature exports from accredited facilities. No alerting; no API; exports must be re-encoded by hand.", strategy: "COTS", platform: "Vendor SaaS portal", database: "Vendor-hosted", storage: "CLOUD", internalUsers: "Inspection Division (~45 staff)", owner: "Inspection Division" },
-      { id: "is-comet", name: "COMET — Cold Storage Equipment Tracker", classification: "GENERAL_ADMIN", description: "A shared workbook per region listing chillers, freezers and transport units. Serial numbers are free-text; three regions still print and file copies.", strategy: "IN_HOUSE", platform: "Microsoft Excel", database: "N/A (workbooks)", storage: "ON_PREMISE", internalUsers: "All regional inspection teams (~120 staff)", owner: "Registry Section" },
+      { id: "is-tempmon", name: "TEMPMON · Temperature Monitoring Aggregator", classification: "SUPPORT_TO_OPERATIONS", description: "Vendor portal that receives weekly PDF temperature exports from accredited facilities. No alerting; no API; exports must be re-encoded by hand.", strategy: "COTS", platform: "Vendor SaaS portal", database: "Vendor-hosted", storage: "CLOUD", internalUsers: "Inspection Division (~45 staff)", owner: "Inspection Division" },
+      { id: "is-comet", name: "COMET · Cold Storage Equipment Tracker", classification: "GENERAL_ADMIN", description: "A shared workbook per region listing chillers, freezers and transport units. Serial numbers are free-text; three regions still print and file copies.", strategy: "IN_HOUSE", platform: "Microsoft Excel", database: "N/A (workbooks)", storage: "ON_PREMISE", internalUsers: "All regional inspection teams (~120 staff)", owner: "Registry Section" },
       { id: "is-accsys", name: "Accreditation System (AccSys)", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", url: "https://accreditation.bccm.gov.ph", description: "Online application and renewal portal for cold storage accreditation. Payments are handled off-platform; status tracking is by e-mail.", strategy: "OUTSOURCED", platform: "PHP / MySQL", database: "accsys_db", storage: "ON_PREMISE", internalUsers: "Accreditation Section (~20 staff)", externalUsers: "Accredited operators (~610 accounts)", owner: "Accreditation Section", pia: true },
     ],
     proposed: [
-      { id: "ps-lamig", name: "LAMIG Gateway — National Cold Chain Monitoring Platform", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Continuous sensor ingestion, excursion alerting and inspector dispatch for all accredited cold rooms and refrigerated vehicles.", strategy: "OUTSOURCED", platform: "LoRaWAN / Node.js / PostgreSQL", database: "lamig_prod", storage: "CLOUD", internalUsers: "Inspection Division, regional teams (~180 staff)", externalUsers: "Accredited operators (portal dashboards)", owner: "ICT Unit", pia: false, status: "FOR_DEVELOPMENT" },
+      { id: "ps-lamig", name: "LAMIG Gateway · National Cold Chain Monitoring Platform", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Continuous sensor ingestion, excursion alerting and inspector dispatch for all accredited cold rooms and refrigerated vehicles.", strategy: "OUTSOURCED", platform: "LoRaWAN / Node.js / PostgreSQL", database: "lamig_prod", storage: "CLOUD", internalUsers: "Inspection Division, regional teams (~180 staff)", externalUsers: "Accredited operators (portal dashboards)", owner: "ICT Unit", pia: false, status: "FOR_DEVELOPMENT" },
       { id: "ps-registry", name: "Digital Cold Chain Registry", classification: "SUPPORT_TO_OPERATIONS", description: "Single registry of cold chain equipment with unique IDs, QR tags, inspection history and operator ownership records.", strategy: "OUTSOURCED", platform: "Next.js / PostgreSQL", database: "registry_prod", storage: "CLOUD", internalUsers: "Registry Section, Inspection Division (~70 staff)", owner: "Registry Section", status: "FOR_DEVELOPMENT" },
     ],
     projects: [
       {
         id: "p-lamig",
         shortTitle: "Project LAMIG",
-        title: "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
+        title: "Project LAMIG · LoRa Ambient Monitoring & Integrity Gateway",
         description: "Installs continuous temperature and door sensors in all 240 accredited cold rooms plus LoRa gateways and a cloud monitoring platform, replacing weekly PDF exports with fifteen-minute excursion alerts.",
         objectives: "1. Instrument all 240 accredited cold rooms by Q4 2026\n2. Cut excursion detection time from 9 days to 15 minutes\n3. Give operators self-service dashboards by 2027\n4. Feed standardized custody events to the Cold Chain Traceability Backbone",
         kind: "hardware",
@@ -771,9 +771,9 @@ const SEEDS: AgencySeed[] = [
         harmonization: ["Interoperability Framework", "Scalability and Sustainability"],
         linked: ["ps-lamig"],
         hw: [
-          { item: "LoRa gateway concentrators — 240 accredited cold rooms", categoryId: "co-communication-equipment", qty: 240, unitCost: 18500 },
+          { item: "LoRa gateway concentrators · 240 accredited cold rooms", categoryId: "co-communication-equipment", qty: 240, unitCost: 18500 },
           { item: "Temperature and door sensors (calibrated, 5-year battery)", categoryId: "co-ict-machinery-equipment", qty: 1200, unitCost: 28000 },
-          { item: "Edge servers and NVR — regional monitoring nodes (48)", categoryId: "co-ict-machinery-equipment", qty: 48, unitCost: 265000 },
+          { item: "Edge servers and NVR · regional monitoring nodes (48)", categoryId: "co-ict-machinery-equipment", qty: 48, unitCost: 265000 },
         ],
         deliverables: [
           "Sensor rollout for priority vaccine cold rooms (120); gateway platform live; excursion alerting operational",
@@ -812,7 +812,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "cx-ctb",
         shortTitle: "CTB participation",
-        title: "Cold Chain Traceability Backbone (CTB) — BCCM share",
+        title: "Cold Chain Traceability Backbone (CTB) · BCCM share",
         description: "The Bureau's lead share of the cross-agency CTB program: publishing standardized custody events from LAMIG and maintaining the shared data standards with the National Food Traceability Council and academic partners.",
         objectives: "1. Publish LAMIG custody events in the shared CTB format\n2. Co-lead the CTB standards working group\n3. Provide sandbox access for research partners",
         kind: "software",
@@ -836,7 +836,7 @@ const SEEDS: AgencySeed[] = [
       opTargets: [12_000_000, 10_000_000, 8_000_000],
       opFeatured: [
         { year: 0, cls: "co", item: "Ruggedized inspection laptops with thermal probe kit (regional cold-chain teams, IP65)", categoryId: "co-ict-machinery-equipment", qty: 48, unitCost: 120_000 },
-        { year: 1, cls: "co", item: "Ruggedized inspection laptops — second tranche (regional cold-chain teams)", categoryId: "co-ict-machinery-equipment", qty: 12, unitCost: 120_000 },
+        { year: 1, cls: "co", item: "Ruggedized inspection laptops · second tranche (regional cold-chain teams)", categoryId: "co-ict-machinery-equipment", qty: 12, unitCost: 120_000 },
         { year: 2, cls: "mooe", item: "Semi-expendable label printers for QR tagging", categoryId: "mooe-semi-expendable-printing-equipment", qty: 30, unitCost: 8500 },
         { year: 1, cls: "co", item: "Cold-room monitoring display panels (registry wall)", categoryId: "co-ict-machinery-equipment", qty: 4, unitCost: 320000 },
       ],
@@ -874,7 +874,7 @@ const SEEDS: AgencySeed[] = [
     mandate: "HAFSC provides higher education in agriculture, forestry and environmental science for highland farming communities; runs research on climate-resilient upland farming; and delivers extension services to farmer cooperatives across three provinces through its extension network and demonstration farms.",
     vision: "A state college whose farms, laboratories and classrooms operate as one connected campus serving highland farming communities.",
     mission: "To deliver quality agri-forestry education, research and extension backed by reliable information systems and campus connectivity.",
-    networkDescription: "The main campus network is a mix of unmanaged switches and home routers installed building-by-building over fifteen years; two remote demonstration farms have no connectivity at all and report by SMS. The student information system runs on a single tower server in the registrar's storeroom, cooled by an electric fan. Backup is an external hard drive rotated weekly to the vault — when staff remember.",
+    networkDescription: "The main campus network is a mix of unmanaged switches and home routers installed building-by-building over fifteen years; two remote demonstration farms have no connectivity at all and report by SMS. The student information system runs on a single tower server in the registrar's storeroom, cooled by an electric fan. Backup is an external hard drive rotated weekly to the vault, when staff remember.",
     cyberCurrent: 0.28,
     outcomes: [
       { name: "Efficient and transparent academic administration", programs: ["Digital Campus Program"] },
@@ -964,7 +964,7 @@ const SEEDS: AgencySeed[] = [
         id: "p-ailab",
         shortTitle: "AI Teaching & Research Lab",
         title: "AI Teaching and Research Laboratory",
-        description: "Equips a teaching laboratory with accelerator-capable workstations and a departmental training server so the College can offer AI electives across its agri-forestry programs and train faculty — capability-building on shared curriculum workloads, not a production cluster.",
+        description: "Equips a teaching laboratory with accelerator-capable workstations and a departmental training server so the College can offer AI electives across its agri-forestry programs and train faculty: capability-building on shared curriculum workloads, not a production cluster.",
         objectives: "1. AI elective track launched in AY 2027-2028\n2. 24-seat laboratory operational with a departmental training server\n3. 12 faculty certified to teach AI modules by 2028",
         kind: "hardware",
         span: [1, 1],
@@ -1024,7 +1024,7 @@ const SEEDS: AgencySeed[] = [
     updatedAt: "2026-04-29T10:20:00.000Z",
     headName: "Administrator Leandra V. Kawada",
     cioName: "Dir. Pablo S. Tungpalan",
-    cioPosition: "Director IV — ICT Service",
+    cioPosition: "Director IV · ICT Service",
     cioUnit: "ICT Service",
     focalName: "Ms. Rowena U. Magsaysay",
     focalPosition: "Chief, Planning and Policy Division",
@@ -1061,12 +1061,12 @@ const SEEDS: AgencySeed[] = [
       { outcome: 2, program: 3, system: "TIDEWATCH buoy telemetry (vendor portal)", concern: "Buoy telemetry lives in a vendor portal with per-station license fees and no bulk export; researchers cannot access raw observations, and the Authority cannot verify vendor uptime claims independently.", strategy: "Take ownership of telemetry via the WATCHFUL sensor network and publish the archive through Open Tides under an open data license." },
     ],
     systems: [
-      { id: "is-chimes", name: "CHIMES — Coastal Hazard Integration & Monitoring Enterprise System", classification: "OPERATIONS", description: "The Authority's core monitoring platform: nightly batch ingestion from 340 gauges, model post-processing and static warning bulletins. Java monolith, single on-premise cluster.", strategy: "IN_HOUSE", platform: "Java EE / Oracle", database: "chimes_prod", storage: "ON_PREMISE", internalUsers: "Monitoring and Warning Bureau, regional desks (~420 staff)", owner: "Monitoring and Warning Bureau", integrated: true },
+      { id: "is-chimes", name: "CHIMES · Coastal Hazard Integration & Monitoring Enterprise System", classification: "OPERATIONS", description: "The Authority's core monitoring platform: nightly batch ingestion from 340 gauges, model post-processing and static warning bulletins. Java monolith, single on-premise cluster.", strategy: "IN_HOUSE", platform: "Java EE / Oracle", database: "chimes_prod", storage: "ON_PREMISE", internalUsers: "Monitoring and Warning Bureau, regional desks (~420 staff)", owner: "Monitoring and Warning Bureau", integrated: true },
       { id: "is-tidewatch", name: "TIDEWATCH buoy telemetry portal", classification: "SUPPORT_TO_OPERATIONS", description: "Vendor-operated telemetry for the deep-water buoy array; per-station licensing; no bulk export or API.", strategy: "COTS", platform: "Vendor SaaS", database: "Vendor-hosted", storage: "CLOUD", internalUsers: "Oceanography Division (~60 staff)", owner: "Oceanography Division" },
-      { id: "is-lason", name: "LASON — Local Adaptation Studies Online Network", classification: "GENERAL_ADMIN", description: "Drupal archive of local adaptation research and hazard assessments; search is site-wide only and attachments are scanned PDFs.", strategy: "IN_HOUSE", platform: "Drupal 7 / MySQL", database: "lason", storage: "ON_PREMISE", internalUsers: "Planning and Policy Division (~45 staff)", externalUsers: "Academic partners", owner: "Planning and Policy Division" },
+      { id: "is-lason", name: "LASON · Local Adaptation Studies Online Network", classification: "GENERAL_ADMIN", description: "Drupal archive of local adaptation research and hazard assessments; search is site-wide only and attachments are scanned PDFs.", strategy: "IN_HOUSE", platform: "Drupal 7 / MySQL", database: "lason", storage: "ON_PREMISE", internalUsers: "Planning and Policy Division (~45 staff)", externalUsers: "Academic partners", owner: "Planning and Policy Division" },
     ],
     proposed: [
-      { id: "ps-aware", name: "AWARE — Analytics & Warning for At-Risk Environments", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Cloud-native successor to CHIMES: streaming ingestion from all sensor classes, ten-minute model cycling, automated warning products, and RAPIDE inter-agency exchange.", strategy: "OUTSOURCED", platform: "Kotlin / Kafka / Kubernetes / TimescaleDB", database: "aware_prod", storage: "CLOUD", internalUsers: "Monitoring and Warning Bureau, 17 regional desks (~460 staff)", externalUsers: "Partner agencies via RAPIDE", owner: "ICT Service", status: "FOR_DEVELOPMENT" },
+      { id: "ps-aware", name: "AWARE · Analytics & Warning for At-Risk Environments", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Cloud-native successor to CHIMES: streaming ingestion from all sensor classes, ten-minute model cycling, automated warning products, and RAPIDE inter-agency exchange.", strategy: "OUTSOURCED", platform: "Kotlin / Kafka / Kubernetes / TimescaleDB", database: "aware_prod", storage: "CLOUD", internalUsers: "Monitoring and Warning Bureau, 17 regional desks (~460 staff)", externalUsers: "Partner agencies via RAPIDE", owner: "ICT Service", status: "FOR_DEVELOPMENT" },
       { id: "ps-twin", name: "Coastal Digital Twin & Open Tides Data Platform", classification: "SUPPORT_TO_OPERATIONS", frontline: false, description: "National coastal hazard data infrastructure: curated sensor archive, digital twin models, and the public Open Tides open-data API.", strategy: "HYBRID", platform: "Python geospatial stack / PostGIS / object storage", database: "twin", storage: "CLOUD", internalUsers: "Research, planning and oceanography teams (~150 staff)", externalUsers: "Academia, civil society, developers", owner: "Planning and Policy Division", status: "FOR_DEVELOPMENT" },
       { id: "ps-lason2", name: "LASON Archive Modernization", classification: "GENERAL_ADMIN", description: "Rebuild of the adaptation studies archive with structured metadata, full-text search and open licensing.", strategy: "IN_HOUSE", platform: "Next.js / PostgreSQL", database: "lason2", storage: "CLOUD", internalUsers: "Planning and Policy Division (~45 staff)", owner: "Planning and Policy Division", status: "FOR_ENHANCEMENT", enhancementDetails: "Drupal 7 end-of-life; content migrated with structured metadata." },
     ],
@@ -1074,20 +1074,20 @@ const SEEDS: AgencySeed[] = [
       {
         id: "p-watchful",
         shortTitle: "Project WATCHFUL",
-        title: "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+        title: "Project WATCHFUL · Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
         description: "Expands and takes ownership of the national sensor estate: 140 new real-time tide and oceanographic stations, VSAT backhaul for off-grid sites, coastal CCTV for visual verification, and the retirement of per-station vendor licensing.",
         objectives: "1. Commission 140 new real-time sensor stations by 2028\n2. Bring all off-grid sites onto managed VSAT backhaul\n3. Eliminate per-station vendor telemetry licensing\n4. Achieve 99.5% sensor uptime during typhoon events",
         kind: "infra",
         span: [0, 2],
         target: 420_000_000,
-        unit: "ICT Service — Field Engineering Section",
+        unit: "ICT Service · Field Engineering Section",
         alignment: ["Public Investment Program", "National Cybersecurity Plan"],
         harmonization: ["National Prioritization", "Scalability and Sustainability"],
         linked: ["ps-aware"],
         fund: "Foreign-assisted projects",
         hw: [
           { item: "Real-time tide and oceanographic sensor stations (buoy and pier-mount)", categoryId: "co-ict-machinery-equipment", qty: 140, unitCost: 1_550_000 },
-          { item: "VSAT terminals and installation — off-grid sites", categoryId: "co-communication-equipment", qty: 36, unitCost: 1_800_000 },
+          { item: "VSAT terminals and installation · off-grid sites", categoryId: "co-communication-equipment", qty: 36, unitCost: 1_800_000 },
           { item: "Coastal verification cameras (pan-tilt, solar)", categoryId: "co-communication-equipment", qty: 30, unitCost: 650_000 },
         ],
         deliverables: [
@@ -1104,8 +1104,8 @@ const SEEDS: AgencySeed[] = [
       {
         id: "p-sigwa",
         shortTitle: "Project SIGWA",
-        title: "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
-        description: "Builds the AWARE platform: streaming ingestion from all sensor classes, ten-minute model cycling, automated warning products, and the RAPIDE exchange — retiring the overnight CHIMES batch.",
+        title: "Project SIGWA · Streaming Integration Gateway for Warning Analytics",
+        description: "Builds the AWARE platform: streaming ingestion from all sensor classes, ten-minute model cycling, automated warning products, and the RAPIDE exchange, retiring the overnight CHIMES batch.",
         objectives: "1. AWARE platform live with all sensor classes streaming by 2028\n2. Warning product generation time under 10 minutes end-to-end\n3. Regional desks fully migrated from CHIMES\n4. RAPIDE exchange operational for partner agencies",
         kind: "software",
         span: [0, 1],
@@ -1170,7 +1170,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "cx-rapide",
         shortTitle: "RAPIDE lead share",
-        title: "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
+        title: "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
         description: "The Authority's lead share of RAPIDE: operating the shared analytics exchange, publishing AWARE hazard feeds, and onboarding partner agencies during typhoon response.",
         objectives: "1. RAPIDE exchange operational before the 2027 typhoon season\n2. Onboard PDRIO and Malinaw city feeds\n3. Joint after-action reviews each season",
         kind: "software",
@@ -1193,7 +1193,7 @@ const SEEDS: AgencySeed[] = [
       staff: 640,
       opTargets: [55_000_000, 50_000_000, 45_000_000],
       opFeatured: [
-        { year: 0, cls: "mooe", item: "Mobile expenses — field engineering and warning officers", categoryId: "mooe-mobile-expenses", qty: 260, unitCost: 12000 },
+        { year: 0, cls: "mooe", item: "Mobile expenses · field engineering and warning officers", categoryId: "mooe-mobile-expenses", qty: 260, unitCost: 12000 },
         { year: 2, cls: "co", item: "Warning desk display walls (regional, 6 sites)", categoryId: "co-ict-machinery-equipment", qty: 6, unitCost: 1_450_000 },
       ],
       continuing: [
@@ -1220,7 +1220,7 @@ const SEEDS: AgencySeed[] = [
     updatedAt: "2026-04-28T09:05:00.000Z",
     headName: "Insurance Commissioner Josefa B. Lardizabal",
     cioName: "Dir. Anselmo R. Quijano",
-    cioPosition: "Director III — ICT Division",
+    cioPosition: "Director III · ICT Division",
     cioUnit: "ICT Division",
     focalName: "Ms. Perla T. Gatchalian",
     focalPosition: "Chief, Product Development Division",
@@ -1253,7 +1253,7 @@ const SEEDS: AgencySeed[] = [
       { outcome: 2, program: 2, system: "Exposure models (single workstation)", concern: "National exposure models are maintained on one licensed workstation; two pricing seasons have been delayed by queueing, and no one else can run the full model stack.", strategy: "Migrate modeling to a governed geospatial data warehouse with elastic compute and versioned model runs." },
     ],
     systems: [
-      { id: "is-prism", name: "PRISM — Policy Registry & Insurance Servicing Mainframe", classification: "OPERATIONS", description: "COBOL-based policy administration covering enrolment, premium billing and payout computation in overnight batches. Servicing windows are planned around batch schedules.", strategy: "IN_HOUSE", platform: "COBOL / DB2", database: "prism_prod", storage: "ON_PREMISE", internalUsers: "Underwriting, finance and claims (~210 staff)", owner: "Underwriting and Actuarial Division", integrated: true, pia: true },
+      { id: "is-prism", name: "PRISM · Policy Registry & Insurance Servicing Mainframe", classification: "OPERATIONS", description: "COBOL-based policy administration covering enrolment, premium billing and payout computation in overnight batches. Servicing windows are planned around batch schedules.", strategy: "IN_HOUSE", platform: "COBOL / DB2", database: "prism_prod", storage: "ON_PREMISE", internalUsers: "Underwriting, finance and claims (~210 staff)", owner: "Underwriting and Actuarial Division", integrated: true, pia: true },
       { id: "is-productsite", name: "Parametric product information site", classification: "SUPPORT_TO_OPERATIONS", frontline: true, accessType: "ONLINE", url: "https://products.pdrio.gov.ph", description: "Public site describing available parametric coverages; no enrolment or claims intake.", strategy: "OUTSOURCED", platform: "Static site (managed hosting)", database: "N/A", storage: "CLOUD", internalUsers: "Product Development (~15 staff)", owner: "Product Development Division" },
     ],
     proposed: [
@@ -1265,7 +1265,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "p-underwrite",
         shortTitle: "Project UNDERWRITE",
-        title: "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
+        title: "Project UNDERWRITE · Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
         description: "Builds the modern policy and claims platform: LGU self-service enrolment, automated trigger ingestion from RAPIDE, straight-through payout computation, and PRISM decommissioning.",
         objectives: "1. LGU self-service enrolment live by 2028\n2. Automated trigger ingestion for all covered perils\n3. Median payout time from trigger to release: 7 days\n4. PRISM decommissioned by end of 2028",
         kind: "software",
@@ -1308,7 +1308,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "cx-rapide",
         shortTitle: "RAPIDE participation",
-        title: "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
+        title: "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
         description: "The Office's share of RAPIDE: consuming NCRA hazard feeds as automated payout triggers and contributing exposure aggregates back to the exchange.",
         objectives: "1. Automated trigger feeds for windstorm and surge perils by 2027\n2. Exposure aggregates published to partner agencies\n3. Joint payout drills each season",
         kind: "software",
@@ -1353,7 +1353,7 @@ const SEEDS: AgencySeed[] = [
     createdAt: "2026-02-10T05:00:00.000Z",
     updatedAt: "2026-10-06T08:35:00.000Z",
     headName: "General Manager Fernando K. Limjoco",
-    cioName: "VP for ICT Ma. Concepcion D. Ybañez",
+    cioName: "Ma. Concepcion D. Ybañez",
     cioPosition: "Vice President for ICT",
     cioUnit: "ICT Department",
     focalName: "Mr. Dennis O. Kabigting",
@@ -1383,9 +1383,9 @@ const SEEDS: AgencySeed[] = [
       ] },
     ],
     concerns: [
-      { outcome: 1, program: 1, system: "FERRYCARD AFC (automated fare collection)", concern: "The 2014 vendor-locked AFC charges license fees rising 9% yearly, cannot support account-based ticketing or QR, and its reconciliation runs T+3 — conductors cash up against estimates. One in 400 card taps fails at legacy validators.", strategy: "Deploy an open, account-based ticketing stack with mobile QR and instant settlement (Project BIYAHE), and retire per-transaction licensing." },
+      { outcome: 1, program: 1, system: "FERRYCARD AFC (automated fare collection)", concern: "The 2014 vendor-locked AFC charges license fees rising 9% yearly, cannot support account-based ticketing or QR, and its reconciliation runs T+3: conductors cash up against estimates. One in 400 card taps fails at legacy validators.", strategy: "Deploy an open, account-based ticketing stack with mobile QR and instant settlement (Project BIYAHE), and retire per-transaction licensing." },
       { outcome: 2, program: 2, system: "Fleet maintenance planning (whiteboard)", concern: "Vessel maintenance is planned from a photographed whiteboard; two avoidable engine failures in 2025 were traced to parts that were on order but not visible to the planning meeting.", strategy: "Instrument the fleet with telemetry and deploy fleet health analytics (Project DALOY) so parts, hours and defects are planned from data." },
-      { outcome: 3, program: 3, system: "Pier connectivity (patchwork broadband)", concern: "Pier POS and validators share consumer broadband; when the mall Wi-Fi blinks, two piers drop to offline mode and reconcile next day — the source of most cash-up variances.", strategy: "Give every pier resilient dedicated connectivity with automatic failover (Pier Network Connectivity project)." },
+      { outcome: 3, program: 3, system: "Pier connectivity (patchwork broadband)", concern: "Pier POS and validators share consumer broadband; when the mall Wi-Fi blinks, two piers drop to offline mode and reconcile next day, the source of most cash-up variances.", strategy: "Give every pier resilient dedicated connectivity with automatic failover (Pier Network Connectivity project)." },
     ],
     systems: [
       { id: "is-ferrycard", name: "FERRYCARD AFC", classification: "OPERATIONS", frontline: true, accessType: "HYBRID", description: "Vendor-locked card-based fare collection across 14 piers and 48 vessels; T+3 reconciliation; per-transaction licensing.", strategy: "COTS", platform: "Vendor stack (2014)", database: "Vendor-hosted", storage: "ON_PREMISE", internalUsers: "Operations, finance (~300 staff)", externalUsers: "Passengers (~210,000 stored cards)", owner: "ICT Department", integrated: true, pia: true },
@@ -1393,16 +1393,16 @@ const SEEDS: AgencySeed[] = [
       { id: "is-crewboard", name: "Crew scheduling board", classification: "GENERAL_ADMIN", description: "Printed rosters annotated by hand; crew hours compliance is verified manually at month-end.", strategy: "IN_HOUSE", platform: "Paper / spreadsheet", database: "N/A", storage: "ON_PREMISE", internalUsers: "Operations (~60 staff)", owner: "Operations Division", pia: true },
     ],
     proposed: [
-      { id: "ps-biyahe", name: "BIYAHE — Account-Based Ticketing & Handy App", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Open account-based ticketing: card, QR and mobile app fares with instant settlement and ferry-commons interoperability.", strategy: "OUTSOURCED", platform: "Kotlin / Node.js / Kafka", database: "biyahe_prod", storage: "CLOUD", internalUsers: "Operations, finance (~320 staff)", externalUsers: "Passengers (~260,000 projected accounts)", owner: "ICT Department", pia: true, status: "FOR_DEVELOPMENT" },
-      { id: "ps-daloy", name: "DALOY — Fleet Health & Operations Intelligence", classification: "SUPPORT_TO_OPERATIONS", description: "Telemetry-based fleet health monitoring, parts planning and punctuality analytics across all vessels and piers.", strategy: "HYBRID", platform: "Python / TimescaleDB / Grafana", database: "daloy_prod", storage: "CLOUD", internalUsers: "Fleet Operations and Maintenance (~200 staff)", owner: "Fleet Operations Department", status: "FOR_DEVELOPMENT" },
+      { id: "ps-biyahe", name: "BIYAHE · Account-Based Ticketing & Handy App", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Open account-based ticketing: card, QR and mobile app fares with instant settlement and ferry-commons interoperability.", strategy: "OUTSOURCED", platform: "Kotlin / Node.js / Kafka", database: "biyahe_prod", storage: "CLOUD", internalUsers: "Operations, finance (~320 staff)", externalUsers: "Passengers (~260,000 projected accounts)", owner: "ICT Department", pia: true, status: "FOR_DEVELOPMENT" },
+      { id: "ps-daloy", name: "DALOY · Fleet Health & Operations Intelligence", classification: "SUPPORT_TO_OPERATIONS", description: "Telemetry-based fleet health monitoring, parts planning and punctuality analytics across all vessels and piers.", strategy: "HYBRID", platform: "Python / TimescaleDB / Grafana", database: "daloy_prod", storage: "CLOUD", internalUsers: "Fleet Operations and Maintenance (~200 staff)", owner: "Fleet Operations Department", status: "FOR_DEVELOPMENT" },
       { id: "ps-crewhr", name: "Crew HR and Scheduling System (CREWHR)", classification: "GENERAL_ADMIN", description: "Crew records, hours compliance and digital rosters replacing the printed scheduling board photographed every Monday.", strategy: "OUTSOURCED", platform: "Flutter / PostgreSQL", database: "crewhr", storage: "CLOUD", internalUsers: "Operations (~60 staff)", owner: "Operations Division", pia: true, status: "FOR_DEVELOPMENT" },
     ],
     projects: [
       {
         id: "p-biyahe",
         shortTitle: "Project BIYAHE",
-        title: "Project BIYAHE — Account-Based Ticketing & Handy App",
-        description: "Replaces the vendor-locked FERRYCARD AFC with an open account-based stack: card, QR and mobile app fares, instant settlement, and ferry-commons interoperability — ending per-transaction licensing.",
+        title: "Project BIYAHE · Account-Based Ticketing & Handy App",
+        description: "Replaces the vendor-locked FERRYCARD AFC with an open account-based stack: card, QR and mobile app fares, instant settlement, and ferry-commons interoperability, ending per-transaction licensing.",
         objectives: "1. Account-based ticketing live on all 14 piers by 2028\n2. Mobile QR fares with instant settlement\n3. Cut cash-up variance by 90%\n4. Retire per-transaction vendor licensing",
         kind: "software",
         span: [0, 1],
@@ -1429,7 +1429,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "p-daloy",
         shortTitle: "Project DALOY",
-        title: "Project DALOY — Fleet Health & Operations Intelligence",
+        title: "Project DALOY · Fleet Health & Operations Intelligence",
         description: "Instruments all 48 vessels with telemetry and deploys fleet health analytics: engine hours, defects, parts planning and punctuality, replacing the Monday whiteboard.",
         objectives: "1. Telemetry on all 48 vessels by 2028\n2. Parts planning driven by live defect and hours data\n3. Raise schedule adherence from 82% to 95%",
         kind: "hardware",
@@ -1482,7 +1482,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "p-hula",
         shortTitle: "Project HULA",
-        title: "Project HULA — Fleet AI Models and On-Premise Inference Cluster",
+        title: "Project HULA · Fleet AI Models and On-Premise Inference Cluster",
         description: "Trains and serves DALOY's predictive-maintenance and fare-demand models on a Corporation-owned GPU cluster sited at the operations center: commuter movement and vessel telemetry stay on-premise by policy, with model serving integrated into the fleet health platform.",
         objectives: "1. GPU inference cluster commissioned at the operations center by 2028\n2. Predictive maintenance and fare-demand models in production by 2029\n3. Model training and serving entirely on Corporation-owned infrastructure",
         kind: "hardware",
@@ -1516,7 +1516,7 @@ const SEEDS: AgencySeed[] = [
       staff: 382,
       opTargets: [22_000_000, 20_000_000, 18_000_000],
       opFeatured: [
-        { year: 0, cls: "mooe", item: "Mobile expenses — operations and maintenance crews", categoryId: "mooe-mobile-expenses", qty: 340, unitCost: 10800 },
+        { year: 0, cls: "mooe", item: "Mobile expenses · operations and maintenance crews", categoryId: "mooe-mobile-expenses", qty: 340, unitCost: 10800 },
         { year: 1, cls: "mooe", item: "Landline and pier hotline subscriptions", categoryId: "mooe-landline-expenses", qty: 1, unitCost: 620000 },
       ],
       continuing: [
@@ -1549,7 +1549,7 @@ const SEEDS: AgencySeed[] = [
     focalPosition: "City Planning and Development Coordinator",
     legalBasis: "Republic Act No. 11877, converting the Municipality of Malinaw into a component city, with full corporate powers for local governance and service delivery.",
     mandate: "The City Government of Malinaw delivers local governance services for 42 barangays: business permits and licensing, real property taxation, civil registry, health services, social welfare and disaster response, supported by a city hall workforce of roughly 600 personnel.",
-    vision: "A city where every government service that can be online is online — and works.",
+    vision: "A city where every government service that can be online is online, and works.",
     mission: "To deliver fast, transparent city services through integrated digital systems that citizens can use from any barangay.",
     networkDescription: "City hall runs a single flat network shared by admin offices and the public Wi-Fi; the business permit system is hosted by its vendor with data exports available on request (and a fee); real property tax records live in an Access database backed up to the treasurer's personal external drive. Of 42 barangays, 19 have no city-provided connectivity and use councilors' personal hotspots for submissions.",
     cyberCurrent: 0.34,
@@ -1573,12 +1573,12 @@ const SEEDS: AgencySeed[] = [
       ] },
     ],
     concerns: [
-      { outcome: 1, program: 1, system: "eBPLS (vendor-hosted business permits)", concern: "The vendor-hosted permit system's data exports cost extra and arrive as PDFs; the city cannot do its own analytics on its own permit data, and renewals queue twice — once to file, once to pay.", strategy: "Bring permits into the city-owned One-Stop portal with integrated payment and open data exports." },
+      { outcome: 1, program: 1, system: "eBPLS (vendor-hosted business permits)", concern: "The vendor-hosted permit system's data exports cost extra and arrive as PDFs; the city cannot do its own analytics on its own permit data, and renewals queue twice: once to file, once to pay.", strategy: "Bring permits into the city-owned One-Stop portal with integrated payment and open data exports." },
       { outcome: 2, program: 2, system: "Barangay reporting (personal hotspots)", concern: "Nineteen barangays submit reports through councilors' personal hotspots; during the last flood, three barangays' damage reports arrived two days late because the hotspots were in the flood.", strategy: "Deploy a barangay mesh connectivity network with solar-powered nodes and city-managed backhaul." },
       { outcome: 3, program: 3, system: "City incident management (group chat)", concern: "Disaster response coordination runs on a group chat; situation reports are screenshots, and the RAPIDE hazard feed the city is entitled to has never been integrated.", strategy: "Stand up a city incident dashboard consuming RAPIDE feeds and barangay mesh reports." },
     ],
     systems: [
-      { id: "is-ebpls", name: "eBPLS — Business Permits and Licensing System", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", url: "https://ebpls.malinawcity.gov.ph", description: "Vendor-hosted permit processing; data exports billable; no API; renewals require two visits.", strategy: "COTS", platform: "Vendor SaaS", database: "Vendor-hosted", storage: "CLOUD", internalUsers: "BPLO (~35 staff)", externalUsers: "Business owners (~8,900)", owner: "Business Permits and Licensing Office", pia: true },
+      { id: "is-ebpls", name: "eBPLS · Business Permits and Licensing System", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", url: "https://ebpls.malinawcity.gov.ph", description: "Vendor-hosted permit processing; data exports billable; no API; renewals require two visits.", strategy: "COTS", platform: "Vendor SaaS", database: "Vendor-hosted", storage: "CLOUD", internalUsers: "BPLO (~35 staff)", externalUsers: "Business owners (~8,900)", owner: "Business Permits and Licensing Office", pia: true },
       { id: "is-rpt", name: "Real Property Tax records (Access)", classification: "GENERAL_ADMIN", description: "Access database of property records since 2009, backed up to the treasurer's personal external drive.", strategy: "IN_HOUSE", platform: "Microsoft Access", database: "rpt.mdb", storage: "ON_PREMISE", internalUsers: "City Treasurer's Office (~25 staff)", owner: "City Treasurer's Office", pia: true },
       { id: "is-civilreg", name: "Civil Registry System", classification: "OPERATIONS", frontline: true, accessType: "ON_PREMISE", description: "National civil registry front-end operated by the city registry; offline encoding, batch upload.", strategy: "COTS", platform: "National system client", database: "National", storage: "ON_PREMISE", internalUsers: "City Civil Registry (~14 staff)", owner: "Office of the City Civil Registrar", pia: true },
     ],
@@ -1591,7 +1591,7 @@ const SEEDS: AgencySeed[] = [
         id: "p-portal",
         shortTitle: "One-Stop Portal",
         title: "Malinaw One-Stop Digital Services Portal",
-        description: "Builds the city-owned services portal: permits, property tax payments, civil registry requests and barangay services with integrated online payment — ending the two-queue renewal and the billable data export.",
+        description: "Builds the city-owned services portal: permits, property tax payments, civil registry requests and barangay services with integrated online payment, ending the two-queue renewal and the billable data export.",
         objectives: "1. Portal live with permits and property tax by 2028\n2. Online payment integrated for all covered services\n3. City-owned data with open exports\n4. Cut average renewal processing from 3 visits to 0",
         kind: "software",
         span: [0, 1],
@@ -1636,7 +1636,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "cx-rapide",
         shortTitle: "RAPIDE participation",
-        title: "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
+        title: "RAPIDE · Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
         description: "The city's share of RAPIDE: consuming coastal hazard feeds into the city incident dashboard and contributing barangay incident reports to the exchange.",
         objectives: "1. City incident dashboard consuming RAPIDE feeds by 2028\n2. Barangay incident reports flowing to the exchange\n3. Joint drills with NCRA and PDRIO",
         kind: "software",
@@ -1656,7 +1656,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "cx-pxnet",
         shortTitle: "PXNet lead share",
-        title: "Permits Exchange Network (PXNet) — Malinaw lead share",
+        title: "Permits Exchange Network (PXNet) · Malinaw lead share",
         description: "The city's lead share of PXNet: operating the inter-LGU verification exchange so businesses relocating between member LGUs do not re-submit records both cities hold.",
         objectives: "1. PXNet verification live with San Prospero by 2028\n2. Shared inspection record schema\n3. Zero re-submission for relocating businesses between members",
         kind: "software",
@@ -1706,7 +1706,7 @@ const SEEDS: AgencySeed[] = [
     updatedAt: "2026-09-29T02:15:00.000Z",
     headName: "Chairperson Wilhelmina R. Dacuycuy",
     cioName: "Dir. Alfonso L. Bumanglag",
-    cioPosition: "Director III — ICT Service",
+    cioPosition: "Director III · ICT Service",
     cioUnit: "ICT Service",
     focalName: "Ms. Imelda C. Tiongson",
     focalPosition: "Chief, Program Management Division",
@@ -1750,7 +1750,7 @@ const SEEDS: AgencySeed[] = [
         id: "p-ntr",
         shortTitle: "NTR Platform",
         title: "National Traceability Registry (NTR) Platform",
-        description: "Builds the event-level traceability registry with unique establishment and lot IDs, custody events, traceback query tools and verification APIs — replacing the FoxPro registry.",
+        description: "Builds the event-level traceability registry with unique establishment and lot IDs, custody events, traceback query tools and verification APIs, replacing the FoxPro registry.",
         objectives: "1. NTR live with establishments migrated by 2029\n2. Event-level custody tracking for all registered commodities\n3. Traceback query time under 24 hours",
         kind: "software",
         span: [0, 1],
@@ -1796,7 +1796,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "cx-ctb",
         shortTitle: "CTB participation",
-        title: "Cold Chain Traceability Backbone (CTB) — NFTC share",
+        title: "Cold Chain Traceability Backbone (CTB) · NFTC share",
         description: "The Council's share of CTB: consuming cold chain custody events into the NTR and co-chairing the shared data standards working group.",
         objectives: "1. Ingest CTB custody events into NTR by 2028\n2. Co-chair standards working group\n3. Joint traceback exercise with BCCM annually",
         kind: "software",
@@ -1843,7 +1843,7 @@ const SEEDS: AgencySeed[] = [
     updatedAt: "2026-10-15T08:05:00.000Z",
     headName: "President and CEO Gregorio A. Sunico Jr.",
     cioName: "VP Cecilia M. Lambino",
-    cioPosition: "Vice President — ICT and Data Division",
+    cioPosition: "Vice President · ICT and Data Division",
     cioUnit: "ICT and Data Division",
     focalName: "Mr. Leandro P. Hizon",
     focalPosition: "Department Manager, Corporate Planning",
@@ -1875,11 +1875,11 @@ const SEEDS: AgencySeed[] = [
       { outcome: 2, program: 2, system: "Risk models (desktop statistical software)", concern: "Exposure and pricing models run on desktop software on individual workstations; a model change cannot be reproduced six months later, and the portfolio cube takes twenty minutes to recalculate.", strategy: "Stand up the Renewables Portfolio Data Platform: versioned models, governed data, and portfolio analytics that recalculate in seconds." },
     ],
     systems: [
-      { id: "is-gate", name: "GATE — Guarantee Administration & Tracking Environment", classification: "OPERATIONS", description: "On-premise guarantee workflow and registry under outsourced maintenance; 22 manual steps, three wet signatures, 94-day median issuance.", strategy: "OUTSOURCED", platform: ".NET Framework / SQL Server", database: "gate_prod", storage: "ON_PREMISE", internalUsers: "Guarantee Operations (~180 staff)", owner: "Guarantee Operations Division", integrated: true, pia: true },
+      { id: "is-gate", name: "GATE · Guarantee Administration & Tracking Environment", classification: "OPERATIONS", description: "On-premise guarantee workflow and registry under outsourced maintenance; 22 manual steps, three wet signatures, 94-day median issuance.", strategy: "OUTSOURCED", platform: ".NET Framework / SQL Server", database: "gate_prod", storage: "ON_PREMISE", internalUsers: "Guarantee Operations (~180 staff)", owner: "Guarantee Operations Division", integrated: true, pia: true },
       { id: "is-cube", name: "Exposure portfolio cube (spreadsheet)", classification: "SUPPORT_TO_OPERATIONS", description: "Risk department spreadsheet of all guaranteed exposures; twenty-minute recalculation; no version history.", strategy: "IN_HOUSE", platform: "Microsoft Excel / desktop statistical software", database: "N/A", storage: "ON_PREMISE", internalUsers: "Risk Management Division (~35 staff)", owner: "Risk Management Division" },
     ],
     proposed: [
-      { id: "ps-watts", name: "WATTS — Workflows for Account Tracking & Surety", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "End-to-end guarantee platform: application intake, straight-through processing for standard products, digital signatures, and claims servicing.", strategy: "OUTSOURCED", platform: "Java / PostgreSQL / BPMN engine", database: "watts_prod", storage: "CLOUD", internalUsers: "Guarantee Operations (~200 staff)", externalUsers: "Sponsors and lenders (~640)", owner: "ICT and Data Division", pia: true, status: "FOR_DEVELOPMENT" },
+      { id: "ps-watts", name: "WATTS · Workflows for Account Tracking & Surety", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "End-to-end guarantee platform: application intake, straight-through processing for standard products, digital signatures, and claims servicing.", strategy: "OUTSOURCED", platform: "Java / PostgreSQL / BPMN engine", database: "watts_prod", storage: "CLOUD", internalUsers: "Guarantee Operations (~200 staff)", externalUsers: "Sponsors and lenders (~640)", owner: "ICT and Data Division", pia: true, status: "FOR_DEVELOPMENT" },
       { id: "ps-portfolio", name: "Renewables Portfolio Data Platform", classification: "SUPPORT_TO_OPERATIONS", description: "Governed exposure data platform with versioned risk models and portfolio analytics replacing the twenty-minute spreadsheet cube.", strategy: "HYBRID", platform: "Python / dbt / columnar warehouse", database: "portfolio_wh", storage: "CLOUD", internalUsers: "Risk and finance teams (~60 staff)", owner: "Risk Management Division", status: "FOR_DEVELOPMENT" },
       { id: "ps-records-prpgc", name: "Corporate Records and Document Management System", classification: "GENERAL_ADMIN", description: "Corporate records, guarantee documents and audit trails with retention scheduling, replacing the records archive that doubles as the supply stockroom.", strategy: "OUTSOURCED", platform: "Alfresco / PostgreSQL", database: "records", storage: "CLOUD", internalUsers: "All divisions (~260 staff)", owner: "Corporate Planning Division", status: "FOR_DEVELOPMENT" },
     ],
@@ -1887,8 +1887,8 @@ const SEEDS: AgencySeed[] = [
       {
         id: "p-watts",
         shortTitle: "Project WATTS",
-        title: "Project WATTS — Workflows for Account Tracking & Surety",
-        description: "Rebuilds guarantee workflows end-to-end: digital application intake, straight-through processing for standard products, digital signatures and claims servicing — cutting issuance from 94 days to 20.",
+        title: "Project WATTS · Workflows for Account Tracking & Surety",
+        description: "Rebuilds guarantee workflows end-to-end: digital application intake, straight-through processing for standard products, digital signatures and claims servicing, cutting issuance from 94 days to 20.",
         objectives: "1. WATTS live for standard guarantee products by 2029\n2. Median issuance time: 20 days\n3. Digital signature accepted for all guarantee documents\n4. GATE decommissioned by 2029",
         kind: "software",
         span: [0, 1],
@@ -1929,7 +1929,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "p-ampere",
         shortTitle: "Project AMPERE",
-        title: "Project AMPERE — Actuarial Modeling Platform for Energy Risk Estimation",
+        title: "Project AMPERE · Actuarial Modeling Platform for Energy Risk Estimation",
         description: "A Corporation-owned AI compute cluster for guarantee pricing and portfolio stress models: sponsor financial data and proprietary model runs stay on-premise under the Corporation's fiduciary commitments, with governed MLOps on the Portfolio Data Platform. The largest single AI-compute ask in this corpus.",
         objectives: "1. Cluster and MLOps environment commissioned by 2028\n2. All pricing and stress models re-platformed from desktop software by 2029\n3. Portfolio-wide stress runs in minutes, fully reproducible",
         kind: "hardware",
@@ -2028,7 +2028,7 @@ const SEEDS: AgencySeed[] = [
         id: "p-frontline",
         shortTitle: "Digital Frontline",
         title: "San Prospero Digital Frontline (eBPLS-lite and Records Digitization)",
-        description: "Launches the municipality's first services platform — permits, certifications and clearances with online payment and barangay kiosks — and digitizes priority record series.",
+        description: "Launches the municipality's first services platform (permits, certifications and clearances with online payment and barangay kiosks) and digitizes priority record series.",
         objectives: "1. Top 10 municipal transactions online by 2029\n2. Barangay intake kiosks at 5 pilot barangays\n3. Priority records digitized and searchable",
         kind: "software",
         span: [0, 1],
@@ -2050,7 +2050,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "cx-pxnet",
         shortTitle: "PXNet participation",
-        title: "Permits Exchange Network (PXNet) — San Prospero share",
+        title: "Permits Exchange Network (PXNet) · San Prospero share",
         description: "The municipality's share of PXNet: verifying permits and inspections with Malinaw so relocating businesses do not re-submit records either LGU already holds.",
         objectives: "1. Verification live with Malinaw by 2029\n2. Shared inspection schema adopted\n3. Staff trained on the exchange",
         kind: "software",
@@ -2134,7 +2134,7 @@ const SEEDS: AgencySeed[] = [
     ],
     systems: [
       { id: "is-sis-vmsc", name: "Student Information System (in-house PHP)", classification: "SUPPORT_TO_OPERATIONS", description: "In-house SIS maintained by one programmer; no test environment; simulator scheduling handled separately on a whiteboard.", strategy: "IN_HOUSE", platform: "PHP / MySQL", database: "sis", storage: "ON_PREMISE", internalUsers: "Registrar and colleges (~85 staff)", owner: "MIS Office", pia: true },
-      { id: "is-koha-vmsc", name: "Library System (Koha)", classification: "GENERAL_ADMIN", description: "Koha library management; research datasets are not managed here — they live on investigators' drives.", strategy: "OPEN_SOURCE", platform: "Koha / MySQL", database: "koha", storage: "ON_PREMISE", internalUsers: "Library staff (7)", owner: "Library" },
+      { id: "is-koha-vmsc", name: "Library System (Koha)", classification: "GENERAL_ADMIN", description: "Koha library management; research datasets are not managed here, they live on investigators' drives.", strategy: "OPEN_SOURCE", platform: "Koha / MySQL", database: "koha", storage: "ON_PREMISE", internalUsers: "Library staff (7)", owner: "Library" },
     ],
     proposed: [
       { id: "ps-one-vmsc", name: "ONE-VMSC Campus Systems Integration", classification: "SUPPORT_TO_OPERATIONS", description: "Supported SIS core with simulator scheduling, single sign-on and research data management replacing the one-programmer stack.", strategy: "OUTSOURCED", platform: "Supported SaaS SIS + integrations", database: "Vendor-managed", storage: "CLOUD", internalUsers: "All academic and administrative offices (~230 staff)", externalUsers: "Students (~5,600)", owner: "MIS Office", pia: true, status: "FOR_DEVELOPMENT" },
@@ -2191,7 +2191,7 @@ const SEEDS: AgencySeed[] = [
       {
         id: "cx-ctb",
         shortTitle: "CTB research share",
-        title: "Cold Chain Traceability Backbone (CTB) — VMSC research share",
+        title: "Cold Chain Traceability Backbone (CTB) · VMSC research share",
         description: "The College's research share of CTB: studying shipping-route cold chain corridor data from the sandbox and publishing findings back to the program.",
         objectives: "1. Sandbox access and first corridor study by 2028\n2. Annual research publication to the program\n3. Capstone projects using CTB data",
         kind: "software",
@@ -2240,7 +2240,7 @@ const SEEDS: AgencySeed[] = [
     updatedAt: "2026-10-02T09:50:00.000Z",
     headName: "Chairperson Bienvenido T. Ordoñez",
     cioName: "Dir. Katrina S. Almendral",
-    cioPosition: "Director IV — ICT Service",
+    cioPosition: "Director IV · ICT Service",
     cioUnit: "ICT Service",
     focalName: "Ms. Adelaida R. Manalastas",
     focalPosition: "Chief, Standards Development Division",
@@ -2273,20 +2273,20 @@ const SEEDS: AgencySeed[] = [
       { outcome: 2, program: 2, system: "Standards dissemination (PDFs and seminars)", concern: "Standards are published as PDFs and taught in person; compliance reports show cooperatives citing superseded standard versions years after revisions.", strategy: "Launch the standards portal with versioned standards, plain-language guides and e-learning." },
     ],
     systems: [
-      { id: "is-cdrs", name: "CDRS — Cooperative Development Registry System", classification: "OPERATIONS", description: "Registry of roughly 78,000 cooperatives descended from dBase; extension offices e-mail extracts that headquarters re-merges monthly; no public verification.", strategy: "IN_HOUSE", platform: "Visual FoxPro lineage / SQL Server", database: "cdrs", storage: "ON_PREMISE", internalUsers: "Registry bureau (~120 staff)", owner: "Cooperative Registry Bureau", integrated: true, pia: true },
+      { id: "is-cdrs", name: "CDRS · Cooperative Development Registry System", classification: "OPERATIONS", description: "Registry of roughly 78,000 cooperatives descended from dBase; extension offices e-mail extracts that headquarters re-merges monthly; no public verification.", strategy: "IN_HOUSE", platform: "Visual FoxPro lineage / SQL Server", database: "cdrs", storage: "ON_PREMISE", internalUsers: "Registry bureau (~120 staff)", owner: "Cooperative Registry Bureau", integrated: true, pia: true },
       { id: "is-auditboard", name: "Audit scheduling board (physical)", classification: "GENERAL_ADMIN", description: "Physical board with magnet letters tracking audit assignments across regions; photographed for records each month.", strategy: "IN_HOUSE", platform: "Physical board", database: "N/A", storage: "ON_PREMISE", internalUsers: "Standards and Audit Bureau (~60 staff)", owner: "Standards and Audit Bureau" },
     ],
     proposed: [
-      { id: "ps-tala", name: "TALA — Cooperative Registry & Audit Ledger", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Modern registry with unique cooperative identities, audit workflow and ledger, and a public verification portal answering good-standing queries in seconds.", strategy: "OUTSOURCED", platform: "Java / PostgreSQL", database: "tala_prod", storage: "CLOUD", internalUsers: "Registry and audit bureaus (~190 staff)", externalUsers: "Cooperatives, auditors, the public", owner: "ICT Service", pia: true, status: "FOR_DEVELOPMENT" },
+      { id: "ps-tala", name: "TALA · Cooperative Registry & Audit Ledger", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Modern registry with unique cooperative identities, audit workflow and ledger, and a public verification portal answering good-standing queries in seconds.", strategy: "OUTSOURCED", platform: "Java / PostgreSQL", database: "tala_prod", storage: "CLOUD", internalUsers: "Registry and audit bureaus (~190 staff)", externalUsers: "Cooperatives, auditors, the public", owner: "ICT Service", pia: true, status: "FOR_DEVELOPMENT" },
       { id: "ps-standards", name: "Standards Portal and e-Learning", classification: "SUPPORT_TO_OPERATIONS", frontline: true, accessType: "ONLINE", description: "Versioned standards library with plain-language guides, e-learning and compliance self-checks for cooperatives.", strategy: "OUTSOURCED", platform: "Next.js / LMS", database: "standards", storage: "CLOUD", internalUsers: "Standards Development (~35 staff)", externalUsers: "Cooperatives (~78,000 entities)", owner: "Standards Development Division", status: "FOR_DEVELOPMENT" },
       { id: "ps-personnel", name: "CCS Personnel Information System", classification: "GENERAL_ADMIN", description: "Personnel records and 201 files for Commission staff, replacing shared-drive folders named after former clerks.", strategy: "IN_HOUSE", platform: "Next.js / PostgreSQL", database: "personnel", storage: "CLOUD", internalUsers: "HR Section (~15 staff)", owner: "Human Resources Section", status: "FOR_DEVELOPMENT" },
-      { id: "ps-agapay", name: "AGAPAY — AI Assistant for Standards Research", classification: "SUPPORT_TO_OPERATIONS", description: "Drafting and research assistant for the standards bureau: retrieves versioned standards and precedent, summarizes consultation comments with citations, and flags inconsistencies for human review — served from a shared government AI platform, not a Commission-owned cluster.", strategy: "OUTSOURCED", platform: "Shared government AI platform (proposed national compute)", database: "Vendor-managed", storage: "CLOUD", internalUsers: "Standards Development and Audit (~95 staff)", owner: "ICT Service", status: "FOR_DEVELOPMENT" },
+      { id: "ps-agapay", name: "AGAPAY · AI Assistant for Standards Research", classification: "SUPPORT_TO_OPERATIONS", description: "Drafting and research assistant for the standards bureau: retrieves versioned standards and precedent, summarizes consultation comments with citations, and flags inconsistencies for human review: served from a shared government AI platform, not a Commission-owned cluster.", strategy: "OUTSOURCED", platform: "Shared government AI platform (proposed national compute)", database: "Vendor-managed", storage: "CLOUD", internalUsers: "Standards Development and Audit (~95 staff)", owner: "ICT Service", status: "FOR_DEVELOPMENT" },
     ],
     projects: [
       {
         id: "p-tala",
         shortTitle: "Project TALA",
-        title: "Project TALA — Cooperative Registry & Audit Ledger",
+        title: "Project TALA · Cooperative Registry & Audit Ledger",
         description: "Builds the modern registry and audit ledger: unique cooperative identities, real audit workflow replacing the magnet board, and a public verification portal answering good-standing queries in seconds.",
         objectives: "1. TALA live with the full registry migrated by 2029\n2. Public verification portal live\n3. Duplicate registry identities resolved\n4. Audit scheduling fully digital",
         kind: "software",
@@ -2328,8 +2328,8 @@ const SEEDS: AgencySeed[] = [
       {
         id: "p-agapay",
         shortTitle: "AGAPAY Assistant",
-        title: "AGAPAY — AI Assistant for Standards Research (shared platform)",
-        description: "Deploys the AGAPAY drafting and research assistant on a shared government AI platform: retrieval over versioned standards, comment summarization with citations, and inconsistency flags for human review. The counterpoint to own-cluster builds — capability without infrastructure.",
+        title: "AGAPAY · AI Assistant for Standards Research (shared platform)",
+        description: "Deploys the AGAPAY drafting and research assistant on a shared government AI platform: retrieval over versioned standards, comment summarization with citations, and inconsistency flags for human review. The counterpoint to own-cluster builds: capability without infrastructure.",
         objectives: "1. Assistant live for the standards bureau by 2029\n2. Consultation comment summaries with citations for every rulemaking\n3. Zero on-premise AI infrastructure",
         kind: "software",
         span: [1, 2],
@@ -2379,7 +2379,7 @@ interface NcwtrMeta {
 }
 const NCWTR_META: NcwtrMeta = {
   slug: "ncwtr-2026-2028",
-  tagline: "Monitoring queue times across government — and its own fax machine",
+  tagline: "Monitoring queue times across government, and its own fax machine",
   hero: true,
   allotFactor: 0.94,
 };
@@ -2497,7 +2497,7 @@ function roundM(n: number): number {
 /** The SIKAP trace: one project followed from plan to payment, FY2026. */
 function sikapTrace(): CompassProjectTrace {  return {
     projectId: "proj-sikap",
-    projectTitle: "Project SIKAP — Streamlined ICT for Konsolidadong Agency Platform",
+    projectTitle: "Project SIKAP · Streamlined ICT for Konsolidadong Agency Platform",
     fiscalYear: 2026,
     money: { plan: 10_520_000, nep: 10_520_000, gaa: 10_520_000, allotment: 10_520_000, obligated: 9_860_000, disbursed: 2_810_000 },
     steps: [
@@ -2508,7 +2508,7 @@ function sikapTrace(): CompassProjectTrace {  return {
       { date: "Jan 2026", stage: "Release", source: "COMPASS · BTMS", title: "Allotment released: ₱10.52M" },
       { date: "Feb–Apr 2026", stage: "Procure", source: "PhilGEPS", title: "Bid posted 9 Feb · awarded 14 Apr", detail: "Approved budget for the contract ₱9.50M · contract price ₱9.38M · PhilGEPS reference [REF-NO.]" },
       { date: "Apr–May 2026", stage: "Commit", source: "COMPASS · IFMIS", title: "Obligated ₱9.86M", detail: "Development contract ₱9.38M + project management ₱0.48M. Hosting (₱0.54M) starts after go-live." },
-      { date: "Jun 2026", stage: "Pay", source: "COMPASS · NCA", title: "Disbursed ₱2.81M — 30% mobilization payment" },
+      { date: "Jun 2026", stage: "Pay", source: "COMPASS · NCA", title: "Disbursed ₱2.81M · 30% mobilization payment" },
       { date: "Q2 2026", stage: "Deliver", source: "ISSP KPIs (proposed actuals) · DIME", title: "Results against the ISSP targets" },
     ],
     kpiActuals: [
@@ -2528,13 +2528,13 @@ function watchfulTrace(profile: CorpusProfile): CompassProjectTrace {
   const nep = roundM(plan * 0.82);
   return {
     projectId: "p-watchful",
-    projectTitle: "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
+    projectTitle: "Project WATCHFUL · Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
     fiscalYear: 2027,
     money: { plan, nep, gaa: 0, allotment: 0, obligated: 0, disbursed: 0 },
     steps: [
       { date: "29 Apr 2026", stage: "Plan", source: ".issp · Part III-E.1 + Part IV", title: "ISSP 2027–2029 submitted to DICT", detail: "FY2027 line items: real-time tide and oceanographic sensor stations, VSAT backhaul for off-grid sites, and coastal verification cameras. Aligned to the Public Investment Program and the National Cybersecurity Plan." },
       { date: "May 2026", stage: "Endorse", source: "DICT", title: "DICT endorses the ISSP", detail: "Endorsement reference DICT-GSSPD-2026-006." },
-      { date: "Jul 2026", stage: "Propose", source: "COMPASS · NEP", title: `In the FY2027 NEP: ₱${Math.round(nep / 1e6)}M (82% of plan)`, detail: "The 18% gap is sensor stations deferred to FY2028 — visible today because the plan is structured data." },
+      { date: "Jul 2026", stage: "Propose", source: "COMPASS · NEP", title: `In the FY2027 NEP: ₱${Math.round(nep / 1e6)}M (82% of plan)`, detail: "The 18% gap is sensor stations deferred to FY2028 · visible today because the plan is structured data." },
       { date: "Dec 2026 · ahead", stage: "Authorize", source: "COMPASS · GAA", title: "FY2027 GAA pending in Congress" },
     ],
     kpiActuals: [],
@@ -2606,7 +2606,7 @@ function buildCompass(docs: { doc: IsspDocument; meta: { slug: string } }[], pro
   return {
     fictitious: true,
     note:
-      "Execution-side demonstration data in the shape of a future DBM COMPASS feed — NEP, GAA, allotments, obligations and disbursements are invented. Plan columns come from the .issp corpus. COMPASS itself is a proposed link, not live DBM data.",
+      "Execution-side demonstration data in the shape of a future DBM COMPASS feed: NEP, GAA, allotments, obligations and disbursements are invented. Plan columns come from the .issp corpus. COMPASS itself is a proposed link, not live DBM data.",
     agencies,
   };
 }
@@ -2746,7 +2746,7 @@ const ADVISORY: CorpusAdvisory = {
     { slug: "hafsc-2026-2028", acronym: "HAFSC", units: 4, refreshInPlan: true, refreshProject: "Campus Network Modernization and Cybersecurity Hardening" },
   ],
   note:
-    "Fictitious advisory in the shape of a national CERT bulletin. The vendor ended FX-200 support in June 2025, so there is no firmware patch — affected units must be replaced. Cross-references each agency's Annex 1 inventory (proposed field) and Part IV lines.",
+    "Fictitious advisory in the shape of a national CERT bulletin. The vendor ended FX-200 support in June 2025, so there is no firmware patch: affected units must be replaced. Cross-references each agency's Annex 1 inventory (proposed field) and Part IV lines.",
 };
 
 // ─── Mock procurement layer (FY2026, the executing year) ──────────────────────
@@ -2793,7 +2793,7 @@ function buildProcurement(profiles: CorpusProfile[]): CorpusProcurement {
   return {
     fictitious: true,
     note:
-      "Procurement status of FY2026 projects (the executing year) for the three plans that cover it — in the shape of PhilGEPS data an agency-side update loop would feed. Amounts are each project's real FY2026 Part IV lines.",
+      "Procurement status of FY2026 projects (the executing year) for the three plans that cover it, in the shape of PhilGEPS data an agency-side update loop would feed. Amounts are each project's real FY2026 Part IV lines.",
     rows,
   };
 }
@@ -2801,8 +2801,8 @@ function buildProcurement(profiles: CorpusProfile[]): CorpusProcurement {
 // ─── Unit-price sanity (laptop-class purchases) ───────────────────────────────
 
 const UNIT_PRICE_NOTES: Record<string, string> = {
-  "bccm-2026-2028": "Includes IP65 ruggedized units for regional inspection teams — the spec justifies the premium.",
-  "vmsc-2028-2030": "1.6× the corpus median for a standard office spec — a procurement-planning support candidate (also flagged for FY2025 execution).",
+  "bccm-2026-2028": "Includes IP65 ruggedized units for regional inspection teams; the spec justifies the premium.",
+  "vmsc-2028-2030": "1.6× the corpus median for a standard office spec; a procurement-planning support candidate (also flagged for FY2025 execution).",
 };
 
 function buildUnitPrices(profiles: CorpusProfile[]): CorpusUnitPrices {
@@ -2831,7 +2831,7 @@ function buildUnitPrices(profiles: CorpusProfile[]): CorpusUnitPrices {
   return {
     fictitious: true,
     note:
-      "Median unit cost of laptop-class line items per agency, against the corpus median. A prompt for procurement-planning support, not a finding — specs differ. Derived from real Part IV lines.",
+      "Median unit cost of laptop-class line items per agency, against the corpus median. A prompt for procurement-planning support, not a finding: specs differ. Derived from real Part IV lines.",
     item: "Laptop-class purchases",
     corpusMedian,
     rows,
@@ -2945,7 +2945,7 @@ function deriveProfile(
     ...doc.part3.crossAgencyProjects.map((p) => ({ p, category: "crossAgency" as const, cost: crossCosts[p.id] ?? 0 })),
   ].map(({ p, category, cost }) => {
     const kpiSet = doc.part3.performanceFramework[p.id];
-    const shortTitle = p.title.includes("—") ? p.title.split("—")[0].trim() : p.title;
+    const shortTitle = p.title.includes("·") ? p.title.split("·")[0].trim() : p.title;
     return {
       id: p.id,
       title: p.title,
@@ -2974,7 +2974,7 @@ function deriveProfile(
   });
 
   const shortNameOf = (name: string) => {
-    const head = name.split(/[—–(]/)[0].trim();
+    const head = name.split(/[—–·(]/)[0].trim();
     return head.length >= 3 ? head : name.split(" ").slice(0, 3).join(" ");
   };
   const linkedIdsOf = new Map<string, string[]>(
@@ -3097,7 +3097,7 @@ function crossAgencyPrograms(profiles: CorpusProfile[], seedsBySlug: Map<string,
     const shares = participants.map((a) => ({
       acronym: a.acronym,
       slug: a.slug,
-      share: a.projects.find((p) => p.title.includes(program.title.split("—")[0].trim()) || p.title.startsWith(program.title.split(" (")[0]))?.totalCost ?? 0,
+      share: a.projects.find((p) => p.title.includes(program.title.split("·")[0].trim()) || p.title.startsWith(program.title.split(" (")[0]))?.totalCost ?? 0,
     })).filter((s) => s.share > 0);
     return {
       key: program.key,

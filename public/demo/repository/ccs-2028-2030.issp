@@ -138,7 +138,7 @@
       }
     ],
     "cioName": "Dir. Katrina S. Almendral",
-    "cioPosition": "Director IV — ICT Service",
+    "cioPosition": "Director IV · ICT Service",
     "cioUnit": "ICT Service",
     "cioEmail": "cio@ccs.gov.ph",
     "cioContact": "+63 2 8707 8057",
@@ -306,7 +306,7 @@
     "informationSystems": [
       {
         "id": "is-cdrs",
-        "name": "CDRS — Cooperative Development Registry System",
+        "name": "CDRS · Cooperative Development Registry System",
         "classification": "OPERATIONS",
         "frontline": false,
         "frontlineAccessType": "",
@@ -375,7 +375,7 @@
           "usingEquivalent": true,
           "proposedDevelopment": true
         },
-        "equivalentName": "None — HR records maintained manually"
+        "equivalentName": "None (HR records maintained manually)"
       },
       "ifmis": {
         "status": "yes",
@@ -483,7 +483,7 @@
     "proposedSystems": [
       {
         "id": "ps-tala",
-        "name": "TALA — Cooperative Registry & Audit Ledger",
+        "name": "TALA · Cooperative Registry & Audit Ledger",
         "classification": "OPERATIONS",
         "frontline": true,
         "frontlineAccessType": "ONLINE",
@@ -573,12 +573,12 @@
       },
       {
         "id": "ps-agapay",
-        "name": "AGAPAY — AI Assistant for Standards Research",
+        "name": "AGAPAY · AI Assistant for Standards Research",
         "classification": "SUPPORT_TO_OPERATIONS",
         "frontline": false,
         "frontlineAccessType": "",
         "url": "",
-        "description": "Drafting and research assistant for the standards bureau: retrieves versioned standards and precedent, summarizes consultation comments with citations, and flags inconsistencies for human review — served from a shared government AI platform, not a Commission-owned cluster.",
+        "description": "Drafting and research assistant for the standards bureau: retrieves versioned standards and precedent, summarizes consultation comments with citations, and flags inconsistencies for human review: served from a shared government AI platform, not a Commission-owned cluster.",
         "developmentStrategy": "OUTSOURCED",
         "developmentPlatform": "Shared government AI platform (proposed national compute)",
         "databaseName": "Vendor-managed",
@@ -605,7 +605,7 @@
     "internalProjects": [
       {
         "id": "p-tala",
-        "title": "Project TALA — Cooperative Registry & Audit Ledger",
+        "title": "Project TALA · Cooperative Registry & Audit Ledger",
         "description": "Builds the modern registry and audit ledger: unique cooperative identities, real audit workflow replacing the magnet board, and a public verification portal answering good-standing queries in seconds.",
         "objectives": "1. TALA live with the full registry migrated by 2029\n2. Public verification portal live\n3. Duplicate registry identities resolved\n4. Audit scheduling fully digital",
         "projectType": "IS_DRIVEN",
@@ -651,8 +651,8 @@
       },
       {
         "id": "p-agapay",
-        "title": "AGAPAY — AI Assistant for Standards Research (shared platform)",
-        "description": "Deploys the AGAPAY drafting and research assistant on a shared government AI platform: retrieval over versioned standards, comment summarization with citations, and inconsistency flags for human review. The counterpoint to own-cluster builds — capability without infrastructure.",
+        "title": "AGAPAY · AI Assistant for Standards Research (shared platform)",
+        "description": "Deploys the AGAPAY drafting and research assistant on a shared government AI platform: retrieval over versioned standards, comment summarization with citations, and inconsistency flags for human review. The counterpoint to own-cluster builds: capability without infrastructure.",
         "objectives": "1. Assistant live for the standards bureau by 2029\n2. Consultation comment summaries with citations for every rulemaking\n3. Zero on-premise AI infrastructure",
         "projectType": "IS_DRIVEN",
         "linkedSystemIds": [
@@ -676,7 +676,7 @@
     "crossAgencyProjects": [],
     "performanceFramework": {
       "p-tala": {
-        "projectTitle": "Project TALA — Cooperative Registry & Audit Ledger",
+        "projectTitle": "Project TALA · Cooperative Registry & Audit Ledger",
         "projectCategory": "internal",
         "rows": [
           {
@@ -736,7 +736,7 @@
         ]
       },
       "p-agapay": {
-        "projectTitle": "AGAPAY — AI Assistant for Standards Research (shared platform)",
+        "projectTitle": "AGAPAY · AI Assistant for Standards Research (shared platform)",
         "projectCategory": "internal",
         "rows": [
           {
@@ -802,7 +802,7 @@
         "mooe": [
           {
             "id": "y1-mooe-609",
-            "item": "Internet subscription — 3 offices, pooled (Year 1)",
+            "item": "Internet subscription · 3 offices, pooled (Year 1)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -820,7 +820,7 @@
           },
           {
             "id": "y1-mooe-611",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -840,11 +840,11 @@
       },
       "internalProjects": {
         "p-tala": {
-          "projectTitle": "Project TALA — Cooperative Registry & Audit Ledger",
+          "projectTitle": "Project TALA · Cooperative Registry & Audit Ledger",
           "capitalOutlay": [
             {
               "id": "y1-co-626",
-              "item": "Project TALA — system development and acquisition (Year 1 milestone)",
+              "item": "Project TALA · system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -855,7 +855,7 @@
           "mooe": [
             {
               "id": "y1-mooe-627",
-              "item": "Project management office — Project TALA",
+              "item": "Project management office · Project TALA",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -864,7 +864,7 @@
             },
             {
               "id": "y1-mooe-628",
-              "item": "Hosting, support and licences — Project TALA (Year 1)",
+              "item": "Hosting, support and licences · Project TALA (Year 1)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -873,7 +873,7 @@
             },
             {
               "id": "y1-mooe-629",
-              "item": "ICT training and change management — Project TALA",
+              "item": "ICT training and change management · Project TALA",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -887,7 +887,7 @@
           "capitalOutlay": [
             {
               "id": "y1-co-634",
-              "item": "Standards Portal — system development and acquisition (Year 1 milestone)",
+              "item": "Standards Portal · system development and acquisition (Year 1 milestone)",
               "office": "Standards Development Division",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -898,7 +898,7 @@
           "mooe": [
             {
               "id": "y1-mooe-635",
-              "item": "Project management office — Standards Portal",
+              "item": "Project management office · Standards Portal",
               "office": "Standards Development Division",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -907,7 +907,7 @@
             },
             {
               "id": "y1-mooe-636",
-              "item": "Hosting, support and licences — Standards Portal (Year 1)",
+              "item": "Hosting, support and licences · Standards Portal (Year 1)",
               "office": "Standards Development Division",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -916,7 +916,7 @@
             },
             {
               "id": "y1-mooe-637",
-              "item": "ICT training and change management — Standards Portal",
+              "item": "ICT training and change management · Standards Portal",
               "office": "Standards Development Division",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -993,7 +993,7 @@
         "mooe": [
           {
             "id": "y2-mooe-616",
-            "item": "Internet subscription — 3 offices, pooled (Year 2)",
+            "item": "Internet subscription · 3 offices, pooled (Year 2)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1011,7 +1011,7 @@
           },
           {
             "id": "y2-mooe-618",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1022,11 +1022,11 @@
       },
       "internalProjects": {
         "p-tala": {
-          "projectTitle": "Project TALA — Cooperative Registry & Audit Ledger",
+          "projectTitle": "Project TALA · Cooperative Registry & Audit Ledger",
           "capitalOutlay": [
             {
               "id": "y2-co-630",
-              "item": "Project TALA — system development and acquisition (Year 2 milestone)",
+              "item": "Project TALA · system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1037,7 +1037,7 @@
           "mooe": [
             {
               "id": "y2-mooe-631",
-              "item": "Project management office — Project TALA",
+              "item": "Project management office · Project TALA",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1046,7 +1046,7 @@
             },
             {
               "id": "y2-mooe-632",
-              "item": "Hosting, support and licences — Project TALA (Year 2)",
+              "item": "Hosting, support and licences · Project TALA (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1055,7 +1055,7 @@
             },
             {
               "id": "y2-mooe-633",
-              "item": "ICT training and change management — Project TALA",
+              "item": "ICT training and change management · Project TALA",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1065,11 +1065,11 @@
           ]
         },
         "p-agapay": {
-          "projectTitle": "AGAPAY — AI Assistant for Standards Research (shared platform)",
+          "projectTitle": "AGAPAY · AI Assistant for Standards Research (shared platform)",
           "capitalOutlay": [
             {
               "id": "y2-co-638",
-              "item": "AGAPAY Assistant — system development and acquisition (Year 2 milestone)",
+              "item": "AGAPAY Assistant · system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1080,7 +1080,7 @@
           "mooe": [
             {
               "id": "y2-mooe-639",
-              "item": "Project management office — AGAPAY Assistant",
+              "item": "Project management office · AGAPAY Assistant",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1089,7 +1089,7 @@
             },
             {
               "id": "y2-mooe-640",
-              "item": "Hosting, support and licences — AGAPAY Assistant (Year 2)",
+              "item": "Hosting, support and licences · AGAPAY Assistant (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
@@ -1098,7 +1098,7 @@
             },
             {
               "id": "y2-mooe-641",
-              "item": "ICT training and change management — AGAPAY Assistant",
+              "item": "ICT training and change management · AGAPAY Assistant",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
@@ -1175,7 +1175,7 @@
         "mooe": [
           {
             "id": "y3-mooe-621",
-            "item": "Internet subscription — 3 offices, pooled (Year 3)",
+            "item": "Internet subscription · 3 offices, pooled (Year 3)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
@@ -1193,7 +1193,7 @@
           },
           {
             "id": "y3-mooe-623",
-            "item": "ICT training — staff capability building",
+            "item": "ICT training · staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
@@ -1204,11 +1204,11 @@
       },
       "internalProjects": {
         "p-agapay": {
-          "projectTitle": "AGAPAY — AI Assistant for Standards Research (shared platform)",
+          "projectTitle": "AGAPAY · AI Assistant for Standards Research (shared platform)",
           "capitalOutlay": [
             {
               "id": "y3-co-642",
-              "item": "AGAPAY Assistant — system development and acquisition (Year 3 milestone)",
+              "item": "AGAPAY Assistant · system development and acquisition (Year 3 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
@@ -1219,7 +1219,7 @@
           "mooe": [
             {
               "id": "y3-mooe-643",
-              "item": "Project management office — AGAPAY Assistant",
+              "item": "Project management office · AGAPAY Assistant",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
@@ -1228,7 +1228,7 @@
             },
             {
               "id": "y3-mooe-644",
-              "item": "Hosting, support and licences — AGAPAY Assistant (Year 3)",
+              "item": "Hosting, support and licences · AGAPAY Assistant (Year 3)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
@@ -1237,7 +1237,7 @@
             },
             {
               "id": "y3-mooe-645",
-              "item": "ICT training and change management — AGAPAY Assistant",
+              "item": "ICT training and change management · AGAPAY Assistant",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
