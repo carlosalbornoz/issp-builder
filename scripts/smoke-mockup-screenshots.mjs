@@ -107,11 +107,31 @@ async function expectText(p, text, label) {
   await expectText(p, "National Coastal Resilience Authority", "detail identity");
   await expectText(p, "Summary of investments", "detail B.1 section");
   await expectText(p, "Project WATCHFUL", "detail hero project");
+  await expectText(p, "ICT asset posture", "detail posture section");
+  await expectText(p, "Affected by advisory", "detail advisory callout");
   await expectText(p, "Download .issp", "detail download");
   await expectNoOverflow(p, "repository detail");
   await p.screenshot({ path: path.join(OUT_DIR, "repository-detail.png"), fullPage: true });
   ok("shot repository-detail.png");
   errors.forEach((e) => fail(`detail pageerror: ${e}`));
+  await p.close();
+}
+
+// 3b — Agency detail with an AI-tagged project (own-build cluster story)
+{
+  const p = await newPage();
+  const errors = [];
+  p.on("pageerror", (e) => errors.push(String(e)));
+  await p.goto(`${BASE}/repository/mfsc-2027-2029`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Metro Ferry Systems Corporation", "MFSC detail identity");
+  await expectText(p, "Project HULA", "MFSC AI project");
+  await expectText(p, "AI · own cluster", "MFSC AI chip");
+  await expectText(p, "ICT asset posture", "MFSC posture section");
+  await expectNoOverflow(p, "MFSC detail");
+  await p.screenshot({ path: path.join(OUT_DIR, "repository-detail-ai.png"), fullPage: true });
+  ok("shot repository-detail-ai.png");
+  errors.forEach((e) => fail(`MFSC detail pageerror: ${e}`));
   await p.close();
 }
 
@@ -123,11 +143,17 @@ async function expectText(p, text, label) {
   await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "ICT Budget Dashboard", "budget title");
+  await expectText(p, "The next infrastructure wave is digital", "budget why-now band");
+  await expectText(p, "AI & compute in the plans", "budget AI panel");
   await expectText(p, "Fund sources", "budget fund panel");
   await expectText(p, "Agencies by proposed investment", "budget ranking");
   await expectText(p, "Follow every peso", "budget lifecycle");
   await expectText(p, "Can each agency spend what it asks for?", "budget absorptive");
+  await expectText(p, "has procurement started?", "budget procurement pulse");
   await expectText(p, "duplication watch", "budget convergence");
+  await expectText(p, "Unit-price sanity", "budget unit prices");
+  await expectText(p, "Government cyber posture", "budget posture panel");
+  await expectText(p, "NetGate FX-200", "budget advisory card");
   await expectText(p, "Projects with PAP code", "budget traceability KPI");
   await expectText(p, "Line items (CSV)", "budget CSV export");
   await expectNoOverflow(p, "budget");
@@ -165,6 +191,7 @@ async function expectText(p, text, label) {
   await settle(p);
   await expectText(p, "Project SIKAP", "trace title");
   await expectText(p, "money trail", "trace money trail");
+  await expectText(p, "Procurement — Contract awarded 14 Apr 2026", "trace procurement pill");
   await expectText(p, "From plan to payment to result", "trace timeline");
   await expectText(p, "Agencies reporting via UQMP API", "trace KPI actuals");
   await expectText(p, "What each source knows", "trace sources card");
@@ -182,6 +209,8 @@ async function expectText(p, text, label) {
   await settle(p);
   await expectText(p, "What structured ISSP data should know", "data standard title");
   await expectText(p, "UACS PAP code per project", "data standard join key");
+  await expectText(p, "AI / compute tag per project", "data standard v15 field");
+  await expectText(p, "Where this goes", "data standard agency loop");
   await expectText(p, "The row COMPASS can join", "data standard sample");
   await expectNoOverflow(p, "data standard");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-data-standard.png"), fullPage: true });
@@ -218,6 +247,18 @@ async function expectText(p, text, label) {
   await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectNoOverflow(p, "budget mobile");
+  // Procurement table: at scroll position 0 no stage chip may extend past the scroller's
+  // right edge (round-9 vision finding — sliced chips read as broken).
+  const clippedChips = await p.evaluate(() => {
+    const table = [...document.querySelectorAll("table")].find((t) => t.textContent?.includes("Bidding"));
+    if (!table) return -1;
+    const scroller = table.parentElement;
+    if (!scroller) return -1;
+    const right = scroller.getBoundingClientRect().right;
+    const chips = [...table.querySelectorAll("span")].filter((s) => /^(Awarded|Bidding|Pre-bid|Not started)$/.test(s.textContent?.trim() ?? ""));
+    return chips.filter((c) => c.getBoundingClientRect().right > right + 1).length;
+  });
+  (clippedChips === 0 ? ok : fail)(`budget mobile procurement chips: ${clippedChips === 0 ? "none clipped at the scroller edge" : `${clippedChips} chip(s) clipped`}`);
   await p.screenshot({ path: path.join(OUT_DIR, "budget-mobile.png"), fullPage: true });
   ok("shot budget-mobile.png");
   await p.close();

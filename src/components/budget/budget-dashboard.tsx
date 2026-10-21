@@ -18,19 +18,30 @@ import {
   Building2,
   ChevronRight,
   Coins,
+  Cpu,
   Download,
   Landmark,
   Layers3,
   PieChart,
   ReceiptText,
   Route,
+  ShieldAlert,
   ShieldQuestion,
 } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { DemoNotice } from "@/components/repository/demo-notice";
 import { BarList, Donut, StackedColumns, SwatchLegend } from "@/components/dataviz/charts";
 import { useCorpus, BUCKETS, TYPE_LABELS, TYPE_SHORT } from "@/lib/repository/corpus";
-import type { CompassAgency, CompassYearRecord, CorpusLineItem, CorpusProfile } from "@/lib/repository/corpus-types";
+import type {
+  CompassAgency,
+  CompassYearRecord,
+  CorpusAiKind,
+  CorpusLineItem,
+  CorpusProfile,
+  CorpusProcurementRow,
+  CorpusProcurementStage,
+  RepositoryCorpus,
+} from "@/lib/repository/corpus-types";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { cn, php, phpCompact } from "@/lib/utils";
 
@@ -41,7 +52,7 @@ const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
 const EMPTY_AGENCIES: CorpusProfile[] = [];
 
 type AgencyLine = CorpusLineItem & { acronym: string; slug: string };
-type FyFilter = "all" | 2026 | 2027 | 2028 | 2029;
+type FyFilter = "all" | 2026 | 2027 | 2028 | 2029 | 2030;
 
 export function BudgetDashboard() {
   const params = useSearchParams();
@@ -220,7 +231,7 @@ export function BudgetDashboard() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Fiscal year</span>
             <div className="flex flex-wrap gap-1.5">
-              {(["all", 2026, 2027, 2028, 2029] as FyFilter[]).map((option) => (
+              {(["all", 2026, 2027, 2028, 2029, 2030] as FyFilter[]).map((option) => (
                 <button
                   key={String(option)}
                   onClick={() => setFy(option)}
@@ -270,6 +281,8 @@ export function BudgetDashboard() {
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
         <DemoNotice />
+
+        {corpus ? <WhyNowSection corpus={corpus} /> : null}
 
         {error ? (
           <div className="rounded-lg border border-destructive/30 bg-danger-bg text-destructive px-4 py-3 text-sm">
@@ -338,7 +351,7 @@ export function BudgetDashboard() {
             </div>
 
             {/* ── Charts row 2: categories ── */}
-            <div className="grid lg:grid-cols-3 gap-4">
+            <div className="grid lg:grid-cols-3 lg:items-start gap-4">
               <Panel title="Where the money goes" sub="DICT expense categories (B.4)" className="lg:col-span-2">
                 <BarList
                   items={[
@@ -366,7 +379,7 @@ export function BudgetDashboard() {
               <Panel title="Where each fiscal year stands" sub="mock COMPASS layer · GAA agencies">
                 <div className="grid grid-cols-2 gap-2.5">
                   <CycleTile year="FY2025" label="closed" value={pct(sumCompass(2025, "obligated"), sumCompass(2025, "allotment"))} sub="of ICT allotments obligated" />
-                  <CycleTile year="FY2026" label="executing · Q2" value={pct(sumCompass(2026, "obligated"), sumCompass(2026, "allotment"))} sub="obligated as of Q2" />
+                  <CycleTile year="FY2026" label="executing" value={pct(sumCompass(2026, "obligated"), sumCompass(2026, "allotment"))} sub="obligated as of Q2 (30 Jun)" />
                   <CycleTile year="FY2027" label="NEP in Congress" value={pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} sub="of ISSP ask is in the NEP" />
                   <CycleTile year="FY2028" label="Budget Call" value={phpCompact(sumCompass(2028, "plan"))} sub="already planned in ISSPs" />
                 </div>
@@ -374,7 +387,7 @@ export function BudgetDashboard() {
             </div>
 
             {/* ── Lifecycle: follow the peso ── */}
-            <LifecycleSection gaa={gaaCompass} profiles={selected} />
+            <LifecycleSection gaa={gaaCompass} profiles={selected} procurement={corpus.procurement} />
 
             {/* ── Agencies ranked ── */}
             <Panel title={fyForRanking ? `Agencies by FY${fyForRanking} ask` : "Agencies by proposed investment"} sub="click through to the full ISSP record" icon={Building2}>
@@ -396,12 +409,15 @@ export function BudgetDashboard() {
               />
               <p className="text-[11px] text-muted-foreground mt-3">
                 Annotation basis: {fyForRanking ? `FY${fyForRanking} ask` : "3-year plan total ÷ 3"} vs FY2025
-                obligations — the same comparison as the absorptive-capacity table below.
+                obligations — the same comparison as the absorptive-capacity table above.
               </p>
             </Panel>
 
             {/* ── Convergence ── */}
             <ConvergenceSection profiles={selected} highlightProgram={highlightProgram} />
+
+            {/* ── Readiness & posture ── */}
+            <ReadinessSection corpus={corpus} />
 
             {/* ── Drill-down ── */}
             <Panel title="Agency drill-down" sub="expand a row for its split; click the acronym for the full record">
@@ -487,7 +503,15 @@ const STAGES = [
   { n: "7", label: "Deliver", system: "Results", detail: "KPI actuals vs ISSP targets.", source: "ISSP KPIs · DIME", ours: true },
 ] as const;
 
-function LifecycleSection({ gaa, profiles }: { gaa: CompassAgency[]; profiles: CorpusProfile[] }) {
+function LifecycleSection({
+  gaa,
+  profiles,
+  procurement,
+}: {
+  gaa: CompassAgency[];
+  profiles: CorpusProfile[];
+  procurement: RepositoryCorpus["procurement"];
+}) {
   const sum = (year: number, field: "plan" | "nep" | "gaa" | "allotment" | "obligated" | "disbursed") =>
     gaa.reduce((s, ca) => s + (ca.years.find((y) => y.year === year)?.[field] ?? 0), 0);
 
@@ -524,6 +548,10 @@ function LifecycleSection({ gaa, profiles }: { gaa: CompassAgency[]; profiles: C
 
   const nepShare27 = f27.rec.plan ? (f27.rec.nep ?? 0) / f27.rec.plan : 0;
   const unobligated25 = f25.rec.allotment - f25.rec.obligated;
+  // The steepest ask-vs-execution step in the table below — derived, never asserted by hand.
+  const steepest = absorptive
+    .filter((x) => x.ratio !== null)
+    .sort((x, y) => (y.ratio ?? 0) - (x.ratio ?? 0))[0];
 
   return (
     <section className="space-y-3" id="lifecycle">
@@ -581,8 +609,14 @@ function LifecycleSection({ gaa, profiles }: { gaa: CompassAgency[]; profiles: C
             planned ICT work that did not get funded. Today nobody sees that list in one place.
           </InsightBox>
           <InsightBox>
-            <strong>₱{phpCompact(unobligated25)} of FY2025 ICT allotments was never obligated.</strong> Two agencies
-            below ask for more than double their FY2025 obligations in FY2027.
+            <strong>{phpCompact(unobligated25)} of FY2025 ICT allotments was never obligated.</strong>{" "}
+            {steepest
+              ? `The steepest step below: ${steepest.profile.acronym} asks ${steepest.ratio!.toFixed(
+                  1
+                )}× its FY2025 obligations for FY2027, after obligating only ${Math.round(
+                  (steepest.y25.obligated! / steepest.y25.allotment!) * 100
+                )}% of that year's allotment.`
+              : "Every GAA agency's FY2027 ask sits below its FY2025 obligations."}
           </InsightBox>
           <InsightBox>
             <strong>The ISSP is the step before the NEP.</strong> COMPASS follows money from appropriation to
@@ -641,6 +675,8 @@ function LifecycleSection({ gaa, profiles }: { gaa: CompassAgency[]; profiles: C
           systems. NCWTR&apos;s first ISSP starts in FY2026, so it has no FY2025 row.
         </p>
       </div>
+
+      <ProcurementPulse rows={procurement.rows.filter((r) => new Set(profiles.map((p) => p.slug)).has(r.slug))} />
     </section>
   );
 }
@@ -814,7 +850,7 @@ function ConvergenceSection({ profiles, highlightProgram }: { profiles: CorpusPr
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-2 lg:items-start gap-4">
         {/* Alignment share */}
         <Panel title="Which national plans the money serves" sub="strategic alignment tags · share of project cost" icon={ShieldQuestion}>
           <BarList
@@ -884,6 +920,348 @@ function CrossAgencyPrograms({ highlight }: { highlight: string | null }) {
       <p className="text-[11px] text-muted-foreground">
         The program total exists only when the plans are read together — no agency file holds it.
       </p>
+    </div>
+  );
+}
+
+// ─── Why now: the spend wave + AI & compute ───────────────────────────────────
+
+const AI_KIND_META: Record<CorpusAiKind, { label: string; color: string }> = {
+  "own-build": { label: "Own GPU cluster", color: "var(--budget-2)" },
+  adoption: { label: "Shared platform", color: "var(--budget-3)" },
+  education: { label: "Teaching & research", color: "var(--budget-1)" },
+};
+
+const STAGE_META: Record<CorpusProcurementStage, { label: string; cls: string }> = {
+  awarded: { label: "Awarded", cls: "bg-success-bg text-success border border-success-border" },
+  bidding: { label: "Bidding", cls: "bg-info-bg text-info border border-info-border" },
+  "pre-bid": { label: "Pre-bid", cls: "bg-warning-bg text-warning border border-warning-border" },
+  none: { label: "Not started", cls: "bg-muted text-muted-foreground border border-foreground/15" },
+};
+
+function WhyNowSection({ corpus }: { corpus: RepositoryCorpus }) {
+  const fy27 = corpus.totals.byYear.find((y) => y.year === 2027);
+  const ai = corpus.aiLayer;
+  const ownBuilds = ai.projects.filter((p) => p.kind === "own-build");
+  const aiTotal = ai.projects.reduce((s, p) => s + p.total, 0);
+
+  // Continuing-cost share of a year across the plans covering that year.
+  const continuingShare = (year: number) => {
+    let cc = 0;
+    let total = 0;
+    corpus.agencies.forEach((a) =>
+      a.lineItems.forEach((l) => {
+        if (l.year !== year) return;
+        total += l.total;
+        if (l.bucket === "continuingCosts") cc += l.total;
+      })
+    );
+    return total ? cc / total : 0;
+  };
+  const share26 = continuingShare(2026);
+  const share29 = continuingShare(2029);
+  const yearSpan = (years: number[]) =>
+    years.length > 1 ? `FY${years[0]}–FY${years[years.length - 1]}` : years.length ? `FY${years[0]}` : "";
+
+  return (
+    <section id="why-now" className="space-y-3">
+      <div className="rounded-xl bg-[var(--sidebar)] text-white p-5 sm:p-6">
+        <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE] mb-1.5">Why now · the ICT spend wave</p>
+        <h2 className="font-display text-xl sm:text-2xl font-bold tracking-tight max-w-3xl">
+          The next infrastructure wave is digital — plan first, then spend
+        </h2>
+        <p className="text-sm text-[#E6ECF7] leading-relaxed max-w-3xl mt-2.5">
+          AI services, government data centers and always-on platforms are lifting public ICT budgets to
+          infrastructure scale worldwide. Infrastructure money gets line-item scrutiny from day one — this wave
+          deserves the same, starting in the ISSP, before the NEP, not after the audit.
+        </p>
+        <div className="grid sm:grid-cols-3 gap-3 mt-5">
+          <WhyTile
+            label="FY2027 planned ICT"
+            value={phpCompact(fy27?.total ?? 0)}
+            sub={`across ${corpus.totals.plans} plans in this corpus · every peso a Part IV line item`}
+          />
+          <WhyTile
+            label="AI & compute asks"
+            value={phpCompact(aiTotal)}
+            sub={`${ownBuilds.length} agencies budget own GPU clusters (${phpCompact(ai.ownBuildTotal)}) — review question below`}
+          />
+          <WhyTile
+            label="Continuing-cost share"
+            value={`${Math.round(share26 * 100)}% → ${Math.round(share29 * 100)}%`}
+            sub={`of each year's ask, FY2026 → FY2029: new systems become permanent subscriptions`}
+          />
+        </div>
+      </div>
+
+      <Panel title="AI & compute in the plans" sub="corpus-wide · tagged projects; the tag itself is a proposed ISSP field" icon={Cpu}>
+        <div className="grid lg:grid-cols-2 gap-6">
+          <BarList
+            items={[...ai.projects]
+              .sort((x, y) => y.total - x.total)
+              .map((p) => ({
+                key: p.slug + p.projectId,
+                label: `${p.acronym} — ${p.shortTitle}`,
+                value: p.total,
+                color: AI_KIND_META[p.kind].color,
+                sub: `${AI_KIND_META[p.kind].label} · ${yearSpan(p.byYear.map((y) => y.year))}`,
+              }))}
+            format={phpCompact}
+          />
+          <div>
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-2">
+              Share of each year&apos;s total ask
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {ai.byYear
+                .filter((y) => y.amount > 0)
+                .map((y) => (
+                  <span
+                    key={y.year}
+                    className="inline-flex items-baseline gap-1.5 rounded-md border border-foreground/10 bg-secondary px-2.5 py-1 text-xs"
+                  >
+                    <span className="font-semibold tabular-nums">FY{y.year}</span>
+                    <span className="tabular-nums">{phpCompact(y.amount)}</span>
+                    <span className="tabular-nums font-semibold text-primary">{(y.share * 100).toFixed(1)}%</span>
+                  </span>
+                ))}
+            </div>
+            <InsightBox className="mt-4">
+              <strong>{phpCompact(ai.ownBuildTotal)} of the AI ask is two agencies&apos; own GPU clusters.</strong> A
+              shared national compute facility could serve both — decide together before the hardware is bought, not
+              after. A review question, not a finding: agencies can have binding reasons, such as data-sovereignty
+              commitments over commuter or sponsor data.
+            </InsightBox>
+            <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
+              Shares are of that fiscal year&apos;s total across the plans covering it; later years carry fewer plans
+              in this corpus. Amounts are the projects&apos; real Part IV line items.
+            </p>
+          </div>
+        </div>
+      </Panel>
+    </section>
+  );
+}
+
+function WhyTile({ label, value, sub }: { label: string; value: string; sub: string }) {
+  return (
+    <div className="h-full rounded-lg bg-white/10 border border-white/15 px-4 py-3 flex flex-col">
+      <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE]">{label}</p>
+      <p className="text-lg font-bold tabular-nums leading-tight mt-1">{value}</p>
+      <p className="text-[11px] text-[#E6ECF7]/85 leading-snug mt-1">{sub}</p>
+    </div>
+  );
+}
+
+// ─── Procurement pulse (FY2026) ───────────────────────────────────────────────
+
+function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
+  if (rows.length === 0) return null;
+  const sumOf = (stages: CorpusProcurementStage[]) =>
+    rows.filter((r) => stages.includes(r.stage)).reduce((s, r) => s + r.amount, 0);
+  const countOf = (stages: CorpusProcurementStage[]) => rows.filter((r) => stages.includes(r.stage)).length;
+  const awarded = sumOf(["awarded"]);
+  const earlier = sumOf(["bidding", "pre-bid", "none"]);
+
+  return (
+    <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
+      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
+        Procurement pulse · FY2026 · proposed PhilGEPS status
+      </p>
+      <h3 className="text-sm font-semibold mt-1 mb-3">Funded work: has procurement started?</h3>
+      <div className="grid grid-cols-3 gap-2.5 mb-4">
+        <StageTile label="Contract awarded" value={phpCompact(awarded)} sub={pluralProjects(countOf(["awarded"]))} />
+        <StageTile label="In bidding" value={phpCompact(sumOf(["bidding"]))} sub={pluralProjects(countOf(["bidding"]))} />
+        <StageTile label="Pre-bid or earlier" value={phpCompact(sumOf(["pre-bid", "none"]))} sub={pluralProjects(countOf(["pre-bid", "none"]))} />
+      </div>
+        <div className="overflow-x-auto rounded-lg border">
+          <table className="min-w-full text-xs sm:text-sm border-collapse">
+            <thead>
+              <tr className="bg-muted/50">
+                <th className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Agency</th>
+                <th className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Project</th>
+                <th className="border-b px-2 sm:px-3 py-2 text-right font-semibold">FY2026</th>
+                <th className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Stage</th>
+                <th className="border-b px-2 sm:px-3 py-2 text-left font-semibold hidden lg:table-cell">Where it stands</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...rows]
+                .sort((x, y) => y.amount - x.amount)
+                .map((r) => (
+                  <tr key={r.slug + r.projectId} className="border-b last:border-b-0 hover:bg-accent/20 align-top">
+                    <td className="px-2 sm:px-3 py-2">
+                      <Link href={`/repository/${r.slug}`} className="font-medium hover:underline">
+                        {r.acronym}
+                      </Link>
+                    </td>
+                    <td className="px-2 sm:px-3 py-2 max-w-64">{r.shortTitle}</td>
+                    <td className="px-2 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap">{phpCompact(r.amount)}</td>
+                    <td className="px-2 sm:px-3 py-2">
+                      <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap", STAGE_META[r.stage].cls)}>
+                        {STAGE_META[r.stage].label}
+                      </span>
+                    </td>
+                    <td className="px-2 sm:px-3 py-2 text-muted-foreground text-xs whitespace-nowrap hidden lg:table-cell">{r.note}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
+        Q3 2026 view of the three plans covering FY2026. {phpCompact(awarded)} has a contract behind it;{" "}
+        {phpCompact(earlier)} is still short of one — money that cannot move until procurement does. Status in the
+        shape of PhilGEPS data an agency-side update loop would feed.
+      </p>
+    </div>
+  );
+}
+
+function StageTile({ label, value, sub }: { label: string; value: string; sub: string }) {
+  return (
+    <div className="rounded-lg border border-foreground/10 bg-card px-3 py-2.5">
+      <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">{label}</p>
+      <p className="text-base font-bold tabular-nums leading-tight mt-0.5">{value}</p>
+      <p className="text-[11px] text-muted-foreground">{sub}</p>
+    </div>
+  );
+}
+
+const pluralProjects = (n: number) => `${n} ${n === 1 ? "project" : "projects"}`;
+
+// ─── Readiness & posture ──────────────────────────────────────────────────────
+
+function ReadinessSection({ corpus }: { corpus: RepositoryCorpus }) {
+  const fleets = Object.values(corpus.security.fleetBySlug);
+  const sumOf = (get: (f: (typeof fleets)[number]) => number) => fleets.reduce((s, f) => s + get(f), 0);
+  const endpoints = sumOf((f) => f.endpoints);
+  const endpointsEol = sumOf((f) => f.endpointsEol);
+  const serversEol = sumOf((f) => f.serversEol);
+  const networkEol = sumOf((f) => f.networkEol);
+  const up = corpus.unitPrices;
+  const adv = corpus.security.advisory;
+  const advUnits = adv.agencies.reduce((s, h) => s + h.units, 0);
+  const flagged = up.rows.filter((r) => r.medianUnitCost > up.corpusMedian * 1.4);
+
+  return (
+    <section id="readiness" className="space-y-3">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
+          Readiness &amp; posture · proposed ISSP fields
+        </p>
+        <h2 className="font-display text-lg font-bold tracking-tight flex items-center gap-2">
+          <ShieldAlert className="w-4 h-4 text-muted-foreground" /> Buying well, and knowing the estate
+        </h2>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-4 items-start">
+        {/* Unit-price sanity */}
+        <Panel title="Unit-price sanity — laptop-class purchases" sub="corpus-wide · median unit cost vs the corpus median">
+          <p className="text-xs text-muted-foreground mb-3">
+            Corpus median: <strong className="text-foreground tabular-nums">{php(up.corpusMedian)}</strong> per unit,
+            across {up.rows.reduce((s, r) => s + r.units, 0).toLocaleString("en-PH")} laptop-class units.
+          </p>
+          <BarList
+            items={up.rows.map((r) => ({
+              key: r.slug,
+              label: `${r.acronym} · ${r.units} units`,
+              value: r.medianUnitCost,
+              color: r.medianUnitCost > up.corpusMedian * 1.4 ? "var(--budget-2)" : "var(--chart-1)",
+              href: `/repository/${r.slug}`,
+              sub: r.note,
+            }))}
+            format={(n) => php(n)}
+          />
+          {flagged.length > 0 ? (
+            <InsightBox className="mt-4">
+              <strong>{flagged.map((r) => r.acronym).join(" and ")} sit well above the corpus median.</strong> One is
+              ruggedized field kit (the spec justifies it); the other is a standard office spec — that one is a
+              procurement-planning support candidate, and it is the same agency already flagged for FY2025 execution.
+            </InsightBox>
+          ) : null}
+          <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
+            Derived from real Part IV line items. Variance is a prompt to ask before the bid, not a finding after it —
+            specs and logistics differ.
+          </p>
+        </Panel>
+
+        {/* Cyber posture + advisory */}
+        <Panel title="Government cyber posture" sub="corpus-wide · Annex 1 inventory as data (proposed)">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+            <PostureTile
+              label="Endpoints on supported OS"
+              value={`${Math.round(((endpoints - endpointsEol) / endpoints) * 100)}%`}
+              sub={`${endpoints.toLocaleString("en-PH")} devices`}
+            />
+            <PostureTile label="Servers past support" value={String(serversEol)} sub="vendor EOL, all fleets" />
+            <PostureTile label="Network gear past support" value={String(networkEol)} sub="switches, radios, edge" />
+            <PostureTile label="Advisory exposure" value={String(advUnits)} sub={`${adv.model} units`} danger />
+          </div>
+
+          <div className="rounded-lg border border-destructive/30 bg-danger-bg/40 p-3.5">
+            <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2.5">
+              <p className="text-sm font-semibold leading-snug">
+                {adv.id} (mock) · {adv.title}
+              </p>
+              <span className="inline-flex items-center rounded-full bg-destructive text-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
+                {adv.severity}
+              </span>
+            </div>
+            <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">
+              {adv.kind.charAt(0).toUpperCase() + adv.kind.slice(1)} <span className="font-medium text-foreground">{adv.model}</span> —
+              vendor support ended before the advisory, so there is no patch: affected units must be replaced. Published{" "}
+              {adv.published} (fictitious).
+            </p>
+            <div className="overflow-x-auto rounded-md border bg-card">
+              <table className="min-w-full text-xs border-collapse">
+                <thead>
+                  <tr className="bg-muted/50">
+                    <th className="border-b px-2.5 py-1.5 text-left font-semibold">Agency</th>
+                    <th className="border-b px-2.5 py-1.5 text-right font-semibold">Units</th>
+                    <th className="border-b px-2.5 py-1.5 text-left font-semibold">Replacement in the plan?</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {adv.agencies.map((h) => (
+                    <tr key={h.slug} className="border-b last:border-b-0">
+                      <td className="px-2.5 py-1.5">
+                        <Link href={`/repository/${h.slug}`} className="font-medium hover:underline">
+                          {h.acronym}
+                        </Link>
+                      </td>
+                      <td className="px-2.5 py-1.5 text-right tabular-nums">{h.units}</td>
+                      <td className="px-2.5 py-1.5">
+                        {h.refreshInPlan ? (
+                          <span className="text-success">
+                            ✓ {h.refreshProject}
+                          </span>
+                        ) : (
+                          <span className="text-destructive font-medium">✗ none in plan</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="text-[11px] text-muted-foreground leading-relaxed mt-2.5">
+              When a national CERT advisory lands, the corpus answers in one query — who runs the model, how many
+              units, and whether replacement money already exists. That inventory is Annex 1 of the ISSP, carried as
+              structured data in a revised form.
+            </p>
+          </div>
+        </Panel>
+      </div>
+    </section>
+  );
+}
+
+function PostureTile({ label, value, sub, danger }: { label: string; value: string; sub: string; danger?: boolean }) {
+  return (
+    <div className={cn("rounded-lg border px-3 py-2.5", danger ? "border-destructive/30 bg-danger-bg/40" : "border-foreground/10 bg-card")}>
+      <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground leading-snug">{label}</p>
+      <p className={cn("text-base font-bold tabular-nums leading-tight mt-0.5", danger && "text-destructive")}>{value}</p>
+      <p className="text-[11px] text-muted-foreground">{sub}</p>
     </div>
   );
 }

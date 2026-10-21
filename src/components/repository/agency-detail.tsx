@@ -17,6 +17,8 @@ import {
   Gauge,
   Layers3,
   MonitorSmartphone,
+  Server,
+  ShieldAlert,
   Users,
 } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
@@ -24,7 +26,7 @@ import { DemoNotice } from "@/components/repository/demo-notice";
 import { BarList } from "@/components/dataviz/charts";
 import { PlanStatusPill } from "@/components/ui/plan-status-pill";
 import { useCorpus, TYPE_LABELS, assetUrl } from "@/lib/repository/corpus";
-import type { CorpusProfile } from "@/lib/repository/corpus-types";
+import type { CorpusAdvisory, CorpusAdvisoryHit, CorpusAiKind, CorpusFleet, CorpusProfile } from "@/lib/repository/corpus-types";
 import { CLASSIFICATION_LABELS, DEV_STRATEGY_LABELS, DATA_STORAGE_LABELS, labelFor } from "@/lib/issp-labels";
 import { cn, phpCompact } from "@/lib/utils";
 
@@ -80,6 +82,16 @@ export function AgencyDetail() {
                 (corpus?.compass.agencies.find((ca) => ca.slug === agency.slug)?.traces ?? []).map((t) => t.projectId)
               )
             }
+            fleet={corpus?.security.fleetBySlug[agency.slug]}
+            advisory={corpus?.security.advisory}
+            advisoryHit={corpus?.security.advisory.agencies.find((h) => h.slug === agency.slug)}
+            aiByProjectId={
+              new Map(
+                (corpus?.aiLayer.projects ?? [])
+                  .filter((p) => p.slug === agency.slug)
+                  .map((p) => [p.projectId, p.kind] as [string, CorpusAiKind])
+              )
+            }
           />
         )}
       </div>
@@ -87,7 +99,21 @@ export function AgencyDetail() {
   );
 }
 
-function AgencyDetailBody({ agency: a, tracedProjectIds }: { agency: CorpusProfile; tracedProjectIds: Set<string> }) {
+function AgencyDetailBody({
+  agency: a,
+  tracedProjectIds,
+  fleet,
+  advisory,
+  advisoryHit,
+  aiByProjectId,
+}: {
+  agency: CorpusProfile;
+  tracedProjectIds: Set<string>;
+  fleet?: CorpusFleet;
+  advisory?: CorpusAdvisory;
+  advisoryHit?: CorpusAdvisoryHit;
+  aiByProjectId?: Map<string, CorpusAiKind>;
+}) {
   return (
     <>
       <DemoNotice />
@@ -235,13 +261,105 @@ function AgencyDetailBody({ agency: a, tracedProjectIds }: { agency: CorpusProfi
         </div>
       </Section>
 
+      {/* ── ICT asset posture (Annex 1, proposed) ── */}
+      {fleet ? (
+        <Section eyebrow="Part II — Current ICT assessment" title="ICT asset posture (Annex 1 · proposed field)">
+          <div className="grid lg:grid-cols-5 gap-4">
+            <div className="lg:col-span-2 grid grid-cols-2 gap-3 self-start">
+              <FleetStat
+                icon={MonitorSmartphone}
+                label="Endpoints"
+                value={fleet.endpoints.toLocaleString("en-PH")}
+                sub={`${Math.round((fleet.endpointsEol / fleet.endpoints) * 100)}% past support`}
+                danger={fleet.endpointsEol / fleet.endpoints > 0.3}
+              />
+              <FleetStat
+                icon={Server}
+                label="Servers"
+                value={String(fleet.servers)}
+                sub={`${fleet.serversEol} past vendor support`}
+                danger={fleet.serversEol > 0}
+              />
+              <FleetStat
+                label="Network devices"
+                value={String(fleet.networkDevices)}
+                sub={`${fleet.networkEol} past vendor support`}
+                danger={fleet.networkEol / fleet.networkDevices > 0.3}
+              />
+              <FleetStat label="Average fleet age" value={`${fleet.avgAgeYears.toFixed(1)} yrs`} sub="all ICT asset classes" />
+            </div>
+            <div className="lg:col-span-3 space-y-3">
+              <div className="overflow-x-auto rounded-lg border bg-card">
+                <table className="min-w-full text-sm border-collapse">
+                  <thead>
+                    <tr className="bg-muted/50">
+                      <th className="border-b px-3 py-2 text-left font-semibold">Model (fictitious)</th>
+                      <th className="border-b px-3 py-2 text-left font-semibold">Class</th>
+                      <th className="border-b px-3 py-2 text-right font-semibold">Units</th>
+                      <th className="border-b px-3 py-2 text-left font-semibold">Support status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...fleet.models]
+                      .sort((x, y) => y.count - x.count)
+                      .map((m) => (
+                        <tr key={m.name} className="border-b last:border-b-0 hover:bg-accent/20">
+                          <td className="px-3 py-2 font-medium">{m.name}</td>
+                          <td className="px-3 py-2 text-muted-foreground">{modelKindLabel(m.kind)}</td>
+                          <td className="px-3 py-2 text-right tabular-nums">{m.count.toLocaleString("en-PH")}</td>
+                          <td className="px-3 py-2">
+                            {m.eol ? (
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-danger-bg text-destructive border border-danger-border px-2 py-0.5 text-[10px] font-semibold">
+                                unsupported since {m.supportUntil}
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-success-bg text-success border border-success-border px-2 py-0.5 text-[10px] font-semibold">
+                                supported
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+              {advisoryHit && advisory ? (
+                <div className="rounded-lg border border-destructive/30 bg-danger-bg/40 p-3.5 flex gap-3">
+                  <ShieldAlert className="w-4 h-4 text-destructive shrink-0 mt-0.5" />
+                  <div className="text-xs leading-relaxed">
+                    <p className="font-semibold text-foreground">
+                      Affected by advisory{" "}
+                      <Link href="/budget#readiness" className="text-primary hover:underline">
+                        {advisory.id} (mock)
+                      </Link>
+                      : {advisoryHit.units} × {advisory.model} {advisory.kind}s, past vendor support.
+                    </p>
+                    <p className="text-muted-foreground mt-1">
+                      {advisoryHit.refreshInPlan
+                        ? `Replacement carries Part IV budget — see ${advisoryHit.refreshProject} in the projects below.`
+                        : "No replacement is budgeted in this plan — flagged for the next amendment cycle."}
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                Fictitious inventory in the shape of Annex 1 (Existing ICT Resource Inventory) — the asset data a
+                revised ISSP would carry as structured fields, feeding the posture views on the Budget Dashboard.
+              </p>
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
       {/* ── Part III ── */}
       <Section
         eyebrow="Part III — Proposed ICT strategy"
         title={`Projects (${a.projects.length})`}
       >
         <div className="space-y-4">
-          {a.projects.map((p) => (
+          {a.projects.map((p) => {
+          const aiKind = aiByProjectId?.get(p.id);
+          return (
             <div key={p.id} className="rounded-xl ring-1 ring-foreground/10 bg-card overflow-hidden">
               <div className="bg-muted/30 px-4 py-3 flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
@@ -250,6 +368,15 @@ function AgencyDetailBody({ agency: a, tracedProjectIds }: { agency: CorpusProfi
                     <span className="inline-flex items-center rounded-md border bg-secondary px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
                       {p.category === "crossAgency" ? "Cross-agency" : "Internal"}
                     </span>
+                    {aiKind ? (
+                      <span
+                        className="inline-flex items-center gap-1 rounded-md border bg-secondary px-1.5 py-0.5 text-[10px] font-semibold text-foreground"
+                        style={{ borderColor: "color-mix(in srgb, var(--budget-2) 45%, transparent)" }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-sm" style={{ background: "var(--budget-2)" }} aria-hidden />
+                        {aiKind === "own-build" ? "AI · own cluster" : aiKind === "adoption" ? "AI · shared platform" : "AI · teaching & research"}
+                      </span>
+                    ) : null}
                     {p.papCode ? (
                       <span className="inline-flex items-center rounded-md border border-primary/25 bg-primary/5 px-1.5 py-0.5 text-[10px] font-mono text-primary">
                         PAP {p.papCode}
@@ -336,13 +463,14 @@ function AgencyDetailBody({ agency: a, tracedProjectIds }: { agency: CorpusProfi
                 )}
               </div>
             </div>
-          ))}
+          );
+        })}
         </div>
       </Section>
 
       {/* ── Part IV ── */}
       <Section eyebrow="Part IV — Resource requirements" title="Summary of investments">
-        <div className="grid lg:grid-cols-5 gap-4">
+        <div className="grid lg:grid-cols-5 lg:items-start gap-4">
           <div className="lg:col-span-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">B.1 General summary</p>
             <div className="overflow-x-auto rounded-lg border bg-card">
@@ -461,6 +589,40 @@ function AgencyDetailBody({ agency: a, tracedProjectIds }: { agency: CorpusProfi
 }
 
 // ─── Small pieces ─────────────────────────────────────────────────────────────
+
+function modelKindLabel(kind: string): string {
+  return { endpoint: "Endpoint", server: "Server", network: "Network", security: "Security appliance" }[kind] ?? kind;
+}
+
+function FleetStat({
+  icon: Icon,
+  label,
+  value,
+  sub,
+  danger,
+}: {
+  icon?: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string;
+  sub: string;
+  danger?: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "rounded-lg ring-1 ring-foreground/10 bg-card px-4 py-3",
+        danger && "ring-destructive/30 bg-danger-bg/40"
+      )}
+    >
+      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
+        {Icon ? <Icon className="w-3 h-3" /> : null}
+        {label}
+      </div>
+      <p className={cn("text-lg font-bold tabular-nums leading-tight", danger && "text-destructive")}>{value}</p>
+      <p className="text-[11px] text-muted-foreground mt-0.5">{sub}</p>
+    </div>
+  );
+}
 
 function labelFor2(accessType: string): string {
   if (accessType === "ONLINE") return "Online";

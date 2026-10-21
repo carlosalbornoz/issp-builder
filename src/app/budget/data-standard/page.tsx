@@ -14,6 +14,7 @@ import { DemoNotice } from "@/components/repository/demo-notice";
 const STAKEHOLDER_QUESTIONS = [
   { who: "DBM · budget examiners", q: "Is this ask in the plan, and can the agency spend it?", detail: "Plan vs NEP per project · past obligation rate · future MOOE each project creates." },
   { who: "DICT · ISSP evaluators", q: "Does it follow national ICT policy?", detail: "E-Government Master Plan tags · cloud-first · cybersecurity controls · duplicate builds." },
+  { who: "DICT · national CERT", q: "Who runs the affected model when an advisory lands?", detail: "Annex 1 asset inventory × advisories × replacement budgets — answered in one query." },
   { who: "COA · Ombudsman", q: "Did the contract buy what the plan listed?", detail: "Line item ↔ PhilGEPS award ↔ obligation, by one project key." },
   { who: "Congress budget offices", q: "Which changes fund a planned project?", detail: "Each GAA change matched to an ISSP project — or to none." },
   { who: "Agency head · CIO", q: "Are we on track against our own plan?", detail: "KPI actuals vs targets · execution per project · next-year commitments." },
@@ -40,6 +41,11 @@ const FIELD_MAP = [
     { field: "PhilGEPS reference per procured item", part: "IV (execution)", joins: "PhilGEPS", answers: "Contract ↔ line item", add: true, caveat: "execution state goes stale inside a 3-year plan; joining via the PAP code may be enough" },
     { field: "KPI actuals per year", part: "III-F", joins: "DIME", answers: "Results delivered", add: true },
     { field: "PSGC code per implementing office", part: "I · IV office", joins: "COMPASS regional view", answers: "Where the money lands", add: true },
+  ] },
+  { group: "Deeper fields — for the revised ISSP (v15 candidates)", rows: [
+    { field: "ICT asset inventory (Annex 1): make, model, class, count, OS, support status", part: "Annex 1", joins: "National CERT advisories · DICT asset views", answers: "Who runs an affected model, and is replacement budgeted", add: true, caveat: "shown as mock data on the posture views — the government cyber-posture picture" },
+    { field: "AI / compute tag per project: own-build, shared platform, adoption, or teaching", part: "III-E", joins: "National compute planning", answers: "Which AI asks duplicate shared compute", add: true, caveat: "one checkbox per project — powers the spend-wave review" },
+    { field: "Procurement stage per project-year (execution-side)", part: "IV (execution)", joins: "PhilGEPS", answers: "Has funded work started procurement", add: true, caveat: "agency-portal updates, not plan content — the plan holds the key, the portal the status" },
   ] },
 ] as const;
 
@@ -191,6 +197,47 @@ export default function DataStandardPage() {
             </ol>
           </section>
         </div>
+
+        {/* ── Where this goes: the agency-side loop ── */}
+        <section>
+          <div className="mb-3">
+            <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-1">Where this goes</p>
+            <h2 className="font-display text-lg font-bold tracking-tight">One trail, three doors — and the ISSP stays the source of truth</h2>
+            <p className="text-xs text-muted-foreground mt-1 max-w-3xl leading-relaxed">
+              Execution facts (procurement status, KPI actuals, physical progress) go stale inside a static plan. An
+              agency-side portal adds them against the same project keys — one update, every view below refreshes.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-3">
+            {[
+              {
+                n: "1",
+                who: "Agency portal (planned)",
+                what: "Agencies update execution per project: procurement stage, % complete, KPI actuals — a five-minute quarterly chore.",
+              },
+              {
+                n: "2",
+                who: "Oversight dashboards",
+                what: "DBM, DICT, COA and Congress read the same trail this demonstration shows — plan, money, procurement, results.",
+              },
+              {
+                n: "3",
+                who: "Public reports",
+                what: "Citizens get the plain-language brief; endorsed plans publish as open data beside COMPASS.",
+              },
+            ].map((s) => (
+              <div key={s.n} className="rounded-lg ring-1 ring-foreground/10 bg-card p-4 flex gap-3">
+                <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center shrink-0">
+                  {s.n}
+                </span>
+                <div>
+                  <p className="text-sm font-semibold leading-snug">{s.who}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mt-1">{s.what}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* ── The ask ── */}
         <section className="rounded-xl bg-[var(--sidebar)] text-white p-6 flex flex-wrap gap-6 items-center">

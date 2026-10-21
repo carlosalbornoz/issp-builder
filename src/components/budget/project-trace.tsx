@@ -17,6 +17,13 @@ import { cn, php, phpCompact } from "@/lib/utils";
 
 const FUNNEL = { plan: "#7FA3EE", budget: "#3F74E3", release: "#0B4FD9", spend: "#062365" };
 
+const STAGE_PILL_CLS: Record<string, string> = {
+  awarded: "border-success-border bg-success-bg text-success",
+  bidding: "border-info-border bg-info-bg text-info",
+  "pre-bid": "border-warning-border bg-warning-bg text-warning",
+  none: "",
+};
+
 export function ProjectTrace() {
   const params = useParams<{ slug: string; projectId: string }>();
   const { corpus, error } = useCorpus();
@@ -25,6 +32,7 @@ export function ProjectTrace() {
   const project = agency?.projects.find((p) => p.id === params.projectId);
   const compassAgency = corpus?.compass.agencies.find((ca) => ca.slug === params.slug);
   const trace = compassAgency?.traces.find((t) => t.projectId === params.projectId);
+  const procurement = corpus?.procurement.rows.find((r) => r.slug === params.slug && r.projectId === params.projectId);
 
   return (
     <PublicShell active="budget">
@@ -65,6 +73,13 @@ export function ProjectTrace() {
                     {project.papCode ? (
                       <Pill className="border-primary/25 bg-primary/5 text-primary" mono>PAP {project.papCode} (mock)</Pill>
                     ) : null}
+                    {procurement ? (
+                      <Pill className={STAGE_PILL_CLS[procurement.stage]}>
+                        {`Procurement — ${procurement.note.split("·")[0].trim()}`}
+                      </Pill>
+                    ) : (
+                      <Pill>Procurement: follows the FY{trace?.fiscalYear ?? agency.cycle.startYear} GAA</Pill>
+                    )}
                   </div>
                 </div>
               </div>
