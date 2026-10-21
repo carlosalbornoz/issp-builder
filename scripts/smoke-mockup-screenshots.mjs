@@ -182,6 +182,27 @@ async function expectText(p, text, label) {
   await p.close();
 }
 
+// 4c — Data mode: current form (proposed layers ghost out behind locks)
+{
+  const p = await newPage();
+  const errors = [];
+  p.on("pageerror", (e) => errors.push(String(e)));
+  await p.goto(`${BASE}/budget?mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Current form (v14)", "mode chips present");
+  await expectText(p, "Requires: an AI / compute tag per project", "AI panel lock");
+  await expectText(p, "Requires: the Annex 1 asset inventory", "posture lock");
+  await expectText(p, "Requires: UACS join keys", "lifecycle lock");
+  await expectText(p, "Computed from today's form", "unit-price live badge");
+  await expectText(p, "KPIs fully specified", "hero tile swap");
+  await expectText(p, "Unit-price sanity", "unit-price still rendered");
+  await expectNoOverflow(p, "budget current mode");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-current-form.png"), fullPage: true });
+  ok("shot budget-current-form.png");
+  errors.forEach((e) => fail(`current-mode pageerror: ${e}`));
+  await p.close();
+}
+
 // 5b — Project trace
 {
   const p = await newPage();
@@ -210,6 +231,8 @@ async function expectText(p, text, label) {
   await expectText(p, "What structured ISSP data should know", "data standard title");
   await expectText(p, "UACS PAP code per project", "data standard join key");
   await expectText(p, "AI / compute tag per project", "data standard v15 field");
+  await expectText(p, "Capability matrix", "data standard matrix");
+  await expectText(p, "Unlocked by one form refinement each", "data standard matrix tier");
   await expectText(p, "Where this goes", "data standard agency loop");
   await expectText(p, "The row COMPASS can join", "data standard sample");
   await expectNoOverflow(p, "data standard");

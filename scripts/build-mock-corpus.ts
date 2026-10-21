@@ -2802,7 +2802,7 @@ function buildProcurement(profiles: CorpusProfile[]): CorpusProcurement {
 
 const UNIT_PRICE_NOTES: Record<string, string> = {
   "bccm-2026-2028": "Includes IP65 ruggedized units for regional inspection teams — the spec justifies the premium.",
-  "vmsc-2028-2030": "1.5× the corpus median for a standard office spec — a procurement-planning support candidate (also flagged for FY2025 execution).",
+  "vmsc-2028-2030": "1.6× the corpus median for a standard office spec — a procurement-planning support candidate (also flagged for FY2025 execution).",
 };
 
 function buildUnitPrices(profiles: CorpusProfile[]): CorpusUnitPrices {

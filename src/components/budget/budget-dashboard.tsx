@@ -22,6 +22,7 @@ import {
   Download,
   Landmark,
   Layers3,
+  Lock,
   PieChart,
   ReceiptText,
   Route,
@@ -53,6 +54,13 @@ const EMPTY_AGENCIES: CorpusProfile[] = [];
 
 type AgencyLine = CorpusLineItem & { acronym: string; slug: string };
 type FyFilter = "all" | 2026 | 2027 | 2028 | 2029 | 2030;
+/**
+ * What the dashboard runs on: everything computable from the current ISSP form
+ * (v14), or the same page with the proposed-field layers switched in. Flipping
+ * to "current" ghosts every panel that depends on a v15 candidate field or an
+ * external feed — the live demo of "extracted today vs. unlocked by refinement".
+ */
+type DataMode = "current" | "proposed";
 
 export function BudgetDashboard() {
   const params = useSearchParams();
@@ -63,13 +71,22 @@ export function BudgetDashboard() {
   const [fund, setFund] = useState("all");
   const [fy, setFy] = useState<FyFilter>("all");
 
-  // Deep links, straight from the URL: ?agency=slug filters to one agency; ?program=key spotlights it.
+  // Deep links, straight from the URL: ?agency=slug filters to one agency; ?program=key spotlights it;
+  // ?mode=current runs the page on current-form data only (proposed-field layers ghost out).
   const agencySlug = params.get("agency");
   const highlightProgram = params.get("program");
+  const dataMode: DataMode = params.get("mode") === "current" ? "current" : "proposed";
 
   const clearAgency = () => {
     const next = new URLSearchParams(params.toString());
     next.delete("agency");
+    router.replace(next.toString() ? `/budget?${next.toString()}` : "/budget");
+  };
+
+  const setMode = (mode: DataMode) => {
+    const next = new URLSearchParams(params.toString());
+    if (mode === "current") next.set("mode", "current");
+    else next.delete("mode");
     router.replace(next.toString() ? `/budget?${next.toString()}` : "/budget");
   };
 
@@ -190,6 +207,16 @@ export function BudgetDashboard() {
     return { withPap, total };
   }, [selected]);
 
+  // Current-form traceability stand-in: KPI completeness (baseline + three targets).
+  const kpiStats = useMemo(
+    () =>
+      selected.reduce(
+        (acc, a) => ({ complete: acc.complete + a.counts.completeKpis, total: acc.total + a.counts.kpis }),
+        { complete: 0, total: 0 }
+      ),
+    [selected]
+  );
+
   const priorFyTotal = fy === "all" ? 0 : corpusYearTotal(fy - 1);
   const yoyDelta = fy !== "all" && priorFyTotal > 0 ? ((totals.total - priorFyTotal) / priorFyTotal) * 100 : null;
 
@@ -228,7 +255,7 @@ export function BudgetDashboard() {
             execution layer below demonstrates the follow-the-peso loop a live COMPASS link would close.
           </p>
 
-          <div className="flex flex-wrap items-center gap-3 mb-6">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Fiscal year</span>
             <div className="flex flex-wrap gap-1.5">
               {(["all", 2026, 2027, 2028, 2029, 2030] as FyFilter[]).map((option) => (
@@ -245,6 +272,37 @@ export function BudgetDashboard() {
                 </button>
               ))}
             </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-2">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Data mode</span>
+            <div className="flex flex-wrap gap-1.5">
+              {(
+                [
+                  ["current", "Current form (v14)"],
+                  ["proposed", "Revised form (proposed)"],
+                ] as [DataMode, string][]
+              ).map(([value, label]) => (
+                <button
+                  key={value}
+                  onClick={() => setMode(value)}
+                  aria-pressed={dataMode === value}
+                  className={cn(
+                    "min-h-8 px-3 rounded-full border text-xs font-medium transition-colors inline-flex items-center gap-1.5",
+                    dataMode === value
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30"
+                  )}
+                >
+                  {value === "current" ? <Lock className="w-3 h-3" /> : null}
+                  {label}
+                </button>
+              ))}
+            </div>
+            <p className="text-[11px] text-muted-foreground leading-snug">
+              Flip to <strong>Current form</strong> to see what today&apos;s ISSP already yields — every dimmed panel
+              below is one proposed field (or one link) away.
+            </p>
           </div>
 
           {error || !corpus ? null : (
@@ -268,12 +326,21 @@ export function BudgetDashboard() {
                 sub={totals.categories[0] ? phpCompact(totals.categories[0].total) : ""}
                 icon={ReceiptText}
               />
-              <Kpi
-                label="Projects with PAP code"
-                value={papStats.total ? `${papStats.withPap} of ${papStats.total}` : "—"}
-                sub={`${papStats.total ? Math.round((papStats.withPap / papStats.total) * 100) : 0}% traceable to the NEP / GAA (mock codes)`}
-                icon={Landmark}
-              />
+              {dataMode === "proposed" ? (
+                <Kpi
+                  label="Projects with PAP code"
+                  value={papStats.total ? `${papStats.withPap} of ${papStats.total}` : "—"}
+                  sub={`${papStats.total ? Math.round((papStats.withPap / papStats.total) * 100) : 0}% traceable to the NEP / GAA (mock codes)`}
+                  icon={Landmark}
+                />
+              ) : (
+                <Kpi
+                  label="KPIs fully specified"
+                  value={kpiStats.total ? `${kpiStats.complete} of ${kpiStats.total}` : "—"}
+                  sub="baseline + all three targets — from today's form"
+                  icon={Landmark}
+                />
+              )}
             </div>
           )}
         </div>
@@ -282,7 +349,7 @@ export function BudgetDashboard() {
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
         <DemoNotice />
 
-        {corpus ? <WhyNowSection corpus={corpus} /> : null}
+        {corpus ? <WhyNowSection corpus={corpus} mode={dataMode} /> : null}
 
         {error ? (
           <div className="rounded-lg border border-destructive/30 bg-danger-bg text-destructive px-4 py-3 text-sm">
@@ -387,7 +454,7 @@ export function BudgetDashboard() {
             </div>
 
             {/* ── Lifecycle: follow the peso ── */}
-            <LifecycleSection gaa={gaaCompass} profiles={selected} procurement={corpus.procurement} />
+            <LifecycleSection gaa={gaaCompass} profiles={selected} procurement={corpus.procurement} mode={dataMode} />
 
             {/* ── Agencies ranked ── */}
             <Panel title={fyForRanking ? `Agencies by FY${fyForRanking} ask` : "Agencies by proposed investment"} sub="click through to the full ISSP record" icon={Building2}>
@@ -397,7 +464,7 @@ export function BudgetDashboard() {
                   label: `${a.acronym} — ${a.name}`,
                   value: a.value,
                   href: `/repository/${a.slug}`,
-                  ...(a.ratio && a.ratio > 2
+                  ...(a.ratio && a.ratio > 2 && dataMode === "proposed"
                     ? {
                         sub: `${fyForRanking ? `FY${fyForRanking} ask` : "Average yearly ask"} is ${a.ratio.toFixed(
                           1
@@ -417,7 +484,7 @@ export function BudgetDashboard() {
             <ConvergenceSection profiles={selected} highlightProgram={highlightProgram} />
 
             {/* ── Readiness & posture ── */}
-            <ReadinessSection corpus={corpus} />
+            <ReadinessSection corpus={corpus} mode={dataMode} />
 
             {/* ── Drill-down ── */}
             <Panel title="Agency drill-down" sub="expand a row for its split; click the acronym for the full record">
@@ -507,10 +574,12 @@ function LifecycleSection({
   gaa,
   profiles,
   procurement,
+  mode,
 }: {
   gaa: CompassAgency[];
   profiles: CorpusProfile[];
   procurement: RepositoryCorpus["procurement"];
+  mode: DataMode;
 }) {
   const sum = (year: number, field: "plan" | "nep" | "gaa" | "allotment" | "obligated" | "disbursed") =>
     gaa.reduce((s, ca) => s + (ca.years.find((y) => y.year === year)?.[field] ?? 0), 0);
@@ -592,6 +661,9 @@ function LifecycleSection({
         ))}
       </div>
 
+      {/* Per-FY funnels + absorptive capacity + procurement: every peso past the plan comes from
+          the mock COMPASS layer, so the whole execution half locks in current-form mode. */}
+      <ProposedOnly mode={mode} requires="UACS join keys + a COMPASS execution feed (proposed)">
       {/* Per-FY funnels */}
       <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2 mb-4">
@@ -677,6 +749,7 @@ function LifecycleSection({
       </div>
 
       <ProcurementPulse rows={procurement.rows.filter((r) => new Set(profiles.map((p) => p.slug)).has(r.slug))} />
+      </ProposedOnly>
     </section>
   );
 }
@@ -939,7 +1012,7 @@ const STAGE_META: Record<CorpusProcurementStage, { label: string; cls: string }>
   none: { label: "Not started", cls: "bg-muted text-muted-foreground border border-foreground/15" },
 };
 
-function WhyNowSection({ corpus }: { corpus: RepositoryCorpus }) {
+function WhyNowSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: DataMode }) {
   const fy27 = corpus.totals.byYear.find((y) => y.year === 2027);
   const ai = corpus.aiLayer;
   const ownBuilds = ai.projects.filter((p) => p.kind === "own-build");
@@ -983,8 +1056,12 @@ function WhyNowSection({ corpus }: { corpus: RepositoryCorpus }) {
           />
           <WhyTile
             label="AI & compute asks"
-            value={phpCompact(aiTotal)}
-            sub={`${ownBuilds.length} agencies budget own GPU clusters (${phpCompact(ai.ownBuildTotal)}) — review question below`}
+            value={mode === "current" ? "—" : phpCompact(aiTotal)}
+            sub={
+              mode === "current"
+                ? "requires an AI/compute tag per project — a proposed field"
+                : `${ownBuilds.length} agencies budget own GPU clusters (${phpCompact(ai.ownBuildTotal)}) — review question below`
+            }
           />
           <WhyTile
             label="Continuing-cost share"
@@ -994,7 +1071,8 @@ function WhyNowSection({ corpus }: { corpus: RepositoryCorpus }) {
         </div>
       </div>
 
-      <Panel title="AI & compute in the plans" sub="corpus-wide · tagged projects; the tag itself is a proposed ISSP field" icon={Cpu}>
+      <ProposedOnly mode={mode} requires="an AI / compute tag per project (proposed field)">
+        <Panel title="AI & compute in the plans" sub="corpus-wide · tagged projects; the tag itself is a proposed ISSP field" icon={Cpu}>
         <div className="grid lg:grid-cols-2 gap-6">
           <BarList
             items={[...ai.projects]
@@ -1038,7 +1116,8 @@ function WhyNowSection({ corpus }: { corpus: RepositoryCorpus }) {
             </p>
           </div>
         </div>
-      </Panel>
+        </Panel>
+      </ProposedOnly>
     </section>
   );
 }
@@ -1049,6 +1128,30 @@ function WhyTile({ label, value, sub }: { label: string; value: string; sub: str
       <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE]">{label}</p>
       <p className="text-lg font-bold tabular-nums leading-tight mt-1">{value}</p>
       <p className="text-[11px] text-[#E6ECF7]/85 leading-snug mt-1">{sub}</p>
+    </div>
+  );
+}
+
+/**
+ * Current-form mode's signature move: the panel stays visible but dimmed behind a
+ * lock naming the one field (or link) it waits on — "extracted today" vs "unlocked
+ * by refinement", demonstrated live instead of asserted.
+ */
+function ProposedOnly({ mode, requires, children }: { mode: DataMode; requires: string; children: React.ReactNode }) {
+  if (mode === "proposed") return <>{children}</>;
+  return (
+    <div className="relative rounded-xl">
+      <div aria-hidden className="opacity-30 grayscale-[50%] select-none pointer-events-none">{children}</div>
+      <div className="absolute inset-x-0 top-5 flex justify-center px-4">
+        <div className="rounded-lg border border-dashed border-foreground/30 bg-card px-4 py-3 text-center max-w-sm shadow-md">
+          <p className="flex items-center justify-center gap-1.5 text-xs font-semibold">
+            <Lock className="w-3.5 h-3.5 shrink-0" /> Requires: {requires}
+          </p>
+          <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
+            Unlocked by the revised ISSP form. Shown with mock data in Revised-form mode.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1131,7 +1234,7 @@ const pluralProjects = (n: number) => `${n} ${n === 1 ? "project" : "projects"}`
 
 // ─── Readiness & posture ──────────────────────────────────────────────────────
 
-function ReadinessSection({ corpus }: { corpus: RepositoryCorpus }) {
+function ReadinessSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: DataMode }) {
   const fleets = Object.values(corpus.security.fleetBySlug);
   const sumOf = (get: (f: (typeof fleets)[number]) => number) => fleets.reduce((s, f) => s + get(f), 0);
   const endpoints = sumOf((f) => f.endpoints);
@@ -1157,6 +1260,11 @@ function ReadinessSection({ corpus }: { corpus: RepositoryCorpus }) {
       <div className="grid lg:grid-cols-2 gap-4 items-start">
         {/* Unit-price sanity */}
         <Panel title="Unit-price sanity — laptop-class purchases" sub="corpus-wide · median unit cost vs the corpus median">
+          {mode === "current" ? (
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-success-bg text-success border border-success-border px-2.5 py-0.5 text-[10px] font-semibold mb-3">
+              ✓ Computed from today&apos;s form — no new fields needed
+            </p>
+          ) : null}
           <p className="text-xs text-muted-foreground mb-3">
             Corpus median: <strong className="text-foreground tabular-nums">{php(up.corpusMedian)}</strong> per unit,
             across {up.rows.reduce((s, r) => s + r.units, 0).toLocaleString("en-PH")} laptop-class units.
@@ -1186,6 +1294,7 @@ function ReadinessSection({ corpus }: { corpus: RepositoryCorpus }) {
         </Panel>
 
         {/* Cyber posture + advisory */}
+        <ProposedOnly mode={mode} requires="the Annex 1 asset inventory as structured fields (proposed)">
         <Panel title="Government cyber posture" sub="corpus-wide · Annex 1 inventory as data (proposed)">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
             <PostureTile
@@ -1251,6 +1360,7 @@ function ReadinessSection({ corpus }: { corpus: RepositoryCorpus }) {
             </p>
           </div>
         </Panel>
+        </ProposedOnly>
       </div>
     </section>
   );

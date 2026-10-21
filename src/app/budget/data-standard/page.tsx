@@ -7,6 +7,7 @@
  */
 
 import Link from "next/link";
+import { Fragment } from "react";
 import { ArrowLeft, CircleCheck, Plus } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { DemoNotice } from "@/components/repository/demo-notice";
@@ -72,6 +73,34 @@ const PUBLISHING_RULES = [
   ["Security first.", "Network diagrams and cybersecurity details (Part II-B, III-A) stay out of the public release."],
   ["Privacy.", "Only official names and positions. No other personal data (RA 10173)."],
   ["Status is explicit.", "Draft, submitted and endorsed plans are labelled. Dashboards count endorsed plans by default."],
+] as const;
+
+const CAPABILITY_MATRIX = [
+  {
+    tier: "Extracted from the current form — today",
+    rows: [
+      { view: "B.1–B.4 summaries, by-year / category / fund charts, rankings, drill-down, CSV export", needs: "Part IV line items (item, office, qty, unit cost, category, fund source)" },
+      { view: "Duplication watch, cross-agency programs, alignment share", needs: "Part II-C systems · Part III-D/III-E links and tags" },
+      { view: "Unit-price sanity across agencies", needs: "item + qty + unitCost — no new fields" },
+      { view: "Plan-quality checks (KPI completeness, category coverage)", needs: "Parts III-E / III-F / IV" },
+    ],
+  },
+  {
+    tier: "Unlocked by one form refinement each (v15 candidates)",
+    rows: [
+      { view: "AI & compute spend-wave views (own-build vs shared)", needs: "AI / compute tag per project" },
+      { view: "Cyber posture and advisory blast-radius answers", needs: "Annex 1 asset inventory as structured fields" },
+      { view: "Exact agency match, no name guessing", needs: "UACS organization code" },
+    ],
+  },
+  {
+    tier: "Unlocked by the execution loop (agency portal + COMPASS link)",
+    rows: [
+      { view: "Follow-the-peso funnels, absorptive capacity, request vs allotment", needs: "UACS PAP code per project + a COMPASS feed" },
+      { view: "Procurement pulse (has funded work started?)", needs: "Procurement stage per project — agency portal / PhilGEPS" },
+      { view: "Results against targets (actuals vs baselines)", needs: "KPI actuals per year + DIME" },
+    ],
+  },
 ] as const;
 
 export default function DataStandardPage() {
@@ -237,6 +266,56 @@ export default function DataStandardPage() {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* ── Capability matrix: today vs refinements ── */}
+        <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
+          <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+            <div>
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">Capability matrix</p>
+              <h2 className="font-display text-lg font-bold tracking-tight mt-0.5">
+                What the current form yields — and what each refinement unlocks
+              </h2>
+            </div>
+            <Link
+              href="/budget?mode=current"
+              className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors"
+            >
+              See it live on the dashboard →
+            </Link>
+          </div>
+          <div className="overflow-x-auto rounded-lg border">
+            <table className="min-w-full text-xs sm:text-sm border-collapse">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border-b px-3 py-2 text-left font-semibold">View (as demonstrated in this mockup)</th>
+                  <th className="border-b px-3 py-2 text-left font-semibold">What it needs</th>
+                </tr>
+              </thead>
+              <tbody>
+                {CAPABILITY_MATRIX.map((group) => (
+                  <Fragment key={group.tier}>
+                    <tr className="bg-muted/30">
+                      <td colSpan={2} className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                        {group.tier}
+                      </td>
+                    </tr>
+                    {group.rows.map((row) => (
+                      <tr key={row.view} className="border-b last:border-b-0 hover:bg-accent/20 align-top">
+                        <td className="px-3 py-2 font-medium max-w-96">{row.view}</td>
+                        <td className="px-3 py-2 text-muted-foreground">{row.needs}</td>
+                      </tr>
+                    ))}
+                  </Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-[11px] text-muted-foreground mt-2.5 leading-relaxed">
+            The dashboard&apos;s <strong>Data mode</strong> switch demonstrates this live: flip to{" "}
+            <em>Current form (v14)</em> and every panel in the lower tiers dims behind a lock naming the field it
+            waits on — the top tier keeps running untouched.
+          </p>
         </section>
 
         {/* ── The ask ── */}
