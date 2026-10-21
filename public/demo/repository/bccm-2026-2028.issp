@@ -764,48 +764,12 @@
         "capitalOutlay": [
           {
             "id": "y1-co-004",
-            "item": "Desktop computer sets (productivity replacement cycle)",
+            "item": "Ruggedized inspection laptops with thermal probe kit (regional cold-chain teams, IP65)",
             "office": "ICT Unit",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
-            "qty": 17,
-            "unitCost": 47500
-          },
-          {
-            "id": "y1-co-005",
-            "item": "Laptop computers (mobile staff and field officers)",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-machinery-equipment",
-            "fundSource": "General Appropriations Act",
-            "qty": 9,
-            "unitCost": 56000
-          },
-          {
-            "id": "y1-co-006",
-            "item": "Network switches and structured cabling refresh",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-machinery-equipment",
-            "fundSource": "General Appropriations Act",
-            "qty": 1,
-            "unitCost": 378000
-          },
-          {
-            "id": "y1-co-007",
-            "item": "Rack-mounted UPS — equipment room",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-machinery-equipment",
-            "fundSource": "General Appropriations Act",
-            "qty": 2,
-            "unitCost": 83500
-          },
-          {
-            "id": "y1-co-008",
-            "item": "Enterprise antivirus / endpoint protection licenses",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-software",
-            "fundSource": "General Appropriations Act",
-            "qty": 1,
-            "unitCost": 137000
+            "qty": 48,
+            "unitCost": 120000
           }
         ],
         "mooe": [
@@ -843,34 +807,34 @@
           "projectTitle": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
           "capitalOutlay": [
             {
-              "id": "y1-co-027",
+              "id": "y1-co-018",
               "item": "LoRa gateway concentrators — 240 accredited cold rooms",
               "office": "ICT Unit",
               "categoryId": "co-communication-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 240,
-              "unitCost": 18500
+              "unitCost": 20000
             },
             {
-              "id": "y1-co-028",
+              "id": "y1-co-019",
               "item": "Temperature and door sensors (calibrated, 5-year battery)",
               "office": "ICT Unit",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 1200,
-              "unitCost": 28000
+              "unitCost": 30000
             },
             {
-              "id": "y1-co-029",
+              "id": "y1-co-020",
               "item": "Edge servers and NVR — regional monitoring nodes (48)",
               "office": "ICT Unit",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 48,
-              "unitCost": 250000
+              "unitCost": 253500
             },
             {
-              "id": "y1-co-030",
+              "id": "y1-co-021",
               "item": "LoRa gateway concentrators — 240 accredited cold rooms — succeeding tranche",
               "office": "ICT Unit",
               "categoryId": "co-communication-equipment",
@@ -879,7 +843,7 @@
               "unitCost": 16500
             },
             {
-              "id": "y1-co-031",
+              "id": "y1-co-022",
               "item": "Temperature and door sensors — succeeding tranche",
               "office": "ICT Unit",
               "categoryId": "co-ict-machinery-equipment",
@@ -888,42 +852,42 @@
               "unitCost": 22500
             },
             {
-              "id": "y1-co-032",
+              "id": "y1-co-023",
               "item": "Project LAMIG — engineering, installation and commissioning (Year 1)",
               "office": "ICT Unit",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 12125000
+              "unitCost": 9489500
             }
           ],
           "mooe": [
             {
-              "id": "y1-mooe-033",
+              "id": "y1-mooe-024",
               "item": "Project management office — Project LAMIG",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 606000
+              "unitCost": 474500
             },
             {
-              "id": "y1-mooe-034",
+              "id": "y1-mooe-025",
               "item": "Hosting, support and licences — Project LAMIG (Year 1)",
               "office": "ICT Unit",
               "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 404000
+              "unitCost": 316500
             },
             {
-              "id": "y1-mooe-035",
+              "id": "y1-mooe-026",
               "item": "ICT training and change management — Project LAMIG",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 337000
+              "unitCost": 263500
             }
           ]
         },
@@ -931,7 +895,7 @@
           "projectTitle": "Cold Chain Equipment Registry Digitalization",
           "capitalOutlay": [
             {
-              "id": "y1-co-040",
+              "id": "y1-co-031",
               "item": "Registry Digitalization — system development and acquisition (Year 1 milestone)",
               "office": "Registry Section",
               "categoryId": "co-ict-software",
@@ -942,7 +906,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-041",
+              "id": "y1-mooe-032",
               "item": "Project management office — Registry Digitalization",
               "office": "Registry Section",
               "categoryId": "mooe-professional-services",
@@ -951,16 +915,16 @@
               "unitCost": 3240000
             },
             {
-              "id": "y1-mooe-042",
+              "id": "y1-mooe-033",
               "item": "Hosting, support and licences — Registry Digitalization (Year 1)",
               "office": "Registry Section",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 2160000
             },
             {
-              "id": "y1-mooe-043",
+              "id": "y1-mooe-034",
               "item": "ICT training and change management — Registry Digitalization",
               "office": "Registry Section",
               "categoryId": "mooe-ict-training",
@@ -976,7 +940,7 @@
           "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
           "capitalOutlay": [
             {
-              "id": "y1-co-044",
+              "id": "y1-co-035",
               "item": "CTB participation — system development and acquisition (Year 1 milestone)",
               "office": "ICT Unit",
               "categoryId": "co-ict-software",
@@ -987,7 +951,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-045",
+              "id": "y1-mooe-036",
               "item": "Project management office — CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
@@ -996,7 +960,7 @@
               "unitCost": 2419000
             },
             {
-              "id": "y1-mooe-046",
+              "id": "y1-mooe-037",
               "item": "Hosting, support and licences — CTB participation (Year 1)",
               "office": "ICT Unit",
               "categoryId": "mooe-cloud-computing",
@@ -1005,7 +969,7 @@
               "unitCost": 1613000
             },
             {
-              "id": "y1-mooe-047",
+              "id": "y1-mooe-038",
               "item": "ICT training and change management — CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
@@ -1019,7 +983,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-056",
+            "id": "y1-mooe-047",
             "item": "TEMPMON vendor subscription (transition period)",
             "office": "ICT Unit",
             "categoryId": "mooe-other-general-ict-services",
@@ -1028,7 +992,7 @@
             "unitCost": 6500000
           },
           {
-            "id": "y1-mooe-059",
+            "id": "y1-mooe-050",
             "item": "Sensor calibration and field services",
             "office": "ICT Unit",
             "categoryId": "mooe-professional-services",
@@ -1037,7 +1001,7 @@
             "unitCost": 3200000
           },
           {
-            "id": "y1-mooe-062",
+            "id": "y1-mooe-053",
             "item": "Cold room equipment repairs and maintenance",
             "office": "ICT Unit",
             "categoryId": "mooe-rm-ict-equipment",
@@ -1046,7 +1010,7 @@
             "unitCost": 2100000
           },
           {
-            "id": "y1-mooe-065",
+            "id": "y1-mooe-056",
             "item": "Leased datalogger servicing (pre-LAMIG stock)",
             "office": "ICT Unit",
             "categoryId": "mooe-rm-leased-ict",
@@ -1055,7 +1019,7 @@
             "unitCost": 300000
           },
           {
-            "id": "y1-mooe-068",
+            "id": "y1-mooe-059",
             "item": "Label printer servicing and consumables",
             "office": "ICT Unit",
             "categoryId": "mooe-rm-semi-printing",
@@ -1070,7 +1034,16 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-012",
+            "id": "y2-co-008",
+            "item": "Ruggedized inspection laptops — second tranche (regional cold-chain teams)",
+            "office": "ICT Unit",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 12,
+            "unitCost": 125000
+          },
+          {
+            "id": "y2-co-009",
             "item": "Cold-room monitoring display panels (registry wall)",
             "office": "ICT Unit",
             "categoryId": "co-ict-machinery-equipment",
@@ -1079,78 +1052,42 @@
             "unitCost": 333000
           },
           {
-            "id": "y2-co-013",
+            "id": "y2-co-010",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Unit",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 17,
-            "unitCost": 48500
-          },
-          {
-            "id": "y2-co-014",
-            "item": "Laptop computers (mobile staff and field officers)",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-machinery-equipment",
-            "fundSource": "General Appropriations Act",
-            "qty": 9,
-            "unitCost": 62500
-          },
-          {
-            "id": "y2-co-015",
-            "item": "Network switches and structured cabling refresh",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-machinery-equipment",
-            "fundSource": "General Appropriations Act",
-            "qty": 1,
-            "unitCost": 421500
-          },
-          {
-            "id": "y2-co-016",
-            "item": "Rack-mounted UPS — equipment room",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-machinery-equipment",
-            "fundSource": "General Appropriations Act",
-            "qty": 2,
-            "unitCost": 103500
-          },
-          {
-            "id": "y2-co-017",
-            "item": "Enterprise antivirus / endpoint protection licenses",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-software",
-            "fundSource": "General Appropriations Act",
-            "qty": 1,
-            "unitCost": 163500
+            "unitCost": 55000
           }
         ],
         "mooe": [
           {
-            "id": "y2-mooe-009",
+            "id": "y2-mooe-005",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "ICT Unit",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 27000
+            "unitCost": 14500
           },
           {
-            "id": "y2-mooe-010",
+            "id": "y2-mooe-006",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Unit",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 294000
+            "unitCost": 218500
           },
           {
-            "id": "y2-mooe-011",
+            "id": "y2-mooe-007",
             "item": "ICT training — staff capability building",
             "office": "ICT Unit",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 146000
+            "unitCost": 159500
           }
         ]
       },
@@ -1159,7 +1096,7 @@
           "projectTitle": "Project LAMIG — LoRa Ambient Monitoring & Integrity Gateway",
           "capitalOutlay": [
             {
-              "id": "y2-co-036",
+              "id": "y2-co-027",
               "item": "Project LAMIG — engineering, installation and commissioning (Year 2)",
               "office": "ICT Unit",
               "categoryId": "co-infrastructure-communications-network",
@@ -1170,7 +1107,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-037",
+              "id": "y2-mooe-028",
               "item": "Project management office — Project LAMIG",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
@@ -1179,16 +1116,16 @@
               "unitCost": 3024000
             },
             {
-              "id": "y2-mooe-038",
+              "id": "y2-mooe-029",
               "item": "Hosting, support and licences — Project LAMIG (Year 2)",
               "office": "ICT Unit",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 2016000
             },
             {
-              "id": "y2-mooe-039",
+              "id": "y2-mooe-030",
               "item": "ICT training and change management — Project LAMIG",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
@@ -1204,7 +1141,7 @@
           "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
           "capitalOutlay": [
             {
-              "id": "y2-co-048",
+              "id": "y2-co-039",
               "item": "CTB participation — system development and acquisition (Year 2 milestone)",
               "office": "ICT Unit",
               "categoryId": "co-ict-software",
@@ -1215,7 +1152,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-049",
+              "id": "y2-mooe-040",
               "item": "Project management office — CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
@@ -1224,16 +1161,16 @@
               "unitCost": 1958500
             },
             {
-              "id": "y2-mooe-050",
+              "id": "y2-mooe-041",
               "item": "Hosting, support and licences — CTB participation (Year 2)",
               "office": "ICT Unit",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 1305500
             },
             {
-              "id": "y2-mooe-051",
+              "id": "y2-mooe-042",
               "item": "ICT training and change management — CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
@@ -1247,7 +1184,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-057",
+            "id": "y2-mooe-048",
             "item": "TEMPMON vendor subscription (transition period)",
             "office": "ICT Unit",
             "categoryId": "mooe-other-general-ict-services",
@@ -1256,7 +1193,7 @@
             "unitCost": 6760000
           },
           {
-            "id": "y2-mooe-060",
+            "id": "y2-mooe-051",
             "item": "Sensor calibration and field services",
             "office": "ICT Unit",
             "categoryId": "mooe-professional-services",
@@ -1265,7 +1202,7 @@
             "unitCost": 3328000
           },
           {
-            "id": "y2-mooe-063",
+            "id": "y2-mooe-054",
             "item": "Cold room equipment repairs and maintenance",
             "office": "ICT Unit",
             "categoryId": "mooe-rm-ict-equipment",
@@ -1274,7 +1211,7 @@
             "unitCost": 2184000
           },
           {
-            "id": "y2-mooe-066",
+            "id": "y2-mooe-057",
             "item": "Leased datalogger servicing (pre-LAMIG stock)",
             "office": "ICT Unit",
             "categoryId": "mooe-rm-leased-ict",
@@ -1283,7 +1220,7 @@
             "unitCost": 312000
           },
           {
-            "id": "y2-mooe-069",
+            "id": "y2-mooe-060",
             "item": "Label printer servicing and consumables",
             "office": "ICT Unit",
             "categoryId": "mooe-rm-semi-printing",
@@ -1298,54 +1235,36 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-022",
+            "id": "y3-co-015",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Unit",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 17,
-            "unitCost": 46000
+            "unitCost": 56000
           },
           {
-            "id": "y3-co-023",
+            "id": "y3-co-016",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Unit",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 9,
-            "unitCost": 57000
+            "unitCost": 64500
           },
           {
-            "id": "y3-co-024",
+            "id": "y3-co-017",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Unit",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 366000
-          },
-          {
-            "id": "y3-co-025",
-            "item": "Rack-mounted UPS — equipment room",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-machinery-equipment",
-            "fundSource": "General Appropriations Act",
-            "qty": 2,
-            "unitCost": 90500
-          },
-          {
-            "id": "y3-co-026",
-            "item": "Enterprise antivirus / endpoint protection licenses",
-            "office": "ICT Unit",
-            "categoryId": "co-ict-software",
-            "fundSource": "General Appropriations Act",
-            "qty": 1,
-            "unitCost": 142000
+            "unitCost": 413000
           }
         ],
         "mooe": [
           {
-            "id": "y3-mooe-018",
+            "id": "y3-mooe-011",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "ICT Unit",
             "categoryId": "mooe-internet-subscription",
@@ -1354,25 +1273,25 @@
             "unitCost": 28000
           },
           {
-            "id": "y3-mooe-019",
+            "id": "y3-mooe-012",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Unit",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 158000
+            "unitCost": 265000
           },
           {
-            "id": "y3-mooe-020",
+            "id": "y3-mooe-013",
             "item": "ICT training — staff capability building",
             "office": "ICT Unit",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 570500
+            "unitCost": 159500
           },
           {
-            "id": "y3-mooe-021",
+            "id": "y3-mooe-014",
             "item": "Semi-expendable label printers for QR tagging",
             "office": "ICT Unit",
             "categoryId": "mooe-semi-expendable-printing-equipment",
@@ -1388,7 +1307,7 @@
           "projectTitle": "Cold Chain Traceability Backbone (CTB) — BCCM share",
           "capitalOutlay": [
             {
-              "id": "y3-co-052",
+              "id": "y3-co-043",
               "item": "CTB participation — system development and acquisition (Year 3 milestone)",
               "office": "ICT Unit",
               "categoryId": "co-ict-software",
@@ -1399,7 +1318,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-053",
+              "id": "y3-mooe-044",
               "item": "Project management office — CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-professional-services",
@@ -1408,7 +1327,7 @@
               "unitCost": 1382500
             },
             {
-              "id": "y3-mooe-054",
+              "id": "y3-mooe-045",
               "item": "Hosting, support and licences — CTB participation (Year 3)",
               "office": "ICT Unit",
               "categoryId": "mooe-cloud-computing",
@@ -1417,7 +1336,7 @@
               "unitCost": 921500
             },
             {
-              "id": "y3-mooe-055",
+              "id": "y3-mooe-046",
               "item": "ICT training and change management — CTB participation",
               "office": "ICT Unit",
               "categoryId": "mooe-ict-training",
@@ -1431,7 +1350,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-058",
+            "id": "y3-mooe-049",
             "item": "TEMPMON vendor subscription (transition period)",
             "office": "ICT Unit",
             "categoryId": "mooe-other-general-ict-services",
@@ -1440,7 +1359,7 @@
             "unitCost": 7020000
           },
           {
-            "id": "y3-mooe-061",
+            "id": "y3-mooe-052",
             "item": "Sensor calibration and field services",
             "office": "ICT Unit",
             "categoryId": "mooe-professional-services",
@@ -1449,7 +1368,7 @@
             "unitCost": 3456000
           },
           {
-            "id": "y3-mooe-064",
+            "id": "y3-mooe-055",
             "item": "Cold room equipment repairs and maintenance",
             "office": "ICT Unit",
             "categoryId": "mooe-rm-ict-equipment",
@@ -1458,7 +1377,7 @@
             "unitCost": 2268000
           },
           {
-            "id": "y3-mooe-067",
+            "id": "y3-mooe-058",
             "item": "Leased datalogger servicing (pre-LAMIG stock)",
             "office": "ICT Unit",
             "categoryId": "mooe-rm-leased-ict",
@@ -1467,7 +1386,7 @@
             "unitCost": 324000
           },
           {
-            "id": "y3-mooe-070",
+            "id": "y3-mooe-061",
             "item": "Label printer servicing and consumables",
             "office": "ICT Unit",
             "categoryId": "mooe-rm-semi-printing",

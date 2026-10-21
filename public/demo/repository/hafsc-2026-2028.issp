@@ -141,13 +141,13 @@
     "cioPosition": "Director, ICT Office",
     "cioUnit": "ICT Office",
     "cioEmail": "cio@hafsc.gov.ph",
-    "cioContact": "+63 2 8210 5448",
+    "cioContact": "+63 2 8712 8688",
     "focalSameAsCio": false,
     "focalName": "Mr. Noel S. Diffang",
     "focalPosition": "Administrative Officer V",
     "focalUnit": "ICT Office",
     "focalEmail": "focal@hafsc.gov.ph",
-    "focalContact": "+63 2 8294 5916",
+    "focalContact": "+63 2 8975 1120",
     "humanCapital": {
       "plantilla": {
         "it": {
@@ -481,19 +481,19 @@
         "id": "hc-2",
         "position": "Systems Development Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 5
+        "quantity": 3
       },
       {
         "id": "hc-3",
         "position": "Network and Cybersecurity Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 3
+        "quantity": 2
       },
       {
         "id": "hc-4",
         "position": "ICT Project Support Staff",
         "employmentStatus": "CONTRACTUAL",
-        "quantity": 3
+        "quantity": 5
       }
     ],
     "proposedSystems": [
@@ -603,6 +603,27 @@
         "year2Deliverables": "Offline kiosks at 3 partner coops; 1,500 cumulative learners; certification flow live",
         "year3Deliverables": "",
         "duration": "2026–2027"
+      },
+      {
+        "id": "p-ailab",
+        "title": "AI Teaching and Research Laboratory",
+        "description": "Equips a teaching laboratory with accelerator-capable workstations and a departmental training server so the College can offer AI electives across its agri-forestry programs and train faculty — capability-building on shared curriculum workloads, not a production cluster.",
+        "objectives": "1. AI elective track launched in AY 2027-2028\n2. 24-seat laboratory operational with a departmental training server\n3. 12 faculty certified to teach AI modules by 2028",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Scalability and Sustainability",
+          "Resource Optimization"
+        ],
+        "implementingUnit": "ICT Office",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "",
+        "year2Deliverables": "Laboratory operational; AI elective track launched; first 120 students enrolled; 8 faculty certified",
+        "year3Deliverables": "",
+        "duration": "2027"
       }
     ],
     "crossAgencyProjects": [],
@@ -678,6 +699,36 @@
             "responsibleUnit": "Extension and Training Office"
           }
         ]
+      },
+      "p-ailab": {
+        "projectTitle": "AI Teaching and Research Laboratory",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-ailab-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "Students completing at least one AI elective",
+            "indicator": "Students completing at least one AI elective",
+            "baseline": "0",
+            "year1Target": "120",
+            "year2Target": "240",
+            "year3Target": "300",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Office"
+          },
+          {
+            "id": "p-ailab-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Faculty certified to teach AI modules",
+            "indicator": "Faculty certified to teach AI modules",
+            "baseline": "2",
+            "year1Target": "8",
+            "year2Target": "12",
+            "year3Target": "16",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Office"
+          }
+        ]
       }
     }
   },
@@ -686,81 +737,81 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y1-co-075",
+            "id": "y1-co-066",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Office",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 22,
-            "unitCost": 46500
+            "unitCost": 55000
           },
           {
-            "id": "y1-co-076",
+            "id": "y1-co-067",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Office",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 12,
-            "unitCost": 61000
+            "unitCost": 59500
           },
           {
-            "id": "y1-co-077",
+            "id": "y1-co-068",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Office",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 349000
+            "unitCost": 383000
           },
           {
-            "id": "y1-co-078",
+            "id": "y1-co-069",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT Office",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 98500
+            "unitCost": 86500
           },
           {
-            "id": "y1-co-079",
+            "id": "y1-co-070",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT Office",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 222000
+            "unitCost": 198000
           }
         ],
         "mooe": [
           {
-            "id": "y1-mooe-071",
+            "id": "y1-mooe-062",
             "item": "Internet subscription — 3 offices, pooled (Year 1)",
             "office": "ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 18000
+            "unitCost": 22000
           },
           {
-            "id": "y1-mooe-072",
+            "id": "y1-mooe-063",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Office",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 164500
+            "unitCost": 132000
           },
           {
-            "id": "y1-mooe-073",
+            "id": "y1-mooe-064",
             "item": "ICT training — staff capability building",
             "office": "ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 551500
+            "unitCost": 161500
           },
           {
-            "id": "y1-mooe-074",
+            "id": "y1-mooe-065",
             "item": "Semi-expendable projectors and teaching peripherals",
             "office": "ICT Office",
             "categoryId": "mooe-semi-expendable-ict-equipment",
@@ -775,72 +826,72 @@
           "projectTitle": "Campus Network Modernization and Cybersecurity Hardening",
           "capitalOutlay": [
             {
-              "id": "y1-co-091",
+              "id": "y1-co-082",
               "item": "Campus fiber backbone and civil works (6 buildings + 2 farms)",
               "office": "ICT Office",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 12032500
+              "unitCost": 12901500
             },
             {
-              "id": "y1-co-092",
+              "id": "y1-co-083",
               "item": "Next-generation firewalls and core switches",
               "office": "ICT Office",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 2,
-              "unitCost": 2986000
+              "unitCost": 2648000
             },
             {
-              "id": "y1-co-093",
+              "id": "y1-co-084",
               "item": "Campus Wi-Fi access points (outdoor-rated)",
               "office": "ICT Office",
               "categoryId": "co-communication-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 180,
-              "unitCost": 47500
+              "unitCost": 46000
             },
             {
-              "id": "y1-co-094",
+              "id": "y1-co-085",
               "item": "Virtualization host for SIS and library systems",
               "office": "ICT Office",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 3708500
+              "unitCost": 3775500
             },
             {
-              "id": "y1-co-095",
+              "id": "y1-co-086",
               "item": "Campus Network & Cybersecurity — engineering, installation and commissioning (Year 1)",
               "office": "ICT Office",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 4263500
+              "unitCost": 4272500
             }
           ],
           "mooe": [
             {
-              "id": "y1-mooe-096",
+              "id": "y1-mooe-087",
               "item": "Project management office — Campus Network & Cybersecurity",
               "office": "ICT Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 213000
+              "unitCost": 213500
             },
             {
-              "id": "y1-mooe-097",
+              "id": "y1-mooe-088",
               "item": "Hosting, support and licences — Campus Network & Cybersecurity (Year 1)",
               "office": "ICT Office",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 142000
+              "unitCost": 142500
             },
             {
-              "id": "y1-mooe-098",
+              "id": "y1-mooe-089",
               "item": "ICT training and change management — Campus Network & Cybersecurity",
               "office": "ICT Office",
               "categoryId": "mooe-ict-training",
@@ -854,7 +905,7 @@
           "projectTitle": "e-Extension Learning Platform for Farmer Cooperatives",
           "capitalOutlay": [
             {
-              "id": "y1-co-099",
+              "id": "y1-co-090",
               "item": "e-Extension Platform — system development and acquisition (Year 1 milestone)",
               "office": "Extension and Training Office",
               "categoryId": "co-ict-software",
@@ -865,7 +916,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-100",
+              "id": "y1-mooe-091",
               "item": "Project management office — e-Extension Platform",
               "office": "Extension and Training Office",
               "categoryId": "mooe-professional-services",
@@ -874,16 +925,16 @@
               "unitCost": 1169500
             },
             {
-              "id": "y1-mooe-101",
+              "id": "y1-mooe-092",
               "item": "Hosting, support and licences — e-Extension Platform (Year 1)",
               "office": "Extension and Training Office",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 779500
             },
             {
-              "id": "y1-mooe-102",
+              "id": "y1-mooe-093",
               "item": "ICT training and change management — e-Extension Platform",
               "office": "Extension and Training Office",
               "categoryId": "mooe-ict-training",
@@ -898,7 +949,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-107",
+            "id": "y1-mooe-105",
             "item": "Koha library system support and hosting",
             "office": "ICT Office",
             "categoryId": "mooe-web-hosting",
@@ -907,7 +958,7 @@
             "unitCost": 250000
           },
           {
-            "id": "y1-mooe-110",
+            "id": "y1-mooe-108",
             "item": "Enrolment system maintenance (transition)",
             "office": "ICT Office",
             "categoryId": "mooe-other-general-ict-services",
@@ -916,7 +967,7 @@
             "unitCost": 1200000
           },
           {
-            "id": "y1-mooe-113",
+            "id": "y1-mooe-111",
             "item": "Computer laboratory repairs and maintenance",
             "office": "ICT Office",
             "categoryId": "mooe-rm-ict-equipment",
@@ -925,7 +976,7 @@
             "unitCost": 900000
           },
           {
-            "id": "y1-mooe-116",
+            "id": "y1-mooe-114",
             "item": "Landline subscriptions (legacy lines, winding down)",
             "office": "ICT Office",
             "categoryId": "mooe-landline-expenses",
@@ -940,7 +991,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-083",
+            "id": "y2-co-074",
             "item": "Networked multifunction printers (registrar and records)",
             "office": "ICT Office",
             "categoryId": "co-printing-equipment",
@@ -949,54 +1000,54 @@
             "unitCost": 88500
           },
           {
-            "id": "y2-co-085",
+            "id": "y2-co-076",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Office",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 22,
-            "unitCost": 48000
+            "unitCost": 54500
           },
           {
-            "id": "y2-co-086",
+            "id": "y2-co-077",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Office",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 12,
-            "unitCost": 48000
+            "unitCost": 36500
           }
         ],
         "mooe": [
           {
-            "id": "y2-mooe-080",
+            "id": "y2-mooe-071",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 27000
+            "unitCost": 14500
           },
           {
-            "id": "y2-mooe-081",
+            "id": "y2-mooe-072",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Office",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 293500
+            "unitCost": 194500
           },
           {
-            "id": "y2-mooe-082",
+            "id": "y2-mooe-073",
             "item": "ICT training — staff capability building",
             "office": "ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 200000
+            "unitCost": 344000
           },
           {
-            "id": "y2-mooe-084",
+            "id": "y2-mooe-075",
             "item": "Landline and fax subscriptions (all offices)",
             "office": "ICT Office",
             "categoryId": "mooe-landline-expenses",
@@ -1011,7 +1062,7 @@
           "projectTitle": "e-Extension Learning Platform for Farmer Cooperatives",
           "capitalOutlay": [
             {
-              "id": "y2-co-103",
+              "id": "y2-co-094",
               "item": "e-Extension Platform — system development and acquisition (Year 2 milestone)",
               "office": "Extension and Training Office",
               "categoryId": "co-ict-software",
@@ -1022,7 +1073,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-104",
+              "id": "y2-mooe-095",
               "item": "Project management office — e-Extension Platform",
               "office": "Extension and Training Office",
               "categoryId": "mooe-professional-services",
@@ -1031,7 +1082,7 @@
               "unitCost": 846500
             },
             {
-              "id": "y2-mooe-105",
+              "id": "y2-mooe-096",
               "item": "Hosting, support and licences — e-Extension Platform (Year 2)",
               "office": "Extension and Training Office",
               "categoryId": "mooe-cloud-computing",
@@ -1040,7 +1091,7 @@
               "unitCost": 564500
             },
             {
-              "id": "y2-mooe-106",
+              "id": "y2-mooe-097",
               "item": "ICT training and change management — e-Extension Platform",
               "office": "Extension and Training Office",
               "categoryId": "mooe-ict-training",
@@ -1049,13 +1100,83 @@
               "unitCost": 470500
             }
           ]
+        },
+        "p-ailab": {
+          "projectTitle": "AI Teaching and Research Laboratory",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-098",
+              "item": "Accelerator-equipped teaching workstations (AI lab, 24 seats)",
+              "office": "ICT Office",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 24,
+              "unitCost": 195500
+            },
+            {
+              "id": "y2-co-099",
+              "item": "Departmental AI training server (8-accelerator, teaching workloads)",
+              "office": "ICT Office",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 7161000
+            },
+            {
+              "id": "y2-co-100",
+              "item": "Lab benching, cooling and precision power",
+              "office": "ICT Office",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 1640500
+            },
+            {
+              "id": "y2-co-101",
+              "item": "AI Teaching & Research Lab — engineering, installation and commissioning (Year 2)",
+              "office": "ICT Office",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 7656000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-102",
+              "item": "Project management office — AI Teaching & Research Lab",
+              "office": "ICT Office",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 383000
+            },
+            {
+              "id": "y2-mooe-103",
+              "item": "Hosting, support and licences — AI Teaching & Research Lab (Year 2)",
+              "office": "ICT Office",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 255000
+            },
+            {
+              "id": "y2-mooe-104",
+              "item": "ICT training and change management — AI Teaching & Research Lab",
+              "office": "ICT Office",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 212500
+            }
+          ]
         }
       },
       "crossAgencyProjects": {},
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-108",
+            "id": "y2-mooe-106",
             "item": "Koha library system support and hosting",
             "office": "ICT Office",
             "categoryId": "mooe-web-hosting",
@@ -1064,7 +1185,7 @@
             "unitCost": 260000
           },
           {
-            "id": "y2-mooe-111",
+            "id": "y2-mooe-109",
             "item": "Enrolment system maintenance (transition)",
             "office": "ICT Office",
             "categoryId": "mooe-other-general-ict-services",
@@ -1073,7 +1194,7 @@
             "unitCost": 1248000
           },
           {
-            "id": "y2-mooe-114",
+            "id": "y2-mooe-112",
             "item": "Computer laboratory repairs and maintenance",
             "office": "ICT Office",
             "categoryId": "mooe-rm-ict-equipment",
@@ -1082,7 +1203,7 @@
             "unitCost": 936000
           },
           {
-            "id": "y2-mooe-117",
+            "id": "y2-mooe-115",
             "item": "Landline subscriptions (legacy lines, winding down)",
             "office": "ICT Office",
             "categoryId": "mooe-landline-expenses",
@@ -1097,42 +1218,42 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-090",
+            "id": "y3-co-081",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Office",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 22,
-            "unitCost": 51000
+            "unitCost": 46500
           }
         ],
         "mooe": [
           {
-            "id": "y3-mooe-087",
+            "id": "y3-mooe-078",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 24000
+            "unitCost": 19500
           },
           {
-            "id": "y3-mooe-088",
+            "id": "y3-mooe-079",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Office",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 168500
+            "unitCost": 164500
           },
           {
-            "id": "y3-mooe-089",
+            "id": "y3-mooe-080",
             "item": "ICT training — staff capability building",
             "office": "ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 264000
+            "unitCost": 551500
           }
         ]
       },
@@ -1141,7 +1262,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-109",
+            "id": "y3-mooe-107",
             "item": "Koha library system support and hosting",
             "office": "ICT Office",
             "categoryId": "mooe-web-hosting",
@@ -1150,7 +1271,7 @@
             "unitCost": 270000
           },
           {
-            "id": "y3-mooe-112",
+            "id": "y3-mooe-110",
             "item": "Enrolment system maintenance (transition)",
             "office": "ICT Office",
             "categoryId": "mooe-other-general-ict-services",
@@ -1159,7 +1280,7 @@
             "unitCost": 1296000
           },
           {
-            "id": "y3-mooe-115",
+            "id": "y3-mooe-113",
             "item": "Computer laboratory repairs and maintenance",
             "office": "ICT Office",
             "categoryId": "mooe-rm-ict-equipment",
@@ -1168,7 +1289,7 @@
             "unitCost": 972000
           },
           {
-            "id": "y3-mooe-118",
+            "id": "y3-mooe-116",
             "item": "Landline subscriptions (legacy lines, winding down)",
             "office": "ICT Office",
             "categoryId": "mooe-landline-expenses",

@@ -141,13 +141,13 @@
     "cioPosition": "Director III — ICT Service",
     "cioUnit": "ICT Service",
     "cioEmail": "cio@nftc.gov.ph",
-    "cioContact": "+63 2 8355 4986",
+    "cioContact": "+63 2 8322 1790",
     "focalSameAsCio": false,
     "focalName": "Ms. Imelda C. Tiongson",
     "focalPosition": "Chief, Program Management Division",
     "focalUnit": "ICT Service",
     "focalEmail": "focal@nftc.gov.ph",
-    "focalContact": "+63 2 8106 6928",
+    "focalContact": "+63 2 8984 6870",
     "humanCapital": {
       "plantilla": {
         "it": {
@@ -386,8 +386,8 @@
           "website": true,
           "email": true,
           "landline": true,
-          "socialMedia": false,
-          "mobile": true
+          "socialMedia": true,
+          "mobile": false
         },
         "connectedToPortal": "no"
       },
@@ -463,19 +463,19 @@
         "id": "hc-2",
         "position": "Systems Development Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 5
+        "quantity": 2
       },
       {
         "id": "hc-3",
         "position": "Network and Cybersecurity Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 1
+        "quantity": 4
       },
       {
         "id": "hc-4",
         "position": "ICT Project Support Staff",
         "employmentStatus": "CONTRACTUAL",
-        "quantity": 2
+        "quantity": 7
       }
     ],
     "proposedSystems": [
@@ -712,54 +712,54 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y1-co-381",
+            "id": "y1-co-391",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 33,
-            "unitCost": 51000
+            "unitCost": 58000
           },
           {
-            "id": "y1-co-382",
+            "id": "y1-co-392",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 18,
-            "unitCost": 62000
+            "unitCost": 57000
           },
           {
-            "id": "y1-co-383",
+            "id": "y1-co-393",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 421000
+            "unitCost": 353000
           },
           {
-            "id": "y1-co-384",
+            "id": "y1-co-394",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 90000
+            "unitCost": 93500
           },
           {
-            "id": "y1-co-385",
+            "id": "y1-co-395",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT Service",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 302500
+            "unitCost": 265500
           }
         ],
         "mooe": [
           {
-            "id": "y1-mooe-378",
+            "id": "y1-mooe-388",
             "item": "Internet subscription — 3 offices, pooled (Year 1)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
@@ -768,22 +768,22 @@
             "unitCost": 14000
           },
           {
-            "id": "y1-mooe-379",
+            "id": "y1-mooe-389",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 153500
+            "unitCost": 166500
           },
           {
-            "id": "y1-mooe-380",
+            "id": "y1-mooe-390",
             "item": "ICT training — staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 177500
+            "unitCost": 182500
           }
         ]
       },
@@ -792,7 +792,7 @@
           "projectTitle": "National Traceability Registry (NTR) Platform",
           "capitalOutlay": [
             {
-              "id": "y1-co-397",
+              "id": "y1-co-408",
               "item": "NTR Platform — system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -803,7 +803,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-398",
+              "id": "y1-mooe-409",
               "item": "Project management office — NTR Platform",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -812,7 +812,7 @@
               "unitCost": 7517000
             },
             {
-              "id": "y1-mooe-399",
+              "id": "y1-mooe-410",
               "item": "Hosting, support and licences — NTR Platform (Year 1)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
@@ -821,7 +821,7 @@
               "unitCost": 5011000
             },
             {
-              "id": "y1-mooe-400",
+              "id": "y1-mooe-411",
               "item": "ICT training and change management — NTR Platform",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -835,69 +835,69 @@
           "projectTitle": "Inspector Mobility and Field Sampling Program",
           "capitalOutlay": [
             {
-              "id": "y1-co-405",
+              "id": "y1-co-416",
               "item": "Rugged field tablets (inspectors)",
               "office": "Inspection Bureau",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 220,
-              "unitCost": 40500
+              "unitCost": 45500
             },
             {
-              "id": "y1-co-406",
+              "id": "y1-co-417",
               "item": "Portable QR/barcode lot scanners",
               "office": "Inspection Bureau",
               "categoryId": "co-communication-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 120,
-              "unitCost": 24500
+              "unitCost": 25000
             },
             {
-              "id": "y1-co-407",
+              "id": "y1-co-418",
               "item": "Field sampling kits (printers and labelers)",
               "office": "Inspection Bureau",
               "categoryId": "co-printing-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 60,
-              "unitCost": 37000
+              "unitCost": 38000
             },
             {
-              "id": "y1-co-408",
+              "id": "y1-co-419",
               "item": "Inspector Mobility — engineering, installation and commissioning (Year 1)",
               "office": "Inspection Bureau",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 41337000
+              "unitCost": 40239000
             }
           ],
           "mooe": [
             {
-              "id": "y1-mooe-409",
+              "id": "y1-mooe-420",
               "item": "Project management office — Inspector Mobility",
               "office": "Inspection Bureau",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 2067000
+              "unitCost": 2012000
             },
             {
-              "id": "y1-mooe-410",
+              "id": "y1-mooe-421",
               "item": "Hosting, support and licences — Inspector Mobility (Year 1)",
               "office": "Inspection Bureau",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 1378000
+              "unitCost": 1341500
             },
             {
-              "id": "y1-mooe-411",
+              "id": "y1-mooe-422",
               "item": "ICT training and change management — Inspector Mobility",
               "office": "Inspection Bureau",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 1148500
+              "unitCost": 1118000
             }
           ]
         }
@@ -907,7 +907,7 @@
           "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
           "capitalOutlay": [
             {
-              "id": "y1-co-412",
+              "id": "y1-co-423",
               "item": "CTB participation — system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -918,7 +918,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-413",
+              "id": "y1-mooe-424",
               "item": "Project management office — CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -927,16 +927,16 @@
               "unitCost": 1663000
             },
             {
-              "id": "y1-mooe-414",
+              "id": "y1-mooe-425",
               "item": "Hosting, support and licences — CTB participation (Year 1)",
               "office": "ICT Service",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 1109000
             },
             {
-              "id": "y1-mooe-415",
+              "id": "y1-mooe-426",
               "item": "ICT training and change management — CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -950,7 +950,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-424",
+            "id": "y1-mooe-435",
             "item": "FTS-1 registry support (transition period)",
             "office": "ICT Service",
             "categoryId": "mooe-other-general-ict-services",
@@ -959,7 +959,7 @@
             "unitCost": 2200000
           },
           {
-            "id": "y1-mooe-427",
+            "id": "y1-mooe-438",
             "item": "Permits portal hosting",
             "office": "ICT Service",
             "categoryId": "mooe-web-hosting",
@@ -968,7 +968,7 @@
             "unitCost": 800000
           },
           {
-            "id": "y1-mooe-430",
+            "id": "y1-mooe-441",
             "item": "Laboratory data center services",
             "office": "ICT Service",
             "categoryId": "mooe-data-center-services",
@@ -977,7 +977,7 @@
             "unitCost": 1400000
           },
           {
-            "id": "y1-mooe-433",
+            "id": "y1-mooe-444",
             "item": "Mobile data plans for field inspectors",
             "office": "ICT Service",
             "categoryId": "mooe-mobile-expenses",
@@ -986,7 +986,7 @@
             "unitCost": 1600000
           },
           {
-            "id": "y1-mooe-436",
+            "id": "y1-mooe-447",
             "item": "Rugged tablet repairs and maintenance",
             "office": "ICT Service",
             "categoryId": "mooe-rm-semi-ict",
@@ -1001,60 +1001,69 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-389",
+            "id": "y2-co-399",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 33,
-            "unitCost": 52000
+            "unitCost": 47500
           },
           {
-            "id": "y2-co-390",
+            "id": "y2-co-400",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 18,
-            "unitCost": 57000
+            "unitCost": 54500
           },
           {
-            "id": "y2-co-391",
+            "id": "y2-co-401",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 414000
+            "unitCost": 423000
+          },
+          {
+            "id": "y2-co-402",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Service",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 105500
           }
         ],
         "mooe": [
           {
-            "id": "y2-mooe-386",
+            "id": "y2-mooe-396",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 27000
+            "unitCost": 23000
           },
           {
-            "id": "y2-mooe-387",
+            "id": "y2-mooe-397",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 253500
+            "unitCost": 142500
           },
           {
-            "id": "y2-mooe-388",
+            "id": "y2-mooe-398",
             "item": "ICT training — staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 262500
+            "unitCost": 437000
           }
         ]
       },
@@ -1063,7 +1072,7 @@
           "projectTitle": "National Traceability Registry (NTR) Platform",
           "capitalOutlay": [
             {
-              "id": "y2-co-401",
+              "id": "y2-co-412",
               "item": "NTR Platform — system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -1074,7 +1083,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-402",
+              "id": "y2-mooe-413",
               "item": "Project management office — NTR Platform",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -1083,7 +1092,7 @@
               "unitCost": 5443000
             },
             {
-              "id": "y2-mooe-403",
+              "id": "y2-mooe-414",
               "item": "Hosting, support and licences — NTR Platform (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
@@ -1092,7 +1101,7 @@
               "unitCost": 3629000
             },
             {
-              "id": "y2-mooe-404",
+              "id": "y2-mooe-415",
               "item": "ICT training and change management — NTR Platform",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -1108,7 +1117,7 @@
           "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
           "capitalOutlay": [
             {
-              "id": "y2-co-416",
+              "id": "y2-co-427",
               "item": "CTB participation — system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -1119,7 +1128,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-417",
+              "id": "y2-mooe-428",
               "item": "Project management office — CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -1128,16 +1137,16 @@
               "unitCost": 1346500
             },
             {
-              "id": "y2-mooe-418",
+              "id": "y2-mooe-429",
               "item": "Hosting, support and licences — CTB participation (Year 2)",
               "office": "ICT Service",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 897500
             },
             {
-              "id": "y2-mooe-419",
+              "id": "y2-mooe-430",
               "item": "ICT training and change management — CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -1151,7 +1160,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-425",
+            "id": "y2-mooe-436",
             "item": "FTS-1 registry support (transition period)",
             "office": "ICT Service",
             "categoryId": "mooe-other-general-ict-services",
@@ -1160,7 +1169,7 @@
             "unitCost": 2288000
           },
           {
-            "id": "y2-mooe-428",
+            "id": "y2-mooe-439",
             "item": "Permits portal hosting",
             "office": "ICT Service",
             "categoryId": "mooe-web-hosting",
@@ -1169,7 +1178,7 @@
             "unitCost": 832000
           },
           {
-            "id": "y2-mooe-431",
+            "id": "y2-mooe-442",
             "item": "Laboratory data center services",
             "office": "ICT Service",
             "categoryId": "mooe-data-center-services",
@@ -1178,7 +1187,7 @@
             "unitCost": 1456000
           },
           {
-            "id": "y2-mooe-434",
+            "id": "y2-mooe-445",
             "item": "Mobile data plans for field inspectors",
             "office": "ICT Service",
             "categoryId": "mooe-mobile-expenses",
@@ -1187,7 +1196,7 @@
             "unitCost": 1664000
           },
           {
-            "id": "y2-mooe-437",
+            "id": "y2-mooe-448",
             "item": "Rugged tablet repairs and maintenance",
             "office": "ICT Service",
             "categoryId": "mooe-rm-semi-ict",
@@ -1202,51 +1211,51 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-395",
+            "id": "y3-co-406",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 33,
-            "unitCost": 49000
+            "unitCost": 48500
           },
           {
-            "id": "y3-co-396",
+            "id": "y3-co-407",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 18,
-            "unitCost": 34500
+            "unitCost": 35500
           }
         ],
         "mooe": [
           {
-            "id": "y3-mooe-392",
+            "id": "y3-mooe-403",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 28000
+            "unitCost": 15000
           },
           {
-            "id": "y3-mooe-393",
+            "id": "y3-mooe-404",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 132500
+            "unitCost": 254500
           },
           {
-            "id": "y3-mooe-394",
+            "id": "y3-mooe-405",
             "item": "ICT training — staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 280000
+            "unitCost": 187000
           }
         ]
       },
@@ -1256,7 +1265,7 @@
           "projectTitle": "Cold Chain Traceability Backbone (CTB) — NFTC share",
           "capitalOutlay": [
             {
-              "id": "y3-co-420",
+              "id": "y3-co-431",
               "item": "CTB participation — system development and acquisition (Year 3 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -1267,7 +1276,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-421",
+              "id": "y3-mooe-432",
               "item": "Project management office — CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -1276,7 +1285,7 @@
               "unitCost": 950500
             },
             {
-              "id": "y3-mooe-422",
+              "id": "y3-mooe-433",
               "item": "Hosting, support and licences — CTB participation (Year 3)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
@@ -1285,7 +1294,7 @@
               "unitCost": 633500
             },
             {
-              "id": "y3-mooe-423",
+              "id": "y3-mooe-434",
               "item": "ICT training and change management — CTB participation",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -1299,7 +1308,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-426",
+            "id": "y3-mooe-437",
             "item": "FTS-1 registry support (transition period)",
             "office": "ICT Service",
             "categoryId": "mooe-other-general-ict-services",
@@ -1308,7 +1317,7 @@
             "unitCost": 2376000
           },
           {
-            "id": "y3-mooe-429",
+            "id": "y3-mooe-440",
             "item": "Permits portal hosting",
             "office": "ICT Service",
             "categoryId": "mooe-web-hosting",
@@ -1317,7 +1326,7 @@
             "unitCost": 864000
           },
           {
-            "id": "y3-mooe-432",
+            "id": "y3-mooe-443",
             "item": "Laboratory data center services",
             "office": "ICT Service",
             "categoryId": "mooe-data-center-services",
@@ -1326,7 +1335,7 @@
             "unitCost": 1512000
           },
           {
-            "id": "y3-mooe-435",
+            "id": "y3-mooe-446",
             "item": "Mobile data plans for field inspectors",
             "office": "ICT Service",
             "categoryId": "mooe-mobile-expenses",
@@ -1335,7 +1344,7 @@
             "unitCost": 1728000
           },
           {
-            "id": "y3-mooe-438",
+            "id": "y3-mooe-449",
             "item": "Rugged tablet repairs and maintenance",
             "office": "ICT Service",
             "categoryId": "mooe-rm-semi-ict",

@@ -149,13 +149,13 @@
     "cioPosition": "Director IV — ICT Service",
     "cioUnit": "ICT Service",
     "cioEmail": "cio@ncra.gov.ph",
-    "cioContact": "+63 2 8389 5059",
+    "cioContact": "+63 2 8257 7970",
     "focalSameAsCio": false,
     "focalName": "Ms. Rowena U. Magsaysay",
     "focalPosition": "Chief, Planning and Policy Division",
     "focalUnit": "ICT Service",
     "focalEmail": "focal@ncra.gov.ph",
-    "focalContact": "+63 2 8648 3358",
+    "focalContact": "+63 2 8259 7278",
     "humanCapital": {
       "plantilla": {
         "it": {
@@ -452,7 +452,7 @@
           "website": true,
           "email": true,
           "landline": true,
-          "socialMedia": false,
+          "socialMedia": true,
           "mobile": false
         },
         "connectedToPortal": "no"
@@ -529,19 +529,19 @@
         "id": "hc-2",
         "position": "Systems Development Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 2
+        "quantity": 6
       },
       {
         "id": "hc-3",
         "position": "Network and Cybersecurity Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 4
+        "quantity": 2
       },
       {
         "id": "hc-4",
         "position": "ICT Project Support Staff",
         "employmentStatus": "CONTRACTUAL",
-        "quantity": 4
+        "quantity": 2
       }
     ],
     "proposedSystems": [
@@ -940,81 +940,81 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y1-co-123",
+            "id": "y1-co-121",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 115,
-            "unitCost": 54000
+            "unitCost": 55500
           },
           {
-            "id": "y1-co-124",
+            "id": "y1-co-122",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 64,
-            "unitCost": 57500
+            "unitCost": 63500
           },
           {
-            "id": "y1-co-125",
+            "id": "y1-co-123",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 402500
+            "unitCost": 419000
           },
           {
-            "id": "y1-co-126",
+            "id": "y1-co-124",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 89000
+            "unitCost": 91000
           },
           {
-            "id": "y1-co-127",
+            "id": "y1-co-125",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT Service",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 1133500
+            "unitCost": 1012000
           }
         ],
         "mooe": [
           {
-            "id": "y1-mooe-119",
+            "id": "y1-mooe-117",
             "item": "Internet subscription — 3 offices, pooled (Year 1)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 22000
+            "unitCost": 26000
           },
           {
-            "id": "y1-mooe-120",
+            "id": "y1-mooe-118",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 135000
+            "unitCost": 168500
           },
           {
-            "id": "y1-mooe-121",
+            "id": "y1-mooe-119",
             "item": "ICT training — staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 214000
+            "unitCost": 551500
           },
           {
-            "id": "y1-mooe-122",
+            "id": "y1-mooe-120",
             "item": "Mobile expenses — field engineering and warning officers",
             "office": "ICT Service",
             "categoryId": "mooe-mobile-expenses",
@@ -1029,34 +1029,34 @@
           "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
           "capitalOutlay": [
             {
-              "id": "y1-co-141",
+              "id": "y1-co-139",
               "item": "Real-time tide and oceanographic sensor stations (buoy and pier-mount)",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "Foreign-assisted projects",
               "qty": 140,
-              "unitCost": 1457000
+              "unitCost": 1660500
             },
             {
-              "id": "y1-co-142",
+              "id": "y1-co-140",
               "item": "VSAT terminals and installation — off-grid sites",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "co-communication-equipment",
               "fundSource": "Foreign-assisted projects",
               "qty": 36,
-              "unitCost": 1922500
+              "unitCost": 1695500
             },
             {
-              "id": "y1-co-143",
+              "id": "y1-co-141",
               "item": "Coastal verification cameras (pan-tilt, solar)",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "co-communication-equipment",
               "fundSource": "Foreign-assisted projects",
               "qty": 30,
-              "unitCost": 635500
+              "unitCost": 678500
             },
             {
-              "id": "y1-co-144",
+              "id": "y1-co-142",
               "item": "Real-time tide and oceanographic sensor stations — succeeding tranche",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "co-ict-machinery-equipment",
@@ -1065,7 +1065,7 @@
               "unitCost": 1395000
             },
             {
-              "id": "y1-co-145",
+              "id": "y1-co-143",
               "item": "VSAT terminals and installation — off-grid sites — succeeding tranche",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "co-communication-equipment",
@@ -1080,7 +1080,7 @@
           "projectTitle": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
           "capitalOutlay": [
             {
-              "id": "y1-co-154",
+              "id": "y1-co-152",
               "item": "Project SIGWA — system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -1091,7 +1091,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-155",
+              "id": "y1-mooe-153",
               "item": "Project management office — Project SIGWA",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -1100,16 +1100,16 @@
               "unitCost": 12945500
             },
             {
-              "id": "y1-mooe-156",
+              "id": "y1-mooe-154",
               "item": "Hosting, support and licences — Project SIGWA (Year 1)",
               "office": "ICT Service",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 8630500
             },
             {
-              "id": "y1-mooe-157",
+              "id": "y1-mooe-155",
               "item": "ICT training and change management — Project SIGWA",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -1123,7 +1123,7 @@
           "projectTitle": "LASON Archive Modernization",
           "capitalOutlay": [
             {
-              "id": "y1-co-170",
+              "id": "y1-co-168",
               "item": "LASON Modernization — system development and acquisition (Year 1 milestone)",
               "office": "Planning and Policy Division",
               "categoryId": "co-ict-software",
@@ -1134,7 +1134,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-171",
+              "id": "y1-mooe-169",
               "item": "Project management office — LASON Modernization",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-professional-services",
@@ -1143,16 +1143,16 @@
               "unitCost": 3240000
             },
             {
-              "id": "y1-mooe-172",
+              "id": "y1-mooe-170",
               "item": "Hosting, support and licences — LASON Modernization (Year 1)",
               "office": "Planning and Policy Division",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 2160000
             },
             {
-              "id": "y1-mooe-173",
+              "id": "y1-mooe-171",
               "item": "ICT training and change management — LASON Modernization",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-ict-training",
@@ -1168,7 +1168,7 @@
           "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
           "capitalOutlay": [
             {
-              "id": "y1-co-174",
+              "id": "y1-co-172",
               "item": "RAPIDE lead share — system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -1179,7 +1179,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-175",
+              "id": "y1-mooe-173",
               "item": "Project management office — RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -1188,7 +1188,7 @@
               "unitCost": 2873000
             },
             {
-              "id": "y1-mooe-176",
+              "id": "y1-mooe-174",
               "item": "Hosting, support and licences — RAPIDE lead share (Year 1)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
@@ -1197,7 +1197,7 @@
               "unitCost": 1915000
             },
             {
-              "id": "y1-mooe-177",
+              "id": "y1-mooe-175",
               "item": "ICT training and change management — RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -1211,7 +1211,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-186",
+            "id": "y1-mooe-184",
             "item": "CHIMES platform support and licenses (until decommission)",
             "office": "ICT Service",
             "categoryId": "mooe-other-general-ict-services",
@@ -1220,7 +1220,7 @@
             "unitCost": 9500000
           },
           {
-            "id": "y1-mooe-189",
+            "id": "y1-mooe-187",
             "item": "Sensor network operations and maintenance",
             "office": "ICT Service",
             "categoryId": "mooe-rm-infra-communications-network",
@@ -1229,7 +1229,7 @@
             "unitCost": 12000000
           },
           {
-            "id": "y1-mooe-192",
+            "id": "y1-mooe-190",
             "item": "Satellite capacity and VSAT service leases",
             "office": "ICT Service",
             "categoryId": "mooe-cable-satellite-radio",
@@ -1238,7 +1238,7 @@
             "unitCost": 6800000
           },
           {
-            "id": "y1-mooe-195",
+            "id": "y1-mooe-193",
             "item": "TIDEWATCH vendor licensing (wind-down)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-software-subscription",
@@ -1253,78 +1253,78 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-131",
+            "id": "y2-co-129",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 115,
-            "unitCost": 52500
+            "unitCost": 55500
           },
           {
-            "id": "y2-co-132",
+            "id": "y2-co-130",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 64,
-            "unitCost": 58000
+            "unitCost": 56000
           },
           {
-            "id": "y2-co-133",
+            "id": "y2-co-131",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 340000
+            "unitCost": 400000
           },
           {
-            "id": "y2-co-134",
+            "id": "y2-co-132",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 88000
+            "unitCost": 84000
           },
           {
-            "id": "y2-co-135",
+            "id": "y2-co-133",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT Service",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 1074500
+            "unitCost": 943500
           }
         ],
         "mooe": [
           {
-            "id": "y2-mooe-128",
+            "id": "y2-mooe-126",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 14500
+            "unitCost": 23000
           },
           {
-            "id": "y2-mooe-129",
+            "id": "y2-mooe-127",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 286500
+            "unitCost": 130500
           },
           {
-            "id": "y2-mooe-130",
+            "id": "y2-mooe-128",
             "item": "ICT training — staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 299000
+            "unitCost": 146000
           }
         ]
       },
@@ -1333,7 +1333,7 @@
           "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
           "capitalOutlay": [
             {
-              "id": "y2-co-146",
+              "id": "y2-co-144",
               "item": "Project WATCHFUL — engineering, installation and commissioning (Year 2)",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "co-infrastructure-communications-network",
@@ -1344,7 +1344,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-147",
+              "id": "y2-mooe-145",
               "item": "Project management office — Project WATCHFUL",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "mooe-professional-services",
@@ -1353,7 +1353,7 @@
               "unitCost": 5670000
             },
             {
-              "id": "y2-mooe-148",
+              "id": "y2-mooe-146",
               "item": "Hosting, support and licences — Project WATCHFUL (Year 2)",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "mooe-web-hosting",
@@ -1362,7 +1362,7 @@
               "unitCost": 3780000
             },
             {
-              "id": "y2-mooe-149",
+              "id": "y2-mooe-147",
               "item": "ICT training and change management — Project WATCHFUL",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "mooe-ict-training",
@@ -1376,7 +1376,7 @@
           "projectTitle": "Project SIGWA — Streaming Integration Gateway for Warning Analytics",
           "capitalOutlay": [
             {
-              "id": "y2-co-158",
+              "id": "y2-co-156",
               "item": "Project SIGWA — system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -1387,7 +1387,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-159",
+              "id": "y2-mooe-157",
               "item": "Project management office — Project SIGWA",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -1396,7 +1396,7 @@
               "unitCost": 9374500
             },
             {
-              "id": "y2-mooe-160",
+              "id": "y2-mooe-158",
               "item": "Hosting, support and licences — Project SIGWA (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
@@ -1405,7 +1405,7 @@
               "unitCost": 6249500
             },
             {
-              "id": "y2-mooe-161",
+              "id": "y2-mooe-159",
               "item": "ICT training and change management — Project SIGWA",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -1419,7 +1419,7 @@
           "projectTitle": "Coastal Digital Twin and Open Tides Data Platform",
           "capitalOutlay": [
             {
-              "id": "y2-co-162",
+              "id": "y2-co-160",
               "item": "Coastal Digital Twin — system development and acquisition (Year 2 milestone)",
               "office": "Planning and Policy Division",
               "categoryId": "co-ict-software",
@@ -1430,7 +1430,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-163",
+              "id": "y2-mooe-161",
               "item": "Project management office — Coastal Digital Twin",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-professional-services",
@@ -1439,7 +1439,7 @@
               "unitCost": 5429000
             },
             {
-              "id": "y2-mooe-164",
+              "id": "y2-mooe-162",
               "item": "Hosting, support and licences — Coastal Digital Twin (Year 2)",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-web-hosting",
@@ -1448,7 +1448,7 @@
               "unitCost": 3619000
             },
             {
-              "id": "y2-mooe-165",
+              "id": "y2-mooe-163",
               "item": "ICT training and change management — Coastal Digital Twin",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-ict-training",
@@ -1464,7 +1464,7 @@
           "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
           "capitalOutlay": [
             {
-              "id": "y2-co-178",
+              "id": "y2-co-176",
               "item": "RAPIDE lead share — system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -1475,7 +1475,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-179",
+              "id": "y2-mooe-177",
               "item": "Project management office — RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -1484,7 +1484,7 @@
               "unitCost": 2325500
             },
             {
-              "id": "y2-mooe-180",
+              "id": "y2-mooe-178",
               "item": "Hosting, support and licences — RAPIDE lead share (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-cloud-computing",
@@ -1493,7 +1493,7 @@
               "unitCost": 1550500
             },
             {
-              "id": "y2-mooe-181",
+              "id": "y2-mooe-179",
               "item": "ICT training and change management — RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -1507,7 +1507,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-187",
+            "id": "y2-mooe-185",
             "item": "CHIMES platform support and licenses (until decommission)",
             "office": "ICT Service",
             "categoryId": "mooe-other-general-ict-services",
@@ -1516,7 +1516,7 @@
             "unitCost": 9880000
           },
           {
-            "id": "y2-mooe-190",
+            "id": "y2-mooe-188",
             "item": "Sensor network operations and maintenance",
             "office": "ICT Service",
             "categoryId": "mooe-rm-infra-communications-network",
@@ -1525,7 +1525,7 @@
             "unitCost": 12480000
           },
           {
-            "id": "y2-mooe-193",
+            "id": "y2-mooe-191",
             "item": "Satellite capacity and VSAT service leases",
             "office": "ICT Service",
             "categoryId": "mooe-cable-satellite-radio",
@@ -1534,7 +1534,7 @@
             "unitCost": 7072000
           },
           {
-            "id": "y2-mooe-196",
+            "id": "y2-mooe-194",
             "item": "TIDEWATCH vendor licensing (wind-down)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-software-subscription",
@@ -1549,7 +1549,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-139",
+            "id": "y3-co-137",
             "item": "Warning desk display walls (regional, 6 sites)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
@@ -1558,7 +1558,7 @@
             "unitCost": 1566000
           },
           {
-            "id": "y3-co-140",
+            "id": "y3-co-138",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
@@ -1569,7 +1569,7 @@
         ],
         "mooe": [
           {
-            "id": "y3-mooe-136",
+            "id": "y3-mooe-134",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
@@ -1578,22 +1578,22 @@
             "unitCost": 15000
           },
           {
-            "id": "y3-mooe-137",
+            "id": "y3-mooe-135",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 128500
+            "unitCost": 294000
           },
           {
-            "id": "y3-mooe-138",
+            "id": "y3-mooe-136",
             "item": "ICT training — staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 302000
+            "unitCost": 351500
           }
         ]
       },
@@ -1602,7 +1602,7 @@
           "projectTitle": "Project WATCHFUL — Wide-Area Telemetry & Coastal Hazard Unified Field Layer",
           "capitalOutlay": [
             {
-              "id": "y3-co-150",
+              "id": "y3-co-148",
               "item": "Project WATCHFUL — engineering, installation and commissioning (Year 3)",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "co-infrastructure-communications-network",
@@ -1613,7 +1613,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-151",
+              "id": "y3-mooe-149",
               "item": "Project management office — Project WATCHFUL",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "mooe-professional-services",
@@ -1622,7 +1622,7 @@
               "unitCost": 3402000
             },
             {
-              "id": "y3-mooe-152",
+              "id": "y3-mooe-150",
               "item": "Hosting, support and licences — Project WATCHFUL (Year 3)",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "mooe-cloud-computing",
@@ -1631,7 +1631,7 @@
               "unitCost": 2268000
             },
             {
-              "id": "y3-mooe-153",
+              "id": "y3-mooe-151",
               "item": "ICT training and change management — Project WATCHFUL",
               "office": "ICT Service — Field Engineering Section",
               "categoryId": "mooe-ict-training",
@@ -1645,7 +1645,7 @@
           "projectTitle": "Coastal Digital Twin and Open Tides Data Platform",
           "capitalOutlay": [
             {
-              "id": "y3-co-166",
+              "id": "y3-co-164",
               "item": "Coastal Digital Twin — system development and acquisition (Year 3 milestone)",
               "office": "Planning and Policy Division",
               "categoryId": "co-ict-software",
@@ -1656,7 +1656,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-167",
+              "id": "y3-mooe-165",
               "item": "Project management office — Coastal Digital Twin",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-professional-services",
@@ -1665,7 +1665,7 @@
               "unitCost": 3931000
             },
             {
-              "id": "y3-mooe-168",
+              "id": "y3-mooe-166",
               "item": "Hosting, support and licences — Coastal Digital Twin (Year 3)",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-cloud-computing",
@@ -1674,7 +1674,7 @@
               "unitCost": 2621000
             },
             {
-              "id": "y3-mooe-169",
+              "id": "y3-mooe-167",
               "item": "ICT training and change management — Coastal Digital Twin",
               "office": "Planning and Policy Division",
               "categoryId": "mooe-ict-training",
@@ -1690,7 +1690,7 @@
           "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (NCRA lead share)",
           "capitalOutlay": [
             {
-              "id": "y3-co-182",
+              "id": "y3-co-180",
               "item": "RAPIDE lead share — system development and acquisition (Year 3 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -1701,7 +1701,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-183",
+              "id": "y3-mooe-181",
               "item": "Project management office — RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -1710,7 +1710,7 @@
               "unitCost": 1641500
             },
             {
-              "id": "y3-mooe-184",
+              "id": "y3-mooe-182",
               "item": "Hosting, support and licences — RAPIDE lead share (Year 3)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
@@ -1719,7 +1719,7 @@
               "unitCost": 1094500
             },
             {
-              "id": "y3-mooe-185",
+              "id": "y3-mooe-183",
               "item": "ICT training and change management — RAPIDE lead share",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -1733,7 +1733,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-188",
+            "id": "y3-mooe-186",
             "item": "CHIMES platform support and licenses (until decommission)",
             "office": "ICT Service",
             "categoryId": "mooe-other-general-ict-services",
@@ -1742,7 +1742,7 @@
             "unitCost": 10260000
           },
           {
-            "id": "y3-mooe-191",
+            "id": "y3-mooe-189",
             "item": "Sensor network operations and maintenance",
             "office": "ICT Service",
             "categoryId": "mooe-rm-infra-communications-network",
@@ -1751,7 +1751,7 @@
             "unitCost": 12960000
           },
           {
-            "id": "y3-mooe-194",
+            "id": "y3-mooe-192",
             "item": "Satellite capacity and VSAT service leases",
             "office": "ICT Service",
             "categoryId": "mooe-cable-satellite-radio",
@@ -1760,7 +1760,7 @@
             "unitCost": 7344000
           },
           {
-            "id": "y3-mooe-197",
+            "id": "y3-mooe-195",
             "item": "TIDEWATCH vendor licensing (wind-down)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-software-subscription",

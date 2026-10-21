@@ -141,13 +141,13 @@
     "cioPosition": "Vice President for ICT",
     "cioUnit": "ICT Department",
     "cioEmail": "cio@mfsc.gov.ph",
-    "cioContact": "+63 2 8735 6432",
+    "cioContact": "+63 2 8304 9950",
     "focalSameAsCio": false,
     "focalName": "Mr. Dennis O. Kabigting",
     "focalPosition": "Department Manager, Corporate Planning",
     "focalUnit": "ICT Department",
     "focalEmail": "focal@mfsc.gov.ph",
-    "focalContact": "+63 2 8617 3735",
+    "focalContact": "+63 2 8610 4089",
     "humanCapital": {
       "plantilla": {
         "it": {
@@ -427,7 +427,7 @@
           "website": true,
           "email": true,
           "landline": true,
-          "socialMedia": false,
+          "socialMedia": true,
           "mobile": false
         },
         "connectedToPortal": "no"
@@ -504,19 +504,19 @@
         "id": "hc-2",
         "position": "Systems Development Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 2
+        "quantity": 6
       },
       {
         "id": "hc-3",
         "position": "Network and Cybersecurity Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 2
+        "quantity": 3
       },
       {
         "id": "hc-4",
         "position": "ICT Project Support Staff",
         "employmentStatus": "CONTRACTUAL",
-        "quantity": 4
+        "quantity": 7
       }
     ],
     "proposedSystems": [
@@ -678,6 +678,30 @@
         "year2Deliverables": "",
         "year3Deliverables": "",
         "duration": "2027"
+      },
+      {
+        "id": "p-hula",
+        "title": "Project HULA — Fleet AI Models and On-Premise Inference Cluster",
+        "description": "Trains and serves DALOY's predictive-maintenance and fare-demand models on a Corporation-owned GPU cluster sited at the operations center: commuter movement and vessel telemetry stay on-premise by policy, with model serving integrated into the fleet health platform.",
+        "objectives": "1. GPU inference cluster commissioned at the operations center by 2028\n2. Predictive maintenance and fare-demand models in production by 2029\n3. Model training and serving entirely on Corporation-owned infrastructure",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [
+          "ps-daloy"
+        ],
+        "strategicAlignment": [
+          "Public Investment Program",
+          "National Cybersecurity Plan"
+        ],
+        "harmonizationFramework": [
+          "Scalability and Sustainability",
+          "Resource Optimization"
+        ],
+        "implementingUnit": "ICT Department",
+        "fundingSource": "Other Income Generating Sources",
+        "year1Deliverables": "",
+        "year2Deliverables": "Cluster commissioned; two predictive-maintenance models and the fare-demand pilot in production",
+        "year3Deliverables": "Five models in production; fleet dashboard fully model-driven",
+        "duration": "2028"
       }
     ],
     "crossAgencyProjects": [],
@@ -795,6 +819,48 @@
             "responsibleUnit": "ICT Department"
           }
         ]
+      },
+      "p-hula": {
+        "projectTitle": "Project HULA — Fleet AI Models and On-Premise Inference Cluster",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-hula-kpi-1",
+            "hierarchy": "Output",
+            "targetedResult": "AI models in production (maintenance, demand, safety)",
+            "indicator": "AI models in production (maintenance, demand, safety)",
+            "baseline": "0",
+            "year1Target": "2",
+            "year2Target": "5",
+            "year3Target": "5",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Department"
+          },
+          {
+            "id": "p-hula-kpi-2",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Unplanned engine teardowns flagged at least 2 weeks ahead",
+            "indicator": "Unplanned engine teardowns flagged at least 2 weeks ahead",
+            "baseline": "0%",
+            "year1Target": "40%",
+            "year2Target": "75%",
+            "year3Target": "75%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Department"
+          },
+          {
+            "id": "p-hula-kpi-3",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Fare-demand forecast error (morning peak, MAPE)",
+            "indicator": "Fare-demand forecast error (morning peak, MAPE)",
+            "baseline": "18%",
+            "year1Target": "12%",
+            "year2Target": "9%",
+            "year3Target": "9%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Department"
+          }
+        ]
       }
     }
   },
@@ -803,81 +869,81 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y1-co-258",
+            "id": "y1-co-257",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 69,
-            "unitCost": 51000
+            "unitCost": 47500
           },
           {
-            "id": "y1-co-259",
+            "id": "y1-co-258",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 38,
-            "unitCost": 51500
+            "unitCost": 57500
           },
           {
-            "id": "y1-co-260",
+            "id": "y1-co-259",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 346000
+            "unitCost": 371500
           },
           {
-            "id": "y1-co-261",
+            "id": "y1-co-260",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 95500
+            "unitCost": 96000
           },
           {
-            "id": "y1-co-262",
+            "id": "y1-co-261",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT Department",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 567500
+            "unitCost": 624500
           }
         ],
         "mooe": [
           {
-            "id": "y1-mooe-254",
+            "id": "y1-mooe-253",
             "item": "Internet subscription — 3 offices, pooled (Year 1)",
             "office": "ICT Department",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 22000
+            "unitCost": 18000
           },
           {
-            "id": "y1-mooe-255",
+            "id": "y1-mooe-254",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Department",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 155500
+            "unitCost": 282000
           },
           {
-            "id": "y1-mooe-256",
+            "id": "y1-mooe-255",
             "item": "ICT training — staff capability building",
             "office": "ICT Department",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 412500
+            "unitCost": 445000
           },
           {
-            "id": "y1-mooe-257",
+            "id": "y1-mooe-256",
             "item": "Mobile expenses — operations and maintenance crews",
             "office": "ICT Department",
             "categoryId": "mooe-mobile-expenses",
@@ -892,16 +958,16 @@
           "projectTitle": "Project BIYAHE — Account-Based Ticketing & Handy App",
           "capitalOutlay": [
             {
-              "id": "y1-co-277",
+              "id": "y1-co-276",
               "item": "Account-based ticket validators (pier gates and vessel poles)",
               "office": "ICT Department",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 120,
-              "unitCost": 154500
+              "unitCost": 140500
             },
             {
-              "id": "y1-co-278",
+              "id": "y1-co-277",
               "item": "Ticket printers and POS terminals (piers)",
               "office": "ICT Department",
               "categoryId": "co-printing-equipment",
@@ -910,7 +976,7 @@
               "unitCost": 21500
             },
             {
-              "id": "y1-co-279",
+              "id": "y1-co-278",
               "item": "Account-based ticket validators — succeeding tranche",
               "office": "ICT Department",
               "categoryId": "co-ict-machinery-equipment",
@@ -919,7 +985,7 @@
               "unitCost": 130500
             },
             {
-              "id": "y1-co-280",
+              "id": "y1-co-279",
               "item": "Ticket printers and POS terminals — succeeding tranche",
               "office": "ICT Department",
               "categoryId": "co-printing-equipment",
@@ -928,42 +994,42 @@
               "unitCost": 18000
             },
             {
-              "id": "y1-co-281",
+              "id": "y1-co-280",
               "item": "Project BIYAHE — system development and acquisition (Year 1 milestone)",
               "office": "ICT Department",
               "categoryId": "co-ict-software",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 96504000
+              "unitCost": 97915500
             }
           ],
           "mooe": [
             {
-              "id": "y1-mooe-282",
+              "id": "y1-mooe-281",
               "item": "Project management office — Project BIYAHE",
               "office": "ICT Department",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 8272000
+              "unitCost": 8393000
+            },
+            {
+              "id": "y1-mooe-282",
+              "item": "Hosting, support and licences — Project BIYAHE (Year 1)",
+              "office": "ICT Department",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 5595000
             },
             {
               "id": "y1-mooe-283",
-              "item": "Hosting, support and licences — Project BIYAHE (Year 1)",
-              "office": "ICT Department",
-              "categoryId": "mooe-web-hosting",
-              "fundSource": "General Appropriations Act",
-              "qty": 1,
-              "unitCost": 5514500
-            },
-            {
-              "id": "y1-mooe-284",
               "item": "ICT training and change management — Project BIYAHE",
               "office": "ICT Department",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 4595500
+              "unitCost": 4662500
             }
           ]
         },
@@ -971,34 +1037,34 @@
           "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
           "capitalOutlay": [
             {
-              "id": "y1-co-289",
+              "id": "y1-co-288",
               "item": "Vessel telemetry units (engine, GPS, fuel, cabin)",
               "office": "Fleet Operations Department",
               "categoryId": "co-communication-equipment",
               "fundSource": "Other Income Generating Sources",
               "qty": 48,
-              "unitCost": 198500
+              "unitCost": 185500
             },
             {
-              "id": "y1-co-290",
+              "id": "y1-co-289",
               "item": "Bridge data loggers and displays",
               "office": "Fleet Operations Department",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "Other Income Generating Sources",
               "qty": 48,
-              "unitCost": 101500
+              "unitCost": 90500
             },
             {
-              "id": "y1-co-291",
+              "id": "y1-co-290",
               "item": "Pier edge servers (analytics nodes)",
               "office": "Fleet Operations Department",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "Other Income Generating Sources",
               "qty": 14,
-              "unitCost": 243000
+              "unitCost": 251500
             },
             {
-              "id": "y1-co-292",
+              "id": "y1-co-291",
               "item": "Vessel telemetry units — succeeding tranche",
               "office": "Fleet Operations Department",
               "categoryId": "co-communication-equipment",
@@ -1007,7 +1073,7 @@
               "unitCost": 166500
             },
             {
-              "id": "y1-co-293",
+              "id": "y1-co-292",
               "item": "Bridge data loggers and displays — succeeding tranche",
               "office": "Fleet Operations Department",
               "categoryId": "co-ict-machinery-equipment",
@@ -1016,42 +1082,42 @@
               "unitCost": 77000
             },
             {
-              "id": "y1-co-294",
+              "id": "y1-co-293",
               "item": "Project DALOY — engineering, installation and commissioning (Year 1)",
               "office": "Fleet Operations Department",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "Other Income Generating Sources",
               "qty": 1,
-              "unitCost": 37610000
+              "unitCost": 38540000
             }
           ],
           "mooe": [
             {
-              "id": "y1-mooe-295",
+              "id": "y1-mooe-294",
               "item": "Project management office — Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-professional-services",
               "fundSource": "Other Income Generating Sources",
               "qty": 1,
-              "unitCost": 1880500
+              "unitCost": 1927000
+            },
+            {
+              "id": "y1-mooe-295",
+              "item": "Hosting, support and licences — Project DALOY (Year 1)",
+              "office": "Fleet Operations Department",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1284500
             },
             {
               "id": "y1-mooe-296",
-              "item": "Hosting, support and licences — Project DALOY (Year 1)",
-              "office": "Fleet Operations Department",
-              "categoryId": "mooe-cloud-computing",
-              "fundSource": "Other Income Generating Sources",
-              "qty": 1,
-              "unitCost": 1253500
-            },
-            {
-              "id": "y1-mooe-297",
               "item": "ICT training and change management — Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-ict-training",
               "fundSource": "Other Income Generating Sources",
               "qty": 1,
-              "unitCost": 1044500
+              "unitCost": 1070500
             }
           ]
         },
@@ -1059,13 +1125,22 @@
           "projectTitle": "Pier Network Connectivity and Passenger Information",
           "capitalOutlay": [
             {
-              "id": "y1-co-306",
+              "id": "y1-co-305",
               "item": "Pier fiber builds and resilient last-mile (14 piers)",
               "office": "ICT Department",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
               "qty": 14,
-              "unitCost": 3124000
+              "unitCost": 2844500
+            },
+            {
+              "id": "y1-co-306",
+              "item": "Pier edge firewalls and secure gateways (replaces legacy fleet)",
+              "office": "ICT Department",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "General Appropriations Act",
+              "qty": 9,
+              "unitCost": 667500
             },
             {
               "id": "y1-co-307",
@@ -1074,7 +1149,7 @@
               "categoryId": "co-communication-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 96,
-              "unitCost": 46000
+              "unitCost": 42500
             },
             {
               "id": "y1-co-308",
@@ -1083,7 +1158,7 @@
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 19663000
+              "unitCost": 18080500
             }
           ],
           "mooe": [
@@ -1094,7 +1169,7 @@
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 983000
+              "unitCost": 904000
             },
             {
               "id": "y1-mooe-310",
@@ -1103,7 +1178,7 @@
               "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 655500
+              "unitCost": 602500
             },
             {
               "id": "y1-mooe-311",
@@ -1112,7 +1187,7 @@
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 546000
+              "unitCost": 502000
             }
           ]
         }
@@ -1121,7 +1196,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-312",
+            "id": "y1-mooe-319",
             "item": "FERRYCARD AFC vendor licensing and settlement (until retirement)",
             "office": "ICT Department",
             "categoryId": "mooe-other-general-ict-services",
@@ -1130,7 +1205,7 @@
             "unitCost": 28000000
           },
           {
-            "id": "y1-mooe-315",
+            "id": "y1-mooe-322",
             "item": "Vessel broadband and marine communications",
             "office": "ICT Department",
             "categoryId": "mooe-cable-satellite-radio",
@@ -1139,7 +1214,16 @@
             "unitCost": 6500000
           },
           {
-            "id": "y1-mooe-318",
+            "id": "y1-mooe-325",
+            "item": "AI inference cluster power, cooling and hardware support",
+            "office": "ICT Department",
+            "categoryId": "mooe-data-center-services",
+            "fundSource": "Other Income Generating Sources",
+            "qty": 1,
+            "unitCost": 3200000
+          },
+          {
+            "id": "y1-mooe-328",
             "item": "Fare media production and card stock",
             "office": "ICT Department",
             "categoryId": "mooe-semi-expendable-ict-equipment",
@@ -1154,7 +1238,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-267",
+            "id": "y2-co-266",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
@@ -1163,72 +1247,72 @@
             "unitCost": 50000
           },
           {
-            "id": "y2-co-268",
+            "id": "y2-co-267",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 38,
-            "unitCost": 61500
+            "unitCost": 53000
           },
           {
-            "id": "y2-co-269",
+            "id": "y2-co-268",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 360000
+            "unitCost": 423500
           },
           {
-            "id": "y2-co-270",
+            "id": "y2-co-269",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 103000
+            "unitCost": 92000
           },
           {
-            "id": "y2-co-271",
+            "id": "y2-co-270",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT Department",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 617000
+            "unitCost": 624000
           }
         ],
         "mooe": [
           {
-            "id": "y2-mooe-263",
+            "id": "y2-mooe-262",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "ICT Department",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 14500
+            "unitCost": 18500
           },
           {
-            "id": "y2-mooe-264",
+            "id": "y2-mooe-263",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Department",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 201500
+            "unitCost": 128000
           },
           {
-            "id": "y2-mooe-265",
+            "id": "y2-mooe-264",
             "item": "ICT training — staff capability building",
             "office": "ICT Department",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 210500
+            "unitCost": 196000
           },
           {
-            "id": "y2-mooe-266",
+            "id": "y2-mooe-265",
             "item": "Landline and pier hotline subscriptions",
             "office": "ICT Department",
             "categoryId": "mooe-landline-expenses",
@@ -1243,7 +1327,7 @@
           "projectTitle": "Project BIYAHE — Account-Based Ticketing & Handy App",
           "capitalOutlay": [
             {
-              "id": "y2-co-285",
+              "id": "y2-co-284",
               "item": "Project BIYAHE — system development and acquisition (Year 2 milestone)",
               "office": "ICT Department",
               "categoryId": "co-ict-software",
@@ -1254,7 +1338,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-286",
+              "id": "y2-mooe-285",
               "item": "Project management office — Project BIYAHE",
               "office": "ICT Department",
               "categoryId": "mooe-professional-services",
@@ -1263,7 +1347,7 @@
               "unitCost": 7257500
             },
             {
-              "id": "y2-mooe-287",
+              "id": "y2-mooe-286",
               "item": "Hosting, support and licences — Project BIYAHE (Year 2)",
               "office": "ICT Department",
               "categoryId": "mooe-web-hosting",
@@ -1272,7 +1356,7 @@
               "unitCost": 4838500
             },
             {
-              "id": "y2-mooe-288",
+              "id": "y2-mooe-287",
               "item": "ICT training and change management — Project BIYAHE",
               "office": "ICT Department",
               "categoryId": "mooe-ict-training",
@@ -1286,7 +1370,7 @@
           "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
           "capitalOutlay": [
             {
-              "id": "y2-co-298",
+              "id": "y2-co-297",
               "item": "Project DALOY — engineering, installation and commissioning (Year 2)",
               "office": "Fleet Operations Department",
               "categoryId": "co-infrastructure-communications-network",
@@ -1297,7 +1381,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-299",
+              "id": "y2-mooe-298",
               "item": "Project management office — Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-professional-services",
@@ -1306,16 +1390,16 @@
               "unitCost": 2227500
             },
             {
-              "id": "y2-mooe-300",
+              "id": "y2-mooe-299",
               "item": "Hosting, support and licences — Project DALOY (Year 2)",
               "office": "Fleet Operations Department",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "Other Income Generating Sources",
               "qty": 1,
               "unitCost": 1485000
             },
             {
-              "id": "y2-mooe-301",
+              "id": "y2-mooe-300",
               "item": "ICT training and change management — Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-ict-training",
@@ -1324,13 +1408,83 @@
               "unitCost": 1237500
             }
           ]
+        },
+        "p-hula": {
+          "projectTitle": "Project HULA — Fleet AI Models and On-Premise Inference Cluster",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-312",
+              "item": "GPU inference servers (8-accelerator racks, operations center)",
+              "office": "ICT Department",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 3,
+              "unitCost": 9986500
+            },
+            {
+              "id": "y2-co-313",
+              "item": "Model training nodes (4-accelerator, research workloads)",
+              "office": "ICT Department",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 2,
+              "unitCost": 6922500
+            },
+            {
+              "id": "y2-co-314",
+              "item": "High-performance storage array for telemetry and model artifacts",
+              "office": "ICT Department",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 6794000
+            },
+            {
+              "id": "y2-co-315",
+              "item": "Project HULA — engineering, installation and commissioning (Year 2)",
+              "office": "ICT Department",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 48961500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-316",
+              "item": "Project management office — Project HULA",
+              "office": "ICT Department",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 2448000
+            },
+            {
+              "id": "y2-mooe-317",
+              "item": "Hosting, support and licences — Project HULA (Year 2)",
+              "office": "ICT Department",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1632000
+            },
+            {
+              "id": "y2-mooe-318",
+              "item": "ICT training and change management — Project HULA",
+              "office": "ICT Department",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 1360000
+            }
+          ]
         }
       },
       "crossAgencyProjects": {},
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-313",
+            "id": "y2-mooe-320",
             "item": "FERRYCARD AFC vendor licensing and settlement (until retirement)",
             "office": "ICT Department",
             "categoryId": "mooe-other-general-ict-services",
@@ -1339,7 +1493,7 @@
             "unitCost": 29120000
           },
           {
-            "id": "y2-mooe-316",
+            "id": "y2-mooe-323",
             "item": "Vessel broadband and marine communications",
             "office": "ICT Department",
             "categoryId": "mooe-cable-satellite-radio",
@@ -1348,7 +1502,16 @@
             "unitCost": 6760000
           },
           {
-            "id": "y2-mooe-319",
+            "id": "y2-mooe-326",
+            "item": "AI inference cluster power, cooling and hardware support",
+            "office": "ICT Department",
+            "categoryId": "mooe-data-center-services",
+            "fundSource": "Other Income Generating Sources",
+            "qty": 1,
+            "unitCost": 3328000
+          },
+          {
+            "id": "y2-mooe-329",
             "item": "Fare media production and card stock",
             "office": "ICT Department",
             "categoryId": "mooe-semi-expendable-ict-equipment",
@@ -1363,7 +1526,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-275",
+            "id": "y3-co-274",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
@@ -1372,7 +1535,7 @@
             "unitCost": 53500
           },
           {
-            "id": "y3-co-276",
+            "id": "y3-co-275",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Department",
             "categoryId": "co-ict-machinery-equipment",
@@ -1383,31 +1546,31 @@
         ],
         "mooe": [
           {
-            "id": "y3-mooe-272",
+            "id": "y3-mooe-271",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "ICT Department",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 28000
+            "unitCost": 24000
           },
           {
-            "id": "y3-mooe-273",
+            "id": "y3-mooe-272",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Department",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 156000
+            "unitCost": 244000
           },
           {
-            "id": "y3-mooe-274",
+            "id": "y3-mooe-273",
             "item": "ICT training — staff capability building",
             "office": "ICT Department",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 515500
+            "unitCost": 346500
           }
         ]
       },
@@ -1416,7 +1579,7 @@
           "projectTitle": "Project DALOY — Fleet Health & Operations Intelligence",
           "capitalOutlay": [
             {
-              "id": "y3-co-302",
+              "id": "y3-co-301",
               "item": "Project DALOY — engineering, installation and commissioning (Year 3)",
               "office": "Fleet Operations Department",
               "categoryId": "co-infrastructure-communications-network",
@@ -1427,7 +1590,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-303",
+              "id": "y3-mooe-302",
               "item": "Project management office — Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-professional-services",
@@ -1436,7 +1599,7 @@
               "unitCost": 1687500
             },
             {
-              "id": "y3-mooe-304",
+              "id": "y3-mooe-303",
               "item": "Hosting, support and licences — Project DALOY (Year 3)",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-web-hosting",
@@ -1445,7 +1608,7 @@
               "unitCost": 1125000
             },
             {
-              "id": "y3-mooe-305",
+              "id": "y3-mooe-304",
               "item": "ICT training and change management — Project DALOY",
               "office": "Fleet Operations Department",
               "categoryId": "mooe-ict-training",
@@ -1460,7 +1623,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-314",
+            "id": "y3-mooe-321",
             "item": "FERRYCARD AFC vendor licensing and settlement (until retirement)",
             "office": "ICT Department",
             "categoryId": "mooe-other-general-ict-services",
@@ -1469,7 +1632,7 @@
             "unitCost": 30240000
           },
           {
-            "id": "y3-mooe-317",
+            "id": "y3-mooe-324",
             "item": "Vessel broadband and marine communications",
             "office": "ICT Department",
             "categoryId": "mooe-cable-satellite-radio",
@@ -1478,7 +1641,16 @@
             "unitCost": 7020000
           },
           {
-            "id": "y3-mooe-320",
+            "id": "y3-mooe-327",
+            "item": "AI inference cluster power, cooling and hardware support",
+            "office": "ICT Department",
+            "categoryId": "mooe-data-center-services",
+            "fundSource": "Other Income Generating Sources",
+            "qty": 1,
+            "unitCost": 3456000
+          },
+          {
+            "id": "y3-mooe-330",
             "item": "Fare media production and card stock",
             "office": "ICT Department",
             "categoryId": "mooe-semi-expendable-ict-equipment",

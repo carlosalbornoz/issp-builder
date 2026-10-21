@@ -141,13 +141,13 @@
     "cioPosition": "Director IV — ICT Service",
     "cioUnit": "ICT Service",
     "cioEmail": "cio@ccs.gov.ph",
-    "cioContact": "+63 2 8348 7125",
+    "cioContact": "+63 2 8707 8057",
     "focalSameAsCio": false,
     "focalName": "Ms. Adelaida R. Manalastas",
     "focalPosition": "Chief, Standards Development Division",
     "focalUnit": "ICT Service",
     "focalEmail": "focal@ccs.gov.ph",
-    "focalContact": "+63 2 8942 1977",
+    "focalContact": "+63 2 8271 2764",
     "humanCapital": {
       "plantilla": {
         "it": {
@@ -388,8 +388,8 @@
           "website": true,
           "email": true,
           "landline": true,
-          "socialMedia": true,
-          "mobile": true
+          "socialMedia": false,
+          "mobile": false
         },
         "connectedToPortal": "no"
       },
@@ -465,19 +465,19 @@
         "id": "hc-2",
         "position": "Systems Development Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 3
+        "quantity": 4
       },
       {
         "id": "hc-3",
         "position": "Network and Cybersecurity Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 2
+        "quantity": 4
       },
       {
         "id": "hc-4",
         "position": "ICT Project Support Staff",
         "employmentStatus": "CONTRACTUAL",
-        "quantity": 6
+        "quantity": 8
       }
     ],
     "proposedSystems": [
@@ -570,6 +570,36 @@
         },
         "status": "FOR_DEVELOPMENT",
         "enhancementDetails": ""
+      },
+      {
+        "id": "ps-agapay",
+        "name": "AGAPAY — AI Assistant for Standards Research",
+        "classification": "SUPPORT_TO_OPERATIONS",
+        "frontline": false,
+        "frontlineAccessType": "",
+        "url": "",
+        "description": "Drafting and research assistant for the standards bureau: retrieves versioned standards and precedent, summarizes consultation comments with citations, and flags inconsistencies for human review — served from a shared government AI platform, not a Commission-owned cluster.",
+        "developmentStrategy": "OUTSOURCED",
+        "developmentPlatform": "Shared government AI platform (proposed national compute)",
+        "databaseName": "Vendor-managed",
+        "dataStorage": "CLOUD",
+        "internalUsers": "Standards Development and Audit (~95 staff)",
+        "externalUsers": "",
+        "owner": "ICT Service",
+        "interoperability": {
+          "integrated": false,
+          "internalSystems": "",
+          "externalSystems": "",
+          "generatesData": false,
+          "processesExternalData": false,
+          "sharedPlatform": false
+        },
+        "pia": {
+          "processesPersonalInfo": "no",
+          "piaRequired": false
+        },
+        "status": "FOR_DEVELOPMENT",
+        "enhancementDetails": ""
       }
     ],
     "internalProjects": [
@@ -618,6 +648,29 @@
         "year2Deliverables": "",
         "year3Deliverables": "",
         "duration": "2028"
+      },
+      {
+        "id": "p-agapay",
+        "title": "AGAPAY — AI Assistant for Standards Research (shared platform)",
+        "description": "Deploys the AGAPAY drafting and research assistant on a shared government AI platform: retrieval over versioned standards, comment summarization with citations, and inconsistency flags for human review. The counterpoint to own-cluster builds — capability without infrastructure.",
+        "objectives": "1. Assistant live for the standards bureau by 2029\n2. Consultation comment summaries with citations for every rulemaking\n3. Zero on-premise AI infrastructure",
+        "projectType": "IS_DRIVEN",
+        "linkedSystemIds": [
+          "ps-agapay"
+        ],
+        "strategicAlignment": [
+          "E-Government Master Plan"
+        ],
+        "harmonizationFramework": [
+          "Resource Optimization",
+          "Interoperability Framework"
+        ],
+        "implementingUnit": "ICT Service",
+        "fundingSource": "General Appropriations Act",
+        "year1Deliverables": "",
+        "year2Deliverables": "Assistant live in production for standards research; citation-checked summaries in two rulemakings",
+        "year3Deliverables": "Extended to audit quality review; platform costs published per use",
+        "duration": "2029–2030"
       }
     ],
     "crossAgencyProjects": [],
@@ -681,6 +734,36 @@
             "responsibleUnit": "Standards Development Division"
           }
         ]
+      },
+      "p-agapay": {
+        "projectTitle": "AGAPAY — AI Assistant for Standards Research (shared platform)",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-agapay-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Average standards-research turnaround per rulemaking",
+            "indicator": "Average standards-research turnaround per rulemaking",
+            "baseline": "34 days",
+            "year1Target": "18 days",
+            "year2Target": "10 days",
+            "year3Target": "10 days",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          },
+          {
+            "id": "p-agapay-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Consultation comments summarized with citations",
+            "indicator": "Consultation comments summarized with citations",
+            "baseline": "0%",
+            "year1Target": "60%",
+            "year2Target": "100%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT Service"
+          }
+        ]
       }
     }
   },
@@ -689,7 +772,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y1-co-588",
+            "id": "y1-co-612",
             "item": "High-volume registry printers",
             "office": "ICT Service",
             "categoryId": "co-printing-equipment",
@@ -698,54 +781,54 @@
             "unitCost": 185000
           },
           {
-            "id": "y1-co-590",
+            "id": "y1-co-614",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 29,
-            "unitCost": 50000
+            "unitCost": 57500
           },
           {
-            "id": "y1-co-591",
+            "id": "y1-co-615",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 16,
-            "unitCost": 50500
+            "unitCost": 37000
           }
         ],
         "mooe": [
           {
-            "id": "y1-mooe-585",
+            "id": "y1-mooe-609",
             "item": "Internet subscription — 3 offices, pooled (Year 1)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 14000
+            "unitCost": 26000
           },
           {
-            "id": "y1-mooe-586",
+            "id": "y1-mooe-610",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 315500
+            "unitCost": 226500
           },
           {
-            "id": "y1-mooe-587",
+            "id": "y1-mooe-611",
             "item": "ICT training — staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 415500
+            "unitCost": 485000
           },
           {
-            "id": "y1-mooe-589",
+            "id": "y1-mooe-613",
             "item": "Semi-expendable barcode scanners (records and audit)",
             "office": "ICT Service",
             "categoryId": "mooe-semi-expendable-communication-equipment",
@@ -760,7 +843,7 @@
           "projectTitle": "Project TALA — Cooperative Registry & Audit Ledger",
           "capitalOutlay": [
             {
-              "id": "y1-co-602",
+              "id": "y1-co-626",
               "item": "Project TALA — system development and acquisition (Year 1 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -771,7 +854,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-603",
+              "id": "y1-mooe-627",
               "item": "Project management office — Project TALA",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -780,16 +863,16 @@
               "unitCost": 6264000
             },
             {
-              "id": "y1-mooe-604",
+              "id": "y1-mooe-628",
               "item": "Hosting, support and licences — Project TALA (Year 1)",
               "office": "ICT Service",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 4176000
             },
             {
-              "id": "y1-mooe-605",
+              "id": "y1-mooe-629",
               "item": "ICT training and change management — Project TALA",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -803,7 +886,7 @@
           "projectTitle": "Standards Portal and e-Learning for Cooperatives",
           "capitalOutlay": [
             {
-              "id": "y1-co-610",
+              "id": "y1-co-634",
               "item": "Standards Portal — system development and acquisition (Year 1 milestone)",
               "office": "Standards Development Division",
               "categoryId": "co-ict-software",
@@ -814,7 +897,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-611",
+              "id": "y1-mooe-635",
               "item": "Project management office — Standards Portal",
               "office": "Standards Development Division",
               "categoryId": "mooe-professional-services",
@@ -823,7 +906,7 @@
               "unitCost": 2160000
             },
             {
-              "id": "y1-mooe-612",
+              "id": "y1-mooe-636",
               "item": "Hosting, support and licences — Standards Portal (Year 1)",
               "office": "Standards Development Division",
               "categoryId": "mooe-web-hosting",
@@ -832,7 +915,7 @@
               "unitCost": 1440000
             },
             {
-              "id": "y1-mooe-613",
+              "id": "y1-mooe-637",
               "item": "ICT training and change management — Standards Portal",
               "office": "Standards Development Division",
               "categoryId": "mooe-ict-training",
@@ -847,7 +930,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-614",
+            "id": "y1-mooe-646",
             "item": "CDRS maintenance and support (transition)",
             "office": "ICT Service",
             "categoryId": "mooe-other-general-ict-services",
@@ -856,7 +939,7 @@
             "unitCost": 2400000
           },
           {
-            "id": "y1-mooe-617",
+            "id": "y1-mooe-649",
             "item": "Registry data center services",
             "office": "ICT Service",
             "categoryId": "mooe-data-center-services",
@@ -865,7 +948,7 @@
             "unitCost": 1800000
           },
           {
-            "id": "y1-mooe-620",
+            "id": "y1-mooe-652",
             "item": "Rented ICT equipment for audit field events",
             "office": "ICT Service",
             "categoryId": "mooe-rents-ict",
@@ -874,7 +957,7 @@
             "unitCost": 900000
           },
           {
-            "id": "y1-mooe-623",
+            "id": "y1-mooe-655",
             "item": "Registry printer servicing",
             "office": "ICT Service",
             "categoryId": "mooe-rm-printing-equipment",
@@ -889,51 +972,51 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-595",
+            "id": "y2-co-619",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 29,
-            "unitCost": 46500
+            "unitCost": 51500
           },
           {
-            "id": "y2-co-596",
+            "id": "y2-co-620",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 16,
-            "unitCost": 46500
+            "unitCost": 37500
           }
         ],
         "mooe": [
           {
-            "id": "y2-mooe-592",
+            "id": "y2-mooe-616",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 23000
+            "unitCost": 18500
           },
           {
-            "id": "y2-mooe-593",
+            "id": "y2-mooe-617",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 133500
+            "unitCost": 259500
           },
           {
-            "id": "y2-mooe-594",
+            "id": "y2-mooe-618",
             "item": "ICT training — staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 147000
+            "unitCost": 469500
           }
         ]
       },
@@ -942,7 +1025,7 @@
           "projectTitle": "Project TALA — Cooperative Registry & Audit Ledger",
           "capitalOutlay": [
             {
-              "id": "y2-co-606",
+              "id": "y2-co-630",
               "item": "Project TALA — system development and acquisition (Year 2 milestone)",
               "office": "ICT Service",
               "categoryId": "co-ict-software",
@@ -953,7 +1036,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-607",
+              "id": "y2-mooe-631",
               "item": "Project management office — Project TALA",
               "office": "ICT Service",
               "categoryId": "mooe-professional-services",
@@ -962,7 +1045,7 @@
               "unitCost": 4536000
             },
             {
-              "id": "y2-mooe-608",
+              "id": "y2-mooe-632",
               "item": "Hosting, support and licences — Project TALA (Year 2)",
               "office": "ICT Service",
               "categoryId": "mooe-web-hosting",
@@ -971,7 +1054,7 @@
               "unitCost": 3024000
             },
             {
-              "id": "y2-mooe-609",
+              "id": "y2-mooe-633",
               "item": "ICT training and change management — Project TALA",
               "office": "ICT Service",
               "categoryId": "mooe-ict-training",
@@ -980,13 +1063,56 @@
               "unitCost": 2520000
             }
           ]
+        },
+        "p-agapay": {
+          "projectTitle": "AGAPAY — AI Assistant for Standards Research (shared platform)",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-638",
+              "item": "AGAPAY Assistant — system development and acquisition (Year 2 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 8769500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-639",
+              "item": "Project management office — AGAPAY Assistant",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 751500
+            },
+            {
+              "id": "y2-mooe-640",
+              "item": "Hosting, support and licences — AGAPAY Assistant (Year 2)",
+              "office": "ICT Service",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 501000
+            },
+            {
+              "id": "y2-mooe-641",
+              "item": "ICT training and change management — AGAPAY Assistant",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 417500
+            }
+          ]
         }
       },
       "crossAgencyProjects": {},
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-615",
+            "id": "y2-mooe-647",
             "item": "CDRS maintenance and support (transition)",
             "office": "ICT Service",
             "categoryId": "mooe-other-general-ict-services",
@@ -995,7 +1121,7 @@
             "unitCost": 2496000
           },
           {
-            "id": "y2-mooe-618",
+            "id": "y2-mooe-650",
             "item": "Registry data center services",
             "office": "ICT Service",
             "categoryId": "mooe-data-center-services",
@@ -1004,7 +1130,7 @@
             "unitCost": 1872000
           },
           {
-            "id": "y2-mooe-621",
+            "id": "y2-mooe-653",
             "item": "Rented ICT equipment for audit field events",
             "office": "ICT Service",
             "categoryId": "mooe-rents-ict",
@@ -1013,7 +1139,7 @@
             "unitCost": 936000
           },
           {
-            "id": "y2-mooe-624",
+            "id": "y2-mooe-656",
             "item": "Registry printer servicing",
             "office": "ICT Service",
             "categoryId": "mooe-rm-printing-equipment",
@@ -1028,7 +1154,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-600",
+            "id": "y3-co-624",
             "item": "Registry printers (second tranche)",
             "office": "ICT Service",
             "categoryId": "co-printing-equipment",
@@ -1037,7 +1163,7 @@
             "unitCost": 200000
           },
           {
-            "id": "y3-co-601",
+            "id": "y3-co-625",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Service",
             "categoryId": "co-ict-machinery-equipment",
@@ -1048,40 +1174,84 @@
         ],
         "mooe": [
           {
-            "id": "y3-mooe-597",
+            "id": "y3-mooe-621",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "ICT Service",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 28000
+            "unitCost": 15000
           },
           {
-            "id": "y3-mooe-598",
+            "id": "y3-mooe-622",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Service",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 230500
+            "unitCost": 187500
           },
           {
-            "id": "y3-mooe-599",
+            "id": "y3-mooe-623",
             "item": "ICT training — staff capability building",
             "office": "ICT Service",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 547000
+            "unitCost": 405000
           }
         ]
       },
-      "internalProjects": {},
+      "internalProjects": {
+        "p-agapay": {
+          "projectTitle": "AGAPAY — AI Assistant for Standards Research (shared platform)",
+          "capitalOutlay": [
+            {
+              "id": "y3-co-642",
+              "item": "AGAPAY Assistant — system development and acquisition (Year 3 milestone)",
+              "office": "ICT Service",
+              "categoryId": "co-ict-software",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 6350500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y3-mooe-643",
+              "item": "Project management office — AGAPAY Assistant",
+              "office": "ICT Service",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 544500
+            },
+            {
+              "id": "y3-mooe-644",
+              "item": "Hosting, support and licences — AGAPAY Assistant (Year 3)",
+              "office": "ICT Service",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 363000
+            },
+            {
+              "id": "y3-mooe-645",
+              "item": "ICT training and change management — AGAPAY Assistant",
+              "office": "ICT Service",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "General Appropriations Act",
+              "qty": 1,
+              "unitCost": 302500
+            }
+          ]
+        }
+      },
       "crossAgencyProjects": {},
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-616",
+            "id": "y3-mooe-648",
             "item": "CDRS maintenance and support (transition)",
             "office": "ICT Service",
             "categoryId": "mooe-other-general-ict-services",
@@ -1090,7 +1260,7 @@
             "unitCost": 2592000
           },
           {
-            "id": "y3-mooe-619",
+            "id": "y3-mooe-651",
             "item": "Registry data center services",
             "office": "ICT Service",
             "categoryId": "mooe-data-center-services",
@@ -1099,7 +1269,7 @@
             "unitCost": 1944000
           },
           {
-            "id": "y3-mooe-622",
+            "id": "y3-mooe-654",
             "item": "Rented ICT equipment for audit field events",
             "office": "ICT Service",
             "categoryId": "mooe-rents-ict",
@@ -1108,7 +1278,7 @@
             "unitCost": 972000
           },
           {
-            "id": "y3-mooe-625",
+            "id": "y3-mooe-657",
             "item": "Registry printer servicing",
             "office": "ICT Service",
             "categoryId": "mooe-rm-printing-equipment",

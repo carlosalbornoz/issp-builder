@@ -141,13 +141,13 @@
     "cioPosition": "City ICT Officer",
     "cioUnit": "City ICT Office",
     "cioEmail": "cio@mal.gov.ph",
-    "cioContact": "+63 2 8597 1269",
+    "cioContact": "+63 2 8468 1402",
     "focalSameAsCio": false,
     "focalName": "Mr. Efren D. Salonga",
     "focalPosition": "City Planning and Development Coordinator",
     "focalUnit": "City ICT Office",
     "focalEmail": "focal@mal.gov.ph",
-    "focalContact": "+63 2 8925 7803",
+    "focalContact": "+63 2 8214 5643",
     "humanCapital": {
       "plantilla": {
         "it": {
@@ -515,7 +515,7 @@
         "id": "hc-2",
         "position": "Systems Development Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 6
+        "quantity": 4
       },
       {
         "id": "hc-3",
@@ -527,7 +527,7 @@
         "id": "hc-4",
         "position": "ICT Project Support Staff",
         "employmentStatus": "CONTRACTUAL",
-        "quantity": 5
+        "quantity": 3
       }
     ],
     "proposedSystems": [
@@ -818,7 +818,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y1-co-325",
+            "id": "y1-co-335",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "City ICT Office",
             "categoryId": "co-ict-machinery-equipment",
@@ -827,7 +827,7 @@
             "unitCost": 52500
           },
           {
-            "id": "y1-co-326",
+            "id": "y1-co-336",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "City ICT Office",
             "categoryId": "co-ict-machinery-equipment",
@@ -838,7 +838,7 @@
         ],
         "mooe": [
           {
-            "id": "y1-mooe-321",
+            "id": "y1-mooe-331",
             "item": "Internet subscription — 3 offices, pooled (Year 1)",
             "office": "City ICT Office",
             "categoryId": "mooe-internet-subscription",
@@ -847,25 +847,25 @@
             "unitCost": 26000
           },
           {
-            "id": "y1-mooe-322",
+            "id": "y1-mooe-332",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "City ICT Office",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 200500
+            "unitCost": 237000
           },
           {
-            "id": "y1-mooe-323",
+            "id": "y1-mooe-333",
             "item": "ICT training — staff capability building",
             "office": "City ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 267500
+            "unitCost": 204500
           },
           {
-            "id": "y1-mooe-324",
+            "id": "y1-mooe-334",
             "item": "Semi-expendable tablets for field assessors and inspectors",
             "office": "City ICT Office",
             "categoryId": "mooe-semi-expendable-ict-equipment",
@@ -880,7 +880,7 @@
           "projectTitle": "Malinaw One-Stop Digital Services Portal",
           "capitalOutlay": [
             {
-              "id": "y1-co-336",
+              "id": "y1-co-346",
               "item": "One-Stop Portal — system development and acquisition (Year 1 milestone)",
               "office": "City ICT Office",
               "categoryId": "co-ict-software",
@@ -891,7 +891,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-337",
+              "id": "y1-mooe-347",
               "item": "Project management office — One-Stop Portal",
               "office": "City ICT Office",
               "categoryId": "mooe-professional-services",
@@ -900,16 +900,16 @@
               "unitCost": 1169500
             },
             {
-              "id": "y1-mooe-338",
+              "id": "y1-mooe-348",
               "item": "Hosting, support and licences — One-Stop Portal (Year 1)",
               "office": "City ICT Office",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "Locally funded",
               "qty": 1,
               "unitCost": 779500
             },
             {
-              "id": "y1-mooe-339",
+              "id": "y1-mooe-349",
               "item": "ICT training and change management — One-Stop Portal",
               "office": "City ICT Office",
               "categoryId": "mooe-ict-training",
@@ -923,60 +923,60 @@
           "projectTitle": "Barangay Connectivity Mesh",
           "capitalOutlay": [
             {
-              "id": "y1-co-344",
+              "id": "y1-co-354",
               "item": "Solar-powered barangay mesh nodes",
               "office": "City ICT Office",
               "categoryId": "co-communication-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 42,
-              "unitCost": 156500
+              "unitCost": 135500
             },
             {
-              "id": "y1-co-345",
+              "id": "y1-co-355",
               "item": "Backhaul towers and links (city-managed)",
               "office": "City ICT Office",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
               "qty": 8,
-              "unitCost": 465500
+              "unitCost": 498500
             },
             {
-              "id": "y1-co-346",
+              "id": "y1-co-356",
               "item": "Barangay Connectivity Mesh — engineering, installation and commissioning (Year 1)",
               "office": "City ICT Office",
               "categoryId": "co-infrastructure-communications-network",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 1532500
+              "unitCost": 2089000
             }
           ],
           "mooe": [
             {
-              "id": "y1-mooe-347",
+              "id": "y1-mooe-357",
               "item": "Project management office — Barangay Connectivity Mesh",
               "office": "City ICT Office",
               "categoryId": "mooe-professional-services",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 76500
+              "unitCost": 104500
             },
             {
-              "id": "y1-mooe-348",
+              "id": "y1-mooe-358",
               "item": "Hosting, support and licences — Barangay Connectivity Mesh (Year 1)",
               "office": "City ICT Office",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 51000
+              "unitCost": 69500
             },
             {
-              "id": "y1-mooe-349",
+              "id": "y1-mooe-359",
               "item": "ICT training and change management — Barangay Connectivity Mesh",
               "office": "City ICT Office",
               "categoryId": "mooe-ict-training",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 42500
+              "unitCost": 58000
             }
           ]
         }
@@ -986,7 +986,7 @@
           "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
           "capitalOutlay": [
             {
-              "id": "y1-co-350",
+              "id": "y1-co-360",
               "item": "RAPIDE participation — system development and acquisition (Year 1 milestone)",
               "office": "City DRRMO",
               "categoryId": "co-ict-software",
@@ -997,7 +997,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-351",
+              "id": "y1-mooe-361",
               "item": "Project management office — RAPIDE participation",
               "office": "City DRRMO",
               "categoryId": "mooe-professional-services",
@@ -1006,16 +1006,16 @@
               "unitCost": 250500
             },
             {
-              "id": "y1-mooe-352",
+              "id": "y1-mooe-362",
               "item": "Hosting, support and licences — RAPIDE participation (Year 1)",
               "office": "City DRRMO",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 167000
             },
             {
-              "id": "y1-mooe-353",
+              "id": "y1-mooe-363",
               "item": "ICT training and change management — RAPIDE participation",
               "office": "City DRRMO",
               "categoryId": "mooe-ict-training",
@@ -1029,7 +1029,7 @@
           "projectTitle": "Permits Exchange Network (PXNet) — Malinaw lead share",
           "capitalOutlay": [
             {
-              "id": "y1-co-358",
+              "id": "y1-co-368",
               "item": "PXNet lead share — system development and acquisition (Year 1 milestone)",
               "office": "Business Permits and Licensing Office",
               "categoryId": "co-ict-software",
@@ -1040,7 +1040,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-359",
+              "id": "y1-mooe-369",
               "item": "Project management office — PXNet lead share",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-professional-services",
@@ -1049,7 +1049,7 @@
               "unitCost": 376000
             },
             {
-              "id": "y1-mooe-360",
+              "id": "y1-mooe-370",
               "item": "Hosting, support and licences — PXNet lead share (Year 1)",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-cloud-computing",
@@ -1058,7 +1058,7 @@
               "unitCost": 250500
             },
             {
-              "id": "y1-mooe-361",
+              "id": "y1-mooe-371",
               "item": "ICT training and change management — PXNet lead share",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-ict-training",
@@ -1072,7 +1072,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-366",
+            "id": "y1-mooe-376",
             "item": "eBPLS vendor subscription (transition period)",
             "office": "City ICT Office",
             "categoryId": "mooe-other-general-ict-services",
@@ -1081,7 +1081,7 @@
             "unitCost": 1900000
           },
           {
-            "id": "y1-mooe-369",
+            "id": "y1-mooe-379",
             "item": "City portal hosting and SMS gateway",
             "office": "City ICT Office",
             "categoryId": "mooe-web-hosting",
@@ -1090,7 +1090,7 @@
             "unitCost": 450000
           },
           {
-            "id": "y1-mooe-372",
+            "id": "y1-mooe-382",
             "item": "Mesh node repairs and maintenance",
             "office": "City ICT Office",
             "categoryId": "mooe-rm-communication-equipment",
@@ -1099,7 +1099,7 @@
             "unitCost": 350000
           },
           {
-            "id": "y1-mooe-375",
+            "id": "y1-mooe-385",
             "item": "Barcode scanner servicing (assessors)",
             "office": "City ICT Office",
             "categoryId": "mooe-rm-semi-communication",
@@ -1114,7 +1114,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-330",
+            "id": "y2-co-340",
             "item": "Networked multifunction printers (frontline offices)",
             "office": "City ICT Office",
             "categoryId": "co-printing-equipment",
@@ -1123,7 +1123,7 @@
             "unitCost": 70500
           },
           {
-            "id": "y2-co-331",
+            "id": "y2-co-341",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "City ICT Office",
             "categoryId": "co-ict-machinery-equipment",
@@ -1134,31 +1134,31 @@
         ],
         "mooe": [
           {
-            "id": "y2-mooe-327",
+            "id": "y2-mooe-337",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "City ICT Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 18500
+            "unitCost": 14500
           },
           {
-            "id": "y2-mooe-328",
+            "id": "y2-mooe-338",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "City ICT Office",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 261500
+            "unitCost": 245000
           },
           {
-            "id": "y2-mooe-329",
+            "id": "y2-mooe-339",
             "item": "ICT training — staff capability building",
             "office": "City ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 162000
+            "unitCost": 505500
           }
         ]
       },
@@ -1167,7 +1167,7 @@
           "projectTitle": "Malinaw One-Stop Digital Services Portal",
           "capitalOutlay": [
             {
-              "id": "y2-co-340",
+              "id": "y2-co-350",
               "item": "One-Stop Portal — system development and acquisition (Year 2 milestone)",
               "office": "City ICT Office",
               "categoryId": "co-ict-software",
@@ -1178,7 +1178,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-341",
+              "id": "y2-mooe-351",
               "item": "Project management office — One-Stop Portal",
               "office": "City ICT Office",
               "categoryId": "mooe-professional-services",
@@ -1187,7 +1187,7 @@
               "unitCost": 846500
             },
             {
-              "id": "y2-mooe-342",
+              "id": "y2-mooe-352",
               "item": "Hosting, support and licences — One-Stop Portal (Year 2)",
               "office": "City ICT Office",
               "categoryId": "mooe-web-hosting",
@@ -1196,7 +1196,7 @@
               "unitCost": 564500
             },
             {
-              "id": "y2-mooe-343",
+              "id": "y2-mooe-353",
               "item": "ICT training and change management — One-Stop Portal",
               "office": "City ICT Office",
               "categoryId": "mooe-ict-training",
@@ -1212,7 +1212,7 @@
           "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (Malinaw share)",
           "capitalOutlay": [
             {
-              "id": "y2-co-354",
+              "id": "y2-co-364",
               "item": "RAPIDE participation — system development and acquisition (Year 2 milestone)",
               "office": "City DRRMO",
               "categoryId": "co-ict-software",
@@ -1223,7 +1223,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-355",
+              "id": "y2-mooe-365",
               "item": "Project management office — RAPIDE participation",
               "office": "City DRRMO",
               "categoryId": "mooe-professional-services",
@@ -1232,7 +1232,7 @@
               "unitCost": 181500
             },
             {
-              "id": "y2-mooe-356",
+              "id": "y2-mooe-366",
               "item": "Hosting, support and licences — RAPIDE participation (Year 2)",
               "office": "City DRRMO",
               "categoryId": "mooe-cloud-computing",
@@ -1241,7 +1241,7 @@
               "unitCost": 121000
             },
             {
-              "id": "y2-mooe-357",
+              "id": "y2-mooe-367",
               "item": "ICT training and change management — RAPIDE participation",
               "office": "City DRRMO",
               "categoryId": "mooe-ict-training",
@@ -1255,7 +1255,7 @@
           "projectTitle": "Permits Exchange Network (PXNet) — Malinaw lead share",
           "capitalOutlay": [
             {
-              "id": "y2-co-362",
+              "id": "y2-co-372",
               "item": "PXNet lead share — system development and acquisition (Year 2 milestone)",
               "office": "Business Permits and Licensing Office",
               "categoryId": "co-ict-software",
@@ -1266,7 +1266,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-363",
+              "id": "y2-mooe-373",
               "item": "Project management office — PXNet lead share",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-professional-services",
@@ -1275,16 +1275,16 @@
               "unitCost": 272000
             },
             {
-              "id": "y2-mooe-364",
+              "id": "y2-mooe-374",
               "item": "Hosting, support and licences — PXNet lead share (Year 2)",
               "office": "Business Permits and Licensing Office",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 181500
             },
             {
-              "id": "y2-mooe-365",
+              "id": "y2-mooe-375",
               "item": "ICT training and change management — PXNet lead share",
               "office": "Business Permits and Licensing Office",
               "categoryId": "mooe-ict-training",
@@ -1298,7 +1298,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-367",
+            "id": "y2-mooe-377",
             "item": "eBPLS vendor subscription (transition period)",
             "office": "City ICT Office",
             "categoryId": "mooe-other-general-ict-services",
@@ -1307,7 +1307,7 @@
             "unitCost": 1976000
           },
           {
-            "id": "y2-mooe-370",
+            "id": "y2-mooe-380",
             "item": "City portal hosting and SMS gateway",
             "office": "City ICT Office",
             "categoryId": "mooe-web-hosting",
@@ -1316,7 +1316,7 @@
             "unitCost": 468000
           },
           {
-            "id": "y2-mooe-373",
+            "id": "y2-mooe-383",
             "item": "Mesh node repairs and maintenance",
             "office": "City ICT Office",
             "categoryId": "mooe-rm-communication-equipment",
@@ -1325,7 +1325,7 @@
             "unitCost": 364000
           },
           {
-            "id": "y2-mooe-376",
+            "id": "y2-mooe-386",
             "item": "Barcode scanner servicing (assessors)",
             "office": "City ICT Office",
             "categoryId": "mooe-rm-semi-communication",
@@ -1340,7 +1340,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-335",
+            "id": "y3-co-345",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "City ICT Office",
             "categoryId": "co-ict-machinery-equipment",
@@ -1351,7 +1351,7 @@
         ],
         "mooe": [
           {
-            "id": "y3-mooe-332",
+            "id": "y3-mooe-342",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "City ICT Office",
             "categoryId": "mooe-internet-subscription",
@@ -1360,22 +1360,22 @@
             "unitCost": 28000
           },
           {
-            "id": "y3-mooe-333",
+            "id": "y3-mooe-343",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "City ICT Office",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 165000
+            "unitCost": 140500
           },
           {
-            "id": "y3-mooe-334",
+            "id": "y3-mooe-344",
             "item": "ICT training — staff capability building",
             "office": "City ICT Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 156000
+            "unitCost": 378500
           }
         ]
       },
@@ -1384,7 +1384,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-368",
+            "id": "y3-mooe-378",
             "item": "eBPLS vendor subscription (transition period)",
             "office": "City ICT Office",
             "categoryId": "mooe-other-general-ict-services",
@@ -1393,7 +1393,7 @@
             "unitCost": 2052000
           },
           {
-            "id": "y3-mooe-371",
+            "id": "y3-mooe-381",
             "item": "City portal hosting and SMS gateway",
             "office": "City ICT Office",
             "categoryId": "mooe-web-hosting",
@@ -1402,7 +1402,7 @@
             "unitCost": 486000
           },
           {
-            "id": "y3-mooe-374",
+            "id": "y3-mooe-384",
             "item": "Mesh node repairs and maintenance",
             "office": "City ICT Office",
             "categoryId": "mooe-rm-communication-equipment",
@@ -1411,7 +1411,7 @@
             "unitCost": 378000
           },
           {
-            "id": "y3-mooe-377",
+            "id": "y3-mooe-387",
             "item": "Barcode scanner servicing (assessors)",
             "office": "City ICT Office",
             "categoryId": "mooe-rm-semi-communication",

@@ -141,13 +141,13 @@
     "cioPosition": "Director III — ICT Division",
     "cioUnit": "ICT Division",
     "cioEmail": "cio@pdrio.gov.ph",
-    "cioContact": "+63 2 8581 3421",
+    "cioContact": "+63 2 8617 4286",
     "focalSameAsCio": false,
     "focalName": "Ms. Perla T. Gatchalian",
     "focalPosition": "Chief, Product Development Division",
     "focalUnit": "ICT Division",
     "focalEmail": "focal@pdrio.gov.ph",
-    "focalContact": "+63 2 8661 8290",
+    "focalContact": "+63 2 8401 5796",
     "humanCapital": {
       "plantilla": {
         "it": {
@@ -392,8 +392,8 @@
           "website": true,
           "email": true,
           "landline": true,
-          "socialMedia": true,
-          "mobile": true
+          "socialMedia": false,
+          "mobile": false
         },
         "connectedToPortal": "no"
       },
@@ -469,19 +469,19 @@
         "id": "hc-2",
         "position": "Systems Development Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 3
+        "quantity": 2
       },
       {
         "id": "hc-3",
         "position": "Network and Cybersecurity Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 4
+        "quantity": 3
       },
       {
         "id": "hc-4",
         "position": "ICT Project Support Staff",
         "employmentStatus": "CONTRACTUAL",
-        "quantity": 3
+        "quantity": 2
       }
     ],
     "proposedSystems": [
@@ -761,78 +761,78 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y1-co-201",
+            "id": "y1-co-199",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 38,
-            "unitCost": 56500
+            "unitCost": 47500
           },
           {
-            "id": "y1-co-202",
+            "id": "y1-co-200",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 21,
-            "unitCost": 61000
+            "unitCost": 64000
           },
           {
-            "id": "y1-co-203",
+            "id": "y1-co-201",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 401000
+            "unitCost": 367000
           },
           {
-            "id": "y1-co-204",
+            "id": "y1-co-202",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 92000
+            "unitCost": 85500
           },
           {
-            "id": "y1-co-205",
+            "id": "y1-co-203",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT Division",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 356500
+            "unitCost": 361000
           }
         ],
         "mooe": [
           {
-            "id": "y1-mooe-198",
+            "id": "y1-mooe-196",
             "item": "Internet subscription — 3 offices, pooled (Year 1)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 26000
+            "unitCost": 14000
           },
           {
-            "id": "y1-mooe-199",
+            "id": "y1-mooe-197",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Division",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 209500
+            "unitCost": 150000
           },
           {
-            "id": "y1-mooe-200",
+            "id": "y1-mooe-198",
             "item": "ICT training — staff capability building",
             "office": "ICT Division",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 431500
+            "unitCost": 299500
           }
         ]
       },
@@ -841,7 +841,7 @@
           "projectTitle": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
           "capitalOutlay": [
             {
-              "id": "y1-co-217",
+              "id": "y1-co-216",
               "item": "Project UNDERWRITE — system development and acquisition (Year 1 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
@@ -852,7 +852,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-218",
+              "id": "y1-mooe-217",
               "item": "Project management office — Project UNDERWRITE",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
@@ -861,7 +861,7 @@
               "unitCost": 12110500
             },
             {
-              "id": "y1-mooe-219",
+              "id": "y1-mooe-218",
               "item": "Hosting, support and licences — Project UNDERWRITE (Year 1)",
               "office": "ICT Division",
               "categoryId": "mooe-cloud-computing",
@@ -870,7 +870,7 @@
               "unitCost": 8073500
             },
             {
-              "id": "y1-mooe-220",
+              "id": "y1-mooe-219",
               "item": "ICT training and change management — Project UNDERWRITE",
               "office": "ICT Division",
               "categoryId": "mooe-ict-training",
@@ -884,7 +884,7 @@
           "projectTitle": "Geospatial Risk Data Warehouse",
           "capitalOutlay": [
             {
-              "id": "y1-co-225",
+              "id": "y1-co-224",
               "item": "Geospatial Risk Warehouse — system development and acquisition (Year 1 milestone)",
               "office": "Risk Management Division",
               "categoryId": "co-ict-software",
@@ -895,7 +895,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-226",
+              "id": "y1-mooe-225",
               "item": "Project management office — Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-professional-services",
@@ -904,16 +904,16 @@
               "unitCost": 2570500
             },
             {
-              "id": "y1-mooe-227",
+              "id": "y1-mooe-226",
               "item": "Hosting, support and licences — Geospatial Risk Warehouse (Year 1)",
               "office": "Risk Management Division",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 1713500
             },
             {
-              "id": "y1-mooe-228",
+              "id": "y1-mooe-227",
               "item": "ICT training and change management — Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-ict-training",
@@ -929,7 +929,7 @@
           "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
           "capitalOutlay": [
             {
-              "id": "y1-co-237",
+              "id": "y1-co-236",
               "item": "RAPIDE participation — system development and acquisition (Year 1 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
@@ -940,7 +940,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-238",
+              "id": "y1-mooe-237",
               "item": "Project management office — RAPIDE participation",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
@@ -949,16 +949,16 @@
               "unitCost": 1670500
             },
             {
-              "id": "y1-mooe-239",
+              "id": "y1-mooe-238",
               "item": "Hosting, support and licences — RAPIDE participation (Year 1)",
               "office": "ICT Division",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 1113500
             },
             {
-              "id": "y1-mooe-240",
+              "id": "y1-mooe-239",
               "item": "ICT training and change management — RAPIDE participation",
               "office": "ICT Division",
               "categoryId": "mooe-ict-training",
@@ -972,7 +972,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-245",
+            "id": "y1-mooe-244",
             "item": "PRISM mainframe support (until decommission)",
             "office": "ICT Division",
             "categoryId": "mooe-other-general-ict-services",
@@ -981,7 +981,7 @@
             "unitCost": 4800000
           },
           {
-            "id": "y1-mooe-248",
+            "id": "y1-mooe-247",
             "item": "Reinsurance market data subscriptions",
             "office": "ICT Division",
             "categoryId": "mooe-ict-software-subscription",
@@ -990,7 +990,7 @@
             "unitCost": 2600000
           },
           {
-            "id": "y1-mooe-251",
+            "id": "y1-mooe-250",
             "item": "Records management services (policy archives)",
             "office": "ICT Division",
             "categoryId": "mooe-professional-services",
@@ -1005,36 +1005,45 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-209",
+            "id": "y2-co-207",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 38,
-            "unitCost": 51000
+            "unitCost": 48000
           },
           {
-            "id": "y2-co-210",
+            "id": "y2-co-208",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 21,
-            "unitCost": 58500
+            "unitCost": 62500
           },
           {
-            "id": "y2-co-211",
+            "id": "y2-co-209",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 388500
+            "unitCost": 354500
+          },
+          {
+            "id": "y2-co-210",
+            "item": "Rack-mounted UPS — equipment room",
+            "office": "ICT Division",
+            "categoryId": "co-ict-machinery-equipment",
+            "fundSource": "General Appropriations Act",
+            "qty": 2,
+            "unitCost": 96000
           }
         ],
         "mooe": [
           {
-            "id": "y2-mooe-206",
+            "id": "y2-mooe-204",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
@@ -1043,22 +1052,22 @@
             "unitCost": 23000
           },
           {
-            "id": "y2-mooe-207",
+            "id": "y2-mooe-205",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Division",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 264500
+            "unitCost": 199000
           },
           {
-            "id": "y2-mooe-208",
+            "id": "y2-mooe-206",
             "item": "ICT training — staff capability building",
             "office": "ICT Division",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 176500
+            "unitCost": 372500
           }
         ]
       },
@@ -1067,7 +1076,7 @@
           "projectTitle": "Project UNDERWRITE — Unified Data Environment for Risk-weighted Writing, Rating, Actuarics & Transaction Exchange",
           "capitalOutlay": [
             {
-              "id": "y2-co-221",
+              "id": "y2-co-220",
               "item": "Project UNDERWRITE — system development and acquisition (Year 2 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
@@ -1078,7 +1087,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-222",
+              "id": "y2-mooe-221",
               "item": "Project management office — Project UNDERWRITE",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
@@ -1087,7 +1096,7 @@
               "unitCost": 8769500
             },
             {
-              "id": "y2-mooe-223",
+              "id": "y2-mooe-222",
               "item": "Hosting, support and licences — Project UNDERWRITE (Year 2)",
               "office": "ICT Division",
               "categoryId": "mooe-web-hosting",
@@ -1096,7 +1105,7 @@
               "unitCost": 5846500
             },
             {
-              "id": "y2-mooe-224",
+              "id": "y2-mooe-223",
               "item": "ICT training and change management — Project UNDERWRITE",
               "office": "ICT Division",
               "categoryId": "mooe-ict-training",
@@ -1110,7 +1119,7 @@
           "projectTitle": "Geospatial Risk Data Warehouse",
           "capitalOutlay": [
             {
-              "id": "y2-co-229",
+              "id": "y2-co-228",
               "item": "Geospatial Risk Warehouse — system development and acquisition (Year 2 milestone)",
               "office": "Risk Management Division",
               "categoryId": "co-ict-software",
@@ -1121,7 +1130,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-230",
+              "id": "y2-mooe-229",
               "item": "Project management office — Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-professional-services",
@@ -1130,7 +1139,7 @@
               "unitCost": 2081000
             },
             {
-              "id": "y2-mooe-231",
+              "id": "y2-mooe-230",
               "item": "Hosting, support and licences — Geospatial Risk Warehouse (Year 2)",
               "office": "Risk Management Division",
               "categoryId": "mooe-cloud-computing",
@@ -1139,7 +1148,7 @@
               "unitCost": 1387000
             },
             {
-              "id": "y2-mooe-232",
+              "id": "y2-mooe-231",
               "item": "ICT training and change management — Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-ict-training",
@@ -1155,7 +1164,7 @@
           "projectTitle": "RAPIDE — Real-time Analytics Platform for Inter-agency Disaster Events (PDRIO share)",
           "capitalOutlay": [
             {
-              "id": "y2-co-241",
+              "id": "y2-co-240",
               "item": "RAPIDE participation — system development and acquisition (Year 2 milestone)",
               "office": "ICT Division",
               "categoryId": "co-ict-software",
@@ -1166,7 +1175,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-242",
+              "id": "y2-mooe-241",
               "item": "Project management office — RAPIDE participation",
               "office": "ICT Division",
               "categoryId": "mooe-professional-services",
@@ -1175,16 +1184,16 @@
               "unitCost": 1209500
             },
             {
-              "id": "y2-mooe-243",
+              "id": "y2-mooe-242",
               "item": "Hosting, support and licences — RAPIDE participation (Year 2)",
               "office": "ICT Division",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 806500
             },
             {
-              "id": "y2-mooe-244",
+              "id": "y2-mooe-243",
               "item": "ICT training and change management — RAPIDE participation",
               "office": "ICT Division",
               "categoryId": "mooe-ict-training",
@@ -1198,7 +1207,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-246",
+            "id": "y2-mooe-245",
             "item": "PRISM mainframe support (until decommission)",
             "office": "ICT Division",
             "categoryId": "mooe-other-general-ict-services",
@@ -1207,7 +1216,7 @@
             "unitCost": 4992000
           },
           {
-            "id": "y2-mooe-249",
+            "id": "y2-mooe-248",
             "item": "Reinsurance market data subscriptions",
             "office": "ICT Division",
             "categoryId": "mooe-ict-software-subscription",
@@ -1216,7 +1225,7 @@
             "unitCost": 2704000
           },
           {
-            "id": "y2-mooe-252",
+            "id": "y2-mooe-251",
             "item": "Records management services (policy archives)",
             "office": "ICT Division",
             "categoryId": "mooe-professional-services",
@@ -1231,7 +1240,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-215",
+            "id": "y3-co-214",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
@@ -1240,7 +1249,7 @@
             "unitCost": 50000
           },
           {
-            "id": "y3-co-216",
+            "id": "y3-co-215",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT Division",
             "categoryId": "co-ict-machinery-equipment",
@@ -1251,7 +1260,7 @@
         ],
         "mooe": [
           {
-            "id": "y3-mooe-212",
+            "id": "y3-mooe-211",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "ICT Division",
             "categoryId": "mooe-internet-subscription",
@@ -1260,22 +1269,22 @@
             "unitCost": 19500
           },
           {
-            "id": "y3-mooe-213",
+            "id": "y3-mooe-212",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT Division",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 128000
+            "unitCost": 240500
           },
           {
-            "id": "y3-mooe-214",
+            "id": "y3-mooe-213",
             "item": "ICT training — staff capability building",
             "office": "ICT Division",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 196000
+            "unitCost": 535500
           }
         ]
       },
@@ -1284,7 +1293,7 @@
           "projectTitle": "Geospatial Risk Data Warehouse",
           "capitalOutlay": [
             {
-              "id": "y3-co-233",
+              "id": "y3-co-232",
               "item": "Geospatial Risk Warehouse — system development and acquisition (Year 3 milestone)",
               "office": "Risk Management Division",
               "categoryId": "co-ict-software",
@@ -1295,7 +1304,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-234",
+              "id": "y3-mooe-233",
               "item": "Project management office — Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-professional-services",
@@ -1304,7 +1313,7 @@
               "unitCost": 1469000
             },
             {
-              "id": "y3-mooe-235",
+              "id": "y3-mooe-234",
               "item": "Hosting, support and licences — Geospatial Risk Warehouse (Year 3)",
               "office": "Risk Management Division",
               "categoryId": "mooe-web-hosting",
@@ -1313,7 +1322,7 @@
               "unitCost": 979000
             },
             {
-              "id": "y3-mooe-236",
+              "id": "y3-mooe-235",
               "item": "ICT training and change management — Geospatial Risk Warehouse",
               "office": "Risk Management Division",
               "categoryId": "mooe-ict-training",
@@ -1328,7 +1337,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-247",
+            "id": "y3-mooe-246",
             "item": "PRISM mainframe support (until decommission)",
             "office": "ICT Division",
             "categoryId": "mooe-other-general-ict-services",
@@ -1337,7 +1346,7 @@
             "unitCost": 5184000
           },
           {
-            "id": "y3-mooe-250",
+            "id": "y3-mooe-249",
             "item": "Reinsurance market data subscriptions",
             "office": "ICT Division",
             "categoryId": "mooe-ict-software-subscription",
@@ -1346,7 +1355,7 @@
             "unitCost": 2808000
           },
           {
-            "id": "y3-mooe-253",
+            "id": "y3-mooe-252",
             "item": "Records management services (policy archives)",
             "office": "ICT Division",
             "categoryId": "mooe-professional-services",

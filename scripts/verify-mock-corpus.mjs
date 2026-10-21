@@ -108,7 +108,7 @@ ok(compass.agencies.length === 12, `compass covers all 12 agencies (got ${compas
 ok(compass.agencies.filter((a) => a.route === "GAA").length === 8, "8 of 12 agencies travel the GAA route");
 const papCodes = corpus.agencies.flatMap((a) => a.projects.filter((p) => p.papCode).map((p) => p.papCode));
 ok(new Set(papCodes).size === papCodes.length, "mock PAP codes are unique");
-ok(papCodes.length === 27, `27 of 35 projects carry a PAP code (got ${papCodes.length})`);
+ok(papCodes.length === 31, `31 of 39 projects carry a PAP code (got ${papCodes.length})`);
 const orgCodes = corpus.agencies.map((a) => a.identifiers.uacsOrgCode);
 ok(new Set(orgCodes).size === orgCodes.length, "mock UACS org codes are unique");
 
@@ -140,6 +140,81 @@ if (trace) {
 }
 const dupFunding = corpus.agencies.every((a) => a.proposedSystems.length === a.counts.proposedSystems);
 ok(dupFunding, "every proposed system (III-D) is exported for duplication watch");
+
+// ─── AI & compute layer ───────────────────────────────────────────────────────
+console.log("AI & compute layer");
+const ai = corpus.aiLayer;
+ok(ai.fictitious === true && ai.note.length > 0, "AI layer carries the fictitious note");
+ok(ai.projects.length === 4, `4 AI-tagged projects (got ${ai.projects.length})`);
+ok(ai.projects.filter((p) => p.kind === "own-build").length === 2, "2 own-build clusters (MFSC, PRPGC)");
+for (const p of ai.projects) {
+  const a = corpus.agencies.find((x) => x.slug === p.slug);
+  const proj = a && a.projects.find((x) => x.id === p.projectId);
+  ok(!!proj, `${p.acronym}: tagged project ${p.projectId} exists`);
+  if (!proj) continue;
+  const byLine = {};
+  a.lineItems.filter((l) => l.projectId === p.projectId).forEach((l) => { byLine[l.year] = (byLine[l.year] ?? 0) + l.total; });
+  const byLinePairs = Object.entries(byLine).map(([y, v]) => [Number(y), v]).sort((x, y) => x[0] - y[0]);
+  ok(JSON.stringify(p.byYear.map((y) => [y.year, y.amount])) === JSON.stringify(byLinePairs), `${p.acronym} ${p.shortTitle}: byYear amounts == real line items`);
+  ok(p.total === proj.totalCost, `${p.acronym} ${p.shortTitle}: total == project totalCost`);
+}
+ok(ai.ownBuildTotal === ai.projects.filter((p) => p.kind === "own-build").reduce((s, p) => s + p.total, 0), `ownBuildTotal consistent (₱${ai.ownBuildTotal.toLocaleString("en-PH")})`);
+const yearMap = Object.fromEntries(corpus.totals.byYear.map((y) => [y.year, y.total]));
+for (const y of ai.byYear) {
+  const expect = yearMap[y.year] ? y.amount / yearMap[y.year] : 0;
+  ok(Math.abs(y.share - expect) < 1e-9, `AI share FY${y.year} == amount / corpus year total (${(y.share * 100).toFixed(1)}%)`);
+}
+
+// ─── Security posture (Annex 1 mock) ──────────────────────────────────────────
+console.log("Security posture (Annex 1 mock)");
+const sec = corpus.security;
+ok(Object.keys(sec.fleetBySlug).length === 12, "fleet entries for all 12 agencies");
+for (const [slug, fleet] of Object.entries(sec.fleetBySlug)) {
+  ok(fleet.fictitious === true, `${slug}: fleet marked fictitious`);
+  ok(fleet.endpointsEol <= fleet.endpoints && fleet.serversEol <= fleet.servers && fleet.networkEol <= fleet.networkDevices, `${slug}: EOL counts within fleet totals`);
+}
+const adv = sec.advisory;
+ok(adv.fictitious === true, "advisory marked fictitious");
+for (const hit of adv.agencies) {
+  const fleet = sec.fleetBySlug[hit.slug];
+  const model = fleet && fleet.models.find((m) => m.name === adv.model);
+  ok(!!model, `${hit.acronym}: advisory model ${adv.model} present in fleet`);
+  ok(!!model && model.count === hit.units, `${hit.acronym}: advisory units (${hit.units}) == fleet model count`);
+  ok(!!model && model.eol === true, `${hit.acronym}: advisory model past vendor support`);
+  if (hit.refreshInPlan) {
+    const a = corpus.agencies.find((x) => x.slug === hit.slug);
+    ok(a.projects.some((p) => p.shortTitle === hit.refreshProject), `${hit.acronym}: refresh project "${hit.refreshProject}" exists in its plan`);
+  }
+}
+ok(adv.agencies.filter((h) => h.refreshInPlan).length === 2, "2 of 5 hit agencies carry replacement budget in their plans");
+
+// ─── Procurement layer (FY2026) ───────────────────────────────────────────────
+console.log("Procurement layer (FY2026)");
+const proc = corpus.procurement;
+const stageValues = new Set(["awarded", "bidding", "pre-bid", "none"]);
+for (const r of proc.rows) {
+  const a = corpus.agencies.find((x) => x.slug === r.slug);
+  const amount = a.lineItems.filter((l) => l.projectId === r.projectId && l.year === 2026).reduce((s, l) => s + l.total, 0);
+  ok(stageValues.has(r.stage), `${r.acronym} ${r.shortTitle}: valid stage`);
+  ok(r.amount === amount, `${r.acronym} ${r.shortTitle}: amount == FY2026 line items (₱${amount.toLocaleString("en-PH")})`);
+}
+let expectedRows = 0;
+corpus.agencies
+  .filter((a) => a.cycle.startYear <= 2026 && 2026 <= a.cycle.endYear)
+  .forEach((a) => a.projects.forEach((p) => {
+    if (a.lineItems.some((l) => l.projectId === p.id && l.year === 2026 && l.total > 0)) expectedRows++;
+  }));
+ok(expectedRows === proc.rows.length, `every FY2026-budgeted project has a procurement row (${expectedRows} of ${proc.rows.length})`);
+
+// ─── Unit prices ──────────────────────────────────────────────────────────────
+console.log("Unit prices");
+const up = corpus.unitPrices;
+const laptopSlugs = new Set(corpus.agencies.filter((a) => a.lineItems.some((l) => /laptop|notebook/i.test(l.item))).map((a) => a.slug));
+ok(up.rows.length === laptopSlugs.size, `one row per agency with laptop lines (${up.rows.length})`);
+const vmscRow = up.rows.find((r) => r.acronym === "VMSC");
+ok(!!vmscRow && vmscRow.medianUnitCost > up.corpusMedian * 1.4, `VMSC median (₱${vmscRow?.medianUnitCost.toLocaleString()}) is >1.4× the corpus median (₱${up.corpusMedian.toLocaleString()})`);
+const bccmRow = up.rows.find((r) => r.acronym === "BCCM");
+ok(!!bccmRow && !!bccmRow.note, "BCCM carries the ruggedized-spec note");
 
 // ─── 4. Determinism ───────────────────────────────────────────────────────────
 if (!process.argv.includes("--skip-determinism")) {

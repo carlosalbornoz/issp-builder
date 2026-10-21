@@ -53,9 +53,16 @@ import type {
   CompassLayer,
   CompassProjectTrace,
   CompassYearRecord,
+  CorpusAdvisory,
+  CorpusAiLayer,
+  CorpusAiKind,
+  CorpusFleet,
   CorpusKpi,
   CorpusLineItem,
   CorpusProfile,
+  CorpusProcurement,
+  CorpusProcurementStage,
+  CorpusUnitPrices,
   RepositoryCorpus,
 } from "../src/lib/repository/corpus-types";
 
@@ -533,7 +540,8 @@ function buildBudget(seed: AgencySeed): Part4Data {
           `Project management office — ${p.shortTitle}`, p.unit, "mooe-professional-services", fund, 1, round500(mooeAmt * 0.45)));
         mooeLines.push(mkLine(y as 0 | 1 | 2, "mooe",
           `Hosting, support and licences — ${p.shortTitle} (${yearLabel[y]})`, p.unit,
-          rand() > 0.5 ? "mooe-cloud-computing" : "mooe-web-hosting", fund, 1, round500(mooeAmt * 0.3)));
+          // Deterministic per project+year so adding seed projects cannot reshuffle later agencies' filler lines.
+          (p.id.length + y * 7) % 2 === 0 ? "mooe-cloud-computing" : "mooe-web-hosting", fund, 1, round500(mooeAmt * 0.3)));
         mooeLines.push(mkLine(y as 0 | 1 | 2, "mooe",
           `ICT training and change management — ${p.shortTitle}`, p.unit, "mooe-ict-training", fund, 1, round500(mooeAmt * 0.25)));
       }
@@ -827,6 +835,8 @@ const SEEDS: AgencySeed[] = [
       staff: 92,
       opTargets: [12_000_000, 10_000_000, 8_000_000],
       opFeatured: [
+        { year: 0, cls: "co", item: "Ruggedized inspection laptops with thermal probe kit (regional cold-chain teams, IP65)", categoryId: "co-ict-machinery-equipment", qty: 48, unitCost: 120_000 },
+        { year: 1, cls: "co", item: "Ruggedized inspection laptops — second tranche (regional cold-chain teams)", categoryId: "co-ict-machinery-equipment", qty: 12, unitCost: 120_000 },
         { year: 2, cls: "mooe", item: "Semi-expendable label printers for QR tagging", categoryId: "mooe-semi-expendable-printing-equipment", qty: 30, unitCost: 8500 },
         { year: 1, cls: "co", item: "Cold-room monitoring display panels (registry wall)", categoryId: "co-ict-machinery-equipment", qty: 4, unitCost: 320000 },
       ],
@@ -948,6 +958,33 @@ const SEEDS: AgencySeed[] = [
         kpis: [
           { hierarchy: "Output", indicator: "Extension modules available online", baseline: "0", targets: ["12", "20", "24"] },
           { hierarchy: "Intermediate Outcome", indicator: "Cooperative learners completing at least one module", baseline: "0", targets: ["600", "1,500", "2,400"] },
+        ],
+      },
+      {
+        id: "p-ailab",
+        shortTitle: "AI Teaching & Research Lab",
+        title: "AI Teaching and Research Laboratory",
+        description: "Equips a teaching laboratory with accelerator-capable workstations and a departmental training server so the College can offer AI electives across its agri-forestry programs and train faculty — capability-building on shared curriculum workloads, not a production cluster.",
+        objectives: "1. AI elective track launched in AY 2027-2028\n2. 24-seat laboratory operational with a departmental training server\n3. 12 faculty certified to teach AI modules by 2028",
+        kind: "hardware",
+        span: [1, 1],
+        target: 22_000_000,
+        unit: "ICT Office",
+        alignment: ["E-Government Master Plan"],
+        harmonization: ["Scalability and Sustainability", "Resource Optimization"],
+        hw: [
+          { item: "Accelerator-equipped teaching workstations (AI lab, 24 seats)", categoryId: "co-ict-machinery-equipment", qty: 24, unitCost: 185_000 },
+          { item: "Departmental AI training server (8-accelerator, teaching workloads)", categoryId: "co-ict-machinery-equipment", qty: 1, unitCost: 6_800_000 },
+          { item: "Lab benching, cooling and precision power", categoryId: "co-infrastructure-communications-network", qty: 1, unitCost: 1_600_000 },
+        ],
+        deliverables: [
+          "",
+          "Laboratory operational; AI elective track launched; first 120 students enrolled; 8 faculty certified",
+          "",
+        ],
+        kpis: [
+          { hierarchy: "Output", indicator: "Students completing at least one AI elective", baseline: "0", targets: ["120", "240", "300"] },
+          { hierarchy: "Immediate Outcome", indicator: "Faculty certified to teach AI modules", baseline: "2", targets: ["8", "12", "16"] },
         ],
       },
     ],
@@ -1433,12 +1470,43 @@ const SEEDS: AgencySeed[] = [
         harmonization: ["National Prioritization"],
         hw: [
           { item: "Pier fiber builds and resilient last-mile (14 piers)", categoryId: "co-infrastructure-communications-network", qty: 14, unitCost: 2_900_000 },
+          { item: "Pier edge firewalls and secure gateways (replaces legacy fleet)", categoryId: "co-ict-machinery-equipment", qty: 9, unitCost: 650_000 },
           { item: "Marine VHF radios (fleet communications refresh)", categoryId: "co-communication-equipment", qty: 96, unitCost: 45000 },
         ],
         deliverables: [
           "All 14 piers on dedicated resilient links; passenger displays installed; failover tested",
           "",
           "",
+        ],
+      },
+      {
+        id: "p-hula",
+        shortTitle: "Project HULA",
+        title: "Project HULA — Fleet AI Models and On-Premise Inference Cluster",
+        description: "Trains and serves DALOY's predictive-maintenance and fare-demand models on a Corporation-owned GPU cluster sited at the operations center: commuter movement and vessel telemetry stay on-premise by policy, with model serving integrated into the fleet health platform.",
+        objectives: "1. GPU inference cluster commissioned at the operations center by 2028\n2. Predictive maintenance and fare-demand models in production by 2029\n3. Model training and serving entirely on Corporation-owned infrastructure",
+        kind: "hardware",
+        span: [1, 1],
+        target: 105_000_000,
+        unit: "ICT Department",
+        alignment: ["Public Investment Program", "National Cybersecurity Plan"],
+        harmonization: ["Scalability and Sustainability", "Resource Optimization"],
+        linked: ["ps-daloy"],
+        fund: "Other Income Generating Sources",
+        hw: [
+          { item: "GPU inference servers (8-accelerator racks, operations center)", categoryId: "co-ict-machinery-equipment", qty: 3, unitCost: 9_800_000 },
+          { item: "Model training nodes (4-accelerator, research workloads)", categoryId: "co-ict-machinery-equipment", qty: 2, unitCost: 6_500_000 },
+          { item: "High-performance storage array for telemetry and model artifacts", categoryId: "co-ict-machinery-equipment", qty: 1, unitCost: 7_200_000 },
+        ],
+        deliverables: [
+          "",
+          "Cluster commissioned; two predictive-maintenance models and the fare-demand pilot in production",
+          "Five models in production; fleet dashboard fully model-driven",
+        ],
+        kpis: [
+          { hierarchy: "Output", indicator: "AI models in production (maintenance, demand, safety)", baseline: "0", targets: ["2", "5", "5"] },
+          { hierarchy: "Intermediate Outcome", indicator: "Unplanned engine teardowns flagged at least 2 weeks ahead", baseline: "0%", targets: ["40%", "75%", "75%"] },
+          { hierarchy: "Immediate Outcome", indicator: "Fare-demand forecast error (morning peak, MAPE)", baseline: "18%", targets: ["12%", "9%", "9%"] },
         ],
       },
     ],
@@ -1454,6 +1522,7 @@ const SEEDS: AgencySeed[] = [
       continuing: [
         { item: "FERRYCARD AFC vendor licensing and settlement (until retirement)", categoryId: "mooe-other-general-ict-services", annual: 28_000_000, fund: "Other Income Generating Sources" },
         { item: "Vessel broadband and marine communications", categoryId: "mooe-cable-satellite-radio", annual: 6_500_000 },
+        { item: "AI inference cluster power, cooling and hardware support", categoryId: "mooe-data-center-services", annual: 3_200_000, fund: "Other Income Generating Sources" },
         { item: "Fare media production and card stock", categoryId: "mooe-semi-expendable-ict-equipment", annual: 1_800_000, fund: "Other Income Generating Sources" },
       ],
     },
@@ -1857,6 +1926,36 @@ const SEEDS: AgencySeed[] = [
           "Stress-testing environment operational",
         ],
       },
+      {
+        id: "p-ampere",
+        shortTitle: "Project AMPERE",
+        title: "Project AMPERE — Actuarial Modeling Platform for Energy Risk Estimation",
+        description: "A Corporation-owned AI compute cluster for guarantee pricing and portfolio stress models: sponsor financial data and proprietary model runs stay on-premise under the Corporation's fiduciary commitments, with governed MLOps on the Portfolio Data Platform. The largest single AI-compute ask in this corpus.",
+        objectives: "1. Cluster and MLOps environment commissioned by 2028\n2. All pricing and stress models re-platformed from desktop software by 2029\n3. Portfolio-wide stress runs in minutes, fully reproducible",
+        kind: "hardware",
+        span: [0, 1],
+        target: 220_000_000,
+        unit: "ICT and Data Division",
+        alignment: ["Public Investment Program", "National Cybersecurity Plan"],
+        harmonization: ["Scalability and Sustainability", "Resource Optimization"],
+        linked: ["ps-portfolio"],
+        fund: "Other Income Generating Sources",
+        hw: [
+          { item: "AI training cluster nodes (16 accelerator nodes, liquid-cooled)", categoryId: "co-ict-machinery-equipment", qty: 16, unitCost: 3_625_000 },
+          { item: "Inference servers for portfolio stress runs", categoryId: "co-ict-machinery-equipment", qty: 2, unitCost: 8_400_000 },
+          { item: "High-performance storage array (exposure history and model registry)", categoryId: "co-ict-machinery-equipment", qty: 1, unitCost: 12_000_000 },
+        ],
+        deliverables: [
+          "Cluster commissioned; MLOps environment live; first pricing models re-platformed",
+          "All stress models re-platformed; desktop statistical software retired; any model run replayable from the registry",
+          "",
+        ],
+        kpis: [
+          { hierarchy: "Intermediate Outcome", indicator: "Portfolio-wide stress test turnaround", baseline: "20 minutes (cube)", targets: ["minutes", "seconds", "seconds"] },
+          { hierarchy: "Immediate Outcome", indicator: "Model runs reproducible 6 months later", baseline: "0%", targets: ["60%", "100%", "100%"] },
+          { hierarchy: "Output", indicator: "Pricing and stress models on the governed platform", baseline: "0 of 11", targets: ["5", "11", "11"] },
+        ],
+      },
     ],
     egp: { eGovPay: "no", pnpkiAdoption: 41, ifmis: "no", recordsMgmt: "yes", pscp: "no" },
     budget: {
@@ -2115,6 +2214,7 @@ const SEEDS: AgencySeed[] = [
       staff: 208,
       opTargets: [4_000_000, 3_500_000, 3_000_000],
       opFeatured: [
+        { year: 0, cls: "co", item: "Standard office laptop computers (clerical, registrar and faculty-support staff)", categoryId: "co-ict-machinery-equipment", qty: 20, unitCost: 88_000 },
         { year: 1, cls: "co", item: "Plotting and chart printers (navigation training)", categoryId: "co-printing-equipment", qty: 2, unitCost: 45000 },
       ],
       continuing: [
@@ -2180,6 +2280,7 @@ const SEEDS: AgencySeed[] = [
       { id: "ps-tala", name: "TALA — Cooperative Registry & Audit Ledger", classification: "OPERATIONS", frontline: true, accessType: "ONLINE", description: "Modern registry with unique cooperative identities, audit workflow and ledger, and a public verification portal answering good-standing queries in seconds.", strategy: "OUTSOURCED", platform: "Java / PostgreSQL", database: "tala_prod", storage: "CLOUD", internalUsers: "Registry and audit bureaus (~190 staff)", externalUsers: "Cooperatives, auditors, the public", owner: "ICT Service", pia: true, status: "FOR_DEVELOPMENT" },
       { id: "ps-standards", name: "Standards Portal and e-Learning", classification: "SUPPORT_TO_OPERATIONS", frontline: true, accessType: "ONLINE", description: "Versioned standards library with plain-language guides, e-learning and compliance self-checks for cooperatives.", strategy: "OUTSOURCED", platform: "Next.js / LMS", database: "standards", storage: "CLOUD", internalUsers: "Standards Development (~35 staff)", externalUsers: "Cooperatives (~78,000 entities)", owner: "Standards Development Division", status: "FOR_DEVELOPMENT" },
       { id: "ps-personnel", name: "CCS Personnel Information System", classification: "GENERAL_ADMIN", description: "Personnel records and 201 files for Commission staff, replacing shared-drive folders named after former clerks.", strategy: "IN_HOUSE", platform: "Next.js / PostgreSQL", database: "personnel", storage: "CLOUD", internalUsers: "HR Section (~15 staff)", owner: "Human Resources Section", status: "FOR_DEVELOPMENT" },
+      { id: "ps-agapay", name: "AGAPAY — AI Assistant for Standards Research", classification: "SUPPORT_TO_OPERATIONS", description: "Drafting and research assistant for the standards bureau: retrieves versioned standards and precedent, summarizes consultation comments with citations, and flags inconsistencies for human review — served from a shared government AI platform, not a Commission-owned cluster.", strategy: "OUTSOURCED", platform: "Shared government AI platform (proposed national compute)", database: "Vendor-managed", storage: "CLOUD", internalUsers: "Standards Development and Audit (~95 staff)", owner: "ICT Service", status: "FOR_DEVELOPMENT" },
     ],
     projects: [
       {
@@ -2222,6 +2323,29 @@ const SEEDS: AgencySeed[] = [
           "Portal live with all current standards versioned; first e-learning paths released",
           "",
           "",
+        ],
+      },
+      {
+        id: "p-agapay",
+        shortTitle: "AGAPAY Assistant",
+        title: "AGAPAY — AI Assistant for Standards Research (shared platform)",
+        description: "Deploys the AGAPAY drafting and research assistant on a shared government AI platform: retrieval over versioned standards, comment summarization with citations, and inconsistency flags for human review. The counterpoint to own-cluster builds — capability without infrastructure.",
+        objectives: "1. Assistant live for the standards bureau by 2029\n2. Consultation comment summaries with citations for every rulemaking\n3. Zero on-premise AI infrastructure",
+        kind: "software",
+        span: [1, 2],
+        target: 18_000_000,
+        unit: "ICT Service",
+        alignment: ["E-Government Master Plan"],
+        harmonization: ["Resource Optimization", "Interoperability Framework"],
+        linked: ["ps-agapay"],
+        deliverables: [
+          "",
+          "Assistant live in production for standards research; citation-checked summaries in two rulemakings",
+          "Extended to audit quality review; platform costs published per use",
+        ],
+        kpis: [
+          { hierarchy: "Intermediate Outcome", indicator: "Average standards-research turnaround per rulemaking", baseline: "34 days", targets: ["18 days", "10 days", "10 days"] },
+          { hierarchy: "Immediate Outcome", indicator: "Consultation comments summarized with citations", baseline: "0%", targets: ["60%", "100%", "100%"] },
         ],
       },
     ],
@@ -2484,6 +2608,233 @@ function buildCompass(docs: { doc: IsspDocument; meta: { slug: string } }[], pro
     note:
       "Execution-side demonstration data in the shape of a future DBM COMPASS feed — NEP, GAA, allotments, obligations and disbursements are invented. Plan columns come from the .issp corpus. COMPASS itself is a proposed link, not live DBM data.",
     agencies,
+  };
+}
+
+// ─── Mock AI & compute layer ──────────────────────────────────────────────────
+// Projects tagged as AI/compute asks. Amounts are their real Part IV line items,
+// so every figure in the spend-wave views reconciles with the B.1–B.4 engine.
+
+const AI_TAGGED: { slug: string; projectId: string; kind: CorpusAiKind }[] = [
+  { slug: "mfsc-2027-2029", projectId: "p-hula", kind: "own-build" },
+  { slug: "prpgc-2028-2030", projectId: "p-ampere", kind: "own-build" },
+  { slug: "hafsc-2026-2028", projectId: "p-ailab", kind: "education" },
+  { slug: "ccs-2028-2030", projectId: "p-agapay", kind: "adoption" },
+];
+
+function buildAiLayer(profiles: CorpusProfile[]): CorpusAiLayer {
+  const projects = AI_TAGGED.map(({ slug, projectId, kind }) => {
+    const profile = profiles.find((a) => a.slug === slug)!;
+    const project = profile.projects.find((p) => p.id === projectId)!;
+    const byYearMap = new Map<number, number>();
+    profile.lineItems
+      .filter((l) => l.projectId === projectId)
+      .forEach((l) => byYearMap.set(l.year, (byYearMap.get(l.year) ?? 0) + l.total));
+    return {
+      slug,
+      acronym: profile.acronym,
+      projectId,
+      projectTitle: project.title,
+      shortTitle: project.shortTitle,
+      kind,
+      byYear: [...byYearMap.entries()].sort((x, y) => x[0] - y[0]).map(([year, amount]) => ({ year, amount })),
+      total: project.totalCost,
+    };
+  });
+
+  // Corpus year totals across all agencies covering each year, for the share.
+  const corpusYear = new Map<number, number>();
+  profiles.forEach((a) => a.budget.grandTotals.forEach((t, i) => {
+    const year = a.cycle.startYear + i;
+    corpusYear.set(year, (corpusYear.get(year) ?? 0) + t);
+  }));
+  const aiYear = new Map<number, number>();
+  projects.forEach((p) => p.byYear.forEach(({ year, amount }) => aiYear.set(year, (aiYear.get(year) ?? 0) + amount)));
+
+  return {
+    fictitious: true,
+    note:
+      "AI/compute asks tagged in the demonstration corpus (agentic services, model platforms, GPU clusters, teaching labs). Amounts are each project's real Part IV line items; tags are a proposed ISSP field, marked here for the spend-wave views.",
+    projects,
+    byYear: [...corpusYear.keys()].sort((x, y) => x - y).map((year) => {
+      const amount = aiYear.get(year) ?? 0;
+      const total = corpusYear.get(year) ?? 0;
+      return { year, amount, share: total ? amount / total : 0 };
+    }),
+    ownBuildTotal: projects.filter((p) => p.kind === "own-build").reduce((s, p) => s + p.total, 0),
+  };
+}
+
+// ─── Mock ICT asset posture (Annex 1 shape) ───────────────────────────────────
+// Stands in for the Existing ICT Resource Inventory (Annex 1) a revised ISSP
+// would carry as structured data. All makes and models are fictitious.
+
+const FLEET: Record<string, CorpusFleet> = {
+  "ncwtr-2026-2028": { fictitious: true, endpoints: 240, endpointsEol: 38, servers: 9, serversEol: 2, networkDevices: 38, networkEol: 6, avgAgeYears: 4.2, models: [
+    { name: "LumaBook 15", kind: "endpoint", count: 202, eol: false },
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 38, eol: true, supportUntil: "2024-07" },
+    { name: "RakServer RX320", kind: "server", count: 2, eol: true, supportUntil: "2025-11" },
+    { name: "NetGate FX-200", kind: "security", count: 14, eol: true, supportUntil: "2025-06" },
+  ] },
+  "bccm-2026-2028": { fictitious: true, endpoints: 310, endpointsEol: 96, servers: 14, serversEol: 5, networkDevices: 60, networkEol: 22, avgAgeYears: 5.1, models: [
+    { name: "DeskPro S2", kind: "endpoint", count: 214, eol: false },
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 96, eol: true, supportUntil: "2024-07" },
+    { name: "NetGate FX-200", kind: "security", count: 6, eol: true, supportUntil: "2025-06" },
+  ] },
+  "hafsc-2026-2028": { fictitious: true, endpoints: 190, endpointsEol: 88, servers: 6, serversEol: 4, networkDevices: 45, networkEol: 31, avgAgeYears: 6.8, models: [
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 88, eol: true, supportUntil: "2024-07" },
+    { name: "Klark Tower 800", kind: "server", count: 4, eol: true, supportUntil: "2025-01" },
+    { name: "NetGate FX-200", kind: "security", count: 4, eol: true, supportUntil: "2025-06" },
+  ] },
+  "ncra-2027-2029": { fictitious: true, endpoints: 520, endpointsEol: 74, servers: 22, serversEol: 6, networkDevices: 96, networkEol: 28, avgAgeYears: 4.6, models: [
+    { name: "LumaBook 15", kind: "endpoint", count: 446, eol: false },
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 74, eol: true, supportUntil: "2024-07" },
+    { name: "NetGate FX-200", kind: "security", count: 14, eol: true, supportUntil: "2025-06" },
+    { name: "SentriEdge 90", kind: "network", count: 28, eol: true, supportUntil: "2026-03" },
+  ] },
+  "pdrio-2027-2029": { fictitious: true, endpoints: 340, endpointsEol: 61, servers: 16, serversEol: 4, networkDevices: 70, networkEol: 19, avgAgeYears: 4.9, models: [
+    { name: "DeskPro S2", kind: "endpoint", count: 279, eol: false },
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 61, eol: true, supportUntil: "2024-07" },
+  ] },
+  "mfsc-2027-2029": { fictitious: true, endpoints: 460, endpointsEol: 52, servers: 18, serversEol: 7, networkDevices: 84, networkEol: 30, avgAgeYears: 4.4, models: [
+    { name: "LumaBook 15", kind: "endpoint", count: 408, eol: false },
+    { name: "RakServer RX410", kind: "server", count: 7, eol: true, supportUntil: "2026-08" },
+    { name: "NetGate FX-200", kind: "security", count: 9, eol: true, supportUntil: "2025-06" },
+  ] },
+  "malinaw-2027-2029": { fictitious: true, endpoints: 120, endpointsEol: 55, servers: 3, serversEol: 2, networkDevices: 18, networkEol: 11, avgAgeYears: 6.2, models: [
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 55, eol: true, supportUntil: "2024-07" },
+    { name: "Klark Tower 800", kind: "server", count: 2, eol: true, supportUntil: "2025-01" },
+  ] },
+  "nftc-2028-2030": { fictitious: true, endpoints: 260, endpointsEol: 49, servers: 11, serversEol: 3, networkDevices: 44, networkEol: 13, avgAgeYears: 4.0, models: [
+    { name: "DeskPro S2", kind: "endpoint", count: 211, eol: false },
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 49, eol: true, supportUntil: "2024-07" },
+    { name: "NetGate FX-200", kind: "security", count: 7, eol: true, supportUntil: "2025-06" },
+  ] },
+  "prpgc-2028-2030": { fictitious: true, endpoints: 210, endpointsEol: 24, servers: 8, serversEol: 1, networkDevices: 26, networkEol: 4, avgAgeYears: 3.1, models: [
+    { name: "DeskPro S2", kind: "endpoint", count: 186, eol: false },
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 24, eol: true, supportUntil: "2024-07" },
+  ] },
+  "sanprospero-2028-2030": { fictitious: true, endpoints: 46, endpointsEol: 26, servers: 1, serversEol: 1, networkDevices: 8, networkEol: 6, avgAgeYears: 7.4, models: [
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 26, eol: true, supportUntil: "2024-07" },
+    { name: "Klark Tower 800", kind: "server", count: 1, eol: true, supportUntil: "2025-01" },
+  ] },
+  "vmsc-2028-2030": { fictitious: true, endpoints: 380, endpointsEol: 142, servers: 9, serversEol: 5, networkDevices: 52, networkEol: 26, avgAgeYears: 5.9, models: [
+    { name: "DeskPro S2", kind: "endpoint", count: 238, eol: false },
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 142, eol: true, supportUntil: "2024-07" },
+  ] },
+  "ccs-2028-2030": { fictitious: true, endpoints: 230, endpointsEol: 58, servers: 8, serversEol: 3, networkDevices: 40, networkEol: 12, avgAgeYears: 5.3, models: [
+    { name: "DeskPro S2", kind: "endpoint", count: 172, eol: false },
+    { name: "LumaBook 14 (2019)", kind: "endpoint", count: 58, eol: true, supportUntil: "2024-07" },
+    { name: "NetGate FX-200", kind: "security", count: 5, eol: true, supportUntil: "2025-06" },
+  ] },
+};
+
+/** One fictitious advisory whose blast radius the corpus can answer. */
+const ADVISORY: CorpusAdvisory = {
+  fictitious: true,
+  id: "FY26-114",
+  title: "Pre-authentication remote code execution in NetGate FX-200 firewall firmware",
+  model: "NetGate FX-200",
+  kind: "network firewall",
+  severity: "critical",
+  published: "2026-09-18",
+  agencies: [
+    { slug: "ncra-2027-2029", acronym: "NCRA", units: 14, refreshInPlan: false },
+    { slug: "mfsc-2027-2029", acronym: "MFSC", units: 9, refreshInPlan: true, refreshProject: "Pier Network Connectivity and Passenger Information" },
+    { slug: "bccm-2026-2028", acronym: "BCCM", units: 6, refreshInPlan: false },
+    { slug: "ccs-2028-2030", acronym: "CCS", units: 5, refreshInPlan: false },
+    { slug: "hafsc-2026-2028", acronym: "HAFSC", units: 4, refreshInPlan: true, refreshProject: "Campus Network Modernization and Cybersecurity Hardening" },
+  ],
+  note:
+    "Fictitious advisory in the shape of a national CERT bulletin. The vendor ended FX-200 support in June 2025, so there is no firmware patch — affected units must be replaced. Cross-references each agency's Annex 1 inventory (proposed field) and Part IV lines.",
+};
+
+// ─── Mock procurement layer (FY2026, the executing year) ──────────────────────
+
+const PROCUREMENT_STAGES: Record<string, { stage: CorpusProcurementStage; note: string }> = {
+  "ncwtr-2026-2028:proj-sikap": { stage: "awarded", note: "Contract awarded 14 Apr 2026 · contract price ₱9.38M of ₱9.50M ABC (PhilGEPS)" },
+  "ncwtr-2026-2028:proj-bilis": { stage: "bidding", note: "Bid posted 2 Jun 2026 for the broadband lots · opening 30 Jul 2026" },
+  "ncwtr-2026-2028:proj-handa": { stage: "awarded", note: "Subscription licence active since Feb 2026 · implementation ongoing" },
+  "bccm-2026-2028:p-lamig": { stage: "bidding", note: "Competitive bidding opened 12 May 2026 · sensor rollout lots 1–2" },
+  "bccm-2026-2028:p-registry": { stage: "awarded", note: "Contract awarded 9 Mar 2026 · registry development and data migration" },
+  "bccm-2026-2028:cx-ctb": { stage: "pre-bid", note: "Pre-bid conference 24 Jun 2026 · event gateway and standards workbench" },
+  "hafsc-2026-2028:p-net": { stage: "awarded", note: "Contract awarded 20 Feb 2026 · fiber backbone and segmentation lots" },
+  "hafsc-2026-2028:p-ext": { stage: "bidding", note: "Bid posted 8 Jun 2026 · learning platform and content migration" },
+};
+
+function buildProcurement(profiles: CorpusProfile[]): CorpusProcurement {
+  const rows = profiles
+    .filter((a) => a.cycle.startYear <= 2026 && 2026 <= a.cycle.endYear)
+    .flatMap((a) =>
+      a.projects.map((p) => {
+        const amount = a.lineItems
+          .filter((l) => l.projectId === p.id && l.year === 2026)
+          .reduce((s, l) => s + l.total, 0);
+        return { profile: a, project: p, amount };
+      })
+    )
+    .filter(({ amount }) => amount > 0)
+    .map(({ profile, project, amount }) => {
+      const key = `${profile.slug}:${project.id}`;
+      const stage = PROCUREMENT_STAGES[key];
+      if (!stage) throw new Error(`Procurement stage missing for FY2026 project ${key} — add it to PROCUREMENT_STAGES`);
+      return {
+        slug: profile.slug,
+        acronym: profile.acronym,
+        projectId: project.id,
+        projectTitle: project.title,
+        shortTitle: project.shortTitle,
+        fiscalYear: 2026,
+        amount,
+        stage: stage.stage,
+        note: stage.note,
+      };
+    });
+  return {
+    fictitious: true,
+    note:
+      "Procurement status of FY2026 projects (the executing year) for the three plans that cover it — in the shape of PhilGEPS data an agency-side update loop would feed. Amounts are each project's real FY2026 Part IV lines.",
+    rows,
+  };
+}
+
+// ─── Unit-price sanity (laptop-class purchases) ───────────────────────────────
+
+const UNIT_PRICE_NOTES: Record<string, string> = {
+  "bccm-2026-2028": "Includes IP65 ruggedized units for regional inspection teams — the spec justifies the premium.",
+  "vmsc-2028-2030": "1.5× the corpus median for a standard office spec — a procurement-planning support candidate (also flagged for FY2025 execution).",
+};
+
+function buildUnitPrices(profiles: CorpusProfile[]): CorpusUnitPrices {
+  const isLaptop = (item: string) => /laptop|notebook/i.test(item);
+  const allUnitCosts: number[] = [];
+  const rows = profiles
+    .map((a) => {
+      const lines = a.lineItems.filter((l) => isLaptop(l.item));
+      if (lines.length === 0) return null;
+      const costs = lines.map((l) => l.unitCost);
+      allUnitCosts.push(...costs);
+      const sorted = [...costs].sort((x, y) => x - y);
+      const median = sorted.length % 2 ? sorted[(sorted.length - 1) / 2] : Math.round((sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2);
+      return {
+        slug: a.slug,
+        acronym: a.acronym,
+        medianUnitCost: median,
+        units: lines.reduce((s, l) => s + l.qty, 0),
+        ...(UNIT_PRICE_NOTES[a.slug] ? { note: UNIT_PRICE_NOTES[a.slug] } : {}),
+      };
+    })
+    .filter((r): r is NonNullable<typeof r> => r !== null)
+    .sort((x, y) => y.medianUnitCost - x.medianUnitCost);
+  const sorted = [...allUnitCosts].sort((x, y) => x - y);
+  const corpusMedian = sorted.length % 2 ? sorted[(sorted.length - 1) / 2] : Math.round((sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2);
+  return {
+    fictitious: true,
+    note:
+      "Median unit cost of laptop-class line items per agency, against the corpus median. A prompt for procurement-planning support, not a finding — specs differ. Derived from real Part IV lines.",
+    item: "Laptop-class purchases",
+    corpusMedian,
+    rows,
   };
 }
 
@@ -2814,6 +3165,10 @@ function buildOutputs() {
     },
     crossAgencyPrograms: crossAgencyPrograms(profiles, seedsBySlug),
     compass: buildCompass(docs, profiles),
+    aiLayer: buildAiLayer(profiles),
+    security: { fleetBySlug: FLEET, advisory: ADVISORY },
+    procurement: buildProcurement(profiles),
+    unitPrices: buildUnitPrices(profiles),
     agencies: profiles,
   };
   corpus.totals.crossAgencyCount = corpus.crossAgencyPrograms.length;

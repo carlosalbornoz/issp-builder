@@ -282,6 +282,122 @@ export interface CompassLayer {
   agencies: CompassAgency[];
 }
 
+// ─── Mock AI & compute layer ──────────────────────────────────────────────────
+// Projects tagged as AI/compute asks across the corpus, for the spend-wave and
+// shared-vs-own-build views. Amounts are the projects' real Part IV line items.
+
+export type CorpusAiKind = "own-build" | "adoption" | "education";
+
+export interface CorpusAiProject {
+  slug: string;
+  acronym: string;
+  projectId: string;
+  projectTitle: string;
+  shortTitle: string;
+  kind: CorpusAiKind;
+  /** Part IV amounts per fiscal year (from the tagged project's line items). */
+  byYear: { year: number; amount: number }[];
+  total: number;
+}
+
+export interface CorpusAiLayer {
+  fictitious: true;
+  note: string;
+  projects: CorpusAiProject[];
+  byYear: { year: number; amount: number; /** share of the corpus total for that year. */ share: number }[];
+  ownBuildTotal: number;
+}
+
+// ─── Mock ICT asset posture (Annex 1 shape) ───────────────────────────────────
+// Standing in for the Existing ICT Resource Inventory (Annex 1) that a revised
+// ISSP would carry as structured data. Fictitious makes and models throughout.
+
+export type CorpusAssetKind = "endpoint" | "server" | "network" | "security";
+
+export interface CorpusFleetModel {
+  name: string;
+  kind: CorpusAssetKind;
+  count: number;
+  /** Past vendor support / end of life. */
+  eol: boolean;
+  supportUntil?: string;
+}
+
+export interface CorpusFleet {
+  fictitious: true;
+  endpoints: number;
+  /** Endpoints past OS/vendor support. */
+  endpointsEol: number;
+  servers: number;
+  serversEol: number;
+  networkDevices: number;
+  networkEol: number;
+  avgAgeYears: number;
+  models: CorpusFleetModel[];
+}
+
+export interface CorpusAdvisoryHit {
+  slug: string;
+  acronym: string;
+  units: number;
+  /** Replacement already carries Part IV budget in that agency's plan. */
+  refreshInPlan: boolean;
+  refreshProject?: string;
+}
+
+export interface CorpusAdvisory {
+  fictitious: true;
+  id: string;
+  title: string;
+  model: string;
+  kind: string;
+  severity: string;
+  published: string;
+  agencies: CorpusAdvisoryHit[];
+  note: string;
+}
+
+// ─── Mock procurement + unit-price layers ─────────────────────────────────────
+
+export type CorpusProcurementStage = "awarded" | "bidding" | "pre-bid" | "none";
+
+export interface CorpusProcurementRow {
+  slug: string;
+  acronym: string;
+  projectId: string;
+  projectTitle: string;
+  shortTitle: string;
+  fiscalYear: number;
+  /** The project's Part IV budget for the fiscal year. */
+  amount: number;
+  stage: CorpusProcurementStage;
+  note: string;
+}
+
+export interface CorpusProcurement {
+  fictitious: true;
+  note: string;
+  rows: CorpusProcurementRow[];
+}
+
+export interface CorpusUnitPriceRow {
+  slug: string;
+  acronym: string;
+  /** Median unit cost of the agency's laptop-class lines (whole pesos). */
+  medianUnitCost: number;
+  units: number;
+  note?: string;
+}
+
+export interface CorpusUnitPrices {
+  fictitious: true;
+  note: string;
+  item: string;
+  /** Median across every laptop-class line in the corpus. */
+  corpusMedian: number;
+  rows: CorpusUnitPriceRow[];
+}
+
 export interface RepositoryCorpus {
   disclaimer: string;
   generatedAt: string;
@@ -289,5 +405,11 @@ export interface RepositoryCorpus {
   crossAgencyPrograms: CorpusCrossAgencyProgram[];
   /** Mock execution layer — proposed COMPASS link, all figures fictitious. */
   compass: CompassLayer;
+  /** AI/compute-tagged projects for the spend-wave views (amounts are real Part IV lines). */
+  aiLayer: CorpusAiLayer;
+  /** Mock Annex 1 asset inventory + one fictitious security advisory. */
+  security: { fleetBySlug: Record<string, CorpusFleet>; advisory: CorpusAdvisory };
+  procurement: CorpusProcurement;
+  unitPrices: CorpusUnitPrices;
   agencies: CorpusProfile[];
 }

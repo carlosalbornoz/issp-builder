@@ -141,13 +141,13 @@
     "cioPosition": "Vice President — ICT and Data Division",
     "cioUnit": "ICT and Data Division",
     "cioEmail": "cio@prpgc.gov.ph",
-    "cioContact": "+63 2 8342 3974",
+    "cioContact": "+63 2 8731 9249",
     "focalSameAsCio": false,
     "focalName": "Mr. Leandro P. Hizon",
     "focalPosition": "Department Manager, Corporate Planning",
     "focalUnit": "ICT and Data Division",
     "focalEmail": "focal@prpgc.gov.ph",
-    "focalContact": "+63 2 8834 6042",
+    "focalContact": "+63 2 8581 7776",
     "humanCapital": {
       "plantilla": {
         "it": {
@@ -462,19 +462,19 @@
         "id": "hc-2",
         "position": "Systems Development Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 5
+        "quantity": 2
       },
       {
         "id": "hc-3",
         "position": "Network and Cybersecurity Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 1
+        "quantity": 3
       },
       {
         "id": "hc-4",
         "position": "ICT Project Support Staff",
         "employmentStatus": "CONTRACTUAL",
-        "quantity": 7
+        "quantity": 3
       }
     ],
     "proposedSystems": [
@@ -616,6 +616,30 @@
         "year2Deliverables": "Portfolio analytics live; cube retired",
         "year3Deliverables": "Stress-testing environment operational",
         "duration": "2028–2030"
+      },
+      {
+        "id": "p-ampere",
+        "title": "Project AMPERE — Actuarial Modeling Platform for Energy Risk Estimation",
+        "description": "A Corporation-owned AI compute cluster for guarantee pricing and portfolio stress models: sponsor financial data and proprietary model runs stay on-premise under the Corporation's fiduciary commitments, with governed MLOps on the Portfolio Data Platform. The largest single AI-compute ask in this corpus.",
+        "objectives": "1. Cluster and MLOps environment commissioned by 2028\n2. All pricing and stress models re-platformed from desktop software by 2029\n3. Portfolio-wide stress runs in minutes, fully reproducible",
+        "projectType": "STANDALONE",
+        "linkedSystemIds": [
+          "ps-portfolio"
+        ],
+        "strategicAlignment": [
+          "Public Investment Program",
+          "National Cybersecurity Plan"
+        ],
+        "harmonizationFramework": [
+          "Scalability and Sustainability",
+          "Resource Optimization"
+        ],
+        "implementingUnit": "ICT and Data Division",
+        "fundingSource": "Other Income Generating Sources",
+        "year1Deliverables": "Cluster commissioned; MLOps environment live; first pricing models re-platformed",
+        "year2Deliverables": "All stress models re-platformed; desktop statistical software retired; any model run replayable from the registry",
+        "year3Deliverables": "",
+        "duration": "2028–2029"
       }
     ],
     "crossAgencyProjects": [],
@@ -679,6 +703,48 @@
             "responsibleUnit": "Risk Management Division"
           }
         ]
+      },
+      "p-ampere": {
+        "projectTitle": "Project AMPERE — Actuarial Modeling Platform for Energy Risk Estimation",
+        "projectCategory": "internal",
+        "rows": [
+          {
+            "id": "p-ampere-kpi-1",
+            "hierarchy": "Intermediate Outcome",
+            "targetedResult": "Portfolio-wide stress test turnaround",
+            "indicator": "Portfolio-wide stress test turnaround",
+            "baseline": "20 minutes (cube)",
+            "year1Target": "minutes",
+            "year2Target": "seconds",
+            "year3Target": "seconds",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT and Data Division"
+          },
+          {
+            "id": "p-ampere-kpi-2",
+            "hierarchy": "Immediate Outcome",
+            "targetedResult": "Model runs reproducible 6 months later",
+            "indicator": "Model runs reproducible 6 months later",
+            "baseline": "0%",
+            "year1Target": "60%",
+            "year2Target": "100%",
+            "year3Target": "100%",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT and Data Division"
+          },
+          {
+            "id": "p-ampere-kpi-3",
+            "hierarchy": "Output",
+            "targetedResult": "Pricing and stress models on the governed platform",
+            "indicator": "Pricing and stress models on the governed platform",
+            "baseline": "0 of 11",
+            "year1Target": "5",
+            "year2Target": "11",
+            "year3Target": "11",
+            "dataCollectionMethod": "Quarterly project accomplishment reports",
+            "responsibleUnit": "ICT and Data Division"
+          }
+        ]
       }
     }
   },
@@ -687,78 +753,78 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y1-co-442",
+            "id": "y1-co-453",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 47,
-            "unitCost": 49500
+            "unitCost": 50000
           },
           {
-            "id": "y1-co-443",
+            "id": "y1-co-454",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 26,
-            "unitCost": 57000
+            "unitCost": 59000
           },
           {
-            "id": "y1-co-444",
+            "id": "y1-co-455",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 351000
+            "unitCost": 361500
           },
           {
-            "id": "y1-co-445",
+            "id": "y1-co-456",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 93000
+            "unitCost": 94000
           },
           {
-            "id": "y1-co-446",
+            "id": "y1-co-457",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 387500
+            "unitCost": 411000
           }
         ],
         "mooe": [
           {
-            "id": "y1-mooe-439",
+            "id": "y1-mooe-450",
             "item": "Internet subscription — 3 offices, pooled (Year 1)",
             "office": "ICT and Data Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 22000
+            "unitCost": 26000
           },
           {
-            "id": "y1-mooe-440",
+            "id": "y1-mooe-451",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT and Data Division",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 319000
+            "unitCost": 248500
           },
           {
-            "id": "y1-mooe-441",
+            "id": "y1-mooe-452",
             "item": "ICT training — staff capability building",
             "office": "ICT and Data Division",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 148500
+            "unitCost": 155000
           }
         ]
       },
@@ -767,7 +833,7 @@
           "projectTitle": "Project WATTS — Workflows for Account Tracking & Surety",
           "capitalOutlay": [
             {
-              "id": "y1-co-463",
+              "id": "y1-co-474",
               "item": "Project WATTS — system development and acquisition (Year 1 milestone)",
               "office": "ICT and Data Division",
               "categoryId": "co-ict-software",
@@ -778,7 +844,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-464",
+              "id": "y1-mooe-475",
               "item": "Project management office — Project WATTS",
               "office": "ICT and Data Division",
               "categoryId": "mooe-professional-services",
@@ -787,16 +853,16 @@
               "unitCost": 21715000
             },
             {
-              "id": "y1-mooe-465",
+              "id": "y1-mooe-476",
               "item": "Hosting, support and licences — Project WATTS (Year 1)",
               "office": "ICT and Data Division",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 14477000
             },
             {
-              "id": "y1-mooe-466",
+              "id": "y1-mooe-477",
               "item": "ICT training and change management — Project WATTS",
               "office": "ICT and Data Division",
               "categoryId": "mooe-ict-training",
@@ -810,7 +876,7 @@
           "projectTitle": "Renewables Portfolio Data Platform",
           "capitalOutlay": [
             {
-              "id": "y1-co-471",
+              "id": "y1-co-482",
               "item": "Portfolio Data Platform — system development and acquisition (Year 1 milestone)",
               "office": "Risk Management Division",
               "categoryId": "co-ict-software",
@@ -821,7 +887,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-472",
+              "id": "y1-mooe-483",
               "item": "Project management office — Portfolio Data Platform",
               "office": "Risk Management Division",
               "categoryId": "mooe-professional-services",
@@ -830,16 +896,16 @@
               "unitCost": 6350500
             },
             {
-              "id": "y1-mooe-473",
+              "id": "y1-mooe-484",
               "item": "Hosting, support and licences — Portfolio Data Platform (Year 1)",
               "office": "Risk Management Division",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 4233500
             },
             {
-              "id": "y1-mooe-474",
+              "id": "y1-mooe-485",
               "item": "ICT training and change management — Portfolio Data Platform",
               "office": "Risk Management Division",
               "categoryId": "mooe-ict-training",
@@ -848,13 +914,101 @@
               "unitCost": 3528000
             }
           ]
+        },
+        "p-ampere": {
+          "projectTitle": "Project AMPERE — Actuarial Modeling Platform for Energy Risk Estimation",
+          "capitalOutlay": [
+            {
+              "id": "y1-co-494",
+              "item": "AI training cluster nodes (16 accelerator nodes, liquid-cooled)",
+              "office": "ICT and Data Division",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 16,
+              "unitCost": 3640000
+            },
+            {
+              "id": "y1-co-495",
+              "item": "Inference servers for portfolio stress runs",
+              "office": "ICT and Data Division",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 2,
+              "unitCost": 8056000
+            },
+            {
+              "id": "y1-co-496",
+              "item": "High-performance storage array (exposure history and model registry)",
+              "office": "ICT and Data Division",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 11400000
+            },
+            {
+              "id": "y1-co-497",
+              "item": "AI training cluster nodes — succeeding tranche",
+              "office": "ICT and Data Division",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 5,
+              "unitCost": 3262500
+            },
+            {
+              "id": "y1-co-498",
+              "item": "Inference servers for portfolio stress runs — succeeding tranche",
+              "office": "ICT and Data Division",
+              "categoryId": "co-ict-machinery-equipment",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 6804000
+            },
+            {
+              "id": "y1-co-499",
+              "item": "Project AMPERE — engineering, installation and commissioning (Year 1)",
+              "office": "ICT and Data Division",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 4978500
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y1-mooe-500",
+              "item": "Project management office — Project AMPERE",
+              "office": "ICT and Data Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 249000
+            },
+            {
+              "id": "y1-mooe-501",
+              "item": "Hosting, support and licences — Project AMPERE (Year 1)",
+              "office": "ICT and Data Division",
+              "categoryId": "mooe-cloud-computing",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 166000
+            },
+            {
+              "id": "y1-mooe-502",
+              "item": "ICT training and change management — Project AMPERE",
+              "office": "ICT and Data Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 138500
+            }
+          ]
         }
       },
       "crossAgencyProjects": {},
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-483",
+            "id": "y1-mooe-507",
             "item": "GATE system maintenance (until decommission)",
             "office": "ICT and Data Division",
             "categoryId": "mooe-other-general-ict-services",
@@ -863,7 +1017,7 @@
             "unitCost": 6500000
           },
           {
-            "id": "y1-mooe-486",
+            "id": "y1-mooe-510",
             "item": "Market data and rating feeds",
             "office": "ICT and Data Division",
             "categoryId": "mooe-ict-software-subscription",
@@ -872,7 +1026,7 @@
             "unitCost": 8400000
           },
           {
-            "id": "y1-mooe-489",
+            "id": "y1-mooe-513",
             "item": "Cloud compute for risk models",
             "office": "ICT and Data Division",
             "categoryId": "mooe-cloud-computing",
@@ -881,7 +1035,7 @@
             "unitCost": 2800000
           },
           {
-            "id": "y1-mooe-492",
+            "id": "y1-mooe-516",
             "item": "Data center colocation services",
             "office": "ICT and Data Division",
             "categoryId": "mooe-data-center-services",
@@ -896,78 +1050,78 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-450",
+            "id": "y2-co-461",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 47,
-            "unitCost": 51500
+            "unitCost": 56000
           },
           {
-            "id": "y2-co-451",
+            "id": "y2-co-462",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 26,
-            "unitCost": 51000
+            "unitCost": 53500
           },
           {
-            "id": "y2-co-452",
+            "id": "y2-co-463",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 412000
+            "unitCost": 370000
           },
           {
-            "id": "y2-co-453",
+            "id": "y2-co-464",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 90500
+            "unitCost": 84500
           },
           {
-            "id": "y2-co-454",
+            "id": "y2-co-465",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 439500
+            "unitCost": 420000
           }
         ],
         "mooe": [
           {
-            "id": "y2-mooe-447",
+            "id": "y2-mooe-458",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "ICT and Data Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 23000
+            "unitCost": 27000
           },
           {
-            "id": "y2-mooe-448",
+            "id": "y2-mooe-459",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT and Data Division",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 284500
+            "unitCost": 262000
           },
           {
-            "id": "y2-mooe-449",
+            "id": "y2-mooe-460",
             "item": "ICT training — staff capability building",
             "office": "ICT and Data Division",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 464500
+            "unitCost": 356000
           }
         ]
       },
@@ -976,7 +1130,7 @@
           "projectTitle": "Project WATTS — Workflows for Account Tracking & Surety",
           "capitalOutlay": [
             {
-              "id": "y2-co-467",
+              "id": "y2-co-478",
               "item": "Project WATTS — system development and acquisition (Year 2 milestone)",
               "office": "ICT and Data Division",
               "categoryId": "co-ict-software",
@@ -987,7 +1141,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-468",
+              "id": "y2-mooe-479",
               "item": "Project management office — Project WATTS",
               "office": "ICT and Data Division",
               "categoryId": "mooe-professional-services",
@@ -996,7 +1150,7 @@
               "unitCost": 15725000
             },
             {
-              "id": "y2-mooe-469",
+              "id": "y2-mooe-480",
               "item": "Hosting, support and licences — Project WATTS (Year 2)",
               "office": "ICT and Data Division",
               "categoryId": "mooe-cloud-computing",
@@ -1005,7 +1159,7 @@
               "unitCost": 10483000
             },
             {
-              "id": "y2-mooe-470",
+              "id": "y2-mooe-481",
               "item": "ICT training and change management — Project WATTS",
               "office": "ICT and Data Division",
               "categoryId": "mooe-ict-training",
@@ -1019,7 +1173,7 @@
           "projectTitle": "Renewables Portfolio Data Platform",
           "capitalOutlay": [
             {
-              "id": "y2-co-475",
+              "id": "y2-co-486",
               "item": "Portfolio Data Platform — system development and acquisition (Year 2 milestone)",
               "office": "Risk Management Division",
               "categoryId": "co-ict-software",
@@ -1030,7 +1184,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-476",
+              "id": "y2-mooe-487",
               "item": "Project management office — Portfolio Data Platform",
               "office": "Risk Management Division",
               "categoryId": "mooe-professional-services",
@@ -1039,16 +1193,16 @@
               "unitCost": 5141000
             },
             {
-              "id": "y2-mooe-477",
+              "id": "y2-mooe-488",
               "item": "Hosting, support and licences — Portfolio Data Platform (Year 2)",
               "office": "Risk Management Division",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 3427000
             },
             {
-              "id": "y2-mooe-478",
+              "id": "y2-mooe-489",
               "item": "ICT training and change management — Portfolio Data Platform",
               "office": "Risk Management Division",
               "categoryId": "mooe-ict-training",
@@ -1057,13 +1211,56 @@
               "unitCost": 2856000
             }
           ]
+        },
+        "p-ampere": {
+          "projectTitle": "Project AMPERE — Actuarial Modeling Platform for Energy Risk Estimation",
+          "capitalOutlay": [
+            {
+              "id": "y2-co-503",
+              "item": "Project AMPERE — engineering, installation and commissioning (Year 2)",
+              "office": "ICT and Data Division",
+              "categoryId": "co-infrastructure-communications-network",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 95040000
+            }
+          ],
+          "mooe": [
+            {
+              "id": "y2-mooe-504",
+              "item": "Project management office — Project AMPERE",
+              "office": "ICT and Data Division",
+              "categoryId": "mooe-professional-services",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 4752000
+            },
+            {
+              "id": "y2-mooe-505",
+              "item": "Hosting, support and licences — Project AMPERE (Year 2)",
+              "office": "ICT and Data Division",
+              "categoryId": "mooe-web-hosting",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 3168000
+            },
+            {
+              "id": "y2-mooe-506",
+              "item": "ICT training and change management — Project AMPERE",
+              "office": "ICT and Data Division",
+              "categoryId": "mooe-ict-training",
+              "fundSource": "Other Income Generating Sources",
+              "qty": 1,
+              "unitCost": 2640000
+            }
+          ]
         }
       },
       "crossAgencyProjects": {},
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-484",
+            "id": "y2-mooe-508",
             "item": "GATE system maintenance (until decommission)",
             "office": "ICT and Data Division",
             "categoryId": "mooe-other-general-ict-services",
@@ -1072,7 +1269,7 @@
             "unitCost": 6760000
           },
           {
-            "id": "y2-mooe-487",
+            "id": "y2-mooe-511",
             "item": "Market data and rating feeds",
             "office": "ICT and Data Division",
             "categoryId": "mooe-ict-software-subscription",
@@ -1081,7 +1278,7 @@
             "unitCost": 8736000
           },
           {
-            "id": "y2-mooe-490",
+            "id": "y2-mooe-514",
             "item": "Cloud compute for risk models",
             "office": "ICT and Data Division",
             "categoryId": "mooe-cloud-computing",
@@ -1090,7 +1287,7 @@
             "unitCost": 2912000
           },
           {
-            "id": "y2-mooe-493",
+            "id": "y2-mooe-517",
             "item": "Data center colocation services",
             "office": "ICT and Data Division",
             "categoryId": "mooe-data-center-services",
@@ -1105,78 +1302,78 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-458",
+            "id": "y3-co-469",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 47,
-            "unitCost": 47500
+            "unitCost": 51000
           },
           {
-            "id": "y3-co-459",
+            "id": "y3-co-470",
             "item": "Laptop computers (mobile staff and field officers)",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 26,
-            "unitCost": 62000
+            "unitCost": 53500
           },
           {
-            "id": "y3-co-460",
+            "id": "y3-co-471",
             "item": "Network switches and structured cabling refresh",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 354500
+            "unitCost": 358500
           },
           {
-            "id": "y3-co-461",
+            "id": "y3-co-472",
             "item": "Rack-mounted UPS — equipment room",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
             "qty": 2,
-            "unitCost": 105500
+            "unitCost": 106000
           },
           {
-            "id": "y3-co-462",
+            "id": "y3-co-473",
             "item": "Enterprise antivirus / endpoint protection licenses",
             "office": "ICT and Data Division",
             "categoryId": "co-ict-software",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 369000
+            "unitCost": 386500
           }
         ],
         "mooe": [
           {
-            "id": "y3-mooe-455",
+            "id": "y3-mooe-466",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "ICT and Data Division",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 28000
+            "unitCost": 19500
           },
           {
-            "id": "y3-mooe-456",
+            "id": "y3-mooe-467",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "ICT and Data Division",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 257000
+            "unitCost": 305000
           },
           {
-            "id": "y3-mooe-457",
+            "id": "y3-mooe-468",
             "item": "ICT training — staff capability building",
             "office": "ICT and Data Division",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 511500
+            "unitCost": 152500
           }
         ]
       },
@@ -1185,7 +1382,7 @@
           "projectTitle": "Renewables Portfolio Data Platform",
           "capitalOutlay": [
             {
-              "id": "y3-co-479",
+              "id": "y3-co-490",
               "item": "Portfolio Data Platform — system development and acquisition (Year 3 milestone)",
               "office": "Risk Management Division",
               "categoryId": "co-ict-software",
@@ -1196,7 +1393,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-480",
+              "id": "y3-mooe-491",
               "item": "Project management office — Portfolio Data Platform",
               "office": "Risk Management Division",
               "categoryId": "mooe-professional-services",
@@ -1205,16 +1402,16 @@
               "unitCost": 3629000
             },
             {
-              "id": "y3-mooe-481",
+              "id": "y3-mooe-492",
               "item": "Hosting, support and licences — Portfolio Data Platform (Year 3)",
               "office": "Risk Management Division",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 2419000
             },
             {
-              "id": "y3-mooe-482",
+              "id": "y3-mooe-493",
               "item": "ICT training and change management — Portfolio Data Platform",
               "office": "Risk Management Division",
               "categoryId": "mooe-ict-training",
@@ -1229,7 +1426,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-485",
+            "id": "y3-mooe-509",
             "item": "GATE system maintenance (until decommission)",
             "office": "ICT and Data Division",
             "categoryId": "mooe-other-general-ict-services",
@@ -1238,7 +1435,7 @@
             "unitCost": 7020000
           },
           {
-            "id": "y3-mooe-488",
+            "id": "y3-mooe-512",
             "item": "Market data and rating feeds",
             "office": "ICT and Data Division",
             "categoryId": "mooe-ict-software-subscription",
@@ -1247,7 +1444,7 @@
             "unitCost": 9072000
           },
           {
-            "id": "y3-mooe-491",
+            "id": "y3-mooe-515",
             "item": "Cloud compute for risk models",
             "office": "ICT and Data Division",
             "categoryId": "mooe-cloud-computing",
@@ -1256,7 +1453,7 @@
             "unitCost": 3024000
           },
           {
-            "id": "y3-mooe-494",
+            "id": "y3-mooe-518",
             "item": "Data center colocation services",
             "office": "ICT and Data Division",
             "categoryId": "mooe-data-center-services",

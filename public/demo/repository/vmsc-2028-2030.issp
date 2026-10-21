@@ -141,13 +141,13 @@
     "cioPosition": "Director, Management Information System Office",
     "cioUnit": "Management Information System Office",
     "cioEmail": "cio@vmsc.gov.ph",
-    "cioContact": "+63 2 8441 1080",
+    "cioContact": "+63 2 8598 9063",
     "focalSameAsCio": false,
     "focalName": "Mr. Roderick T. Baldos",
     "focalPosition": "Registrar III",
     "focalUnit": "Management Information System Office",
     "focalEmail": "focal@vmsc.gov.ph",
-    "focalContact": "+63 2 8896 1980",
+    "focalContact": "+63 2 8477 5074",
     "humanCapital": {
       "plantilla": {
         "it": {
@@ -399,7 +399,7 @@
           "email": true,
           "landline": true,
           "socialMedia": false,
-          "mobile": false
+          "mobile": true
         },
         "connectedToPortal": "no"
       },
@@ -475,19 +475,19 @@
         "id": "hc-2",
         "position": "Systems Development Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 2
+        "quantity": 3
       },
       {
         "id": "hc-3",
         "position": "Network and Cybersecurity Officer",
         "employmentStatus": "PLANTILLA",
-        "quantity": 4
+        "quantity": 3
       },
       {
         "id": "hc-4",
         "position": "ICT Project Support Staff",
         "employmentStatus": "CONTRACTUAL",
-        "quantity": 3
+        "quantity": 8
       }
     ],
     "proposedSystems": [
@@ -720,18 +720,18 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y1-co-533",
-            "item": "Desktop computer sets (productivity replacement cycle)",
+            "id": "y1-co-557",
+            "item": "Standard office laptop computers (clerical, registrar and faculty-support staff)",
             "office": "Management Information System Office",
             "categoryId": "co-ict-machinery-equipment",
             "fundSource": "General Appropriations Act",
-            "qty": 37,
-            "unitCost": 49000
+            "qty": 20,
+            "unitCost": 88000
           }
         ],
         "mooe": [
           {
-            "id": "y1-mooe-530",
+            "id": "y1-mooe-554",
             "item": "Internet subscription — 3 offices, pooled (Year 1)",
             "office": "Management Information System Office",
             "categoryId": "mooe-internet-subscription",
@@ -740,22 +740,22 @@
             "unitCost": 26000
           },
           {
-            "id": "y1-mooe-531",
+            "id": "y1-mooe-555",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 154500
+            "unitCost": 169000
           },
           {
-            "id": "y1-mooe-532",
+            "id": "y1-mooe-556",
             "item": "ICT training — staff capability building",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 329000
+            "unitCost": 276000
           }
         ]
       },
@@ -764,34 +764,34 @@
           "projectTitle": "Full Mission Bridge Simulator Refresh",
           "capitalOutlay": [
             {
-              "id": "y1-co-543",
+              "id": "y1-co-567",
               "item": "Full mission bridge simulator suite (330° visual)",
               "office": "Simulator Training Center",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 27888500
+              "unitCost": 26656000
             },
             {
-              "id": "y1-co-544",
+              "id": "y1-co-568",
               "item": "Projection and visual system upgrade",
               "office": "Simulator Training Center",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 1,
-              "unitCost": 13206000
+              "unitCost": 11828000
             },
             {
-              "id": "y1-co-545",
+              "id": "y1-co-569",
               "item": "Cadet workstation pods (part-task trainers)",
               "office": "Simulator Training Center",
               "categoryId": "co-ict-machinery-equipment",
               "fundSource": "General Appropriations Act",
               "qty": 24,
-              "unitCost": 354500
+              "unitCost": 350000
             },
             {
-              "id": "y1-co-546",
+              "id": "y1-co-570",
               "item": "Full mission bridge simulator suite — succeeding tranche",
               "office": "Simulator Training Center",
               "categoryId": "co-ict-machinery-equipment",
@@ -800,7 +800,7 @@
               "unitCost": 25650000
             },
             {
-              "id": "y1-co-547",
+              "id": "y1-co-571",
               "item": "Projection and visual system upgrade — succeeding tranche",
               "office": "Simulator Training Center",
               "categoryId": "co-ict-machinery-equipment",
@@ -815,7 +815,7 @@
           "projectTitle": "ONE-VMSC Campus Systems Integration",
           "capitalOutlay": [
             {
-              "id": "y1-co-552",
+              "id": "y1-co-576",
               "item": "ONE-VMSC — system development and acquisition (Year 1 milestone)",
               "office": "MIS Office",
               "categoryId": "co-ict-software",
@@ -826,7 +826,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-553",
+              "id": "y1-mooe-577",
               "item": "Project management office — ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-professional-services",
@@ -835,7 +835,7 @@
               "unitCost": 1361000
             },
             {
-              "id": "y1-mooe-554",
+              "id": "y1-mooe-578",
               "item": "Hosting, support and licences — ONE-VMSC (Year 1)",
               "office": "MIS Office",
               "categoryId": "mooe-web-hosting",
@@ -844,7 +844,7 @@
               "unitCost": 907000
             },
             {
-              "id": "y1-mooe-555",
+              "id": "y1-mooe-579",
               "item": "ICT training and change management — ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-ict-training",
@@ -860,7 +860,7 @@
           "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
           "capitalOutlay": [
             {
-              "id": "y1-co-564",
+              "id": "y1-co-588",
               "item": "CTB research share — system development and acquisition (Year 1 milestone)",
               "office": "Research and Extension Office",
               "categoryId": "co-ict-software",
@@ -871,7 +871,7 @@
           ],
           "mooe": [
             {
-              "id": "y1-mooe-565",
+              "id": "y1-mooe-589",
               "item": "Project management office — CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-professional-services",
@@ -880,7 +880,7 @@
               "unitCost": 242000
             },
             {
-              "id": "y1-mooe-566",
+              "id": "y1-mooe-590",
               "item": "Hosting, support and licences — CTB research share (Year 1)",
               "office": "Research and Extension Office",
               "categoryId": "mooe-cloud-computing",
@@ -889,7 +889,7 @@
               "unitCost": 161500
             },
             {
-              "id": "y1-mooe-567",
+              "id": "y1-mooe-591",
               "item": "ICT training and change management — CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-ict-training",
@@ -903,7 +903,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y1-mooe-576",
+            "id": "y1-mooe-600",
             "item": "SIS maintenance contract (transition)",
             "office": "Management Information System Office",
             "categoryId": "mooe-other-general-ict-services",
@@ -912,7 +912,7 @@
             "unitCost": 900000
           },
           {
-            "id": "y1-mooe-579",
+            "id": "y1-mooe-603",
             "item": "Library system hosting and support",
             "office": "Management Information System Office",
             "categoryId": "mooe-web-hosting",
@@ -921,7 +921,7 @@
             "unitCost": 250000
           },
           {
-            "id": "y1-mooe-582",
+            "id": "y1-mooe-606",
             "item": "Maritime research data subscriptions",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-research",
@@ -936,7 +936,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y2-co-537",
+            "id": "y2-co-561",
             "item": "Plotting and chart printers (navigation training)",
             "office": "Management Information System Office",
             "categoryId": "co-printing-equipment",
@@ -945,7 +945,7 @@
             "unitCost": 47000
           },
           {
-            "id": "y2-co-538",
+            "id": "y2-co-562",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "Management Information System Office",
             "categoryId": "co-ict-machinery-equipment",
@@ -956,31 +956,31 @@
         ],
         "mooe": [
           {
-            "id": "y2-mooe-534",
+            "id": "y2-mooe-558",
             "item": "Internet subscription — 3 offices, pooled (Year 2)",
             "office": "Management Information System Office",
             "categoryId": "mooe-internet-subscription",
             "fundSource": "General Appropriations Act",
             "qty": 36,
-            "unitCost": 18500
+            "unitCost": 27000
           },
           {
-            "id": "y2-mooe-535",
+            "id": "y2-mooe-559",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 253500
+            "unitCost": 170500
           },
           {
-            "id": "y2-mooe-536",
+            "id": "y2-mooe-560",
             "item": "ICT training — staff capability building",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 304000
+            "unitCost": 181000
           }
         ]
       },
@@ -989,7 +989,7 @@
           "projectTitle": "Full Mission Bridge Simulator Refresh",
           "capitalOutlay": [
             {
-              "id": "y2-co-548",
+              "id": "y2-co-572",
               "item": "Simulator Refresh — engineering, installation and commissioning (Year 2)",
               "office": "Simulator Training Center",
               "categoryId": "co-infrastructure-communications-network",
@@ -1000,7 +1000,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-549",
+              "id": "y2-mooe-573",
               "item": "Project management office — Simulator Refresh",
               "office": "Simulator Training Center",
               "categoryId": "mooe-professional-services",
@@ -1009,7 +1009,7 @@
               "unitCost": 1620000
             },
             {
-              "id": "y2-mooe-550",
+              "id": "y2-mooe-574",
               "item": "Hosting, support and licences — Simulator Refresh (Year 2)",
               "office": "Simulator Training Center",
               "categoryId": "mooe-cloud-computing",
@@ -1018,7 +1018,7 @@
               "unitCost": 1080000
             },
             {
-              "id": "y2-mooe-551",
+              "id": "y2-mooe-575",
               "item": "ICT training and change management — Simulator Refresh",
               "office": "Simulator Training Center",
               "categoryId": "mooe-ict-training",
@@ -1032,7 +1032,7 @@
           "projectTitle": "ONE-VMSC Campus Systems Integration",
           "capitalOutlay": [
             {
-              "id": "y2-co-556",
+              "id": "y2-co-580",
               "item": "ONE-VMSC — system development and acquisition (Year 2 milestone)",
               "office": "MIS Office",
               "categoryId": "co-ict-software",
@@ -1043,7 +1043,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-557",
+              "id": "y2-mooe-581",
               "item": "Project management office — ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-professional-services",
@@ -1052,16 +1052,16 @@
               "unitCost": 1101500
             },
             {
-              "id": "y2-mooe-558",
+              "id": "y2-mooe-582",
               "item": "Hosting, support and licences — ONE-VMSC (Year 2)",
               "office": "MIS Office",
-              "categoryId": "mooe-web-hosting",
+              "categoryId": "mooe-cloud-computing",
               "fundSource": "Locally funded",
               "qty": 1,
               "unitCost": 734500
             },
             {
-              "id": "y2-mooe-559",
+              "id": "y2-mooe-583",
               "item": "ICT training and change management — ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-ict-training",
@@ -1077,7 +1077,7 @@
           "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
           "capitalOutlay": [
             {
-              "id": "y2-co-568",
+              "id": "y2-co-592",
               "item": "CTB research share — system development and acquisition (Year 2 milestone)",
               "office": "Research and Extension Office",
               "categoryId": "co-ict-software",
@@ -1088,7 +1088,7 @@
           ],
           "mooe": [
             {
-              "id": "y2-mooe-569",
+              "id": "y2-mooe-593",
               "item": "Project management office — CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-professional-services",
@@ -1097,16 +1097,16 @@
               "unitCost": 196000
             },
             {
-              "id": "y2-mooe-570",
+              "id": "y2-mooe-594",
               "item": "Hosting, support and licences — CTB research share (Year 2)",
               "office": "Research and Extension Office",
-              "categoryId": "mooe-cloud-computing",
+              "categoryId": "mooe-web-hosting",
               "fundSource": "General Appropriations Act",
               "qty": 1,
               "unitCost": 130500
             },
             {
-              "id": "y2-mooe-571",
+              "id": "y2-mooe-595",
               "item": "ICT training and change management — CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-ict-training",
@@ -1120,7 +1120,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y2-mooe-577",
+            "id": "y2-mooe-601",
             "item": "SIS maintenance contract (transition)",
             "office": "Management Information System Office",
             "categoryId": "mooe-other-general-ict-services",
@@ -1129,7 +1129,7 @@
             "unitCost": 936000
           },
           {
-            "id": "y2-mooe-580",
+            "id": "y2-mooe-604",
             "item": "Library system hosting and support",
             "office": "Management Information System Office",
             "categoryId": "mooe-web-hosting",
@@ -1138,7 +1138,7 @@
             "unitCost": 260000
           },
           {
-            "id": "y2-mooe-583",
+            "id": "y2-mooe-607",
             "item": "Maritime research data subscriptions",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-research",
@@ -1153,7 +1153,7 @@
       "officeProductivity": {
         "capitalOutlay": [
           {
-            "id": "y3-co-542",
+            "id": "y3-co-566",
             "item": "Desktop computer sets (productivity replacement cycle)",
             "office": "Management Information System Office",
             "categoryId": "co-ict-machinery-equipment",
@@ -1164,7 +1164,7 @@
         ],
         "mooe": [
           {
-            "id": "y3-mooe-539",
+            "id": "y3-mooe-563",
             "item": "Internet subscription — 3 offices, pooled (Year 3)",
             "office": "Management Information System Office",
             "categoryId": "mooe-internet-subscription",
@@ -1173,22 +1173,22 @@
             "unitCost": 28000
           },
           {
-            "id": "y3-mooe-540",
+            "id": "y3-mooe-564",
             "item": "ICT supplies (consumables, cartridges, peripherals)",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-supplies",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 223000
+            "unitCost": 250000
           },
           {
-            "id": "y3-mooe-541",
+            "id": "y3-mooe-565",
             "item": "ICT training — staff capability building",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-training",
             "fundSource": "General Appropriations Act",
             "qty": 1,
-            "unitCost": 317000
+            "unitCost": 408500
           }
         ]
       },
@@ -1197,7 +1197,7 @@
           "projectTitle": "ONE-VMSC Campus Systems Integration",
           "capitalOutlay": [
             {
-              "id": "y3-co-560",
+              "id": "y3-co-584",
               "item": "ONE-VMSC — system development and acquisition (Year 3 milestone)",
               "office": "MIS Office",
               "categoryId": "co-ict-software",
@@ -1208,7 +1208,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-561",
+              "id": "y3-mooe-585",
               "item": "Project management office — ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-professional-services",
@@ -1217,7 +1217,7 @@
               "unitCost": 777500
             },
             {
-              "id": "y3-mooe-562",
+              "id": "y3-mooe-586",
               "item": "Hosting, support and licences — ONE-VMSC (Year 3)",
               "office": "MIS Office",
               "categoryId": "mooe-web-hosting",
@@ -1226,7 +1226,7 @@
               "unitCost": 518500
             },
             {
-              "id": "y3-mooe-563",
+              "id": "y3-mooe-587",
               "item": "ICT training and change management — ONE-VMSC",
               "office": "MIS Office",
               "categoryId": "mooe-ict-training",
@@ -1242,7 +1242,7 @@
           "projectTitle": "Cold Chain Traceability Backbone (CTB) — VMSC research share",
           "capitalOutlay": [
             {
-              "id": "y3-co-572",
+              "id": "y3-co-596",
               "item": "CTB research share — system development and acquisition (Year 3 milestone)",
               "office": "Research and Extension Office",
               "categoryId": "co-ict-software",
@@ -1253,7 +1253,7 @@
           ],
           "mooe": [
             {
-              "id": "y3-mooe-573",
+              "id": "y3-mooe-597",
               "item": "Project management office — CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-professional-services",
@@ -1262,7 +1262,7 @@
               "unitCost": 138000
             },
             {
-              "id": "y3-mooe-574",
+              "id": "y3-mooe-598",
               "item": "Hosting, support and licences — CTB research share (Year 3)",
               "office": "Research and Extension Office",
               "categoryId": "mooe-cloud-computing",
@@ -1271,7 +1271,7 @@
               "unitCost": 92000
             },
             {
-              "id": "y3-mooe-575",
+              "id": "y3-mooe-599",
               "item": "ICT training and change management — CTB research share",
               "office": "Research and Extension Office",
               "categoryId": "mooe-ict-training",
@@ -1285,7 +1285,7 @@
       "continuingCosts": {
         "mooe": [
           {
-            "id": "y3-mooe-578",
+            "id": "y3-mooe-602",
             "item": "SIS maintenance contract (transition)",
             "office": "Management Information System Office",
             "categoryId": "mooe-other-general-ict-services",
@@ -1294,7 +1294,7 @@
             "unitCost": 972000
           },
           {
-            "id": "y3-mooe-581",
+            "id": "y3-mooe-605",
             "item": "Library system hosting and support",
             "office": "Management Information System Office",
             "categoryId": "mooe-web-hosting",
@@ -1303,7 +1303,7 @@
             "unitCost": 270000
           },
           {
-            "id": "y3-mooe-584",
+            "id": "y3-mooe-608",
             "item": "Maritime research data subscriptions",
             "office": "Management Information System Office",
             "categoryId": "mooe-ict-research",
