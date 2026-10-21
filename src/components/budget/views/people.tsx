@@ -60,6 +60,7 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
                   sub: `${pct(p.humanCapital.totalIt, staff)} of ${staff.toLocaleString("en-PH")} staff`,
                 };
               })}
+            total={totalIt}
             format={(n) => n.toLocaleString("en-PH")}
           />
         </Panel>
@@ -71,15 +72,19 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
               .filter((p) => trainingLines.some((l) => l.slug === p.slug))
               .sort((x, y) => trainingTotal(y.slug) - trainingTotal(x.slug))
               .map((p) => {
-                const total = trainingLines.filter((l) => l.slug === p.slug).reduce((s, l) => s + l.total, 0);
                 const items = trainingLines.filter((l) => l.slug === p.slug);
+                const total = items.reduce((s, l) => s + l.total, 0);
+                // The total spans several line items; name the largest one, not "the" item.
+                const largest = [...items].sort((x, y) => y.total - x.total)[0];
                 return (
                   <div key={p.slug} className="flex items-baseline justify-between gap-3 text-xs border-b last:border-b-0 pb-1.5 last:pb-0">
                     <span className="min-w-0">
                       <Link href={`/repository/${p.slug}`} className="font-medium hover:underline">
                         {p.acronym}
                       </Link>
-                      <span className="text-muted-foreground block truncate max-w-md">{items[0].item}</span>
+                      <span className="text-muted-foreground block truncate max-w-md">
+                        {items.length} training {items.length === 1 ? "line" : "lines"} · largest: {largest.item}
+                      </span>
                     </span>
                     <span className="tabular-nums font-semibold shrink-0">{phpCompact(total)}</span>
                   </div>

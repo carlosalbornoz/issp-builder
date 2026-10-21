@@ -10,7 +10,7 @@ import { CloudCog } from "lucide-react";
 import { Donut } from "@/components/dataviz/charts";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { SPEND_DOMAINS } from "@/lib/ict-domains";
-import { SECTOR_SHORT } from "@/lib/repository/corpus";
+import { SECTORS } from "@/lib/repository/corpus";
 import { phpCompact } from "@/lib/utils";
 import { InsightBox, Panel, TodayBadge, ViewHeader, ViewProps, pct } from "./shared";
 
@@ -69,13 +69,13 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
             />
             <div className="space-y-2 text-xs">
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">By sector · cloud-hosted share</p>
-              {[...new Set(profiles.map((p) => p.sector))].map((sector) => {
-                const inSector = profiles.filter((p) => p.sector === sector);
+              {SECTORS.filter((s) => profiles.some((p) => p.sector === s.key)).map((s) => {
+                const inSector = profiles.filter((p) => p.sector === s.key);
                 const systems = inSector.flatMap((p) => p.systems);
                 return (
-                  <div key={sector} className="flex items-baseline justify-between gap-3">
-                    <span className="text-foreground">{SECTOR_SHORT[sector]}</span>
-                    <span className="tabular-nums font-semibold">{pct(systems.filter((s) => s.dataStorage === "CLOUD").length, systems.length)}</span>
+                  <div key={s.key} className="flex items-baseline justify-between gap-3">
+                    <span className="text-foreground">{s.short}</span>
+                    <span className="tabular-nums font-semibold">{pct(systems.filter((sys) => sys.dataStorage === "CLOUD").length, systems.length)}</span>
                   </div>
                 );
               })}

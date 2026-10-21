@@ -121,7 +121,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
       </div>
 
       <div className="grid lg:grid-cols-2 lg:items-start gap-4">
-        <Panel title="Which national plans the money serves" sub="strategic alignment tags · share of project cost" icon={ShieldQuestion}>
+        <Panel title="Which national plans the money serves" sub="Strategic alignment tags · share of project cost" icon={ShieldQuestion}>
           <BarList
             items={[
               ...ALIGNMENT_TAGS.map((tag) => ({

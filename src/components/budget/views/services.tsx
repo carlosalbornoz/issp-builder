@@ -37,7 +37,7 @@ export function ServicesView({ profiles }: ViewProps) {
         <Kpi label="Frontline systems" value={String(frontline.length)} sub={`${pct(frontline.length, systems.length)} of ${systems.length} systems`} highlight icon={MonitorSmartphone} />
         <Kpi label="Frontline, online" value={pct(frontline.filter((s) => s.frontlineAccessType === "ONLINE").length, frontline.length)} sub="reachable without a counter visit" />
         <Kpi label="eGovPH adoption" value={pct(egpAdopted, egpTotal)} sub={`${egpAdopted} of ${egpTotal} program slots adopted`} />
-        <Kpi label="PNPKI-issuing agencies" value={`${pnpki.filter((p) => (p.egp.pnpkiAdoption ?? 0) > 50).length} of ${profiles.length}`} sub="above 50% certificate adoption" />
+        <Kpi label="High PNPKI adoption" value={`${pnpki.filter((p) => (p.egp.pnpkiAdoption ?? 0) > 50).length} of ${profiles.length}`} sub="agencies above 50% certificate adoption" />
       </div>
 
       <div className="grid lg:grid-cols-3 lg:items-start gap-4">
@@ -55,6 +55,7 @@ export function ServicesView({ profiles }: ViewProps) {
                 color: p.egp.adopted / p.egp.total >= 0.6 ? "var(--chart-1)" : "var(--chart-5)",
                 sub: `of ${p.egp.total} programs · ${SECTOR_SHORT[p.sector]}`,
               }))}
+            total={egpAdopted}
             format={(n) => `${n} programs`}
           />
         </Panel>

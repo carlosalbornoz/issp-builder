@@ -50,6 +50,7 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
               items={[...byCategory.entries()]
                 .sort((x, y) => y[1] - x[1])
                 .map(([id, total]) => ({ key: id, label: categoryNameById.get(id) ?? id, value: total }))}
+              total={netTotal}
               format={phpCompact}
             />
             <p className="text-[11px] text-muted-foreground mt-3">
@@ -64,7 +65,7 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
           </InsightBox>
         </div>
 
-        <Panel title="The links the plans name" sub="subscription and broadband line items · today's form" className="lg:col-span-2">
+        <Panel title="The links the plans name" sub="Subscription and broadband line items · today's form" className="lg:col-span-2">
           <div className="overflow-x-auto rounded-lg border">
             <table className="min-w-full text-xs sm:text-sm border-collapse">
               <thead>

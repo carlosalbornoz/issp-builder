@@ -74,7 +74,7 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
               </tbody>
             </table>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mt-4">
+          <div className="grid grid-cols-2 gap-2.5 mt-4">
             <PostureTile label="Endpoints in scope" value={endpoints.toLocaleString("en-PH")} sub="all selected agencies" />
             <PostureTile
               label="Endpoints past support"
@@ -82,13 +82,15 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
               sub={`${endpointsEol.toLocaleString("en-PH")} devices, replacement not always budgeted`}
               danger={endpointsEol / endpoints > 0.3}
             />
-            <PostureTile label="Device spend in plans" value={phpCompact(devicesTotal)} sub={fy === "all" ? "across all plan years" : `FY${fy}`} />
           </div>
         </Panel>
       </ProposedOnly>
 
       <div className="grid lg:grid-cols-2 lg:items-start gap-4">
-        <Panel title="Device spend by category" sub="Part IV line items rolled up from the 30 DICT categories · today's form">
+        <Panel
+          title="Device spend by category"
+          sub={`Part IV line items rolled up from the 30 DICT categories · today's form · ${phpCompact(devicesTotal)} ${fy === "all" ? "across all plan years" : `in FY${fy}`}`}
+        >
           <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
           <BarList
             className="mt-3"
@@ -99,11 +101,12 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
                 label: categoryNameById.get(id) ?? id,
                 value: total,
               }))}
+            total={devicesTotal}
             format={phpCompact}
           />
         </Panel>
 
-        <Panel title="Unit-price sanity: laptop-class purchases" sub="corpus-wide · median unit cost vs the corpus median">
+        <Panel title="Unit-price sanity: laptop-class purchases" sub="Corpus-wide · median unit cost vs the corpus median">
           {mode === "current" ? <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge> : null}
           <p className="text-xs text-muted-foreground mb-3">
             Corpus median: <strong className="text-foreground tabular-nums">{php(up.corpusMedian)}</strong> per unit,

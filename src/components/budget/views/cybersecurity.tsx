@@ -93,9 +93,9 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
         </div>
         <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
           Counted from the Part II-B checklist each .issp carries ({groups.reduce((s, g) => s + g.controls, 0)} Yes/No
-          controls across 7 groups). Corpus average: {Math.round(corpusOverall * 100)}% today; the plans&apos; Part
-          III-A target state averages {Math.round(cyber.proposedOverall * 100)}%. Fictitious agencies; the checklist
-          itself is today&apos;s ISSP form.
+          controls across 7 groups). Average across the selection: {Math.round(corpusOverall * 100)}% today; the
+          corpus-wide Part III-A target state averages {Math.round(cyber.proposedOverall * 100)}%. Fictitious agencies;
+          the checklist itself is today&apos;s ISSP form.
         </p>
       </Panel>
 
