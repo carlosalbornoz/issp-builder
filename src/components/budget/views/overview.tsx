@@ -86,9 +86,11 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
   const ccFirstLabel = ccFirst ? `FY${ccFirst.year} ${Math.round(ccFirst.share * 100)}%` : "year to year";
   const ccLastLabel = ccLast ? `FY${ccLast.year} ${Math.round(ccLast.share * 100)}%` : "year to year";
 
+  // Fund split over the same scope the KPI counts (the FY filter applies), so the
+  // ring, its legend and the center total always describe the same money.
   const fundSegments = (() => {
     const map = new Map<string, number>();
-    lines.forEach((l) => map.set(l.fundSource, (map.get(l.fundSource) ?? 0) + l.total));
+    scope.forEach((l) => map.set(l.fundSource, (map.get(l.fundSource) ?? 0) + l.total));
     return [...map.entries()]
       .sort((x, y) => y[1] - x[1])
       .map(([label, value], i) => ({ key: label, label, value, color: CHART_COLORS[i % CHART_COLORS.length] }));
@@ -101,21 +103,24 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
         <Kpi
           label={fy === "all" ? "Proposed ICT investment" : `FY${fy} ISSP ask`}
-          value={phpCompact(total)}
+          value={scope.length === 0 ? "–" : phpCompact(total)}
+          title={scope.length === 0 ? undefined : php(total)}
           sub={
-            yoyDelta !== null && fy !== "all"
-              ? `${yoyDelta >= 0 ? "▲" : "▼"} ${Math.abs(yoyDelta).toFixed(1)}% vs FY${fy - 1} (${phpCompact(priorFyTotal)})`
-              : `${profiles.length} agencies · ${fyLabel}`
+            scope.length === 0
+              ? "no line items match the current filters"
+              : yoyDelta !== null && fy !== "all"
+                ? `${yoyDelta >= 0 ? "▲" : "▼"} ${Math.abs(yoyDelta).toFixed(1)}% vs FY${fy - 1} (${phpCompact(priorFyTotal)})`
+                : `${profiles.length} agencies · ${fyLabel}`
           }
           highlight
           icon={Coins}
         />
-        <Kpi label="Capital outlay" value={phpCompact(co)} sub={`${pct(co, total)} of total`} />
-        <Kpi label="MOOE" value={phpCompact(total - co)} sub={`${pct(total - co, total)} of total`} />
+        <Kpi label="Capital outlay" value={scope.length === 0 ? "–" : phpCompact(co)} title={scope.length === 0 ? undefined : php(co)} sub={scope.length === 0 ? "clear a filter to see figures" : `${pct(co, total)} of total`} />
+        <Kpi label="MOOE" value={scope.length === 0 ? "–" : phpCompact(total - co)} title={scope.length === 0 ? undefined : php(total - co)} sub={scope.length === 0 ? "clear a filter to see figures" : `${pct(total - co, total)} of total`} />
         <Kpi
           label="Top expense category"
-          value={categories[0]?.name.split(" ").slice(0, 3).join(" ") ?? "–"}
-          sub={categories[0] ? phpCompact(categories[0].total) : ""}
+          value={categories[0]?.name ?? "–"}
+          sub={categories[0] ? `${phpCompact(categories[0].total)} · ${pct(categories[0].total, total)} of total` : ""}
           icon={ReceiptText}
         />
         {mode === "proposed" ? (
@@ -150,7 +155,11 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
           </InsightBox>
         </Panel>
         <Panel title="Fund sources" sub="B.2 across the selection" icon={PieChart}>
-          <Donut segments={fundSegments} centerValue={phpCompact(total)} centerLabel="proposed" format={phpCompact} size={160} stackLegend />
+          {fundSegments.length > 0 ? (
+            <Donut segments={fundSegments} centerValue={phpCompact(total)} centerLabel="proposed" format={phpCompact} size={160} stackLegend />
+          ) : (
+            <p className="text-xs text-muted-foreground">Nothing matches the current filters.</p>
+          )}
           <p className="text-[11px] text-muted-foreground leading-relaxed mt-4">
             LGU and GOCC budgets do not pass through the GAA. For them, the ISSP is the only national view of
             ICT intent.
@@ -179,6 +188,7 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
                   ]
                 : []),
             ]}
+            total={categories.reduce((s, c) => s + c.total, 0)}
             format={phpCompact}
           />
         </Panel>
@@ -331,19 +341,19 @@ function PostureGrid({ corpus, profiles, mode }: { corpus: ViewProps["corpus"]; 
           <thead>
             <tr className="bg-muted/50">
               <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Agency</th>
-              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap">
+              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap" title="Share of the 29 Part II-B checklist controls enabled">
                 <span className="inline-flex items-center gap-1">Cyber controls <BasisMark /></span>
               </th>
-              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap">
+              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap" title="Share of the agency's inventoried systems hosted in the cloud (Part II-C)">
                 <span className="inline-flex items-center gap-1">Cloud-hosted <BasisMark /></span>
               </th>
-              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap">
+              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap" title="Continuing costs as a share of the final plan year's ask (B.1)">
                 <span className="inline-flex items-center gap-1">Continuing share <BasisMark /></span>
               </th>
-              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap">
+              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap" title="Share of endpoints past vendor support (Annex 1 fleet, proposed)">
                 <span className="inline-flex items-center gap-1">Endpoints past support <BasisMark proposed /></span>
               </th>
-              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap">
+              <th scope="col" className="border-b px-3 py-2 text-center font-semibold whitespace-nowrap" title="FY2025 obligations over allotments (COMPASS feed, proposed)">
                 <span className="inline-flex items-center gap-1">FY2025 obligated <BasisMark proposed /></span>
               </th>
             </tr>
@@ -423,8 +433,10 @@ function PostureRow({
         <span className="text-muted-foreground text-[10px] block">{TYPE_SHORT[p.type]}</span>
       </td>
       <td className="px-3 py-2 text-center">{cyber !== undefined ? <BandPill share={cyber} bands={[0.3, 0.5]} /> : "–"}</td>
-      <td className="px-3 py-2 text-center tabular-nums">{Math.round(cloudShare * 100)}%</td>
-      <td className="px-3 py-2 text-center tabular-nums">{Math.round(ccShare * 100)}%</td>
+      <td className="px-3 py-2 text-center tabular-nums">{p.systems.length ? `${Math.round(cloudShare * 100)}%` : "–"}</td>
+      <td className="px-3 py-2 text-center tabular-nums">
+        {p.budget.grandTotals[2] > 0 ? `${Math.round(ccShare * 100)}%` : "–"}
+      </td>
       <td className="px-3 py-2 text-center">
         {proposedCols && fleet ? (
           <BandPill share={fleet.endpointsEol / fleet.endpoints} bands={[0.1, 0.3]} invert />
@@ -472,23 +484,21 @@ function BandPill({ share, bands, invert }: { share: number; bands: [number, num
 
 function RankingPanel({ profiles, lines, fy, mode, corpus }: { profiles: CorpusProfile[]; lines: ViewProps["lines"]; fy: ViewProps["fy"]; mode: ViewProps["mode"]; corpus: ViewProps["corpus"] }) {
   const compassBySlug = new Map(corpus.compass.agencies.map((ca) => [ca.slug, ca]));
-  const yearTotalOf = (a: CorpusProfile, year: number) => {
-    const i = year - a.cycle.startYear;
-    return i >= 0 && i < 3 ? a.budget.grandTotals[i] : null;
-  };
   const fyForRanking = fy === "all" ? null : fy;
   const bars = profiles
     .map((a) => {
       const ca = compassBySlug.get(a.slug);
       const oblig25 = ca ? ca.years.find((y) => y.year === 2025)?.obligated : undefined;
-      const value =
-        (fyForRanking ? yearTotalOf(a, fyForRanking) : null) ??
-        lines.filter((l) => l.slug === a.slug).reduce((s, l) => s + l.total, 0);
-      const basis = fyForRanking ? yearTotalOf(a, fyForRanking) : a.budget.grandTotal / 3;
+      // The same lines the KPIs count, so bar lengths respect the fund and FY
+      // filters (per-year line sums equal the engine's B.1 year totals).
+      const value = lines
+        .filter((l) => l.slug === a.slug && (fyForRanking === null || l.year === fyForRanking))
+        .reduce((s, l) => s + l.total, 0);
+      const basis = fyForRanking ? value : value / 3;
       const ratio = oblig25 && basis ? basis / oblig25 : null;
       return { slug: a.slug, acronym: a.acronym, name: a.name, value, ratio };
     })
-    .filter((a) => a.value !== null)
+    .filter((a) => a.value > 0)
     .sort((x, y) => y.value - x.value);
 
   return (
@@ -505,6 +515,7 @@ function RankingPanel({ profiles, lines, fy, mode, corpus }: { profiles: CorpusP
               }
             : {}),
         }))}
+        total={bars.reduce((s, a) => s + a.value, 0)}
         format={phpCompact}
       />
       {mode === "proposed" && bars.some((b) => b.ratio && b.ratio > 2) ? (
@@ -519,18 +530,14 @@ function RankingPanel({ profiles, lines, fy, mode, corpus }: { profiles: CorpusP
 
 // ─── Drill-down row ───────────────────────────────────────────────────────────
 
-function fundShare(a: CorpusProfile, fund: string): number {
-  if (fund === "all") return 1;
-  const total = a.lineItems.reduce((s, l) => s + l.total, 0);
-  if (total === 0) return 0;
-  return a.lineItems.filter((l) => l.fundSource === fund).reduce((s, l) => s + l.total, 0) / total;
-}
-
 function AgencyRow({ agency: a, fund }: { agency: CorpusProfile; fund: string }) {
   const [open, setOpen] = useState(false);
   const visible = a.lineItems.filter((l) => fund === "all" || l.fundSource === fund);
   const filteredTotal = visible.reduce((s, l) => s + l.total, 0);
-  const share = filteredTotal > 0 ? fundShare(a, fund) : 0;
+  // Per-year sums of the same lines the engine counts (verified equal to B.1
+  // grandTotals), so Y1..Y3 add up to the 3-yr total under any fund filter.
+  const yearTotal = (offset: number) =>
+    visible.filter((l) => l.year === a.cycle.startYear + offset).reduce((s, l) => s + l.total, 0);
   const co = visible.filter((l) => l.expenseClass === "capitalOutlay").reduce((s, l) => s + l.total, 0);
   const topCategories = (() => {
     const map = new Map<string, number>();
@@ -563,7 +570,7 @@ function AgencyRow({ agency: a, fund }: { agency: CorpusProfile; fund: string })
         <td className="px-3 py-2 text-muted-foreground">{TYPE_SHORT[a.type]}</td>
         {[0, 1, 2].map((i) => (
           <td key={i} className="px-3 py-2 text-right tabular-nums">
-            {php(a.budget.grandTotals[i] * share)}
+            {php(yearTotal(i))}
           </td>
         ))}
         <td className="px-3 py-2 text-right tabular-nums font-semibold">{php(filteredTotal)}</td>
@@ -595,6 +602,7 @@ function AgencyRow({ agency: a, fund }: { agency: CorpusProfile; fund: string })
                     value: visible.filter((l) => l.bucket === b.key).reduce((s, l) => s + l.total, 0),
                     color: b.color,
                   }))}
+                  total={filteredTotal}
                   format={phpCompact}
                 />
               </div>
