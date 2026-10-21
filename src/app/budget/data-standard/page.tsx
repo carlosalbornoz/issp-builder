@@ -33,6 +33,8 @@ const FIELD_MAP = [
     { field: "Expense category (30 DICT categories) and CO / MOOE class", part: "IV", joins: "UACS object codes (by name)", answers: "Comparable spending" },
     { field: "Fund source", part: "IV", joins: "GAA · foreign-assisted · local · income", answers: "Who pays" },
     { field: "KPIs: hierarchy, indicator, baseline, 3 yearly targets", part: "III-F", joins: "DIME · agency performance", answers: "Results promised" },
+    { field: "Cybersecurity control checklist (29 Yes/No controls, 7 groups)", part: "II-B", joins: "DICT · national CERT", answers: "Whole-of-government control coverage (the Cybersecurity view)" },
+    { field: "System storage / access type per information system", part: "II-C · III-D", joins: "Cloud-first checks", answers: "Where systems live, and how citizens reach them" },
   ] },
   { group: "Join keys to add", rows: [
     { field: "UACS organization code", part: "Envelope", joins: "COMPASS · NEP · GAA", answers: "Exact agency match, no name guessing", add: true },
@@ -46,6 +48,8 @@ const FIELD_MAP = [
   { group: "Deeper fields for the revised ISSP (v15 candidates)", rows: [
     { field: "ICT asset inventory (Annex 1): make, model, class, count, OS, support status", part: "Annex 1", joins: "National CERT advisories · DICT asset views", answers: "Who runs an affected model, and is replacement budgeted", add: true, caveat: "shown as mock data on the posture views: the government cyber-posture picture" },
     { field: "AI / compute tag per project: own-build, shared platform, adoption, or teaching", part: "III-E", joins: "National compute planning", answers: "Which AI asks duplicate shared compute", add: true, caveat: "one checkbox per project; powers the spend-wave review" },
+    { field: "Security tag per project or line item", part: "III-E · IV", joins: "Security spend views", answers: "What the cybersecurity budget actually buys", add: true, caveat: "none of the 30 DICT categories is security-specific, so today's form cannot see security spend" },
+    { field: "PDP sector code per agency (aligned to PDP 2023-2028 chapters)", part: "Envelope", joins: "PDP / RDP results matrices", answers: "ICT posture per functional sector (mock in the corpus today)", add: true, caveat: "shown as the sector lens on the dashboard; mock assignment in the demonstration corpus" },
     { field: "Procurement stage per project-year (execution-side)", part: "IV (execution)", joins: "PhilGEPS", answers: "Has funded work started procurement", add: true, caveat: "agency-portal updates, not plan content: the plan holds the key, the portal the status" },
   ] },
 ] as const;
@@ -80,6 +84,8 @@ const CAPABILITY_MATRIX = [
     tier: "Extracted from the current form, today",
     rows: [
       { view: "B.1–B.4 summaries, by-year / category / fund charts, rankings, drill-down, CSV export", needs: "Part IV line items (item, office, qty, unit cost, category, fund source)" },
+      { view: "Whole-of-government posture grid: cyber controls, cloud share, continuing share (per PDP sector)", needs: "Part II-B checklist · II-C/III-D storage fields · Part IV buckets" },
+      { view: "Domain spend roll-ups (devices · networks · cloud & software · people)", needs: "the 30 DICT expense categories, grouped" },
       { view: "Duplication watch, cross-agency programs, alignment share", needs: "Part II-C systems · Part III-D/III-E links and tags" },
       { view: "Unit-price sanity across agencies", needs: "item + qty + unitCost (no new fields)" },
       { view: "Plan-quality checks (KPI completeness, category coverage)", needs: "Parts III-E / III-F / IV" },
@@ -88,8 +94,10 @@ const CAPABILITY_MATRIX = [
   {
     tier: "Unlocked by one form refinement each (v15 candidates)",
     rows: [
-      { view: "AI & compute spend-wave views (own-build vs shared)", needs: "AI / compute tag per project" },
-      { view: "Cyber posture and advisory blast-radius answers", needs: "Annex 1 asset inventory as structured fields" },
+      { view: "AI & compute domain view (own-build vs shared)", needs: "AI / compute tag per project" },
+      { view: "Cybersecurity spend column (what the security budget buys)", needs: "Security tag per project or line item" },
+      { view: "Fleet exposure and advisory blast-radius answers", needs: "Annex 1 asset inventory as structured fields" },
+      { view: "ICT posture per functional sector, PDP-aligned (mock lens today)", needs: "PDP sector code per agency" },
       { view: "Exact agency match, no name guessing", needs: "UACS organization code" },
     ],
   },

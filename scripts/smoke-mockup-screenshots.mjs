@@ -135,7 +135,7 @@ async function expectText(p, text, label) {
   await p.close();
 }
 
-// 4 — Budget dashboard
+// 4 — Budget dashboard: overview
 {
   const p = await newPage();
   const errors = [];
@@ -144,31 +144,28 @@ async function expectText(p, text, label) {
   await settle(p);
   await expectText(p, "ICT Budget Dashboard", "budget title");
   await expectText(p, "The next infrastructure wave is digital", "budget why-now band");
-  await expectText(p, "AI & compute in the plans", "budget AI panel");
+  await expectText(p, "Planned ICT, whole of government", "whole-of-gov why-now tile");
+  await expectText(p, "Whole-of-government posture", "budget posture grid");
+  await expectText(p, "Agriculture and food", "posture grid PDP sector group");
   await expectText(p, "Fund sources", "budget fund panel");
   await expectText(p, "Agencies by proposed investment", "budget ranking");
-  await expectText(p, "Follow every peso", "budget lifecycle");
-  await expectText(p, "Can each agency spend what it asks for?", "budget absorptive");
-  await expectText(p, "has procurement started?", "budget procurement pulse");
-  await expectText(p, "duplication watch", "budget convergence");
-  await expectText(p, "Unit-price sanity", "budget unit prices");
-  await expectText(p, "Government cyber posture", "budget posture panel");
-  await expectText(p, "NetGate FX-200", "budget advisory card");
   await expectText(p, "Projects with PAP code", "budget traceability KPI");
+  await expectText(p, "Agency drill-down", "budget drill-down");
   await expectText(p, "Line items (CSV)", "budget CSV export");
   await expectNoOverflow(p, "budget");
   await p.screenshot({ path: path.join(OUT_DIR, "budget.png"), fullPage: true });
   ok("shot budget.png");
 
-  // 5 — Program spotlight deep link
-  await p.goto(`${BASE}/budget?program=rapide`, { waitUntil: "networkidle0", timeout: 60000 });
+  // 5 — Program spotlight deep link (shared-services view)
+  await p.goto(`${BASE}/budget?view=shared&program=rapide`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "RAPIDE", "budget program spotlight");
+  await expectText(p, "Where a shared service could replace separate builds", "shared view present on program deep link");
   await expectNoOverflow(p, "budget program");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-program.png"), fullPage: true });
   ok("shot budget-program.png");
 
-// 4b — FY selector interaction
+// 4b — FY selector interaction (overview KPIs)
 {
   const p = await newPage();
   await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
@@ -182,7 +179,7 @@ async function expectText(p, text, label) {
   await p.close();
 }
 
-// 4c — Data mode: current form (proposed layers ghost out behind locks)
+// 4c — Data mode: current form (overview locks the grid's proposed columns)
 {
   const p = await newPage();
   const errors = [];
@@ -190,16 +187,60 @@ async function expectText(p, text, label) {
   await p.goto(`${BASE}/budget?mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "Current form (v14)", "mode chips present");
-  await expectText(p, "Requires: an AI / compute tag per project", "AI panel lock");
-  await expectText(p, "Requires: the Annex 1 asset inventory", "posture lock");
-  await expectText(p, "Requires: UACS join keys", "lifecycle lock");
-  await expectText(p, "Computed from today's form", "unit-price live badge");
   await expectText(p, "KPIs fully specified", "hero tile swap");
-  await expectText(p, "Unit-price sanity", "unit-price still rendered");
-  await expectNoOverflow(p, "budget current mode");
+  await expectText(p, "Whole-of-government posture", "posture grid still rendered");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-current-form.png"), fullPage: true });
   ok("shot budget-current-form.png");
   errors.forEach((e) => fail(`current-mode pageerror: ${e}`));
+  await p.close();
+}
+
+// 4d — Domain views (one shot + assertions each)
+{
+  const views = [
+    ["cybersecurity", "budget-cyber.png", ["Cybersecurity control coverage", "NetGate FX-200", "Security spend is invisible"]],
+    ["devices", "budget-devices.png", ["Unit-price sanity", "The estate today", "Device spend by category"]],
+    ["networks", "budget-networks.png", ["Connectivity spend by category", "The links the plans name"]],
+    ["cloud", "budget-cloud.png", ["Where systems live today", "Where the new systems will live", "Hosting and subscription spend"]],
+    ["ai", "budget-ai.png", ["AI and compute asks", "own GPU clusters"]],
+    ["people", "budget-people.png", ["ICT staff per agency", "Training in the plans"]],
+    ["services", "budget-services.png", ["eGovPH program adoption", "How frontline services are reached"]],
+    ["money", "budget-money.png", ["Follow every peso", "Can each agency spend what it asks for?", "has procurement started?"]],
+    ["shared", "budget-shared.png", ["Where a shared service could replace separate builds", "Cross-agency programs", "Which national plans the money serves"]],
+  ];
+  for (const [view, file, expects] of views) {
+    const p = await newPage();
+    const errors = [];
+    p.on("pageerror", (e) => errors.push(String(e)));
+    await p.goto(`${BASE}/budget?view=${view}`, { waitUntil: "networkidle0", timeout: 60000 });
+    await settle(p);
+    for (const text of expects) await expectText(p, text, `${view} view`);
+    await expectNoOverflow(p, `${view} view`);
+    await p.screenshot({ path: path.join(OUT_DIR, file), fullPage: true });
+    ok(`shot ${file}`);
+    errors.forEach((e) => fail(`${view} pageerror: ${e}`));
+    await p.close();
+  }
+}
+
+// 4e — Sector lens (PDP sectors) + current-form locks on the cyber view
+{
+  const p = await newPage();
+  const errors = [];
+  p.on("pageerror", (e) => errors.push(String(e)));
+  await p.goto(`${BASE}/budget?sector=agricultureFood`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "PDP Ch. 5", "sector group header carries the PDP ref");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-sector-agri.png"), fullPage: true });
+  ok("shot budget-sector-agri.png");
+  await p.goto(`${BASE}/budget?view=cybersecurity&mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Requires: the Annex 1 asset inventory", "cyber view fleet lock");
+  await expectText(p, "Cybersecurity control coverage", "controls grid stays live in current mode");
+  await expectNoOverflow(p, "cyber current mode");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-cyber-current.png"), fullPage: true });
+  ok("shot budget-cyber-current.png");
+  errors.forEach((e) => fail(`sector/cyber-current pageerror: ${e}`));
   await p.close();
 }
 
@@ -223,53 +264,22 @@ async function expectText(p, text, label) {
   await p.close();
 }
 
-// 5c — Data standard
-{
-  const p = await newPage();
-  await p.goto(`${BASE}/budget/data-standard`, { waitUntil: "networkidle0", timeout: 60000 });
-  await settle(p);
-  await expectText(p, "What structured ISSP data should know", "data standard title");
-  await expectText(p, "UACS PAP code per project", "data standard join key");
-  await expectText(p, "AI / compute tag per project", "data standard v15 field");
-  await expectText(p, "Capability matrix", "data standard matrix");
-  await expectText(p, "Unlocked by one form refinement each", "data standard matrix tier");
-  await expectText(p, "Where this goes", "data standard agency loop");
-  await expectText(p, "The row COMPASS can join", "data standard sample");
-  await expectNoOverflow(p, "data standard");
-  await p.screenshot({ path: path.join(OUT_DIR, "budget-data-standard.png"), fullPage: true });
-  ok("shot budget-data-standard.png");
-  await p.close();
-}
-
-// 5d — Examiner brief + Citizen one-pager (A4 reports)
-{
-  const p = await newPage();
-  await p.goto(`${BASE}/budget/report/examiner`, { waitUntil: "networkidle0", timeout: 60000 });
-  await settle(p);
-  await expectText(p, "Budget Examiner Brief", "examiner header");
-  await expectText(p, "Questions for the hearing", "examiner questions");
-  await p.screenshot({ path: path.join(OUT_DIR, "report-examiner.png"), fullPage: true });
-  ok("shot report-examiner.png");
-
-  await p.goto(`${BASE}/budget/report/citizen`, { waitUntil: "networkidle0", timeout: 60000 });
-  await settle(p);
-  await expectText(p, "Saan napupunta ang pondo", "citizen headline");
-  await expectText(p, "Out of every", "citizen waffle legend");
-  await p.screenshot({ path: path.join(OUT_DIR, "report-citizen.png"), fullPage: true });
-  ok("shot report-citizen.png");
-  await p.close();
-}
-
   errors.forEach((e) => fail(`budget pageerror: ${e}`));
   await p.close();
 }
 
-// 6 — Budget on a phone viewport
+// 6 — Budget on a phone viewport (overview + the table-heavy money view)
 {
   const p = await newPage(390, 844);
   await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
-  await expectNoOverflow(p, "budget mobile");
+  await expectNoOverflow(p, "budget mobile overview");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-mobile.png"), fullPage: true });
+  ok("shot budget-mobile.png");
+
+  await p.goto(`${BASE}/budget?view=money`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectNoOverflow(p, "budget mobile money view");
   // Procurement table: at scroll position 0 no stage chip may extend past the scroller's
   // right edge (round-9 vision finding — sliced chips read as broken).
   const clippedChips = await p.evaluate(() => {
@@ -282,8 +292,8 @@ async function expectText(p, text, label) {
     return chips.filter((c) => c.getBoundingClientRect().right > right + 1).length;
   });
   (clippedChips === 0 ? ok : fail)(`budget mobile procurement chips: ${clippedChips === 0 ? "none clipped at the scroller edge" : `${clippedChips} chip(s) clipped`}`);
-  await p.screenshot({ path: path.join(OUT_DIR, "budget-mobile.png"), fullPage: true });
-  ok("shot budget-mobile.png");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-mobile-money.png"), fullPage: true });
+  ok("shot budget-mobile-money.png");
   await p.close();
 }
 

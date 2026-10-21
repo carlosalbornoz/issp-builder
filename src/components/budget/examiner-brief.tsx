@@ -12,7 +12,7 @@ import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, Printer } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
-import { useCorpus, TYPE_LABELS } from "@/lib/repository/corpus";
+import { useCorpus, TYPE_LABELS, SECTOR_LABELS } from "@/lib/repository/corpus";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
 import { cn, php, phpCompact, formatDay } from "@/lib/utils";
 
@@ -90,7 +90,7 @@ export function ExaminerBrief() {
             <div>
               <h1 className="text-[22px] font-bold leading-tight">{agency.name}</h1>
               <p className="text-[11px] text-muted-foreground mt-1">
-                {TYPE_LABELS[agency.type]} · ISSP {agency.cycleLabel} · Amendment {agency.amendmentNumber} ·{" "}
+                {TYPE_LABELS[agency.type]} · {SECTOR_LABELS[agency.sector]} · ISSP {agency.cycleLabel} · Amendment {agency.amendmentNumber} ·{" "}
                 {agency.identifiers.dictEndorsement ? `DICT-endorsed ${agency.identifiers.dictEndorsement.ref}` : "not yet endorsed"} ·{" "}
                 UACS org {agency.identifiers.uacsOrgCode} (mock) · Built {builtOn} from the agency&apos;s .issp file and COMPASS (proposed link)
               </p>

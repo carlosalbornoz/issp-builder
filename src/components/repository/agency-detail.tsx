@@ -329,7 +329,7 @@ function AgencyDetailBody({
                   <div className="text-xs leading-relaxed">
                     <p className="font-semibold text-foreground">
                       Affected by advisory{" "}
-                      <Link href="/budget#readiness" className="text-primary hover:underline">
+                      <Link href="/budget?view=cybersecurity" className="text-primary hover:underline">
                         {advisory.id} (mock)
                       </Link>
                       : {advisoryHit.units} × {advisory.model} {advisory.kind}s, past vendor support.

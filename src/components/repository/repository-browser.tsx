@@ -265,7 +265,7 @@ export function RepositoryBrowser() {
                 {corpus.crossAgencyPrograms.map((p) => (
                   <Link
                     key={p.key}
-                    href={`/budget?program=${p.key}`}
+                    href={`/budget?view=shared&program=${p.key}`}
                     className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 hover:bg-accent/30 transition-colors flex flex-col"
                   >
                     <p className="text-sm font-semibold leading-snug mb-2">{p.title}</p>
