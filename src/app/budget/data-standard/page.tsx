@@ -15,9 +15,9 @@ import { DemoNotice } from "@/components/repository/demo-notice";
 const STAKEHOLDER_QUESTIONS = [
   { who: "DBM · budget examiners", q: "Is this ask in the plan, and can the agency spend it?", detail: "Plan vs NEP per project · past obligation rate · future MOOE each project creates." },
   { who: "DICT · ISSP evaluators", q: "Does it follow national ICT policy?", detail: "E-Government Master Plan tags · cloud-first · cybersecurity controls · duplicate builds." },
-  { who: "DICT · national CERT", q: "Who runs the affected model when an advisory lands?", detail: "Annex 1 asset inventory × advisories × replacement budgets — answered in one query." },
+  { who: "DICT · national CERT", q: "Who runs the affected model when an advisory lands?", detail: "Annex 1 asset inventory × advisories × replacement budgets, answered in one query." },
   { who: "COA · Ombudsman", q: "Did the contract buy what the plan listed?", detail: "Line item ↔ PhilGEPS award ↔ obligation, by one project key." },
-  { who: "Congress budget offices", q: "Which changes fund a planned project?", detail: "Each GAA change matched to an ISSP project — or to none." },
+  { who: "Congress budget offices", q: "Which changes fund a planned project?", detail: "Each GAA change matched to an ISSP project, or to none." },
   { who: "Agency head · CIO", q: "Are we on track against our own plan?", detail: "KPI actuals vs targets · execution per project · next-year commitments." },
   { who: "Citizens · CSOs · media", q: "Which digital services do I get, and when?", detail: "Plain-language projects, results and money, per agency and place." },
 ] as const;
@@ -25,11 +25,11 @@ const STAKEHOLDER_QUESTIONS = [
 const FIELD_MAP = [
   { group: "Already structured", rows: [
     { field: "Agency name, acronym, type (NGA · GOCC · LGU · other)", part: "Envelope", joins: "COMPASS agency list (by name)", answers: "Who plans it" },
-    { field: "Plan years, amendment number, plan status", part: "Envelope", joins: "—", answers: "Which version is official" },
-    { field: "Project ID, title, category, duration", part: "III-E", joins: "—", answers: "What is planned, when" },
+    { field: "Plan years, amendment number, plan status", part: "Envelope", joins: "–", answers: "Which version is official" },
+    { field: "Project ID, title, category, duration", part: "III-E", joins: "–", answers: "What is planned, when" },
     { field: "Strategic alignment and harmonization tags", part: "III-E", joins: "National plans (EGMP, NCSP, PIP, PCB)", answers: "Why it is needed" },
     { field: "Linked information systems (classification, hosting, interoperability)", part: "III-E ↔ II-C, III-D", joins: "Other agencies' plans", answers: "Duplicate builds, cloud-first" },
-    { field: "Line items: item, office, quantity, unit cost (total is derived)", part: "IV", joins: "—", answers: "What the money buys" },
+    { field: "Line items: item, office, quantity, unit cost (total is derived)", part: "IV", joins: "–", answers: "What the money buys" },
     { field: "Expense category (30 DICT categories) and CO / MOOE class", part: "IV", joins: "UACS object codes (by name)", answers: "Comparable spending" },
     { field: "Fund source", part: "IV", joins: "GAA · foreign-assisted · local · income", answers: "Who pays" },
     { field: "KPIs: hierarchy, indicator, baseline, 3 yearly targets", part: "III-F", joins: "DIME · agency performance", answers: "Results promised" },
@@ -43,10 +43,10 @@ const FIELD_MAP = [
     { field: "KPI actuals per year", part: "III-F", joins: "DIME", answers: "Results delivered", add: true },
     { field: "PSGC code per implementing office", part: "I · IV office", joins: "COMPASS regional view", answers: "Where the money lands", add: true },
   ] },
-  { group: "Deeper fields — for the revised ISSP (v15 candidates)", rows: [
-    { field: "ICT asset inventory (Annex 1): make, model, class, count, OS, support status", part: "Annex 1", joins: "National CERT advisories · DICT asset views", answers: "Who runs an affected model, and is replacement budgeted", add: true, caveat: "shown as mock data on the posture views — the government cyber-posture picture" },
-    { field: "AI / compute tag per project: own-build, shared platform, adoption, or teaching", part: "III-E", joins: "National compute planning", answers: "Which AI asks duplicate shared compute", add: true, caveat: "one checkbox per project — powers the spend-wave review" },
-    { field: "Procurement stage per project-year (execution-side)", part: "IV (execution)", joins: "PhilGEPS", answers: "Has funded work started procurement", add: true, caveat: "agency-portal updates, not plan content — the plan holds the key, the portal the status" },
+  { group: "Deeper fields for the revised ISSP (v15 candidates)", rows: [
+    { field: "ICT asset inventory (Annex 1): make, model, class, count, OS, support status", part: "Annex 1", joins: "National CERT advisories · DICT asset views", answers: "Who runs an affected model, and is replacement budgeted", add: true, caveat: "shown as mock data on the posture views: the government cyber-posture picture" },
+    { field: "AI / compute tag per project: own-build, shared platform, adoption, or teaching", part: "III-E", joins: "National compute planning", answers: "Which AI asks duplicate shared compute", add: true, caveat: "one checkbox per project; powers the spend-wave review" },
+    { field: "Procurement stage per project-year (execution-side)", part: "IV (execution)", joins: "PhilGEPS", answers: "Has funded work started procurement", add: true, caveat: "agency-portal updates, not plan content: the plan holds the key, the portal the status" },
   ] },
 ] as const;
 
@@ -77,11 +77,11 @@ const PUBLISHING_RULES = [
 
 const CAPABILITY_MATRIX = [
   {
-    tier: "Extracted from the current form — today",
+    tier: "Extracted from the current form, today",
     rows: [
       { view: "B.1–B.4 summaries, by-year / category / fund charts, rankings, drill-down, CSV export", needs: "Part IV line items (item, office, qty, unit cost, category, fund source)" },
       { view: "Duplication watch, cross-agency programs, alignment share", needs: "Part II-C systems · Part III-D/III-E links and tags" },
-      { view: "Unit-price sanity across agencies", needs: "item + qty + unitCost — no new fields" },
+      { view: "Unit-price sanity across agencies", needs: "item + qty + unitCost (no new fields)" },
       { view: "Plan-quality checks (KPI completeness, category coverage)", needs: "Parts III-E / III-F / IV" },
     ],
   },
@@ -97,7 +97,7 @@ const CAPABILITY_MATRIX = [
     tier: "Unlocked by the execution loop (agency portal + COMPASS link)",
     rows: [
       { view: "Follow-the-peso funnels, absorptive capacity, request vs allotment", needs: "UACS PAP code per project + a COMPASS feed" },
-      { view: "Procurement pulse (has funded work started?)", needs: "Procurement stage per project — agency portal / PhilGEPS" },
+      { view: "Procurement pulse (has funded work started?)", needs: "Procurement stage per project (agency portal / PhilGEPS)" },
       { view: "Results against targets (actuals vs baselines)", needs: "KPI actuals per year + DIME" },
     ],
   },
@@ -156,17 +156,17 @@ export default function DataStandardPage() {
             <table className="min-w-full text-xs sm:text-sm border-collapse">
               <thead>
                 <tr className="bg-muted/50">
-                  <th className="border-b px-3 py-2 text-left font-semibold">Field</th>
-                  <th className="border-b px-3 py-2 text-left font-semibold">ISSP part</th>
-                  <th className="border-b px-3 py-2 text-left font-semibold">Status</th>
-                  <th className="border-b px-3 py-2 text-left font-semibold">Joins to</th>
-                  <th className="border-b px-3 py-2 text-left font-semibold">Answers</th>
+                  <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Field</th>
+                  <th scope="col" className="border-b px-3 py-2 text-left font-semibold">ISSP part</th>
+                  <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Status</th>
+                  <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Joins to</th>
+                  <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Answers</th>
                 </tr>
               </thead>
               <tbody>
                 {FIELD_MAP.map((group) => (
-                  <>
-                    <tr key={group.group} className="bg-muted/30">
+                  <Fragment key={group.group}>
+                    <tr className="bg-muted/30">
                       <td colSpan={5} className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
                         {group.group}
                       </td>
@@ -194,8 +194,8 @@ export default function DataStandardPage() {
                           ) : null}
                         </td>
                       </tr>
-                    ))}
-                  </>
+                      ))}
+                  </Fragment>
                 ))}
               </tbody>
             </table>
@@ -209,7 +209,7 @@ export default function DataStandardPage() {
             <h2 className="font-display text-base font-bold tracking-tight mb-3">The row COMPASS can join</h2>
             <pre className="rounded-lg bg-[#0E1A33] text-[#E6ECF7] p-3.5 text-[11px] leading-relaxed font-mono overflow-x-auto">{SAMPLE_ROW}</pre>
             <p className="text-[11px] text-muted-foreground mt-2.5">
-              Codes are mock values. The same record also exports as one CSV row per line item — the dashboard&apos;s
+              Codes are mock values. The same record also exports as one CSV row per line item: the dashboard&apos;s
               CSV button produces exactly that from the corpus.
             </p>
           </section>
@@ -231,10 +231,10 @@ export default function DataStandardPage() {
         <section>
           <div className="mb-3">
             <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-1">Where this goes</p>
-            <h2 className="font-display text-lg font-bold tracking-tight">One trail, three doors — and the ISSP stays the source of truth</h2>
+            <h2 className="font-display text-lg font-bold tracking-tight">One trail, three doors, and the ISSP stays the source of truth</h2>
             <p className="text-xs text-muted-foreground mt-1 max-w-3xl leading-relaxed">
               Execution facts (procurement status, KPI actuals, physical progress) go stale inside a static plan. An
-              agency-side portal adds them against the same project keys — one update, every view below refreshes.
+              agency-side portal adds them against the same project keys: one update, every view below refreshes.
             </p>
           </div>
           <div className="grid sm:grid-cols-3 gap-3">
@@ -242,12 +242,12 @@ export default function DataStandardPage() {
               {
                 n: "1",
                 who: "Agency portal (planned)",
-                what: "Agencies update execution per project: procurement stage, % complete, KPI actuals — a five-minute quarterly chore.",
+                what: "Agencies update execution per project: procurement stage, % complete, KPI actuals. A five-minute quarterly chore.",
               },
               {
                 n: "2",
                 who: "Oversight dashboards",
-                what: "DBM, DICT, COA and Congress read the same trail this demonstration shows — plan, money, procurement, results.",
+                what: "DBM, DICT, COA and Congress read the same trail this demonstration shows: plan, money, procurement, results.",
               },
               {
                 n: "3",
@@ -274,7 +274,7 @@ export default function DataStandardPage() {
             <div>
               <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">Capability matrix</p>
               <h2 className="font-display text-lg font-bold tracking-tight mt-0.5">
-                What the current form yields — and what each refinement unlocks
+                What the current form yields, and what each refinement unlocks
               </h2>
             </div>
             <Link
@@ -288,8 +288,8 @@ export default function DataStandardPage() {
             <table className="min-w-full text-xs sm:text-sm border-collapse">
               <thead>
                 <tr className="bg-muted/50">
-                  <th className="border-b px-3 py-2 text-left font-semibold">View (as demonstrated in this mockup)</th>
-                  <th className="border-b px-3 py-2 text-left font-semibold">What it needs</th>
+                  <th scope="col" className="border-b px-3 py-2 text-left font-semibold">View (as demonstrated in this mockup)</th>
+                  <th scope="col" className="border-b px-3 py-2 text-left font-semibold">What it needs</th>
                 </tr>
               </thead>
               <tbody>
@@ -314,7 +314,7 @@ export default function DataStandardPage() {
           <p className="text-[11px] text-muted-foreground mt-2.5 leading-relaxed">
             The dashboard&apos;s <strong>Data mode</strong> switch demonstrates this live: flip to{" "}
             <em>Current form (v14)</em> and every panel in the lower tiers dims behind a lock naming the field it
-            waits on — the top tier keeps running untouched.
+            waits on. The top tier keeps running untouched.
           </p>
         </section>
 
@@ -323,7 +323,7 @@ export default function DataStandardPage() {
           <div className="flex-1 min-w-72">
             <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE] mb-1.5">The ask</p>
             <p className="text-lg font-semibold leading-snug">
-              Make the ISSP the first record of every ICT peso in COMPASS — the plan the rest of the trail is checked
+              Make the ISSP the first record of every ICT peso in COMPASS: the plan the rest of the trail is checked
               against.
             </p>
           </div>

@@ -9,7 +9,6 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
   Building2,
   CalendarRange,
@@ -33,7 +32,6 @@ type SortKey = "total" | "agency" | "updated";
 const EMPTY_AGENCIES: CorpusProfile[] = [];
 
 export function RepositoryBrowser() {
-  const router = useRouter();
   const { corpus, error } = useCorpus();
   const [q, setQ] = useState("");
   const [type, setType] = useState("all");
@@ -85,7 +83,7 @@ export function RepositoryBrowser() {
           </p>
           <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-3">Public ISSP Repository</h1>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl mb-8">
-            Every agency ISSP, filed as structured data instead of buried PDFs — searchable by agency, program,
+            Every agency ISSP, filed as structured data instead of buried PDFs: searchable by agency, program,
             project or system, with budgets that mean the same thing across agencies because they come from the same
             DICT 2026 template.
           </p>
@@ -122,16 +120,19 @@ export function RepositoryBrowser() {
                 <label className="relative flex-1 min-w-0">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                   <input
+                    type="search"
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
                     placeholder="Search agency, project or system…"
+                    aria-label="Search plans"
                     className="w-full h-9 rounded-md border border-input bg-background pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring/50"
                   />
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  <FilterSelect value={type} onChange={setType} options={[["all", "All types"], ...(["NGA", "GOCC", "LGU", "OTHER"] as const).map((t) => [t, TYPE_LABELS[t]] as [string, string])]} />
-                  <FilterSelect value={cycle} onChange={setCycle} options={[["all", "All cycles"], ...cycles.map((c) => [c, c] as [string, string])]} />
+                  <FilterSelect ariaLabel="Filter by agency type" value={type} onChange={setType} options={[["all", "All types"], ...(["NGA", "GOCC", "LGU", "OTHER"] as const).map((t) => [t, TYPE_LABELS[t]] as [string, string])]} />
+                  <FilterSelect ariaLabel="Filter by plan cycle" value={cycle} onChange={setCycle} options={[["all", "All cycles"], ...cycles.map((c) => [c, c] as [string, string])]} />
                   <FilterSelect
+                    ariaLabel="Filter by plan status"
                     value={status}
                     onChange={setStatus}
                     options={[
@@ -142,6 +143,7 @@ export function RepositoryBrowser() {
                     ]}
                   />
                   <FilterSelect
+                    ariaLabel="Sort plans"
                     value={sort}
                     onChange={(v) => setSort(v as SortKey)}
                     options={[
@@ -151,18 +153,20 @@ export function RepositoryBrowser() {
                     ]}
                   />
                 </div>
-                <div className="flex rounded-md border border-input overflow-hidden h-9 self-start">
+                <div className="flex rounded-md border border-input overflow-hidden h-9 self-start" role="group" aria-label="Result view">
                   <button
                     onClick={() => setView("cards")}
                     aria-label="Card view"
-                    className={cn("px-2.5 flex items-center transition-colors", view === "cards" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:text-foreground")}
+                    aria-pressed={view === "cards"}
+                    className={cn("px-2.5 flex items-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60", view === "cards" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:text-foreground")}
                   >
                     <Grid3x3 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setView("table")}
                     aria-label="Table view"
-                    className={cn("px-2.5 flex items-center border-l border-input transition-colors", view === "table" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:text-foreground")}
+                    aria-pressed={view === "table"}
+                    className={cn("px-2.5 flex items-center border-l border-input transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60", view === "table" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:text-foreground")}
                   >
                     <List className="w-4 h-4" />
                   </button>
@@ -217,25 +221,23 @@ export function RepositoryBrowser() {
                 <table className="min-w-full text-sm border-collapse">
                   <thead>
                     <tr className="bg-muted/50">
-                      <th className="border-b px-3 py-2 text-left font-semibold">Agency</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">Type</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">Cycle</th>
-                      <th className="border-b px-3 py-2 text-center font-semibold">Projects</th>
-                      <th className="border-b px-3 py-2 text-center font-semibold">Systems</th>
-                      <th className="border-b px-3 py-2 text-right font-semibold">3-yr total</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">Status</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Agency</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Type</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Cycle</th>
+                      <th scope="col" className="border-b px-3 py-2 text-center font-semibold">Projects</th>
+                      <th scope="col" className="border-b px-3 py-2 text-center font-semibold">Systems</th>
+                      <th scope="col" className="border-b px-3 py-2 text-right font-semibold">3-yr total</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filtered.map((a) => (
-                      <tr
-                        key={a.slug}
-                        onClick={() => router.push(`/repository/${a.slug}`)}
-                        className="border-b last:border-b-0 hover:bg-accent/20 cursor-pointer"
-                      >
+                      <tr key={a.slug} className="border-b last:border-b-0 hover:bg-accent/20">
                         <td className="px-3 py-2">
-                          <span className="font-medium">{a.acronym}</span>
-                          <span className="text-muted-foreground"> — {a.name}</span>
+                          <Link href={`/repository/${a.slug}`} className="font-medium hover:underline">
+                            {a.acronym}
+                          </Link>
+                          <span className="text-muted-foreground"> · {a.name}</span>
                         </td>
                         <td className="px-3 py-2 text-muted-foreground">{TYPE_SHORT[a.type]}</td>
                         <td className="px-3 py-2 tabular-nums text-muted-foreground">{a.cycleLabel}</td>
@@ -309,15 +311,18 @@ function FilterSelect({
   value,
   onChange,
   options,
+  ariaLabel,
 }: {
   value: string;
   onChange: (v: string) => void;
   options: [string, string][];
+  ariaLabel: string;
 }) {
   return (
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      aria-label={ariaLabel}
       className="h-9 rounded-md border border-input bg-background px-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring/50"
     >
       {options.map(([v, l]) => (

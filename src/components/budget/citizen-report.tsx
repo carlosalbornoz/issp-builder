@@ -88,8 +88,8 @@ export function CitizenReport() {
                 Saan napupunta ang pondo para sa digital na serbisyo?
               </h1>
               <p lang="en" className="text-[13px] text-muted-foreground mt-2 leading-relaxed">
-                Where does the money for digital government services go? A plain guide to the FY{FY} ICT plans of 12
-                sample agencies.
+                Where does the money for digital government services go? A plain guide to the FY{FY} ICT plans of{" "}
+                {corpus.totals.agencies} sample agencies.
               </p>
             </div>
 
@@ -109,7 +109,7 @@ export function CitizenReport() {
                 <div>
                   <p className="report-eyebrow">Planong gastos sa FY{FY}</p>
                   <p className="text-[32px] font-extrabold tabular-nums leading-tight">{phpCompact(shares.grand)}</p>
-                  <p lang="en" className="text-[10px] text-muted-foreground">summed from 12 structured ISSPs (demonstration corpus)</p>
+                  <p lang="en" className="text-[10px] text-muted-foreground">summed from {corpus.totals.plans} structured ISSPs (demonstration corpus)</p>
                 </div>
                 <p className="font-bold text-[13px]">Sa bawat ₱100 · Out of every ₱100:</p>
                 {squares.map((s) => (
@@ -149,8 +149,8 @@ export function CitizenReport() {
               <h2 className="text-[15px] font-extrabold mb-2.5">Paano sumubaybay · How to follow the money</h2>
               <div className="grid grid-cols-3 gap-3.5 text-[12px] leading-snug">
                 {[
-                  ["Tingnan ang plano.", "Read each agency's ISSP — projects, costs and targets — in the public ISSP repository."],
-                  ["Tingnan ang gastos.", "See budgets, releases and spending on DBM COMPASS: compass.dbm.gov.ph"],
+                  ["Tingnan ang plano.", "Read each agency's ISSP (projects, costs and targets) in the public ISSP repository."],
+                  ["Tingnan ang gastos.", "See budgets, releases and spending on DBM COMPASS (proposed link)."],
                   ["Mag-ulat.", "Report a delayed or poor project through the eGovPH app."],
                 ].map(([fil, en], i) => (
                   <div key={fil} className="grid grid-cols-[24px_1fr] gap-2.5">
@@ -165,7 +165,7 @@ export function CitizenReport() {
 
             <section className="mt-auto rounded-lg bg-[var(--sidebar)] text-white px-4 py-3.5 text-[12px] leading-relaxed">
               <b className="text-[13px]">Bakit mahalaga ito?</b>{" "}
-              <span lang="en">When plans are open data, anyone can check that the money buys what the agency promised — and that the promised service arrives.</span>
+              <span lang="en">When plans are open data, anyone can check that the money buys what the agency promised, and that the promised service arrives.</span>
             </section>
 
             <footer className="border-t pt-2 flex justify-between gap-4 text-[9px] text-muted-foreground" lang="en">

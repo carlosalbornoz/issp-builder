@@ -28,7 +28,7 @@ import { PlanStatusPill } from "@/components/ui/plan-status-pill";
 import { useCorpus, TYPE_LABELS, assetUrl } from "@/lib/repository/corpus";
 import type { CorpusAdvisory, CorpusAdvisoryHit, CorpusAiKind, CorpusFleet, CorpusProfile } from "@/lib/repository/corpus-types";
 import { CLASSIFICATION_LABELS, DEV_STRATEGY_LABELS, DATA_STORAGE_LABELS, labelFor } from "@/lib/issp-labels";
-import { cn, phpCompact } from "@/lib/utils";
+import { cn, phpCompact, formatMonth } from "@/lib/utils";
 
 /** Whole pesos — the house style for summary tables (decimals only add width). */
 const php0 = (n: number) => `₱${(n || 0).toLocaleString("en-PH")}`;
@@ -185,11 +185,11 @@ function AgencyDetailBody({
       </div>
 
       {/* ── Part I ── */}
-      <Section eyebrow="Part I — Agency profile" title="Mandate, outcomes and people">
+      <Section eyebrow="Part I · Agency profile" title="Mandate, outcomes and people">
         <div className="grid lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 space-y-4">
             <Prose label="Mandate">{a.mandate}</Prose>
-            <blockquote className="rounded-lg border-l-2 border-primary bg-secondary/50 px-4 py-3 text-sm italic text-foreground leading-relaxed">
+            <blockquote className="rounded-lg border bg-secondary/50 px-4 py-3 text-sm italic text-foreground leading-relaxed">
               {a.vision}
             </blockquote>
             <Prose label="Mission">{a.mission}</Prose>
@@ -221,28 +221,28 @@ function AgencyDetailBody({
       </Section>
 
       {/* ── Part II ── */}
-      <Section eyebrow="Part II — Current ICT assessment" title={`Systems in place (${a.systems.length})`}>
+      <Section eyebrow="Part II · Current ICT assessment" title={`Systems in place (${a.systems.length})`}>
         <div className="overflow-x-auto rounded-lg border bg-card">
           <table className="min-w-full text-sm border-collapse">
             <thead>
               <tr className="bg-muted/50">
-                <th className="border-b px-3 py-2 text-left font-semibold">Information system</th>
-                <th className="border-b px-3 py-2 text-left font-semibold">Classification</th>
-                <th className="border-b px-3 py-2 text-left font-semibold">Frontline</th>
-                <th className="border-b px-3 py-2 text-left font-semibold">Strategy</th>
-                <th className="border-b px-3 py-2 text-left font-semibold">Storage</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Information system</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Classification</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Frontline</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Strategy</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Storage</th>
               </tr>
             </thead>
             <tbody>
               {a.systems.map((s) => (
                 <tr key={s.name} className="border-b last:border-b-0 hover:bg-accent/20">
                   <td className="px-3 py-2 font-medium max-w-72">{s.name}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{labelFor(CLASSIFICATION_LABELS, s.classification) || "—"}</td>
+                  <td className="px-3 py-2 text-muted-foreground">{labelFor(CLASSIFICATION_LABELS, s.classification) || "–"}</td>
                   <td className="px-3 py-2 text-muted-foreground">
-                    {s.frontline ? labelFor2(s.frontlineAccessType) : "—"}
+                    {s.frontline ? labelFor2(s.frontlineAccessType) : "–"}
                   </td>
-                  <td className="px-3 py-2 text-muted-foreground">{labelFor(DEV_STRATEGY_LABELS, s.developmentStrategy) || "—"}</td>
-                  <td className="px-3 py-2 text-muted-foreground">{labelFor(DATA_STORAGE_LABELS, s.dataStorage) || "—"}</td>
+                  <td className="px-3 py-2 text-muted-foreground">{labelFor(DEV_STRATEGY_LABELS, s.developmentStrategy) || "–"}</td>
+                  <td className="px-3 py-2 text-muted-foreground">{labelFor(DATA_STORAGE_LABELS, s.dataStorage) || "–"}</td>
                 </tr>
               ))}
             </tbody>
@@ -263,7 +263,7 @@ function AgencyDetailBody({
 
       {/* ── ICT asset posture (Annex 1, proposed) ── */}
       {fleet ? (
-        <Section eyebrow="Part II — Current ICT assessment" title="ICT asset posture (Annex 1 · proposed field)">
+        <Section eyebrow="Part II · Current ICT assessment" title="ICT asset posture (Annex 1 · proposed field)">
           <div className="grid lg:grid-cols-5 gap-4">
             <div className="lg:col-span-2 grid grid-cols-2 gap-3 self-start">
               <FleetStat
@@ -293,10 +293,10 @@ function AgencyDetailBody({
                 <table className="min-w-full text-sm border-collapse">
                   <thead>
                     <tr className="bg-muted/50">
-                      <th className="border-b px-3 py-2 text-left font-semibold">Model (fictitious)</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">Class</th>
-                      <th className="border-b px-3 py-2 text-right font-semibold">Units</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">Support status</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Model (fictitious)</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Class</th>
+                      <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Units</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Support status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -310,7 +310,7 @@ function AgencyDetailBody({
                           <td className="px-3 py-2">
                             {m.eol ? (
                               <span className="inline-flex items-center gap-1.5 rounded-full bg-danger-bg text-destructive border border-danger-border px-2 py-0.5 text-[10px] font-semibold">
-                                unsupported since {m.supportUntil}
+                                unsupported since {formatMonth(m.supportUntil)}
                               </span>
                             ) : (
                               <span className="inline-flex items-center gap-1.5 rounded-full bg-success-bg text-success border border-success-border px-2 py-0.5 text-[10px] font-semibold">
@@ -336,14 +336,14 @@ function AgencyDetailBody({
                     </p>
                     <p className="text-muted-foreground mt-1">
                       {advisoryHit.refreshInPlan
-                        ? `Replacement carries Part IV budget — see ${advisoryHit.refreshProject} in the projects below.`
-                        : "No replacement is budgeted in this plan — flagged for the next amendment cycle."}
+                        ? `Replacement carries Part IV budget: see ${advisoryHit.refreshProject} in the projects below.`
+                        : "No replacement is budgeted in this plan. Flagged for the next amendment cycle."}
                     </p>
                   </div>
                 </div>
               ) : null}
               <p className="text-[11px] text-muted-foreground leading-relaxed">
-                Fictitious inventory in the shape of Annex 1 (Existing ICT Resource Inventory) — the asset data a
+                Fictitious inventory in the shape of Annex 1 (Existing ICT Resource Inventory): the asset data a
                 revised ISSP would carry as structured fields, feeding the posture views on the Budget Dashboard.
               </p>
             </div>
@@ -353,7 +353,7 @@ function AgencyDetailBody({
 
       {/* ── Part III ── */}
       <Section
-        eyebrow="Part III — Proposed ICT strategy"
+        eyebrow="Part III · Proposed ICT strategy"
         title={`Projects (${a.projects.length})`}
       >
         <div className="space-y-4">
@@ -436,13 +436,13 @@ function AgencyDetailBody({
                     </summary>
                     <div className="overflow-x-auto rounded-lg border mt-2">
                       <table className="min-w-full text-xs border-collapse">
-                        <thead>
-                          <tr className="bg-muted/50">
-                            <th className="border-b px-2.5 py-1.5 text-left font-semibold">Indicator</th>
-                            <th className="border-b px-2.5 py-1.5 text-left font-semibold">Baseline</th>
-                            <th className="border-b px-2.5 py-1.5 text-left font-semibold">Targets (Y1 → Y2 → Y3)</th>
-                          </tr>
-                        </thead>
+                <thead>
+                  <tr className="bg-muted/50">
+                    <th scope="col" className="border-b px-2.5 py-1.5 text-left font-semibold">Indicator</th>
+                    <th scope="col" className="border-b px-2.5 py-1.5 text-left font-semibold">Baseline</th>
+                    <th scope="col" className="border-b px-2.5 py-1.5 text-left font-semibold">Targets (Y1 → Y2 → Y3)</th>
+                  </tr>
+                </thead>
                         <tbody>
                           {p.kpis.map((k, i) => (
                             <tr key={i} className="border-b last:border-b-0">
@@ -469,7 +469,7 @@ function AgencyDetailBody({
       </Section>
 
       {/* ── Part IV ── */}
-      <Section eyebrow="Part IV — Resource requirements" title="Summary of investments">
+      <Section eyebrow="Part IV · Resource requirements" title="Summary of investments">
         <div className="grid lg:grid-cols-5 lg:items-start gap-4">
           <div className="lg:col-span-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">B.1 General summary</p>
@@ -477,11 +477,11 @@ function AgencyDetailBody({
               <table className="min-w-[560px] w-full text-xs sm:text-sm border-collapse">
                 <thead>
                   <tr className="bg-muted/50">
-                    <th className="border-b px-2.5 py-2 text-left font-semibold">Category</th>
-                    <th className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">{a.cycle.startYear}</th>
-                    <th className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">{a.cycle.startYear + 1}</th>
-                    <th className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">{a.cycle.endYear}</th>
-                    <th className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">Total</th>
+                    <th scope="col" className="border-b px-2.5 py-2 text-left font-semibold">Category</th>
+                    <th scope="col" className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">{a.cycle.startYear}</th>
+                    <th scope="col" className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">{a.cycle.startYear + 1}</th>
+                    <th scope="col" className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">{a.cycle.endYear}</th>
+                    <th scope="col" className="border-b px-2.5 py-2 text-right font-semibold whitespace-nowrap">Total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -507,7 +507,7 @@ function AgencyDetailBody({
               </table>
             </div>
             <p className="text-[11px] text-muted-foreground mt-2">
-              Same aggregation engine as the editor&apos;s Summary B.1–B.4 — counted budget only (projects that exist
+              Same aggregation engine as the editor&apos;s Summary B.1–B.4, counted budget only (projects that exist
               in Part III-E, within their durations).
             </p>
             {/* Per-year share bars */}
@@ -519,7 +519,19 @@ function AgencyDetailBody({
                   return (
                     <div key={i} className="grid grid-cols-[52px_1fr] gap-2.5 items-center">
                       <span className="text-xs tabular-nums text-muted-foreground">FY{a.cycle.startYear + i}</span>
-                      <div className="flex gap-0.5 h-3.5">
+                      <div
+                        className="flex gap-0.5 h-3.5"
+                        role="img"
+                        aria-label={rows
+                          .filter((r) => r[`year${i + 1}` as "year1" | "year2" | "year3"] > 0)
+                          .map(
+                            (r) =>
+                              `${r.label} ${Math.round(
+                                (r[`year${i + 1}` as "year1" | "year2" | "year3"] / total) * 100
+                              )}%`
+                          )
+                          .join(", ")}
+                      >
                         {rows.map((r, ri) =>
                           r[`year${i + 1}` as "year1" | "year2" | "year3"] > 0 ? (
                             <div

@@ -44,7 +44,7 @@ import type {
   RepositoryCorpus,
 } from "@/lib/repository/corpus-types";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
-import { cn, php, phpCompact } from "@/lib/utils";
+import { cn, php, phpCompact, formatDay } from "@/lib/utils";
 
 const CHART_COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
 /** Lifecycle funnel ramp (stage identity, not the budget-category palette). */
@@ -250,21 +250,23 @@ export function BudgetDashboard() {
           </p>
           <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-3">ICT Budget Dashboard</h1>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mb-6">
-            ISSP-proposed ICT investment across agencies and years — computed from the same Part IV facts behind each
+            ISSP-proposed ICT investment across agencies and years, computed from the same Part IV facts behind each
             agency&apos;s official Summary of Investments, so requests mean exactly what the agency signed. The
             execution layer below demonstrates the follow-the-peso loop a live COMPASS link would close.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 mb-4">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Fiscal year</span>
-            <div className="flex flex-wrap gap-1.5">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground" id="fy-filter-label">
+              Fiscal year
+            </span>
+            <div className="flex flex-wrap gap-1.5" role="group" aria-labelledby="fy-filter-label">
               {(["all", 2026, 2027, 2028, 2029, 2030] as FyFilter[]).map((option) => (
                 <button
                   key={String(option)}
                   onClick={() => setFy(option)}
                   aria-pressed={fy === option}
                   className={cn(
-                    "min-h-8 px-3 rounded-full border text-xs font-medium transition-colors",
+                    "min-h-8 px-3 rounded-full border text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
                     fy === option ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30"
                   )}
                 >
@@ -275,8 +277,10 @@ export function BudgetDashboard() {
           </div>
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-2">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Data mode</span>
-            <div className="flex flex-wrap gap-1.5">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground" id="data-mode-label">
+              Data mode
+            </span>
+            <div className="flex flex-wrap gap-1.5" role="group" aria-labelledby="data-mode-label">
               {(
                 [
                   ["current", "Current form (v14)"],
@@ -288,7 +292,7 @@ export function BudgetDashboard() {
                   onClick={() => setMode(value)}
                   aria-pressed={dataMode === value}
                   className={cn(
-                    "min-h-8 px-3 rounded-full border text-xs font-medium transition-colors inline-flex items-center gap-1.5",
+                    "min-h-8 px-3 rounded-full border text-xs font-medium transition-colors inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
                     dataMode === value
                       ? "bg-primary text-primary-foreground border-primary"
                       : "bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30"
@@ -300,8 +304,16 @@ export function BudgetDashboard() {
               ))}
             </div>
             <p className="text-[11px] text-muted-foreground leading-snug">
-              Flip to <strong>Current form</strong> to see what today&apos;s ISSP already yields — every dimmed panel
-              below is one proposed field (or one link) away.
+              {dataMode === "current" ? (
+                <>
+                  This is today&apos;s form: every dimmed panel below is one proposed field (or one link) away.
+                </>
+              ) : (
+                <>
+                  Flip to <strong>Current form</strong> to see what today&apos;s ISSP already yields: every dimmed panel
+                  below is one proposed field (or one link) away.
+                </>
+              )}
             </p>
           </div>
 
@@ -322,22 +334,22 @@ export function BudgetDashboard() {
               <Kpi label="MOOE" value={phpCompact(totals.mooe)} sub={`${pct(totals.mooe, totals.total)} of total`} />
               <Kpi
                 label="Top expense category"
-                value={totals.categories[0]?.name.split(" ").slice(0, 3).join(" ") ?? "—"}
+                value={totals.categories[0]?.name.split(" ").slice(0, 3).join(" ") ?? "–"}
                 sub={totals.categories[0] ? phpCompact(totals.categories[0].total) : ""}
                 icon={ReceiptText}
               />
               {dataMode === "proposed" ? (
                 <Kpi
                   label="Projects with PAP code"
-                  value={papStats.total ? `${papStats.withPap} of ${papStats.total}` : "—"}
-                  sub={`${papStats.total ? Math.round((papStats.withPap / papStats.total) * 100) : 0}% traceable to the NEP / GAA (mock codes)`}
+                  value={papStats.total ? `${papStats.withPap} of ${papStats.total}` : "–"}
+                  sub={`${papStats.total ? Math.round((papStats.withPap / papStats.total) * 100) : 0}% traceable to the NEP / GAA (mock)`}
                   icon={Landmark}
                 />
               ) : (
                 <Kpi
                   label="KPIs fully specified"
-                  value={kpiStats.total ? `${kpiStats.complete} of ${kpiStats.total}` : "—"}
-                  sub="baseline + all three targets — from today's form"
+                  value={kpiStats.total ? `${kpiStats.complete} of ${kpiStats.total}` : "–"}
+                  sub="baseline + all three targets, from today's form"
                   icon={Landmark}
                 />
               )}
@@ -362,17 +374,19 @@ export function BudgetDashboard() {
             {/* ── Filters ── */}
             <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 flex flex-col lg:flex-row lg:items-center gap-3">
               <div className="flex flex-wrap gap-2">
-                <Select value={cycle} onChange={setCycle} options={[["all", "All cycles"], ...cycles.map((c) => [c, c] as [string, string])]} />
+                <Select ariaLabel="Filter by plan cycle" value={cycle} onChange={setCycle} options={[["all", "All cycles"], ...cycles.map((c) => [c, c] as [string, string])]} />
                 <Select
+                  ariaLabel="Filter by agency type"
                   value={type}
                   onChange={setType}
                   options={[["all", "All types"], ...(["NGA", "GOCC", "LGU", "OTHER"] as const).map((t) => [t, TYPE_LABELS[t]] as [string, string])]}
                 />
-                <Select value={fund} onChange={setFund} options={[["all", "All fund sources"], ...funds.map((f) => [f, f] as [string, string])]} />
+                <Select ariaLabel="Filter by fund source" value={fund} onChange={setFund} options={[["all", "All fund sources"], ...funds.map((f) => [f, f] as [string, string])]} />
                 {agencySlug && (
                   <button
                     onClick={clearAgency}
-                    className="inline-flex items-center gap-1 rounded-md border border-primary/25 bg-primary/5 px-2.5 h-9 text-sm text-primary hover:bg-primary/10 transition-colors"
+                    aria-label={`Clear agency filter: ${agencies.find((a) => a.slug === agencySlug)?.acronym ?? agencySlug}`}
+                    className="inline-flex items-center gap-1 rounded-md border border-primary/25 bg-primary/5 px-2.5 h-9 text-sm text-primary hover:bg-primary/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
                   >
                     {agencies.find((a) => a.slug === agencySlug)?.acronym ?? agencySlug} ✕
                   </button>
@@ -397,6 +411,25 @@ export function BudgetDashboard() {
               </div>
             </div>
 
+            {selected.length === 0 ? (
+              <div className="rounded-lg border border-dashed bg-muted/20 p-10 text-center">
+                <p className="text-sm text-muted-foreground">
+                  No agencies match the current filters.{" "}
+                  <button
+                    className="font-medium text-primary hover:underline"
+                    onClick={() => {
+                      setCycle("all");
+                      setType("all");
+                      setFund("all");
+                      clearAgency();
+                    }}
+                  >
+                    Clear all filters.
+                  </button>
+                </p>
+              </div>
+            ) : (
+            <>
             {/* ── Charts row 1: by year + fund sources ── */}
             <div className="grid lg:grid-cols-3 gap-4">
               <Panel title="Proposed investment by year" sub="stacked by Part IV strategic category" className="lg:col-span-2">
@@ -404,15 +437,15 @@ export function BudgetDashboard() {
                 <SwatchLegend className="mt-4" items={BUCKETS.map((b) => ({ key: b.key, label: b.label, color: b.color }))} />
                 <InsightBox className="mt-4">
                   <strong>Continuing costs are the quiet story.</strong> New systems become yearly subscriptions,
-                  hosting and licences — the future MOOE floor of every approved project. Watch the Continuing Costs
+                  hosting and licences: the future MOOE floor of every approved project. Watch the Continuing Costs
                   share of each year grow in the stacked bars above.
                 </InsightBox>
               </Panel>
               <Panel title="Fund sources" sub="B.2 across the selection" icon={PieChart}>
                 <Donut segments={fundSegments} centerValue={phpCompact(totals.total)} centerLabel="proposed" format={phpCompact} size={160} stackLegend />
                 <p className="text-[11px] text-muted-foreground leading-relaxed mt-4">
-                  LGU, water-district and GOCC budgets do not pass through the GAA. For them, the ISSP is the only
-                  national view of ICT intent.
+                  LGU and GOCC budgets do not pass through the GAA. For them, the ISSP is the only national view of
+                  ICT intent.
                 </p>
               </Panel>
             </div>
@@ -461,7 +494,7 @@ export function BudgetDashboard() {
               <BarList
                 items={agencyBars.map((a) => ({
                   key: a.slug,
-                  label: `${a.acronym} — ${a.name}`,
+                  label: `${a.acronym} · ${a.name}`,
                   value: a.value,
                   href: `/repository/${a.slug}`,
                   ...(a.ratio && a.ratio > 2 && dataMode === "proposed"
@@ -476,7 +509,7 @@ export function BudgetDashboard() {
               />
               <p className="text-[11px] text-muted-foreground mt-3">
                 Annotation basis: {fyForRanking ? `FY${fyForRanking} ask` : "3-year plan total ÷ 3"} vs FY2025
-                obligations — the same comparison as the absorptive-capacity table above.
+                obligations, the same comparison as the absorptive-capacity table above.
               </p>
             </Panel>
 
@@ -492,14 +525,14 @@ export function BudgetDashboard() {
                 <table className="min-w-full text-sm border-collapse">
                   <thead>
                     <tr className="bg-muted/50">
-                      <th className="border-b px-3 py-2 text-left font-semibold">Agency</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">Type</th>
-                      <th className="border-b px-3 py-2 text-right font-semibold">Y1</th>
-                      <th className="border-b px-3 py-2 text-right font-semibold">Y2</th>
-                      <th className="border-b px-3 py-2 text-right font-semibold">Y3</th>
-                      <th className="border-b px-3 py-2 text-right font-semibold">3-yr total</th>
-                      <th className="border-b px-3 py-2 text-right font-semibold">CO share</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">Status</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Agency</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Type</th>
+                      <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Y1</th>
+                      <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Y2</th>
+                      <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Y3</th>
+                      <th scope="col" className="border-b px-3 py-2 text-right font-semibold">3-yr total</th>
+                      <th scope="col" className="border-b px-3 py-2 text-right font-semibold">CO share</th>
+                      <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -533,10 +566,12 @@ export function BudgetDashboard() {
 
             <p className="text-xs text-muted-foreground pt-2">
               All plan figures derive from each agency&apos;s Part IV line items through the same aggregation engine as
-              the editor&apos;s Summary of Investments (B.1–B.4) — counted budget only. The execution layer (NEP, GAA,
+              the editor&apos;s Summary of Investments (B.1–B.4), counted budget only. The execution layer (NEP, GAA,
               allotments, obligations, disbursements) and all join codes are fictitious demonstration data standing in
               for a future DBM COMPASS feed.
             </p>
+            </>
+            )}
           </>
         )}
       </div>
@@ -630,7 +665,7 @@ function LifecycleSection({
             Budget cycle · ISSP joined with COMPASS (proposed link)
           </p>
           <h2 className="font-display text-lg font-bold tracking-tight flex items-center gap-2">
-            <Route className="w-4 h-4 text-muted-foreground" /> Follow every peso — starting from the plan
+            <Route className="w-4 h-4 text-muted-foreground" /> Follow every peso, starting from the plan
           </h2>
         </div>
         <Link
@@ -705,13 +740,13 @@ function LifecycleSection({
           <table className="min-w-full text-xs sm:text-sm border-collapse">
             <thead>
               <tr className="bg-muted/50">
-                <th className="border-b px-3 py-2 text-left font-semibold">Agency</th>
-                <th className="border-b px-3 py-2 text-right font-semibold">FY2025 GAA</th>
-                <th className="border-b px-3 py-2 text-right font-semibold">Allotment</th>
-                <th className="border-b px-3 py-2 text-right font-semibold">Obligated</th>
-                <th className="border-b px-3 py-2 text-left font-semibold">Obligation rate</th>
-                <th className="border-b px-3 py-2 text-right font-semibold">FY2027 ask</th>
-                <th className="border-b px-3 py-2 text-right font-semibold">Ask ÷ obligations</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Agency</th>
+                <th scope="col" className="border-b px-3 py-2 text-right font-semibold">FY2025 GAA</th>
+                <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Allotment</th>
+                <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Obligated</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Obligation rate</th>
+                <th scope="col" className="border-b px-3 py-2 text-right font-semibold">FY2027 ask</th>
+                <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Ask ÷ obligations</th>
               </tr>
             </thead>
             <tbody>
@@ -723,7 +758,7 @@ function LifecycleSection({
                       <Link href={`/repository/${p.slug}`} className="font-medium hover:underline">
                         {p.acronym}
                       </Link>
-                      <span className="text-muted-foreground hidden xl:inline"> — {p.name}</span>
+                      <span className="text-muted-foreground hidden xl:inline"> · {p.name}</span>
                     </td>
                     <td className="px-3 py-2 text-right tabular-nums">{phpCompact(y25.gaa!)}</td>
                     <td className="px-3 py-2 text-right tabular-nums text-muted-foreground">{phpCompact(y25.allotment!)}</td>
@@ -731,9 +766,9 @@ function LifecycleSection({
                     <td className="px-3 py-2">
                       <RatePill rate={rate} />
                     </td>
-                    <td className="px-3 py-2 text-right tabular-nums">{ask27 ? phpCompact(ask27) : "—"}</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{ask27 ? phpCompact(ask27) : "–"}</td>
                     <td className={cn("px-3 py-2 text-right tabular-nums font-semibold", ratio && ratio > 2 ? "text-destructive" : "")}>
-                      {ratio ? `${ratio.toFixed(1)}×` : "—"}
+                      {ratio ? `${ratio.toFixed(1)}×` : "–"}
                     </td>
                   </tr>
                 );
@@ -784,13 +819,13 @@ function FunnelPanel({
                 )}
               </div>
               <span className="text-[11px] tabular-nums w-20 text-right shrink-0">
-                {row.value !== null ? phpCompact(row.value) : <span className="text-muted-foreground">{title === "FY2027" ? "pending" : "—"}</span>}
+                {row.value !== null ? phpCompact(row.value) : <span className="text-muted-foreground">{title === "FY2027" ? "pending" : "–"}</span>}
               </span>
             </div>
           </div>
         ))}
       </div>
-      {f.stage === "executing" ? <p className="text-[10px] text-muted-foreground mt-2">Obligation and disbursement as of 30 June 2026.</p> : null}
+      {f.stage === "executing" ? <p className="text-[10px] text-muted-foreground mt-2">Obligation and disbursement as of 30 Jun 2026.</p> : null}
     </div>
   );
 }
@@ -880,11 +915,11 @@ function ConvergenceSection({ profiles, highlightProgram }: { profiles: CorpusPr
           <table className="min-w-full text-xs sm:text-sm border-collapse">
             <thead>
               <tr className="bg-muted/50">
-                <th className="border-b px-3 py-2 text-left font-semibold">System type</th>
-                <th className="border-b px-3 py-2 text-left font-semibold">Agencies planning it</th>
-                <th className="border-b px-3 py-2 text-left font-semibold">Cost via linked projects</th>
-                <th className="border-b px-3 py-2 text-left font-semibold">Check first</th>
-                <th className="border-b px-3 py-2 text-left font-semibold">Suggested review question</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">System type</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Agencies planning it</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Cost via linked projects</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Check first</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Suggested review question</th>
               </tr>
             </thead>
             <tbody>
@@ -991,7 +1026,7 @@ function CrossAgencyPrograms({ highlight }: { highlight: string | null }) {
         </div>
       ))}
       <p className="text-[11px] text-muted-foreground">
-        The program total exists only when the plans are read together — no agency file holds it.
+        The program total exists only when the plans are read together. No agency file holds it.
       </p>
     </div>
   );
@@ -1041,11 +1076,11 @@ function WhyNowSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: DataM
       <div className="rounded-xl bg-[var(--sidebar)] text-white p-5 sm:p-6">
         <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE] mb-1.5">Why now · the ICT spend wave</p>
         <h2 className="font-display text-xl sm:text-2xl font-bold tracking-tight max-w-3xl">
-          The next infrastructure wave is digital — plan first, then spend
+          The next infrastructure wave is digital: plan first, then spend
         </h2>
         <p className="text-sm text-[#E6ECF7] leading-relaxed max-w-3xl mt-2.5">
           AI services, government data centers and always-on platforms are lifting public ICT budgets to
-          infrastructure scale worldwide. Infrastructure money gets line-item scrutiny from day one — this wave
+          infrastructure scale worldwide. Infrastructure money gets line-item scrutiny from day one. This wave
           deserves the same, starting in the ISSP, before the NEP, not after the audit.
         </p>
         <div className="grid sm:grid-cols-3 gap-3 mt-5">
@@ -1056,11 +1091,11 @@ function WhyNowSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: DataM
           />
           <WhyTile
             label="AI & compute asks"
-            value={mode === "current" ? "—" : phpCompact(aiTotal)}
+            value={mode === "current" ? "–" : phpCompact(aiTotal)}
             sub={
               mode === "current"
-                ? "requires an AI/compute tag per project — a proposed field"
-                : `${ownBuilds.length} agencies budget own GPU clusters (${phpCompact(ai.ownBuildTotal)}) — review question below`
+                ? "requires an AI/compute tag per project (a proposed field)"
+                : `${ownBuilds.length} agencies budget own GPU clusters (${phpCompact(ai.ownBuildTotal)}) · review question in the AI panel`
             }
           />
           <WhyTile
@@ -1079,7 +1114,7 @@ function WhyNowSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: DataM
               .sort((x, y) => y.total - x.total)
               .map((p) => ({
                 key: p.slug + p.projectId,
-                label: `${p.acronym} — ${p.shortTitle}`,
+                label: `${p.acronym} · ${p.shortTitle}`,
                 value: p.total,
                 color: AI_KIND_META[p.kind].color,
                 sub: `${AI_KIND_META[p.kind].label} · ${yearSpan(p.byYear.map((y) => y.year))}`,
@@ -1106,7 +1141,7 @@ function WhyNowSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: DataM
             </div>
             <InsightBox className="mt-4">
               <strong>{phpCompact(ai.ownBuildTotal)} of the AI ask is two agencies&apos; own GPU clusters.</strong> A
-              shared national compute facility could serve both — decide together before the hardware is bought, not
+              shared national compute facility could serve both; decide together before the hardware is bought, not
               after. A review question, not a finding: agencies can have binding reasons, such as data-sovereignty
               commitments over commuter or sponsor data.
             </InsightBox>
@@ -1140,18 +1175,20 @@ function WhyTile({ label, value, sub }: { label: string; value: string; sub: str
 function ProposedOnly({ mode, requires, children }: { mode: DataMode; requires: string; children: React.ReactNode }) {
   if (mode === "proposed") return <>{children}</>;
   return (
-    <div className="relative rounded-xl">
-      <div aria-hidden className="opacity-30 grayscale-[50%] select-none pointer-events-none">{children}</div>
-      <div className="absolute inset-x-0 top-5 flex justify-center px-4">
+    // The badge sits in flow above the ghost, not overlaid: whatever its height,
+    // it can never cover the title of the panel it locks.
+    <div className="rounded-xl">
+      <div className="flex justify-center px-4 pb-3">
         <div className="rounded-lg border border-dashed border-foreground/30 bg-card px-4 py-3 text-center max-w-sm shadow-md">
-          <p className="flex items-center justify-center gap-1.5 text-xs font-semibold">
-            <Lock className="w-3.5 h-3.5 shrink-0" /> Requires: {requires}
+          <p className="text-xs font-semibold text-balance">
+            <Lock className="w-3.5 h-3.5 inline-block align-[-2px] mr-1" /> Requires: {requires}
           </p>
           <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
             Unlocked by the revised ISSP form. Shown with mock data in Revised-form mode.
           </p>
         </div>
       </div>
+      <div aria-hidden className="opacity-30 grayscale-[50%] select-none pointer-events-none">{children}</div>
     </div>
   );
 }
@@ -1181,11 +1218,11 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
           <table className="min-w-full text-xs sm:text-sm border-collapse">
             <thead>
               <tr className="bg-muted/50">
-                <th className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Agency</th>
-                <th className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Project</th>
-                <th className="border-b px-2 sm:px-3 py-2 text-right font-semibold">FY2026</th>
-                <th className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Stage</th>
-                <th className="border-b px-2 sm:px-3 py-2 text-left font-semibold hidden lg:table-cell">Where it stands</th>
+                <th scope="col" className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Agency</th>
+                <th scope="col" className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Project</th>
+                <th scope="col" className="border-b px-2 sm:px-3 py-2 text-right font-semibold">FY2026</th>
+                <th scope="col" className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Stage</th>
+                <th scope="col" className="border-b px-2 sm:px-3 py-2 text-left font-semibold hidden lg:table-cell">Where it stands</th>
               </tr>
             </thead>
             <tbody>
@@ -1213,7 +1250,7 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
         </div>
       <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
         Q3 2026 view of the three plans covering FY2026. {phpCompact(awarded)} has a contract behind it;{" "}
-        {phpCompact(earlier)} is still short of one — money that cannot move until procurement does. Status in the
+        {phpCompact(earlier)} is still short of one: money that cannot move until procurement does. Status in the
         shape of PhilGEPS data an agency-side update loop would feed.
       </p>
     </div>
@@ -1259,10 +1296,10 @@ function ReadinessSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: Da
 
       <div className="grid lg:grid-cols-2 gap-4 items-start">
         {/* Unit-price sanity */}
-        <Panel title="Unit-price sanity — laptop-class purchases" sub="corpus-wide · median unit cost vs the corpus median">
+        <Panel title="Unit-price sanity: laptop-class purchases" sub="corpus-wide · median unit cost vs the corpus median">
           {mode === "current" ? (
             <p className="inline-flex items-center gap-1.5 rounded-full bg-success-bg text-success border border-success-border px-2.5 py-0.5 text-[10px] font-semibold mb-3">
-              ✓ Computed from today&apos;s form — no new fields needed
+              ✓ Computed from today&apos;s form, no new fields needed
             </p>
           ) : null}
           <p className="text-xs text-muted-foreground mb-3">
@@ -1283,12 +1320,12 @@ function ReadinessSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: Da
           {flagged.length > 0 ? (
             <InsightBox className="mt-4">
               <strong>{flagged.map((r) => r.acronym).join(" and ")} sit well above the corpus median.</strong> One is
-              ruggedized field kit (the spec justifies it); the other is a standard office spec — that one is a
-              procurement-planning support candidate, and it is the same agency already flagged for FY2025 execution.
+              ruggedized field kit (the spec justifies it); the other is a standard office spec, and that one is a
+              procurement-planning support candidate. It is the same agency already flagged for FY2025 execution.
             </InsightBox>
           ) : null}
           <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
-            Derived from real Part IV line items. Variance is a prompt to ask before the bid, not a finding after it —
+            Derived from real Part IV line items. Variance is a prompt to ask before the bid, not a finding after it:
             specs and logistics differ.
           </p>
         </Panel>
@@ -1310,24 +1347,24 @@ function ReadinessSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: Da
           <div className="rounded-lg border border-destructive/30 bg-danger-bg/40 p-3.5">
             <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2.5">
               <p className="text-sm font-semibold leading-snug">
-                {adv.id} (mock) · {adv.title}
+                {adv.id} (mock) · <AdvisoryTitle title={adv.title} model={adv.model} />
               </p>
               <span className="inline-flex items-center rounded-full bg-destructive text-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
                 {adv.severity}
               </span>
             </div>
             <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">
-              {adv.kind.charAt(0).toUpperCase() + adv.kind.slice(1)} <span className="font-medium text-foreground">{adv.model}</span> —
+              {adv.kind.charAt(0).toUpperCase() + adv.kind.slice(1)} <span className="font-medium text-foreground">{adv.model}</span>,
               vendor support ended before the advisory, so there is no patch: affected units must be replaced. Published{" "}
-              {adv.published} (fictitious).
+              {formatDay(adv.published)} (fictitious).
             </p>
             <div className="overflow-x-auto rounded-md border bg-card">
               <table className="min-w-full text-xs border-collapse">
                 <thead>
                   <tr className="bg-muted/50">
-                    <th className="border-b px-2.5 py-1.5 text-left font-semibold">Agency</th>
-                    <th className="border-b px-2.5 py-1.5 text-right font-semibold">Units</th>
-                    <th className="border-b px-2.5 py-1.5 text-left font-semibold">Replacement in the plan?</th>
+                    <th scope="col" className="border-b px-2.5 py-1.5 text-left font-semibold">Agency</th>
+                    <th scope="col" className="border-b px-2.5 py-1.5 text-right font-semibold">Units</th>
+                    <th scope="col" className="border-b px-2.5 py-1.5 text-left font-semibold">Replacement in the plan?</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1354,7 +1391,7 @@ function ReadinessSection({ corpus, mode }: { corpus: RepositoryCorpus; mode: Da
               </table>
             </div>
             <p className="text-[11px] text-muted-foreground leading-relaxed mt-2.5">
-              When a national CERT advisory lands, the corpus answers in one query — who runs the model, how many
+              When a national CERT advisory lands, the corpus answers in one query: who runs the model, how many
               units, and whether replacement money already exists. That inventory is Annex 1 of the ISSP, carried as
               structured data in a revised form.
             </p>
@@ -1373,6 +1410,19 @@ function PostureTile({ label, value, sub, danger }: { label: string; value: stri
       <p className={cn("text-base font-bold tabular-nums leading-tight mt-0.5", danger && "text-destructive")}>{value}</p>
       <p className="text-[11px] text-muted-foreground">{sub}</p>
     </div>
+  );
+}
+
+/** Advisory title with the model number kept on one line ("NetGate FX-200" must not hyphen-break). */
+function AdvisoryTitle({ title, model }: { title: string; model: string }) {
+  const at = title.indexOf(model);
+  if (at === -1) return <>{title}</>;
+  return (
+    <>
+      {title.slice(0, at)}
+      <span className="whitespace-nowrap">{model}</span>
+      {title.slice(at + model.length)}
+    </>
   );
 }
 
@@ -1397,17 +1447,20 @@ function AgencyRow({ agency: a, fund }: { agency: CorpusProfile; fund: string })
     <>
       <tr className={cn("border-b", open && "bg-accent/10", "hover:bg-accent/20")}>
         <td className="px-3 py-2">
-          <button
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            className="flex items-center gap-1.5 cursor-pointer select-none text-left"
-          >
-            <ChevronRight className={cn("w-3.5 h-3.5 text-muted-foreground transition-transform", open && "rotate-90")} />
-            <Link href={`/repository/${a.slug}`} className="font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-label={`${open ? "Collapse" : "Expand"} ${a.acronym} budget split`}
+              className="flex items-center cursor-pointer select-none rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+            >
+              <ChevronRight className={cn("w-3.5 h-3.5 text-muted-foreground transition-transform", open && "rotate-90")} />
+            </button>
+            <Link href={`/repository/${a.slug}`} className="font-medium hover:underline">
               {a.acronym}
             </Link>
-            <span className="text-muted-foreground hidden xl:inline">— {a.name}</span>
-          </button>
+            <span className="text-muted-foreground hidden xl:inline"> · {a.name}</span>
+          </div>
         </td>
         <td className="px-3 py-2 text-muted-foreground">{TYPE_SHORT[a.type]}</td>
         {[0, 1, 2].map((i) => (
@@ -1418,7 +1471,7 @@ function AgencyRow({ agency: a, fund }: { agency: CorpusProfile; fund: string })
         <td className="px-3 py-2 text-right tabular-nums font-semibold">{php(filteredTotal)}</td>
         <td className="px-3 py-2 text-right tabular-nums text-muted-foreground">{pct(co, filteredTotal)}</td>
         <td className="px-3 py-2">
-          <span className="inline-flex items-center gap-1.5">
+          <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
             <span
               className={cn(
                 "h-1.5 w-1.5 rounded-full",
@@ -1486,7 +1539,7 @@ function categoryClassColor(categoryId: string): string {
 }
 
 function pct(part: number, total: number): string {
-  if (!total) return "—";
+  if (!total) return "–";
   return `${Math.round((part / total) * 100)}%`;
 }
 
@@ -1575,15 +1628,18 @@ function Select({
   value,
   onChange,
   options,
+  ariaLabel,
 }: {
   value: string;
   onChange: (v: string) => void;
   options: [string, string][];
+  ariaLabel: string;
 }) {
   return (
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      aria-label={ariaLabel}
       className="h-9 rounded-md border border-input bg-background px-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring/50"
     >
       {options.map(([v, l]) => (

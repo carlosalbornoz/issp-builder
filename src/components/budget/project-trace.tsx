@@ -75,7 +75,7 @@ export function ProjectTrace() {
                     ) : null}
                     {procurement ? (
                       <Pill className={STAGE_PILL_CLS[procurement.stage]}>
-                        {`Procurement — ${procurement.note.split("·")[0].trim()}`}
+                        {`Procurement: ${procurement.note.split("·")[0].trim()}`}
                       </Pill>
                     ) : (
                       <Pill>Procurement: follows the FY{trace?.fiscalYear ?? agency.cycle.startYear} GAA</Pill>
@@ -124,9 +124,9 @@ export function ProjectTrace() {
                       ? `Fully funded and ${Math.round((trace.money.obligated / trace.money.allotment) * 100)}% obligated. Only ${Math.round(
                           (trace.money.disbursed / trace.money.obligated) * 100
                         )}% is paid, because the contract pays on milestones. The KPI cards below show whether the work is on schedule.`
-                      : `At the NEP stage: ${phpCompact(trace.money.nep)} — ${Math.round(
+                      : `At the NEP stage: ${phpCompact(trace.money.nep)} (${Math.round(
                           (trace.money.nep / trace.money.plan) * 100
-                        )}% of the ask — is in the FY${trace.fiscalYear} NEP. The GAA, release and obligation bars fill as the budget cycle advances; nothing can be obligated before Congress signs.`}
+                        )}% of the ask) is in the FY${trace.fiscalYear} NEP. The GAA, release and obligation bars fill as the budget cycle advances; nothing can be obligated before Congress signs.`}
                   </p>
                 </section>
 
@@ -205,7 +205,7 @@ export function ProjectTrace() {
                             </div>
                           ))}
                           <p className="text-[11px] text-muted-foreground leading-relaxed">
-                            FY{trace.fiscalYear} has not started, so there are no actuals to report — the trace will
+                            FY{trace.fiscalYear} has not started, so there are no actuals to report. The trace will
                             carry them as the year advances (proposed ISSP field).
                           </p>
                         </div>
@@ -214,10 +214,10 @@ export function ProjectTrace() {
 
                     <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5 text-sm space-y-3 leading-relaxed">
                       <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">What each source knows</p>
-                      <p><span className="font-semibold text-primary">ISSP</span> — <em>why</em> and <em>what</em>: the outcome it serves, the systems it builds, each line item, and the KPI it promises.</p>
-                      <p><span className="font-semibold">COMPASS</span> — <em>how much, when</em>: NEP, GAA, allotment, obligation, disbursement.</p>
-                      <p><span className="font-semibold">PhilGEPS</span> — <em>who</em>: bid, award, supplier, contract price.</p>
-                      <p><span className="font-semibold">DIME</span> — <em>where it stands</em>: physical progress and site checks.</p>
+                      <p><span className="font-semibold text-primary">ISSP</span> · <em>why</em> and <em>what</em>: the outcome it serves, the systems it builds, each line item, and the KPI it promises.</p>
+                      <p><span className="font-semibold">COMPASS</span> · <em>how much, when</em>: NEP, GAA, allotment, obligation, disbursement.</p>
+                      <p><span className="font-semibold">PhilGEPS</span> · <em>who</em>: bid, award, supplier, contract price.</p>
+                      <p><span className="font-semibold">DIME</span> · <em>where it stands</em>: physical progress and site checks.</p>
                     </section>
 
                     <section className="rounded-xl bg-[var(--sidebar)] text-white p-5">
@@ -242,7 +242,7 @@ export function ProjectTrace() {
               <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-6">
                 <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-2">Plan-side record</p>
                 <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-                  No execution trace has been mocked for this project yet — the demonstration trace follows one project
+                  No execution trace has been mocked for this project yet; the demonstration trace follows one project
                   end-to-end. Its plan-side facts: {project.totalCost > 0 ? `total project cost ${php(project.totalCost)} across ${project.duration}.` : "no Part IV budget lines yet."}
                 </p>
                 <Link

@@ -97,7 +97,11 @@ export function StackedColumns({
             <div
               key={col.label}
               className="flex-1 min-w-0 flex flex-col items-center justify-end h-full"
-              aria-label={`${col.label}: ${format(total)}`}
+              role="img"
+              aria-label={`${col.label}: ${format(total)}${col.segments
+                .filter((s) => s.value > 0)
+                .map((s) => `; ${s.label} ${format(s.value)}`)
+                .join("")}`}
             >
               <span className="text-xs font-semibold tabular-nums mb-1.5 text-foreground whitespace-nowrap">
                 {format(total)}
@@ -268,7 +272,7 @@ export function PairedBars({
                 )}
               </div>
               <span className="text-xs tabular-nums w-24 text-right shrink-0 text-muted-foreground">
-                {g.b !== null ? format(g.b) : "—"}
+                {g.b !== null ? format(g.b) : "–"}
               </span>
             </div>
           </div>

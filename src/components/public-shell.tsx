@@ -78,7 +78,7 @@ export function PublicShell({
               ))}
             </div>
             <span className="text-xs text-muted-foreground">
-              ISSP Platform — demonstration preview. All data on these pages is fictitious.
+              ISSP Platform · demonstration preview. All data on these pages is fictitious.
             </span>
           </div>
           <div className="flex items-center gap-4 text-xs text-muted-foreground">

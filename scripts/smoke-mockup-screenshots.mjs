@@ -212,7 +212,7 @@ async function expectText(p, text, label) {
   await settle(p);
   await expectText(p, "Project SIKAP", "trace title");
   await expectText(p, "money trail", "trace money trail");
-  await expectText(p, "Procurement — Contract awarded 14 Apr 2026", "trace procurement pill");
+  await expectText(p, "Procurement: Contract awarded 14 Apr 2026", "trace procurement pill");
   await expectText(p, "From plan to payment to result", "trace timeline");
   await expectText(p, "Agencies reporting via UQMP API", "trace KPI actuals");
   await expectText(p, "What each source knows", "trace sources card");

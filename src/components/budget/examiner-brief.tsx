@@ -14,7 +14,7 @@ import { ArrowLeft, Printer } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { useCorpus, TYPE_LABELS } from "@/lib/repository/corpus";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
-import { cn, php, phpCompact } from "@/lib/utils";
+import { cn, php, phpCompact, formatDay } from "@/lib/utils";
 
 const FOCUS_YEAR = 2027;
 
@@ -32,6 +32,8 @@ export function ExaminerBrief() {
   const fy25 = compassAgency?.years.find((y) => y.year === 2025);
   const fy27 = compassAgency?.years.find((y) => y.year === 2027);
   const brief = agency ? buildBrief(agency, fy27, fy25) : null;
+  // Same date style as the corpus notes ("20 Oct 2026"), derived from the corpus build stamp.
+  const builtOn = corpus ? formatDay(corpus.generatedAt) : "";
 
   return (
     <PublicShell active="budget">
@@ -47,11 +49,12 @@ export function ExaminerBrief() {
                 setSlug(e.target.value);
                 router.replace(`/budget/report/examiner?agency=${e.target.value}`);
               }}
+              aria-label="Choose agency"
               className="h-9 rounded-md border border-input bg-background px-2.5 text-sm outline-none focus:ring-2 focus:ring-ring/50"
             >
               {agencies.map((a) => (
                 <option key={a.slug} value={a.slug}>
-                  {a.acronym} — {a.name}
+                  {a.acronym} · {a.name}
                 </option>
               ))}
             </select>
@@ -66,8 +69,15 @@ export function ExaminerBrief() {
 
         {error ? (
           <div className="rounded-lg border border-destructive/30 bg-danger-bg text-destructive px-4 py-3 text-sm no-print">{error}</div>
-        ) : !corpus || !agency || !brief ? (
+        ) : !corpus ? (
           <div className="h-96 rounded-xl bg-muted animate-pulse" aria-busy />
+        ) : !agency || !brief ? (
+          <div className="rounded-lg border border-dashed bg-muted/20 p-10 text-center text-sm text-muted-foreground no-print">
+            No plan found for “{slug}”.{" "}
+            <Link href="/repository" className="font-medium text-primary hover:underline">
+              Browse the repository instead.
+            </Link>
+          </div>
         ) : (
           <article className="report-page">
             <style>{`@media print { .no-print { display: none !important; } body { background: #fff; } .report-page { box-shadow: none; margin: 0; width: 100%; max-width: none; } } @page { size: A4; margin: 12mm; }`}</style>
@@ -82,18 +92,18 @@ export function ExaminerBrief() {
               <p className="text-[11px] text-muted-foreground mt-1">
                 {TYPE_LABELS[agency.type]} · ISSP {agency.cycleLabel} · Amendment {agency.amendmentNumber} ·{" "}
                 {agency.identifiers.dictEndorsement ? `DICT-endorsed ${agency.identifiers.dictEndorsement.ref}` : "not yet endorsed"} ·{" "}
-                UACS org {agency.identifiers.uacsOrgCode} (mock) · Built 20 Oct 2026 from the agency&apos;s .issp file and COMPASS (proposed link)
+                UACS org {agency.identifiers.uacsOrgCode} (mock) · Built {builtOn} from the agency&apos;s .issp file and COMPASS (proposed link)
               </p>
             </div>
 
             {/* Headline tiles */}
             <div className="grid grid-cols-4 gap-2">
-              <Tile label={`FY${FOCUS_YEAR} ISSP ask`}>{brief.ask === null ? "—" : phpCompact(brief.ask)}</Tile>
+              <Tile label={`FY${FOCUS_YEAR} ISSP ask`}>{brief.ask === null ? "–" : phpCompact(brief.ask)}</Tile>
               <Tile label="In the NEP">
-                {brief.nep === null ? "—" : `${phpCompact(brief.nep)} · ${brief.ask ? Math.round((brief.nep / brief.ask) * 100) : 0}%`}
+                {brief.nep === null ? "–" : `${phpCompact(brief.nep)} · ${brief.ask ? Math.round((brief.nep / brief.ask) * 100) : 0}%`}
               </Tile>
               <Tile label="FY2025 obligation rate" danger={fy25 && fy25.obligated && fy25.allotment ? fy25.obligated / fy25.allotment < 0.7 : false}>
-                {fy25?.obligated && fy25?.allotment ? `${Math.round((fy25.obligated / fy25.allotment) * 100)}%` : "—"}
+                {fy25?.obligated && fy25?.allotment ? `${Math.round((fy25.obligated / fy25.allotment) * 100)}%` : "–"}
               </Tile>
               <Tile label="Continuing costs">
                 {phpCompact(brief.ccFirst)} → {phpCompact(brief.ccLast)}
@@ -108,12 +118,12 @@ export function ExaminerBrief() {
               <table className="report-table">
                 <thead>
                   <tr>
-                    <th className="text-left">Project / category (₱)</th>
-                    <th className="text-left">Type</th>
-                    <th>ISSP ask</th>
-                    <th>NEP</th>
-                    <th>Gap</th>
-                    <th className="text-left">Note</th>
+                    <th scope="col" className="text-left">Project / category (₱)</th>
+                    <th scope="col" className="text-left">Type</th>
+                    <th scope="col">ISSP ask</th>
+                    <th scope="col">NEP</th>
+                    <th scope="col">Gap</th>
+                    <th scope="col" className="text-left">Note</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -122,9 +132,9 @@ export function ExaminerBrief() {
                       <td className="text-left">{r.label}</td>
                       <td className="text-left text-muted-foreground">{r.type}</td>
                       <td>{php(r.ask)}</td>
-                      <td>{r.nep === null ? "—" : php(r.nep)}</td>
+                      <td>{r.nep === null ? "–" : php(r.nep)}</td>
                       <td className={cn("whitespace-nowrap", r.nep !== null && r.nep < r.ask ? "text-destructive" : "")}>
-                        {r.nep === null ? "—" : r.nep < r.ask ? `(${php(r.ask - r.nep)})` : php(r.nep - r.ask)}
+                        {r.nep === null ? "–" : r.nep < r.ask ? `(${php(r.ask - r.nep)})` : php(r.nep - r.ask)}
                       </td>
                       <td className={cn("text-left", r.noteDestructive ? "text-destructive" : "text-muted-foreground")}>{r.note}</td>
                     </tr>
@@ -133,9 +143,9 @@ export function ExaminerBrief() {
                     <td className="text-left">Total</td>
                     <td />
                     <td>{php(brief.ask ?? 0)}</td>
-                    <td>{brief.nep === null ? "—" : php(brief.nep)}</td>
+                    <td>{brief.nep === null ? "–" : php(brief.nep)}</td>
                     <td className="whitespace-nowrap">
-                      {brief.nep === null ? "—" : brief.nep < (brief.ask ?? 0) ? `(${php((brief.ask ?? 0) - brief.nep)})` : php(brief.nep - (brief.ask ?? 0))}
+                      {brief.nep === null ? "–" : brief.nep < (brief.ask ?? 0) ? `(${php((brief.ask ?? 0) - brief.nep)})` : php(brief.nep - (brief.ask ?? 0))}
                     </td>
                     <td />
                   </tr>
@@ -145,7 +155,7 @@ export function ExaminerBrief() {
             </Section>
 
             {/* 2. Execution record */}
-            <Section title="2. Execution record (ICT, from COMPASS — proposed link)">
+            <Section title="2. Execution record (ICT · COMPASS proposed link)">
               <div className="space-y-1.5 text-[11px]">
                 {[2025, 2026].map((year) => {
                   const rec = compassAgency?.years.find((y) => y.year === year);
@@ -238,7 +248,7 @@ function buildBrief(
       .filter((r) => r.label === "Office Productivity" || r.label === "Continuing Costs")
       .map((r) => ({
         label: r.label,
-        type: "—",
+        type: "–",
         ask: i >= 0 && i < 3 ? [r.year1, r.year2, r.year3][i] : 0,
         nep: nepRate !== null ? Math.round([r.year1, r.year2, r.year3][i >= 0 && i < 3 ? i : 0] * nepRate) : null,
         note: r.label === "Continuing Costs" ? `rises to ${phpCompact(r.total)} over 3 years` : "",
@@ -253,7 +263,7 @@ function buildBrief(
     flags.push({ text: `Ask is ${ratio.toFixed(1)}× FY2025 ICT obligations, in a year the agency obligated only ${Math.round(rate25 * 100)}% of its allotment.`, level: "high" });
   }
   if (ccLast > ccFirst * 2 && ccLast > 0) {
-    flags.push({ text: `Continuing costs more than double across the plan (${phpCompact(ccFirst)} → ${phpCompact(ccLast)}) — a future MOOE floor of ${phpCompact(ccLast)} a year.`, level: "watch" });
+    flags.push({ text: `Continuing costs more than double across the plan (${phpCompact(ccFirst)} → ${phpCompact(ccLast)}), a future MOOE floor of ${phpCompact(ccLast)} a year.`, level: "watch" });
   }
   const untagged = agency.projects.filter((p) => p.alignment.length === 0).reduce((s, p) => s + p.totalCost, 0);
   if (untagged > 0) {
@@ -261,7 +271,7 @@ function buildBrief(
   }
   const noPap = agency.projects.filter((p) => !p.papCode);
   if (noPap.length > 0) {
-    flags.push({ text: `${noPap.length} of ${agency.projects.length} projects have no PAP code yet — not traceable into the NEP/GAA (mock).`, level: "watch" });
+    flags.push({ text: `${noPap.length} of ${agency.projects.length} projects have no PAP code yet, so they are not traceable into the NEP/GAA (mock codes).`, level: "watch" });
   }
 
   const questions: string[] = [];

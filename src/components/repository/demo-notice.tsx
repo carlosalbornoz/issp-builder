@@ -11,7 +11,7 @@ export function DemoNotice({ className }: { className?: string }) {
   return (
     <Callout variant="info" className={className}>
       <span className="font-semibold">Demonstration data.</span> Every agency, officer, program and figure on this
-      page comes from a generated corpus of fictitious ISSPs — nothing here reflects a real agency or real budget
+      page comes from a generated corpus of fictitious ISSPs. Nothing here reflects a real agency or real budget
       data.
     </Callout>
   );
