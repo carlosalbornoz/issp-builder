@@ -145,6 +145,8 @@ async function expectText(p, text, label) {
   await expectText(p, "ICT Budget Dashboard", "budget title");
   await expectText(p, "The next infrastructure wave is digital", "budget why-now band");
   await expectText(p, "Planned ICT, whole of government", "whole-of-gov why-now tile");
+  // Known-totals pin: the corpus grand total (4,823,520,000 → ₱4.82B) must reach the page.
+  await expectText(p, "₱4.82B", "budget grand total matches corpus");
   await expectText(p, "Whole-of-government posture", "budget posture grid");
   await expectText(p, "Agriculture and food", "posture grid PDP sector group");
   await expectText(p, "Fund sources", "budget fund panel");
@@ -221,6 +223,47 @@ async function expectText(p, text, label) {
     errors.forEach((e) => fail(`${view} pageerror: ${e}`));
     await p.close();
   }
+}
+
+// 4d2 — Current-form mode on money and devices: the execution layer locks
+// (cycle tiles included), today's-form panels stay live with their numbers.
+{
+  const p = await newPage();
+  const errors = [];
+  p.on("pageerror", (e) => errors.push(String(e)));
+  await p.goto(`${BASE}/budget?view=money&mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Requires: UACS join keys + a COMPASS execution feed", "money cycle tiles + execution half lock");
+  await expectText(p, "Follow one project end-to-end", "money stage strip + CTA stay live");
+  await expectNoOverflow(p, "money current mode");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-money-current.png"), fullPage: true });
+  ok("shot budget-money-current.png");
+
+  await p.goto(`${BASE}/budget?view=devices&mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Requires: the Annex 1 asset inventory", "devices estate panel locks");
+  await expectText(p, "30 DICT categories", "device spend panel stays live with its total");
+  await expectText(p, "Computed from today", "device spend keeps its today's-form badge");
+  await expectNoOverflow(p, "devices current mode");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-devices-current.png"), fullPage: true });
+  ok("shot budget-devices-current.png");
+  errors.forEach((e) => fail(`money/devices current-mode pageerror: ${e}`));
+  await p.close();
+}
+
+// 4d3 — AI view under a sector filter: shares must derive from the selection
+// (HULA ₱105M over MFSC's FY2028 ₱304.71M = 34.5%), not the corpus-wide layer.
+{
+  const p = await newPage();
+  const errors = [];
+  p.on("pageerror", (e) => errors.push(String(e)));
+  await p.goto(`${BASE}/budget?view=ai&sector=transport`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "34.5%", "AI year-share chip derives from the selection");
+  await expectText(p, "one agency's own GPU cluster", "own-build insight counts the selection only");
+  await expectNoOverflow(p, "ai sector lens");
+  errors.forEach((e) => fail(`ai sector pageerror: ${e}`));
+  await p.close();
 }
 
 // 4e — Sector lens (PDP sectors) + current-form locks on the cyber view
@@ -304,6 +347,17 @@ async function expectText(p, text, label) {
   (clippedChips === 0 ? ok : fail)(`budget mobile procurement chips: ${clippedChips === 0 ? "none clipped at the scroller edge" : `${clippedChips} chip(s) clipped`}`);
   await p.screenshot({ path: path.join(OUT_DIR, "budget-mobile-money.png"), fullPage: true });
   ok("shot budget-mobile-money.png");
+  await p.close();
+}
+
+// 7 — QA widths: ultrawide (3440) must not overflow either (qa.md three-width pass).
+{
+  const p = await newPage(3440, 1200);
+  for (const [url, label] of [["/budget", "ultrawide overview"], ["/budget?view=money", "ultrawide money"]]) {
+    await p.goto(`${BASE}${url}`, { waitUntil: "networkidle0", timeout: 60000 });
+    await settle(p);
+    await expectNoOverflow(p, label);
+  }
   await p.close();
 }
 
