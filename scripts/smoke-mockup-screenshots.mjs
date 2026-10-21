@@ -287,6 +287,54 @@ async function expectText(p, text, label) {
   await p.close();
 }
 
+// 4f — Data-standard entry points and nav active state: exactly one visible
+// link per width (nav on md+, control-bar on phones) and the nav chip lights
+// on /budget/data-standard (Budget Dashboard does not).
+{
+  const p = await newPage();
+  const errors = [];
+  p.on("pageerror", (e) => errors.push(String(e)));
+  await p.goto(`${BASE}/budget/data-standard`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  const navState = await p.evaluate(() => {
+    const links = [...document.querySelectorAll("header nav a")];
+    const ds = links.find((a) => a.textContent?.trim() === "Data standard");
+    const budget = links.find((a) => a.href.endsWith("/budget"));
+    return {
+      dsActive: !!ds && ds.className.includes("text-primary") && ds.className.includes("bg-accent"),
+      budgetActive: budget?.className.includes("text-primary") ?? false,
+      dsVisible: !!ds && ds.getBoundingClientRect().width > 0,
+    };
+  });
+  (navState.dsActive ? ok : fail)("data-standard page: nav chip carries the active state");
+  (!navState.budgetActive ? ok : fail)("data-standard page: Budget Dashboard chip is not active");
+  (navState.dsVisible ? ok : fail)("data-standard page: nav chip visible at desktop width");
+  await p.close();
+
+  const q = await newPage();
+  await q.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(q);
+  const desktop = await q.evaluate(() => {
+    const inBar = [...document.querySelectorAll("a[href='/budget/data-standard']")].find((a) => !a.closest("header"));
+    const nav = document.querySelector("header nav a[href='/budget/data-standard']");
+    return { inBarVisible: !!inBar && inBar.getBoundingClientRect().width > 0, navVisible: !!nav && nav.getBoundingClientRect().width > 0 };
+  });
+  (!desktop.inBarVisible && desktop.navVisible ? ok : fail)("desktop /budget: control-bar link hidden, nav link visible");
+  await q.close();
+
+  const m = await newPage(390, 844);
+  await m.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(m);
+  const mobile = await m.evaluate(() => {
+    const inBar = [...document.querySelectorAll("a[href='/budget/data-standard']")].find((a) => !a.closest("header"));
+    const nav = document.querySelector("header nav a[href='/budget/data-standard']");
+    return { inBarVisible: !!inBar && inBar.getBoundingClientRect().width > 0, navVisible: !!nav && nav.getBoundingClientRect().width > 0 };
+  });
+  (mobile.inBarVisible && !mobile.navVisible ? ok : fail)("phone /budget: control-bar link visible, nav link hidden");
+  await m.close();
+  errors.forEach((e) => fail(`data-standard nav pageerror: ${e}`));
+}
+
 // 5b — Project trace
 {
   const p = await newPage();

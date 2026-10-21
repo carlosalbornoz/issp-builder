@@ -269,9 +269,11 @@ export function BudgetDashboard() {
             <span className="text-xs text-muted-foreground ml-auto hidden md:inline">
               {lineCount} line items · {phpCompact(lineTotal)} {fyLabel}
             </span>
+            {/* Nav carries this link from md up; below that the nav item is
+                space-hidden, so the in-bar entry stays phone-only. */}
             <Link
               href="/budget/data-standard"
-              className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors"
+              className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors md:hidden"
             >
               Data standard
             </Link>

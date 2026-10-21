@@ -113,7 +113,7 @@ const CAPABILITY_MATRIX = [
 
 export default function DataStandardPage() {
   return (
-    <PublicShell active="budget">
+    <PublicShell active="dataStandard">
       <div className="max-w-6xl mx-auto px-6 py-8 space-y-6">
         <Link href="/budget" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-4 h-4" /> Budget Dashboard

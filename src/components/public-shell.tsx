@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 // Part colors from sections.ts (same fixed brand artifact as home-page-client)
 const PART_COLORS = ["#2563EB", "#D97706", "#16A34A", "#7C3AED"];
 
-export type ShellSection = "repository" | "budget" | null;
+export type ShellSection = "repository" | "budget" | "dataStandard" | null;
 
 export function PublicShell({
   active,
@@ -59,7 +59,7 @@ export function PublicShell({
               <span className="sm:hidden">Budget</span>
               <span className="hidden sm:inline">Budget Dashboard</span>
             </Link>
-            <Link href="/budget/data-standard" className={cn(navCls(false), "hidden md:block")}>
+            <Link href="/budget/data-standard" className={cn(navCls(active === "dataStandard"), "hidden md:block")}>
               Data standard
             </Link>
             <Link href="/" className={cn(navCls(false), "hidden sm:block")}>
