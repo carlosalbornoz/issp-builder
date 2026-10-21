@@ -216,6 +216,38 @@ ok(!!vmscRow && vmscRow.medianUnitCost > up.corpusMedian * 1.4, `VMSC median (�
 const bccmRow = up.rows.find((r) => r.acronym === "BCCM");
 ok(!!bccmRow && !!bccmRow.note, "BCCM carries the ruggedized-spec note");
 
+// ─── PDP sector lens ──────────────────────────────────────────────────────────
+console.log("PDP sector lens");
+const SECTOR_KEYS = ["agricultureFood", "educationHumanCapital", "transport", "energy", "financeInsurance", "climateResilience", "cooperativesLivelihood", "governanceAdministration"];
+ok(corpus.agencies.every((a) => SECTOR_KEYS.includes(a.sector)), "every agency carries a PDP sector");
+const sectorAgencies = corpus.totals.bySector.reduce((s, x) => s + x.agencies, 0);
+const sectorTotal = corpus.totals.bySector.reduce((s, x) => s + x.total, 0);
+ok(sectorAgencies === corpus.agencies.length, `bySector agency counts sum to ${corpus.agencies.length}`);
+ok(sectorTotal === corpus.totals.grandTotal, "bySector totals sum to the corpus grand total");
+ok(corpus.totals.bySector.every((s) => s.agencies === corpus.agencies.filter((a) => a.sector === s.sector).length), "bySector counts match per-agency sectors");
+
+// ─── Part II-B cyber coverage layer ───────────────────────────────────────────
+console.log("Part II-B cyber coverage layer");
+const cyber = corpus.cyber;
+const cyberTotalControls = cyber.groups.reduce((s, g) => s + g.controls, 0);
+ok(cyberTotalControls === 29, `7 control groups, ${cyberTotalControls} controls total`);
+ok(cyber.agencies.length === corpus.agencies.length, `coverage counted for every agency (${cyber.agencies.length})`);
+for (const slug of ["ncwtr-2026-2028", "ncra-2027-2029", "ccs-2028-2030"]) {
+  const file = path.join(DIR, `${slug}.issp`);
+  const doc = JSON.parse(fs.readFileSync(file, "utf-8"));
+  const row = cyber.agencies.find((a) => a.slug === slug);
+  let mismatches = 0;
+  let docOn = 0;
+  let docAll = 0;
+  for (const [group, controls] of Object.entries(doc.part2.cybersecurityControls)) {
+    const on = Object.values(controls).filter(Boolean).length;
+    docOn += on;
+    docAll += Object.values(controls).length;
+    if (row.enabled[group] !== on) mismatches += 1;
+  }
+  ok(mismatches === 0 && Math.abs(row.overall - docOn / docAll) < 1e-9, `${row.acronym}: layer counts equal the .issp checklist (${docOn}/${docAll} enabled)`);
+}
+
 // ─── 4. Determinism ───────────────────────────────────────────────────────────
 if (!process.argv.includes("--skip-determinism")) {
   console.log("Determinism");

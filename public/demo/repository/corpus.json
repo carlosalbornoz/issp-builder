@@ -49,6 +49,48 @@
         "total": 514874500
       }
     ],
+    "bySector": [
+      {
+        "sector": "agricultureFood",
+        "agencies": 2,
+        "total": 646319000
+      },
+      {
+        "sector": "educationHumanCapital",
+        "agencies": 2,
+        "total": 289247500
+      },
+      {
+        "sector": "transport",
+        "agencies": 1,
+        "total": 714830500
+      },
+      {
+        "sector": "energy",
+        "agencies": 1,
+        "total": 1035117000
+      },
+      {
+        "sector": "financeInsurance",
+        "agencies": 1,
+        "total": 454977500
+      },
+      {
+        "sector": "climateResilience",
+        "agencies": 1,
+        "total": 1314710500
+      },
+      {
+        "sector": "cooperativesLivelihood",
+        "agencies": 1,
+        "total": 225627000
+      },
+      {
+        "sector": "governanceAdministration",
+        "agencies": 3,
+        "total": 142691000
+      }
+    ],
     "cycles": [
       {
         "label": "2026–2028",
@@ -829,6 +871,217 @@
     ],
     "ownBuildTotal": 325000500
   },
+  "cyber": {
+    "note": "Counted from the Part II-B cybersecurity control checklist each mock .issp carries (current state, Part II) and the Part III-A target state. Fictitious agencies; the checklist itself is today's ISSP form.",
+    "groups": [
+      {
+        "key": "physical",
+        "label": "Physical security",
+        "controls": 4
+      },
+      {
+        "key": "perimeter",
+        "label": "Network perimeter",
+        "controls": 4
+      },
+      {
+        "key": "network",
+        "label": "Network security",
+        "controls": 2
+      },
+      {
+        "key": "endpoint",
+        "label": "Endpoint security",
+        "controls": 4
+      },
+      {
+        "key": "data",
+        "label": "Data security",
+        "controls": 3
+      },
+      {
+        "key": "application",
+        "label": "Application security",
+        "controls": 1
+      },
+      {
+        "key": "other",
+        "label": "Security operations and governance",
+        "controls": 11
+      }
+    ],
+    "proposedOverall": 0.8994252873563217,
+    "agencies": [
+      {
+        "slug": "ncwtr-2026-2028",
+        "acronym": "NCWTR",
+        "enabled": {
+          "physical": 3,
+          "perimeter": 1,
+          "network": 0,
+          "endpoint": 1,
+          "data": 1,
+          "application": 0,
+          "other": 3
+        },
+        "overall": 0.3103448275862069
+      },
+      {
+        "slug": "bccm-2026-2028",
+        "acronym": "BCCM",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 2,
+          "network": 0,
+          "endpoint": 1,
+          "data": 1,
+          "application": 0,
+          "other": 3
+        },
+        "overall": 0.3793103448275862
+      },
+      {
+        "slug": "hafsc-2026-2028",
+        "acronym": "HAFSC",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 1,
+          "network": 0,
+          "endpoint": 1,
+          "data": 0,
+          "application": 0,
+          "other": 2
+        },
+        "overall": 0.27586206896551724
+      },
+      {
+        "slug": "ncra-2027-2029",
+        "acronym": "NCRA",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 2,
+          "network": 2,
+          "endpoint": 2,
+          "data": 1,
+          "application": 0,
+          "other": 4
+        },
+        "overall": 0.5172413793103449
+      },
+      {
+        "slug": "pdrio-2027-2029",
+        "acronym": "PDRIO",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 2,
+          "network": 2,
+          "endpoint": 2,
+          "data": 1,
+          "application": 0,
+          "other": 4
+        },
+        "overall": 0.5172413793103449
+      },
+      {
+        "slug": "mfsc-2027-2029",
+        "acronym": "MFSC",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 2,
+          "network": 2,
+          "endpoint": 1,
+          "data": 1,
+          "application": 0,
+          "other": 3
+        },
+        "overall": 0.4482758620689655
+      },
+      {
+        "slug": "malinaw-2027-2029",
+        "acronym": "MAL",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 1,
+          "network": 0,
+          "endpoint": 1,
+          "data": 0,
+          "application": 0,
+          "other": 3
+        },
+        "overall": 0.3103448275862069
+      },
+      {
+        "slug": "nftc-2028-2030",
+        "acronym": "NFTC",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 1,
+          "network": 0,
+          "endpoint": 1,
+          "data": 0,
+          "application": 0,
+          "other": 2
+        },
+        "overall": 0.27586206896551724
+      },
+      {
+        "slug": "prpgc-2028-2030",
+        "acronym": "PRPGC",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 2,
+          "network": 2,
+          "endpoint": 1,
+          "data": 1,
+          "application": 0,
+          "other": 3
+        },
+        "overall": 0.4482758620689655
+      },
+      {
+        "slug": "sanprospero-2028-2030",
+        "acronym": "SP",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 0,
+          "network": 0,
+          "endpoint": 0,
+          "data": 0,
+          "application": 0,
+          "other": 0
+        },
+        "overall": 0.13793103448275862
+      },
+      {
+        "slug": "vmsc-2028-2030",
+        "acronym": "VMSC",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 2,
+          "network": 0,
+          "endpoint": 1,
+          "data": 1,
+          "application": 0,
+          "other": 3
+        },
+        "overall": 0.3793103448275862
+      },
+      {
+        "slug": "ccs-2028-2030",
+        "acronym": "CCS",
+        "enabled": {
+          "physical": 4,
+          "perimeter": 2,
+          "network": 2,
+          "endpoint": 1,
+          "data": 1,
+          "application": 0,
+          "other": 3
+        },
+        "overall": 0.4482758620689655
+      }
+    ]
+  },
   "security": {
     "fleetBySlug": {
       "ncwtr-2026-2028": {
@@ -1419,6 +1672,7 @@
       "acronym": "NCWTR",
       "name": "National Commission on Waiting Time Reduction",
       "type": "NGA",
+      "sector": "governanceAdministration",
       "websiteUrl": "https://www.ncwtr.gov.ph",
       "tagline": "Monitoring queue times across government, and its own fax machine",
       "hero": true,
@@ -2536,6 +2790,7 @@
       "acronym": "BCCM",
       "name": "Bureau of Cold Chain Management",
       "type": "NGA",
+      "sector": "agricultureFood",
       "websiteUrl": "https://www.bccm.gov.ph",
       "tagline": "Cold chain integrity for vaccines, food and perishables",
       "hero": false,
@@ -3952,6 +4207,7 @@
       "acronym": "HAFSC",
       "name": "Highland Agri-Forestry State College",
       "type": "OTHER",
+      "sector": "educationHumanCapital",
       "websiteUrl": "https://www.hafsc.edu.ph",
       "tagline": "Connected campus, climate-smart agriculture extension",
       "hero": false,
@@ -5268,6 +5524,7 @@
       "acronym": "NCRA",
       "name": "National Coastal Resilience Authority",
       "type": "NGA",
+      "sector": "climateResilience",
       "websiteUrl": "https://www.ncra.gov.ph",
       "tagline": "Unified coastal hazard monitoring and community early warning",
       "hero": true,
@@ -7060,6 +7317,7 @@
       "acronym": "PDRIO",
       "name": "Philippine Disaster Risk Insurance Office",
       "type": "NGA",
+      "sector": "financeInsurance",
       "websiteUrl": "https://www.pdrio.gov.ph",
       "tagline": "Parametric risk pooling and insurance for LGUs",
       "hero": false,
@@ -8350,6 +8608,7 @@
       "acronym": "MFSC",
       "name": "Metro Ferry Systems Corporation",
       "type": "GOCC",
+      "sector": "transport",
       "websiteUrl": "https://www.mfsc.gov.ph",
       "tagline": "Ticketing and fleet intelligence for the metro ferry network",
       "hero": true,
@@ -10103,6 +10362,7 @@
       "acronym": "MAL",
       "name": "City Government of Malinaw",
       "type": "LGU",
+      "sector": "governanceAdministration",
       "websiteUrl": "https://www.malinawcity.gov.ph",
       "tagline": "One-city, one-click government services",
       "hero": false,
@@ -11517,6 +11777,7 @@
       "acronym": "NFTC",
       "name": "National Food Traceability Council",
       "type": "NGA",
+      "sector": "agricultureFood",
       "websiteUrl": "https://www.nftc.gov.ph",
       "tagline": "Farm-to-fork traceability for high-value commodities",
       "hero": false,
@@ -12910,6 +13171,7 @@
       "acronym": "PRPGC",
       "name": "Philippine Renewable Power Guarantee Corporation",
       "type": "GOCC",
+      "sector": "energy",
       "websiteUrl": "https://www.prpgc.gov.ph",
       "tagline": "Guarantees and credit enhancement for the renewable energy buildout",
       "hero": false,
@@ -14389,6 +14651,7 @@
       "acronym": "SP",
       "name": "Municipality of San Prospero",
       "type": "LGU",
+      "sector": "governanceAdministration",
       "websiteUrl": "https://www.sanprospero.gov.ph",
       "tagline": "Digital front-liners for a fifth-class municipality",
       "hero": false,
@@ -15310,6 +15573,7 @@
       "acronym": "VMSC",
       "name": "Visayas Maritime State College",
       "type": "OTHER",
+      "sector": "educationHumanCapital",
       "websiteUrl": "https://www.vmsc.edu.ph",
       "tagline": "Maritime education, simulation and research modernization",
       "hero": false,
@@ -16595,6 +16859,7 @@
       "acronym": "CCS",
       "name": "Commission on Cooperative Standards",
       "type": "OTHER",
+      "sector": "cooperativesLivelihood",
       "websiteUrl": "https://www.ccs.gov.ph",
       "tagline": "Registry, audit and standards for the cooperative sector",
       "hero": false,

@@ -15,6 +15,21 @@
 export type CorpusAgencyType = "NGA" | "GOCC" | "LGU" | "OTHER";
 export type CorpusPlanStatus = "draft" | "for_review" | "submitted";
 
+/**
+ * Functional sector, aligned to the Philippine Development Plan 2023-2028
+ * chapter structure (DepDev/NEDA vocabulary; RDPs reuse the same chapters
+ * regionally). Mock assignment in the corpus; a proposed ISSP field.
+ */
+export type CorpusSector =
+  | "agricultureFood"
+  | "educationHumanCapital"
+  | "transport"
+  | "energy"
+  | "financeInsurance"
+  | "climateResilience"
+  | "cooperativesLivelihood"
+  | "governanceAdministration";
+
 /** Mirror of SummaryRow from part4-aggregations (re-declared to keep lib→component imports out). */
 export interface CorpusSummaryRow {
   label: string;
@@ -143,6 +158,7 @@ export interface CorpusProfile {
   acronym: string;
   name: string;
   type: CorpusAgencyType;
+  sector: CorpusSector;
   websiteUrl: string;
   tagline: string;
   hero: boolean;
@@ -213,6 +229,7 @@ export interface CorpusTotals {
   grandTotal: number;
   byYear: { year: number; total: number }[];
   byType: { type: CorpusAgencyType; agencies: number; total: number }[];
+  bySector: { sector: CorpusSector; agencies: number; total: number }[];
   cycles: { label: string; agencies: number; total: number }[];
   byStatus: { status: CorpusPlanStatus; agencies: number }[];
   crossAgencyCount: number;
@@ -398,6 +415,35 @@ export interface CorpusUnitPrices {
   rows: CorpusUnitPriceRow[];
 }
 
+// ─── Part II-B cyber controls coverage (derived from the .issp files) ─────────
+// Counted from the cybersecurityControls checklist each mock .issp actually
+// carries (v14 Part II-B), so the whole-of-government coverage grid is
+// legitimately "extracted from today's form".
+
+export interface CorpusCyberGroup {
+  key: string;
+  label: string;
+  /** Number of Yes/No controls in this group. */
+  controls: number;
+}
+
+export interface CorpusCyberAgency {
+  slug: string;
+  acronym: string;
+  /** Enabled controls per group key. */
+  enabled: Record<string, number>;
+  /** Enabled controls across all groups, 0..1. */
+  overall: number;
+}
+
+export interface CorpusCyberLayer {
+  note: string;
+  groups: CorpusCyberGroup[];
+  /** Coverage of the controls each plan PROPOSES (Part III-A target state), for contrast. */
+  proposedOverall: number;
+  agencies: CorpusCyberAgency[];
+}
+
 export interface RepositoryCorpus {
   disclaimer: string;
   generatedAt: string;
@@ -407,6 +453,8 @@ export interface RepositoryCorpus {
   compass: CompassLayer;
   /** AI/compute-tagged projects for the spend-wave views (amounts are real Part IV lines). */
   aiLayer: CorpusAiLayer;
+  /** Part II-B control coverage per agency, counted from the .issp checklists. */
+  cyber: CorpusCyberLayer;
   /** Mock Annex 1 asset inventory + one fictitious security advisory. */
   security: { fleetBySlug: Record<string, CorpusFleet>; advisory: CorpusAdvisory };
   procurement: CorpusProcurement;

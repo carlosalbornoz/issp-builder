@@ -64,3 +64,23 @@ export const TYPE_SHORT: Record<string, string> = {
   LGU: "LGU",
   OTHER: "SUC / other",
 };
+
+/**
+ * Functional sectors aligned to the PDP 2023-2028 chapter structure
+ * (DepDev/NEDA vocabulary; RDPs reuse the same chapters regionally).
+ * Mock assignment in the corpus; a proposed ISSP field.
+ */
+export const SECTORS: { key: string; label: string; short: string; pdp: string }[] = [
+  { key: "agricultureFood", label: "Agriculture and food", short: "Agri & food", pdp: "PDP Ch. 5" },
+  { key: "educationHumanCapital", label: "Education and human capital", short: "Education", pdp: "PDP Ch. 2" },
+  { key: "transport", label: "Transport", short: "Transport", pdp: "PDP Ch. 12" },
+  { key: "energy", label: "Energy", short: "Energy", pdp: "PDP Ch. 12" },
+  { key: "financeInsurance", label: "Finance and insurance", short: "Finance", pdp: "PDP Ch. 11" },
+  { key: "climateResilience", label: "Climate action and disaster resilience", short: "Climate & DRR", pdp: "PDP Ch. 15" },
+  { key: "cooperativesLivelihood", label: "Cooperatives and livelihood", short: "Cooperatives", pdp: "PDP Ch. 7" },
+  { key: "governanceAdministration", label: "Governance and local administration", short: "Governance", pdp: "PDP Ch. 14" },
+];
+
+export const SECTOR_LABELS: Record<string, string> = Object.fromEntries(SECTORS.map((s) => [s.key, s.label]));
+export const SECTOR_SHORT: Record<string, string> = Object.fromEntries(SECTORS.map((s) => [s.key, s.short]));
+

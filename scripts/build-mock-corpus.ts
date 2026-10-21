@@ -56,12 +56,14 @@ import type {
   CorpusAdvisory,
   CorpusAiLayer,
   CorpusAiKind,
+  CorpusCyberLayer,
   CorpusFleet,
   CorpusKpi,
   CorpusLineItem,
   CorpusProfile,
   CorpusProcurement,
   CorpusProcurementStage,
+  CorpusSector,
   CorpusUnitPrices,
   RepositoryCorpus,
 } from "../src/lib/repository/corpus-types";
@@ -179,6 +181,8 @@ interface AgencySeed {
   websiteUrl: string;
   tagline: string;
   hero?: boolean;
+  /** PDP-aligned functional sector (mock; proposed ISSP field). */
+  sector: CorpusSector;
   cycle: [number, number];
   scope: IsspScope;
   planStatus: "draft" | "for_review" | "submitted";
@@ -703,6 +707,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ BCCM — Bureau of Cold Chain Management (NGA, 2026–2028) ═══
   {
     slug: "bccm-2026-2028",
+    sector: "agricultureFood",
     acronym: "BCCM",
     name: "Bureau of Cold Chain Management",
     type: "NGA",
@@ -854,6 +859,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ HAFSC — Highland Agri-Forestry State College (SUC/OTHER, 2026–2028) ═══
   {
     slug: "hafsc-2026-2028",
+    sector: "educationHumanCapital",
     acronym: "HAFSC",
     name: "Highland Agri-Forestry State College",
     type: "OTHER",
@@ -1011,6 +1017,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ NCRA — National Coastal Resilience Authority (NGA, 2027–2029) — HERO ═══
   {
     slug: "ncra-2027-2029",
+    sector: "climateResilience",
     acronym: "NCRA",
     name: "National Coastal Resilience Authority",
     type: "NGA",
@@ -1208,6 +1215,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ PDRIO — Philippine Disaster Risk Insurance Office (NGA, 2027–2029) ═══
   {
     slug: "pdrio-2027-2029",
+    sector: "financeInsurance",
     acronym: "PDRIO",
     name: "Philippine Disaster Risk Insurance Office",
     type: "NGA",
@@ -1341,6 +1349,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ MFSC — Metro Ferry Systems Corporation (GOCC, 2027–2029) — HERO ═══
   {
     slug: "mfsc-2027-2029",
+    sector: "transport",
     acronym: "MFSC",
     name: "Metro Ferry Systems Corporation",
     type: "GOCC",
@@ -1531,6 +1540,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ Malinaw — City Government of Malinaw (LGU, 2027–2029) ═══
   {
     slug: "malinaw-2027-2029",
+    sector: "governanceAdministration",
     acronym: "MAL",
     name: "City Government of Malinaw",
     type: "LGU",
@@ -1694,6 +1704,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ NFTC — National Food Traceability Council (NGA, 2028–2030) ═══
   {
     slug: "nftc-2028-2030",
+    sector: "agricultureFood",
     acronym: "NFTC",
     name: "National Food Traceability Council",
     type: "NGA",
@@ -1831,6 +1842,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ PRPGC — Philippine Renewable Power Guarantee Corporation (GOCC, 2028–2030) ═══
   {
     slug: "prpgc-2028-2030",
+    sector: "energy",
     acronym: "PRPGC",
     name: "Philippine Renewable Power Guarantee Corporation",
     type: "GOCC",
@@ -1974,6 +1986,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ San Prospero — Municipality of San Prospero (LGU, 2028–2030) ═══
   {
     slug: "sanprospero-2028-2030",
+    sector: "governanceAdministration",
     acronym: "SP",
     name: "Municipality of San Prospero",
     type: "LGU",
@@ -2086,6 +2099,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ VMSC — Visayas Maritime State College (SUC/OTHER, 2028–2030) ═══
   {
     slug: "vmsc-2028-2030",
+    sector: "educationHumanCapital",
     acronym: "VMSC",
     name: "Visayas Maritime State College",
     type: "OTHER",
@@ -2228,6 +2242,7 @@ const SEEDS: AgencySeed[] = [
   // ═══ CCS — Commission on Cooperative Standards (OTHER, 2028–2030) ═══
   {
     slug: "ccs-2028-2030",
+    sector: "cooperativesLivelihood",
     acronym: "CCS",
     name: "Commission on Cooperative Standards",
     type: "OTHER",
@@ -2372,6 +2387,8 @@ const SEEDS: AgencySeed[] = [
 // ─── NCWTR (reuse the canonical demo document) ────────────────────────────────
 
 interface NcwtrMeta {
+  /** PDP-aligned functional sector (mock; proposed ISSP field). */
+  sector: CorpusSector;
   slug: string;
   tagline: string;
   hero: boolean;
@@ -2379,6 +2396,7 @@ interface NcwtrMeta {
 }
 const NCWTR_META: NcwtrMeta = {
   slug: "ncwtr-2026-2028",
+  sector: "governanceAdministration",
   tagline: "Monitoring queue times across government, and its own fax machine",
   hero: true,
   allotFactor: 0.94,
@@ -2885,7 +2903,7 @@ function toCorpusLine(
 
 function deriveProfile(
   doc: IsspDocument,
-  opts: { slug: string; tagline: string; hero: boolean; allotFactor?: number; agencyIndex: number; papCodes: Map<string, string> }
+  opts: { slug: string; tagline: string; hero: boolean; sector: CorpusSector; allotFactor?: number; agencyIndex: number; papCodes: Map<string, string> }
 ): CorpusProfile {
   const counted = countedPart4(doc);
   const years: [YearBudget, YearBudget, YearBudget] = [counted.year1, counted.year2, counted.year3];
@@ -3009,6 +3027,7 @@ function deriveProfile(
     acronym: doc.agency.acronym,
     name: doc.agency.name,
     type: doc.agency.type,
+    sector: opts.sector,
     websiteUrl: doc.agency.websiteUrl,
     tagline: opts.tagline,
     hero: opts.hero,
@@ -3114,17 +3133,72 @@ function crossAgencyPrograms(profiles: CorpusProfile[], seedsBySlug: Map<string,
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
+/** Human labels for the seven CyberControls groups (Part II-B). */
+const CYBER_GROUP_LABELS: Record<string, string> = {
+  physical: "Physical security",
+  perimeter: "Network perimeter",
+  network: "Network security",
+  endpoint: "Endpoint security",
+  data: "Data security",
+  application: "Application security",
+  other: "Security operations and governance",
+};
+
+/**
+ * Part II-B coverage per agency, counted from the cybersecurityControls
+ * checklist each .issp actually carries (not from the seed fraction).
+ */
+function buildCyberLayer(docs: { doc: IsspDocument; meta: { slug: string } }[]): CorpusCyberLayer {
+  const groups: CorpusCyberLayer["groups"] = [];
+  const agencies: CorpusCyberLayer["agencies"] = docs.map(({ doc, meta }) => {
+    const controls = doc.part2.cybersecurityControls as unknown as Record<string, Record<string, boolean>>;
+    const enabled: Record<string, number> = {};
+    let on = 0;
+    let all = 0;
+    for (const [groupKey, group] of Object.entries(controls)) {
+      const groupOn = Object.values(group).filter(Boolean).length;
+      const groupAll = Object.values(group).length;
+      enabled[groupKey] = groupOn;
+      on += groupOn;
+      all += groupAll;
+      if (!groups.some((g) => g.key === groupKey)) {
+        groups.push({ key: groupKey, label: CYBER_GROUP_LABELS[groupKey] ?? groupKey, controls: groupAll });
+      }
+    }
+    return { slug: meta.slug, acronym: doc.agency.acronym, enabled, overall: all ? on / all : 0 };
+  });
+  const proposed = docs.map(({ doc }) => {
+    const controls = doc.part3.proposedCybersecControls as unknown as Record<string, Record<string, boolean>>;
+    let on = 0;
+    let all = 0;
+    Object.values(controls ?? {}).forEach((group) =>
+      Object.values(group).forEach((v) => {
+        all += 1;
+        if (v) on += 1;
+      })
+    );
+    return all ? on / all : 0;
+  });
+  const proposedOverall = proposed.length ? proposed.reduce((s, x) => s + x, 0) / proposed.length : 0;
+  return {
+    note: "Counted from the Part II-B cybersecurity control checklist each mock .issp carries (current state, Part II) and the Part III-A target state. Fictitious agencies; the checklist itself is today's ISSP form.",
+    groups,
+    proposedOverall,
+    agencies,
+  };
+}
+
 function buildOutputs() {
   const outDir = path.join(__dirname, "..", "public", "demo", "repository");
 
-  const docs: { doc: IsspDocument; meta: { slug: string; tagline: string; hero: boolean; allotFactor?: number } }[] = SEEDS.map((seed) => ({
+  const docs: { doc: IsspDocument; meta: { slug: string; tagline: string; hero: boolean; sector: CorpusSector; allotFactor?: number } }[] = SEEDS.map((seed) => ({
     doc: composeDoc(seed),
-    meta: { slug: seed.slug, tagline: seed.tagline, hero: seed.hero ?? false, ...(seed.allotFactor ? { allotFactor: seed.allotFactor } : {}) },
+    meta: { slug: seed.slug, tagline: seed.tagline, hero: seed.hero ?? false, sector: seed.sector, ...(seed.allotFactor ? { allotFactor: seed.allotFactor } : {}) },
   }));
   const ncwtr = loadNcwtr();
   docs.unshift({
     doc: ncwtr,
-    meta: { slug: NCWTR_META.slug, tagline: NCWTR_META.tagline, hero: NCWTR_META.hero, allotFactor: NCWTR_META.allotFactor },
+    meta: { slug: NCWTR_META.slug, tagline: NCWTR_META.tagline, hero: NCWTR_META.hero, sector: NCWTR_META.sector, allotFactor: NCWTR_META.allotFactor },
   });
 
   const papCodes = buildPapCodes(docs);
@@ -3154,6 +3228,10 @@ function buildOutputs() {
         const list = profiles.filter((a) => a.type === type);
         return { type, agencies: list.length, total: list.reduce((s, a) => s + a.budget.grandTotal, 0) };
       }),
+      bySector: (["agricultureFood", "educationHumanCapital", "transport", "energy", "financeInsurance", "climateResilience", "cooperativesLivelihood", "governanceAdministration"] as const).map((sector) => {
+        const list = profiles.filter((a) => a.sector === sector);
+        return { sector, agencies: list.length, total: list.reduce((s, a) => s + a.budget.grandTotal, 0) };
+      }),
       cycles: [...new Set(profiles.map((a) => a.cycleLabel))]
         .sort()
         .map((label) => {
@@ -3166,6 +3244,7 @@ function buildOutputs() {
     crossAgencyPrograms: crossAgencyPrograms(profiles, seedsBySlug),
     compass: buildCompass(docs, profiles),
     aiLayer: buildAiLayer(profiles),
+    cyber: buildCyberLayer(docs),
     security: { fleetBySlug: FLEET, advisory: ADVISORY },
     procurement: buildProcurement(profiles),
     unitPrices: buildUnitPrices(profiles),
