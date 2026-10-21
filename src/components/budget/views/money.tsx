@@ -37,15 +37,19 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
         lede="The ISSP is the step before the NEP: the plan, the reason and the promised result. COMPASS follows the money from appropriation to disbursement; one project code lines them up."
       />
 
-      <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
-        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3">Where each fiscal year stands · mock COMPASS layer · GAA agencies</p>
-        <div className="grid grid-cols-2 gap-2.5">
-          <CycleTile year="FY2025" label="closed" value={pct(sumCompass(2025, "obligated"), sumCompass(2025, "allotment"))} sub="of ICT allotments obligated" />
-          <CycleTile year="FY2026" label="executing" value={pct(sumCompass(2026, "obligated"), sumCompass(2026, "allotment"))} sub="obligated as of Q2 (30 Jun)" />
-          <CycleTile year="FY2027" label="NEP in Congress" value={pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} sub="of ISSP ask is in the NEP" />
-          <CycleTile year="FY2028" label="Budget Call" value={phpCompact(sumCompass(2028, "plan"))} sub="already planned in ISSPs" />
+      {/* Cycle status tiles read the mock COMPASS layer, so they lock with the
+          rest of the execution half in current-form mode. */}
+      <ProposedOnly mode={mode} requires="UACS join keys + a COMPASS execution feed (proposed)">
+        <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3">Where each fiscal year stands · mock COMPASS layer · GAA agencies</p>
+          <div className="grid grid-cols-2 gap-2.5">
+            <CycleTile year="FY2025" label="closed" value={pct(sumCompass(2025, "obligated"), sumCompass(2025, "allotment"))} sub="of ICT allotments obligated" />
+            <CycleTile year="FY2026" label="executing" value={pct(sumCompass(2026, "obligated"), sumCompass(2026, "allotment"))} sub="obligated as of Q2 (30 Jun)" />
+            <CycleTile year="FY2027" label="NEP in Congress" value={pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} sub="of ISSP ask is in the NEP" />
+            <CycleTile year="FY2028" label="Budget Call" value={phpCompact(sumCompass(2028, "plan"))} sub="already planned in ISSPs" />
+          </div>
         </div>
-      </div>
+      </ProposedOnly>
 
       {/* Stage strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
@@ -79,11 +83,20 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
       {/* Per-FY funnels + absorptive capacity + procurement: every peso past the
           plan comes from the mock COMPASS layer, so the whole execution half
           locks in current-form mode. */}
-      <ProposedOnly mode={mode} requires="UACS join keys + a COMPASS execution feed (proposed)">
-        <FunnelPanels gaa={gaa} />
-        <AbsorptiveTable gaa={gaa} profiles={profiles} />
-        <ProcurementPulse rows={corpus.procurement.rows.filter((r) => slugs.has(r.slug))} />
-      </ProposedOnly>
+      {gaa.length === 0 ? (
+        <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            No GAA-route agencies in this selection: GOCC and LGU budgets travel their own routes, so there is no
+            appropriation trail to follow here. Widen the sector or type filter to bring the loop back.
+          </p>
+        </div>
+      ) : (
+        <ProposedOnly mode={mode} requires="UACS join keys + a COMPASS execution feed (proposed)">
+          <FunnelPanels gaa={gaa} />
+          <AbsorptiveTable gaa={gaa} profiles={profiles} />
+          <ProcurementPulse rows={corpus.procurement.rows.filter((r) => slugs.has(r.slug))} />
+        </ProposedOnly>
+      )}
     </div>
   );
 }
@@ -109,7 +122,7 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
       { label: "Obligated", value: rec.obligated || null, color: FUNNEL.spend, note: stage === "executing" ? "as of Q2" : undefined },
       { label: "Disbursed", value: rec.disbursed || null, color: FUNNEL.spend },
     ];
-    return { rows, max: Math.max(rec.plan, rec.nep, 1), rec };
+    return { rows, max: Math.max(rec.plan, rec.nep, rec.gaa, rec.allotment, rec.obligated, rec.disbursed, 1), rec };
   };
 
   const f25 = funnelRows(2025, "closed");
@@ -118,6 +131,9 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
 
   const nepShare27 = f27.rec.plan ? (f27.rec.nep ?? 0) / f27.rec.plan : 0;
   const unobligated25 = f25.rec.allotment - f25.rec.obligated;
+  // Insights assert numbers; only render the ones whose data exists here.
+  const showNep = f27.rec.plan > 0;
+  const showUnobligated = f25.rec.allotment > 0;
 
   return (
     <>
@@ -131,15 +147,19 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
           <FunnelPanel title="FY2026" pill="Executing · Q2" pillCls="bg-warning-bg text-warning border border-warning-border" f={f26} />
           <FunnelPanel title="FY2027" pill="NEP in Congress" pillCls="bg-info-bg text-info border border-info-border" f={f27} />
         </div>
-        <div className="grid md:grid-cols-3 gap-3 mt-5">
-          <InsightBox>
-            <strong>The NEP keeps {Math.round(nepShare27 * 100)}% of the FY2027 ISSP ask.</strong> The gap is the list of
-            planned ICT work that did not get funded. Today nobody sees that list in one place.
-          </InsightBox>
-          <InsightBox>
-            <strong>{phpCompact(unobligated25)} of FY2025 ICT allotments was never obligated.</strong> Money that cannot
-            move until procurement does; see the pulse below for where FY2026 stands.
-          </InsightBox>
+        <div className={cn("grid gap-3 mt-5", (showNep ? 1 : 0) + (showUnobligated ? 1 : 0) + 1 === 3 && "md:grid-cols-3")}>
+          {showNep ? (
+            <InsightBox>
+              <strong>The NEP keeps {Math.round(nepShare27 * 100)}% of the FY2027 ISSP ask.</strong> The gap is the list of
+              planned ICT work that did not get funded. Today nobody sees that list in one place.
+            </InsightBox>
+          ) : null}
+          {showUnobligated ? (
+            <InsightBox>
+              <strong>{phpCompact(unobligated25)} of FY2025 ICT allotments was never obligated.</strong> Money that
+              cannot move until procurement does.
+            </InsightBox>
+          ) : null}
           <InsightBox>
             <strong>One project code lines all seven stages up.</strong> In the SIKAP trace below, the same ID
             carries from the .issp file into the NEP, the GAA, procurement and payment; without it, each stage
@@ -262,7 +282,7 @@ function absorptiveRows(gaa: CompassAgency[], profiles: CorpusProfile[]) {
     .map((ca) => {
       const y25 = ca.years.find((y) => y.year === 2025);
       const profile = profiles.find((p) => p.slug === ca.slug);
-      if (!y25?.obligated || !y25.gaa || !profile) return null;
+      if (!y25?.obligated || !y25.allotment || !y25.gaa || !profile) return null;
       const i = 2027 - profile.cycle.startYear;
       const ask27 = i >= 0 && i < 3 ? profile.budget.grandTotals[i] : null;
       return { profile, y25, ask27, ratio: ask27 ? ask27 / y25.obligated : null };
