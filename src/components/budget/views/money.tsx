@@ -61,7 +61,7 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
               {s.n} · {s.label}
             </p>
             <p className="text-sm font-semibold mt-0.5">{s.system}</p>
-            <p className="text-[11px] text-muted-foreground leading-snug mt-1 hidden lg:block">{s.detail}</p>
+            <p className="text-[11px] text-muted-foreground leading-snug mt-1 hidden lg:block min-h-[42px]">{s.detail}</p>
             <p className={cn("text-[10px] font-medium mt-1.5", s.ours ? "text-primary" : "text-muted-foreground")}>{s.source}</p>
           </div>
         ))}
@@ -70,7 +70,7 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
       <div className="flex flex-wrap justify-end">
         <Link
           href="/budget/trace/ncwtr-2026-2028/proj-sikap"
-          className="inline-flex items-center gap-1.5 rounded-md bg-[var(--sidebar)] text-white px-3.5 h-9 text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center justify-center gap-1.5 rounded-md bg-[var(--sidebar)] text-white px-3.5 h-9 text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto"
         >
           Follow one project end-to-end <ChevronRight className="w-3.5 h-3.5" />
         </Link>
@@ -124,7 +124,7 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
       <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2 mb-4">
           <h3 className="text-sm font-semibold">Each fiscal year sits at a different stage</h3>
-          <p className="text-xs text-muted-foreground">GAA agencies ({gaa.length} of the selection) · percent = share of the stage before it</p>
+          <p className="text-xs text-muted-foreground">GAA agencies ({gaa.length} of the selection)</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           <FunnelPanel title="FY2025" pill="Closed" pillCls="bg-success-bg text-success border border-success-border" f={f25} />
@@ -141,8 +141,9 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
             move until procurement does; see the pulse below for where FY2026 stands.
           </InsightBox>
           <InsightBox>
-            <strong>The ISSP is the step before the NEP.</strong> COMPASS follows money from appropriation to
-            disbursement; the ISSP holds the plan, the reason and the promised result. One project code lines them up.
+            <strong>One project code lines all seven stages up.</strong> In the SIKAP trace below, the same ID
+            carries from the .issp file into the NEP, the GAA, procurement and payment; without it, each stage
+            is a separate spreadsheet.
           </InsightBox>
         </div>
       </div>
@@ -246,8 +247,10 @@ function AbsorptiveTable({ gaa, profiles }: { gaa: CompassAgency[]; profiles: Co
               (steepest.y25.obligated! / steepest.y25.allotment!) * 100
             )}% of that year's allotment.`
           : "Every GAA agency's FY2027 ask sits below its FY2025 obligations."}{" "}
-        Execution figures are illustrative values in the shape of COMPASS data. GOCC and LGU plans are outside the GAA;
-        their execution comes from their own budget systems. NCWTR&apos;s first ISSP starts in FY2026, so it has no FY2025 row.
+        An en dash means the agency&apos;s plan years do not cover that column: NFTC, VMSC and CCS plans start in
+        FY2028, so they carry no FY2027 ask. Agencies with no FY2025 execution record (NCWTR&apos;s first ISSP starts in
+        FY2026) have no row in this table at all. Execution figures are illustrative values in the shape of COMPASS data.
+        GOCC and LGU plans are outside the GAA; their execution comes from their own budget systems.
       </p>
     </div>
   );

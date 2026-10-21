@@ -41,23 +41,30 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
         lede={NETWORKS.blurb + ". The line items name the links themselves: fibre upgrades, fixed wireless for isolated offices, VSAT where nothing else reaches."}
       />
 
-      <div className="grid lg:grid-cols-2 lg:items-start gap-4">
-        <Panel title="Connectivity spend by category" sub="Part IV line items rolled up from the 30 DICT categories · today's form">
-          <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
-          <BarList
-            className="mt-3"
-            items={[...byCategory.entries()]
-              .sort((x, y) => y[1] - x[1])
-              .map(([id, total]) => ({ key: id, label: categoryNameById.get(id) ?? id, value: total }))}
-            format={phpCompact}
-          />
-          <p className="text-[11px] text-muted-foreground mt-3">
-            Selection total: <strong className="text-foreground tabular-nums">{phpCompact(netTotal)}</strong>{" "}
-            {fy === "all" ? "across all plan years" : `in FY${fy}`}.
-          </p>
-        </Panel>
+      <div className="grid lg:grid-cols-3 lg:items-start gap-4">
+        <div className="space-y-4">
+          <Panel title="Connectivity spend by category" sub="Part IV line items rolled up from the 30 DICT categories · today's form">
+            <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
+            <BarList
+              className="mt-3"
+              items={[...byCategory.entries()]
+                .sort((x, y) => y[1] - x[1])
+                .map(([id, total]) => ({ key: id, label: categoryNameById.get(id) ?? id, value: total }))}
+              format={phpCompact}
+            />
+            <p className="text-[11px] text-muted-foreground mt-3">
+              Selection total: <strong className="text-foreground tabular-nums">{phpCompact(netTotal)}</strong>{" "}
+              {fy === "all" ? "across all plan years" : `in FY${fy}`}.
+            </p>
+          </Panel>
+          <InsightBox>
+            <strong>Isolated offices are named and budgeted.</strong> VSAT terminals for off-grid sites and fixed
+            wireless for geographically isolated offices appear as literal Part IV lines; with the fleet inventory as
+            structured fields (proposed), resilient-link coverage per office becomes a query.
+          </InsightBox>
+        </div>
 
-        <Panel title="The links the plans name" sub="subscription and broadband line items · today's form">
+        <Panel title="The links the plans name" sub="subscription and broadband line items · today's form" className="lg:col-span-2">
           <div className="overflow-x-auto rounded-lg border">
             <table className="min-w-full text-xs sm:text-sm border-collapse">
               <thead>
@@ -78,18 +85,13 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
                           {r.acronym}
                         </Link>
                       </td>
-                      <td className="px-3 py-2 max-w-96">{r.item}</td>
+                      <td className="px-3 py-2">{r.item}</td>
                       <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">{phpCompact(r.total)}</td>
                     </tr>
                   ))}
               </tbody>
             </table>
           </div>
-          <InsightBox className="mt-4">
-            <strong>Isolated offices are named and budgeted.</strong> VSAT terminals for off-grid sites and fixed
-            wireless for geographically isolated offices appear as literal Part IV lines; with the fleet inventory as
-            structured fields (proposed), resilient-link coverage per office becomes a query.
-          </InsightBox>
         </Panel>
       </div>
     </div>

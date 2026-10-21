@@ -193,7 +193,7 @@ export function CycleTile({ year, label, value, sub }: { year: string; label: st
 export function StageTile({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
     <div className="rounded-lg border border-foreground/10 bg-card px-3 py-2.5">
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">{label}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground leading-snug min-h-7">{label}</p>
       <p className="text-base font-bold tabular-nums leading-tight mt-0.5">{value}</p>
       <p className="text-[11px] text-muted-foreground">{sub}</p>
     </div>
@@ -226,18 +226,20 @@ export function FilterSelect({
   onChange,
   options,
   ariaLabel,
+  className,
 }: {
   value: string;
   onChange: (v: string) => void;
   options: [string, string][];
   ariaLabel: string;
+  className?: string;
 }) {
   return (
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-label={ariaLabel}
-      className="h-9 rounded-md border border-input bg-background px-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring/50"
+      className={cn("h-9 rounded-md border border-input bg-background px-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring/50", className)}
     >
       {options.map(([v, l]) => (
         <option key={v} value={v}>

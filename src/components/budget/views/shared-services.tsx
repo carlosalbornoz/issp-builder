@@ -154,7 +154,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
               <div key={p.key} className={cn("rounded-lg border bg-card p-3.5", highlightProgram === p.key ? "border-primary ring-2 ring-primary/40" : "border-foreground/10")}>
                 <div className="flex flex-wrap items-baseline justify-between gap-2 mb-1">
                   <p className="text-sm font-semibold leading-snug">{p.title}</p>
-                  <span className="text-sm font-bold tabular-nums text-primary">{phpCompact(p.combinedCost)}</span>
+                  <span className="text-sm font-bold tabular-nums text-primary ml-auto text-right">{phpCompact(p.combinedCost)}</span>
                 </div>
                 <p className="text-[11px] text-muted-foreground mb-2.5">Led by {p.leadAgency} · {p.participants.join(" · ")}</p>
                 <div className="space-y-1">

@@ -74,6 +74,18 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
     }));
   })();
 
+  // Continuing-cost share of the ask, first to last plan year (drives the insight copy).
+  const ccTrajectory = byYearColumns.map((col) => {
+    const total = col.segments.reduce((s2, x) => s2 + x.value, 0);
+    const cc = col.segments.find((x) => x.key === "continuingCosts")?.value ?? 0;
+    return { year: col.label, share: total ? cc / total : 0 };
+  }).filter((x) => x.share > 0);
+  const ccFirst = ccTrajectory[0];
+  const ccLast = ccTrajectory[ccTrajectory.length - 1];
+  const ccGrows = ccFirst && ccLast && ccLast.share > ccFirst.share;
+  const ccFirstLabel = ccFirst ? `FY${ccFirst.year} ${Math.round(ccFirst.share * 100)}%` : "year to year";
+  const ccLastLabel = ccLast ? `FY${ccLast.year} ${Math.round(ccLast.share * 100)}%` : "year to year";
+
   const fundSegments = (() => {
     const map = new Map<string, number>();
     lines.forEach((l) => map.set(l.fundSource, (map.get(l.fundSource) ?? 0) + l.total));
@@ -110,7 +122,7 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
           <Kpi
             label="Projects with PAP code"
             value={papStats.all ? `${papStats.withPap} of ${papStats.all}` : "–"}
-            sub={`${papStats.all ? Math.round((papStats.withPap / papStats.all) * 100) : 0}% traceable to the NEP / GAA (mock)`}
+            sub={`${papStats.all ? Math.round((papStats.withPap / papStats.all) * 100) : 0}% traceable to the NEP / GAA\u00A0(mock)`}
             icon={Landmark}
           />
         ) : (
@@ -132,8 +144,9 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
           <SwatchLegend className="mt-4" items={BUCKETS.map((b) => ({ key: b.key, label: b.label, color: b.color }))} />
           <InsightBox className="mt-4">
             <strong>Continuing costs are the quiet story.</strong> New systems become yearly subscriptions,
-            hosting and licences: the future MOOE floor of every approved project. Watch the Continuing Costs
-            share of each year grow in the stacked bars above.
+            hosting and licences: the future MOOE floor of every approved project. In the bars above, the
+            Continuing Costs share of the ask moves from {ccFirstLabel} to {ccLastLabel}{" "}
+            {ccGrows ? "as projects complete and their running costs land." : "with project completion schedules; the final plan year carries the heaviest running-cost load."}
           </InsightBox>
         </Panel>
         <Panel title="Fund sources" sub="B.2 across the selection" icon={PieChart}>
@@ -206,7 +219,7 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
                 <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Y2</th>
                 <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Y3</th>
                 <th scope="col" className="border-b px-3 py-2 text-right font-semibold">3-yr total</th>
-                <th scope="col" className="border-b px-3 py-2 text-right font-semibold">CO share</th>
+                <th scope="col" className="border-b px-3 py-2 text-right font-semibold whitespace-nowrap">CO share</th>
                 <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Status</th>
               </tr>
             </thead>
@@ -312,7 +325,7 @@ function PostureGrid({ corpus, profiles, mode }: { corpus: ViewProps["corpus"]; 
   const sectors = SECTORS.map((s) => ({ ...s, list: profiles.filter((p) => p.sector === s.key) })).filter((s) => s.list.length > 0);
 
   return (
-    <Panel title="Whole-of-government posture" sub="agencies grouped by PDP sector · one column per ICT domain">
+    <Panel title="Whole-of-government posture" sub="agencies grouped by PDP sector · five posture metrics, from cyber controls to execution">
       <div className="overflow-x-auto rounded-lg border">
         <table className="min-w-full text-xs sm:text-sm border-collapse">
           <thead>
@@ -364,9 +377,11 @@ function PostureGrid({ corpus, profiles, mode }: { corpus: ViewProps["corpus"]; 
       </div>
       <p className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">
         Cyber controls and cloud share come from today&apos;s form. Endpoint exposure needs the Annex 1 asset
-        inventory and obligation rates need a COMPASS link, both proposed: flip the Data mode to see the grid run
-        on today&apos;s form alone. Sectors follow the PDP 2023-2028 chapter structure (mock assignment; a
-        proposed ISSP field).
+        inventory and obligation rates need a COMPASS link, both proposed fields.{" "}
+        {mode === "proposed"
+          ? "Flip the Data mode to see the grid run on today's form alone."
+          : "Flip back to Revised form to see those two columns filled."}{" "}
+        Sectors follow the PDP 2023-2028 chapter structure (mock assignment; a proposed ISSP field).
       </p>
     </Panel>
   );
@@ -418,12 +433,12 @@ function PostureRow({
         )}
       </td>
       <td className="px-3 py-2 text-center">
-        {proposedCols && y25?.obligated && y25?.allotment ? (
-          <RatePill rate={y25.obligated / y25.allotment} />
-        ) : y25 ? (
-          <span className="text-muted-foreground text-[10px]">no FY2025 row</span>
-        ) : (
+        {!proposedCols ? (
           <LockedCell />
+        ) : y25?.obligated && y25?.allotment ? (
+          <RatePill rate={y25.obligated / y25.allotment} />
+        ) : (
+          <span className="text-muted-foreground text-[10px]" title="This agency has no FY2025 execution record">no FY2025 row</span>
         )}
       </td>
     </tr>
@@ -492,10 +507,12 @@ function RankingPanel({ profiles, lines, fy, mode, corpus }: { profiles: CorpusP
         }))}
         format={phpCompact}
       />
-      <p className="text-[11px] text-muted-foreground mt-3">
-        Annotation basis: {fyForRanking ? `FY${fyForRanking} ask` : "3-year plan total ÷ 3"} vs FY2025
-        obligations, the same comparison as the absorptive-capacity table in Money &amp; execution.
-      </p>
+      {mode === "proposed" && bars.some((b) => b.ratio && b.ratio > 2) ? (
+        <p className="text-[11px] text-muted-foreground mt-3">
+          Annotation basis: {fyForRanking ? `FY${fyForRanking} ask` : "3-year plan total ÷ 3"} vs FY2025
+          obligations, the same comparison as the absorptive-capacity table in Money &amp; execution.
+        </p>
+      ) : null}
     </Panel>
   );
 }

@@ -128,7 +128,7 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
             </InsightBox>
           ) : null}
           <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
-            Derived from real Part IV line items. Variance is a prompt to ask before the bid, not a finding after it:
+            Derived from each agency&apos;s Part IV line items. Variance is a prompt to ask before the bid, not a finding after it:
             specs and logistics differ.
           </p>
         </Panel>

@@ -26,7 +26,7 @@ export function PublicShell({
 }) {
   const navCls = (on: boolean) =>
     cn(
-      "px-3 py-1.5 text-sm rounded-md transition-colors",
+      "px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap",
       on ? "text-primary font-medium bg-accent" : "text-muted-foreground hover:text-foreground hover:bg-accent"
     );
 
@@ -50,12 +50,14 @@ export function PublicShell({
               Preview
             </span>
           </Link>
-          <nav className="flex items-center gap-1">
+          <nav className="flex items-center gap-1 shrink-0">
             <Link href="/repository" className={navCls(active === "repository")}>
               Repository
             </Link>
             <Link href="/budget" className={navCls(active === "budget")}>
-              Budget Dashboard
+              {/* Short label on phones: the full label does not fit beside the brand below sm. */}
+              <span className="sm:hidden">Budget</span>
+              <span className="hidden sm:inline">Budget Dashboard</span>
             </Link>
             <Link href="/budget/data-standard" className={cn(navCls(false), "hidden md:block")}>
               Data standard

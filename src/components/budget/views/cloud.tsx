@@ -63,7 +63,7 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
                 value: v,
                 color: STORAGE_COLORS[k] ?? "var(--chart-3)",
               }))}
-              format={(n) => `${n} systems`}
+              format={(n) => `${n} ${n === 1 ? "system" : "systems"}`}
               size={148}
               stackLegend
             />
@@ -94,7 +94,7 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
               value: v,
               color: STORAGE_COLORS[k] ?? "var(--chart-3)",
             }))}
-            format={(n) => `${n} systems`}
+            format={(n) => `${n} ${n === 1 ? "system" : "systems"}`}
             size={148}
             stackLegend
           />

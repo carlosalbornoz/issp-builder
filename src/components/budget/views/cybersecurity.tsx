@@ -86,8 +86,9 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
         </div>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-[10px] text-muted-foreground">
           <span>Columns: Physical · Perimeter · Network · Endpoint · Data · Application · Security ops</span>
-          <span className="inline-flex items-center gap-1"><CellSwatch band="low" /> none</span>
-          <span className="inline-flex items-center gap-1"><CellSwatch band="mid" /> partial</span>
+          <span className="inline-flex items-center gap-1"><CellSwatch band="none" /> none</span>
+          <span className="inline-flex items-center gap-1"><CellSwatch band="low" /> under half</span>
+          <span className="inline-flex items-center gap-1"><CellSwatch band="mid" /> half or more</span>
           <span className="inline-flex items-center gap-1"><CellSwatch band="high" /> full</span>
         </div>
         <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
@@ -206,14 +207,15 @@ function CoverageCell({ share, label, strong }: { share: number; label: string; 
   );
 }
 
-function CellSwatch({ band }: { band: "low" | "mid" | "high" }) {
+function CellSwatch({ band }: { band: "none" | "low" | "mid" | "high" }) {
   return (
     <span
       className={cn(
         "inline-block w-2.5 h-2.5 rounded-sm border",
         band === "high" && "bg-success-bg border-success-border",
         band === "mid" && "bg-warning-bg border-warning-border",
-        band === "low" && "bg-danger-bg border-danger-border"
+        band === "low" && "bg-danger-bg border-danger-border",
+        band === "none" && "bg-muted text-muted-foreground border-foreground/15"
       )}
     />
   );

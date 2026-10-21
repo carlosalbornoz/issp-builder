@@ -10,7 +10,7 @@
  * stories. Zero chart libraries.
  */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Lock } from "lucide-react";
@@ -112,6 +112,13 @@ export function BudgetDashboard() {
     URL.revokeObjectURL(url);
   };
 
+  // Keep the active rail item visible on narrow screens, where the rail scrolls.
+  const railRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const active = railRef.current?.querySelector('[aria-current="page"]');
+    active?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
+  }, [view]);
+
   const railHref = (key: ViewKey) => {
     const next = new URLSearchParams(params.toString());
     next.set("view", key);
@@ -123,7 +130,7 @@ export function BudgetDashboard() {
       {/* ── Sticky view rail + control bar ── */}
       <div className="sticky top-14 z-40 bg-background/95 backdrop-blur-sm border-b">
         <div className="max-w-7xl mx-auto px-6">
-          <nav className="flex gap-1 overflow-x-auto -mx-1 px-1 py-2" aria-label="Dashboard views">
+          <nav ref={railRef} className="flex gap-1 overflow-x-auto -mx-1 px-1 py-2" aria-label="Dashboard views">
             {VIEWS.map((v) => (
               <Link
                 key={v.key}
@@ -239,14 +246,17 @@ export function BudgetDashboard() {
 
           {/* Filters row */}
           <div className="flex flex-wrap items-center gap-2 pb-3">
-            <FilterSelect ariaLabel="Filter by plan cycle" value={cycle} onChange={setCycle} options={[["all", "All cycles"], ...cycles.map((c) => [c, c] as [string, string])]} />
+            <FilterSelect ariaLabel="Filter by plan cycle"
+              className="w-full sm:w-auto" value={cycle} onChange={setCycle} options={[["all", "All cycles"], ...cycles.map((c) => [c, c] as [string, string])]} />
             <FilterSelect
               ariaLabel="Filter by agency type"
+              className="w-full sm:w-auto"
               value={type}
               onChange={setType}
               options={[["all", "All types"], ...(["NGA", "GOCC", "LGU", "OTHER"] as const).map((t) => [t, TYPE_LABELS[t]] as [string, string])]}
             />
-            <FilterSelect ariaLabel="Filter by fund source" value={fund} onChange={setFund} options={[["all", "All fund sources"], ...funds.map((f) => [f, f] as [string, string])]} />
+            <FilterSelect ariaLabel="Filter by fund source"
+              className="w-full sm:w-auto" value={fund} onChange={setFund} options={[["all", "All fund sources"], ...funds.map((f) => [f, f] as [string, string])]} />
             {agencySlug && (
               <button
                 onClick={() => setParam("agency", null)}
@@ -256,7 +266,7 @@ export function BudgetDashboard() {
                 {agencies.find((a) => a.slug === agencySlug)?.acronym ?? agencySlug} ✕
               </button>
             )}
-            <span className="text-xs text-muted-foreground ml-auto">
+            <span className="text-xs text-muted-foreground ml-auto hidden md:inline">
               {lineCount} line items · {phpCompact(lineTotal)} {fyLabel}
             </span>
             <Link

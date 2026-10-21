@@ -6,6 +6,7 @@
  * (Part II checklists and inventory, all today's form).
  */
 
+import Link from "next/link";
 import { MonitorSmartphone } from "lucide-react";
 import { BarList, Donut } from "@/components/dataviz/charts";
 import { SECTOR_SHORT } from "@/lib/repository/corpus";
@@ -58,6 +59,7 @@ export function ServicesView({ profiles }: ViewProps) {
           />
         </Panel>
 
+        <div className="space-y-4">
         <Panel title="How frontline services are reached" sub="Part II-C access field · today's form">
           <Donut
             segments={[...accessMix.entries()].map(([k, v]) => ({
@@ -66,7 +68,7 @@ export function ServicesView({ profiles }: ViewProps) {
               value: v,
               color: ACCESS_COLORS[k] ?? "var(--chart-3)",
             }))}
-            format={(n) => `${n} systems`}
+            format={(n) => `${n} ${n === 1 ? "system" : "systems"}`}
             size={148}
             stackLegend
           />
@@ -76,6 +78,27 @@ export function ServicesView({ profiles }: ViewProps) {
             and per sector.
           </InsightBox>
         </Panel>
+
+        <Panel title="PNPKI certificate adoption" sub="Part II eGov checklist · today's form">
+          <div className="space-y-1.5 text-xs">
+            {profiles
+              .filter((p) => p.egp.pnpkiAdoption !== undefined)
+              .sort((x, y) => (y.egp.pnpkiAdoption ?? 0) - (x.egp.pnpkiAdoption ?? 0))
+              .map((p) => (
+                <div key={p.slug} className="flex items-baseline justify-between gap-3">
+                  <Link href={`/repository/${p.slug}`} className="hover:underline">
+                    {p.acronym}
+                  </Link>
+                  <span className="tabular-nums font-semibold">{p.egp.pnpkiAdoption}%</span>
+                </div>
+              ))}
+            <p className="text-muted-foreground leading-relaxed pt-1">
+              Share of the agency&apos;s officers and staff with active PNPKI certificates; identity is the
+              prerequisite for every other eGov service.
+            </p>
+          </div>
+        </Panel>
+        </div>
       </div>
     </div>
   );

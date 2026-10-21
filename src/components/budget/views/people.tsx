@@ -20,6 +20,7 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
   const scope = (fy === "all" ? lines : lines.filter((l) => l.year === fy)).filter((l) => slugs.has(l.slug));
   const peopleLines = scope.filter((l) => PEOPLE.categoryIds.includes(l.categoryId));
   const trainingLines = peopleLines.filter((l) => l.categoryId === "mooe-ict-training");
+  const trainingTotal = (slug: string) => trainingLines.filter((l) => l.slug === slug).reduce((s, l) => s + l.total, 0);
 
   const totalIt = profiles.reduce((s, p) => s + p.humanCapital.totalIt, 0);
   const totalStaff = profiles.reduce((s, p) => s + p.humanCapital.plantilla + p.humanCapital.contractual + p.humanCapital.outsourced, 0);
@@ -42,6 +43,7 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
       </div>
 
       <div className="grid lg:grid-cols-2 lg:items-start gap-4">
+        <div className="space-y-4">
         <Panel title="ICT staff per agency" sub="Part I human capital · today's form">
           <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
           <BarList
@@ -61,11 +63,13 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
             format={(n) => n.toLocaleString("en-PH")}
           />
         </Panel>
-
+        </div>
+        <div className="space-y-4">
         <Panel title="Training in the plans" sub="ICT training line items · today's form">
           <div className="space-y-1.5">
             {[...profiles]
               .filter((p) => trainingLines.some((l) => l.slug === p.slug))
+              .sort((x, y) => trainingTotal(y.slug) - trainingTotal(x.slug))
               .map((p) => {
                 const total = trainingLines.filter((l) => l.slug === p.slug).reduce((s, l) => s + l.total, 0);
                 const items = trainingLines.filter((l) => l.slug === p.slug);
@@ -88,6 +92,26 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
             (who runs the systems after the contractors leave) is what the training lines answer.
           </p>
         </Panel>
+
+        <Panel title="Workforce mix" sub="Part I human capital · today's form">
+          <div className="space-y-1.5 text-xs">
+            {([
+              ["Plantilla", profiles.reduce((s2, p) => s2 + p.humanCapital.plantilla, 0)],
+              ["Contractual", profiles.reduce((s2, p) => s2 + p.humanCapital.contractual, 0)],
+              ["Outsourced", profiles.reduce((s2, p) => s2 + p.humanCapital.outsourced, 0)],
+            ] as [string, number][]).map(([label, value]) => (
+              <div key={label} className="flex items-baseline justify-between gap-3">
+                <span>{label}</span>
+                <span className="tabular-nums font-semibold">{value.toLocaleString("en-PH")} · {pct(value, totalStaff)}</span>
+              </div>
+            ))}
+            <p className="text-muted-foreground leading-relaxed pt-1">
+              Employment status of all staff (IT and non-IT) across the selection; unfilled plantilla posts sit
+              on top of this base.
+            </p>
+          </div>
+        </Panel>
+        </div>
       </div>
     </div>
   );

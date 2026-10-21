@@ -274,6 +274,16 @@ async function expectText(p, text, label) {
   await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectNoOverflow(p, "budget mobile overview");
+  // Shell header: the brand and the nav must never overlap (round-22 vision finding).
+  const headerOverlap = await p.evaluate(() => {
+    const header = document.querySelector("header");
+    const brand = header.querySelector("a");
+    const nav = header.querySelector("nav");
+    const a = brand.getBoundingClientRect();
+    const b = nav.getBoundingClientRect();
+    return a.right > b.left + 1 ? Math.round(a.right - b.left) : 0;
+  });
+  (headerOverlap === 0 ? ok : fail)(`budget mobile shell header: ${headerOverlap === 0 ? "brand and nav clear" : `overlap ${headerOverlap}px`}`);
   await p.screenshot({ path: path.join(OUT_DIR, "budget-mobile.png"), fullPage: true });
   ok("shot budget-mobile.png");
 
