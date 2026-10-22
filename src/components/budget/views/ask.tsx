@@ -58,12 +58,18 @@ export function AskView({ profiles, lines, fy, mode, fyLabel }: ViewProps & { fy
     }));
   })();
 
-  // Continuing-cost share of the ask, first to last plan year (drives the insight copy).
-  const ccTrajectory = byYearColumns.map((col) => {
-    const total = col.segments.reduce((s2, x) => s2 + x.value, 0);
-    const cc = col.segments.find((x) => x.key === "continuingCosts")?.value ?? 0;
-    return { year: col.label, share: total ? cc / total : 0 };
-  }).filter((x) => x.share > 0);
+  // Continuing-cost share of the ask, first to last full plan year (drives the
+  // insight copy). Tail years (a lone plan's remainder, under a tenth of the
+  // peak year's total) are dropped so the endpoint matches the Home outlook tile.
+  const ccTrajectory = (() => {
+    const cols = byYearColumns.map((col) => {
+      const total = col.segments.reduce((s2, x) => s2 + x.value, 0);
+      const cc = col.segments.find((x) => x.key === "continuingCosts")?.value ?? 0;
+      return { year: col.label, share: total ? cc / total : 0, total };
+    }).filter((x) => x.share > 0);
+    const peak = Math.max(0, ...cols.map((x) => x.total));
+    return cols.filter((x) => x.total >= peak * 0.1);
+  })();
   const ccFirst = ccTrajectory[0];
   const ccLast = ccTrajectory[ccTrajectory.length - 1];
 

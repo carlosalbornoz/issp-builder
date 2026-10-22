@@ -288,6 +288,21 @@ try {
     contains: ["By Part IV strategic category", "Part IV B.2"],
     lacks: ["stacked by", "across the selection", "ISSP ask"],
   });
+  {
+    // The continuing-cost insight must end on the last full plan year (FY2029),
+    // the same endpoint as the Home outlook tile, never the FY2030 tail.
+    const p = await open("/budget?view=ask");
+    await p.evaluate(() => {
+      const btn = [...document.querySelectorAll("button")].find((b) => b.textContent?.includes("More insights"));
+      if (btn?.getAttribute("aria-expanded") === "false") btn.click();
+    });
+    await new Promise((r) => setTimeout(r, 350));
+    const sentence = await p.evaluate(
+      () => document.body.innerText.match(/Continuing costs rise from \d+% of the FY\d{4} request to \d+% in FY\d{4}/)?.[0] ?? ""
+    );
+    check(sentence.endsWith("to 13% in FY2029"), `Investment insight ends at FY2029 like the Home tile (got "${sentence}")`);
+    await p.close();
+  }
   await formal("/budget?view=ask&mode=current", "Investment summary", { contains: ["Baseline and three targets set"] });
   await formal("/budget?view=buys", "Expenditure by category", { contains: ["DICT expense categories"], lacks: ["Where the money goes"] });
 
