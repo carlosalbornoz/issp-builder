@@ -170,6 +170,10 @@ async function openInsights(p) {
   await openInsights(p);
   await expectText(p, "Auto-drafted · illustrative", "overview insights panel label");
   await expectText(p, "Continuing costs move from", "overview insights derive from live data");
+  // Tall viewport: the panel opens below the navy band, so a 900px frame cuts it off.
+  await p.setViewport({ width: 1440, height: 1500 });
+  await p.evaluate(() => document.getElementById("view-insights")?.scrollIntoView({ block: "center", behavior: "instant" }));
+  await new Promise((r) => setTimeout(r, 400));
   await p.screenshot({ path: path.join(OUT_DIR, "budget-insights-open.png"), fullPage: false });
   ok("shot budget-insights-open.png (viewport)");
 

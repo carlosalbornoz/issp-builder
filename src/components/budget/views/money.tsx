@@ -365,8 +365,8 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
       </div>
       <p className="text-[11px] text-muted-foreground mt-2">
         Q3 2026 · <strong className="text-foreground tabular-nums">{phpCompact(awarded)}</strong> awarded ·{" "}
-        <strong className="text-foreground tabular-nums">{phpCompact(earlier)}</strong> pre-contract, in the shape
-        of PhilGEPS data an agency-side update loop would feed.
+        <strong className="text-foreground tabular-nums">{phpCompact(earlier)}</strong> pre-contract · status in
+        the shape of PhilGEPS data.
       </p>
     </div>
   );
