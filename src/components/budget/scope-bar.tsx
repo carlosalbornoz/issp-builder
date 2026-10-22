@@ -207,6 +207,9 @@ function ScopeSheet(props: ScopeBarProps & { count: number }) {
                 <SecondaryFilters {...props} />
               </div>
             </div>
+            <p data-sheet-summary className="text-xs text-muted-foreground truncate">
+              {props.summary}
+            </p>
             <button
               type="button"
               onClick={() => setOpen(false)}

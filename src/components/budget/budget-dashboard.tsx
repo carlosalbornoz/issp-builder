@@ -175,7 +175,7 @@ export function BudgetDashboard() {
           onClearAgency={() => setParam("agency", null)}
           mode={dataMode}
           onMode={(m) => setParam("mode", m === "current" ? "current" : null)}
-          summary={`${lineCount} line items · ${phpCompact(lineTotal)} ${fyLabel}`}
+          summary={corpus ? `${lineCount} line items · ${phpCompact(lineTotal)} ${fyLabel}` : "Loading the corpus"}
         />
       }
     >

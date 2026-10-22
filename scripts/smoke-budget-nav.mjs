@@ -471,6 +471,51 @@ try {
     check(minGap >= 15, `sidebar groups separated by clear space (min gap ${minGap}px) and the list fits 900px`);
     await p.close();
   }
+
+  console.log("\n[5i] Feedback: sheet summary, insights in view, scoped demo link");
+  {
+    const p = await open("/budget", 390, 844);
+    await p.click('button[aria-label^="Scope"]');
+    await new Promise((r) => setTimeout(r, 500));
+    const sheetSummary = await p.evaluate(() => {
+      const el = document.querySelector("[data-sheet-summary]");
+      const dlg = document.querySelector("[role=dialog]");
+      return { present: !!el && !!dlg?.contains(el), text: el?.textContent?.trim() ?? "" };
+    });
+    check(sheetSummary.present && /line items/.test(sheetSummary.text), `scope sheet shows the live summary (${sheetSummary.text})`);
+    await p.keyboard.press("Escape");
+    await new Promise((r) => setTimeout(r, 300));
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=ask");
+    await p.evaluate(() => {
+      const b = [...document.querySelectorAll("button")].find((x) => x.textContent?.includes("More insights"));
+      if (b?.getAttribute("aria-expanded") === "false") b.click();
+    });
+    await new Promise((r) => setTimeout(r, 600));
+    const vis = await p.evaluate(() => {
+      const el = document.getElementById("view-insights");
+      if (!el) return { exists: false };
+      const r = el.getBoundingClientRect();
+      return { exists: true, hidden: el.hidden, inView: r.top < innerHeight && r.bottom > 0 };
+    });
+    check(vis.exists && !vis.hidden && vis.inView, `insights panel is mounted, open and in view (${JSON.stringify(vis)})`);
+    await p.close();
+    const q = await open("/budget?view=ask");
+    const mounted = await q.evaluate(() => {
+      const el = document.getElementById("view-insights");
+      return el !== null && el.hidden;
+    });
+    check(mounted, "insights panel stays mounted and hidden when closed");
+    await q.close();
+  }
+  {
+    const p = await open("/budget/data-standard?sector=agricultureFood");
+    const href = await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("Open the current-form dashboard"))?.getAttribute("href"));
+    check(href === "/budget?view=posture&mode=current&sector=agricultureFood", `demo link carries the scope (${href})`);
+    await p.close();
+  }
   {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");

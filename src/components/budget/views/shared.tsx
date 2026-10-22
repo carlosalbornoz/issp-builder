@@ -8,7 +8,7 @@
  * ten view files do not each redefine them.
  */
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ChevronDown, Info, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CorpusLineItem, CorpusProfile, RepositoryCorpus } from "@/lib/repository/corpus-types";
@@ -122,13 +122,21 @@ export function Kpi({
  */
 export function InsightsButton({ items }: { items: React.ReactNode[] }) {
   const [open, setOpen] = useState(false);
+  const panelRef = useRef<HTMLElement>(null);
   const visible = items.filter(Boolean);
   if (visible.length === 0) return null;
+  // The panel stays mounted (hidden) so aria-controls always resolves, and it
+  // scrolls into view on open so the click always shows its result.
+  const toggle = () =>
+    setOpen((v) => {
+      if (!v) requestAnimationFrame(() => panelRef.current?.scrollIntoView({ block: "nearest" }));
+      return !v;
+    });
   return (
     <div className="min-w-0 w-full">
       <div className="flex justify-end">
         <button
-          onClick={() => setOpen((v) => !v)}
+          onClick={toggle}
           aria-expanded={open}
           aria-controls="view-insights"
           className={cn(
@@ -141,8 +149,7 @@ export function InsightsButton({ items }: { items: React.ReactNode[] }) {
           <span aria-hidden className="select-none">✨</span> More insights <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", open && "rotate-180")} />
         </button>
       </div>
-      {open ? (
-        <section id="view-insights" className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5 mt-3">
+      <section ref={panelRef} id="view-insights" hidden={!open} className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5 mt-3">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3">
             <h3 className="text-sm font-semibold">Insights</h3>
             <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
@@ -157,8 +164,7 @@ export function InsightsButton({ items }: { items: React.ReactNode[] }) {
               </li>
             ))}
           </ul>
-        </section>
-      ) : null}
+      </section>
     </div>
   );
 }

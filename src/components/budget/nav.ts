@@ -127,7 +127,7 @@ export function withScope(href: string, params: URLSearchParams, keys: readonly 
     if (v) next.set(k, v);
   });
   const qs = next.toString();
-  return qs ? `${href}?${qs}` : href;
+  return qs ? `${href}${href.includes("?") ? "&" : "?"}${qs}` : href;
 }
 
 /**

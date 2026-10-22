@@ -7,7 +7,8 @@
  */
 
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { CircleCheck, Plus } from "lucide-react";
 import { ScopedBudgetFrame } from "@/components/budget/budget-frame";
 import { CAPABILITY_MATRIX } from "@/lib/repository/data-standard";
@@ -80,6 +81,26 @@ const PUBLISHING_RULES = [
   ["Status is explicit.", "Draft, submitted and endorsed plans are labelled. Dashboards count endorsed plans by default."],
 ] as const;
 
+
+/** The demo CTA keeps the sector and agency scope, with current form forced. */
+function CurrentFormDemoLink() {
+  const params = useSearchParams();
+  const next = new URLSearchParams();
+  next.set("view", "posture");
+  next.set("mode", "current");
+  ["sector", "agency"].forEach((k) => {
+    const v = params.get(k);
+    if (v) next.set(k, v);
+  });
+  return (
+    <Link
+      href={`/budget?${next.toString()}`}
+      className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors"
+    >
+      Open the current-form dashboard →
+    </Link>
+  );
+}
 
 export default function DataStandardPage() {
   return (
@@ -253,12 +274,18 @@ export default function DataStandardPage() {
                 Current-form capability and proposed refinements
               </h2>
             </div>
-            <Link
-              href="/budget?view=posture&mode=current"
-              className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors"
+            <Suspense
+              fallback={
+                <Link
+                  href="/budget?view=posture&mode=current"
+                  className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors"
+                >
+                  Open the current-form dashboard →
+                </Link>
+              }
             >
-              Open the current-form dashboard →
-            </Link>
+              <CurrentFormDemoLink />
+            </Suspense>
           </div>
           <div className="overflow-x-auto rounded-lg border">
             <table className="min-w-full text-xs sm:text-sm border-collapse">
