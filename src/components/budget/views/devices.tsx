@@ -106,7 +106,7 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
       <div className="grid lg:grid-cols-2 lg:items-start gap-4">
         <Panel
           title="Device spend by category"
-          sub={`Part IV line items rolled up from the 30 DICT categories · today's form · ${phpCompact(devicesTotal)} ${fy === "all" ? "across all plan years" : `in FY${fy}`}`}
+          sub={`Part IV line items rolled up from the 30 DICT categories · today's form · ${phpCompact(devicesTotal)} ${fy === "all" ? "across all plan\u00a0years" : `in FY${fy}`}`}
         >
           <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
           <BarList
