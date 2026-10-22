@@ -5,11 +5,18 @@
  * whole-of-government ICT plan; the area cards below open each screen.
  */
 
-import { phpCompact } from "@/lib/utils";
+import Link from "next/link";
+import { Lock } from "lucide-react";
+import { cn, phpCompact } from "@/lib/utils";
+import { EXTERNAL_ITEMS, SCREENS, screenHref, type ScreenKey } from "../nav";
+import { homeHeadline, type Headline } from "./headlines";
 import { ViewProps } from "./shared";
-import { DomainsView } from "./domains";
 
-export function HomeView({ corpus, mode }: ViewProps) {
+/** Home's areas, in reading order: the picture, the money, the detail, the ask. */
+const HOME_CARDS: (ScreenKey | "dataStandard")[] = ["posture", "sectors", "domains", "ask", "buys", "money", "absorptive", "agencies", "dataStandard"];
+
+export function HomeView({ params, fyLabel, ...props }: ViewProps & { params: URLSearchParams; fyLabel: string }) {
+  const { corpus, mode } = props;
   return (
     <div className="space-y-6">
       <div>
@@ -21,8 +28,53 @@ export function HomeView({ corpus, mode }: ViewProps) {
         </p>
       </div>
       <WhyNowBand corpus={corpus} mode={mode} />
-      <DomainsView />
+      <section>
+        <h2 className="text-sm font-semibold mb-3">Select an area to review</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {HOME_CARDS.map((key) =>
+            key === "dataStandard" ? (
+              <TaskCard key={key} href={EXTERNAL_ITEMS.dataStandard.href} title={EXTERNAL_ITEMS.dataStandard.label} summary={EXTERNAL_ITEMS.dataStandard.summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} />
+            ) : (
+              <TaskCard key={key} href={screenHref(key, params)} title={SCREENS[key].label} summary={SCREENS[key].summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} />
+            )
+          )}
+        </div>
+      </section>
     </div>
+  );
+}
+
+/**
+ * One area of the dashboard: its name, what it covers, and one live figure.
+ * The whole card is the link. A figure that needs a proposed field shows the
+ * lock in current-form mode, the same contract as ProposedOnly panels.
+ */
+export function TaskCard({ href, title, summary, headline, mode }: { href: string; title: string; summary: string; headline: Headline; mode: ViewProps["mode"] }) {
+  const locked = headline.proposed && mode === "current";
+  return (
+    <Link
+      href={href}
+      data-card
+      data-locked={locked ? "" : undefined}
+      className="group flex flex-col rounded-xl ring-1 ring-foreground/10 bg-card p-4 hover:bg-accent/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+    >
+      <span className="text-sm font-semibold group-hover:text-primary transition-colors">{title}</span>
+      <span className="text-xs text-muted-foreground leading-snug mt-1">{summary}</span>
+      <span className="mt-auto pt-3 flex items-baseline gap-2 min-w-0">
+        {locked ? (
+          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground" title="Requires the revised ISSP form">
+            <Lock className="w-3.5 h-3.5" aria-hidden /> Requires the revised form
+          </span>
+        ) : (
+          <>
+            <span className="text-lg font-bold tabular-nums leading-none shrink-0">{headline.value}</span>
+            <span className={cn("text-[11px] text-muted-foreground truncate")} title={headline.detail}>
+              {headline.detail}
+            </span>
+          </>
+        )}
+      </span>
+    </Link>
   );
 }
 

@@ -157,6 +157,7 @@ async function openInsights(p) {
   await expectText(p, "Planned ICT, whole of government", "whole-of-gov why-now tile");
   // Known-totals pin: the corpus grand total (4,823,520,000 → ₱4.82B) must reach the page.
   await expectText(p, "₱4.82B", "budget grand total matches corpus");
+  await expectText(p, "Select an area to review", "home area cards");
   await expectNoOverflow(p, "budget home");
   await p.screenshot({ path: path.join(OUT_DIR, "budget.png"), fullPage: true });
   ok("shot budget.png");
@@ -168,6 +169,20 @@ async function openInsights(p) {
   await expectNoOverflow(p, "budget posture");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-posture.png"), fullPage: true });
   ok("shot budget-posture.png");
+
+  await p.goto(`${BASE}/budget?view=sectors`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Agriculture and food", "sector comparison rows");
+  await expectNoOverflow(p, "budget sectors");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-sectors.png"), fullPage: true });
+  ok("shot budget-sectors.png");
+
+  await p.goto(`${BASE}/budget?view=domains`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "ICT workforce", "domains hub cards");
+  await expectNoOverflow(p, "budget domains");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-domains.png"), fullPage: true });
+  ok("shot budget-domains.png");
 
   await p.goto(`${BASE}/budget?view=agencies`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
@@ -378,12 +393,13 @@ async function openInsights(p) {
   await p.close();
 
   // Dashboard frame: the sidebar (desktop) or the drawer (phone) is the one
-  // data-standard entry point; the header drops its chip there.
+  // data-standard navigation entry; the header drops its chip there. Home's
+  // area card is content, not navigation, so it is excluded.
   const q = await newPage();
   await q.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(q);
   const desktop = await q.evaluate(() =>
-    [...document.querySelectorAll("a[href='/budget/data-standard']")].filter((a) => a.getBoundingClientRect().width > 0).map((a) => (a.closest("header") ? "header" : a.closest('nav[aria-label="Dashboard"]') ? "sidebar" : "other"))
+    [...document.querySelectorAll("a[href='/budget/data-standard']:not([data-card])")].filter((a) => a.getBoundingClientRect().width > 0).map((a) => (a.closest("header") ? "header" : a.closest('nav[aria-label="Dashboard"]') ? "sidebar" : "other"))
   );
   (desktop.length === 1 && desktop[0] === "sidebar" ? ok : fail)(`desktop /budget: one data-standard link, in the sidebar (${desktop.join(",")})`);
   await q.close();
@@ -391,7 +407,7 @@ async function openInsights(p) {
   const m = await newPage(390, 844);
   await m.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(m);
-  const closed = await m.evaluate(() => [...document.querySelectorAll("a[href='/budget/data-standard']")].filter((a) => a.getBoundingClientRect().width > 0).length);
+  const closed = await m.evaluate(() => [...document.querySelectorAll("a[href='/budget/data-standard']:not([data-card])")].filter((a) => a.getBoundingClientRect().width > 0).length);
   (closed === 0 ? ok : fail)(`phone /budget: no data-standard link outside the drawer (${closed})`);
   await m.evaluate(() => document.querySelector('button[aria-label="Open dashboard menu"]')?.click());
   await new Promise((r) => setTimeout(r, 500));

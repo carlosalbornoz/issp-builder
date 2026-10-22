@@ -203,6 +203,55 @@ try {
     check(tall <= 64, `390: sticky bar stays one row (${tall}px)`);
     await p.close();
   }
+
+  console.log("\n[4] Home cards, ICT domains hub, Sector comparison");
+  {
+    const p = await open("/budget");
+    const home = await p.evaluate(() => ({
+      cards: document.querySelectorAll("a[data-card]").length,
+      askCard: document.querySelector('a[data-card][href*="view=ask"]')?.textContent ?? "",
+      heading: [...document.querySelectorAll("h2")].some((h) => h.textContent?.trim() === "Select an area to review"),
+      locked: document.querySelectorAll("a[data-card][data-locked]").length,
+    }));
+    check(home.heading, "Home heading: Select an area to review");
+    check(home.cards === 9, `Home shows 9 area cards (${home.cards})`);
+    check(home.askCard.includes("Investment summary") && home.askCard.includes("₱4.82B"), `Investment summary card carries ₱4.82B (${home.askCard})`);
+    check(home.locked === 0, "Revised form: no locked cards");
+    await p.close();
+  }
+  {
+    const p = await open("/budget?mode=current");
+    const locked = await p.evaluate(() => [...document.querySelectorAll("a[data-card][data-locked]")].map((a) => a.getAttribute("href")));
+    check(locked.length === 2 && locked.some((h) => h.includes("view=money")) && locked.some((h) => h.includes("view=absorptive")), `Current form: Plan to obligation and Absorptive capacity cards lock (${locked.join(" ")})`);
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=sectors");
+    check(await has(p, "Agriculture and food"), "Sector comparison lists Agriculture and food");
+    await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("Agriculture and food") && a.getAttribute("href")?.includes("sector=agricultureFood"))?.click());
+    await p.waitForFunction(() => location.search.includes("view=posture"), { timeout: 15000 }).catch(() => {});
+    const qs = await p.evaluate(() => location.search);
+    check(qs.includes("view=posture") && qs.includes("sector=agricultureFood"), `sector row opens the posture grid for that sector (${qs})`);
+    await new Promise((r) => setTimeout(r, 600));
+    check(await has(p, "PDP Ch. 5"), "posture grid shows the sector group");
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=domains");
+    const cards = await p.evaluate(() => [...document.querySelectorAll("a[data-card]")].map((a) => ({ href: a.getAttribute("href"), text: a.textContent ?? "" })));
+    check(cards.length === 8, `ICT domains hub shows 8 cards (${cards.length})`);
+    const cyberCard = cards.find((c) => c.href?.includes("view=cybersecurity"))?.text ?? "";
+    const devicesCard = cards.find((c) => c.href?.includes("view=devices"))?.text ?? "";
+    await p.close();
+    const cyber = await open("/budget?view=cybersecurity");
+    const avg = (await cyber.evaluate(() => document.body.innerText.match(/Selection average: (\d+%)/)?.[1])) ?? "?";
+    await cyber.close();
+    check(cyberCard.includes(avg), `Cybersecurity card matches the view's selection average ${avg} (${cyberCard})`);
+    const dev = await open("/budget?view=devices");
+    const devTotal = (await dev.evaluate(() => document.body.innerText.match(/(₱[\d.]+[KMB]) across all plan/)?.[1])) ?? "?";
+    await dev.close();
+    check(devicesCard.includes(devTotal), `Devices card matches the view's device spend ${devTotal} (${devicesCard})`);
+  }
 } finally {
   await browser.close();
 }

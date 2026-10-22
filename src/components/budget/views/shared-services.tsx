@@ -11,6 +11,7 @@ import Link from "next/link";
 import { Info, Layers3, ShieldQuestion } from "lucide-react";
 import { BarList } from "@/components/dataviz/charts";
 import { phpCompact } from "@/lib/utils";
+import type { CorpusProfile } from "@/lib/repository/corpus-types";
 import { Panel, ViewHeader, ViewProps } from "./shared";
 import { cn } from "@/lib/utils";
 
@@ -24,9 +25,9 @@ const DUP_CLUSTERS = [
 
 const ALIGNMENT_TAGS = ["E-Government Master Plan", "National Cybersecurity Plan", "Public Investment Program", "Program Convergence Budgeting"];
 
-export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewProps & { highlightProgram: string | null }) {
-  // Duplication watch: group proposed systems (III-D) across agencies by cluster.
-  const dupGroups = DUP_CLUSTERS.map((cluster) => {
+/** Duplication watch: proposed systems (III-D) grouped by cluster across two or more agencies. */
+export function duplicationGroups(profiles: CorpusProfile[]) {
+  return DUP_CLUSTERS.map((cluster) => {
     const members: { acronym: string; slug: string; system: string; fundingProject?: string; cost: number }[] = [];
     profiles.forEach((a) => {
       a.proposedSystems.forEach((s) => {
@@ -47,6 +48,10 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
   })
     .filter((g) => g.agencyCount >= 2)
     .sort((a, b) => b.cost - a.cost || b.agencyCount - a.agencyCount);
+}
+
+export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewProps & { highlightProgram: string | null }) {
+  const dupGroups = duplicationGroups(profiles);
 
   // Alignment share: share of project cost tagged to each national plan (+ untagged).
   const alignment = (() => {

@@ -26,6 +26,7 @@ import { PostureView } from "./views/posture";
 import { AskView } from "./views/ask";
 import { BuysView } from "./views/buys";
 import { DomainsView } from "./views/domains";
+import { SectorsView } from "./views/sectors";
 import { AgenciesView } from "./views/agencies";
 import { AbsorptiveView } from "./views/absorptive";
 import { CybersecurityView } from "./views/cybersecurity";
@@ -178,15 +179,17 @@ export function BudgetDashboard() {
         ) : (
           <div className="space-y-6">
             {view === "home" ? (
-              <HomeView {...viewProps} />
-            ) : view === "posture" || view === "sectors" ? (
+              <HomeView {...viewProps} params={params} fyLabel={fyLabel} />
+            ) : view === "posture" ? (
               <PostureView {...viewProps} />
+            ) : view === "sectors" ? (
+              <SectorsView {...viewProps} params={params} />
             ) : view === "ask" ? (
               <AskView {...viewProps} fyLabel={fyLabel} />
             ) : view === "buys" ? (
               <BuysView {...viewProps} />
             ) : view === "domains" ? (
-              <DomainsView />
+              <DomainsView {...viewProps} params={params} />
             ) : view === "agencies" ? (
               <AgenciesView {...viewProps} fund={fund} exportCsv={exportCsv} />
             ) : view === "absorptive" ? (
