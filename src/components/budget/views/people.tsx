@@ -48,7 +48,7 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
         <Kpi label="Capability spending" value={phpCompact(peopleLines.reduce((s, l) => s + l.total, 0))} sub={`training and professional services${fy === "all" ? "" : `, FY${fy}`}`} />
       </div>
 
-      <div className="grid lg:grid-cols-2 lg:items-start gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-4">
         <div className="space-y-4">
         <Panel title="ICT staff per agency" sub="Part I human capital">
           <TodayBadge>Current form · no new fields required</TodayBadge>

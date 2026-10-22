@@ -133,7 +133,7 @@ export function ProjectTrace() {
                   </p>
                 </section>
 
-                <div className="grid lg:grid-cols-3 gap-4 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
                   {/* ── Timeline ── */}
                   <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5 lg:col-span-2">
                     <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-4">

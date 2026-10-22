@@ -15,7 +15,7 @@ export function DomainsView({ params, ...props }: ViewProps & { params: URLSearc
   return (
     <div className="space-y-6">
       <ViewHeader title={SCREENS.domains.label} lede={SCREENS.domains.summary} />
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {DOMAIN_KEYS.map((key) => (
           <TaskCard key={key} href={screenHref(key, params)} title={SCREENS[key].label} summary={SCREENS[key].summary} headline={domainHeadline(key, props)} mode={props.mode} />
         ))}

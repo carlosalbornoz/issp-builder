@@ -48,7 +48,7 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
         ]}
       />
 
-      <div className="grid lg:grid-cols-3 lg:items-start gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 lg:items-start gap-4">
         <div className="space-y-4">
           <Panel title="Connectivity spending by category" sub="Part IV, grouped from the 30 DICT categories">
             <TodayBadge>Current form · no new fields required</TodayBadge>

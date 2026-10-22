@@ -29,7 +29,7 @@ export function HomeView({ params, fyLabel, ...props }: ViewProps & { params: UR
       <WhyNowBand corpus={corpus} mode={mode} />
       <section>
         <h2 className="text-sm font-semibold mb-3">Select an area to review</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {HOME_CARDS.map((key) =>
             key === "dataStandard" ? (
               <TaskCard key={key} href={EXTERNAL_ITEMS.dataStandard.href} title={EXTERNAL_ITEMS.dataStandard.label} summary={EXTERNAL_ITEMS.dataStandard.summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} />
@@ -110,7 +110,7 @@ function WhyNowBand({ corpus, mode }: { corpus: ViewProps["corpus"]; mode: ViewP
         to infrastructure levels. This investment warrants line-item review at the planning stage, in the ISSP,
         before the NEP.
       </p>
-      <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-3 mt-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 mt-5">
         <WhyTile
           label="Planned ICT investment"
           value={phpCompact(corpus.totals.grandTotal)}

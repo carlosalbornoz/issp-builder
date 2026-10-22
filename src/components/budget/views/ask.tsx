@@ -145,7 +145,7 @@ export function AskView({ profiles, lines, fy, mode, fyLabel }: ViewProps & { fy
       </div>
 
       {/* Charts row 1: by year + fund sources */}
-      <div className="grid lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Panel title="Proposed investment by year" sub="By Part IV strategic category" className="lg:col-span-2">
           <StackedColumns columns={byYearColumns} format={phpCompact} />
           <SwatchLegend className="mt-4" items={BUCKETS.map((b) => ({ key: b.key, label: b.label, color: b.color }))} />

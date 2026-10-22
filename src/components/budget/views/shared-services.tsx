@@ -147,7 +147,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
 
       </div>
 
-      <div className="grid lg:grid-cols-2 lg:items-start gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-4">
         <Panel title="Alignment with national plans" sub="Strategic alignment tags · share of project cost" icon={ShieldQuestion}>
           <BarList
             items={[

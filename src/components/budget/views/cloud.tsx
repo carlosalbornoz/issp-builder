@@ -71,10 +71,10 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
         ]}
       />
 
-      <div className="grid lg:grid-cols-2 lg:items-start gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-4">
         <Panel title="Current system hosting" sub="Part II-C inventory storage field" icon={CloudCog}>
           <TodayBadge>Current form · no new fields required</TodayBadge>
-          <div className="grid sm:grid-cols-2 gap-4 mt-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
             <Donut
               segments={storageMix(currentSystems).map(([k, v]) => ({
                 key: k,
@@ -121,7 +121,7 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
       </div>
 
       <Panel title="Hosting and subscription spending" sub="Part IV, grouped from the 30 DICT categories">
-        <div className="grid sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-2">By plan year</p>
             <div className="space-y-1.5">

@@ -102,7 +102,7 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
         </Panel>
       </ProposedOnly>
 
-      <div className="grid lg:grid-cols-2 lg:items-start gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-4">
         <Panel
           title="Device spending by category"
           sub={`Part IV, grouped from the 30 DICT categories · ${phpCompact(devicesTotal)}, ${fy === "all" ? "all plan\u00a0years" : `FY${fy}`}`}

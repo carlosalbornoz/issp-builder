@@ -90,7 +90,7 @@ export function AiView({ corpus, lines, mode }: ViewProps) {
           {scoped.length === 0 ? (
             <p className="text-xs text-muted-foreground">No tagged AI or compute requests in scope.</p>
           ) : (
-            <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <BarList
                 items={[...scoped]
                   .sort((x, y) => y.total - x.total)

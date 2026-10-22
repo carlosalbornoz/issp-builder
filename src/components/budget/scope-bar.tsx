@@ -190,7 +190,7 @@ function ScopeSheet(props: ScopeBarProps & { count: number }) {
             </div>
             <div className="space-y-1.5">
               <p className={groupLabelCls}>Filters</p>
-              <div className="grid sm:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <SecondaryFilters {...props} />
               </div>
             </div>

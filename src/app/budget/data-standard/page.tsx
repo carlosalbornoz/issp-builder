@@ -103,7 +103,7 @@ export default function DataStandardPage() {
         {/* ── Stakeholder questions ── */}
         <section>
           <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-2.5">The questions it must answer</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {STAKEHOLDER_QUESTIONS.map((s) => (
               <div key={s.who} className="rounded-lg ring-1 ring-foreground/10 bg-card p-4 flex flex-col gap-1.5">
                 <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">{s.who}</p>
@@ -215,7 +215,7 @@ export default function DataStandardPage() {
               agency-side portal adds them against the same project keys: one update, every view below refreshes.
             </p>
           </div>
-          <div className="grid sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               {
                 n: "1",

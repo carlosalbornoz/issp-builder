@@ -58,7 +58,7 @@ export function ServicesView({ profiles }: ViewProps) {
         <Kpi label="High PNPKI adoption" value={`${pnpki.filter((p) => (p.egp.pnpkiAdoption ?? 0) > 50).length} of ${profiles.length}`} sub="agencies above 50% certificate adoption" />
       </div>
 
-      <div className="grid lg:grid-cols-3 lg:items-start gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 lg:items-start gap-4">
         <Panel title="eGovPH program adoption" sub="Part II eGov checklist" className="lg:col-span-2">
           <TodayBadge>Current form · no new fields required</TodayBadge>
           <BarList

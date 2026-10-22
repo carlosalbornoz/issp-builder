@@ -159,7 +159,7 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
           <h3 className="text-sm font-semibold">Budget stage by fiscal year</h3>
           <p className="text-xs text-muted-foreground">GAA agencies in scope: {gaa.length}</p>
         </div>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FunnelPanel title="FY2025" pill="Closed" pillCls="bg-success-bg text-success border border-success-border" f={f25} />
           <FunnelPanel title="FY2026" pill="Executing · Q2" pillCls="bg-warning-bg text-warning border border-warning-border" f={f26} />
           <FunnelPanel title="FY2027" pill="NEP in Congress" pillCls="bg-info-bg text-info border border-info-border" f={f27} />

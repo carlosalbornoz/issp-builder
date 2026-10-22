@@ -174,7 +174,7 @@ function AgencyRow({ agency: a, fund }: { agency: CorpusProfile; fund: string })
       {open && (
         <tr className="bg-muted/20">
           <td colSpan={8} className="px-3 py-3">
-            <div className="grid md:grid-cols-2 gap-5 max-w-4xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl">
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">By strategic category</p>
                 <BarList
