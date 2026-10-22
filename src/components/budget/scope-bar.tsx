@@ -252,7 +252,7 @@ function ModeToggle({ mode, onMode, compact, className }: ScopeBarProps & { comp
               ? "Current form: figures from the ISSP form in use today. Each dimmed panel requires one proposed field or link."
               : "Revised form: includes proposed fields with mock data. Select Current form to show only what today's ISSP provides."
           }
-          tabIndex={0}
+          tabIndex={compact ? -1 : 0}
           className="cursor-help inline-flex rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
         >
           <Info className="w-3 h-3 text-muted-foreground/80" aria-hidden />

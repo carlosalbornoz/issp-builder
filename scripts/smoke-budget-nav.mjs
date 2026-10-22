@@ -325,6 +325,18 @@ try {
   await formal("/budget?view=money&mode=current", "Plan to obligation", { contains: ["View a project trace"] });
   await formal("/budget?view=money&sector=energy", "Plan to obligation", { contains: ["No GAA agencies in scope"], lacks: ["bring the loop back"] });
   await formal("/budget?view=absorptive", "Absorptive capacity", { contains: ["FY2027 request", "Request ÷ obligations"], lacks: ["Can each agency spend", "Steepest step"] });
+  {
+    // Compact data mode: the info icon is sr-only on phones, so it must not be
+    // a tab stop there; at full width it stays reachable by keyboard.
+    const p = await open("/budget", 390, 844);
+    const phone = await p.evaluate(() => document.querySelector('[data-scope-bar="compact"] span[title^="Current form:"], [data-scope-bar="compact"] span[title^="Revised form:"]')?.tabIndex);
+    check(phone === -1, `390: compact data-mode info icon is not a tab stop (tabIndex ${phone})`);
+    await p.close();
+    const d = await open("/budget");
+    const desk = await d.evaluate(() => document.querySelector('span[title^="Current form:"], span[title^="Revised form:"]')?.tabIndex);
+    check(desk === 0, `1440: data-mode info icon stays keyboard reachable (tabIndex ${desk})`);
+    await d.close();
+  }
 
   console.log("\n[5e] Formal tone: Agencies");
   await formal("/budget?view=agencies", "Agency ISSPs", { contains: ["Budget by agency", "Select an agency to open its ISSP"], lacks: ["drill-down", "click through", "click the acronym"] });
