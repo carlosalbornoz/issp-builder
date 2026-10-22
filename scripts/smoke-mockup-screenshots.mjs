@@ -71,6 +71,15 @@ async function expectText(p, text, label) {
   (body.includes(text.toLowerCase()) ? ok : fail)(`${label}: page contains "${text}"`);
 }
 
+/** Open the view's ✨ More insights panel (productify pass: prose lives behind it). */
+async function openInsights(p) {
+  await p.evaluate(() => {
+    const btn = [...document.querySelectorAll("button")].find((b) => b.textContent?.includes("More insights"));
+    if (btn?.getAttribute("aria-expanded") === "false") btn.click();
+  });
+  await new Promise((r) => setTimeout(r, 350));
+}
+
 // 1 — Repository list (cards)
 {
   const p = await newPage();
@@ -158,6 +167,12 @@ async function expectText(p, text, label) {
   await p.screenshot({ path: path.join(OUT_DIR, "budget.png"), fullPage: true });
   ok("shot budget.png");
 
+  await openInsights(p);
+  await expectText(p, "Auto-drafted · illustrative", "overview insights panel label");
+  await expectText(p, "Continuing costs move from", "overview insights derive from live data");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-insights-open.png"), fullPage: false });
+  ok("shot budget-insights-open.png (viewport)");
+
   // 5 — Program spotlight deep link (shared-services view)
   await p.goto(`${BASE}/budget?view=shared&program=rapide`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
@@ -200,11 +215,11 @@ async function expectText(p, text, label) {
 // 4d — Domain views (one shot + assertions each)
 {
   const views = [
-    ["cybersecurity", "budget-cyber.png", ["Cybersecurity control coverage", "NetGate FX-200", "Security spend is invisible"]],
+    ["cybersecurity", "budget-cyber.png", ["Cybersecurity control coverage", "NetGate FX-200"]],
     ["devices", "budget-devices.png", ["Unit-price sanity", "The estate today", "Device spend by category"]],
     ["networks", "budget-networks.png", ["Connectivity spend by category", "The links the plans name"]],
     ["cloud", "budget-cloud.png", ["Where systems live today", "Where the new systems will live", "Hosting and subscription spend"]],
-    ["ai", "budget-ai.png", ["AI and compute asks", "own GPU clusters"]],
+    ["ai", "budget-ai.png", ["AI and compute asks"]],
     ["people", "budget-people.png", ["ICT staff per agency", "Training in the plans"]],
     ["services", "budget-services.png", ["eGovPH program adoption", "How frontline services are reached"]],
     ["money", "budget-money.png", ["Follow every peso", "Can each agency spend what it asks for?", "has procurement started?"]],
@@ -217,9 +232,19 @@ async function expectText(p, text, label) {
     await p.goto(`${BASE}/budget?view=${view}`, { waitUntil: "networkidle0", timeout: 60000 });
     await settle(p);
     for (const text of expects) await expectText(p, text, `${view} view`);
+    const hasInsights = await p.evaluate(() =>
+      [...document.querySelectorAll("button")].some((b) => b.textContent?.includes("More insights"))
+    );
+    (hasInsights ? ok : fail)(`${view} view: More insights button present`);
     await expectNoOverflow(p, `${view} view`);
     await p.screenshot({ path: path.join(OUT_DIR, file), fullPage: true });
     ok(`shot ${file}`);
+    if (view === "cybersecurity" || view === "ai") {
+      await openInsights(p);
+      await expectText(p, "Auto-drafted · illustrative", `${view} insights label`);
+      await expectText(p, view === "cybersecurity" ? "security-specific" : "own GPU cluster", `${view} insight content`);
+      await expectNoOverflow(p, `${view} insights open`);
+    }
     errors.forEach((e) => fail(`${view} pageerror: ${e}`));
     await p.close();
   }
@@ -260,6 +285,7 @@ async function expectText(p, text, label) {
   await p.goto(`${BASE}/budget?view=ai&sector=transport`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "34.5%", "AI year-share chip derives from the selection");
+  await openInsights(p);
   await expectText(p, "one agency's own GPU cluster", "own-build insight counts the selection only");
   await expectNoOverflow(p, "ai sector lens");
   errors.forEach((e) => fail(`ai sector pageerror: ${e}`));
