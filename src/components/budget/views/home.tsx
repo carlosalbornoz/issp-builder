@@ -7,7 +7,7 @@
 
 import Link from "next/link";
 import { Lock } from "lucide-react";
-import { cn, phpCompact } from "@/lib/utils";
+import { phpCompact } from "@/lib/utils";
 import { EXTERNAL_ITEMS, SCREENS, externalHref, screenHref, type ScreenKey } from "../nav";
 import { homeHeadline, type Headline } from "./headlines";
 import { ViewProps } from "./shared";
@@ -67,7 +67,7 @@ export function TaskCard({ href, title, summary, headline, mode }: { href: strin
         ) : (
           <>
             <span className="text-lg font-bold tabular-nums leading-none shrink-0">{headline.value}</span>
-            <span className={cn("text-[11px] text-muted-foreground truncate")} title={headline.detail}>
+            <span className="text-[11px] text-muted-foreground truncate" title={headline.detail}>
               {headline.detail}
             </span>
           </>

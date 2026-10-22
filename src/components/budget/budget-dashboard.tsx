@@ -1,13 +1,13 @@
 "use client";
 
 /**
- * ICT Budget Dashboard (demonstration): the orchestrator. A sticky domain rail
- * and a persistent control bar (fiscal year · PDP sector · data mode · filters)
- * frame one of ten views; every view reads the same corpus and the same
- * filtering. Cross-agency views computed client-side from the corpus line
- * items, the same Part IV facts the editor's Summary tables use, plus the mock
- * COMPASS / Annex 1 / AI-tag layers for the follow-the-peso and posture
- * stories. Zero chart libraries.
+ * ICT Budget Dashboard (demonstration): the orchestrator. A grouped sidebar and
+ * a one-row scope bar (fiscal year · PDP sector · agency · data mode · filters)
+ * frame one screen per question; every screen reads the same corpus and the
+ * same filtering. Cross-agency figures are computed client-side from the corpus
+ * line items, the same Part IV facts the editor's Summary tables use, plus the
+ * mock COMPASS / Annex 1 / AI-tag layers for the execution and posture stories.
+ * Zero chart libraries.
  */
 
 import { useMemo, useState } from "react";
@@ -51,9 +51,10 @@ export function BudgetDashboard() {
   const [fund, setFund] = useState("all");
   const [fy, setFy] = useState<FyFilter>("all");
 
-  // Deep links, straight from the URL: ?view= picks the domain view (default overview);
-  // ?sector= filters to one PDP sector; ?agency=slug filters to one agency; ?program=key
-  // spotlights it; ?mode=current runs the page on current-form data only.
+  // Deep links, straight from the URL: ?view= picks the screen (legacy keys
+  // resolve to their successor; default Home); ?sector= filters to one PDP
+  // sector; ?agency=slug filters to one agency; ?program= spotlights it;
+  // ?mode=current runs the page on current-form data only.
   const sector = params.get("sector") ?? "all";
   const agencySlug = params.get("agency");
   const view = resolveScreen(params.get("view"), agencySlug);
@@ -126,8 +127,6 @@ export function BudgetDashboard() {
     link.click();
     URL.revokeObjectURL(url);
   };
-
-
 
   return (
     <BudgetFrame
