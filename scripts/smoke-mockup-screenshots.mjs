@@ -377,26 +377,28 @@ async function openInsights(p) {
   (navState.dsVisible ? ok : fail)("data-standard page: nav chip visible at desktop width");
   await p.close();
 
+  // Dashboard frame: the sidebar (desktop) or the drawer (phone) is the one
+  // data-standard entry point; the header drops its chip there.
   const q = await newPage();
   await q.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(q);
-  const desktop = await q.evaluate(() => {
-    const inBar = [...document.querySelectorAll("a[href='/budget/data-standard']")].find((a) => !a.closest("header"));
-    const nav = document.querySelector("header nav a[href='/budget/data-standard']");
-    return { inBarVisible: !!inBar && inBar.getBoundingClientRect().width > 0, navVisible: !!nav && nav.getBoundingClientRect().width > 0 };
-  });
-  (!desktop.inBarVisible && desktop.navVisible ? ok : fail)("desktop /budget: control-bar link hidden, nav link visible");
+  const desktop = await q.evaluate(() =>
+    [...document.querySelectorAll("a[href='/budget/data-standard']")].filter((a) => a.getBoundingClientRect().width > 0).map((a) => (a.closest("header") ? "header" : a.closest('nav[aria-label="Dashboard"]') ? "sidebar" : "other"))
+  );
+  (desktop.length === 1 && desktop[0] === "sidebar" ? ok : fail)(`desktop /budget: one data-standard link, in the sidebar (${desktop.join(",")})`);
   await q.close();
 
   const m = await newPage(390, 844);
   await m.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(m);
-  const mobile = await m.evaluate(() => {
-    const inBar = [...document.querySelectorAll("a[href='/budget/data-standard']")].find((a) => !a.closest("header"));
-    const nav = document.querySelector("header nav a[href='/budget/data-standard']");
-    return { inBarVisible: !!inBar && inBar.getBoundingClientRect().width > 0, navVisible: !!nav && nav.getBoundingClientRect().width > 0 };
-  });
-  (mobile.inBarVisible && !mobile.navVisible ? ok : fail)("phone /budget: control-bar link visible, nav link hidden");
+  const closed = await m.evaluate(() => [...document.querySelectorAll("a[href='/budget/data-standard']")].filter((a) => a.getBoundingClientRect().width > 0).length);
+  (closed === 0 ? ok : fail)(`phone /budget: no data-standard link outside the drawer (${closed})`);
+  await m.evaluate(() => document.querySelector('button[aria-label="Open dashboard menu"]')?.click());
+  await new Promise((r) => setTimeout(r, 500));
+  const inDrawer = await m.evaluate(() => [...document.querySelectorAll('[role="dialog"] a[href="/budget/data-standard"]')].length);
+  (inDrawer === 1 ? ok : fail)("phone /budget: the drawer carries the data-standard link");
+  await m.screenshot({ path: path.join(OUT_DIR, "budget-mobile-drawer.png"), fullPage: false });
+  ok("shot budget-mobile-drawer.png (viewport)");
   await m.close();
   errors.forEach((e) => fail(`data-standard nav pageerror: ${e}`));
 }
@@ -467,7 +469,13 @@ async function openInsights(p) {
 // 7 — QA widths: ultrawide (3440) must not overflow either (qa.md three-width pass).
 {
   const p = await newPage(3440, 1200);
-  for (const [url, label] of [["/budget", "ultrawide overview"], ["/budget?view=money", "ultrawide money"]]) {
+  for (const [url, label] of [
+    ["/budget", "ultrawide home"],
+    ["/budget?view=posture", "ultrawide posture"],
+    ["/budget?view=ask", "ultrawide investment summary"],
+    ["/budget?view=agencies", "ultrawide agencies"],
+    ["/budget?view=money", "ultrawide money"],
+  ]) {
     await p.goto(`${BASE}${url}`, { waitUntil: "networkidle0", timeout: 60000 });
     await settle(p);
     await expectNoOverflow(p, label);

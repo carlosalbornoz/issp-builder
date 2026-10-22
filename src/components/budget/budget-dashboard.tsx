@@ -10,18 +10,17 @@
  * stories. Zero chart libraries.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
+import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Info, Lock } from "lucide-react";
-import { PublicShell } from "@/components/public-shell";
+import { BudgetFrame } from "./budget-frame";
 import { DemoNotice } from "@/components/repository/demo-notice";
 import { useCorpus, TYPE_LABELS, SECTORS } from "@/lib/repository/corpus";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
 import { cn, phpCompact } from "@/lib/utils";
 import { type AgencyLine, type DataMode, type FyFilter, FilterSelect } from "./views/shared";
-import { NAV, SCREENS, isScreenKey, resolveScreen, screenHref } from "./nav";
+import { resolveScreen } from "./nav";
 import { HomeView } from "./views/home";
 import { PostureView } from "./views/posture";
 import { AskView } from "./views/ask";
@@ -120,37 +119,16 @@ export function BudgetDashboard() {
     URL.revokeObjectURL(url);
   };
 
-  // Keep the active rail item visible on narrow screens, where the rail scrolls.
-  const railRef = useRef<HTMLElement | null>(null);
-  useEffect(() => {
-    const active = railRef.current?.querySelector('[aria-current="page"]');
-    active?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
-  }, [view]);
 
 
   return (
-    <PublicShell active="budget" width="wide">
-      {/* ── Sticky view rail + control bar ── */}
-      <div className="sticky top-14 z-40 bg-background/95 backdrop-blur-sm border-b">
-        <div className="max-w-7xl mx-auto px-6">
-          <nav ref={railRef} className="flex gap-1 overflow-x-auto -mx-1 px-1 py-2" aria-label="Dashboard views">
-            {["home" as const, ...NAV.flatMap((g) => g.items).filter(isScreenKey)].map((key) => (
-              <Link
-                key={key}
-                href={screenHref(key, params)}
-                aria-current={view === key ? "page" : undefined}
-                className={cn(
-                  "whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
-                  view === key ? "text-primary font-medium bg-accent" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
-                )}
-              >
-                {SCREENS[key].label}
-              </Link>
-            ))}
-          </nav>
-
+    <BudgetFrame
+      active={view}
+      params={params}
+      toolbar={
+        <div>
           {/* Control bar */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pb-2.5 pt-0.5">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pb-2.5 pt-2.5">
             <div className="flex flex-wrap items-center gap-2" role="group" aria-labelledby="fy-filter-label">
               <span className="text-[10px] uppercase tracking-widest text-muted-foreground" id="fy-filter-label">
                 Fiscal year
@@ -278,35 +256,11 @@ export function BudgetDashboard() {
             <span className="text-xs text-muted-foreground ml-auto hidden md:inline">
               {lineCount} line items · {phpCompact(lineTotal)} {fyLabel}
             </span>
-            {/* Nav carries this link from md up; below that the nav item is
-                space-hidden, so the in-bar entry stays phone-only. */}
-            <Link
-              href="/budget/data-standard"
-              className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors md:hidden"
-            >
-              Data standard
-            </Link>
           </div>
         </div>
-      </div>
-
-      {/* ── Page header + view content ── */}
-      <section className="border-b bg-secondary/40">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">
-            Fiscal transparency · Structured ISSP data
-          </p>
-          <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-3">ICT Budget Dashboard</h1>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">
-            The ICT posture of the whole government, one domain at a time: every figure is the same Part IV data
-            behind each agency&apos;s official Summary of Investments, with a mock execution layer standing in for a
-            future COMPASS link.
-          </p>
-        </div>
-      </section>
-
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <DemoNotice className="mb-6" />
+      }
+    >
+        {view === "home" ? <DemoNotice className="mb-6" /> : null}
 
         {error ? (
           <div className="rounded-lg border border-destructive/30 bg-danger-bg text-destructive px-4 py-3 text-sm">
@@ -369,7 +323,6 @@ export function BudgetDashboard() {
             )}
           </div>
         )}
-      </div>
-    </PublicShell>
+    </BudgetFrame>
   );
 }

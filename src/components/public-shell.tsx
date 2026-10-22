@@ -21,7 +21,7 @@ export function PublicShell({
   children,
 }: {
   active: ShellSection;
-  width?: "default" | "wide";
+  width?: "default" | "wide" | "dashboard";
   children: React.ReactNode;
 }) {
   const navCls = (on: boolean) =>
@@ -36,7 +36,7 @@ export function PublicShell({
         <div
           className={cn(
             "mx-auto px-6 h-14 flex items-center justify-between gap-4",
-            width === "wide" ? "max-w-7xl" : "max-w-6xl"
+            width === "dashboard" ? "max-w-[96rem]" : width === "wide" ? "max-w-7xl" : "max-w-6xl"
           )}
         >
           <Link href="/" className="flex items-center gap-2.5 min-w-0">
@@ -59,9 +59,13 @@ export function PublicShell({
               <span className="sm:hidden">Budget</span>
               <span className="hidden sm:inline">Budget Dashboard</span>
             </Link>
-            <Link href="/budget/data-standard" className={cn(navCls(active === "dataStandard"), "hidden md:block")}>
-              Data standard
-            </Link>
+            {/* The dashboard frame lists the data standard in its sidebar and
+                drawer, so the header drops its chip there: one entry point. */}
+            {width === "dashboard" ? null : (
+              <Link href="/budget/data-standard" className={cn(navCls(active === "dataStandard"), "hidden md:block")}>
+                Data standard
+              </Link>
+            )}
             <Link href="/" className={cn(navCls(false), "hidden sm:block")}>
               ISSP Builder
             </Link>

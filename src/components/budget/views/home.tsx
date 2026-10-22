@@ -12,6 +12,14 @@ import { DomainsView } from "./domains";
 export function HomeView({ corpus, mode }: ViewProps) {
   return (
     <div className="space-y-6">
+      <div>
+        <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight">ICT Budget Dashboard</h1>
+        <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mt-2">
+          The ICT posture of the whole government, one domain at a time: every figure is the same Part IV data
+          behind each agency&apos;s official Summary of Investments, with a mock execution layer standing in for a
+          future COMPASS link.
+        </p>
+      </div>
       <WhyNowBand corpus={corpus} mode={mode} />
       <DomainsView />
     </div>
