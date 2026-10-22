@@ -62,7 +62,7 @@ async function formal(url, label, { contains = [], lacks = [] } = {}) {
   const probe = await p.evaluate(() => {
     const main = document.querySelector('nav[aria-label="Breadcrumb"]')?.parentElement ?? document.body;
     return {
-      title: main.querySelector("h1, h2")?.textContent?.trim() ?? "",
+      title: main.querySelector("h1")?.textContent?.trim() ?? "",
       questions: [...main.querySelectorAll("h1, h2, h3")].map((h) => h.textContent?.trim() ?? "").filter((t) => t.endsWith("?")),
       emDash: document.body.innerText.includes("\u2014"),
       body: document.body.innerText.toLowerCase(),

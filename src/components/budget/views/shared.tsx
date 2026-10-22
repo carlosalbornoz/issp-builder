@@ -182,7 +182,7 @@ export function ViewHeader({
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
         <div className="min-w-0">
           {eyebrow ? <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">{eyebrow}</p> : null}
-          <h2 className="font-display text-lg sm:text-xl font-bold tracking-tight">{title}</h2>
+          <h1 className="font-display text-lg sm:text-xl font-bold tracking-tight">{title}</h1>
           {lede ? <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mt-1">{lede}</p> : null}
         </div>
         {insights ? <InsightsButton items={insights} /> : null}
