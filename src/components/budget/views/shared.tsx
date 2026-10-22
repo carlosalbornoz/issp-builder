@@ -13,34 +13,12 @@ import Link from "next/link";
 import { ChevronDown, Info, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CorpusLineItem, CorpusProfile, RepositoryCorpus } from "@/lib/repository/corpus-types";
+import type { ScreenKey } from "../nav";
 
 // ─── View-switch types ────────────────────────────────────────────────────────
 
-/** The ten dashboard views; the key is the ?view= param value. */
-export type ViewKey =
-  | "overview"
-  | "cybersecurity"
-  | "devices"
-  | "networks"
-  | "cloud"
-  | "ai"
-  | "people"
-  | "services"
-  | "money"
-  | "shared";
-
-export const VIEWS: { key: ViewKey; label: string; short: string }[] = [
-  { key: "overview", label: "Overview", short: "Overview" },
-  { key: "cybersecurity", label: "Cybersecurity", short: "Cyber" },
-  { key: "devices", label: "Devices", short: "Devices" },
-  { key: "networks", label: "Networks", short: "Networks" },
-  { key: "cloud", label: "Cloud & software", short: "Cloud" },
-  { key: "ai", label: "AI & compute", short: "AI" },
-  { key: "people", label: "People", short: "People" },
-  { key: "services", label: "eGov services", short: "Services" },
-  { key: "money", label: "Money & execution", short: "Money" },
-  { key: "shared", label: "Shared services", short: "Shared" },
-];
+/** The dashboard screens; the key is the ?view= param value (see ../nav.ts). */
+export type ViewKey = ScreenKey;
 
 export type FyFilter = "all" | 2026 | 2027 | 2028 | 2029 | 2030;
 

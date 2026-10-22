@@ -20,8 +20,15 @@ import { useCorpus, TYPE_LABELS, SECTORS } from "@/lib/repository/corpus";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
 import { cn, phpCompact } from "@/lib/utils";
-import { VIEWS, type AgencyLine, type DataMode, type FyFilter, type ViewKey, FilterSelect } from "./views/shared";
-import { OverviewView } from "./views/overview";
+import { type AgencyLine, type DataMode, type FyFilter, FilterSelect } from "./views/shared";
+import { NAV, SCREENS, isScreenKey, resolveScreen, screenHref } from "./nav";
+import { HomeView } from "./views/home";
+import { PostureView } from "./views/posture";
+import { AskView } from "./views/ask";
+import { BuysView } from "./views/buys";
+import { DomainsView } from "./views/domains";
+import { AgenciesView } from "./views/agencies";
+import { AbsorptiveView } from "./views/absorptive";
 import { CybersecurityView } from "./views/cybersecurity";
 import { DevicesView } from "./views/devices";
 import { NetworksView } from "./views/networks";
@@ -34,7 +41,6 @@ import { SharedServicesView } from "./views/shared-services";
 
 const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
 const EMPTY_AGENCIES: CorpusProfile[] = [];
-const VIEW_KEYS = new Set<string>(VIEWS.map((v) => v.key));
 
 export function BudgetDashboard() {
   const params = useSearchParams();
@@ -48,9 +54,9 @@ export function BudgetDashboard() {
   // Deep links, straight from the URL: ?view= picks the domain view (default overview);
   // ?sector= filters to one PDP sector; ?agency=slug filters to one agency; ?program=key
   // spotlights it; ?mode=current runs the page on current-form data only.
-  const view = (params.get("view") && VIEW_KEYS.has(params.get("view")!) ? params.get("view") : "overview") as ViewKey;
   const sector = params.get("sector") ?? "all";
   const agencySlug = params.get("agency");
+  const view = resolveScreen(params.get("view"), agencySlug);
   const highlightProgram = params.get("program");
   const dataMode: DataMode = params.get("mode") === "current" ? "current" : "proposed";
 
@@ -92,6 +98,8 @@ export function BudgetDashboard() {
   const lineCount = lines.length.toLocaleString("en-PH");
   const lineTotal = lines.reduce((s, l) => s + l.total, 0);
 
+  const viewProps = corpus ? { corpus, profiles: selected, lines, fy, mode: dataMode } : null;
+
   const exportCsv = () => {
     const header = ["agency", "acronym", "type", "cycle", "year", "category", "expense_class", "bucket", "project", "item", "office", "fund_source", "qty", "unit_cost", "total"];
     const rows = selected.flatMap((a) =>
@@ -119,11 +127,6 @@ export function BudgetDashboard() {
     active?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
   }, [view]);
 
-  const railHref = (key: ViewKey) => {
-    const next = new URLSearchParams(params.toString());
-    next.set("view", key);
-    return `/budget?${next.toString()}`;
-  };
 
   return (
     <PublicShell active="budget" width="wide">
@@ -131,18 +134,17 @@ export function BudgetDashboard() {
       <div className="sticky top-14 z-40 bg-background/95 backdrop-blur-sm border-b">
         <div className="max-w-7xl mx-auto px-6">
           <nav ref={railRef} className="flex gap-1 overflow-x-auto -mx-1 px-1 py-2" aria-label="Dashboard views">
-            {VIEWS.map((v) => (
+            {["home" as const, ...NAV.flatMap((g) => g.items).filter(isScreenKey)].map((key) => (
               <Link
-                key={v.key}
-                href={railHref(v.key)}
-                aria-current={view === v.key ? "page" : undefined}
+                key={key}
+                href={screenHref(key, params)}
+                aria-current={view === key ? "page" : undefined}
                 className={cn(
                   "whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
-                  view === v.key ? "text-primary font-medium bg-accent" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                  view === key ? "text-primary font-medium bg-accent" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                 )}
               >
-                <span className="hidden lg:inline">{v.label}</span>
-                <span className="lg:hidden">{v.short}</span>
+                {SCREENS[key].label}
               </Link>
             ))}
           </nav>
@@ -310,7 +312,7 @@ export function BudgetDashboard() {
           <div className="rounded-lg border border-destructive/30 bg-danger-bg text-destructive px-4 py-3 text-sm">
             {error} Try reloading the page.
           </div>
-        ) : !corpus ? (
+        ) : !viewProps ? (
           <div className="h-64 rounded-xl bg-muted animate-pulse" aria-busy />
         ) : selected.length === 0 ? (
           <div className="rounded-lg border border-dashed bg-muted/20 p-10 text-center">
@@ -331,27 +333,39 @@ export function BudgetDashboard() {
             </p>
           </div>
         ) : (
-          <div className={cn(view === "overview" && "space-y-6", view !== "overview" && "space-y-6")}>
-            {view === "overview" ? (
-              <OverviewView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} fund={fund} fyLabel={fyLabel} exportCsv={exportCsv} />
+          <div className="space-y-6">
+            {view === "home" ? (
+              <HomeView {...viewProps} />
+            ) : view === "posture" || view === "sectors" ? (
+              <PostureView {...viewProps} />
+            ) : view === "ask" ? (
+              <AskView {...viewProps} fyLabel={fyLabel} />
+            ) : view === "buys" ? (
+              <BuysView {...viewProps} />
+            ) : view === "domains" ? (
+              <DomainsView />
+            ) : view === "agencies" ? (
+              <AgenciesView {...viewProps} fund={fund} exportCsv={exportCsv} />
+            ) : view === "absorptive" ? (
+              <AbsorptiveView {...viewProps} />
             ) : view === "cybersecurity" ? (
-              <CybersecurityView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} />
+              <CybersecurityView {...viewProps} />
             ) : view === "devices" ? (
-              <DevicesView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} />
+              <DevicesView {...viewProps} />
             ) : view === "networks" ? (
-              <NetworksView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} />
+              <NetworksView {...viewProps} />
             ) : view === "cloud" ? (
-              <CloudView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} />
+              <CloudView {...viewProps} />
             ) : view === "ai" ? (
-              <AiView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} />
+              <AiView {...viewProps} />
             ) : view === "people" ? (
-              <PeopleView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} />
+              <PeopleView {...viewProps} />
             ) : view === "services" ? (
-              <ServicesView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} />
+              <ServicesView {...viewProps} />
             ) : view === "money" ? (
-              <MoneyView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} />
+              <MoneyView {...viewProps} />
             ) : (
-              <SharedServicesView corpus={corpus} profiles={selected} lines={lines} fy={fy} mode={dataMode} highlightProgram={highlightProgram} />
+              <SharedServicesView {...viewProps} highlightProgram={highlightProgram} />
             )}
           </div>
         )}

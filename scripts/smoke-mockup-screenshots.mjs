@@ -149,6 +149,7 @@ async function openInsights(p) {
   const p = await newPage();
   const errors = [];
   p.on("pageerror", (e) => errors.push(String(e)));
+  // Home: the why-now band (cards land with the home redesign).
   await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "ICT Budget Dashboard", "budget title");
@@ -156,16 +157,49 @@ async function openInsights(p) {
   await expectText(p, "Planned ICT, whole of government", "whole-of-gov why-now tile");
   // Known-totals pin: the corpus grand total (4,823,520,000 → ₱4.82B) must reach the page.
   await expectText(p, "₱4.82B", "budget grand total matches corpus");
-  await expectText(p, "Whole-of-government posture", "budget posture grid");
-  await expectText(p, "Agriculture and food", "posture grid PDP sector group");
-  await expectText(p, "Fund sources", "budget fund panel");
-  await expectText(p, "Agencies by proposed investment", "budget ranking");
-  await expectText(p, "Projects with PAP code", "budget traceability KPI");
-  await expectText(p, "Agency drill-down", "budget drill-down");
-  await expectText(p, "Line items (CSV)", "budget CSV export");
-  await expectNoOverflow(p, "budget");
+  await expectNoOverflow(p, "budget home");
   await p.screenshot({ path: path.join(OUT_DIR, "budget.png"), fullPage: true });
   ok("shot budget.png");
+
+  await p.goto(`${BASE}/budget?view=posture`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Whole-of-government posture", "budget posture grid");
+  await expectText(p, "Agriculture and food", "posture grid PDP sector group");
+  await expectNoOverflow(p, "budget posture");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-posture.png"), fullPage: true });
+  ok("shot budget-posture.png");
+
+  await p.goto(`${BASE}/budget?view=agencies`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Agencies by proposed investment", "budget ranking");
+  await expectText(p, "Agency drill-down", "budget drill-down");
+  await expectText(p, "Line items (CSV)", "budget CSV export");
+  await expectNoOverflow(p, "budget agencies");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-agencies.png"), fullPage: true });
+  ok("shot budget-agencies.png");
+
+  await p.goto(`${BASE}/budget?view=buys`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Where the money goes", "budget categories");
+  await expectNoOverflow(p, "budget buys");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-buys.png"), fullPage: true });
+  ok("shot budget-buys.png");
+
+  await p.goto(`${BASE}/budget?view=absorptive`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "Obligation rate", "budget absorptive table");
+  await expectNoOverflow(p, "budget absorptive");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-absorptive.png"), fullPage: true });
+  ok("shot budget-absorptive.png");
+
+  await p.goto(`${BASE}/budget?view=ask`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "₱4.82B", "investment summary total matches corpus");
+  await expectText(p, "Fund sources", "budget fund panel");
+  await expectText(p, "Projects with PAP code", "budget traceability KPI");
+  await expectNoOverflow(p, "budget ask");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-ask.png"), fullPage: true });
+  ok("shot budget-ask.png");
 
   await openInsights(p);
   await expectText(p, "Auto-drafted · illustrative", "overview insights panel label");
@@ -186,10 +220,10 @@ async function openInsights(p) {
   await p.screenshot({ path: path.join(OUT_DIR, "budget-program.png"), fullPage: true });
   ok("shot budget-program.png");
 
-// 4b — FY selector interaction (overview KPIs)
+// 4b — FY selector interaction (investment summary KPIs)
 {
   const p = await newPage();
-  await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
+  await p.goto(`${BASE}/budget?view=ask`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await p.evaluate(() => [...document.querySelectorAll("button")].find((b) => b.textContent?.trim() === "FY2027")?.click());
   await settle(p);
@@ -205,10 +239,12 @@ async function openInsights(p) {
   const p = await newPage();
   const errors = [];
   p.on("pageerror", (e) => errors.push(String(e)));
-  await p.goto(`${BASE}/budget?mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
+  await p.goto(`${BASE}/budget?view=ask&mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(p);
+  await expectText(p, "KPIs fully specified", "hero tile swap");
+  await p.goto(`${BASE}/budget?view=posture&mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "Current form (v14)", "mode chips present");
-  await expectText(p, "KPIs fully specified", "hero tile swap");
   await expectText(p, "Whole-of-government posture", "posture grid still rendered");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-current-form.png"), fullPage: true });
   ok("shot budget-current-form.png");
@@ -226,7 +262,7 @@ async function openInsights(p) {
     ["ai", "budget-ai.png", ["AI and compute asks"]],
     ["people", "budget-people.png", ["ICT staff per agency", "Training in the plans"]],
     ["services", "budget-services.png", ["eGovPH program adoption", "How frontline services are reached"]],
-    ["money", "budget-money.png", ["Follow every peso", "Can each agency spend what it asks for?", "has procurement started?"]],
+    ["money", "budget-money.png", ["Follow every peso", "Each fiscal year sits at a different stage", "has procurement started?"]],
     ["shared", "budget-shared.png", ["Where a shared service could replace separate builds", "Cross-agency programs", "Which national plans the money serves"]],
   ];
   for (const [view, file, expects] of views) {
@@ -301,7 +337,7 @@ async function openInsights(p) {
   const p = await newPage();
   const errors = [];
   p.on("pageerror", (e) => errors.push(String(e)));
-  await p.goto(`${BASE}/budget?sector=agricultureFood`, { waitUntil: "networkidle0", timeout: 60000 });
+  await p.goto(`${BASE}/budget?view=posture&sector=agricultureFood`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "PDP Ch. 5", "sector group header carries the PDP ref");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-sector-agri.png"), fullPage: true });
