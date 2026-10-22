@@ -8,7 +8,7 @@
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { cn, phpCompact } from "@/lib/utils";
-import { EXTERNAL_ITEMS, SCREENS, screenHref, type ScreenKey } from "../nav";
+import { EXTERNAL_ITEMS, SCREENS, externalHref, screenHref, type ScreenKey } from "../nav";
 import { homeHeadline, type Headline } from "./headlines";
 import { ViewProps } from "./shared";
 
@@ -32,7 +32,7 @@ export function HomeView({ params, fyLabel, ...props }: ViewProps & { params: UR
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {HOME_CARDS.map((key) =>
             key === "dataStandard" ? (
-              <TaskCard key={key} href={EXTERNAL_ITEMS.dataStandard.href} title={EXTERNAL_ITEMS.dataStandard.label} summary={EXTERNAL_ITEMS.dataStandard.summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} />
+              <TaskCard key={key} href={externalHref("dataStandard", params)} title={EXTERNAL_ITEMS.dataStandard.label} summary={EXTERNAL_ITEMS.dataStandard.summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} />
             ) : (
               <TaskCard key={key} href={screenHref(key, params)} title={SCREENS[key].label} summary={SCREENS[key].summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} />
             )

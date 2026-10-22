@@ -7,13 +7,14 @@
  * one click away. Labels and grouping come from the nav registry.
  */
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ChevronRight, House, Menu } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { EXTERNAL_ITEMS, NAV, NAV_GROUP_LABELS, SCREENS, isScreenKey, screenHref, type ExternalItem, type ScreenKey } from "./nav";
+import { EXTERNAL_ITEMS, NAV, NAV_GROUP_LABELS, SCREENS, externalHref, isScreenKey, screenHref, type ExternalItem, type ScreenKey } from "./nav";
 
 /** The surface the frame wraps: a dashboard screen, or one of the pages beside it. */
 export type FrameActive = ScreenKey | "dataStandard" | "trace";
@@ -89,8 +90,32 @@ export function BudgetFrame({
   );
 }
 
+const NO_SCOPE = new URLSearchParams();
+
+/**
+ * The frame for pages beside the dashboard (data standard, trace): it reads the
+ * scope from the URL so the sidebar leads back to the same lens. useSearchParams
+ * sits inside a Suspense boundary; the fallback is the same frame, unscoped.
+ */
+export function ScopedBudgetFrame({ active, children }: { active: FrameActive; children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<BudgetFrame active={active} params={NO_SCOPE}>{children}</BudgetFrame>}>
+      <FrameWithScope active={active}>{children}</FrameWithScope>
+    </Suspense>
+  );
+}
+
+function FrameWithScope({ active, children }: { active: FrameActive; children: React.ReactNode }) {
+  const params = useSearchParams();
+  return (
+    <BudgetFrame active={active} params={params}>
+      {children}
+    </BudgetFrame>
+  );
+}
+
 function itemHref(item: ScreenKey | ExternalItem, params: URLSearchParams) {
-  return isScreenKey(item) ? screenHref(item, params) : EXTERNAL_ITEMS[item].href;
+  return isScreenKey(item) ? screenHref(item, params) : externalHref(item, params);
 }
 
 function itemLabel(item: ScreenKey | ExternalItem) {

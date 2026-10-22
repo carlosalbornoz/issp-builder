@@ -13,10 +13,7 @@ import { ArrowLeft, CircleCheck, CircleX, Landmark } from "lucide-react";
 import { DemoNotice } from "@/components/repository/demo-notice";
 import { useCorpus } from "@/lib/repository/corpus";
 import { cn, php, phpCompact } from "@/lib/utils";
-import { BudgetFrame } from "./budget-frame";
-
-/** The trace page has no filters; sidebar links open each screen unscoped. */
-const NO_SCOPE = new URLSearchParams();
+import { ScopedBudgetFrame } from "./budget-frame";
 
 const FUNNEL = { plan: "#7FA3EE", budget: "#3F74E3", release: "#0B4FD9", spend: "#062365" };
 
@@ -38,7 +35,7 @@ export function ProjectTrace() {
   const procurement = corpus?.procurement.rows.find((r) => r.slug === params.slug && r.projectId === params.projectId);
 
   return (
-    <BudgetFrame active="trace" params={NO_SCOPE}>
+    <ScopedBudgetFrame active="trace">
       <div className="space-y-6">
         <Link href={agency ? `/repository/${agency.slug}` : "/budget"} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-4 h-4" /> {agency ? agency.name : "Back to the dashboard"}
@@ -259,7 +256,7 @@ export function ProjectTrace() {
           </>
         )}
       </div>
-    </BudgetFrame>
+    </ScopedBudgetFrame>
   );
 }
 

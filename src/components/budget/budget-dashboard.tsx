@@ -60,12 +60,19 @@ export function BudgetDashboard() {
   const highlightProgram = params.get("program");
   const dataMode: DataMode = params.get("mode") === "current" ? "current" : "proposed";
 
-  const setParam = (key: string, value: string | null) => {
+  // Every scope change is one router.replace built from the current URL. The
+  // resolved screen is written into ?view= first, so clearing the agency on a
+  // bare ?agency= link (which opens Investment summary) stays on that screen.
+  const replaceScope = (changes: Record<string, string | null>) => {
     const next = new URLSearchParams(params.toString());
-    if (value === null || value === "all") next.delete(key);
-    else next.set(key, value);
+    if (!next.has("view") && view !== "home") next.set("view", view);
+    Object.entries(changes).forEach(([key, value]) => {
+      if (value === null || value === "all") next.delete(key);
+      else next.set(key, value);
+    });
     router.replace(next.toString() ? `/budget?${next.toString()}` : "/budget");
   };
+  const setParam = (key: string, value: string | null) => replaceScope({ [key]: value });
 
   const agencies = corpus?.agencies ?? EMPTY_AGENCIES;
 
@@ -168,8 +175,7 @@ export function BudgetDashboard() {
                   setCycle("all");
                   setType("all");
                   setFund("all");
-                  setParam("agency", null);
-                  setParam("sector", null);
+                  replaceScope({ agency: null, sector: null });
                 }}
               >
                 Clear all filters.

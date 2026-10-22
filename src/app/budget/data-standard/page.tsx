@@ -9,7 +9,7 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import { CircleCheck, Plus } from "lucide-react";
-import { BudgetFrame } from "@/components/budget/budget-frame";
+import { ScopedBudgetFrame } from "@/components/budget/budget-frame";
 import { CAPABILITY_MATRIX } from "@/lib/repository/data-standard";
 import { DemoNotice } from "@/components/repository/demo-notice";
 
@@ -81,12 +81,9 @@ const PUBLISHING_RULES = [
 ] as const;
 
 
-/** The page has no filters; sidebar links open each screen unscoped. */
-const NO_SCOPE = new URLSearchParams();
-
 export default function DataStandardPage() {
   return (
-    <BudgetFrame active="dataStandard" params={NO_SCOPE}>
+    <ScopedBudgetFrame active="dataStandard">
       <div className="space-y-6">
 
         <section>
@@ -312,6 +309,6 @@ export default function DataStandardPage() {
           </ol>
         </section>
       </div>
-    </BudgetFrame>
+    </ScopedBudgetFrame>
   );
 }

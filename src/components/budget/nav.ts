@@ -100,6 +100,24 @@ export function resolveScreen(view: string | null, agency: string | null): Scree
   return agency && (!view || view === "overview") ? "ask" : "home";
 }
 
+/** The scope keys that travel to the pages beside the dashboard (data standard, trace). */
+const SCOPE_KEYS = ["sector", "agency", "mode"] as const;
+
+/**
+ * A link to a page beside the dashboard. The data standard carries the scope so
+ * its sidebar can lead back to the same lens; the examiner brief reads ?agency=.
+ */
+export function externalHref(item: ExternalItem, params: URLSearchParams): string {
+  const next = new URLSearchParams();
+  const keys = item === "dataStandard" ? SCOPE_KEYS : item === "examiner" ? (["agency"] as const) : [];
+  keys.forEach((k) => {
+    const v = params.get(k);
+    if (v) next.set(k, v);
+  });
+  const qs = next.toString();
+  return qs ? `${EXTERNAL_ITEMS[item].href}?${qs}` : EXTERNAL_ITEMS[item].href;
+}
+
 /** A link to a screen that keeps the current scope (sector, agency, mode). */
 export function screenHref(key: ScreenKey, params: URLSearchParams): string {
   const next = new URLSearchParams(params.toString());
