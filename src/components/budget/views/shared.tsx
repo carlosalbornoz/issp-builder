@@ -9,7 +9,6 @@
  */
 
 import { useState } from "react";
-import Link from "next/link";
 import { ChevronDown, Info, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CorpusLineItem, CorpusProfile, RepositoryCorpus } from "@/lib/repository/corpus-types";
@@ -203,7 +202,7 @@ export function ProposedOnly({ mode, requires, children }: { mode: DataMode; req
   return (
     <div className="rounded-xl">
       <div className="flex justify-center px-4 pb-3">
-        <div className="rounded-lg border border-dashed border-foreground/30 bg-card px-4 py-3 text-center max-w-sm shadow-md">
+        <div className="rounded-lg border border-dashed border-foreground/30 bg-card px-4 py-3 text-center max-w-sm">
           <p className="text-xs font-semibold text-balance">
             <Lock className="w-3.5 h-3.5 inline-block align-[-2px] mr-1" /> Requires: {requires}
           </p>
@@ -212,7 +211,7 @@ export function ProposedOnly({ mode, requires, children }: { mode: DataMode; req
           </p>
         </div>
       </div>
-      <div aria-hidden className="opacity-30 grayscale-[50%] select-none pointer-events-none">{children}</div>
+      <div aria-hidden inert className="opacity-30 grayscale-[50%] select-none pointer-events-none">{children}</div>
     </div>
   );
 }
@@ -220,7 +219,7 @@ export function ProposedOnly({ mode, requires, children }: { mode: DataMode; req
 /** The pill a panel earns when it runs on today's form with no new fields. */
 export function TodayBadge({ children }: { children: React.ReactNode }) {
   return (
-    <p className="inline-flex items-center gap-1.5 rounded-full bg-success-bg text-success border border-success-border px-2.5 py-0.5 text-[10px] font-semibold">
+      <p className="inline-flex items-center gap-1.5 rounded-full bg-success-bg text-success border border-success-border px-2.5 py-0.5 text-[10px] font-semibold">
       ✓ {children}
     </p>
   );
@@ -228,16 +227,13 @@ export function TodayBadge({ children }: { children: React.ReactNode }) {
 
 export function CycleTile({ year, label, value, sub }: { year: string; label: string; value: string; sub: string }) {
   return (
-    <Link
-      href="/budget?view=money"
-      className="rounded-lg border border-foreground/10 bg-card px-3 py-2.5 flex flex-col gap-1 hover:bg-accent/30 transition-colors"
-    >
+    <div className="rounded-lg border border-foreground/10 bg-card px-3 py-2.5 flex flex-col gap-1">
       <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
         {year} · {label}
       </p>
       <p className="text-lg font-bold tabular-nums leading-tight">{value}</p>
       <p className="text-[11px] text-muted-foreground leading-snug">{sub}</p>
-    </Link>
+    </div>
   );
 }
 

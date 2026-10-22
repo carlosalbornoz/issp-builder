@@ -349,6 +349,21 @@ try {
     await p.close();
   }
   {
+    // Ghosted panels in current form are removed from keyboard reach (inert), and the
+    // lock badge sits in flow, flat.
+    const p = await open("/budget?view=money&mode=current");
+    const ghosts = await p.evaluate(() => ({
+      inert: document.querySelectorAll('[aria-hidden="true"][inert]').length,
+      focusableInGhost: [...document.querySelectorAll('[aria-hidden="true"]:not([inert])')].filter((n) => n.querySelector("a[href], button, select")).length,
+      badgeShadow: !!document.querySelector(".shadow-md.rounded-lg.border-dashed"),
+    }));
+    check(ghosts.inert >= 2 && ghosts.focusableInGhost === 0, `current-form ghosts are inert (inert ${ghosts.inert}, stray focusables ${ghosts.focusableInGhost})`);
+    check(!ghosts.badgeShadow, "current-form lock badge is flat (no shadow)");
+    const tiles = await p.evaluate(() => [...document.querySelectorAll("a")].filter((a) => a.getAttribute("href") === "/budget?view=money" && /FY\d{4}/.test(a.textContent ?? "")).length);
+    check(tiles === 0, `fiscal-year tiles are static figures, not links (${tiles} links)`);
+    await p.close();
+  }
+  {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");
     const href = await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("View a project trace"))?.getAttribute("href"));
