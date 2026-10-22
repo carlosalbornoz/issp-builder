@@ -60,7 +60,7 @@ const has = async (p, s) => (await text(p)).includes(s.toLowerCase());
 async function formal(url, label, { contains = [], lacks = [] } = {}) {
   const p = await open(url);
   const probe = await p.evaluate(() => {
-    const main = document.querySelector('nav[aria-label="Breadcrumb"]')?.parentElement ?? document.body;
+    const main = document.querySelector("[data-screen-col]") ?? document.body;
     return {
       title: main.querySelector("h1")?.textContent?.trim() ?? "",
       questions: [...main.querySelectorAll("h1, h2, h3")].map((h) => h.textContent?.trim() ?? "").filter((t) => t.endsWith("?")),
@@ -414,6 +414,63 @@ try {
     check(!/[&?](fy|cycle|type|fund|agency)=/.test(cleared), `Clear all filters empties every scope key (${cleared})`);
     await p.close();
   }
+
+  console.log("\n[5h] Wayfinding: crumbs, scope line, sidebar groups");
+  {
+    const urls = [
+      "/budget?view=posture", "/budget?view=sectors", "/budget?view=ask", "/budget?view=buys",
+      "/budget?view=domains", "/budget?view=cybersecurity", "/budget?view=devices", "/budget?view=networks",
+      "/budget?view=cloud", "/budget?view=ai", "/budget?view=people", "/budget?view=services",
+      "/budget?view=shared", "/budget?view=money", "/budget?view=absorptive", "/budget?view=agencies",
+      "/budget/data-standard", "/budget/trace/ncwtr-2026-2028/proj-sikap",
+    ];
+    const p = await open("/budget?view=cybersecurity");
+    for (const url of urls) {
+      await p.goto(`${BASE}${url}`, { waitUntil: "networkidle0", timeout: 60000 });
+      await p.waitForFunction(() => !document.querySelector("[aria-busy]"), { timeout: 30000 }).catch(() => {});
+      const dead = await p.evaluate(() => {
+        const lis = [...document.querySelectorAll('nav[aria-label="Breadcrumb"] li')];
+        const last = lis.length - 1;
+        return lis.filter((li, i) => i !== last && !li.querySelector("a")).length;
+      });
+      check(dead === 0, `${url}: every crumb before the current screen is a link (${dead} dead)`);
+    }
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=posture&sector=agricultureFood");
+    const crumbs = await p.evaluate(() => [...document.querySelectorAll('nav[aria-label="Breadcrumb"] li')].map((li) => li.textContent?.trim()));
+    check(crumbs.join(" > ") === "Home > Sector comparison > Agriculture and food", `sector drill-down trail (${crumbs.join(" > ")})`);
+    const backHref = await p.evaluate(() => [...document.querySelectorAll('nav[aria-label="Breadcrumb"] a')].find((a) => a.textContent?.includes("Sector comparison"))?.getAttribute("href"));
+    check(backHref === "/budget?view=sectors&sector=agricultureFood", `trail links back to the scoped Sector comparison (${backHref})`);
+    const note = await p.evaluate(() => document.querySelector("[data-scope-note]")?.textContent?.trim());
+    check(note === "Sector: Agriculture and food", `scope line on a sector-scoped screen (${note})`);
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=cybersecurity&agency=ncra-2027-2029");
+    const note = await p.evaluate(() => document.querySelector("[data-scope-note]")?.textContent?.trim());
+    check(note === "Agency: NCRA", `scope line on an agency-scoped screen (${note})`);
+    await p.close();
+    const q = await open("/budget?view=ask");
+    check((await q.evaluate(() => document.querySelector("[data-scope-note]"))) === null, "no scope line without a scope");
+    await q.close();
+  }
+  {
+    const p = await open("/budget");
+    const minGap = await p.evaluate(() => {
+      const nav = document.querySelector('nav[aria-label="Dashboard"]');
+      const groups = [...(nav?.querySelectorAll("div.mt-4") ?? [])];
+      let min = Infinity;
+      groups.forEach((g) => {
+        const prev = g.previousElementSibling;
+        if (prev) min = Math.min(min, g.getBoundingClientRect().top - prev.getBoundingClientRect().bottom);
+      });
+      return Number.isFinite(min) ? Math.round(min) : -1;
+    });
+    check(minGap >= 15, `sidebar groups separated by clear space (min gap ${minGap}px) and the list fits 900px`);
+    await p.close();
+  }
   {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");
@@ -427,7 +484,7 @@ try {
 
   console.log("\n[6] Data standard and trace share the frame");
   for (const [url, current, crumb] of [
-    ["/budget/data-standard", "Data standard", "Resources"],
+    ["/budget/data-standard", "Data standard", "Data standard"],
     ["/budget/trace/ncwtr-2026-2028/proj-sikap", "Plan to obligation", "Plan to obligation"],
   ]) {
     const p = await open(url);

@@ -14,7 +14,8 @@ import { ChevronRight, House, Menu } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { EXTERNAL_ITEMS, NAV, NAV_GROUP_LABELS, SCREENS, externalHref, isScreenKey, screenHref, type ExternalItem, type ScreenKey } from "./nav";
+import { EXTERNAL_ITEMS, NAV, NAV_GROUP_LABELS, SCREENS, externalHref, isScreenKey, scopeNote, screenHref, type ExternalItem, type ScreenKey } from "./nav";
+import { SECTOR_LABELS } from "@/lib/repository/corpus";
 
 /** The surface the frame wraps: a dashboard screen, or one of the pages beside it. */
 export type FrameActive = ScreenKey | "dataStandard" | "trace";
@@ -41,7 +42,7 @@ export function BudgetFrame({
         {/* A div, not <aside>: globals.css re-themes every <aside> as the
             editor's navy sidebar under the bettergov theme. */}
         <div className="hidden xl:block w-58 shrink-0">
-          <div className="sticky top-14 max-h-[calc(100dvh-3.5rem)] overflow-y-auto py-5 -mx-1 px-1">
+          <div className="sticky top-14 max-h-[calc(100dvh-3.5rem)] overflow-y-auto py-4 -mx-1 px-1">
             <SidebarNav active={active} params={params} />
           </div>
         </div>
@@ -75,7 +76,7 @@ export function BudgetFrame({
             </div>
           </div>
 
-          <div className="py-6">
+          <div className="py-6" data-screen-col>
             <Breadcrumb active={active} params={params} />
             {children}
           </div>
@@ -148,8 +149,8 @@ function SidebarNav({ active, params, onNavigate }: { active: FrameActive; param
         Home
       </Link>
       {NAV.map(({ group, items }) => (
-        <div key={group} className="mt-3">
-          <p className="px-2.5 pb-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+        <div key={group} className="mt-4">
+          <p className="px-2.5 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             {NAV_GROUP_LABELS[group]}
           </p>
           <ul className="space-y-0.5">
@@ -166,7 +167,7 @@ function SidebarNav({ active, params, onNavigate }: { active: FrameActive; param
           </ul>
         </div>
       ))}
-      <p className="px-2.5 mt-4 text-[11px] text-muted-foreground">Demonstration · fictitious data</p>
+      <p className="px-2.5 mt-2 text-[11px] text-muted-foreground">Demonstration · fictitious data</p>
     </nav>
   );
 }
@@ -175,21 +176,30 @@ function Breadcrumb({ active, params }: { active: FrameActive; params: URLSearch
   if (active === "home") return null;
   const trail: { label: string; href?: string }[] = [{ label: "Home", href: screenHref("home", params) }];
   if (active === "dataStandard") {
-    trail.push({ label: NAV_GROUP_LABELS.resources }, { label: EXTERNAL_ITEMS.dataStandard.label });
+    trail.push({ label: EXTERNAL_ITEMS.dataStandard.label });
   } else if (active === "trace") {
-    trail.push({ label: NAV_GROUP_LABELS.execution }, { label: SCREENS.money.label, href: screenHref("money", params) }, { label: "Project trace" });
+    trail.push({ label: SCREENS.money.label, href: screenHref("money", params) }, { label: "Project trace" });
+  } else if (active === "posture" && params.get("sector")) {
+    // A sector drill-down: the trail names the lens and the screen it came from.
+    trail.push(
+      { label: SCREENS.sectors.label, href: screenHref("sectors", params) },
+      { label: SECTOR_LABELS[params.get("sector") ?? ""] ?? SCREENS.posture.label }
+    );
   } else {
     const group = SCREENS[active].group;
-    // Only the ICT domains group has a page of its own (the hub).
-    if (group && active !== "domains") {
-      trail.push(group === "domains" ? { label: NAV_GROUP_LABELS.domains, href: screenHref("domains", params) } : { label: NAV_GROUP_LABELS[group] });
+    // Only the ICT domains group has a page of its own (the hub); every other
+    // group name would be a dead crumb, so it is not shown.
+    if (group === "domains" && active !== "domains") {
+      trail.push({ label: NAV_GROUP_LABELS.domains, href: screenHref("domains", params) });
     }
     trail.push({ label: SCREENS[active].label });
   }
+  const note = scopeNote(params);
 
   return (
-    <nav aria-label="Breadcrumb" className="mb-4">
-      <ol className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+      <nav aria-label="Breadcrumb">
+        <ol className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
         {trail.map((crumb, i) => {
           const last = i === trail.length - 1;
           return (
@@ -208,6 +218,12 @@ function Breadcrumb({ active, params }: { active: FrameActive; params: URLSearch
           );
         })}
       </ol>
-    </nav>
+      </nav>
+      {note ? (
+        <p data-scope-note className="text-xs text-muted-foreground">
+          {note.kind === "sector" ? "Sector" : "Agency"}: {note.label}
+        </p>
+      ) : null}
+    </div>
   );
 }

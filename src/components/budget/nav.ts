@@ -26,6 +26,22 @@ export type ScreenKey =
 
 export type NavGroup = "overview" | "investment" | "domains" | "execution" | "agencies" | "resources";
 
+import { SECTOR_LABELS } from "@/lib/repository/corpus";
+
+/**
+ * The scope line beside the breadcrumb: names the sector or agency a screen is
+ * scoped to, so a filtered screen never reads as the whole government. The
+ * agency acronym comes from the slug prefix (corpus convention: every slug
+ * starts with the acronym, e.g. ncra-2027-2029 -> NCRA).
+ */
+export function scopeNote(params: URLSearchParams): { kind: "sector" | "agency"; label: string } | null {
+  const agency = params.get("agency");
+  if (agency) return { kind: "agency", label: agency.split("-")[0]?.toUpperCase() ?? agency };
+  const sector = params.get("sector");
+  if (sector && SECTOR_LABELS[sector]) return { kind: "sector", label: SECTOR_LABELS[sector] };
+  return null;
+}
+
 export const NAV_GROUP_LABELS: Record<NavGroup, string> = {
   overview: "Overview",
   investment: "Investment",
