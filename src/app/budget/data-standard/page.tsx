@@ -72,11 +72,11 @@ const SAMPLE_ROW = `{
 }`;
 
 const PUBLISHING_RULES = [
-  ["Same math everywhere.", "Totals come from line items through the B.1–B.4 engine. Nobody types a total."],
-  ["Versioned.", "Each amendment is a new file. Earlier versions stay public, so changes are visible."],
+  ["One calculation method.", "Totals are derived from line items through the B.1–B.4 engine. No total is entered manually."],
+  ["Versioned files.", "Each amendment is a new file. Earlier versions remain public, so changes are visible."],
   ["Machine-readable.", "The .issp JSON plus a flat CSV of line items, under an open licence."],
-  ["Security first.", "Network diagrams and cybersecurity details (Part II-B, III-A) stay out of the public release."],
-  ["Privacy.", "Only official names and positions. No other personal data (RA 10173)."],
+  ["Security exclusions.", "Network diagrams and cybersecurity details (Part II-B, III-A) remain outside the public release."],
+  ["Privacy protection.", "Only official names and positions appear. No other personal data is published (RA 10173)."],
   ["Status is explicit.", "Draft, submitted and endorsed plans are labelled. Dashboards count endorsed plans by default."],
 ] as const;
 
@@ -87,11 +87,12 @@ export default function DataStandardPage() {
       <div className="space-y-6">
 
         <section>
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Data standard · draft for discussion</p>
-          <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-3">What structured ISSP data should know</h1>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Draft for discussion</p>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-3">Data standard</h1>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">
-            A PDF answers one reader once. A structured ISSP answers the same questions for every agency, every year,
-            with the same math. Most fields exist in the ISSP Builder today. A few join keys connect it to COMPASS.
+            The structured fields the ISSP form already carries, the seven join keys that connect it to COMPASS, and
+            the publishing rules for an open-data release. Most fields exist in the ISSP Builder today; the join keys
+            are the proposed addition.
           </p>
         </section>
 
@@ -99,7 +100,7 @@ export default function DataStandardPage() {
 
         {/* ── Stakeholder questions ── */}
         <section>
-          <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-2.5">The questions it must answer</p>
+          <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-2.5">Questions the standard must answer</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {STAKEHOLDER_QUESTIONS.map((s) => (
               <div key={s.who} className="rounded-lg ring-1 ring-foreground/10 bg-card p-4 flex flex-col gap-1.5">
@@ -116,7 +117,7 @@ export default function DataStandardPage() {
           <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
             <div>
               <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">Field map · ISSP schema v14</p>
-              <h2 className="font-display text-lg font-bold tracking-tight mt-0.5">The fields, and what they connect to</h2>
+              <h2 className="font-display text-lg font-bold tracking-tight mt-0.5">ISSP fields and their connections</h2>
             </div>
             <div className="flex gap-2 text-[10px]">
               <span className="inline-flex items-center gap-1 rounded-full bg-success-bg text-success border border-success-border px-2 py-0.5 font-semibold">
@@ -181,7 +182,7 @@ export default function DataStandardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
             <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-1">One line item, as open data</p>
-            <h2 className="font-display text-base font-bold tracking-tight mb-3">The row COMPASS can join</h2>
+            <h2 className="font-display text-base font-bold tracking-tight mb-3">Sample record with join keys</h2>
             <pre className="rounded-lg bg-[#0E1A33] text-[#E6ECF7] p-3.5 text-[11px] leading-relaxed font-mono overflow-x-auto">{SAMPLE_ROW}</pre>
             <p className="text-[11px] text-muted-foreground mt-2.5">
               Codes are mock values. The same record also exports as one CSV row per line item: the dashboard&apos;s
@@ -191,7 +192,7 @@ export default function DataStandardPage() {
 
           <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
             <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-1">Publishing rules</p>
-            <h2 className="font-display text-base font-bold tracking-tight mb-3">Open by default, safe by design</h2>
+            <h2 className="font-display text-base font-bold tracking-tight mb-3">Open data within security and privacy limits</h2>
             <ol className="space-y-2.5 text-sm leading-relaxed list-decimal pl-5">
               {PUBLISHING_RULES.map(([head, body]) => (
                 <li key={head}>
@@ -205,11 +206,11 @@ export default function DataStandardPage() {
         {/* ── Where this goes: the agency-side loop ── */}
         <section>
           <div className="mb-3">
-            <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-1">Where this goes</p>
-            <h2 className="font-display text-lg font-bold tracking-tight">One trail, three doors, and the ISSP stays the source of truth</h2>
+            <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-1">Agency-side updates</p>
+            <h2 className="font-display text-lg font-bold tracking-tight">The ISSP as the single source of record</h2>
             <p className="text-xs text-muted-foreground mt-1 max-w-3xl leading-relaxed">
-              Execution facts (procurement status, KPI actuals, physical progress) go stale inside a static plan. An
-              agency-side portal adds them against the same project keys: one update, every view below refreshes.
+              Execution facts (procurement status, KPI actuals, physical progress) become stale inside a static plan. An
+              agency-side portal records them against the same project keys: one update refreshes every view below.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -217,7 +218,7 @@ export default function DataStandardPage() {
               {
                 n: "1",
                 who: "Agency portal (planned)",
-                what: "Agencies update execution per project: procurement stage, % complete, KPI actuals. A five-minute quarterly chore.",
+                what: "Agencies update execution per project: procurement stage, % complete, KPI actuals. A short quarterly update.",
               },
               {
                 n: "2",
@@ -227,7 +228,7 @@ export default function DataStandardPage() {
               {
                 n: "3",
                 who: "Public reports",
-                what: "Citizens get the plain-language brief; endorsed plans publish as open data beside COMPASS.",
+                what: "Citizens receive the plain-language brief; endorsed plans are published as open data beside COMPASS.",
               },
             ].map((s) => (
               <div key={s.n} className="rounded-lg ring-1 ring-foreground/10 bg-card p-4 flex gap-3">
@@ -249,14 +250,14 @@ export default function DataStandardPage() {
             <div>
               <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">Capability matrix</p>
               <h2 className="font-display text-lg font-bold tracking-tight mt-0.5">
-                What the current form yields, and what each refinement unlocks
+                Current-form capability and proposed refinements
               </h2>
             </div>
             <Link
               href="/budget?view=posture&mode=current"
               className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors"
             >
-              See it live on the dashboard →
+              Open the current-form dashboard →
             </Link>
           </div>
           <div className="overflow-x-auto rounded-lg border">
@@ -287,19 +288,19 @@ export default function DataStandardPage() {
             </table>
           </div>
           <p className="text-[11px] text-muted-foreground mt-2.5 leading-relaxed">
-            The dashboard&apos;s <strong>Data mode</strong> switch demonstrates this live: flip to{" "}
-            <em>Current form (v14)</em> and every panel in the lower tiers dims behind a lock naming the field it
-            waits on. The top tier keeps running untouched.
+            The dashboard&apos;s <strong>Data mode</strong> switch demonstrates this live: in{" "}
+            <em>Current form (v14)</em>, every panel in the lower tiers dims behind a lock naming the field it requires.
+            The top tier keeps running without change.
           </p>
         </section>
 
         {/* ── The ask ── */}
         <section className="rounded-xl bg-[var(--sidebar)] text-white p-6 flex flex-wrap gap-6 items-center">
           <div className="flex-1 min-w-72">
-            <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE] mb-1.5">The ask</p>
+            <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE] mb-1.5">Request</p>
             <p className="text-lg font-semibold leading-snug">
-              Make the ISSP the first record of every ICT peso in COMPASS: the plan the rest of the trail is checked
-              against.
+              Adopt the ISSP as the primary record of ICT spending in COMPASS: the plan against which the rest of the
+              spending trail is checked.
             </p>
           </div>
           <ol className="flex-1 min-w-64 list-decimal pl-5 space-y-1.5 text-sm leading-relaxed text-[#E6ECF7]">

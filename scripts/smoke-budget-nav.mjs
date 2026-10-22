@@ -352,8 +352,18 @@ try {
   }
   {
     const p = await open("/budget/data-standard");
-    const href = await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("See it live on the dashboard"))?.getAttribute("href"));
+    const href = await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("Open the current-form dashboard"))?.getAttribute("href"));
     check(href === "/budget?view=posture&mode=current", `data standard links to the posture grid in Current form (${href})`);
+    const tone = await p.evaluate(() => ({
+      h1: document.querySelector("h1")?.textContent?.trim() ?? "",
+      questions: [...document.querySelectorAll("h1,h2,h3")].map((h) => h.textContent?.trim() ?? "").filter((t) => t.endsWith("?")),
+      emDash: document.body.innerText.includes("\u2014"),
+      askBand: document.body.innerText.toUpperCase().includes("THE ASK"),
+    }));
+    check(tone.h1 === "Data standard", `data standard: h1 equals the sidebar label (got "${tone.h1}")`);
+    check(tone.questions.length === 0, `data standard: no question headings (${tone.questions.join(" | ")})`);
+    check(!tone.emDash, "data standard: no em dashes");
+    check(!tone.askBand, "data standard: no \"The ask\" band label");
     await p.close();
     const m = await open("/budget/data-standard", 390, 844);
     check(!(await m.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1)), "390: data standard does not overflow");
@@ -388,7 +398,7 @@ try {
     await click('nav[aria-label="Dashboard"] a[href*="view=money"]', "sidebar Plan to obligation");
     check((await at()).includes("mode=current") && (await has(p, "Requires: UACS join keys")), `demo 5: Plan to obligation keeps the mode and shows its locks (${await at()})`);
     await click('nav[aria-label="Dashboard"] a[href^="/budget/data-standard"]', "sidebar Data standard");
-    check((await at()).startsWith("/budget/data-standard?") && (await at()).includes("mode=current") && (await has(p, "What structured ISSP data should know")), `demo 6: data standard, scope carried (${await at()})`);
+    check((await at()).startsWith("/budget/data-standard?") && (await at()).includes("mode=current") && (await p.evaluate(() => document.querySelector("h1")?.textContent?.trim() === "Data standard")), `demo 6: data standard, scope carried (${await at()})`);
     await p.close();
   }
 
