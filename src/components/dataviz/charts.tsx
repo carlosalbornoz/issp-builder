@@ -57,7 +57,7 @@ export function BarList({
                     {share > 0 && share < 0.001
                       ? "<0.1%"
                       : share < 0.01
-                        ? `${(share * 100).toFixed(1)}%`
+                        ? `${+(share * 100).toFixed(1)}%`
                         : `${Math.round(share * 100)}%`}
                   </span>
                 ) : null}

@@ -150,6 +150,9 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
   const f25 = funnelRows(2025, "closed");
   const f26 = funnelRows(2026, "executing");
   const f27 = funnelRows(2027, "nep");
+  // One shared scale across the three years, so equal amounts draw equal bars
+  // instead of each column maxing its own year.
+  const sharedMax = Math.max(f25.max, f26.max, f27.max);
 
 
   return (
@@ -160,9 +163,9 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
           <p className="text-xs text-muted-foreground">GAA agencies in scope: {gaa.length}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <FunnelPanel title="FY2025" pill="Closed" pillCls="bg-success-bg text-success border border-success-border" f={f25} />
-          <FunnelPanel title="FY2026" pill="Executing · Q2" pillCls="bg-warning-bg text-warning border border-warning-border" f={f26} />
-          <FunnelPanel title="FY2027" pill="NEP in Congress" pillCls="bg-info-bg text-info border border-info-border" f={f27} />
+          <FunnelPanel title="FY2025" pill="Closed" pillCls="bg-success-bg text-success border border-success-border" f={{ ...f25, max: sharedMax }} />
+          <FunnelPanel title="FY2026" pill="Executing · Q2" pillCls="bg-warning-bg text-warning border border-warning-border" f={{ ...f26, max: sharedMax }} />
+          <FunnelPanel title="FY2027" pill="NEP in Congress" pillCls="bg-info-bg text-info border border-info-border" f={{ ...f27, max: sharedMax }} />
         </div>
       </div>
     </>

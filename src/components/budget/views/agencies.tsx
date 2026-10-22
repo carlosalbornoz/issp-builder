@@ -149,7 +149,7 @@ function AgencyRow({ agency: a, fund }: { agency: CorpusProfile; fund: string })
             <span className="text-muted-foreground hidden xl:inline"> · {a.name}</span>
           </div>
         </td>
-        <td className="px-3 py-2 text-muted-foreground">{TYPE_SHORT[a.type]}</td>
+        <td className="px-3 py-2 text-muted-foreground whitespace-nowrap">{TYPE_SHORT[a.type]}</td>
         {[0, 1, 2].map((i) => (
           <td key={i} className="px-3 py-2 text-right tabular-nums">
             {php(yearTotal(i))}

@@ -76,7 +76,7 @@ export function PublicShell({
       <main className="flex-1">{children}</main>
 
       <footer className="border-t bg-card">
-        <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <div className="flex gap-0.5" aria-hidden>
               {PART_COLORS.map((c) => (

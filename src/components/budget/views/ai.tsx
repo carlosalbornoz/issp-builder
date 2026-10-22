@@ -123,19 +123,19 @@ export function AiView({ corpus, lines, mode }: ViewProps) {
                 </div>
                 <div className="mt-4 space-y-1.5 text-xs">
                   <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">By kind</p>
-                  {(Object.keys(AI_KIND_META) as (keyof typeof AI_KIND_META)[]).map((kind) => {
-                    const rows = scoped.filter((x) => x.project.kind === kind);
-                    if (rows.length === 0) return null;
-                    return (
+                  {(Object.keys(AI_KIND_META) as (keyof typeof AI_KIND_META)[])
+                    .map((kind) => ({ kind, total: scoped.filter((x) => x.project.kind === kind).reduce((sum, x) => sum + x.total, 0) }))
+                    .filter((r) => r.total > 0)
+                    .sort((a, b) => b.total - a.total)
+                    .map(({ kind, total }) => (
                       <div key={kind} className="flex items-baseline justify-between gap-3">
                         <span className="inline-flex items-baseline gap-1.5">
                           <span className="w-2.5 h-2.5 rounded-sm shrink-0 translate-y-[-1px]" style={{ background: AI_KIND_META[kind].color }} aria-hidden />
                           {AI_KIND_META[kind].label}
                         </span>
-                        <span className="tabular-nums font-semibold shrink-0">{phpCompact(rows.reduce((sum, x) => sum + x.total, 0))}</span>
+                        <span className="tabular-nums font-semibold shrink-0">{phpCompact(total)}</span>
                       </div>
-                    );
-                  })}
+                    ))}
                 </div>
               </div>
             </div>

@@ -536,6 +536,76 @@ try {
     check(href === "/budget?view=posture&mode=current&sector=agricultureFood", `demo link carries the scope (${href})`);
     await p.close();
   }
+
+  console.log("\n[5j] Consistency: KPI icons, plural, share boundary, by-kind order, funnel scale");
+  {
+    const p = await open("/budget?view=ask");
+    const kpis = await p.evaluate(() => {
+      const tiles = [...document.querySelectorAll("[data-kpi]")];
+      return { total: tiles.length, withIcon: tiles.filter((t) => t.querySelector("svg")).length };
+    });
+    check(kpis.total === 5 && kpis.withIcon === 5, `all five KPI tiles carry the icon pattern (${kpis.withIcon}/${kpis.total})`);
+    await p.close();
+  }
+  {
+    const p = await open("/budget?agency=ncra-2027-2029");
+    check(await has(p, "1 agency ·"), "agency-scoped KPI sub reads 1 agency (plural)");
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=buys");
+    const shares = await p.evaluate(() => document.body.innerText);
+    check(!shares.includes("1.0%"), "sub-1 percent shares trim the trailing .0");
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=ai");
+    const order = await p.evaluate(() => {
+      const head = [...document.querySelectorAll("p")].find((n) => n.textContent?.trim() === "By kind");
+      const box = head?.parentElement;
+      return box ? [...box.querySelectorAll(":scope > div > span:first-child")].map((n) => n.textContent?.trim()) : [];
+    });
+    check(order.join("|") === "Own GPU cluster|Teaching and research|Shared platform", `By kind rows sort by value (${order.join(" | ")})`);
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=money");
+    const scale = await p.evaluate(() => {
+      const h3 = [...document.querySelectorAll("h3")].find((x) => x.textContent?.includes("Budget stage"));
+      const card = h3?.closest("div.rounded-xl");
+      const blocks = card ? [...card.querySelectorAll(":scope > div.grid > div")] : [];
+      const ratios = blocks
+        .map((b) => {
+          const planRow = [...b.querySelectorAll("div.grid")].find((r) => r.querySelector("span")?.textContent === "ISSP plan");
+          const bar = planRow?.querySelector(".h-4 > div");
+          const value = planRow?.querySelector(".w-20")?.textContent ?? "";
+          return bar && value ? bar.getBoundingClientRect().width / (parseFloat(value.replace(/[^0-9.]/g, "")) || 1) : null;
+        })
+        .filter((r) => r !== null);
+      if (ratios.length !== 3) return { ok: false, ratios };
+      const max = Math.max(...ratios);
+      const min = Math.min(...ratios);
+      return { ok: max - min <= max * 0.05, spread: Math.round(((max - min) / max) * 100) };
+    });
+    check(scale.ok, `budget-stage year columns share one scale (spread ${scale.spread ?? "?"}%)`);
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=agencies", 390, 844);
+    const nowrap = await p.evaluate(() => {
+      const cell = [...document.querySelectorAll("td")].find((td) => td.textContent?.includes("SUC"));
+      return cell ? getComputedStyle(cell).whiteSpace : null;
+    });
+    check(nowrap === "nowrap", `agency type cell does not wrap on phones (${nowrap})`);
+    const foot = await p.evaluate(() => {
+      const link = [...document.querySelectorAll("footer a")].find((a) => a.textContent?.includes("View on GitHub"));
+      const brandBlock = link?.parentElement?.previousElementSibling;
+      if (!link || !brandBlock) return null;
+      return Math.round(Math.abs(link.getBoundingClientRect().left - brandBlock.getBoundingClientRect().left));
+    });
+    check(foot !== null && foot <= 2, `stacked phone footer shares one alignment (left delta ${foot}px)`);
+    await p.close();
+  }
   {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");

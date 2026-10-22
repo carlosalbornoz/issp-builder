@@ -6,7 +6,7 @@
  * the editor's Summary of Investments uses.
  */
 
-import { Coins, Landmark, ReceiptText } from "lucide-react";
+import { Banknote, Building2, Coins, Landmark, ReceiptText } from "lucide-react";
 import { Donut, StackedColumns, SwatchLegend } from "@/components/dataviz/charts";
 import { BUCKETS } from "@/lib/repository/corpus";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
@@ -120,13 +120,13 @@ export function AskView({ profiles, lines, fy, mode, fyLabel }: ViewProps & { fy
               ? "No line items in scope"
               : yoyDelta !== null && fy !== "all"
                 ? `${yoyDelta >= 0 ? "▲" : "▼"} ${Math.abs(yoyDelta).toFixed(1)}% vs FY${fy - 1} (${phpCompact(priorFyTotal)})`
-                : `${profiles.length} agencies · ${fyLabel}`
+                : `${profiles.length} ${profiles.length === 1 ? "agency" : "agencies"} · ${fyLabel}`
           }
           highlight
           icon={Coins}
         />
-        <Kpi label="Capital outlay" value={scope.length === 0 ? "–" : phpCompact(co)} title={scope.length === 0 ? undefined : php(co)} sub={scope.length === 0 ? "No line items in scope" : `${pct(co, total)} of total`} />
-        <Kpi label="MOOE" value={scope.length === 0 ? "–" : phpCompact(total - co)} title={scope.length === 0 ? undefined : php(total - co)} sub={scope.length === 0 ? "No line items in scope" : `${pct(total - co, total)} of total`} />
+        <Kpi label="Capital outlay" icon={Building2} value={scope.length === 0 ? "–" : phpCompact(co)} title={scope.length === 0 ? undefined : php(co)} sub={scope.length === 0 ? "No line items in scope" : `${pct(co, total)} of total`} />
+        <Kpi label="MOOE" icon={Banknote} value={scope.length === 0 ? "–" : phpCompact(total - co)} title={scope.length === 0 ? undefined : php(total - co)} sub={scope.length === 0 ? "No line items in scope" : `${pct(total - co, total)} of total`} />
         <Kpi
           label="Top expense category"
           value={categories[0]?.name ?? "–"}

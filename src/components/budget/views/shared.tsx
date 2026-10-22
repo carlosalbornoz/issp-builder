@@ -124,6 +124,7 @@ export function Kpi({
 }) {
   return (
     <div
+      data-kpi
       className={
         highlight
           ? "rounded-lg border border-primary/25 bg-primary/5 px-4 py-3"
