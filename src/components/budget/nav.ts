@@ -59,7 +59,7 @@ export const SCREENS: Record<ScreenKey, { label: string; group: NavGroup | null;
     summary: "Cyber controls, cloud hosting, continuing costs, device support and execution, by agency.",
   },
   sectors: { label: "Sector comparison", group: "overview", summary: "Planned ICT investment by PDP 2023-2028 sector." },
-  ask: { label: "Investment summary", group: "investment", summary: "Proposed ICT investment by year, expense class and fund source." },
+  ask: { label: "Investment summary", group: "investment", summary: "Proposed ICT investment by year, expense class and fund\u00A0source." },
   buys: { label: "Expenditure by category", group: "investment", summary: "Proposed ICT investment by DICT expense category." },
   domains: { label: "ICT domains", group: "domains", summary: "Spending and readiness in each ICT domain." },
   cybersecurity: { label: "Cybersecurity", group: "domains", summary: "Part II-B controls, fleet exposure and advisory impact." },
@@ -68,15 +68,15 @@ export const SCREENS: Record<ScreenKey, { label: string; group: NavGroup | null;
   cloud: { label: "Cloud and software", group: "domains", summary: "Storage mix, hosting spending and cloud adoption." },
   ai: { label: "AI and compute", group: "domains", summary: "Tagged AI and compute requests, own-build and shared." },
   people: { label: "ICT workforce", group: "domains", summary: "ICT staff complement and capability spending." },
-  services: { label: "eGovernment services", group: "domains", summary: "eGovPH adoption, PNPKI use and online service reach." },
+  services: { label: "eGovernment services", group: "domains", summary: "eGovPH adoption, PNPKI use and online service\u00A0reach." },
   shared: { label: "Shared services", group: "domains", summary: "Duplicate systems and cross-agency programs." },
   money: {
     label: "Plan to obligation",
     group: "execution",
-    summary: "ISSP request through NEP, GAA, allotment, obligation and disbursement.",
+    summary: "ISSP request through NEP, GAA, allotment, obligation and\u00A0disbursement.",
   },
   absorptive: { label: "Absorptive capacity", group: "execution", summary: "FY2025 obligation rates against the FY2027 request." },
-  agencies: { label: "Agency ISSPs", group: "agencies", summary: "Proposed investment by agency, with links to each ISSP." },
+  agencies: { label: "Agency ISSPs", group: "agencies", summary: "Proposed investment by agency, with links to each\u00A0ISSP." },
 };
 
 /** Pages outside the ?view= switch that the sidebar also lists. */

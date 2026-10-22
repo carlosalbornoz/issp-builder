@@ -28,7 +28,7 @@ export function SectorsView({ profiles, lines, fy, params }: ViewProps & { param
   return (
     <div className="space-y-6">
       <ViewHeader title={SCREENS.sectors.label} lede={SCREENS.sectors.summary} />
-      <Panel title="Proposed investment by sector" sub="PDP 2023-2028 chapters · mock assignment, proposed field" hint="Select a sector to open its posture grid.">
+      <Panel title="Proposed investment by sector" sub="PDP 2023-2028 chapters · mock assignment, proposed\u00A0field" hint="Select a sector to open its posture grid.">
         <BarList
           items={rows.map((r) => ({
             key: r.key,

@@ -99,7 +99,7 @@ export function Panel({
           {title}
           {hint ? <HintTip label={`${title} methodology`} text={hint} /> : null}
         </h2>
-        {sub ? <p className="text-xs text-muted-foreground mt-0.5">{sub}</p> : null}
+        {sub ? <p className="text-xs text-muted-foreground mt-0.5 text-pretty">{sub}</p> : null}
       </div>
       {children}
     </section>
@@ -138,7 +138,7 @@ export function Kpi({
       <p className={cn("text-lg font-bold tabular-nums leading-tight truncate", highlight && "text-primary")} title={title ?? value}>
         {value}
       </p>
-      {sub ? <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2" title={sub}>{sub}</p> : null}
+      {sub ? <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2 text-pretty" title={sub}>{sub}</p> : null}
     </div>
   );
 }
@@ -217,7 +217,7 @@ export function ViewHeader({
         <div className="min-w-0">
           {eyebrow ? <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">{eyebrow}</p> : null}
           <h1 className="font-display text-lg sm:text-xl font-bold tracking-tight">{title}</h1>
-          {lede ? <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mt-1">{lede}</p> : null}
+          {lede ? <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mt-1 text-pretty">{lede}</p> : null}
         </div>
         {insights ? <InsightsButton items={insights} /> : null}
       </div>

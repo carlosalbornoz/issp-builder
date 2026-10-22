@@ -21,9 +21,9 @@ export function HomeView({ params, fyLabel, ...props }: ViewProps & { params: UR
     <div className="space-y-6">
       <div>
         <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight">ICT Budget Dashboard</h1>
-        <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mt-2">
+        <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mt-2 text-pretty">
           Proposed ICT investment across government, compiled from the Part IV Summary of Investments in each
-          agency ISSP.
+          agency{"\u00A0"}ISSP.
         </p>
       </div>
       <WhyNowBand corpus={corpus} mode={mode} />
@@ -58,7 +58,7 @@ export function TaskCard({ href, title, summary, headline, mode }: { href: strin
       className="group flex flex-col rounded-xl ring-1 ring-foreground/10 bg-card p-4 hover:bg-accent/40 active:bg-accent/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
     >
       <span className="text-sm font-semibold group-hover:text-primary transition-colors">{title}</span>
-      <span className="text-xs text-muted-foreground leading-snug mt-1">{summary}</span>
+      <span className="text-xs text-muted-foreground leading-snug mt-1 text-pretty">{summary}</span>
       <span className="mt-auto pt-3 flex items-baseline gap-2 min-w-0">
         {locked ? (
           <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -124,7 +124,7 @@ function WhyNowBand({ corpus, mode }: { corpus: ViewProps["corpus"]; mode: ViewP
         <WhyTile
           label="Continuing costs"
           value={`${Math.round(share26 * 100)}% → ${Math.round(share29 * 100)}%`}
-          sub="share of the annual request, FY2026 to FY2029"
+          sub="share of the annual request, FY2026 to FY2029"
         />
         <WhyTile
           label="AI and compute requests"

@@ -268,8 +268,8 @@ export function RepositoryBrowser() {
                     href={`/budget?view=shared&program=${p.key}`}
                     className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 hover:bg-accent/30 transition-colors flex flex-col"
                   >
-                    <p className="text-sm font-semibold leading-snug mb-2">{p.title}</p>
-                    <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-3">{p.description}</p>
+                    <p className="text-sm font-semibold leading-snug mb-2 text-balance">{p.title}</p>
+                    <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-3 text-pretty">{p.description}</p>
                     <div className="mt-auto flex items-center justify-between gap-2">
                       <span className="text-xs text-muted-foreground">{p.participants.join(" · ")}</span>
                       <span className="text-xs font-semibold tabular-nums text-primary whitespace-nowrap">{phpCompact(p.combinedCost)}</span>

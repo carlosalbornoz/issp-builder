@@ -606,6 +606,46 @@ try {
     check(foot !== null && foot <= 2, `stacked phone footer shares one alignment (left delta ${foot}px)`);
     await p.close();
   }
+
+  console.log("\n[5k] No single-word last lines on the flagged text");
+  {
+    // Word-level check: the last visual line of each flagged element carries at
+    // least two words (non-breaking joins and text-wrap: pretty keep pairs together).
+    const lastLineWords = (p, suffix) =>
+      p.evaluate((sfx) => {
+        const el = [...document.querySelectorAll("p, span")].find((n) => n.childElementCount === 0 && n.textContent?.trim().endsWith(sfx));
+        if (!el) return null;
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        const words = [];
+        while (walker.nextNode()) {
+          const node = walker.currentNode;
+          const parts = node.textContent.split(/(\s+)/);
+          let off = 0;
+          for (const part of parts) {
+            if (part.trim()) {
+              const r = document.createRange();
+              r.setStart(node, off);
+              r.setEnd(node, off + part.length);
+              const rect = r.getClientRects()[0];
+              if (rect) words.push({ w: part, top: Math.round(rect.top) });
+            }
+            off += part.length;
+          }
+        }
+        const lastTop = words[words.length - 1]?.top;
+        return words.filter((x) => x.top === lastTop).map((x) => x.w).join(" ");
+      }, suffix);
+    const home = await open("/budget");
+    const lede = await lastLineWords(home, "ISSP.");
+    check(lede !== null && lede.split(" ").length >= 2, `Home lede ends with a full pair (${lede})`);
+    await home.close();
+    const money = await open("/budget?view=money", 390, 844);
+    const t26 = await lastLineWords(money, "Jun)");
+    const t27 = await lastLineWords(money, "NEP");
+    check(t26 === "(30 Jun)", `FY2026 tile keeps its date together (${t26})`);
+    check(t27 === "the NEP", `FY2027 tile keeps its phrase together (${t27})`);
+    await money.close();
+  }
   {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");

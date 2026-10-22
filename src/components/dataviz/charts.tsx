@@ -46,14 +46,14 @@ export function BarList({
         const row = (
           <div className="group">
             <div className="flex items-baseline justify-between gap-3 mb-1">
-              <span className="text-sm text-foreground break-words line-clamp-2" title={item.label}>
+              <span className="text-sm text-foreground break-words line-clamp-2 text-pretty" title={item.label}>
                 {item.label}
               </span>
               {/* Value right-aligned against the fixed share column, so both columns stay tidy. */}
               <span className="flex items-baseline justify-end gap-2 shrink-0">
                 <span className="text-sm font-semibold tabular-nums text-foreground">{format(item.value)}</span>
                 {share !== null ? (
-                  <span className="text-xs text-muted-foreground tabular-nums w-9 text-right">
+                  <span className="text-xs text-muted-foreground tabular-nums w-10 text-right">
                     {share > 0 && share < 0.001
                       ? "<0.1%"
                       : share < 0.01

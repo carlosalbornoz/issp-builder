@@ -99,7 +99,7 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
                 );
               })}
               <p className="text-muted-foreground leading-relaxed">
-                {currentSystems.length} systems across {profiles.length} agencies; {pct(currentSystems.filter((s) => s.dataStorage === "CLOUD").length, currentSystems.length)} cloud-hosted.
+                {currentSystems.length} systems across {profiles.length} agencies; {pct(currentSystems.filter((s) => s.dataStorage === "CLOUD").length, currentSystems.length)} cloud‑hosted.
               </p>
             </div>
           </div>

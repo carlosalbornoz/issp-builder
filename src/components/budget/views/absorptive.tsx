@@ -100,7 +100,7 @@ function AbsorptiveTable({ gaa, profiles }: { gaa: CompassAgency[]; profiles: Co
           <span>
             Largest increase: <strong className="text-foreground">{steepest.profile.acronym}</strong> at{" "}
             <strong className="text-foreground tabular-nums">{steepest.ratio!.toFixed(1)}×</strong>, after obligating{" "}
-            {Math.round((steepest.y25.obligated! / steepest.y25.allotment!) * 100)}% in FY2025
+            {Math.round((steepest.y25.obligated! / steepest.y25.allotment!) * 100)}% in{"\u00A0"}FY2025
           </span>
         ) : (
           <span>Each GAA agency&apos;s FY2027 request is below its FY2025 obligations.</span>

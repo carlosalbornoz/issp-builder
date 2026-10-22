@@ -65,11 +65,11 @@ export function MoneyView({ corpus, profiles, mode, params }: ViewProps & { para
           rest of the execution half in current-form mode. */}
       <ProposedOnly mode={mode} requires="UACS join keys + a COMPASS execution feed (proposed)">
         <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3">Fiscal year status · mock COMPASS layer · GAA agencies</p>
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3">Fiscal year status · mock COMPASS layer · GAA agencies</p>
           <div className="grid grid-cols-2 gap-2.5">
             <CycleTile year="FY2025" label="closed" value={pct(sumCompass(2025, "obligated"), sumCompass(2025, "allotment"))} sub="of ICT allotments obligated" />
-            <CycleTile year="FY2026" label="executing" value={pct(sumCompass(2026, "obligated"), sumCompass(2026, "allotment"))} sub="obligated as of Q2 (30 Jun)" />
-            <CycleTile year="FY2027" label="NEP in Congress" value={pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} sub="of the ISSP request in the NEP" />
+            <CycleTile year="FY2026" label="executing" value={pct(sumCompass(2026, "obligated"), sumCompass(2026, "allotment"))} sub="obligated as of Q2 (30 Jun)" />
+            <CycleTile year="FY2027" label="NEP in Congress" value={pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} sub="of the ISSP request in the NEP" />
             <CycleTile year="FY2028" label="Budget Call" value={phpCompact(sumCompass(2028, "plan"))} sub="planned in ISSPs" />
           </div>
         </div>

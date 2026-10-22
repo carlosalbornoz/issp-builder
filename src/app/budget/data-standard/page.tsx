@@ -126,7 +126,7 @@ export default function DataStandardPage() {
             {STAKEHOLDER_QUESTIONS.map((s) => (
               <div key={s.who} className="rounded-lg ring-1 ring-foreground/10 bg-card p-4 flex flex-col gap-1.5">
                 <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">{s.who}</p>
-                <p className="text-sm font-semibold leading-snug">{s.q}</p>
+                <p className="text-sm font-semibold leading-snug text-balance">{s.q}</p>
                 <p className="text-xs text-muted-foreground leading-relaxed">{s.detail}</p>
               </div>
             ))}

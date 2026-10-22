@@ -17,7 +17,7 @@ import { Panel, ViewHeader, ViewProps } from "./shared";
 import { cn } from "@/lib/utils";
 
 const DUP_CLUSTERS = [
-  { key: "hris", type: "HR information system", check: "A shared government HRIS (candidate)", question: "Can these agencies use one SaaS contract?", patterns: [/hr\b/i, /human resource/i, /payroll/i, /personnel/i, /crew hr/i] },
+  { key: "hris", type: "HR information system", check: "A shared government HRIS (candidate)", question: "Can these agencies use one SaaS\u00A0contract?", patterns: [/hr\b/i, /human resource/i, /payroll/i, /personnel/i, /crew hr/i] },
   { key: "permits", type: "Permits and licensing", check: "eLGU shared services", question: "Can member LGUs share one permits platform?", patterns: [/permit/i, /licens/i, /bpls/i, /one-stop/i] },
   { key: "records", type: "Document tracking and records", check: "A shared records service (candidate)", question: "Is a common standard enough, or one platform?", patterns: [/record/i, /document/i, /archive/i, /registry/i] },
   { key: "financial", type: "Financial management and accounting", check: "IFMIS · eNGAS", question: "Which functions are not in the government-wide systems?", patterns: [/financ/i, /accounting/i] },
@@ -109,7 +109,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
             <thead>
               <tr className="bg-muted/50">
                 <th scope="col" className="border-b px-3 py-2 text-left font-semibold">System type</th>
-                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Agencies planning it</th>
+                <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Planning agencies</th>
                 <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Cost via linked projects</th>
                 <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Check first</th>
                 <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Suggested review question</th>
