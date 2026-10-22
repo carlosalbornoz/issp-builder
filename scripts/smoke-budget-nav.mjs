@@ -46,6 +46,14 @@ const text = (p) => p.evaluate(() => document.body.innerText.toLowerCase());
 // filter-control labels ("All fund sources") that every screen carries.
 const headings = (p) =>
   p.evaluate(() => [...document.querySelectorAll("h1,h2,h3,th")].map((h) => h.textContent ?? "").join("\n").toLowerCase());
+/** page.select that records a failure instead of aborting the run. */
+const trySelect = async (p, selector, value) => {
+  try {
+    await p.select(selector, value);
+  } catch {
+    check(false, `select ${selector} exists`);
+  }
+};
 const has = async (p, s) => (await text(p)).includes(s.toLowerCase());
 
 async function screen(url, { contains = [], lacks = [] }, label) {
@@ -133,6 +141,66 @@ try {
     check(!(await p.evaluate(() => !!document.querySelector('[role="dialog"]'))), "Esc closes the drawer");
     const homeBtn = await p.evaluate(() => !!document.querySelector('a[aria-label="Dashboard home"]'));
     check(homeBtn, "390: Home is one tap away without the drawer");
+    await p.close();
+  }
+
+  console.log("\n[3] Scope bar");
+  {
+    const p = await open("/budget?view=ask");
+    const bar = await p.evaluate(() => {
+      const el = document.querySelector('[data-scope-bar="full"]');
+      return { visible: !!el && el.getBoundingClientRect().width > 0, height: el ? Math.round(el.getBoundingClientRect().height) : 0 };
+    });
+    check(bar.visible, "1440: full scope bar visible");
+    check(bar.height > 0 && bar.height <= 56, `1440: scope bar is one row (${bar.height}px)`);
+    await trySelect(p, '[data-scope-bar="full"] select[aria-label="Filter by PDP sector"]', "agricultureFood");
+    await p.waitForFunction(() => location.search.includes("sector=agricultureFood"), { timeout: 15000 }).catch(() => {});
+    check((await p.evaluate(() => location.search)).includes("sector=agricultureFood"), "sector dropdown sets ?sector=");
+    await trySelect(p, '[data-scope-bar="full"] select[aria-label="Filter by fiscal year"]', "2027");
+    await new Promise((r) => setTimeout(r, 500));
+    check(await has(p, "FY2027 ISSP ask"), "FY dropdown scopes the Investment summary KPI");
+    await p.evaluate(() => document.querySelector('[data-scope-bar="full"] button[data-filters-trigger]')?.click());
+    await new Promise((r) => setTimeout(r, 400));
+    const popover = await p.evaluate(() => !!document.querySelector('select[aria-label="Filter by fund source"]'));
+    check(popover, "Filters popover opens with the fund-source filter");
+    const fundValue = await p.evaluate(() => [...(document.querySelector('select[aria-label="Filter by fund source"]')?.options ?? [])].map((o) => o.value).find((v) => v !== "all"));
+    await trySelect(p, 'select[aria-label="Filter by fund source"]', fundValue ?? "x");
+    await new Promise((r) => setTimeout(r, 400));
+    await p.keyboard.press("Escape");
+    await new Promise((r) => setTimeout(r, 300));
+    const badge = await p.evaluate(() => document.querySelector('[data-scope-bar="full"] [data-filter-count]')?.textContent?.trim());
+    check(badge === "1", `Filters badge counts one active filter (got ${badge})`);
+    await p.evaluate(() => [...document.querySelectorAll('[data-scope-bar="full"] button')].find((b) => b.textContent?.includes("Current form"))?.click());
+    await p.waitForFunction(() => location.search.includes("mode=current"), { timeout: 15000 }).catch(() => {});
+    check((await p.evaluate(() => location.search)).includes("mode=current"), "data-mode toggle sets ?mode=current");
+    await p.close();
+  }
+  for (const width of [1280, 1440, 1920]) {
+    const p = await open("/budget?view=ask&agency=ncra-2027-2029&mode=current", width, 900);
+    const over = await p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    check(over <= 1, `${width}: scope bar with agency chip fits (overflow ${over}px)`);
+    await p.close();
+  }
+  await screen("/budget?agency=nope", { contains: ["No agencies match the current filters", "Clear all filters"] }, "empty scope");
+  {
+    const p = await open("/budget?view=posture", 390, 844);
+    const compact = await p.evaluate(() => {
+      const full = document.querySelector('[data-scope-bar="full"]');
+      const mode = [...document.querySelectorAll('[data-scope-bar="compact"] button[aria-pressed]')].filter((b) => b.getBoundingClientRect().width > 0);
+      return { fullHidden: !full || full.getBoundingClientRect().width === 0, modeButtons: mode.length };
+    });
+    check(compact.fullHidden, "390: full scope bar hidden");
+    check(compact.modeButtons === 2, `390: data-mode toggle visible without opening anything (${compact.modeButtons})`);
+    await p.evaluate(() => document.querySelector('button[aria-label^="Scope"]')?.click());
+    await new Promise((r) => setTimeout(r, 500));
+    const sheet = await p.evaluate(() => document.querySelector('[role="dialog"]')?.textContent ?? "");
+    check(sheet.includes("Fiscal year") && sheet.includes("Sector"), "390: Scope opens a sheet with the filters");
+    check(!(await p.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1)), "390: no overflow with the scope sheet open");
+    await p.keyboard.press("Escape");
+    await new Promise((r) => setTimeout(r, 500));
+    check(!(await p.evaluate(() => !!document.querySelector('[role="dialog"]'))), "390: Esc closes the scope sheet");
+    const tall = await p.evaluate(() => Math.round(document.querySelector('[data-scope-bar="compact"]')?.closest(".sticky")?.getBoundingClientRect().height ?? 999));
+    check(tall <= 64, `390: sticky bar stays one row (${tall}px)`);
     await p.close();
   }
 } finally {

@@ -225,7 +225,7 @@ async function openInsights(p) {
   const p = await newPage();
   await p.goto(`${BASE}/budget?view=ask`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
-  await p.evaluate(() => [...document.querySelectorAll("button")].find((b) => b.textContent?.trim() === "FY2027")?.click());
+  await p.select('[data-scope-bar="full"] select[aria-label="Filter by fiscal year"]', "2027");
   await settle(p);
   await expectText(p, "FY2027 ISSP ask", "budget FY selector KPI");
   await expectText(p, "vs FY2026", "budget FY selector YoY");

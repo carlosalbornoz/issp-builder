@@ -12,14 +12,14 @@
 
 import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Info, Lock } from "lucide-react";
 import { BudgetFrame } from "./budget-frame";
+import { ScopeBar } from "./scope-bar";
 import { DemoNotice } from "@/components/repository/demo-notice";
 import { useCorpus, TYPE_LABELS, SECTORS } from "@/lib/repository/corpus";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
-import { cn, phpCompact } from "@/lib/utils";
-import { type AgencyLine, type DataMode, type FyFilter, FilterSelect } from "./views/shared";
+import { phpCompact } from "@/lib/utils";
+import type { AgencyLine, DataMode, FyFilter } from "./views/shared";
 import { resolveScreen } from "./nav";
 import { HomeView } from "./views/home";
 import { PostureView } from "./views/posture";
@@ -126,138 +126,27 @@ export function BudgetDashboard() {
       active={view}
       params={params}
       toolbar={
-        <div>
-          {/* Control bar */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pb-2.5 pt-2.5">
-            <div className="flex flex-wrap items-center gap-2" role="group" aria-labelledby="fy-filter-label">
-              <span className="text-[10px] uppercase tracking-widest text-muted-foreground" id="fy-filter-label">
-                Fiscal year
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {(["all", 2026, 2027, 2028, 2029, 2030] as FyFilter[]).map((option) => (
-                  <button
-                    key={String(option)}
-                    onClick={() => setFy(option)}
-                    aria-pressed={fy === option}
-                    className={cn(
-                      "min-h-8 px-3 rounded-full border text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
-                      fy === option ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30"
-                    )}
-                  >
-                    {option === "all" ? "All years" : `FY${option}`}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2" role="group" aria-labelledby="sector-filter-label">
-              <span className="text-[10px] uppercase tracking-widest text-muted-foreground" id="sector-filter-label">
-                Sector
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                <button
-                  onClick={() => setParam("sector", null)}
-                  aria-pressed={sector === "all"}
-                  title="All government (PDP-aligned sectors, mock assignment)"
-                  className={cn(
-                    "min-h-8 px-3 rounded-full border text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
-                    sector === "all" ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30"
-                  )}
-                >
-                  All government
-                </button>
-                {SECTORS.map((s) => {
-                  const count = agencies.filter((a) => a.sector === s.key).length;
-                  if (count === 0) return null;
-                  return (
-                    <button
-                      key={s.key}
-                      onClick={() => setParam("sector", s.key)}
-                      aria-pressed={sector === s.key}
-                      title={`${s.label} · ${s.pdp}`}
-                      className={cn(
-                        "min-h-8 px-3 rounded-full border text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
-                        sector === s.key ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30"
-                      )}
-                    >
-                      {s.short} <span className="tabular-foreground opacity-70">{count}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2" role="group" aria-labelledby="data-mode-label">
-              <span
-                id="data-mode-label"
-                className="text-[10px] uppercase tracking-widest text-muted-foreground inline-flex items-center gap-1"
-              >
-                Data mode
-                <span
-                  title={
-                    dataMode === "current"
-                      ? "This is today's form: every dimmed panel is one proposed field (or one link) away."
-                      : "Flip to Current form to see what today's ISSP already yields: every dimmed panel is one proposed field (or one link) away."
-                  }
-                  tabIndex={0}
-                  className="cursor-help inline-flex rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
-                >
-                  <Info className="w-3 h-3 text-muted-foreground/80" aria-hidden />
-                </span>
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {(
-                  [
-                    ["current", "Current form (v14)"],
-                    ["proposed", "Revised form (proposed)"],
-                  ] as [DataMode, string][]
-                ).map(([value, label]) => (
-                  <button
-                    key={value}
-                    onClick={() => setParam("mode", value === "current" ? "current" : null)}
-                    aria-pressed={dataMode === value}
-                    className={cn(
-                      "min-h-8 px-3 rounded-full border text-xs font-medium transition-colors inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
-                      dataMode === value
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30"
-                    )}
-                  >
-                    {value === "current" ? <Lock className="w-3 h-3" /> : null}
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Filters row */}
-          <div className="flex flex-wrap items-center gap-2 pb-3">
-            <FilterSelect ariaLabel="Filter by plan cycle"
-              className="w-full sm:w-auto" value={cycle} onChange={setCycle} options={[["all", "All cycles"], ...cycles.map((c) => [c, c] as [string, string])]} />
-            <FilterSelect
-              ariaLabel="Filter by agency type"
-              className="w-full sm:w-auto"
-              value={type}
-              onChange={setType}
-              options={[["all", "All types"], ...(["NGA", "GOCC", "LGU", "OTHER"] as const).map((t) => [t, TYPE_LABELS[t]] as [string, string])]}
-            />
-            <FilterSelect ariaLabel="Filter by fund source"
-              className="w-full sm:w-auto" value={fund} onChange={setFund} options={[["all", "All fund sources"], ...funds.map((f) => [f, f] as [string, string])]} />
-            {agencySlug && (
-              <button
-                onClick={() => setParam("agency", null)}
-                aria-label={`Clear agency filter: ${agencies.find((a) => a.slug === agencySlug)?.acronym ?? agencySlug}`}
-                className="inline-flex items-center gap-1 rounded-md border border-primary/25 bg-primary/5 px-2.5 h-9 text-sm text-primary hover:bg-primary/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
-              >
-                {agencies.find((a) => a.slug === agencySlug)?.acronym ?? agencySlug} ✕
-              </button>
-            )}
-            <span className="text-xs text-muted-foreground ml-auto hidden md:inline">
-              {lineCount} line items · {phpCompact(lineTotal)} {fyLabel}
-            </span>
-          </div>
-        </div>
+        <ScopeBar
+          sectors={SECTORS.map((s) => ({ key: s.key, label: s.label, count: agencies.filter((a) => a.sector === s.key).length })).filter((s) => s.count > 0)}
+          sector={sector}
+          onSector={(key) => setParam("sector", key)}
+          fy={fy}
+          onFy={setFy}
+          cycle={cycle}
+          onCycle={setCycle}
+          cycleOptions={[["all", "All cycles"], ...cycles.map((c) => [c, c] as [string, string])]}
+          type={type}
+          onType={setType}
+          typeOptions={[["all", "All types"], ...(["NGA", "GOCC", "LGU", "OTHER"] as const).map((t) => [t, TYPE_LABELS[t]] as [string, string])]}
+          fund={fund}
+          onFund={setFund}
+          fundOptions={[["all", "All fund sources"], ...funds.map((f) => [f, f] as [string, string])]}
+          agency={agencySlug ? { slug: agencySlug, acronym: agencies.find((a) => a.slug === agencySlug)?.acronym ?? agencySlug } : undefined}
+          onClearAgency={() => setParam("agency", null)}
+          mode={dataMode}
+          onMode={(m) => setParam("mode", m === "current" ? "current" : null)}
+          summary={`${lineCount} line items · ${phpCompact(lineTotal)} ${fyLabel}`}
+        />
       }
     >
         {view === "home" ? <DemoNotice className="mb-6" /> : null}

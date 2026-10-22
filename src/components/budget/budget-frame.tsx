@@ -45,25 +45,30 @@ export function BudgetFrame({
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="sticky top-14 z-40 bg-background/95 backdrop-blur-sm border-b -mx-4 px-4 sm:-mx-6 sm:px-6 xl:mx-0 xl:px-0">
-            <div className="flex items-center gap-2 pt-2.5 xl:hidden">
+          <div
+            className={cn(
+              "sticky top-14 z-40 bg-background/95 backdrop-blur-sm border-b -mx-4 px-4 sm:-mx-6 sm:px-6 xl:mx-0 xl:px-0",
+              !toolbar && "xl:hidden"
+            )}
+          >
+            <div className="flex items-center gap-2 py-2.5 min-w-0">
               <button
                 type="button"
                 onClick={() => setDrawerOpen(true)}
                 aria-label="Open dashboard menu"
-                className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+                className="xl:hidden inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-2.5 sm:px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
               >
-                <Menu className="w-4 h-4" aria-hidden /> Menu
+                <Menu className="w-4 h-4" aria-hidden /> <span className="hidden sm:inline">Menu</span>
               </button>
               <Link
                 href={screenHref("home", params)}
                 aria-label="Dashboard home"
-                className="inline-flex items-center justify-center h-9 w-9 rounded-md border border-input bg-background hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+                className="xl:hidden inline-flex items-center justify-center h-9 w-9 shrink-0 rounded-md border border-input bg-background hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
               >
                 <House className="w-4 h-4" aria-hidden />
               </Link>
+              {toolbar ? <div className="min-w-0 flex-1">{toolbar}</div> : null}
             </div>
-            {toolbar}
           </div>
 
           <div className="py-6">
