@@ -101,7 +101,7 @@ export function resolveScreen(view: string | null, agency: string | null): Scree
 }
 
 /** The scope keys that travel to the pages beside the dashboard (data standard, trace). */
-const SCOPE_KEYS = ["sector", "agency", "mode"] as const;
+const SCOPE_KEYS = ["sector", "agency", "mode", "fy", "cycle", "type", "fund"] as const;
 
 /** Append the carried scope keys to an href outside /budget (data standard, trace). */
 export function withScope(href: string, params: URLSearchParams, keys: readonly string[] = SCOPE_KEYS): string {

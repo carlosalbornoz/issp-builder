@@ -10,7 +10,7 @@
  * Zero chart libraries.
  */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BudgetFrame } from "./budget-frame";
 import { ScopeBar } from "./scope-bar";
@@ -41,15 +41,13 @@ import { SharedServicesView } from "./views/shared-services";
 
 const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
 const EMPTY_AGENCIES: CorpusProfile[] = [];
+const FY_VALUES = [2026, 2027, 2028, 2029, 2030] as const satisfies readonly FyFilter[];
+const TYPE_KEYS = ["NGA", "GOCC", "LGU", "OTHER"] as const;
 
 export function BudgetDashboard() {
   const params = useSearchParams();
   const router = useRouter();
   const { corpus, error } = useCorpus();
-  const [cycle, setCycle] = useState("all");
-  const [type, setType] = useState("all");
-  const [fund, setFund] = useState("all");
-  const [fy, setFy] = useState<FyFilter>("all");
 
   // Deep links, straight from the URL: ?view= picks the screen (legacy keys
   // resolve to their successor; default Home); ?sector= filters to one PDP
@@ -64,18 +62,40 @@ export function BudgetDashboard() {
   // Every scope change is one router.replace built from the current URL. The
   // resolved screen is written into ?view= first, so clearing the agency on a
   // bare ?agency= link (which opens Investment summary) stays on that screen.
+  // A ref carries the latest written query until the URL catches up, so rapid
+  // changes cannot overwrite each other from a stale snapshot.
+  const writtenRef = useRef<URLSearchParams | null>(null);
+  useEffect(() => {
+    writtenRef.current = null;
+  }, [params]);
   const replaceScope = (changes: Record<string, string | null>) => {
-    const next = new URLSearchParams(params.toString());
+    const next = new URLSearchParams((writtenRef.current ?? params).toString());
     if (!next.has("view") && view !== "home") next.set("view", view);
     Object.entries(changes).forEach(([key, value]) => {
       if (value === null || value === "all") next.delete(key);
       else next.set(key, value);
     });
+    writtenRef.current = next;
     router.replace(next.toString() ? `/budget?${next.toString()}` : "/budget");
   };
   const setParam = (key: string, value: string | null) => replaceScope({ [key]: value });
+  // The secondary controls write through the same URL writer, so the whole
+  // scope bar is shareable and survives every round trip.
+  const setFy = (v: FyFilter) => setParam("fy", v === "all" ? "all" : String(v));
+  const setCycle = (v: string) => setParam("cycle", v);
+  const setType = (v: string) => setParam("type", v);
+  const setFund = (v: string) => setParam("fund", v);
 
   const agencies = corpus?.agencies ?? EMPTY_AGENCIES;
+
+  // Invalid URL values (a stale corpus, a hand-edited link) fall back to "all".
+  const cycles = useMemo(() => [...new Set(agencies.map((a) => a.cycleLabel))].sort(), [agencies]);
+  const fyParam = params.get("fy");
+  const fy: FyFilter = FY_VALUES.includes(Number(fyParam) as (typeof FY_VALUES)[number]) ? (Number(fyParam) as FyFilter) : "all";
+  const cycleParam = params.get("cycle");
+  const cycle = cycleParam !== null && cycles.includes(cycleParam) ? cycleParam : "all";
+  const typeParam = params.get("type");
+  const type = typeParam !== null && TYPE_KEYS.includes(typeParam as (typeof TYPE_KEYS)[number]) ? typeParam : "all";
 
   const selected = useMemo(
     () =>
@@ -89,18 +109,19 @@ export function BudgetDashboard() {
     [agencies, agencySlug, sector, cycle, type]
   );
 
-  const lines: AgencyLine[] = useMemo(
-    () =>
-      selected.flatMap((a) =>
-        a.lineItems
-          .filter((l) => fund === "all" || l.fundSource === fund)
-          .map((l) => ({ ...l, acronym: a.acronym, slug: a.slug }))
-      ),
-    [selected, fund]
+  const allLines: AgencyLine[] = useMemo(
+    () => selected.flatMap((a) => a.lineItems.map((l) => ({ ...l, acronym: a.acronym, slug: a.slug }))),
+    [selected]
   );
-
-  const cycles = useMemo(() => [...new Set(agencies.map((a) => a.cycleLabel))].sort(), [agencies]);
-  const funds = useMemo(() => [...new Set(lines.map((l) => l.fundSource))], [lines]);
+  // Fund options come from the unfiltered lines, so picking a fund never
+  // shrinks its own dropdown.
+  const funds = useMemo(() => [...new Set(allLines.map((l) => l.fundSource))], [allLines]);
+  const fundParam = params.get("fund");
+  const fund = fundParam !== null && funds.includes(fundParam) ? fundParam : "all";
+  const lines: AgencyLine[] = useMemo(
+    () => allLines.filter((l) => fund === "all" || l.fundSource === fund),
+    [allLines, fund]
+  );
 
   const fyLabel = fy === "all" ? `across ${new Set(lines.map((l) => l.year)).size} fiscal years` : `FY${fy}`;
   // The toolbar readout and the CSV carry the same FY scope the screens show.
@@ -146,7 +167,7 @@ export function BudgetDashboard() {
           cycleOptions={[["all", "All cycles"], ...cycles.map((c) => [c, c] as [string, string])]}
           type={type}
           onType={setType}
-          typeOptions={[["all", "All types"], ...(["NGA", "GOCC", "LGU", "OTHER"] as const).map((t) => [t, TYPE_LABELS[t]] as [string, string])]}
+          typeOptions={[["all", "All types"], ...TYPE_KEYS.map((t) => [t, TYPE_LABELS[t]] as [string, string])]}
           fund={fund}
           onFund={setFund}
           fundOptions={[["all", "All fund sources"], ...funds.map((f) => [f, f] as [string, string])]}
@@ -173,14 +194,11 @@ export function BudgetDashboard() {
               <button
                 className="font-medium text-primary hover:underline"
                 onClick={() => {
-                  setCycle("all");
-                  setType("all");
-                  setFund("all");
-                  replaceScope({ agency: null, sector: null });
+                  replaceScope({ agency: null, sector: null, fy: "all", cycle: "all", type: "all", fund: "all" });
                 }}
               >
-                Clear all filters.
-              </button>
+                Clear all filters
+              </button>.
             </p>
           </div>
         ) : (

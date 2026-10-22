@@ -378,6 +378,42 @@ try {
     check(moneyCurrent === "true", `trace page marks Plan to obligation aria-current="true", not "page" (got "${moneyCurrent}")`);
     await t.close();
   }
+
+  console.log("\n[5g] The whole scope bar lives in the URL");
+  {
+    const p = await open("/budget");
+    await p.select('select[aria-label="Filter by fiscal year"]', "2027");
+    await p.waitForFunction(() => location.search.includes("fy=2027"), { timeout: 15000 }).catch(() => {});
+    await p.evaluate(() => document.querySelector("button[data-filters-trigger]")?.click());
+    await new Promise((r) => setTimeout(r, 400));
+    const cycleValue = await p.evaluate(() => [...(document.querySelector('select[aria-label="Filter by plan cycle"]')?.options ?? [])].map((o) => o.value).find((v) => v !== "all"));
+    const fundValue = await p.evaluate(() => [...(document.querySelector('select[aria-label="Filter by fund source"]')?.options ?? [])].map((o) => o.value).find((v) => v !== "all"));
+    await p.select('select[aria-label="Filter by plan cycle"]', cycleValue ?? "x");
+    await p.select('select[aria-label="Filter by agency type"]', "NGA");
+    await p.select('select[aria-label="Filter by fund source"]', fundValue ?? "x");
+    await p.keyboard.press("Escape");
+    await p.waitForFunction(
+      () => ["fy=2027", "cycle=", "type=NGA", "fund="].every((k) => location.search.includes(k)),
+      { timeout: 15000 }
+    ).catch(() => {});
+    const qs = await p.evaluate(() => location.search);
+    check(["fy=2027", "type=NGA"].every((k) => qs.includes(k)) && qs.includes("cycle=") && qs.includes("fund="), `all four filters land in the URL (${qs})`);
+    // Round trip through the data standard keeps every key.
+    await p.evaluate(() => document.querySelector('nav[aria-label="Dashboard"] a[href^="/budget/data-standard"]')?.click());
+    await p.waitForFunction(() => location.pathname === "/budget/data-standard", { timeout: 15000 }).catch(() => {});
+    await p.evaluate(() => [...document.querySelectorAll('nav[aria-label="Dashboard"] a')].find((a) => a.getAttribute("href")?.startsWith("/budget?"))?.click());
+    await p.waitForFunction(() => location.pathname === "/budget", { timeout: 15000 }).catch(() => {});
+    const back = await p.evaluate(() => location.search);
+    check(["fy=2027", "type=NGA"].every((k) => back.includes(k)) && back.includes("cycle=") && back.includes("fund="), `data standard round trip keeps the whole scope (${back})`);
+    // Clear all filters empties every key.
+    await p.goto(`${BASE}/budget?view=ask&agency=nope&fy=2027&cycle=${encodeURIComponent(cycleValue ?? "x")}&type=NGA&fund=${encodeURIComponent(fundValue ?? "x")}`, { waitUntil: "networkidle0", timeout: 60000 });
+    await p.waitForFunction(() => document.body.innerText.includes("No agencies match"), { timeout: 15000 }).catch(() => {});
+    await p.evaluate(() => [...document.querySelectorAll("button")].find((b) => b.textContent?.includes("Clear all filters"))?.click());
+    await p.waitForFunction(() => !/[&?](fy|cycle|type|fund|agency)=/.test(location.search), { timeout: 15000 }).catch(() => {});
+    const cleared = await p.evaluate(() => location.search);
+    check(!/[&?](fy|cycle|type|fund|agency)=/.test(cleared), `Clear all filters empties every scope key (${cleared})`);
+    await p.close();
+  }
   {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");
