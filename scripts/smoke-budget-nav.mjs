@@ -646,6 +646,21 @@ try {
     check(t27 === "the NEP", `FY2027 tile keeps its phrase together (${t27})`);
     await money.close();
   }
+
+  console.log("\n[5l] Expense class filter (capital outlay vs MOOE)");
+  {
+    const p = await open("/budget");
+    await p.evaluate(() => document.querySelector("button[data-filters-trigger]")?.click());
+    await new Promise((r) => setTimeout(r, 400));
+    await p.select('select[aria-label="Filter by expense class"]', "capitalOutlay");
+    await p.keyboard.press("Escape");
+    await p.waitForFunction(() => location.search.includes("class=capitalOutlay"), { timeout: 15000 }).catch(() => {});
+    await p.waitForFunction(() => [...document.querySelectorAll("span")].some((s) => s.textContent?.includes("line items · ₱3.84B")), { timeout: 15000 }).catch(() => {});
+    const qs = await p.evaluate(() => location.search);
+    const summary = await p.evaluate(() => [...document.querySelectorAll("span")].find((s) => s.textContent?.includes("line items"))?.textContent?.trim() ?? "");
+    check(qs.includes("class=capitalOutlay") && summary.includes("₱3.84B"), `expense class filter scopes the corpus to capital outlay (${qs} / ${summary})`);
+    await p.close();
+  }
   {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");

@@ -85,6 +85,7 @@ export function BudgetDashboard() {
   const setCycle = (v: string) => setParam("cycle", v);
   const setType = (v: string) => setParam("type", v);
   const setFund = (v: string) => setParam("fund", v);
+  const setClass = (v: string) => setParam("class", v);
 
   const agencies = corpus?.agencies ?? EMPTY_AGENCIES;
 
@@ -118,9 +119,12 @@ export function BudgetDashboard() {
   const funds = useMemo(() => [...new Set(allLines.map((l) => l.fundSource))], [allLines]);
   const fundParam = params.get("fund");
   const fund = fundParam !== null && funds.includes(fundParam) ? fundParam : "all";
+  // Expense class: the examiner's asset-vs-recurring split (Capital outlay / MOOE).
+  const classParam = params.get("class");
+  const expenseClass = classParam === "capitalOutlay" || classParam === "mooe" ? classParam : "all";
   const lines: AgencyLine[] = useMemo(
-    () => allLines.filter((l) => fund === "all" || l.fundSource === fund),
-    [allLines, fund]
+    () => allLines.filter((l) => (fund === "all" || l.fundSource === fund) && (expenseClass === "all" || l.expenseClass === expenseClass)),
+    [allLines, fund, expenseClass]
   );
 
   const fyLabel = fy === "all" ? `across ${new Set(lines.map((l) => l.year)).size} fiscal years` : `FY${fy}`;
@@ -135,7 +139,7 @@ export function BudgetDashboard() {
     const header = ["agency", "acronym", "type", "cycle", "year", "category", "expense_class", "bucket", "project", "item", "office", "fund_source", "qty", "unit_cost", "total"];
     const rows = selected.flatMap((a) =>
       a.lineItems
-        .filter((l) => (fund === "all" || l.fundSource === fund) && (fy === "all" || l.year === fy))
+        .filter((l) => (fund === "all" || l.fundSource === fund) && (fy === "all" || l.year === fy) && (expenseClass === "all" || l.expenseClass === expenseClass))
         .map((l) => [
           a.name, a.acronym, a.type, a.cycleLabel, String(l.year),
           categoryNameById.get(l.categoryId) ?? l.categoryId, l.expenseClass, l.bucket, l.projectTitle ?? "",
@@ -171,6 +175,9 @@ export function BudgetDashboard() {
           fund={fund}
           onFund={setFund}
           fundOptions={[["all", "All fund sources"], ...funds.map((f) => [f, f] as [string, string])]}
+          expenseClass={expenseClass}
+          onClass={setClass}
+          classOptions={[["all", "All expense classes"], ["capitalOutlay", "Capital outlay"], ["mooe", "MOOE"]]}
           agency={agencySlug ? { slug: agencySlug, acronym: agencies.find((a) => a.slug === agencySlug)?.acronym ?? agencySlug } : undefined}
           onClearAgency={() => setParam("agency", null)}
           mode={dataMode}
@@ -194,7 +201,7 @@ export function BudgetDashboard() {
               <button
                 className="font-medium text-primary hover:underline"
                 onClick={() => {
-                  replaceScope({ agency: null, sector: null, fy: "all", cycle: "all", type: "all", fund: "all" });
+                  replaceScope({ agency: null, sector: null, fy: "all", cycle: "all", type: "all", fund: "all", class: "all" });
                 }}
               >
                 Clear all filters

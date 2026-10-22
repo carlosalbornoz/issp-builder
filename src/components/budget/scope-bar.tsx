@@ -2,7 +2,7 @@
 
 /**
  * The scope bar: what the dashboard is looking at, on one row. Sector, fiscal
- * year (dropdowns, so the row fits beside the sidebar), the secondary filters (cycle, type, fund) behind a Filters popover, the
+ * year (dropdowns, so the row fits beside the sidebar), the secondary filters (cycle, type, expense class, fund) behind a Filters popover, the
  * agency chip, and the data-mode toggle, which stays visible at every width
  * because flipping it is the demo's lock beat. Below xl the filters move into
  * a Scope sheet and only the mode toggle stays inline.
@@ -32,6 +32,9 @@ export interface ScopeBarProps {
   fund: string;
   onFund: (v: string) => void;
   fundOptions: [string, string][];
+  expenseClass: string;
+  onClass: (v: string) => void;
+  classOptions: [string, string][];
   agency?: { slug: string; acronym: string };
   onClearAgency: () => void;
   mode: DataMode;
@@ -41,8 +44,8 @@ export interface ScopeBarProps {
 }
 
 export function ScopeBar(props: ScopeBarProps) {
-  const { sector, fy, cycle, type, fund, agency, onClearAgency, summary } = props;
-  const secondaryCount = [cycle, type, fund].filter((v) => v !== "all").length;
+  const { sector, fy, cycle, type, fund, expenseClass, agency, onClearAgency, summary } = props;
+  const secondaryCount = [cycle, type, fund, expenseClass].filter((v) => v !== "all").length;
   const scopeCount = secondaryCount + (sector !== "all" ? 1 : 0) + (fy !== "all" ? 1 : 0) + (agency ? 1 : 0);
 
   return (
@@ -115,11 +118,12 @@ function FyChips({ fy, onFy, wrap }: ScopeBarProps & { wrap?: boolean }) {
   );
 }
 
-function SecondaryFilters({ cycle, onCycle, cycleOptions, type, onType, typeOptions, fund, onFund, fundOptions }: ScopeBarProps) {
+function SecondaryFilters({ cycle, onCycle, cycleOptions, type, onType, typeOptions, fund, onFund, fundOptions, expenseClass, onClass, classOptions }: ScopeBarProps) {
   return (
     <>
       <FilterSelect ariaLabel="Filter by plan cycle" className="w-full" value={cycle} onChange={onCycle} options={cycleOptions} />
       <FilterSelect ariaLabel="Filter by agency type" className="w-full" value={type} onChange={onType} options={typeOptions} />
+      <FilterSelect ariaLabel="Filter by expense class" className="w-full" value={expenseClass} onChange={onClass} options={classOptions} />
       <FilterSelect ariaLabel="Filter by fund source" className="w-full" value={fund} onChange={onFund} options={fundOptions} />
     </>
   );
