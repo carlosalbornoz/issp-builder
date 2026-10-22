@@ -43,7 +43,7 @@ export interface ScopeBarProps {
 export function ScopeBar(props: ScopeBarProps) {
   const { sector, fy, cycle, type, fund, agency, onClearAgency, summary } = props;
   const secondaryCount = [cycle, type, fund].filter((v) => v !== "all").length;
-  const scopeCount = secondaryCount + (sector !== "all" ? 1 : 0) + (fy !== "all" ? 1 : 0);
+  const scopeCount = secondaryCount + (sector !== "all" ? 1 : 0) + (fy !== "all" ? 1 : 0) + (agency ? 1 : 0);
 
   return (
     <>
@@ -60,7 +60,12 @@ export function ScopeBar(props: ScopeBarProps) {
       {/* below xl: a Scope sheet beside the always-visible mode toggle */}
       <div data-scope-bar="compact" className="flex xl:hidden items-center gap-2 min-w-0">
         <ScopeSheet {...props} count={scopeCount} />
-        {agency ? <AgencyChip agency={agency} onClear={onClearAgency} compact /> : null}
+        {/* On phones the chip lives in the Scope sheet: the row has no room for it. */}
+        {agency ? (
+          <span className="hidden sm:inline-flex">
+            <AgencyChip agency={agency} onClear={onClearAgency} compact />
+          </span>
+        ) : null}
         <ModeToggle {...props} compact className="ml-auto" />
       </div>
     </>
@@ -172,14 +177,20 @@ function ScopeSheet(props: ScopeBarProps & { count: number }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Scope${props.count ? `, ${props.count} active` : ""}`}
-        className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+        className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-2.5 sm:px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
       >
-        <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden /> Scope <CountBadge count={props.count} />
+        <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden /> <span className="hidden sm:inline">Scope</span> <CountBadge count={props.count} />
       </button>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="bottom" className="gap-0 p-4 pb-6">
           <SheetTitle className="text-sm font-semibold mb-3">Scope</SheetTitle>
           <div className="space-y-4">
+            {props.agency ? (
+              <div className="space-y-1.5">
+                <p className={groupLabelCls}>Agency</p>
+                <AgencyChip agency={props.agency} onClear={props.onClearAgency} />
+              </div>
+            ) : null}
             <div className="space-y-1.5">
               <p className={groupLabelCls}>Sector</p>
               <SectorSelect {...props} className="w-full" />
