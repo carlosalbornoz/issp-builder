@@ -13,7 +13,7 @@ import { Popover } from "@base-ui/react/popover";
 import { Info, Lock, SlidersHorizontal, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { FilterSelect, type DataMode, type FyFilter } from "./views/shared";
+import { FilterSelect, HintTip, type DataMode, type FyFilter } from "./views/shared";
 
 const FY_OPTIONS: FyFilter[] = ["all", 2026, 2027, 2028, 2029, 2030];
 
@@ -251,17 +251,16 @@ function ModeToggle({ mode, onMode, compact, className }: ScopeBarProps & { comp
       <span id={labelId} className={cn(groupLabelCls, "items-center gap-1", compact ? "sr-only" : "inline-flex")}>
         {/* The word shows only where the row has room; the group keeps its name. */}
         <span className="sr-only 2xl:not-sr-only">Data mode</span>
-        <span
-          title={
-            mode === "current"
-              ? "Current form: figures from the ISSP form in use today. Each dimmed panel requires one proposed field or link."
-              : "Revised form: includes proposed fields with mock data. Select Current form to show only what today's ISSP provides."
-          }
-          tabIndex={compact ? -1 : 0}
-          className="cursor-help inline-flex rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
-        >
-          <Info className="w-3 h-3 text-muted-foreground/80" aria-hidden />
-        </span>
+        {!compact ? (
+          <HintTip
+            label="About the data modes"
+            text={
+              mode === "current"
+                ? "Current form: figures from the ISSP form in use today. Each dimmed panel requires one proposed field or link."
+                : "Revised form: includes proposed fields with mock data. Select Current form to show only what today's ISSP provides."
+            }
+          />
+        ) : null}
       </span>
       <div className="flex gap-1">
         {options.map(([value, label, short]) => (

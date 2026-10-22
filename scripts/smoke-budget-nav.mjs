@@ -326,16 +326,35 @@ try {
   await formal("/budget?view=money&sector=energy", "Plan to obligation", { contains: ["No GAA agencies in scope"], lacks: ["bring the loop back"] });
   await formal("/budget?view=absorptive", "Absorptive capacity", { contains: ["FY2027 request", "Request ÷ obligations"], lacks: ["Can each agency spend", "Steepest step"] });
   {
-    // Compact data mode: the info icon is sr-only on phones, so it must not be
-    // a tab stop there; at full width it stays reachable by keyboard.
+    // The data-mode explanation is a real tooltip: absent on phones (the sr-only
+    // group label keeps its name), keyboard-reachable at full width, opening
+    // with its text on focus.
     const p = await open("/budget", 390, 844);
-    const phone = await p.evaluate(() => document.querySelector('[data-scope-bar="compact"] span[title^="Current form:"], [data-scope-bar="compact"] span[title^="Revised form:"]')?.tabIndex);
-    check(phone === -1, `390: compact data-mode info icon is not a tab stop (tabIndex ${phone})`);
+    const phone = await p.evaluate(() => document.querySelector('[data-scope-bar="compact"] [aria-label="About the data modes"]') === null);
+    check(phone, "390: compact data mode renders no tooltip trigger");
     await p.close();
     const d = await open("/budget");
-    const desk = await d.evaluate(() => document.querySelector('span[title^="Current form:"], span[title^="Revised form:"]')?.tabIndex);
-    check(desk === 0, `1440: data-mode info icon stays keyboard reachable (tabIndex ${desk})`);
+    const desk = await d.evaluate(() => document.querySelector('[aria-label="About the data modes"]')?.tabIndex);
+    check(desk === 0, `1440: data-mode hint is keyboard reachable (tabIndex ${desk})`);
+    await d.evaluate(() => document.querySelector('[aria-label="About the data modes"]')?.focus());
+    await new Promise((r) => setTimeout(r, 500));
+    const tip = await d.evaluate(
+      () => [...document.querySelectorAll("body *")].find((n) => n.children.length === 0 && n.textContent?.startsWith("Revised form: includes proposed"))?.textContent?.slice(0, 30) ?? null
+    );
+    check(tip !== null, `data-mode tooltip opens on keyboard focus (${tip})`);
     await d.close();
+  }
+  {
+    const p = await open("/budget?view=ask");
+    const hint = await p.evaluate(() => document.querySelector('[aria-label="Fund sources methodology"]')?.tabIndex);
+    check(hint === 0, `panel methodology hint is keyboard reachable (tabIndex ${hint})`);
+    await p.evaluate(() => document.querySelector('[aria-label="Fund sources methodology"]')?.focus());
+    await new Promise((r) => setTimeout(r, 500));
+    const tip = await p.evaluate(() =>
+      [...document.querySelectorAll("body *")].some((n) => n.children.length === 0 && n.textContent?.startsWith("LGU and GOCC budgets"))
+    );
+    check(tip, "panel methodology tooltip opens on keyboard focus");
+    await p.close();
   }
 
   console.log("\n[5f] Round-10 audit: honest figures and controls");

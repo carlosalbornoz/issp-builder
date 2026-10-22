@@ -9,6 +9,7 @@
  */
 
 import { useRef, useState } from "react";
+import { Tooltip } from "@base-ui/react/tooltip";
 import { ChevronDown, Info, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CorpusLineItem, CorpusProfile, RepositoryCorpus } from "@/lib/repository/corpus-types";
@@ -43,6 +44,37 @@ export interface ViewProps {
 
 // ─── Presentational primitives ────────────────────────────────────────────────
 
+/**
+ * A real tooltip for methodology hints: opens on hover, keyboard focus and
+ * touch, with an accessible name. Replaces title-attribute hints, which only
+ * mouse users ever saw.
+ */
+export function HintTip({ label, text }: { label: string; text: string }) {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger
+        render={
+          <span
+            tabIndex={0}
+            role="img"
+            aria-label={label}
+            className="cursor-help inline-flex rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+          />
+        }
+      >
+        <Info className="w-3.5 h-3.5 text-muted-foreground/80" aria-hidden />
+      </Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Positioner sideOffset={6} className="isolate z-50">
+          <Tooltip.Popup className="max-w-64 rounded-md bg-popover p-2.5 text-xs leading-relaxed text-popover-foreground shadow-md ring-1 ring-foreground/10">
+            {text}
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  );
+}
+
 export function Panel({
   title,
   sub,
@@ -65,11 +97,7 @@ export function Panel({
         <h2 className="text-sm font-semibold flex items-center gap-1.5">
           {Icon ? <Icon className="w-4 h-4 text-muted-foreground" /> : null}
           {title}
-          {hint ? (
-            <span title={hint} tabIndex={0} className="cursor-help inline-flex rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60">
-              <Info className="w-3.5 h-3.5 text-muted-foreground/80" aria-hidden />
-            </span>
-          ) : null}
+          {hint ? <HintTip label={`${title} methodology`} text={hint} /> : null}
         </h2>
         {sub ? <p className="text-xs text-muted-foreground mt-0.5">{sub}</p> : null}
       </div>
