@@ -103,8 +103,10 @@ export function BudgetDashboard() {
   const funds = useMemo(() => [...new Set(lines.map((l) => l.fundSource))], [lines]);
 
   const fyLabel = fy === "all" ? `across ${new Set(lines.map((l) => l.year)).size} fiscal years` : `FY${fy}`;
-  const lineCount = lines.length.toLocaleString("en-PH");
-  const lineTotal = lines.reduce((s, l) => s + l.total, 0);
+  // The toolbar readout and the CSV carry the same FY scope the screens show.
+  const scopedLines = fy === "all" ? lines : lines.filter((l) => l.year === fy);
+  const lineCount = scopedLines.length.toLocaleString("en-PH");
+  const lineTotal = scopedLines.reduce((s, l) => s + l.total, 0);
 
   const viewProps = corpus ? { corpus, profiles: selected, lines, fy, mode: dataMode } : null;
 
@@ -112,7 +114,7 @@ export function BudgetDashboard() {
     const header = ["agency", "acronym", "type", "cycle", "year", "category", "expense_class", "bucket", "project", "item", "office", "fund_source", "qty", "unit_cost", "total"];
     const rows = selected.flatMap((a) =>
       a.lineItems
-        .filter((l) => fund === "all" || l.fundSource === fund)
+        .filter((l) => (fund === "all" || l.fundSource === fund) && (fy === "all" || l.year === fy))
         .map((l) => [
           a.name, a.acronym, a.type, a.cycleLabel, String(l.year),
           categoryNameById.get(l.categoryId) ?? l.categoryId, l.expenseClass, l.bucket, l.projectTitle ?? "",

@@ -337,6 +337,17 @@ try {
     check(desk === 0, `1440: data-mode info icon stays keyboard reachable (tabIndex ${desk})`);
     await d.close();
   }
+
+  console.log("\n[5f] Round-10 audit: honest figures and controls");
+  {
+    // The toolbar readout must follow the FY filter the screens apply (FY2027 = 172 lines, 1.48B).
+    const p = await open("/budget");
+    await p.select('select[aria-label="Filter by fiscal year"]', "2027");
+    await new Promise((r) => setTimeout(r, 700));
+    const summary = await p.evaluate(() => [...document.querySelectorAll("span")].find((s) => s.textContent?.includes("line items"))?.textContent?.trim() ?? "");
+    check(/172 line items · ₱1\.48B FY2027/.test(summary), `toolbar summary follows the FY filter (got "${summary}")`);
+    await p.close();
+  }
   {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");
