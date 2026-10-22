@@ -14,7 +14,7 @@ import puppeteer from "puppeteer";
 
 const BASE = process.env.SMOKE_BASE ?? "http://localhost:3000";
 const OUT_DIR = path.join(import.meta.dirname, "..", "work", "dbm-presentation", "screenshots");
-fs.mkdirSync(OUT_DIR, { recursive: true });
+fs.mkdirSync(path.join(OUT_DIR, "mobile"), { recursive: true });
 
 const browser = await puppeteer.launch({
   executablePath: "/root/.cache/puppeteer/chrome/linux-150.0.7871.24/chrome-linux64/chrome",
@@ -493,21 +493,44 @@ async function openInsights(p) {
   await p.close();
 }
 
-// 7 — QA widths: ultrawide (3440) must not overflow either (qa.md three-width pass).
+// 7 — QA widths: every dashboard screen at 390 (shot) and 3440 (overflow),
+// plus the current-form set at 1440 (round 9: one question per screen).
 {
-  const p = await newPage(3440, 1200);
-  for (const [url, label] of [
-    ["/budget", "ultrawide home"],
-    ["/budget?view=posture", "ultrawide posture"],
-    ["/budget?view=ask", "ultrawide investment summary"],
-    ["/budget?view=agencies", "ultrawide agencies"],
-    ["/budget?view=money", "ultrawide money"],
-  ]) {
-    await p.goto(`${BASE}${url}`, { waitUntil: "networkidle0", timeout: 60000 });
-    await settle(p);
-    await expectNoOverflow(p, label);
+  const SCREENS = ["home", "posture", "sectors", "ask", "buys", "domains", "cybersecurity", "devices", "networks", "cloud", "ai", "people", "services", "shared", "money", "absorptive", "agencies"];
+  const url = (key, extra = "") => `${BASE}/budget${key === "home" ? (extra ? `?${extra}` : "") : `?view=${key}${extra ? `&${extra}` : ""}`}`;
+
+  const phone = await newPage(390, 844);
+  for (const key of SCREENS) {
+    await phone.goto(url(key), { waitUntil: "networkidle0", timeout: 60000 });
+    await settle(phone);
+    await expectNoOverflow(phone, `phone ${key}`);
+    await phone.screenshot({ path: path.join(OUT_DIR, "mobile", `budget-${key}.png`), fullPage: true });
   }
-  await p.close();
+  ok("shot mobile/budget-<screen>.png ×17");
+  await phone.close();
+
+  const wide = await newPage(3440, 1200);
+  for (const key of SCREENS) {
+    await wide.goto(url(key), { waitUntil: "networkidle0", timeout: 60000 });
+    await settle(wide);
+    await expectNoOverflow(wide, `ultrawide ${key}`);
+  }
+  await wide.goto(url("home"), { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(wide);
+  await wide.screenshot({ path: path.join(OUT_DIR, "budget-ultrawide-home.png"), fullPage: false });
+  ok("shot budget-ultrawide-home.png (viewport)");
+  await wide.close();
+
+  const current = await newPage();
+  for (const key of ["home", "posture", "absorptive"]) {
+    await current.goto(url(key, "mode=current"), { waitUntil: "networkidle0", timeout: 60000 });
+    await settle(current);
+    await expectNoOverflow(current, `current-form ${key}`);
+    await current.screenshot({ path: path.join(OUT_DIR, `budget-${key}-current.png`), fullPage: true });
+  }
+  await expectText(current, "Requires: UACS join keys", "absorptive locks in current form");
+  ok("shot budget-{home,posture,absorptive}-current.png");
+  await current.close();
 }
 
 await browser.close();

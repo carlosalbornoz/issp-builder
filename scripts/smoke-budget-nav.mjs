@@ -345,6 +345,37 @@ try {
     check(await m.evaluate(() => !!document.querySelector('button[aria-label="Open dashboard menu"]')), "390: data standard has the dashboard menu");
     await m.close();
   }
+
+  console.log("\n[7] Demo path rehearsal: posture → sector lens → domain → mode flip → money → data standard");
+  {
+    const p = await open("/budget");
+    const click = async (selector, label) => {
+      const hit = await p.evaluate((sel) => {
+        const el = document.querySelector(sel);
+        el?.click();
+        return !!el;
+      }, selector);
+      check(hit, `demo: ${label} is clickable`);
+      await new Promise((r) => setTimeout(r, 900));
+    };
+    const at = () => p.evaluate(() => location.pathname + location.search);
+    await click('a[data-card][href*="view=posture"]', "Home card Government-wide posture");
+    check((await at()).includes("view=posture") && (await has(p, "Posture by agency")), `demo 1: posture grid (${await at()})`);
+    await click('nav[aria-label="Dashboard"] a[href*="view=sectors"]', "sidebar Sector comparison");
+    await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.getAttribute("href")?.includes("sector=agricultureFood") && a.textContent?.includes("Agriculture and food"))?.click());
+    await new Promise((r) => setTimeout(r, 900));
+    check((await at()).includes("sector=agricultureFood") && (await has(p, "PDP Ch. 5")), `demo 2: sector lens on the posture grid (${await at()})`);
+    await click('nav[aria-label="Dashboard"] a[href*="view=cybersecurity"]', "sidebar Cybersecurity");
+    check((await at()).includes("sector=agricultureFood"), "demo 3: domain keeps the sector lens");
+    await p.evaluate(() => [...document.querySelectorAll('[data-scope-bar="full"] button')].find((b) => b.textContent?.includes("Current form"))?.click());
+    await new Promise((r) => setTimeout(r, 900));
+    check((await has(p, "Requires: the Annex 1 asset inventory")) && (await has(p, "Cybersecurity control coverage")), "demo 4: mode flip locks the fleet panel, controls grid stays live");
+    await click('nav[aria-label="Dashboard"] a[href*="view=money"]', "sidebar Plan to obligation");
+    check((await at()).includes("mode=current") && (await has(p, "Requires: UACS join keys")), `demo 5: Plan to obligation keeps the mode and shows its locks (${await at()})`);
+    await click('nav[aria-label="Dashboard"] a[href="/budget/data-standard"]', "sidebar Data standard");
+    check((await at()) === "/budget/data-standard" && (await has(p, "What structured ISSP data should know")), "demo 6: data standard");
+    await p.close();
+  }
 } finally {
   await browser.close();
 }
