@@ -372,8 +372,69 @@ try {
     check((await has(p, "Requires: the Annex 1 asset inventory")) && (await has(p, "Cybersecurity control coverage")), "demo 4: mode flip locks the fleet panel, controls grid stays live");
     await click('nav[aria-label="Dashboard"] a[href*="view=money"]', "sidebar Plan to obligation");
     check((await at()).includes("mode=current") && (await has(p, "Requires: UACS join keys")), `demo 5: Plan to obligation keeps the mode and shows its locks (${await at()})`);
-    await click('nav[aria-label="Dashboard"] a[href="/budget/data-standard"]', "sidebar Data standard");
-    check((await at()) === "/budget/data-standard" && (await has(p, "What structured ISSP data should know")), "demo 6: data standard");
+    await click('nav[aria-label="Dashboard"] a[href^="/budget/data-standard"]', "sidebar Data standard");
+    check((await at()).startsWith("/budget/data-standard?") && (await at()).includes("mode=current") && (await has(p, "What structured ISSP data should know")), `demo 6: data standard, scope carried (${await at()})`);
+    await p.close();
+  }
+
+  console.log("\n[R] Final-review fixes");
+  for (const width of [360, 390]) {
+    for (const url of ["/budget?agency=ncra-2027-2029", "/budget?view=posture&agency=ncwtr-2026-2028&sector=governanceAdministration"]) {
+      const p = await open(url, width, 800);
+      const r = await p.evaluate(() => {
+        const d = document.documentElement;
+        const mode = [...document.querySelectorAll('[data-scope-bar="compact"] button[aria-pressed]')];
+        return { over: d.scrollWidth - d.clientWidth, modeRight: Math.max(...mode.map((b) => b.getBoundingClientRect().right)), client: d.clientWidth };
+      });
+      check(r.over <= 1 && r.modeRight <= r.client, `${width} ${url}: agency scope fits, mode toggle on screen (overflow ${r.over}, toggle right ${Math.round(r.modeRight)})`);
+      await p.close();
+    }
+  }
+  {
+    const p = await open("/budget?agency=ncra-2027-2029");
+    await p.evaluate(() => document.querySelector('[data-scope-bar="full"] button[aria-label^="Clear agency filter"]')?.click());
+    await p.waitForFunction(() => !location.search.includes("agency="), { timeout: 15000 }).catch(() => {});
+    await new Promise((r) => setTimeout(r, 600));
+    const q = await p.evaluate(() => location.search);
+    check(q.includes("view=ask") && !q.includes("agency=") && (await has(p, "Investment summary")) && !(await has(p, "Select an area to review")), `clearing the agency on a bare ?agency= link stays on Investment summary (${q})`);
+    await p.close();
+  }
+  for (const url of ["/budget?agency=nope", "/budget?view=ask&agency=nope&sector=agricultureFood"]) {
+    const p = await open(url);
+    await p.evaluate(() => [...document.querySelectorAll("button")].find((b) => b.textContent?.includes("Clear all filters"))?.click());
+    await p.waitForFunction(() => !location.search.includes("agency="), { timeout: 15000 }).catch(() => {});
+    await new Promise((r) => setTimeout(r, 600));
+    const q = await p.evaluate(() => location.search);
+    check(!q.includes("agency=") && !q.includes("sector=") && !(await has(p, "No agencies match the current filters")), `Clear all filters recovers from ${url} (${q})`);
+    if (url.includes("view=ask")) check(q.includes("view=ask"), "Clear all filters keeps the screen");
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=cybersecurity&sector=agricultureFood&mode=current");
+    await p.evaluate(() => document.querySelector('nav[aria-label="Dashboard"] a[href^="/budget/data-standard"]')?.click());
+    await p.waitForFunction(() => location.pathname === "/budget/data-standard", { timeout: 15000 }).catch(() => {});
+    await new Promise((r) => setTimeout(r, 800));
+    await p.evaluate(() => document.querySelector('nav[aria-label="Dashboard"] a[href*="view=cybersecurity"]')?.click());
+    await p.waitForFunction(() => location.pathname === "/budget", { timeout: 15000 }).catch(() => {});
+    const q = await p.evaluate(() => location.search);
+    check(q.includes("view=cybersecurity") && q.includes("sector=agricultureFood") && q.includes("mode=current"), `scope survives a Data standard round trip (${q})`);
+    await p.close();
+    const h = await open("/budget?sector=agricultureFood&mode=current");
+    const cardHref = await h.evaluate(() => document.querySelector('a[data-card][href^="/budget/data-standard"]')?.getAttribute("href"));
+    check(!!cardHref && cardHref.includes("sector=agricultureFood") && cardHref.includes("mode=current"), `Home Data standard card keeps the scope (${cardHref})`);
+    await h.close();
+  }
+  for (const view of ["domains", "sectors"]) {
+    const p = await open(`/budget?view=${view}&agency=ncra-2027-2029`);
+    await trySelect(p, '[data-scope-bar="full"] select[aria-label="Filter by fiscal year"]', "2026");
+    await new Promise((r) => setTimeout(r, 600));
+    check(!(await has(p, "₱0.00")), `${view}: no ₱0.00 when the year has no line items (en-dash null)`);
+    await p.close();
+  }
+  {
+    const p = await open("/budget?agency=ncra-2027-2029&view=home");
+    const body = await text(p);
+    check(!/\b1 pdp sectors\b/.test(body) && !/in 1 sectors\b/.test(body) && !/\b1\s*agencies\b/.test(body), "Home card details pluralise for one agency and one sector");
     await p.close();
   }
 } finally {
