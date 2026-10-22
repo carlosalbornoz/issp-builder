@@ -10,18 +10,19 @@ import Link from "next/link";
 import { Info } from "lucide-react";
 import type { CompassAgency, CorpusProfile } from "@/lib/repository/corpus-types";
 import { cn, phpCompact } from "@/lib/utils";
-import { ProposedOnly, RatePill, ViewProps } from "./shared";
+import { SCREENS } from "../nav";
+import { ProposedOnly, RatePill, ViewHeader, ViewProps } from "./shared";
 
 export function AbsorptiveView({ corpus, profiles, mode }: ViewProps) {
   const slugs = new Set(profiles.map((p) => p.slug));
   const gaa = corpus.compass.agencies.filter((ca) => ca.route === "GAA" && slugs.has(ca.slug));
   return (
     <div className="space-y-6">
+      <ViewHeader title={SCREENS.absorptive.label} lede={`${SCREENS.absorptive.summary} Execution figures use a mock COMPASS layer (proposed link).`} />
       {gaa.length === 0 ? (
         <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
           <p className="text-sm text-muted-foreground leading-relaxed">
-            No GAA-route agencies in this selection: GOCC and LGU budgets travel their own routes, so there is no
-            appropriation trail to follow here. Widen the sector or type filter to bring the loop back.
+            No GAA agencies in scope. GOCC and LGU budgets do not pass through the GAA.
           </p>
         </div>
       ) : (
@@ -40,11 +41,11 @@ function AbsorptiveTable({ gaa, profiles }: { gaa: CompassAgency[]; profiles: Co
   if (absorptive.length === 0) return null;
   return (
     <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
-      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Absorptive capacity · FY2025 execution vs FY2027 ask</p>
+      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">FY2025 execution against FY2027 request</p>
       <h3 className="text-sm font-semibold mt-1 mb-3">
-        Can each agency spend what it asks for?
+        Obligation rate and FY2027 request by agency
         <span
-          title="An en dash means the agency's plan years do not cover that column (FY2028-start plans carry no FY2027 ask). Agencies with no FY2025 execution record have no row. Execution figures are illustrative values in the shape of COMPASS data; GOCC and LGU plans sit outside the GAA."
+          title="An en dash means the agency's plan years do not cover that column (FY2028-start plans carry no FY2027 request). Agencies without an FY2025 execution record are not listed. Execution figures are illustrative values in the shape of COMPASS data; GOCC and LGU plans sit outside the GAA."
           tabIndex={0}
           className="cursor-help inline-flex ml-1 align-[-2px] rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
         >
@@ -60,8 +61,8 @@ function AbsorptiveTable({ gaa, profiles }: { gaa: CompassAgency[]; profiles: Co
               <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Allotment</th>
               <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Obligated</th>
               <th scope="col" className="border-b px-3 py-2 text-left font-semibold">Obligation rate</th>
-              <th scope="col" className="border-b px-3 py-2 text-right font-semibold">FY2027 ask</th>
-              <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Ask ÷ obligations</th>
+              <th scope="col" className="border-b px-3 py-2 text-right font-semibold">FY2027 request</th>
+              <th scope="col" className="border-b px-3 py-2 text-right font-semibold">Request ÷ obligations</th>
             </tr>
           </thead>
           <tbody>
@@ -97,16 +98,16 @@ function AbsorptiveTable({ gaa, profiles }: { gaa: CompassAgency[]; profiles: Co
         </span>
         {steepest ? (
           <span>
-            Steepest step: <strong className="text-foreground">{steepest.profile.acronym}</strong> at{" "}
+            Largest increase: <strong className="text-foreground">{steepest.profile.acronym}</strong> at{" "}
             <strong className="text-foreground tabular-nums">{steepest.ratio!.toFixed(1)}×</strong>, after obligating{" "}
-            {Math.round((steepest.y25.obligated! / steepest.y25.allotment!) * 100)}% of FY2025
+            {Math.round((steepest.y25.obligated! / steepest.y25.allotment!) * 100)}% in FY2025
           </span>
         ) : (
-          <span>Every GAA agency&apos;s FY2027 ask sits below its FY2025 obligations.</span>
+          <span>Each GAA agency&apos;s FY2027 request is below its FY2025 obligations.</span>
         )}
         {withoutY25 > 0 ? (
           <span>
-            {withoutY25 === 1 ? "1 GAA agency" : `${withoutY25} GAA agencies`} with no FY2025 record (no row)
+            {withoutY25 === 1 ? "1 GAA agency" : `${withoutY25} GAA agencies`} without an FY2025 record (not listed)
           </span>
         ) : null}
       </div>

@@ -11,16 +11,17 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import type { CompassAgency, CompassYearRecord, CorpusProcurementRow, CorpusProcurementStage } from "@/lib/repository/corpus-types";
 import { cn, php, phpCompact } from "@/lib/utils";
+import { SCREENS } from "../nav";
 import { CycleTile, FUNNEL, ProposedOnly, StageTile, ViewHeader, ViewProps, pct, pluralProjects } from "./shared";
 
 const STAGES = [
   { n: "1", label: "Plan", system: "ISSP", detail: "3-year plan, DICT-endorsed. Projects, line items, KPIs.", source: ".issp file", ours: true },
-  { n: "2", label: "Propose", system: "NEP", detail: "What the Executive asks Congress for.", source: "COMPASS", ours: false },
-  { n: "3", label: "Authorize", system: "GAA", detail: "What Congress approves.", source: "COMPASS", ours: false },
+  { n: "2", label: "Propose", system: "NEP", detail: "Executive budget proposal to Congress.", source: "COMPASS", ours: false },
+  { n: "3", label: "Authorize", system: "GAA", detail: "Appropriation approved by Congress.", source: "COMPASS", ours: false },
   { n: "4", label: "Release", system: "Allotment", detail: "SARO / comprehensive release.", source: "COMPASS · BTMS", ours: false },
   { n: "5", label: "Commit", system: "Obligation", detail: "Contracts and purchase orders.", source: "COMPASS · PhilGEPS", ours: false },
   { n: "6", label: "Pay", system: "Disbursement", detail: "NCA, checks, ADA.", source: "COMPASS · IFMIS", ours: false },
-  { n: "7", label: "Deliver", system: "Results", detail: "KPI actuals vs ISSP targets.", source: "ISSP KPIs · DIME", ours: true },
+  { n: "7", label: "Deliver", system: "Results", detail: "KPI actuals against ISSP targets.", source: "ISSP KPIs · DIME", ours: true },
 ] as const;
 
 export function MoneyView({ corpus, profiles, mode }: ViewProps) {
@@ -32,32 +33,30 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
   return (
     <div className="space-y-6">
       <ViewHeader
-        eyebrow="Budget cycle · ISSP joined with COMPASS (proposed link)"
-        title="Follow every peso, starting from the plan"
-        lede="The ISSP is the step before the NEP: the plan, the reason and the promised result. COMPASS follows the money from appropriation to disbursement; one project code lines them up."
+        title={SCREENS.money.label}
+        lede={`${SCREENS.money.summary} Execution figures use a mock COMPASS layer (proposed link).`}
         insights={[
           sumCompass(2027, "plan") > 0 ? (
             <>
               <strong>
-                The NEP keeps {pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} of the FY2027 ISSP ask
+                The FY2027 NEP covers {pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} of the ISSP request
               </strong>
-              . The gap is the list of planned ICT work that did not get funded; today nobody sees that list in one
-              place.
+              . The remainder is planned ICT work without funding, which no single report lists.
             </>
           ) : null,
           sumCompass(2025, "allotment") > 0 ? (
             <>
               <strong>
                 {phpCompact(sumCompass(2025, "allotment") - sumCompass(2025, "obligated"))} of FY2025 ICT allotments
-                was never obligated
+                was not obligated
               </strong>
-              . Money that cannot move until procurement does.
+              . These funds remain unused until procurement proceeds.
             </>
           ) : null,
           <>
-            <strong>One project code lines all seven stages up.</strong> In the SIKAP trace, the same ID carries
-            from the .issp file into the NEP, the GAA, procurement and payment; without it, each stage is a
-            separate spreadsheet.
+            <strong>One project code links all seven stages.</strong> In the SIKAP trace, the same identifier
+            carries from the .issp file into the NEP, the GAA, procurement and payment. Without it, each stage is a
+            separate record.
           </>,
         ]}
       />
@@ -66,12 +65,12 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
           rest of the execution half in current-form mode. */}
       <ProposedOnly mode={mode} requires="UACS join keys + a COMPASS execution feed (proposed)">
         <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3">Where each fiscal year stands · mock COMPASS layer · GAA agencies</p>
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-3">Fiscal year status · mock COMPASS layer · GAA agencies</p>
           <div className="grid grid-cols-2 gap-2.5">
             <CycleTile year="FY2025" label="closed" value={pct(sumCompass(2025, "obligated"), sumCompass(2025, "allotment"))} sub="of ICT allotments obligated" />
             <CycleTile year="FY2026" label="executing" value={pct(sumCompass(2026, "obligated"), sumCompass(2026, "allotment"))} sub="obligated as of Q2 (30 Jun)" />
-            <CycleTile year="FY2027" label="NEP in Congress" value={pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} sub="of ISSP ask is in the NEP" />
-            <CycleTile year="FY2028" label="Budget Call" value={phpCompact(sumCompass(2028, "plan"))} sub="already planned in ISSPs" />
+            <CycleTile year="FY2027" label="NEP in Congress" value={pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} sub="of the ISSP request in the NEP" />
+            <CycleTile year="FY2028" label="Budget Call" value={phpCompact(sumCompass(2028, "plan"))} sub="planned in ISSPs" />
           </div>
         </div>
       </ProposedOnly>
@@ -101,7 +100,7 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
           href="/budget/trace/ncwtr-2026-2028/proj-sikap"
           className="inline-flex items-center justify-center gap-1.5 rounded-md bg-[var(--sidebar)] text-white px-3.5 h-9 text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto"
         >
-          Follow one project end-to-end <ChevronRight className="w-3.5 h-3.5" />
+          View a project trace <ChevronRight className="w-3.5 h-3.5" />
         </Link>
       </div>
 
@@ -111,8 +110,7 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
       {gaa.length === 0 ? (
         <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
           <p className="text-sm text-muted-foreground leading-relaxed">
-            No GAA-route agencies in this selection: GOCC and LGU budgets travel their own routes, so there is no
-            appropriation trail to follow here. Widen the sector or type filter to bring the loop back.
+            No GAA agencies in scope. GOCC and LGU budgets do not pass through the GAA.
           </p>
         </div>
       ) : (
@@ -158,8 +156,8 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
     <>
       <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2 mb-4">
-          <h3 className="text-sm font-semibold">Each fiscal year sits at a different stage</h3>
-          <p className="text-xs text-muted-foreground">GAA agencies ({gaa.length} of the selection)</p>
+          <h3 className="text-sm font-semibold">Budget stage by fiscal year</h3>
+          <p className="text-xs text-muted-foreground">GAA agencies in scope: {gaa.length}</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           <FunnelPanel title="FY2025" pill="Closed" pillCls="bg-success-bg text-success border border-success-border" f={f25} />
@@ -230,9 +228,9 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
   return (
     <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
       <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
-        Procurement pulse · FY2026 · proposed PhilGEPS status
+        FY2026 · proposed PhilGEPS link
       </p>
-      <h3 className="text-sm font-semibold mt-1 mb-3">Funded work: has procurement started?</h3>
+      <h3 className="text-sm font-semibold mt-1 mb-3">Procurement status of funded projects</h3>
       <div className="grid grid-cols-3 gap-2.5 mb-4">
         <StageTile label="Contract awarded" value={phpCompact(awarded)} sub={pluralProjects(countOf(["awarded"]))} />
         <StageTile label="In bidding" value={phpCompact(sumOf(["bidding"]))} sub={pluralProjects(countOf(["bidding"]))} />
@@ -246,7 +244,7 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
               <th scope="col" className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Project</th>
               <th scope="col" className="border-b px-2 sm:px-3 py-2 text-right font-semibold">FY2026</th>
               <th scope="col" className="border-b px-2 sm:px-3 py-2 text-left font-semibold">Stage</th>
-              <th scope="col" className="border-b px-2 sm:px-3 py-2 text-left font-semibold hidden lg:table-cell">Where it stands</th>
+              <th scope="col" className="border-b px-2 sm:px-3 py-2 text-left font-semibold hidden lg:table-cell">Status note</th>
             </tr>
           </thead>
           <tbody>
@@ -275,9 +273,9 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
         </table>
       </div>
       <p className="text-[11px] text-muted-foreground mt-2">
-        Q3 2026 · <strong className="text-foreground tabular-nums">{phpCompact(awarded)}</strong> awarded ·{" "}
-        <strong className="text-foreground tabular-nums">{phpCompact(earlier)}</strong> pre-contract · status in
-        the shape of PhilGEPS data.
+        As of Q3 2026 · <strong className="text-foreground tabular-nums">{phpCompact(awarded)}</strong> awarded ·{" "}
+        <strong className="text-foreground tabular-nums">{phpCompact(earlier)}</strong> pre-contract · illustrative
+        values in PhilGEPS format
       </p>
     </div>
   );

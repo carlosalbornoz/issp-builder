@@ -277,7 +277,7 @@ async function openInsights(p) {
     ["ai", "budget-ai.png", ["AI and compute requests"]],
     ["people", "budget-people.png", ["ICT staff per agency", "Planned ICT training"]],
     ["services", "budget-services.png", ["eGovPH program adoption", "Frontline service access"]],
-    ["money", "budget-money.png", ["Follow every peso", "Each fiscal year sits at a different stage", "has procurement started?"]],
+    ["money", "budget-money.png", ["Plan to obligation", "Budget stage by fiscal year", "Procurement status of funded projects"]],
     ["shared", "budget-shared.png", ["Duplicate system clusters", "Cross-agency programs", "Alignment with national plans"]],
   ];
   for (const [view, file, expects] of views) {
@@ -314,7 +314,7 @@ async function openInsights(p) {
   await p.goto(`${BASE}/budget?view=money&mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "Requires: UACS join keys + a COMPASS execution feed", "money cycle tiles + execution half lock");
-  await expectText(p, "Follow one project end-to-end", "money stage strip + CTA stay live");
+  await expectText(p, "View a project trace", "money stage strip + CTA stay live");
   await expectNoOverflow(p, "money current mode");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-money-current.png"), fullPage: true });
   ok("shot budget-money-current.png");

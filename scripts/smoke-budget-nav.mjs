@@ -91,8 +91,8 @@ try {
   await screen("/budget?view=ask", { contains: ["₱4.82B", "Fund sources", "Projects with PAP code"], lacks: ["Agency drill-down", "DICT expense categories"] }, "ask");
   await screen("/budget?view=buys", { contains: ["DICT expense categories"], lacks: ["Fund sources"] }, "buys");
   await screen("/budget?view=agencies", { contains: ["Agency drill-down", "Line items (CSV)"], lacks: ["Fund sources"] }, "agencies");
-  await screen("/budget?view=absorptive", { contains: ["Obligation rate"], lacks: ["Each fiscal year sits at a different stage"] }, "absorptive");
-  await screen("/budget?view=money", { contains: ["Each fiscal year sits at a different stage"], lacks: ["Ask ÷ obligations"] }, "money");
+  await screen("/budget?view=absorptive", { contains: ["Obligation rate"], lacks: ["Budget stage by fiscal year"] }, "absorptive");
+  await screen("/budget?view=money", { contains: ["Budget stage by fiscal year"], lacks: ["Ask ÷ obligations"] }, "money");
 
   console.log("\n[1] Legacy deep links");
   await screen("/budget", { contains: ["ICT spending is reaching infrastructure scale"], lacks: ["Agency drill-down"] }, "bare /budget → home");
@@ -301,6 +301,15 @@ try {
   await formal("/budget?view=people", "ICT workforce", { contains: ["Planned ICT training", "Capability spending"], lacks: [...informal, "Training in the plans"] });
   await formal("/budget?view=services", "eGovernment services", { contains: ["Frontline service access"], lacks: [...informal, "How frontline services are reached"] });
   await formal("/budget?view=shared", "Shared services", { contains: ["Duplicate system clusters", "Alignment with national plans"], lacks: ["buy once, together", "Where a shared service could replace separate builds"] });
+
+  console.log("\n[5d] Formal tone: Budget execution");
+  await formal("/budget?view=money", "Plan to obligation", {
+    contains: ["Budget stage by fiscal year", "Procurement status of funded projects", "proposed link"],
+    lacks: ["Follow every peso", "has procurement started", "nobody", "Procurement pulse"],
+  });
+  await formal("/budget?view=money&mode=current", "Plan to obligation", { contains: ["View a project trace"] });
+  await formal("/budget?view=money&sector=energy", "Plan to obligation", { contains: ["No GAA agencies in scope"], lacks: ["bring the loop back"] });
+  await formal("/budget?view=absorptive", "Absorptive capacity", { contains: ["FY2027 request", "Request ÷ obligations"], lacks: ["Can each agency spend", "Steepest step"] });
 } finally {
   await browser.close();
 }
