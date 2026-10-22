@@ -38,7 +38,7 @@ export function SectorsView({ profiles, lines, fy, params }: ViewProps & { param
             sub: `${r.pdp} · ${r.agencies} ${r.agencies === 1 ? "agency" : "agencies"}`,
           }))}
           total={rows.reduce((s, r) => s + r.total, 0)}
-          format={phpCompact}
+          format={(n) => (n > 0 ? phpCompact(n) : "–")}
         />
       </Panel>
     </div>

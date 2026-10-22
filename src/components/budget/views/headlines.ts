@@ -25,6 +25,9 @@ const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
 
 const fyScope = ({ lines, fy }: ViewProps) => (fy === "all" ? lines : lines.filter((l) => l.year === fy));
 const fyWords = ({ fy }: ViewProps) => (fy === "all" ? "all plan years" : `FY${fy}`);
+/** Money with the en-dash null: nothing in scope reads "–", never "₱0.00". */
+const money = (n: number) => (n > 0 ? phpCompact(n) : "–");
+const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
 
 function spendTotal(props: ViewProps, key: SpendDomainKey) {
   const ids = SPEND_DOMAINS.find((d) => d.key === key)!.categoryIds;
@@ -49,17 +52,17 @@ export function domainHeadline(key: ScreenKey, props: ViewProps): Headline {
       return { value: shares.length ? `${Math.round(avg * 100)}%` : "–", detail: "Part II-B controls in place, selection average" };
     }
     case "devices":
-      return { value: phpCompact(spendTotal(props, "devices")), detail: `device spending, ${fyWords(props)}` };
+      return { value: money(spendTotal(props, "devices")), detail: `device spending, ${fyWords(props)}` };
     case "networks":
-      return { value: phpCompact(spendTotal(props, "networks")), detail: `connectivity spending, ${fyWords(props)}` };
+      return { value: money(spendTotal(props, "networks")), detail: `connectivity spending, ${fyWords(props)}` };
     case "cloud":
-      return { value: phpCompact(spendTotal(props, "cloudSoftware")), detail: `cloud and software spending, ${fyWords(props)}` };
+      return { value: money(spendTotal(props, "cloudSoftware")), detail: `cloud and software spending, ${fyWords(props)}` };
     case "ai": {
       const total = corpus.aiLayer.projects.reduce(
         (s, p) => s + lines.filter((l) => l.slug === p.slug && l.projectId === p.projectId).reduce((t, l) => t + l.total, 0),
         0
       );
-      return { value: phpCompact(total), detail: "tagged AI and compute requests", proposed: true };
+      return { value: money(total), detail: "tagged AI and compute requests", proposed: true };
     }
     case "people":
       return { value: profiles.reduce((s, p) => s + p.humanCapital.totalIt, 0).toLocaleString("en-PH"), detail: "ICT personnel (Part I)" };
@@ -83,14 +86,14 @@ export function homeHeadline(key: ScreenKey | "dataStandard", props: ViewProps, 
   const sectors = new Set(profiles.map((p) => p.sector)).size;
   switch (key) {
     case "posture":
-      return { value: String(profiles.length), detail: `agencies in ${sectors} ${sectors === 1 ? "sector" : "sectors"}` };
+      return { value: String(profiles.length), detail: `${plural(profiles.length, "agency", "agencies")} in ${sectors} ${plural(sectors, "sector", "sectors")}` };
     case "sectors":
-      return { value: String(sectors), detail: "PDP sectors in scope" };
+      return { value: String(sectors), detail: `${plural(sectors, "PDP sector", "PDP sectors")} in scope` };
     case "domains":
       return { value: "8", detail: "domain views" };
     case "ask": {
       const scope = fyScope(props);
-      return { value: scope.length ? phpCompact(scope.reduce((s, l) => s + l.total, 0)) : "–", detail: `proposed, ${fyLabel}` };
+      return { value: money(scope.reduce((s, l) => s + l.total, 0)), detail: `proposed, ${fyLabel}` };
     }
     case "buys": {
       const byCategory = new Map<string, number>();
@@ -112,7 +115,7 @@ export function homeHeadline(key: ScreenKey | "dataStandard", props: ViewProps, 
       const rows = absorptiveRows(gaaAgencies(props), profiles);
       const low = rows.filter((r) => r.y25.obligated! / r.y25.allotment! < 0.7).length;
       return rows.length
-        ? { value: `${low} of ${rows.length}`, detail: "agencies below 70% FY2025 obligation", proposed: true }
+        ? { value: `${low} of ${rows.length}`, detail: `${plural(rows.length, "agency", "agencies")} below 70% FY2025 obligation`, proposed: true }
         : { value: "–", detail: "no FY2025 execution records in scope", proposed: true };
     }
     case "agencies":
