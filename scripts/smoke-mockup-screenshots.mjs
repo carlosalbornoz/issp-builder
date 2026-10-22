@@ -187,7 +187,7 @@ async function openInsights(p) {
   await p.goto(`${BASE}/budget?view=agencies`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "Agencies by proposed investment", "budget ranking");
-  await expectText(p, "Agency drill-down", "budget drill-down");
+  await expectText(p, "Budget by agency", "budget drill-down");
   await expectText(p, "Line items (CSV)", "budget CSV export");
   await expectNoOverflow(p, "budget agencies");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-agencies.png"), fullPage: true });

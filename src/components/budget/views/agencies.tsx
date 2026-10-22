@@ -13,17 +13,19 @@ import { BUCKETS, TYPE_SHORT } from "@/lib/repository/corpus";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
 import { cn, php, phpCompact } from "@/lib/utils";
-import { Panel, ViewProps, pct } from "./shared";
+import { SCREENS } from "../nav";
+import { Panel, ViewHeader, ViewProps, pct } from "./shared";
 
 const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
 
 export function AgenciesView({ corpus, profiles, lines, fy, mode, fund, exportCsv }: ViewProps & { fund: string; exportCsv: () => void }) {
   return (
     <div className="space-y-6">
+      <ViewHeader title={SCREENS.agencies.label} lede={SCREENS.agencies.summary} />
       <RankingPanel profiles={profiles} lines={lines} fy={fy} mode={mode} corpus={corpus} />
 
       {/* Drill-down */}
-      <Panel title="Agency drill-down" sub="expand a row for its split; click the acronym for the full record" icon={Building2}>
+      <Panel title="Budget by agency" sub="Expand a row for the category split" icon={Building2}>
         <div className="flex justify-end mb-3">
           <button
             onClick={exportCsv}
@@ -82,7 +84,7 @@ function RankingPanel({ profiles, lines, fy, mode, corpus }: { profiles: CorpusP
     .sort((x, y) => y.value - x.value);
 
   return (
-    <Panel title={fyForRanking ? `Agencies by FY${fyForRanking} ask` : "Agencies by proposed investment"} sub="click through to the full ISSP record" icon={Building2}>
+    <Panel title={fyForRanking ? `Agencies by FY${fyForRanking} request` : "Agencies by proposed investment"} sub="Select an agency to open its ISSP" icon={Building2}>
       <BarList
         items={bars.map((a) => ({
           key: a.slug,
@@ -91,7 +93,7 @@ function RankingPanel({ profiles, lines, fy, mode, corpus }: { profiles: CorpusP
           href: `/repository/${a.slug}`,
           ...(a.ratio && a.ratio > 2 && mode === "proposed"
             ? {
-                sub: `${fyForRanking ? `FY${fyForRanking} ask` : "Average yearly ask"} is ${a.ratio.toFixed(1)}× the agency's FY2025 ICT obligations (mock)`,
+                sub: `${fyForRanking ? `FY${fyForRanking} request` : "Average annual request"} is ${a.ratio.toFixed(1)}× the agency's FY2025 ICT obligations (mock)`,
               }
             : {}),
         }))}
@@ -100,7 +102,7 @@ function RankingPanel({ profiles, lines, fy, mode, corpus }: { profiles: CorpusP
       />
       {mode === "proposed" && bars.some((b) => b.ratio && b.ratio > 2) ? (
         <p className="text-[11px] text-muted-foreground mt-3">
-          Annotations compare the {fyForRanking ? `FY${fyForRanking} ask` : "average yearly ask"} with the
+          Notes compare the {fyForRanking ? `FY${fyForRanking} request` : "average annual request"} with the
           agency&apos;s FY2025 ICT obligations (mock).
         </p>
       ) : null}
@@ -193,7 +195,7 @@ function AgencyRow({ agency: a, fund }: { agency: CorpusProfile; fund: string })
                   href={`/repository/${a.slug}`}
                   className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline mt-3"
                 >
-                  Open the full ISSP record <ChevronRight className="w-3 h-3" />
+                  Open ISSP record <ChevronRight className="w-3 h-3" />
                 </Link>
               </div>
             </div>

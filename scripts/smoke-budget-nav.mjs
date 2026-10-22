@@ -87,17 +87,17 @@ async function screen(url, { contains = [], lacks = [] }, label) {
 
 try {
   console.log("\n[1] Screens: one question each");
-  await screen("/budget?view=posture", { contains: ["Posture by agency", "Agriculture and food"], lacks: ["Fund sources", "Agency drill-down"] }, "posture");
-  await screen("/budget?view=ask", { contains: ["₱4.82B", "Fund sources", "Projects with PAP code"], lacks: ["Agency drill-down", "DICT expense categories"] }, "ask");
+  await screen("/budget?view=posture", { contains: ["Posture by agency", "Agriculture and food"], lacks: ["Fund sources", "Budget by agency"] }, "posture");
+  await screen("/budget?view=ask", { contains: ["₱4.82B", "Fund sources", "Projects with PAP code"], lacks: ["Budget by agency", "DICT expense categories"] }, "ask");
   await screen("/budget?view=buys", { contains: ["DICT expense categories"], lacks: ["Fund sources"] }, "buys");
-  await screen("/budget?view=agencies", { contains: ["Agency drill-down", "Line items (CSV)"], lacks: ["Fund sources"] }, "agencies");
+  await screen("/budget?view=agencies", { contains: ["Budget by agency", "Line items (CSV)"], lacks: ["Fund sources"] }, "agencies");
   await screen("/budget?view=absorptive", { contains: ["Obligation rate"], lacks: ["Budget stage by fiscal year"] }, "absorptive");
   await screen("/budget?view=money", { contains: ["Budget stage by fiscal year"], lacks: ["Ask ÷ obligations"] }, "money");
 
   console.log("\n[1] Legacy deep links");
-  await screen("/budget", { contains: ["ICT spending is reaching infrastructure scale"], lacks: ["Agency drill-down"] }, "bare /budget → home");
-  await screen("/budget?view=overview", { contains: ["ICT spending is reaching infrastructure scale"], lacks: ["Agency drill-down"] }, "?view=overview → home");
-  await screen("/budget?agency=ncra-2027-2029", { contains: ["Fund sources", "NCRA"], lacks: ["Agency drill-down"] }, "?agency= → ask");
+  await screen("/budget", { contains: ["ICT spending is reaching infrastructure scale"], lacks: ["Budget by agency"] }, "bare /budget → home");
+  await screen("/budget?view=overview", { contains: ["ICT spending is reaching infrastructure scale"], lacks: ["Budget by agency"] }, "?view=overview → home");
+  await screen("/budget?agency=ncra-2027-2029", { contains: ["Fund sources", "NCRA"], lacks: ["Budget by agency"] }, "?agency= → ask");
   await screen("/budget?view=shared&program=rapide", { contains: ["RAPIDE"] }, "program deep link");
 
   console.log("\n[2] Sidebar frame");
@@ -310,6 +310,9 @@ try {
   await formal("/budget?view=money&mode=current", "Plan to obligation", { contains: ["View a project trace"] });
   await formal("/budget?view=money&sector=energy", "Plan to obligation", { contains: ["No GAA agencies in scope"], lacks: ["bring the loop back"] });
   await formal("/budget?view=absorptive", "Absorptive capacity", { contains: ["FY2027 request", "Request ÷ obligations"], lacks: ["Can each agency spend", "Steepest step"] });
+
+  console.log("\n[5e] Formal tone: Agencies");
+  await formal("/budget?view=agencies", "Agency ISSPs", { contains: ["Budget by agency", "Select an agency to open its ISSP"], lacks: ["drill-down", "click through", "click the acronym"] });
 } finally {
   await browser.close();
 }
