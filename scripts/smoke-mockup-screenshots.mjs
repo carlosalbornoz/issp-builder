@@ -369,27 +369,38 @@ async function openInsights(p) {
 }
 
 // 4f — Data-standard entry points and nav active state: exactly one visible
-// link per width (nav on md+, control-bar on phones) and the nav chip lights
-// on /budget/data-standard (Budget Dashboard does not).
+// navigation link per width (sidebar on xl+, drawer below) and the sidebar
+// marks Data standard on its own page.
 {
   const p = await newPage();
   const errors = [];
   p.on("pageerror", (e) => errors.push(String(e)));
   await p.goto(`${BASE}/budget/data-standard`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
+  // Inside the dashboard frame: the header marks Budget Dashboard and carries no
+  // data-standard chip; the sidebar marks Data standard.
   const navState = await p.evaluate(() => {
     const links = [...document.querySelectorAll("header nav a")];
-    const ds = links.find((a) => a.textContent?.trim() === "Data standard");
-    const budget = links.find((a) => a.href.endsWith("/budget"));
+    const budget = links.find((a) => a.getAttribute("href") === "/budget");
     return {
-      dsActive: !!ds && ds.className.includes("text-primary") && ds.className.includes("bg-accent"),
+      headerDs: links.some((a) => a.getAttribute("href") === "/budget/data-standard"),
       budgetActive: budget?.className.includes("text-primary") ?? false,
-      dsVisible: !!ds && ds.getBoundingClientRect().width > 0,
+      sidebarCurrent: document.querySelector('nav[aria-label="Dashboard"] [aria-current="page"]')?.textContent?.trim() ?? null,
     };
   });
-  (navState.dsActive ? ok : fail)("data-standard page: nav chip carries the active state");
-  (!navState.budgetActive ? ok : fail)("data-standard page: Budget Dashboard chip is not active");
-  (navState.dsVisible ? ok : fail)("data-standard page: nav chip visible at desktop width");
+  (!navState.headerDs ? ok : fail)("data-standard page: header carries no data-standard chip");
+  (navState.budgetActive ? ok : fail)("data-standard page: Budget Dashboard chip is active");
+  (navState.sidebarCurrent === "Data standard" ? ok : fail)(`data-standard page: sidebar marks Data standard (${navState.sidebarCurrent})`);
+  await expectNoOverflow(p, "data standard");
+  await p.screenshot({ path: path.join(OUT_DIR, "budget-data-standard.png"), fullPage: true });
+  ok("shot budget-data-standard.png");
+  const ds = await newPage(390, 844);
+  await ds.goto(`${BASE}/budget/data-standard`, { waitUntil: "networkidle0", timeout: 60000 });
+  await settle(ds);
+  await expectNoOverflow(ds, "data standard phone");
+  await ds.screenshot({ path: path.join(OUT_DIR, "budget-mobile-data-standard.png"), fullPage: true });
+  ok("shot budget-mobile-data-standard.png");
+  await ds.close();
   await p.close();
 
   // Dashboard frame: the sidebar (desktop) or the drawer (phone) is the one

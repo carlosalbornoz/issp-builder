@@ -34,7 +34,8 @@ export function BudgetFrame({
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <PublicShell active={active === "dataStandard" ? "dataStandard" : "budget"} width="dashboard">
+    // The data standard and trace pages sit inside the dashboard, so the header marks the dashboard.
+    <PublicShell active="budget" width="dashboard">
       <div className="max-w-[96rem] mx-auto px-4 sm:px-6 flex gap-8">
         {/* A div, not <aside>: globals.css re-themes every <aside> as the
             editor's navy sidebar under the bettergov theme. */}

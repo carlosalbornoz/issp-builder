@@ -313,6 +313,38 @@ try {
 
   console.log("\n[5e] Formal tone: Agencies");
   await formal("/budget?view=agencies", "Agency ISSPs", { contains: ["Budget by agency", "Select an agency to open its ISSP"], lacks: ["drill-down", "click through", "click the acronym"] });
+
+  console.log("\n[6] Data standard and trace share the frame");
+  for (const [url, current, crumb] of [
+    ["/budget/data-standard", "Data standard", "Resources"],
+    ["/budget/trace/ncwtr-2026-2028/proj-sikap", "Plan to obligation", "Plan to obligation"],
+  ]) {
+    const p = await open(url);
+    const f = await p.evaluate(() => {
+      const nav = document.querySelector('nav[aria-label="Dashboard"]');
+      return {
+        current: nav?.querySelector('[aria-current="page"]')?.textContent?.trim() ?? null,
+        home: !![...(nav?.querySelectorAll("a") ?? [])].find((a) => a.textContent?.trim() === "Home"),
+        crumb: document.querySelector('nav[aria-label="Breadcrumb"]')?.textContent ?? "",
+        budgetChip: document.querySelector("header nav a.bg-accent")?.innerText?.trim() ?? null,
+      };
+    });
+    check(f.home, `${url}: sidebar Home link`);
+    check(f.current === current, `${url}: sidebar marks ${current} (got ${f.current})`);
+    check(f.crumb.includes(crumb), `${url}: breadcrumb includes ${crumb} (got "${f.crumb}")`);
+    check(f.budgetChip === "Budget Dashboard", `${url}: header marks Budget Dashboard (got ${f.budgetChip})`);
+    await p.close();
+  }
+  {
+    const p = await open("/budget/data-standard");
+    const href = await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("See it live on the dashboard"))?.getAttribute("href"));
+    check(href === "/budget?view=posture&mode=current", `data standard links to the posture grid in Current form (${href})`);
+    await p.close();
+    const m = await open("/budget/data-standard", 390, 844);
+    check(!(await m.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1)), "390: data standard does not overflow");
+    check(await m.evaluate(() => !!document.querySelector('button[aria-label="Open dashboard menu"]')), "390: data standard has the dashboard menu");
+    await m.close();
+  }
 } finally {
   await browser.close();
 }

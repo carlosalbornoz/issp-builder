@@ -8,8 +8,8 @@
 
 import Link from "next/link";
 import { Fragment } from "react";
-import { ArrowLeft, CircleCheck, Plus } from "lucide-react";
-import { PublicShell } from "@/components/public-shell";
+import { CircleCheck, Plus } from "lucide-react";
+import { BudgetFrame } from "@/components/budget/budget-frame";
 import { CAPABILITY_MATRIX } from "@/lib/repository/data-standard";
 import { DemoNotice } from "@/components/repository/demo-notice";
 
@@ -81,13 +81,13 @@ const PUBLISHING_RULES = [
 ] as const;
 
 
+/** The page has no filters; sidebar links open each screen unscoped. */
+const NO_SCOPE = new URLSearchParams();
+
 export default function DataStandardPage() {
   return (
-    <PublicShell active="dataStandard">
-      <div className="max-w-6xl mx-auto px-6 py-8 space-y-6">
-        <Link href="/budget" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="w-4 h-4" /> Budget Dashboard
-        </Link>
+    <BudgetFrame active="dataStandard" params={NO_SCOPE}>
+      <div className="space-y-6">
 
         <section>
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Data standard · draft for discussion</p>
@@ -181,7 +181,7 @@ export default function DataStandardPage() {
         </section>
 
         {/* ── Sample record + publishing rules ── */}
-        <div className="grid lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
             <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-1">One line item, as open data</p>
             <h2 className="font-display text-base font-bold tracking-tight mb-3">The row COMPASS can join</h2>
@@ -256,7 +256,7 @@ export default function DataStandardPage() {
               </h2>
             </div>
             <Link
-              href="/budget?mode=current"
+              href="/budget?view=posture&mode=current"
               className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors"
             >
               See it live on the dashboard →
@@ -312,6 +312,6 @@ export default function DataStandardPage() {
           </ol>
         </section>
       </div>
-    </PublicShell>
+    </BudgetFrame>
   );
 }
