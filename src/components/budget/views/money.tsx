@@ -11,7 +11,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import type { CompassAgency, CompassYearRecord, CorpusProcurementRow, CorpusProcurementStage } from "@/lib/repository/corpus-types";
 import { cn, php, phpCompact } from "@/lib/utils";
-import { SCREENS } from "../nav";
+import { SCREENS, withScope } from "../nav";
 import { CycleTile, FUNNEL, ProposedOnly, StageTile, ViewHeader, ViewProps, pct, pluralProjects } from "./shared";
 
 const STAGES = [
@@ -24,7 +24,7 @@ const STAGES = [
   { n: "7", label: "Deliver", system: "Results", detail: "KPI actuals against ISSP targets.", source: "ISSP KPIs · DIME", ours: true },
 ] as const;
 
-export function MoneyView({ corpus, profiles, mode }: ViewProps) {
+export function MoneyView({ corpus, profiles, mode, params }: ViewProps & { params: URLSearchParams }) {
   const slugs = new Set(profiles.map((p) => p.slug));
   const gaa = corpus.compass.agencies.filter((ca) => ca.route === "GAA" && slugs.has(ca.slug));
   const sumCompass = (year: number, field: "plan" | "nep" | "gaa" | "allotment" | "obligated" | "disbursed") =>
@@ -97,7 +97,7 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
 
       <div className="flex flex-wrap justify-end">
         <Link
-          href="/budget/trace/ncwtr-2026-2028/proj-sikap"
+          href={withScope("/budget/trace/ncwtr-2026-2028/proj-sikap", params)}
           className="inline-flex items-center justify-center gap-1.5 rounded-md bg-[var(--sidebar)] text-white px-3.5 h-9 text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto"
         >
           View a project trace <ChevronRight className="w-3.5 h-3.5" />

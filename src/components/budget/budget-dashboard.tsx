@@ -215,7 +215,7 @@ export function BudgetDashboard() {
             ) : view === "services" ? (
               <ServicesView {...viewProps} />
             ) : view === "money" ? (
-              <MoneyView {...viewProps} />
+              <MoneyView {...viewProps} params={params} />
             ) : (
               <SharedServicesView {...viewProps} highlightProgram={highlightProgram} />
             )}

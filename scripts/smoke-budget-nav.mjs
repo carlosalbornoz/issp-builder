@@ -337,6 +337,13 @@ try {
     check(desk === 0, `1440: data-mode info icon stays keyboard reachable (tabIndex ${desk})`);
     await d.close();
   }
+  {
+    // The trace CTA must carry the scope so the round trip returns to the same lens.
+    const p = await open("/budget?view=money&sector=agricultureFood&mode=current");
+    const href = await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("View a project trace"))?.getAttribute("href"));
+    check(href === "/budget/trace/ncwtr-2026-2028/proj-sikap?sector=agricultureFood&mode=current", `money trace link carries the scope (${href})`);
+    await p.close();
+  }
 
   console.log("\n[5e] Formal tone: Agencies");
   await formal("/budget?view=agencies", "Agency ISSPs", { contains: ["Budget by agency", "Select an agency to open its ISSP"], lacks: ["drill-down", "click through", "click the acronym"] });
