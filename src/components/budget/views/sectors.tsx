@@ -9,8 +9,8 @@
 import { BarList } from "@/components/dataviz/charts";
 import { SECTORS } from "@/lib/repository/corpus";
 import { phpCompact } from "@/lib/utils";
-import { screenHref } from "../nav";
-import { Panel, ViewProps } from "./shared";
+import { SCREENS, screenHref } from "../nav";
+import { Panel, ViewHeader, ViewProps } from "./shared";
 
 export function SectorsView({ profiles, lines, fy, params }: ViewProps & { params: URLSearchParams }) {
   const scope = fy === "all" ? lines : lines.filter((l) => l.year === fy);
@@ -27,7 +27,8 @@ export function SectorsView({ profiles, lines, fy, params }: ViewProps & { param
 
   return (
     <div className="space-y-6">
-      <Panel title="Proposed investment by sector" sub="PDP 2023-2028 chapters · mock assignment, a proposed field" hint="Select a sector to open its posture grid.">
+      <ViewHeader title={SCREENS.sectors.label} lede={SCREENS.sectors.summary} />
+      <Panel title="Proposed investment by sector" sub="PDP 2023-2028 chapters · mock assignment, proposed field" hint="Select a sector to open its posture grid.">
         <BarList
           items={rows.map((r) => ({
             key: r.key,

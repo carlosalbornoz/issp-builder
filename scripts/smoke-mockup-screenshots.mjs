@@ -153,8 +153,8 @@ async function openInsights(p) {
   await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "ICT Budget Dashboard", "budget title");
-  await expectText(p, "The next infrastructure wave is digital", "budget why-now band");
-  await expectText(p, "Planned ICT, whole of government", "whole-of-gov why-now tile");
+  await expectText(p, "ICT spending is reaching infrastructure scale", "budget why-now band");
+  await expectText(p, "Planned ICT investment", "whole-of-gov why-now tile");
   // Known-totals pin: the corpus grand total (4,823,520,000 → ₱4.82B) must reach the page.
   await expectText(p, "₱4.82B", "budget grand total matches corpus");
   await expectText(p, "Select an area to review", "home area cards");
@@ -164,7 +164,7 @@ async function openInsights(p) {
 
   await p.goto(`${BASE}/budget?view=posture`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
-  await expectText(p, "Whole-of-government posture", "budget posture grid");
+  await expectText(p, "Posture by agency", "budget posture grid");
   await expectText(p, "Agriculture and food", "posture grid PDP sector group");
   await expectNoOverflow(p, "budget posture");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-posture.png"), fullPage: true });
@@ -260,7 +260,7 @@ async function openInsights(p) {
   await p.goto(`${BASE}/budget?view=posture&mode=current`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "Current form (v14)", "mode chips present");
-  await expectText(p, "Whole-of-government posture", "posture grid still rendered");
+  await expectText(p, "Posture by agency", "posture grid still rendered");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-current-form.png"), fullPage: true });
   ok("shot budget-current-form.png");
   errors.forEach((e) => fail(`current-mode pageerror: ${e}`));

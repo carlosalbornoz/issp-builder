@@ -164,14 +164,14 @@ export function InsightsButton({ items }: { items: React.ReactNode[] }) {
   );
 }
 
-/** Every view opens with one: the domain's name and its one-line framing. */
+/** Every screen opens with one: its formal title (the sidebar label) and one line of scope. */
 export function ViewHeader({
   eyebrow,
   title,
   lede,
   insights,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   lede?: string;
   /** Optional ✨ More insights content for this view. */
@@ -181,7 +181,7 @@ export function ViewHeader({
     <div>
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">{eyebrow}</p>
+          {eyebrow ? <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">{eyebrow}</p> : null}
           <h2 className="font-display text-lg sm:text-xl font-bold tracking-tight">{title}</h2>
           {lede ? <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mt-1">{lede}</p> : null}
         </div>

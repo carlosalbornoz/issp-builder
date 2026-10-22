@@ -56,6 +56,26 @@ const trySelect = async (p, selector, value) => {
 };
 const has = async (p, s) => (await text(p)).includes(s.toLowerCase());
 
+/** Formal-tone contract for one screen: title = sidebar label, no question headings, no em dashes. */
+async function formal(url, label, { contains = [], lacks = [] } = {}) {
+  const p = await open(url);
+  const probe = await p.evaluate(() => {
+    const main = document.querySelector('nav[aria-label="Breadcrumb"]')?.parentElement ?? document.body;
+    return {
+      title: main.querySelector("h1, h2")?.textContent?.trim() ?? "",
+      questions: [...main.querySelectorAll("h1, h2, h3")].map((h) => h.textContent?.trim() ?? "").filter((t) => t.endsWith("?")),
+      emDash: document.body.innerText.includes("\u2014"),
+      body: document.body.innerText.toLowerCase(),
+    };
+  });
+  check(probe.title === label, `${label}: screen title (got "${probe.title}")`);
+  check(probe.questions.length === 0, `${label}: no question headings (${probe.questions.join(" | ")})`);
+  check(!probe.emDash, `${label}: no em dashes`);
+  for (const s of contains) check(probe.body.includes(s.toLowerCase()), `${label}: contains "${s}"`);
+  for (const s of lacks) check(!probe.body.includes(s.toLowerCase()), `${label}: lacks "${s}"`);
+  await p.close();
+}
+
 async function screen(url, { contains = [], lacks = [] }, label) {
   const p = await open(url);
   const body = await text(p);
@@ -67,7 +87,7 @@ async function screen(url, { contains = [], lacks = [] }, label) {
 
 try {
   console.log("\n[1] Screens: one question each");
-  await screen("/budget?view=posture", { contains: ["Whole-of-government posture", "Agriculture and food"], lacks: ["Fund sources", "Agency drill-down"] }, "posture");
+  await screen("/budget?view=posture", { contains: ["Posture by agency", "Agriculture and food"], lacks: ["Fund sources", "Agency drill-down"] }, "posture");
   await screen("/budget?view=ask", { contains: ["₱4.82B", "Fund sources", "Projects with PAP code"], lacks: ["Agency drill-down", "Where the money goes"] }, "ask");
   await screen("/budget?view=buys", { contains: ["Where the money goes"], lacks: ["Fund sources"] }, "buys");
   await screen("/budget?view=agencies", { contains: ["Agency drill-down", "Line items (CSV)"], lacks: ["Fund sources"] }, "agencies");
@@ -75,8 +95,8 @@ try {
   await screen("/budget?view=money", { contains: ["Each fiscal year sits at a different stage"], lacks: ["Ask ÷ obligations"] }, "money");
 
   console.log("\n[1] Legacy deep links");
-  await screen("/budget", { contains: ["The next infrastructure wave is digital"], lacks: ["Agency drill-down"] }, "bare /budget → home");
-  await screen("/budget?view=overview", { contains: ["The next infrastructure wave is digital"], lacks: ["Agency drill-down"] }, "?view=overview → home");
+  await screen("/budget", { contains: ["ICT spending is reaching infrastructure scale"], lacks: ["Agency drill-down"] }, "bare /budget → home");
+  await screen("/budget?view=overview", { contains: ["ICT spending is reaching infrastructure scale"], lacks: ["Agency drill-down"] }, "?view=overview → home");
   await screen("/budget?agency=ncra-2027-2029", { contains: ["Fund sources", "NCRA"], lacks: ["Agency drill-down"] }, "?agency= → ask");
   await screen("/budget?view=shared&program=rapide", { contains: ["RAPIDE"] }, "program deep link");
 
@@ -116,8 +136,8 @@ try {
   {
     const p = await open("/budget?view=ask&agency=ncra-2027-2029");
     await p.evaluate(() => [...document.querySelectorAll('nav[aria-label="Dashboard"] a')].find((a) => a.textContent?.trim() === "Home")?.click());
-    await p.waitForFunction(() => document.body.innerText.includes("The next infrastructure wave"), { timeout: 15000 }).catch(() => {});
-    check(await has(p, "The next infrastructure wave is digital"), "Home reachable under an agency scope");
+    await p.waitForFunction(() => document.body.innerText.includes("ICT spending is reaching infrastructure"), { timeout: 15000 }).catch(() => {});
+    check(await has(p, "ICT spending is reaching infrastructure scale"), "Home reachable under an agency scope");
     check(await has(p, "ICT Budget Dashboard"), "Home carries the dashboard H1");
     check(await has(p, "Every agency, officer, program and figure"), "Home carries the full demo notice");
     await p.close();
@@ -252,6 +272,16 @@ try {
     await dev.close();
     check(devicesCard.includes(devTotal), `Devices card matches the view's device spend ${devTotal} (${devicesCard})`);
   }
+
+  console.log("\n[5a] Formal tone: Home and Overview");
+  await formal("/budget", "ICT Budget Dashboard", {
+    contains: ["ICT spending is reaching infrastructure scale", "AI and compute requests"],
+    lacks: ["plan first, then spend", "Why now", "one domain at a time", "one domain of ten"],
+  });
+  await formal("/budget?view=posture", "Government-wide posture", { lacks: ["Flip the Data mode", "no FY2025 row", "computed from today's form"] });
+  await formal("/budget?view=posture&mode=current", "Government-wide posture", { lacks: ["Flip back to Revised form"] });
+  await formal("/budget?view=sectors", "Sector comparison");
+  await formal("/budget?view=domains", "ICT domains");
 } finally {
   await browser.close();
 }

@@ -12,11 +12,13 @@ import { Check, Lock } from "lucide-react";
 import { SECTORS, TYPE_SHORT } from "@/lib/repository/corpus";
 import type { CompassAgency, CorpusProfile } from "@/lib/repository/corpus-types";
 import { cn } from "@/lib/utils";
-import { Panel, RatePill, ViewProps } from "./shared";
+import { SCREENS } from "../nav";
+import { Panel, RatePill, ViewHeader, ViewProps } from "./shared";
 
 export function PostureView({ corpus, profiles, mode }: ViewProps) {
   return (
     <div className="space-y-6">
+      <ViewHeader title={SCREENS.posture.label} lede={SCREENS.posture.summary} />
       <PostureGrid corpus={corpus} profiles={profiles} mode={mode} />
     </div>
   );
@@ -30,7 +32,7 @@ function PostureGrid({ corpus, profiles, mode }: { corpus: ViewProps["corpus"]; 
   const sectors = SECTORS.map((s) => ({ ...s, list: profiles.filter((p) => p.sector === s.key) })).filter((s) => s.list.length > 0);
 
   return (
-    <Panel title="Whole-of-government posture" sub="agencies grouped by PDP sector · five posture metrics, from cyber controls to execution">
+    <Panel title="Posture by agency" sub="Grouped by PDP sector · five posture measures">
       <div className="overflow-x-auto rounded-lg border">
         <table className="min-w-full text-xs sm:text-sm border-collapse">
           <thead>
@@ -77,15 +79,10 @@ function PostureGrid({ corpus, profiles, mode }: { corpus: ViewProps["corpus"]; 
         </table>
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-[10px] text-muted-foreground">
-        <span className="inline-flex items-center gap-1"><Check className="w-3 h-3 text-success" /> computed from today&apos;s form</span>
-        <span className="inline-flex items-center gap-1"><Lock className="w-3 h-3" /> waits on a proposed field or link</span>
+        <span className="inline-flex items-center gap-1"><Check className="w-3 h-3 text-success" /> Current form</span>
+        <span className="inline-flex items-center gap-1"><Lock className="w-3 h-3" /> Requires a proposed field or link</span>
+        <span>Sectors follow PDP 2023-2028 chapters (mock assignment, proposed field)</span>
       </div>
-      <p className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">
-        Sectors follow the PDP 2023-2028 chapters (mock assignment, a proposed field).{" "}
-        {mode === "proposed"
-          ? "Flip the Data mode to run the grid on today's form alone."
-          : "Flip back to Revised form to fill the two locked columns."}
-      </p>
     </Panel>
   );
 }
@@ -143,7 +140,7 @@ function PostureRow({
         ) : y25?.obligated && y25?.allotment ? (
           <RatePill rate={y25.obligated / y25.allotment} />
         ) : (
-          <span className="text-muted-foreground text-[10px]" title="This agency has no FY2025 execution record">no FY2025 row</span>
+          <span className="text-muted-foreground text-[10px]" title="This agency has no FY2025 execution record">No FY2025 record</span>
         )}
       </td>
     </tr>
