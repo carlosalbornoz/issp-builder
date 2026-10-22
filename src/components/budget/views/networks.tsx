@@ -10,6 +10,7 @@ import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { SPEND_DOMAINS } from "@/lib/ict-domains";
 import { phpCompact } from "@/lib/utils";
 import { BarList } from "@/components/dataviz/charts";
+import { SCREENS } from "../nav";
 import { Panel, TodayBadge, ViewHeader, ViewProps } from "./shared";
 
 const NETWORKS = SPEND_DOMAINS.find((d) => d.key === "networks")!;
@@ -36,22 +37,21 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
   return (
     <div className="space-y-6">
       <ViewHeader
-        eyebrow="ICT domain · 4 of 10"
-        title="Networks and connectivity"
-        lede={NETWORKS.blurb + ". The line items name the links themselves: fibre upgrades, fixed wireless for isolated offices, VSAT where nothing else reaches."}
+        title={SCREENS.networks.label}
+        lede={SCREENS.networks.summary}
         insights={[
           <>
-            <strong>Isolated offices are named and budgeted.</strong> VSAT terminals for off-grid sites and fixed
-            wireless for geographically isolated offices appear as literal Part IV lines; with Annex 1 as structured
-            fields, resilient-link coverage per office becomes a query.
+            <strong>Links for isolated offices are named and budgeted.</strong> VSAT terminals for off-grid sites and
+            fixed wireless for geographically isolated offices appear as Part IV line items. With Annex 1 as
+            structured fields, link coverage per office becomes a single query.
           </>,
         ]}
       />
 
       <div className="grid lg:grid-cols-3 lg:items-start gap-4">
         <div className="space-y-4">
-          <Panel title="Connectivity spend by category" sub="Part IV line items rolled up from the 30 DICT categories · today's form">
-            <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
+          <Panel title="Connectivity spending by category" sub="Part IV, grouped from the 30 DICT categories">
+            <TodayBadge>Current form · no new fields required</TodayBadge>
             <BarList
               className="mt-3"
               items={[...byCategory.entries()]
@@ -61,13 +61,13 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
               format={phpCompact}
             />
             <p className="text-[11px] text-muted-foreground mt-3">
-              Selection total: <strong className="text-foreground tabular-nums">{phpCompact(netTotal)}</strong>{" "}
-              {fy === "all" ? "across all plan years" : `in FY${fy}`}.
+              Selection total <strong className="text-foreground tabular-nums">{phpCompact(netTotal)}</strong>,{" "}
+              {fy === "all" ? "all plan years" : `FY${fy}`}
             </p>
           </Panel>
         </div>
 
-        <Panel title="The links the plans name" sub="Subscription and broadband line items · today's form" className="lg:col-span-2">
+        <Panel title="Planned network links" sub="Subscription and broadband line items" className="lg:col-span-2">
           <div className="overflow-x-auto rounded-lg border">
             <table className="min-w-full text-xs sm:text-sm border-collapse">
               <thead>

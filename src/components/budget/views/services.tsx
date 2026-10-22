@@ -10,6 +10,7 @@ import Link from "next/link";
 import { MonitorSmartphone } from "lucide-react";
 import { BarList, Donut } from "@/components/dataviz/charts";
 import { SECTOR_SHORT } from "@/lib/repository/corpus";
+import { SCREENS } from "../nav";
 import { Kpi, Panel, TodayBadge, ViewHeader, ViewProps, pct } from "./shared";
 
 const ACCESS_LABELS: Record<string, string> = { ONLINE: "Online", ON_PREMISE: "Walk-in only", HYBRID: "Hybrid" };
@@ -28,23 +29,23 @@ export function ServicesView({ profiles }: ViewProps) {
   return (
     <div className="space-y-6">
       <ViewHeader
-        eyebrow="ICT domain · 8 of 10"
-        title="eGov services"
-        lede="The services citizens actually touch: which eGovPH programs each agency adopted, whether identity is PNPKI-backed, and which frontline systems can be reached online."
+        title={SCREENS.services.label}
+        lede={SCREENS.services.summary}
         insights={[
           <>
             <strong>
               {frontline.filter((s) => s.frontlineAccessType !== "ONLINE").length} of {frontline.length} frontline
               systems still require a counter visit
             </strong>{" "}
-            (walk-in only or hybrid): a frontline system that cannot be reached online shortens no queue, and the
-            access-type field the form already carries makes that visible per agency and per sector.
+            (walk-in only or hybrid). The existing access-type field reports this per agency and per sector.
           </>,
           pnpki.length > 0 ? (
             <>
-              <strong>PNPKI is the prerequisite for every other eGov service.</strong> Certificate adoption across
-              the selection runs {Math.min(...pnpki.map((p) => p.egp.pnpkiAdoption ?? 0))}% to{" "}
-              {Math.max(...pnpki.map((p) => p.egp.pnpkiAdoption ?? 0))}%.
+              <strong>
+                PNPKI certificate adoption ranges from {Math.min(...pnpki.map((p) => p.egp.pnpkiAdoption ?? 0))}% to{" "}
+                {Math.max(...pnpki.map((p) => p.egp.pnpkiAdoption ?? 0))}% in scope
+              </strong>
+              . PNPKI is a prerequisite for other eGovernment services.
             </>
           ) : null,
         ]}
@@ -52,14 +53,14 @@ export function ServicesView({ profiles }: ViewProps) {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <Kpi label="Frontline systems" value={String(frontline.length)} sub={`${pct(frontline.length, systems.length)} of ${systems.length} systems`} highlight icon={MonitorSmartphone} />
-        <Kpi label="Frontline, online" value={pct(frontline.filter((s) => s.frontlineAccessType === "ONLINE").length, frontline.length)} sub="reachable without a counter visit" />
+        <Kpi label="Frontline, online" value={pct(frontline.filter((s) => s.frontlineAccessType === "ONLINE").length, frontline.length)} sub="accessible without a counter visit" />
         <Kpi label="eGovPH adoption" value={pct(egpAdopted, egpTotal)} sub={`${egpAdopted} of ${egpTotal} program slots adopted`} />
         <Kpi label="High PNPKI adoption" value={`${pnpki.filter((p) => (p.egp.pnpkiAdoption ?? 0) > 50).length} of ${profiles.length}`} sub="agencies above 50% certificate adoption" />
       </div>
 
       <div className="grid lg:grid-cols-3 lg:items-start gap-4">
-        <Panel title="eGovPH program adoption" sub="Part II eGov checklist · today's form" className="lg:col-span-2">
-          <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
+        <Panel title="eGovPH program adoption" sub="Part II eGov checklist" className="lg:col-span-2">
+          <TodayBadge>Current form · no new fields required</TodayBadge>
           <BarList
             className="mt-3"
             items={[...profiles]
@@ -78,7 +79,7 @@ export function ServicesView({ profiles }: ViewProps) {
         </Panel>
 
         <div className="space-y-4">
-        <Panel title="How frontline services are reached" sub="Part II-C access field · today's form">
+        <Panel title="Frontline service access" sub="Part II-C access field">
           <Donut
             segments={[...accessMix.entries()].map(([k, v]) => ({
               key: k,
@@ -94,7 +95,7 @@ export function ServicesView({ profiles }: ViewProps) {
 
         <Panel
           title="PNPKI certificate adoption"
-          sub="Part II eGov checklist · today's form"
+          sub="Part II eGov checklist"
           hint="Share of the agency's officers and staff with active PNPKI certificates."
         >
           <div className="space-y-1.5 text-xs">

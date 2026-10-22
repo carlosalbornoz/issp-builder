@@ -264,11 +264,11 @@ try {
     const devicesCard = cards.find((c) => c.href?.includes("view=devices"))?.text ?? "";
     await p.close();
     const cyber = await open("/budget?view=cybersecurity");
-    const avg = (await cyber.evaluate(() => document.body.innerText.match(/Selection average: (\d+%)/)?.[1])) ?? "?";
+    const avg = (await cyber.evaluate(() => document.body.innerText.match(/Selection average:? (\d+%)/)?.[1])) ?? "?";
     await cyber.close();
     check(cyberCard.includes(avg), `Cybersecurity card matches the view's selection average ${avg} (${cyberCard})`);
     const dev = await open("/budget?view=devices");
-    const devTotal = (await dev.evaluate(() => document.body.innerText.match(/(₱[\d.]+[KMB]) across all plan/)?.[1])) ?? "?";
+    const devTotal = (await dev.evaluate(() => document.body.innerText.match(/(₱[\d.]+[KMB]),? (?:across )?all plan/)?.[1])) ?? "?";
     await dev.close();
     check(devicesCard.includes(devTotal), `Devices card matches the view's device spend ${devTotal} (${devicesCard})`);
   }
@@ -290,6 +290,17 @@ try {
   });
   await formal("/budget?view=ask&mode=current", "Investment summary", { contains: ["Baseline and three targets set"] });
   await formal("/budget?view=buys", "Expenditure by category", { contains: ["DICT expense categories"], lacks: ["Where the money goes"] });
+
+  console.log("\n[5c] Formal tone: ICT domains");
+  const informal = ["Computed from today's form", "today's form"];
+  await formal("/budget?view=cybersecurity", "Cybersecurity", { contains: ["Current form · no new fields required", "Fleet exposure and advisory impact"], lacks: [...informal, "blast radius", "Government cyber posture"] });
+  await formal("/budget?view=devices", "Devices", { contains: ["Device estate", "Unit price comparison"], lacks: [...informal, "Unit-price sanity", "The estate today"] });
+  await formal("/budget?view=networks", "Networks", { contains: ["Planned network links"], lacks: [...informal, "The links the plans name"] });
+  await formal("/budget?view=cloud", "Cloud and software", { contains: ["Current system hosting", "Planned system hosting"], lacks: [...informal, "Where systems live today", "on the Overview"] });
+  await formal("/budget?view=ai", "AI and compute", { contains: ["AI and compute requests"], lacks: ["AI and compute asks", "lights this view up"] });
+  await formal("/budget?view=people", "ICT workforce", { contains: ["Planned ICT training", "Capability spending"], lacks: [...informal, "Training in the plans"] });
+  await formal("/budget?view=services", "eGovernment services", { contains: ["Frontline service access"], lacks: [...informal, "How frontline services are reached"] });
+  await formal("/budget?view=shared", "Shared services", { contains: ["Duplicate system clusters", "Alignment with national plans"], lacks: ["buy once, together", "Where a shared service could replace separate builds"] });
 } finally {
   await browser.close();
 }

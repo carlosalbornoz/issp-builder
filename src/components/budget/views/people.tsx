@@ -11,6 +11,7 @@ import { Users } from "lucide-react";
 import { SPEND_DOMAINS } from "@/lib/ict-domains";
 import { phpCompact } from "@/lib/utils";
 import { BarList } from "@/components/dataviz/charts";
+import { SCREENS } from "../nav";
 import { Kpi, Panel, TodayBadge, ViewHeader, ViewProps, pct } from "./shared";
 
 const PEOPLE = SPEND_DOMAINS.find((d) => d.key === "peopleServices")!;
@@ -30,13 +31,12 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
   return (
     <div className="space-y-6">
       <ViewHeader
-        eyebrow="ICT domain · 7 of 10"
-        title="People and capability"
-        lede="The ICT workforce behind the plans and the money set aside to skill it up: both carried by today's form (Part I human capital and the training/professional-services categories)."
+        title={SCREENS.people.label}
+        lede={SCREENS.people.summary}
         insights={[
           <>
-            <strong>Outsourced staff make up {pct(outsourcedIt, totalStaff)} of the selected workforce.</strong> The
-            training lines are the capability answer: who runs the systems after the contractors leave.
+            <strong>Outsourced staff make up {pct(outsourcedIt, totalStaff)} of the workforce in scope.</strong>{" "}
+            Planned ICT training determines who operates the systems after contracts end.
           </>,
         ]}
       />
@@ -44,14 +44,14 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <Kpi label="ICT personnel" value={totalIt.toLocaleString("en-PH")} sub={`across ${profiles.length} agencies`} highlight icon={Users} />
         <Kpi label="ICT share of workforce" value={pct(totalIt, totalStaff)} sub={`${totalStaff.toLocaleString("en-PH")} total staff (Part I)`} />
-        <Kpi label="Unfilled plantilla" value={unfilled.toLocaleString("en-PH")} sub="IT posts, this cycle" />
-        <Kpi label="Capability spend" value={phpCompact(peopleLines.reduce((s, l) => s + l.total, 0))} sub={`training + professional services${fy === "all" ? "" : `, FY${fy}`}`} />
+        <Kpi label="Unfilled plantilla" value={unfilled.toLocaleString("en-PH")} sub="IT posts, current cycle" />
+        <Kpi label="Capability spending" value={phpCompact(peopleLines.reduce((s, l) => s + l.total, 0))} sub={`training and professional services${fy === "all" ? "" : `, FY${fy}`}`} />
       </div>
 
       <div className="grid lg:grid-cols-2 lg:items-start gap-4">
         <div className="space-y-4">
-        <Panel title="ICT staff per agency" sub="Part I human capital · today's form">
-          <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
+        <Panel title="ICT staff per agency" sub="Part I human capital">
+          <TodayBadge>Current form · no new fields required</TodayBadge>
           <BarList
             className="mt-3"
             items={[...profiles]
@@ -72,7 +72,7 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
         </Panel>
         </div>
         <div className="space-y-4">
-        <Panel title="Training in the plans" sub="ICT training line items · today's form">
+        <Panel title="Planned ICT training" sub="ICT training line items">
           <div className="space-y-1.5">
             {[...profiles]
               .filter((p) => trainingLines.some((l) => l.slug === p.slug))
@@ -96,14 +96,14 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
                   </div>
                 );
               })}
-            {trainingLines.length === 0 ? <p className="text-xs text-muted-foreground">No ICT training lines in this selection.</p> : null}
+            {trainingLines.length === 0 ? <p className="text-xs text-muted-foreground">No ICT training line items in scope.</p> : null}
           </div>
         </Panel>
 
         <Panel
           title="Workforce mix"
-          sub="Part I human capital · today's form"
-          hint="Employment status of all staff (IT and non-IT) across the selection; unfilled plantilla posts sit on top of this base."
+          sub="Part I human capital"
+          hint="Employment status of all staff (IT and non-IT) in scope. Unfilled plantilla posts are in addition to this base."
         >
           <div className="space-y-1.5 text-xs">
             {([

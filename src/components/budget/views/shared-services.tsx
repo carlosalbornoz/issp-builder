@@ -12,6 +12,7 @@ import { Info, Layers3, ShieldQuestion } from "lucide-react";
 import { BarList } from "@/components/dataviz/charts";
 import { phpCompact } from "@/lib/utils";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
+import { SCREENS } from "../nav";
 import { Panel, ViewHeader, ViewProps } from "./shared";
 import { cn } from "@/lib/utils";
 
@@ -71,23 +72,21 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
   return (
     <div className="space-y-6">
       <ViewHeader
-        eyebrow="Program convergence budgeting"
-        title="Where government could buy once, together"
-        lede="Grouped from the proposed systems (Part III-D) and cross-agency projects (Part III-E.2) the plans already carry. A match is a review prompt, not a finding."
+        title={SCREENS.shared.label}
+        lede={SCREENS.shared.summary}
         insights={[
           alignment.untagged > 0 ? (
             <>
-              <strong>{phpCompact(alignment.untagged)} of project cost has no link to a national plan.</strong> In a
-              Budget Call, these items need a written justification first.
+              <strong>{phpCompact(alignment.untagged)} of project cost has no link to a national plan.</strong> These
+              items require written justification in the Budget Call.
             </>
           ) : (
             <>
-              <strong>Every project in this selection carries at least one alignment tag</strong> to a national
-              plan, so no cost arrives unattributed.
+              <strong>Every project in scope carries at least one alignment tag</strong> to a national plan.
             </>
           ),
           <>
-            <strong>The cross-agency program totals exist only when plans are read together:</strong> no single
+            <strong>Cross-agency program totals are available only when plans are combined.</strong> No single
             agency file holds them.
           </>,
         ]}
@@ -96,7 +95,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
       <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Proposed systems (Part III-D) grouped by type</p>
         <h3 className="text-sm font-semibold mt-1 mb-3">
-          Where a shared service could replace separate builds
+          Duplicate system clusters
           <span
             title="Grouping uses the system name and classification in Part III-D. Agencies can have valid reasons for their own system. Costs show the linked Part III-E project where one exists."
             tabIndex={0}
@@ -136,7 +135,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
                     <p className="text-[10px] text-muted-foreground mt-1">{g.members.length} systems · {g.agencyCount} agencies</p>
                   </td>
                   <td className="px-3 py-2.5 tabular-nums whitespace-nowrap">
-                    {g.cost > 0 ? phpCompact(g.cost) : <span className="text-muted-foreground">not yet costed</span>}
+                    {g.cost > 0 ? phpCompact(g.cost) : <span className="text-muted-foreground">Not yet costed</span>}
                   </td>
                   <td className="px-3 py-2.5 text-muted-foreground">{g.cluster.check}</td>
                   <td className="px-3 py-2.5 text-muted-foreground">{g.cluster.question}</td>
@@ -149,7 +148,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
       </div>
 
       <div className="grid lg:grid-cols-2 lg:items-start gap-4">
-        <Panel title="Which national plans the money serves" sub="Strategic alignment tags · share of project cost" icon={ShieldQuestion}>
+        <Panel title="Alignment with national plans" sub="Strategic alignment tags · share of project cost" icon={ShieldQuestion}>
           <BarList
             items={[
               ...ALIGNMENT_TAGS.map((tag) => ({

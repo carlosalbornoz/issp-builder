@@ -12,6 +12,7 @@ import Link from "next/link";
 import { ShieldAlert } from "lucide-react";
 import { formatDay } from "@/lib/utils";
 import { SECTOR_SHORT } from "@/lib/repository/corpus";
+import { SCREENS } from "../nav";
 import { Panel, PostureTile, ProposedOnly, TodayBadge, ViewHeader, ViewProps } from "./shared";
 import { cn } from "@/lib/utils";
 
@@ -39,26 +40,27 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
   return (
     <div className="space-y-6">
       <ViewHeader
-        eyebrow="ICT domain · 2 of 10"
-        title="Government cyber posture"
-        lede="What the ISSP already carries as a checklist (Part II-B), what a national CERT advisory would light up (Annex 1, proposed), and the one thing today's form cannot see: security spend."
+        title={SCREENS.cybersecurity.label}
+        lede={SCREENS.cybersecurity.summary}
         insights={[
           <>
-            <strong>None of the 30 DICT expense categories is security-specific:</strong> a firewall lands under
-            equipment, a vulnerability assessment under professional services. A security tag per project or line
-            (a proposed field, same shape as the AI tag) would give this view its spend column.
+            <strong>None of the 30 DICT expense categories is specific to security.</strong> Firewalls fall under
+            equipment and vulnerability assessments under professional services. A security tag per project or line
+            item (proposed field, same form as the AI tag) would provide a security spending column.
           </>,
           <>
-            <strong>A CERT advisory becomes a query, not a survey.</strong> With Annex 1 carried as structured
-            fields, one lookup answers who runs the model, how many units, and whether replacement money exists
-            ({covered} of {advRows.length} exposed agencies carry replacement lines today).
+            <strong>
+              {covered} of {advRows.length} agencies exposed to the advisory carry replacement lines.
+            </strong>{" "}
+            With Annex 1 as structured fields, one query identifies the affected agencies, unit counts and funded
+            replacements.
           </>,
         ]}
       />
 
-      {/* Part II-B coverage grid: today's form */}
-      <Panel title="Cybersecurity control coverage" sub="Part II-B checklist · Yes/No controls counted per group · today's form">
-        <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
+      {/* Part II-B coverage grid: current form */}
+      <Panel title="Cybersecurity control coverage" sub="Part II-B checklist · controls in place per group">
+        <TodayBadge>Current form · no new fields required</TodayBadge>
         <div className="overflow-x-auto rounded-lg border mt-3">
           <table className="min-w-full text-xs border-collapse">
             <thead>
@@ -99,27 +101,26 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
         </div>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-[10px] text-muted-foreground">
           <span>Columns: Physical · Perimeter · Network · Endpoint · Data · Application · Security ops</span>
-          <span className="inline-flex items-center gap-1"><CellSwatch band="none" /> none</span>
-          <span className="inline-flex items-center gap-1"><CellSwatch band="low" /> under half</span>
-          <span className="inline-flex items-center gap-1"><CellSwatch band="mid" /> half or more</span>
-          <span className="inline-flex items-center gap-1"><CellSwatch band="high" /> full</span>
+          <span className="inline-flex items-center gap-1"><CellSwatch band="none" /> None</span>
+          <span className="inline-flex items-center gap-1"><CellSwatch band="low" /> Under half</span>
+          <span className="inline-flex items-center gap-1"><CellSwatch band="mid" /> Half or more</span>
+          <span className="inline-flex items-center gap-1"><CellSwatch band="high" /> Full</span>
         </div>
         <p className="text-[11px] text-muted-foreground mt-2">
-          Counted from the Part II-B checklist each .issp carries ({groups.reduce((s, g) => s + g.controls, 0)}{" "}
-          controls across 7 groups). Selection average: <strong className="text-foreground tabular-nums">{Math.round(corpusOverall * 100)}%</strong>{" "}
-          today · Part III-A target state averages{" "}
-          <strong className="text-foreground tabular-nums">{Math.round(cyber.proposedOverall * 100)}%</strong>{" "}
-          corpus-wide.
+          {groups.reduce((s, g) => s + g.controls, 0)} Part II-B controls in 7 groups · Selection average{" "}
+          <strong className="text-foreground tabular-nums">{Math.round(corpusOverall * 100)}%</strong> · Part III-A
+          target average <strong className="text-foreground tabular-nums">{Math.round(cyber.proposedOverall * 100)}%</strong>{" "}
+          (all agencies)
         </p>
       </Panel>
 
       {/* Annex 1 fleet + advisory: proposed fields */}
       <ProposedOnly mode={mode} requires="the Annex 1 asset inventory as structured fields (proposed)">
-        <Panel title="Fleet exposure and advisory blast radius" sub="Annex 1 inventory as data (proposed) · fictitious models" icon={ShieldAlert}>
+        <Panel title="Fleet exposure and advisory impact" sub="Annex 1 inventory as structured fields (proposed) · fictitious models" icon={ShieldAlert}>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
             <PostureTile label="Endpoints on supported OS" value={`${Math.round(((endpoints - endpointsEol) / endpoints) * 100)}%`} sub={`${endpoints.toLocaleString("en-PH")} devices`} />
-            <PostureTile label="Servers past support" value={String(serversEol)} sub="vendor EOL, all fleets" />
-            <PostureTile label="Network gear past support" value={String(fleets.reduce((s, f) => s + f.networkEol, 0))} sub="switches, radios, edge" />
+            <PostureTile label="Servers past support" value={String(serversEol)} sub="past vendor end of life" />
+            <PostureTile label="Network gear past support" value={String(fleets.reduce((s, f) => s + f.networkEol, 0))} sub="switches, radios and edge devices" />
             <PostureTile label="Advisory exposure" value={String(advUnits)} sub={`${adv.model} units`} danger />
           </div>
 
@@ -133,9 +134,9 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
               </span>
             </div>
             <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">
-              {adv.kind.charAt(0).toUpperCase() + adv.kind.slice(1)} <span className="font-medium text-foreground">{adv.model}</span>,
-              vendor support ended before the advisory, so there is no patch: affected units must be replaced. Published{" "}
-              {formatDay(adv.published)} (fictitious).
+              {adv.kind.charAt(0).toUpperCase() + adv.kind.slice(1)} <span className="font-medium text-foreground">{adv.model}</span>.
+              Vendor support ended before the advisory; no patch is available and affected units require replacement.
+              Published {formatDay(adv.published)} (fictitious).
             </p>
             <div className="overflow-x-auto rounded-md border bg-card">
               <table className="min-w-full text-xs border-collapse">
@@ -143,7 +144,7 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
                   <tr className="bg-muted/50">
                     <th scope="col" className="border-b px-2.5 py-1.5 text-left font-semibold">Agency</th>
                     <th scope="col" className="border-b px-2.5 py-1.5 text-right font-semibold">Units</th>
-                    <th scope="col" className="border-b px-2.5 py-1.5 text-left font-semibold">Replacement in the plan?</th>
+                    <th scope="col" className="border-b px-2.5 py-1.5 text-left font-semibold">Replacement in plan</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -161,7 +162,7 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
                             ✓ {h.refreshProject}
                           </span>
                         ) : (
-                          <span className="text-destructive font-medium">✗ none in plan</span>
+                          <span className="text-destructive font-medium">✗ None in plan</span>
                         )}
                       </td>
                     </tr>

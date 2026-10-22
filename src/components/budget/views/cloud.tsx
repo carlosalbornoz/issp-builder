@@ -12,6 +12,7 @@ import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { SPEND_DOMAINS } from "@/lib/ict-domains";
 import { SECTORS } from "@/lib/repository/corpus";
 import { phpCompact } from "@/lib/utils";
+import { SCREENS } from "../nav";
 import { Panel, TodayBadge, ViewHeader, ViewProps, pct } from "./shared";
 
 const CLOUD = SPEND_DOMAINS.find((d) => d.key === "cloudSoftware")!;
@@ -47,23 +48,22 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
   return (
     <div className="space-y-6">
       <ViewHeader
-        eyebrow="ICT domain · 5 of 10"
-        title="Software, cloud and hosting"
-        lede="Where systems live and where that money goes: the storage fields the ISSP already carries, and the subscription, hosting and cloud lines that become the permanent MOOE floor."
+        title={SCREENS.cloud.label}
+        lede={SCREENS.cloud.summary}
         insights={[
           <>
             <strong>
-              Hosting shifts toward the cloud: current systems sit{" "}
-              {pct(currentSystems.filter((s) => s.dataStorage === "ON_PREMISE").length, currentSystems.length)}{" "}
-              on-premise, proposed systems are{" "}
-              {pct(proposedSystems.filter((s) => s.dataStorage === "CLOUD").length, proposedSystems.length)}{" "}
-              cloud-hosted
+              Hosting moves toward the cloud:{" "}
+              {pct(currentSystems.filter((s) => s.dataStorage === "ON_PREMISE").length, currentSystems.length)} of
+              current systems are on-premise;{" "}
+              {pct(proposedSystems.filter((s) => s.dataStorage === "CLOUD").length, proposedSystems.length)} of
+              proposed systems are cloud-hosted
             </strong>
-            . A cloud-first check per plan is one rule on a field the form already carries.
+            . A cloud-first check per plan requires one rule on an existing field.
           </>,
           <>
-            <strong>Every new system adds a recurring line</strong> (hosting, licences, support): the floor the
-            continuing-costs trend on the Overview tracks.
+            <strong>Each new system adds recurring costs</strong> (hosting, licences and support), which appear as
+            continuing costs in the Investment summary.
             {govcloudLines.length > 0
               ? ` ${govcloudLines.length} lines here name GovCloud PH explicitly.`
               : ""}
@@ -72,8 +72,8 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
       />
 
       <div className="grid lg:grid-cols-2 lg:items-start gap-4">
-        <Panel title="Where systems live today" sub="Part II-C inventory storage field · today's form" icon={CloudCog}>
-          <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge>
+        <Panel title="Current system hosting" sub="Part II-C inventory storage field" icon={CloudCog}>
+          <TodayBadge>Current form · no new fields required</TodayBadge>
           <div className="grid sm:grid-cols-2 gap-4 mt-3">
             <Donut
               segments={storageMix(currentSystems).map(([k, v]) => ({
@@ -87,7 +87,7 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
               stackLegend
             />
             <div className="space-y-2 text-xs">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">By sector · cloud-hosted share</p>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Cloud-hosted share by sector</p>
               {SECTORS.filter((s) => profiles.some((p) => p.sector === s.key)).map((s) => {
                 const inSector = profiles.filter((p) => p.sector === s.key);
                 const systems = inSector.flatMap((p) => p.systems);
@@ -105,7 +105,7 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
           </div>
         </Panel>
 
-        <Panel title="Where the new systems will live" sub="Part III-D proposed systems · same storage field">
+        <Panel title="Planned system hosting" sub="Part III-D proposed systems · same storage field">
           <Donut
             segments={storageMix(proposedSystems).map(([k, v]) => ({
               key: k,
@@ -120,7 +120,7 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
         </Panel>
       </div>
 
-      <Panel title="Hosting and subscription spend" sub="Part IV line items rolled up from the 30 DICT categories · today's form">
+      <Panel title="Hosting and subscription spending" sub="Part IV, grouped from the 30 DICT categories">
         <div className="grid sm:grid-cols-2 gap-6">
           <div>
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-2">By plan year</p>
@@ -137,7 +137,7 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
                   <span className="text-xs tabular-nums text-right font-semibold">{phpCompact(total)}</span>
                 </div>
               ))}
-              {byYear.size === 0 ? <p className="text-xs text-muted-foreground">No hosting or subscription lines in this selection.</p> : null}
+              {byYear.size === 0 ? <p className="text-xs text-muted-foreground">No hosting or subscription line items in scope.</p> : null}
             </div>
           </div>
           <div>

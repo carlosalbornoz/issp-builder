@@ -13,12 +13,13 @@ import { Cpu } from "lucide-react";
 import type { CorpusAiKind } from "@/lib/repository/corpus-types";
 import { BarList } from "@/components/dataviz/charts";
 import { phpCompact } from "@/lib/utils";
+import { SCREENS } from "../nav";
 import { Panel, ProposedOnly, ViewHeader, ViewProps } from "./shared";
 
 const AI_KIND_META: Record<CorpusAiKind, { label: string; color: string }> = {
   "own-build": { label: "Own GPU cluster", color: "var(--budget-2)" },
   adoption: { label: "Shared platform", color: "var(--budget-3)" },
-  education: { label: "Teaching & research", color: "var(--budget-1)" },
+  education: { label: "Teaching and research", color: "var(--budget-1)" },
 };
 
 export function AiView({ corpus, lines, mode }: ViewProps) {
@@ -56,39 +57,38 @@ export function AiView({ corpus, lines, mode }: ViewProps) {
   return (
     <div className="space-y-6">
       <ViewHeader
-        eyebrow="ICT domain · 6 of 10"
-        title="AI and compute in the plans"
-        lede="The tag that lights this view up is one checkbox per project, a proposed ISSP field. Amounts shown are the projects' real Part IV line items."
+        title={SCREENS.ai.label}
+        lede={SCREENS.ai.summary}
         insights={[
           ownTotal > 0 ? (
             <>
               <strong>
-                {phpCompact(ownTotal)} of the AI ask in this selection is{" "}
+                {phpCompact(ownTotal)} of the AI request in this selection is for{" "}
                 {ownAgencies === 1 ? "one agency's own GPU cluster" : `${ownAgencies} agencies' own GPU clusters`}
               </strong>
-              . A shared national compute facility could serve them; decide together before the hardware is bought,
-              not after. A review question, not a finding: agencies can have binding reasons, such as
-              data-sovereignty commitments over commuter or sponsor data.
+              . A shared national compute facility could serve this demand if the decision precedes procurement.
+              This is a review question, not a finding: agencies may have binding reasons, such as data-sovereignty
+              commitments.
             </>
           ) : null,
           <>
             <strong>
-              AI is {scoped.length} tagged asks ({ownBuilds.length} own-cluster builds) against the whole ICT estate
+              {scoped.length} tagged AI and compute requests, {ownBuilds.length} of them own-cluster builds
             </strong>
-            : one domain of ten on this dashboard, sized by the same line items as everything else.
+            , measured from the same Part IV line items as every other domain.
           </>,
         ]}
       />
 
       <ProposedOnly mode={mode} requires="an AI / compute tag per project (proposed field)">
         <Panel
-          title="AI and compute asks"
-          sub="Tagged projects through the active filters · the tag itself is a proposed ISSP field"
-          hint="Shares are of that fiscal year's total line items across the selection. Amounts are the tagged projects' real Part IV line items."
+          title="AI and compute requests"
+          sub="Tagged projects in scope · the tag is a proposed ISSP field"
+          hint="Shares are of each fiscal year's total line items in scope. Amounts are the tagged projects' Part IV line items."
           icon={Cpu}
         >
           {scoped.length === 0 ? (
-            <p className="text-xs text-muted-foreground">No tagged AI or compute asks in this selection.</p>
+            <p className="text-xs text-muted-foreground">No tagged AI or compute requests in scope.</p>
           ) : (
             <div className="grid lg:grid-cols-2 gap-6">
               <BarList
@@ -107,7 +107,7 @@ export function AiView({ corpus, lines, mode }: ViewProps) {
               />
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mb-2">
-                  Share of each year&apos;s total ask
+                  Share of each year&apos;s total request
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {yearShareRows.map((r) => (

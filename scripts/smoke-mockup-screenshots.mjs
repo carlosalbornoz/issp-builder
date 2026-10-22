@@ -230,7 +230,7 @@ async function openInsights(p) {
   await p.goto(`${BASE}/budget?view=shared&program=rapide`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
   await expectText(p, "RAPIDE", "budget program spotlight");
-  await expectText(p, "Where a shared service could replace separate builds", "shared view present on program deep link");
+  await expectText(p, "Duplicate system clusters", "shared view present on program deep link");
   await expectNoOverflow(p, "budget program");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-program.png"), fullPage: true });
   ok("shot budget-program.png");
@@ -271,14 +271,14 @@ async function openInsights(p) {
 {
   const views = [
     ["cybersecurity", "budget-cyber.png", ["Cybersecurity control coverage", "NetGate FX-200"]],
-    ["devices", "budget-devices.png", ["Unit-price sanity", "The estate today", "Device spend by category"]],
-    ["networks", "budget-networks.png", ["Connectivity spend by category", "The links the plans name"]],
-    ["cloud", "budget-cloud.png", ["Where systems live today", "Where the new systems will live", "Hosting and subscription spend"]],
-    ["ai", "budget-ai.png", ["AI and compute asks"]],
-    ["people", "budget-people.png", ["ICT staff per agency", "Training in the plans"]],
-    ["services", "budget-services.png", ["eGovPH program adoption", "How frontline services are reached"]],
+    ["devices", "budget-devices.png", ["Unit price comparison", "Device estate", "Device spending by category"]],
+    ["networks", "budget-networks.png", ["Connectivity spending by category", "Planned network links"]],
+    ["cloud", "budget-cloud.png", ["Current system hosting", "Planned system hosting", "Hosting and subscription spending"]],
+    ["ai", "budget-ai.png", ["AI and compute requests"]],
+    ["people", "budget-people.png", ["ICT staff per agency", "Planned ICT training"]],
+    ["services", "budget-services.png", ["eGovPH program adoption", "Frontline service access"]],
     ["money", "budget-money.png", ["Follow every peso", "Each fiscal year sits at a different stage", "has procurement started?"]],
-    ["shared", "budget-shared.png", ["Where a shared service could replace separate builds", "Cross-agency programs", "Which national plans the money serves"]],
+    ["shared", "budget-shared.png", ["Duplicate system clusters", "Cross-agency programs", "Alignment with national plans"]],
   ];
   for (const [view, file, expects] of views) {
     const p = await newPage();
@@ -297,7 +297,7 @@ async function openInsights(p) {
     if (view === "cybersecurity" || view === "ai") {
       await openInsights(p);
       await expectText(p, "Auto-drafted · illustrative", `${view} insights label`);
-      await expectText(p, view === "cybersecurity" ? "security-specific" : "own GPU cluster", `${view} insight content`);
+      await expectText(p, view === "cybersecurity" ? "specific to security" : "own GPU cluster", `${view} insight content`);
       await expectNoOverflow(p, `${view} insights open`);
     }
     errors.forEach((e) => fail(`${view} pageerror: ${e}`));
@@ -323,7 +323,7 @@ async function openInsights(p) {
   await settle(p);
   await expectText(p, "Requires: the Annex 1 asset inventory", "devices estate panel locks");
   await expectText(p, "30 DICT categories", "device spend panel stays live with its total");
-  await expectText(p, "Computed from today", "device spend keeps its today's-form badge");
+  await expectText(p, "Current form · no new fields required", "device spend keeps its today's-form badge");
   await expectNoOverflow(p, "devices current mode");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-devices-current.png"), fullPage: true });
   ok("shot budget-devices-current.png");
