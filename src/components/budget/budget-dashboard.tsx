@@ -13,7 +13,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Lock } from "lucide-react";
+import { Info, Lock } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { DemoNotice } from "@/components/repository/demo-notice";
 import { useCorpus, TYPE_LABELS, SECTORS } from "@/lib/repository/corpus";
@@ -208,8 +208,22 @@ export function BudgetDashboard() {
             </div>
 
             <div className="flex flex-wrap items-center gap-2" role="group" aria-labelledby="data-mode-label">
-              <span className="text-[10px] uppercase tracking-widest text-muted-foreground" id="data-mode-label">
+              <span
+                id="data-mode-label"
+                className="text-[10px] uppercase tracking-widest text-muted-foreground inline-flex items-center gap-1"
+              >
                 Data mode
+                <span
+                  title={
+                    dataMode === "current"
+                      ? "This is today's form: every dimmed panel is one proposed field (or one link) away."
+                      : "Flip to Current form to see what today's ISSP already yields: every dimmed panel is one proposed field (or one link) away."
+                  }
+                  tabIndex={0}
+                  className="cursor-help inline-flex rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+                >
+                  <Info className="w-3 h-3 text-muted-foreground/80" aria-hidden />
+                </span>
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {(
@@ -234,13 +248,6 @@ export function BudgetDashboard() {
                   </button>
                 ))}
               </div>
-              <p className="text-[11px] text-muted-foreground leading-snug">
-                {dataMode === "current" ? (
-                  <>This is today&apos;s form: every dimmed panel is one proposed field (or one link) away.</>
-                ) : (
-                  <>Flip to <strong>Current form</strong> to see what today&apos;s ISSP already yields: every dimmed panel below is one proposed field (or one link) away.</>
-                )}
-              </p>
             </div>
           </div>
 
@@ -289,9 +296,9 @@ export function BudgetDashboard() {
           </p>
           <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-3">ICT Budget Dashboard</h1>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">
-            The ICT posture of the whole government, one domain at a time. Every figure comes from the same Part IV
-            facts behind each agency&apos;s official Summary of Investments, so requests mean exactly what the agency
-            signed; the execution layer demonstrates the follow-the-peso loop a live COMPASS link would close.
+            The ICT posture of the whole government, one domain at a time: every figure is the same Part IV data
+            behind each agency&apos;s official Summary of Investments, with a mock execution layer standing in for a
+            future COMPASS link.
           </p>
         </div>
       </section>

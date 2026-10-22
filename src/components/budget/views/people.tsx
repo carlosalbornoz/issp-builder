@@ -33,6 +33,12 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
         eyebrow="ICT domain · 7 of 10"
         title="People and capability"
         lede="The ICT workforce behind the plans and the money set aside to skill it up: both carried by today's form (Part I human capital and the training/professional-services categories)."
+        insights={[
+          <>
+            <strong>Outsourced staff make up {pct(outsourcedIt, totalStaff)} of the selected workforce.</strong> The
+            training lines are the capability answer: who runs the systems after the contractors leave.
+          </>,
+        ]}
       />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -92,13 +98,13 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
               })}
             {trainingLines.length === 0 ? <p className="text-xs text-muted-foreground">No ICT training lines in this selection.</p> : null}
           </div>
-          <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
-            Outsourced staff make up {pct(outsourcedIt, totalStaff)} of the selected workforce; the capability question
-            (who runs the systems after the contractors leave) is what the training lines answer.
-          </p>
         </Panel>
 
-        <Panel title="Workforce mix" sub="Part I human capital · today's form">
+        <Panel
+          title="Workforce mix"
+          sub="Part I human capital · today's form"
+          hint="Employment status of all staff (IT and non-IT) across the selection; unfilled plantilla posts sit on top of this base."
+        >
           <div className="space-y-1.5 text-xs">
             {([
               ["Plantilla", profiles.reduce((s2, p) => s2 + p.humanCapital.plantilla, 0)],
@@ -110,10 +116,6 @@ export function PeopleView({ profiles, lines, fy }: ViewProps) {
                 <span className="tabular-nums font-semibold">{value.toLocaleString("en-PH")} · {pct(value, totalStaff)}</span>
               </div>
             ))}
-            <p className="text-muted-foreground leading-relaxed pt-1">
-              Employment status of all staff (IT and non-IT) across the selection; unfilled plantilla posts sit
-              on top of this base.
-            </p>
           </div>
         </Panel>
         </div>

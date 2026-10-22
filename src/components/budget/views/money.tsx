@@ -8,10 +8,10 @@
  */
 
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Info } from "lucide-react";
 import type { CompassAgency, CompassYearRecord, CorpusProcurementRow, CorpusProcurementStage, CorpusProfile } from "@/lib/repository/corpus-types";
 import { cn, phpCompact } from "@/lib/utils";
-import { CycleTile, FUNNEL, InsightBox, ProposedOnly, RatePill, StageTile, ViewHeader, ViewProps, pct, pluralProjects } from "./shared";
+import { CycleTile, FUNNEL, ProposedOnly, RatePill, StageTile, ViewHeader, ViewProps, pct, pluralProjects } from "./shared";
 
 const STAGES = [
   { n: "1", label: "Plan", system: "ISSP", detail: "3-year plan, DICT-endorsed. Projects, line items, KPIs.", source: ".issp file", ours: true },
@@ -35,6 +35,31 @@ export function MoneyView({ corpus, profiles, mode }: ViewProps) {
         eyebrow="Budget cycle · ISSP joined with COMPASS (proposed link)"
         title="Follow every peso, starting from the plan"
         lede="The ISSP is the step before the NEP: the plan, the reason and the promised result. COMPASS follows the money from appropriation to disbursement; one project code lines them up."
+        insights={[
+          sumCompass(2027, "plan") > 0 ? (
+            <>
+              <strong>
+                The NEP keeps {pct(sumCompass(2027, "nep"), sumCompass(2027, "plan"))} of the FY2027 ISSP ask
+              </strong>
+              . The gap is the list of planned ICT work that did not get funded; today nobody sees that list in one
+              place.
+            </>
+          ) : null,
+          sumCompass(2025, "allotment") > 0 ? (
+            <>
+              <strong>
+                {phpCompact(sumCompass(2025, "allotment") - sumCompass(2025, "obligated"))} of FY2025 ICT allotments
+                was never obligated
+              </strong>
+              . Money that cannot move until procurement does.
+            </>
+          ) : null,
+          <>
+            <strong>One project code lines all seven stages up.</strong> In the SIKAP trace, the same ID carries
+            from the .issp file into the NEP, the GAA, procurement and payment; without it, each stage is a
+            separate spreadsheet.
+          </>,
+        ]}
       />
 
       {/* Cycle status tiles read the mock COMPASS layer, so they lock with the
@@ -129,11 +154,6 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
   const f26 = funnelRows(2026, "executing");
   const f27 = funnelRows(2027, "nep");
 
-  const nepShare27 = f27.rec.plan ? (f27.rec.nep ?? 0) / f27.rec.plan : 0;
-  const unobligated25 = f25.rec.allotment - f25.rec.obligated;
-  // Insights assert numbers; only render the ones whose data exists here.
-  const showNep = f27.rec.plan > 0;
-  const showUnobligated = f25.rec.allotment > 0;
 
   return (
     <>
@@ -146,25 +166,6 @@ function FunnelPanels({ gaa }: { gaa: CompassAgency[] }) {
           <FunnelPanel title="FY2025" pill="Closed" pillCls="bg-success-bg text-success border border-success-border" f={f25} />
           <FunnelPanel title="FY2026" pill="Executing · Q2" pillCls="bg-warning-bg text-warning border border-warning-border" f={f26} />
           <FunnelPanel title="FY2027" pill="NEP in Congress" pillCls="bg-info-bg text-info border border-info-border" f={f27} />
-        </div>
-        <div className={cn("grid gap-3 mt-5", (showNep ? 1 : 0) + (showUnobligated ? 1 : 0) + 1 === 3 && "md:grid-cols-3")}>
-          {showNep ? (
-            <InsightBox>
-              <strong>The NEP keeps {Math.round(nepShare27 * 100)}% of the FY2027 ISSP ask.</strong> The gap is the list of
-              planned ICT work that did not get funded. Today nobody sees that list in one place.
-            </InsightBox>
-          ) : null}
-          {showUnobligated ? (
-            <InsightBox>
-              <strong>{phpCompact(unobligated25)} of FY2025 ICT allotments was never obligated.</strong> Money that
-              cannot move until procurement does.
-            </InsightBox>
-          ) : null}
-          <InsightBox>
-            <strong>One project code lines all seven stages up.</strong> In the SIKAP trace below, the same ID
-            carries from the .issp file into the NEP, the GAA, procurement and payment; without it, each stage
-            is a separate spreadsheet.
-          </InsightBox>
         </div>
       </div>
     </>
@@ -219,7 +220,16 @@ function AbsorptiveTable({ gaa, profiles }: { gaa: CompassAgency[]; profiles: Co
   return (
     <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
       <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Absorptive capacity · FY2025 execution vs FY2027 ask</p>
-      <h3 className="text-sm font-semibold mt-1 mb-3">Can each agency spend what it asks for?</h3>
+      <h3 className="text-sm font-semibold mt-1 mb-3">
+        Can each agency spend what it asks for?
+        <span
+          title="An en dash means the agency's plan years do not cover that column (FY2028-start plans carry no FY2027 ask). Agencies with no FY2025 execution record have no row. Execution figures are illustrative values in the shape of COMPASS data; GOCC and LGU plans sit outside the GAA."
+          tabIndex={0}
+          className="cursor-help inline-flex ml-1 align-[-2px] rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+        >
+          <Info className="w-3.5 h-3.5 text-muted-foreground/80" aria-hidden />
+        </span>
+      </h3>
       <div className="overflow-x-auto rounded-lg border">
         <table className="min-w-full text-xs sm:text-sm border-collapse">
           <thead>
@@ -260,18 +270,20 @@ function AbsorptiveTable({ gaa, profiles }: { gaa: CompassAgency[]; profiles: Co
           </tbody>
         </table>
       </div>
-      <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
-        Rate bands: On track ≥ 85% · Watch 70–84% · Low &lt; 70%.{" "}
-        {steepest
-          ? `Steepest step: ${steepest.profile.acronym} asks ${steepest.ratio!.toFixed(1)}× its FY2025 obligations for FY2027, after obligating only ${Math.round(
-              (steepest.y25.obligated! / steepest.y25.allotment!) * 100
-            )}% of that year's allotment.`
-          : "Every GAA agency's FY2027 ask sits below its FY2025 obligations."}{" "}
-        An en dash means the agency&apos;s plan years do not cover that column: NFTC, VMSC and CCS plans start in
-        FY2028, so they carry no FY2027 ask. Agencies with no FY2025 execution record (NCWTR&apos;s first ISSP starts in
-        FY2026) have no row in this table at all. Execution figures are illustrative values in the shape of COMPASS data.
-        GOCC and LGU plans are outside the GAA; their execution comes from their own budget systems.
-      </p>
+      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mt-2 text-[11px] text-muted-foreground">
+        <span>
+          On track ≥ 85% · Watch 70–84% · Low &lt; 70%
+        </span>
+        {steepest ? (
+          <span>
+            Steepest step: <strong className="text-foreground">{steepest.profile.acronym}</strong> at{" "}
+            <strong className="text-foreground tabular-nums">{steepest.ratio!.toFixed(1)}×</strong>, after obligating{" "}
+            {Math.round((steepest.y25.obligated! / steepest.y25.allotment!) * 100)}% of FY2025
+          </span>
+        ) : (
+          <span>Every GAA agency&apos;s FY2027 ask sits below its FY2025 obligations.</span>
+        )}
+      </div>
     </div>
   );
 }
@@ -351,10 +363,10 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
           </tbody>
         </table>
       </div>
-      <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
-        Q3 2026 view of the three plans covering FY2026. {phpCompact(awarded)} has a contract behind it;{" "}
-        {phpCompact(earlier)} is still short of one: money that cannot move until procurement does. Status in the
-        shape of PhilGEPS data an agency-side update loop would feed.
+      <p className="text-[11px] text-muted-foreground mt-2">
+        Q3 2026 · <strong className="text-foreground tabular-nums">{phpCompact(awarded)}</strong> awarded ·{" "}
+        <strong className="text-foreground tabular-nums">{phpCompact(earlier)}</strong> pre-contract, in the shape
+        of PhilGEPS data an agency-side update loop would feed.
       </p>
     </div>
   );

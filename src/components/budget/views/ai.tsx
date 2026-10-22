@@ -13,7 +13,7 @@ import { Cpu } from "lucide-react";
 import type { CorpusAiKind } from "@/lib/repository/corpus-types";
 import { BarList } from "@/components/dataviz/charts";
 import { phpCompact } from "@/lib/utils";
-import { InsightBox, Panel, ProposedOnly, ViewHeader, ViewProps } from "./shared";
+import { Panel, ProposedOnly, ViewHeader, ViewProps } from "./shared";
 
 const AI_KIND_META: Record<CorpusAiKind, { label: string; color: string }> = {
   "own-build": { label: "Own GPU cluster", color: "var(--budget-2)" },
@@ -59,10 +59,34 @@ export function AiView({ corpus, lines, mode }: ViewProps) {
         eyebrow="ICT domain · 6 of 10"
         title="AI and compute in the plans"
         lede="The tag that lights this view up is one checkbox per project, a proposed ISSP field. Amounts shown are the projects' real Part IV line items."
+        insights={[
+          ownTotal > 0 ? (
+            <>
+              <strong>
+                {phpCompact(ownTotal)} of the AI ask in this selection is{" "}
+                {ownAgencies === 1 ? "one agency's own GPU cluster" : `${ownAgencies} agencies' own GPU clusters`}
+              </strong>
+              . A shared national compute facility could serve them; decide together before the hardware is bought,
+              not after. A review question, not a finding: agencies can have binding reasons, such as
+              data-sovereignty commitments over commuter or sponsor data.
+            </>
+          ) : null,
+          <>
+            <strong>
+              AI is {scoped.length} tagged asks ({ownBuilds.length} own-cluster builds) against the whole ICT estate
+            </strong>
+            : one domain of ten on this dashboard, sized by the same line items as everything else.
+          </>,
+        ]}
       />
 
       <ProposedOnly mode={mode} requires="an AI / compute tag per project (proposed field)">
-        <Panel title="AI and compute asks" sub="Tagged projects through the active filters · the tag itself is a proposed ISSP field" icon={Cpu}>
+        <Panel
+          title="AI and compute asks"
+          sub="Tagged projects through the active filters · the tag itself is a proposed ISSP field"
+          hint="Shares are of that fiscal year's total line items across the selection. Amounts are the tagged projects' real Part IV line items."
+          icon={Cpu}
+        >
           {scoped.length === 0 ? (
             <p className="text-xs text-muted-foreground">No tagged AI or compute asks in this selection.</p>
           ) : (
@@ -97,32 +121,11 @@ export function AiView({ corpus, lines, mode }: ViewProps) {
                     </span>
                   ))}
                 </div>
-                {ownTotal > 0 ? (
-                  <InsightBox className="mt-4">
-                    <strong>
-                      {phpCompact(ownTotal)} of the AI ask in this selection is{" "}
-                      {ownAgencies === 1 ? "one agency's own GPU cluster" : `${ownAgencies} agencies' own GPU clusters`}.
-                    </strong>{" "}
-                    A shared national compute facility could serve them; decide together before the hardware is bought, not
-                    after. A review question, not a finding: agencies can have binding reasons, such as data-sovereignty
-                    commitments over commuter or sponsor data.
-                  </InsightBox>
-                ) : null}
-                <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
-                  Shares are of that fiscal year&apos;s total line items across the selection. Amounts are the tagged
-                  projects&apos; real Part IV line items.
-                </p>
               </div>
             </div>
           )}
         </Panel>
       </ProposedOnly>
-
-      <InsightBox>
-        <strong>Reading AI as one domain among ten keeps it in proportion.</strong> The corpus-wide lens treats
-        cybersecurity, devices, networks, cloud and people the same way; the AI tag simply makes the {scoped.length}{" "}
-        tagged asks ({ownBuilds.length} own-cluster builds) visible for the shared-versus-own review question.
-      </InsightBox>
     </div>
   );
 }

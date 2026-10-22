@@ -12,7 +12,7 @@ import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { SPEND_DOMAINS } from "@/lib/ict-domains";
 import { SECTORS } from "@/lib/repository/corpus";
 import { phpCompact } from "@/lib/utils";
-import { InsightBox, Panel, TodayBadge, ViewHeader, ViewProps, pct } from "./shared";
+import { Panel, TodayBadge, ViewHeader, ViewProps, pct } from "./shared";
 
 const CLOUD = SPEND_DOMAINS.find((d) => d.key === "cloudSoftware")!;
 const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
@@ -50,6 +50,25 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
         eyebrow="ICT domain · 5 of 10"
         title="Software, cloud and hosting"
         lede="Where systems live and where that money goes: the storage fields the ISSP already carries, and the subscription, hosting and cloud lines that become the permanent MOOE floor."
+        insights={[
+          <>
+            <strong>
+              Hosting shifts toward the cloud: current systems sit{" "}
+              {pct(currentSystems.filter((s) => s.dataStorage === "ON_PREMISE").length, currentSystems.length)}{" "}
+              on-premise, proposed systems are{" "}
+              {pct(proposedSystems.filter((s) => s.dataStorage === "CLOUD").length, proposedSystems.length)}{" "}
+              cloud-hosted
+            </strong>
+            . A cloud-first check per plan is one rule on a field the form already carries.
+          </>,
+          <>
+            <strong>Every new system adds a recurring line</strong> (hosting, licences, support): the floor the
+            continuing-costs trend on the Overview tracks.
+            {govcloudLines.length > 0
+              ? ` ${govcloudLines.length} lines here name GovCloud PH explicitly.`
+              : ""}
+          </>,
+        ]}
       />
 
       <div className="grid lg:grid-cols-2 lg:items-start gap-4">
@@ -98,12 +117,6 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
             size={148}
             stackLegend
           />
-          <InsightBox className="mt-4">
-            <strong>The plans shift hosting toward the cloud.</strong> Current systems sit{" "}
-            {pct(currentSystems.filter((s) => s.dataStorage === "ON_PREMISE").length, currentSystems.length)} on-premise;
-            proposed systems move to {pct(proposedSystems.filter((s) => s.dataStorage === "CLOUD").length, proposedSystems.length)}{" "}
-            cloud-hosted. A cloud-first check per plan is one rule on a field the form already carries.
-          </InsightBox>
         </Panel>
       </div>
 
@@ -139,13 +152,12 @@ export function CloudView({ profiles, lines, fy }: ViewProps) {
             </div>
           </div>
         </div>
-        <p className="text-[11px] text-muted-foreground mt-4 leading-relaxed">
-          Every new system adds a recurring line: hosting, licences, support. That is the future MOOE floor the
-          continuing-costs trend on the Overview tracks.
-          {govcloudLines.length > 0
-            ? ` ${govcloudLines.length} lines name GovCloud PH explicitly (₱${(govcloudLines.reduce((s, l) => s + l.total, 0) / 1_000_000).toFixed(1)}M total).`
-            : ""}
-        </p>
+        {govcloudLines.length > 0 ? (
+          <p className="text-[11px] text-muted-foreground mt-4">
+            GovCloud PH: <strong className="text-foreground tabular-nums">{govcloudLines.length}</strong> lines ·{" "}
+            <strong className="text-foreground tabular-nums">₱{(govcloudLines.reduce((s, l) => s + l.total, 0) / 1_000_000).toFixed(1)}M</strong>
+          </p>
+        ) : null}
       </Panel>
     </div>
   );

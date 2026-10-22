@@ -10,7 +10,7 @@ import Link from "next/link";
 import { MonitorSmartphone } from "lucide-react";
 import { BarList, Donut } from "@/components/dataviz/charts";
 import { SECTOR_SHORT } from "@/lib/repository/corpus";
-import { InsightBox, Kpi, Panel, TodayBadge, ViewHeader, ViewProps, pct } from "./shared";
+import { Kpi, Panel, TodayBadge, ViewHeader, ViewProps, pct } from "./shared";
 
 const ACCESS_LABELS: Record<string, string> = { ONLINE: "Online", ON_PREMISE: "Walk-in only", HYBRID: "Hybrid" };
 const ACCESS_COLORS: Record<string, string> = { ONLINE: "var(--chart-1)", ON_PREMISE: "var(--chart-5)", HYBRID: "var(--chart-4)" };
@@ -31,6 +31,23 @@ export function ServicesView({ profiles }: ViewProps) {
         eyebrow="ICT domain · 8 of 10"
         title="eGov services"
         lede="The services citizens actually touch: which eGovPH programs each agency adopted, whether identity is PNPKI-backed, and which frontline systems can be reached online."
+        insights={[
+          <>
+            <strong>
+              {frontline.filter((s) => s.frontlineAccessType !== "ONLINE").length} of {frontline.length} frontline
+              systems still require a counter visit
+            </strong>{" "}
+            (walk-in only or hybrid): a frontline system that cannot be reached online shortens no queue, and the
+            access-type field the form already carries makes that visible per agency and per sector.
+          </>,
+          pnpki.length > 0 ? (
+            <>
+              <strong>PNPKI is the prerequisite for every other eGov service.</strong> Certificate adoption across
+              the selection runs {Math.min(...pnpki.map((p) => p.egp.pnpkiAdoption ?? 0))}% to{" "}
+              {Math.max(...pnpki.map((p) => p.egp.pnpkiAdoption ?? 0))}%.
+            </>
+          ) : null,
+        ]}
       />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -73,14 +90,13 @@ export function ServicesView({ profiles }: ViewProps) {
             size={148}
             stackLegend
           />
-          <InsightBox className="mt-4">
-            <strong>Online reach is the whole point.</strong> A frontline system that can only be reached at a counter
-            does not shorten any queue; the access-type field the form already carries makes that visible per agency
-            and per sector.
-          </InsightBox>
         </Panel>
 
-        <Panel title="PNPKI certificate adoption" sub="Part II eGov checklist · today's form">
+        <Panel
+          title="PNPKI certificate adoption"
+          sub="Part II eGov checklist · today's form"
+          hint="Share of the agency's officers and staff with active PNPKI certificates."
+        >
           <div className="space-y-1.5 text-xs">
             {profiles
               .filter((p) => p.egp.pnpkiAdoption !== undefined)
@@ -93,10 +109,6 @@ export function ServicesView({ profiles }: ViewProps) {
                   <span className="tabular-nums font-semibold">{p.egp.pnpkiAdoption}%</span>
                 </div>
               ))}
-            <p className="text-muted-foreground leading-relaxed pt-1">
-              Share of the agency&apos;s officers and staff with active PNPKI certificates; identity is the
-              prerequisite for every other eGov service.
-            </p>
           </div>
         </Panel>
         </div>

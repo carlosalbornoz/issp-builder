@@ -11,7 +11,7 @@ import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { SPEND_DOMAINS } from "@/lib/ict-domains";
 import { php, phpCompact } from "@/lib/utils";
 import { BarList } from "@/components/dataviz/charts";
-import { InsightBox, Panel, PostureTile, ProposedOnly, TodayBadge, ViewHeader, ViewProps } from "./shared";
+import { Panel, PostureTile, ProposedOnly, TodayBadge, ViewHeader, ViewProps } from "./shared";
 
 const DEVICES = SPEND_DOMAINS.find((d) => d.key === "devices")!;
 const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
@@ -38,6 +38,23 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
         eyebrow="ICT domain · 3 of 10"
         title="Compute devices"
         lede={DEVICES.blurb + ". Spend comes from today's categories; the fleet picture (counts, ages, support status) waits on Annex 1 as structured fields."}
+        insights={[
+          flagged.length > 0 ? (
+            <>
+              <strong>
+                {flagged.map((r) => r.acronym).join(" and ")} sit well above the corpus median
+              </strong>{" "}
+              ({flagged.map((r) => `${(r.medianUnitCost / up.corpusMedian).toFixed(1)}×`).join(" and ")}). One is
+              ruggedized field kit where the spec justifies it; the other is a standard office spec, and that one is
+              a procurement-planning support candidate, the same agency already flagged for FY2025 execution.
+            </>
+          ) : (
+            <>
+              <strong>No agency sits far above the corpus median</strong> on laptop-class purchases in this
+              selection.
+            </>
+          ),
+        ]}
       />
 
       <ProposedOnly mode={mode} requires="the Annex 1 asset inventory as structured fields (proposed)">
@@ -106,7 +123,11 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
           />
         </Panel>
 
-        <Panel title="Unit-price sanity: laptop-class purchases" sub="Corpus-wide · median unit cost vs the corpus median">
+        <Panel
+          title="Unit-price sanity: laptop-class purchases"
+          sub="Corpus-wide · median unit cost vs the corpus median"
+          hint="Derived from each agency's Part IV line items. Variance is a prompt to ask before the bid, not a finding after it: specs and logistics differ."
+        >
           {mode === "current" ? <TodayBadge>Computed from today&apos;s form, no new fields needed</TodayBadge> : null}
           <p className="text-xs text-muted-foreground mb-3">
             Corpus median: <strong className="text-foreground tabular-nums">{php(up.corpusMedian)}</strong> per unit,
@@ -123,17 +144,6 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
             }))}
             format={(n) => php(n)}
           />
-          {flagged.length > 0 ? (
-            <InsightBox className="mt-4">
-              <strong>{flagged.map((r) => r.acronym).join(" and ")} sit well above the corpus median.</strong> One is
-              ruggedized field kit (the spec justifies it); the other is a standard office spec, and that one is a
-              procurement-planning support candidate. It is the same agency already flagged for FY2025 execution.
-            </InsightBox>
-          ) : null}
-          <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
-            Derived from each agency&apos;s Part IV line items. Variance is a prompt to ask before the bid, not a finding after it:
-            specs and logistics differ.
-          </p>
         </Panel>
       </div>
     </div>

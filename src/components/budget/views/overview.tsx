@@ -10,13 +10,13 @@
 
 import { Fragment, useState } from "react";
 import Link from "next/link";
-import { Building2, Check, ChevronRight, Coins, Download, Landmark, Lock, PieChart, ReceiptText } from "lucide-react";
+import { Building2, Check, ChevronRight, Coins, Download, Landmark, Lock, ReceiptText } from "lucide-react";
 import { BarList, Donut, StackedColumns, SwatchLegend } from "@/components/dataviz/charts";
 import { BUCKETS, SECTORS, TYPE_SHORT } from "@/lib/repository/corpus";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import type { CompassAgency, CorpusProfile } from "@/lib/repository/corpus-types";
 import { cn, php, phpCompact } from "@/lib/utils";
-import { InsightBox, Kpi, Panel, RatePill, ViewProps, pct } from "./shared";
+import { InsightsButton, Kpi, Panel, RatePill, ViewProps, pct } from "./shared";
 
 const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
 const CHART_COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
@@ -82,9 +82,6 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
   }).filter((x) => x.share > 0);
   const ccFirst = ccTrajectory[0];
   const ccLast = ccTrajectory[ccTrajectory.length - 1];
-  const ccGrows = ccFirst && ccLast && ccLast.share > ccFirst.share;
-  const ccFirstLabel = ccFirst ? `FY${ccFirst.year} ${Math.round(ccFirst.share * 100)}%` : "year to year";
-  const ccLastLabel = ccLast ? `FY${ccLast.year} ${Math.round(ccLast.share * 100)}%` : "year to year";
 
   // Fund split over the same scope the KPI counts (the FY filter applies), so the
   // ring, its legend and the center total always describe the same money.
@@ -96,9 +93,40 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
       .map(([label, value], i) => ({ key: label, label, value, color: CHART_COLORS[i % CHART_COLORS.length] }));
   })();
 
+  // The view's on-demand insights: computed from the selection, presented as an
+  // auto-drafted summary (labelled illustrative) behind the ✨ button.
+  const nonGaa = profiles.filter((p) => p.type === "LGU" || p.type === "GOCC").length;
+  const top3 = categories.slice(0, 3).reduce((s, c) => s + c.total, 0);
+  const insights: React.ReactNode[] = [
+    ccFirst && ccLast ? (
+      <span key="cc">
+        <strong>
+          Continuing costs move from {Math.round(ccFirst.share * 100)}% of the FY{ccFirst.year} ask to{" "}
+          {Math.round(ccLast.share * 100)}% in FY{ccLast.year}
+        </strong>{" "}
+        as projects complete and their subscriptions, hosting and licences land.
+      </span>
+    ) : null,
+    nonGaa > 0 ? (
+      <span key="gaa">
+        <strong>
+          {nonGaa} of {profiles.length} agencies fund ICT outside the GAA
+        </strong>{" "}
+        (LGU and GOCC): their ISSPs are the only national view of that intent.
+      </span>
+    ) : null,
+    top3 > 0 && total > 0 ? (
+      <span key="top3">
+        <strong>The top three expense categories take {pct(top3, total)} of the ask</strong>, led by{" "}
+        {categories[0]?.name.toLowerCase() ?? ""}.
+      </span>
+    ) : null,
+  ].filter(Boolean);
+
   return (
     <div className="space-y-6">
       <WhyNowBand corpus={corpus} mode={mode} />
+      <InsightsButton items={insights} />
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
         <Kpi
@@ -147,23 +175,13 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
         <Panel title="Proposed investment by year" sub="stacked by Part IV strategic category" className="lg:col-span-2">
           <StackedColumns columns={byYearColumns} format={phpCompact} />
           <SwatchLegend className="mt-4" items={BUCKETS.map((b) => ({ key: b.key, label: b.label, color: b.color }))} />
-          <InsightBox className="mt-4">
-            <strong>Continuing costs are the quiet story.</strong> New systems become yearly subscriptions,
-            hosting and licences: the future MOOE floor of every approved project. In the bars above, the
-            Continuing Costs share of the ask moves from {ccFirstLabel} to {ccLastLabel}{" "}
-            {ccGrows ? "as projects complete and their running costs land." : "with project completion schedules; the final plan year carries the heaviest running-cost load."}
-          </InsightBox>
         </Panel>
-        <Panel title="Fund sources" sub="B.2 across the selection" icon={PieChart}>
+        <Panel title="Fund sources" sub="B.2 across the selection" hint="LGU and GOCC budgets do not pass through the GAA.">
           {fundSegments.length > 0 ? (
             <Donut segments={fundSegments} centerValue={phpCompact(total)} centerLabel="proposed" format={phpCompact} size={160} stackLegend />
           ) : (
             <p className="text-xs text-muted-foreground">Nothing matches the current filters.</p>
           )}
-          <p className="text-[11px] text-muted-foreground leading-relaxed mt-4">
-            LGU and GOCC budgets do not pass through the GAA. For them, the ISSP is the only national view of
-            ICT intent.
-          </p>
         </Panel>
       </div>
 
@@ -243,13 +261,6 @@ export function OverviewView({ corpus, profiles, lines, fy, mode, exportCsv, fyL
           </table>
         </div>
       </Panel>
-
-      <p className="text-xs text-muted-foreground pt-2">
-        All plan figures derive from each agency&apos;s Part IV line items through the same aggregation engine as
-        the editor&apos;s Summary of Investments (B.1–B.4), counted budget only. The execution layer (NEP, GAA,
-        allotments, obligations, disbursements) and all join codes are fictitious demonstration data standing in
-        for a future DBM COMPASS feed.
-      </p>
     </div>
   );
 }
@@ -386,12 +397,10 @@ function PostureGrid({ corpus, profiles, mode }: { corpus: ViewProps["corpus"]; 
         <span className="inline-flex items-center gap-1"><Lock className="w-3 h-3" /> waits on a proposed field or link</span>
       </div>
       <p className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">
-        Cyber controls and cloud share come from today&apos;s form. Endpoint exposure needs the Annex 1 asset
-        inventory and obligation rates need a COMPASS link, both proposed fields.{" "}
+        Sectors follow the PDP 2023-2028 chapters (mock assignment, a proposed field).{" "}
         {mode === "proposed"
-          ? "Flip the Data mode to see the grid run on today's form alone."
-          : "Flip back to Revised form to see those two columns filled."}{" "}
-        Sectors follow the PDP 2023-2028 chapter structure (mock assignment; a proposed ISSP field).
+          ? "Flip the Data mode to run the grid on today's form alone."
+          : "Flip back to Revised form to fill the two locked columns."}
       </p>
     </Panel>
   );
@@ -520,8 +529,8 @@ function RankingPanel({ profiles, lines, fy, mode, corpus }: { profiles: CorpusP
       />
       {mode === "proposed" && bars.some((b) => b.ratio && b.ratio > 2) ? (
         <p className="text-[11px] text-muted-foreground mt-3">
-          Annotation basis: {fyForRanking ? `FY${fyForRanking} ask` : "3-year plan total ÷ 3"} vs FY2025
-          obligations, the same comparison as the absorptive-capacity table in Money &amp; execution.
+          Annotations compare the {fyForRanking ? `FY${fyForRanking} ask` : "average yearly ask"} with the
+          agency&apos;s FY2025 ICT obligations (mock).
         </p>
       ) : null}
     </Panel>

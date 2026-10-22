@@ -10,7 +10,7 @@ import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { SPEND_DOMAINS } from "@/lib/ict-domains";
 import { phpCompact } from "@/lib/utils";
 import { BarList } from "@/components/dataviz/charts";
-import { InsightBox, Panel, TodayBadge, ViewHeader, ViewProps } from "./shared";
+import { Panel, TodayBadge, ViewHeader, ViewProps } from "./shared";
 
 const NETWORKS = SPEND_DOMAINS.find((d) => d.key === "networks")!;
 const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
@@ -39,6 +39,13 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
         eyebrow="ICT domain · 4 of 10"
         title="Networks and connectivity"
         lede={NETWORKS.blurb + ". The line items name the links themselves: fibre upgrades, fixed wireless for isolated offices, VSAT where nothing else reaches."}
+        insights={[
+          <>
+            <strong>Isolated offices are named and budgeted.</strong> VSAT terminals for off-grid sites and fixed
+            wireless for geographically isolated offices appear as literal Part IV lines; with Annex 1 as structured
+            fields, resilient-link coverage per office becomes a query.
+          </>,
+        ]}
       />
 
       <div className="grid lg:grid-cols-3 lg:items-start gap-4">
@@ -58,11 +65,6 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
               {fy === "all" ? "across all plan years" : `in FY${fy}`}.
             </p>
           </Panel>
-          <InsightBox>
-            <strong>Isolated offices are named and budgeted.</strong> VSAT terminals for off-grid sites and fixed
-            wireless for geographically isolated offices appear as literal Part IV lines; with the fleet inventory as
-            structured fields (proposed), resilient-link coverage per office becomes a query.
-          </InsightBox>
         </div>
 
         <Panel title="The links the plans name" sub="Subscription and broadband line items · today's form" className="lg:col-span-2">

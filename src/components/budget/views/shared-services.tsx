@@ -8,10 +8,10 @@
  */
 
 import Link from "next/link";
-import { Layers3, ShieldQuestion } from "lucide-react";
+import { Info, Layers3, ShieldQuestion } from "lucide-react";
 import { BarList } from "@/components/dataviz/charts";
 import { phpCompact } from "@/lib/utils";
-import { InsightBox, Panel, ViewHeader, ViewProps } from "./shared";
+import { Panel, ViewHeader, ViewProps } from "./shared";
 import { cn } from "@/lib/utils";
 
 const DUP_CLUSTERS = [
@@ -69,11 +69,37 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
         eyebrow="Program convergence budgeting"
         title="Where government could buy once, together"
         lede="Grouped from the proposed systems (Part III-D) and cross-agency projects (Part III-E.2) the plans already carry. A match is a review prompt, not a finding."
+        insights={[
+          alignment.untagged > 0 ? (
+            <>
+              <strong>{phpCompact(alignment.untagged)} of project cost has no link to a national plan.</strong> In a
+              Budget Call, these items need a written justification first.
+            </>
+          ) : (
+            <>
+              <strong>Every project in this selection carries at least one alignment tag</strong> to a national
+              plan, so no cost arrives unattributed.
+            </>
+          ),
+          <>
+            <strong>The cross-agency program totals exist only when plans are read together:</strong> no single
+            agency file holds them.
+          </>,
+        ]}
       />
 
       <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Proposed systems (Part III-D) grouped by type</p>
-        <h3 className="text-sm font-semibold mt-1 mb-3">Where a shared service could replace separate builds</h3>
+        <h3 className="text-sm font-semibold mt-1 mb-3">
+          Where a shared service could replace separate builds
+          <span
+            title="Grouping uses the system name and classification in Part III-D. Agencies can have valid reasons for their own system. Costs show the linked Part III-E project where one exists."
+            tabIndex={0}
+            className="cursor-help inline-flex ml-1 align-[-2px] rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+          >
+            <Info className="w-3.5 h-3.5 text-muted-foreground/80" aria-hidden />
+          </span>
+        </h3>
         <div className="overflow-x-auto rounded-lg border">
           <table className="min-w-full text-xs sm:text-sm border-collapse">
             <thead>
@@ -114,10 +140,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
             </tbody>
           </table>
         </div>
-        <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
-          Grouping uses the system name and classification in Part III-D. Agencies can have valid reasons for their own
-          system. Costs show the linked Part III-E project where one exists.
-        </p>
+
       </div>
 
       <div className="grid lg:grid-cols-2 lg:items-start gap-4">
@@ -138,14 +161,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
             ]}
             format={phpCompact}
           />
-          {alignment.untagged > 0 ? (
-            <InsightBox className="mt-4">
-              <strong>{phpCompact(alignment.untagged)} of project cost has no link to a national plan.</strong> In a
-              Budget Call, these items need a written justification first.
-            </InsightBox>
-          ) : (
-            <p className="text-[11px] text-muted-foreground mt-3">Every project in this selection carries at least one alignment tag.</p>
-          )}
+
         </Panel>
 
         <Panel title="Cross-agency programs" sub="Part III-E.2 · each agency carries its share in its own plan" icon={Layers3}>
@@ -170,9 +186,6 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
                 </div>
               </div>
             ))}
-            <p className="text-[11px] text-muted-foreground">
-              The program total exists only when the plans are read together. No agency file holds it.
-            </p>
           </div>
         </Panel>
       </div>

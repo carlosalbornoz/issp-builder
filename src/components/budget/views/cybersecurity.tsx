@@ -12,13 +12,13 @@ import Link from "next/link";
 import { ShieldAlert } from "lucide-react";
 import { formatDay } from "@/lib/utils";
 import { SECTOR_SHORT } from "@/lib/repository/corpus";
-import { InsightBox, Panel, PostureTile, ProposedOnly, TodayBadge, ViewHeader, ViewProps } from "./shared";
+import { Panel, PostureTile, ProposedOnly, TodayBadge, ViewHeader, ViewProps } from "./shared";
 import { cn } from "@/lib/utils";
 
 export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
   const cyber = corpus.cyber;
-  const bySlug = new Map(cyber.agencies.map((a) => [a.slug, a]));
   const slugs = new Set(profiles.map((p) => p.slug));
+  const bySlug = new Map(cyber.agencies.map((a) => [a.slug, a]));
   const rows = profiles
     .map((p) => ({ profile: p, coverage: bySlug.get(p.slug) }))
     .filter((r): r is { profile: (typeof profiles)[number]; coverage: NonNullable<ReturnType<typeof bySlug.get>> } => r.coverage !== undefined)
@@ -34,6 +34,7 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
   const adv = corpus.security.advisory;
   const advRows = adv.agencies.filter((h) => slugs.has(h.slug));
   const advUnits = advRows.reduce((s, h) => s + h.units, 0);
+  const covered = advRows.filter((h) => h.refreshInPlan).length;
 
   return (
     <div className="space-y-6">
@@ -41,6 +42,18 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
         eyebrow="ICT domain · 2 of 10"
         title="Government cyber posture"
         lede="What the ISSP already carries as a checklist (Part II-B), what a national CERT advisory would light up (Annex 1, proposed), and the one thing today's form cannot see: security spend."
+        insights={[
+          <>
+            <strong>None of the 30 DICT expense categories is security-specific:</strong> a firewall lands under
+            equipment, a vulnerability assessment under professional services. A security tag per project or line
+            (a proposed field, same shape as the AI tag) would give this view its spend column.
+          </>,
+          <>
+            <strong>A CERT advisory becomes a query, not a survey.</strong> With Annex 1 carried as structured
+            fields, one lookup answers who runs the model, how many units, and whether replacement money exists
+            ({covered} of {advRows.length} exposed agencies carry replacement lines today).
+          </>,
+        ]}
       />
 
       {/* Part II-B coverage grid: today's form */}
@@ -91,21 +104,14 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
           <span className="inline-flex items-center gap-1"><CellSwatch band="mid" /> half or more</span>
           <span className="inline-flex items-center gap-1"><CellSwatch band="high" /> full</span>
         </div>
-        <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
-          Counted from the Part II-B checklist each .issp carries ({groups.reduce((s, g) => s + g.controls, 0)} Yes/No
-          controls across 7 groups). Average across the selection: {Math.round(corpusOverall * 100)}% today; the
-          corpus-wide Part III-A target state averages {Math.round(cyber.proposedOverall * 100)}%. Fictitious agencies;
-          the checklist itself is today&apos;s ISSP form.
+        <p className="text-[11px] text-muted-foreground mt-2">
+          Counted from the Part II-B checklist each .issp carries ({groups.reduce((s, g) => s + g.controls, 0)}{" "}
+          controls across 7 groups). Selection average: <strong className="text-foreground tabular-nums">{Math.round(corpusOverall * 100)}%</strong>{" "}
+          today · Part III-A target state averages{" "}
+          <strong className="text-foreground tabular-nums">{Math.round(cyber.proposedOverall * 100)}%</strong>{" "}
+          corpus-wide.
         </p>
       </Panel>
-
-      {/* The one field away: security spend */}
-      <InsightBox>
-        <strong>Security spend is invisible in today&apos;s categories.</strong> None of the 30 DICT expense categories
-        is security-specific: a firewall lands under equipment, a VA under professional services. A security tag per
-        project or line item (a proposed field, same shape as the AI tag) would give this view its spend column, and
-        the cybersecurity budget conversation its numbers.
-      </InsightBox>
 
       {/* Annex 1 fleet + advisory: proposed fields */}
       <ProposedOnly mode={mode} requires="the Annex 1 asset inventory as structured fields (proposed)">
@@ -163,11 +169,6 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
                 </tbody>
               </table>
             </div>
-            <p className="text-[11px] text-muted-foreground leading-relaxed mt-2.5">
-              When a national CERT advisory lands, the corpus answers in one query: who runs the model, how many
-              units, and whether replacement money already exists. That inventory is Annex 1 of the ISSP, carried as
-              structured data in a revised form.
-            </p>
           </div>
         </Panel>
       </ProposedOnly>
