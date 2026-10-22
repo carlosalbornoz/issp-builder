@@ -195,7 +195,7 @@ async function openInsights(p) {
 
   await p.goto(`${BASE}/budget?view=buys`, { waitUntil: "networkidle0", timeout: 60000 });
   await settle(p);
-  await expectText(p, "Where the money goes", "budget categories");
+  await expectText(p, "DICT expense categories", "budget categories");
   await expectNoOverflow(p, "budget buys");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-buys.png"), fullPage: true });
   ok("shot budget-buys.png");
@@ -218,7 +218,7 @@ async function openInsights(p) {
 
   await openInsights(p);
   await expectText(p, "Auto-drafted · illustrative", "overview insights panel label");
-  await expectText(p, "Continuing costs move from", "overview insights derive from live data");
+  await expectText(p, "Continuing costs rise from", "overview insights derive from live data");
   // Tall viewport: the panel opens below the navy band, so a 900px frame cuts it off.
   await p.setViewport({ width: 1440, height: 1500 });
   await p.evaluate(() => document.getElementById("view-insights")?.scrollIntoView({ block: "center", behavior: "instant" }));
@@ -242,7 +242,7 @@ async function openInsights(p) {
   await settle(p);
   await p.select('[data-scope-bar="full"] select[aria-label="Filter by fiscal year"]', "2027");
   await settle(p);
-  await expectText(p, "FY2027 ISSP ask", "budget FY selector KPI");
+  await expectText(p, "FY2027 ISSP request", "budget FY selector KPI");
   await expectText(p, "vs FY2026", "budget FY selector YoY");
   await p.screenshot({ path: path.join(OUT_DIR, "budget-fy2027.png"), fullPage: false });
   ok("shot budget-fy2027.png (viewport)");

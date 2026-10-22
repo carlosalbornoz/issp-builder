@@ -8,7 +8,8 @@
 import { BarList } from "@/components/dataviz/charts";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { phpCompact } from "@/lib/utils";
-import { InsightsButton, Panel, ViewProps, pct } from "./shared";
+import { SCREENS } from "../nav";
+import { Panel, ViewHeader, ViewProps, pct } from "./shared";
 
 const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
 
@@ -24,16 +25,16 @@ export function BuysView({ lines, fy }: ViewProps) {
   const insights: React.ReactNode[] = [
     top3 > 0 && total > 0 ? (
       <span key="top3">
-        <strong>The top three expense categories take {pct(top3, total)} of the ask</strong>, led by{" "}
-        {categories[0]?.name.toLowerCase() ?? ""}.
+        <strong>The three largest categories account for {pct(top3, total)} of the request</strong>, led by{" "}
+        {categories[0]?.name ?? ""}.
       </span>
     ) : null,
   ].filter(Boolean);
 
   return (
     <div className="space-y-6">
-      <InsightsButton items={insights} />
-      <Panel title="Where the money goes" sub="DICT expense categories (B.4)">
+      <ViewHeader title={SCREENS.buys.label} lede={SCREENS.buys.summary} insights={insights} />
+      <Panel title="DICT expense categories" sub="Part IV B.4 · ten largest">
         <BarList
           items={[
             ...categories.slice(0, 10).map((c) => ({

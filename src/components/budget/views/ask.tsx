@@ -11,7 +11,8 @@ import { Donut, StackedColumns, SwatchLegend } from "@/components/dataviz/charts
 import { BUCKETS } from "@/lib/repository/corpus";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { php, phpCompact } from "@/lib/utils";
-import { InsightsButton, Kpi, Panel, ViewProps, pct } from "./shared";
+import { SCREENS } from "../nav";
+import { Kpi, Panel, ViewHeader, ViewProps, pct } from "./shared";
 
 const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
 const CHART_COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
@@ -83,10 +84,10 @@ export function AskView({ profiles, lines, fy, mode, fyLabel }: ViewProps & { fy
     ccFirst && ccLast ? (
       <span key="cc">
         <strong>
-          Continuing costs move from {Math.round(ccFirst.share * 100)}% of the FY{ccFirst.year} ask to{" "}
+          Continuing costs rise from {Math.round(ccFirst.share * 100)}% of the FY{ccFirst.year} request to{" "}
           {Math.round(ccLast.share * 100)}% in FY{ccLast.year}
-        </strong>{" "}
-        as projects complete and their subscriptions, hosting and licences land.
+        </strong>
+        , as completed projects add subscriptions, hosting and licences.
       </span>
     ) : null,
     nonGaa > 0 ? (
@@ -94,23 +95,23 @@ export function AskView({ profiles, lines, fy, mode, fyLabel }: ViewProps & { fy
         <strong>
           {nonGaa} of {profiles.length} agencies fund ICT outside the GAA
         </strong>{" "}
-        (LGU and GOCC): their ISSPs are the only national view of that intent.
+        (LGUs and GOCCs). Their ISSPs are the only national record of this spending.
       </span>
     ) : null,
   ].filter(Boolean);
 
   return (
     <div className="space-y-6">
-      <InsightsButton items={insights} />
+      <ViewHeader title={SCREENS.ask.label} lede={SCREENS.ask.summary} insights={insights} />
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
         <Kpi
-          label={fy === "all" ? "Proposed ICT investment" : `FY${fy} ISSP ask`}
+          label={fy === "all" ? "Proposed ICT investment" : `FY${fy} ISSP request`}
           value={scope.length === 0 ? "–" : phpCompact(total)}
           title={scope.length === 0 ? undefined : php(total)}
           sub={
             scope.length === 0
-              ? "no line items match the current filters"
+              ? "No line items in scope"
               : yoyDelta !== null && fy !== "all"
                 ? `${yoyDelta >= 0 ? "▲" : "▼"} ${Math.abs(yoyDelta).toFixed(1)}% vs FY${fy - 1} (${phpCompact(priorFyTotal)})`
                 : `${profiles.length} agencies · ${fyLabel}`
@@ -118,8 +119,8 @@ export function AskView({ profiles, lines, fy, mode, fyLabel }: ViewProps & { fy
           highlight
           icon={Coins}
         />
-        <Kpi label="Capital outlay" value={scope.length === 0 ? "–" : phpCompact(co)} title={scope.length === 0 ? undefined : php(co)} sub={scope.length === 0 ? "clear a filter to see figures" : `${pct(co, total)} of total`} />
-        <Kpi label="MOOE" value={scope.length === 0 ? "–" : phpCompact(total - co)} title={scope.length === 0 ? undefined : php(total - co)} sub={scope.length === 0 ? "clear a filter to see figures" : `${pct(total - co, total)} of total`} />
+        <Kpi label="Capital outlay" value={scope.length === 0 ? "–" : phpCompact(co)} title={scope.length === 0 ? undefined : php(co)} sub={scope.length === 0 ? "No line items in scope" : `${pct(co, total)} of total`} />
+        <Kpi label="MOOE" value={scope.length === 0 ? "–" : phpCompact(total - co)} title={scope.length === 0 ? undefined : php(total - co)} sub={scope.length === 0 ? "No line items in scope" : `${pct(total - co, total)} of total`} />
         <Kpi
           label="Top expense category"
           value={categories[0]?.name ?? "–"}
@@ -130,14 +131,14 @@ export function AskView({ profiles, lines, fy, mode, fyLabel }: ViewProps & { fy
           <Kpi
             label="Projects with PAP code"
             value={papStats.all ? `${papStats.withPap} of ${papStats.all}` : "–"}
-            sub={`${papStats.all ? Math.round((papStats.withPap / papStats.all) * 100) : 0}% traceable to the NEP / GAA\u00A0(mock)`}
+            sub={`${papStats.all ? Math.round((papStats.withPap / papStats.all) * 100) : 0}% traceable to NEP and GAA\u00A0(mock)`}
             icon={Landmark}
           />
         ) : (
           <Kpi
             label="KPIs fully specified"
             value={kpiStats.total ? `${kpiStats.complete} of ${kpiStats.total}` : "–"}
-            sub="baseline + all three targets, from today's form"
+            sub="Baseline and three targets set (current form)"
             icon={Landmark}
           />
         )}
@@ -145,15 +146,15 @@ export function AskView({ profiles, lines, fy, mode, fyLabel }: ViewProps & { fy
 
       {/* Charts row 1: by year + fund sources */}
       <div className="grid lg:grid-cols-3 gap-4">
-        <Panel title="Proposed investment by year" sub="stacked by Part IV strategic category" className="lg:col-span-2">
+        <Panel title="Proposed investment by year" sub="By Part IV strategic category" className="lg:col-span-2">
           <StackedColumns columns={byYearColumns} format={phpCompact} />
           <SwatchLegend className="mt-4" items={BUCKETS.map((b) => ({ key: b.key, label: b.label, color: b.color }))} />
         </Panel>
-        <Panel title="Fund sources" sub="B.2 across the selection" hint="LGU and GOCC budgets do not pass through the GAA.">
+        <Panel title="Fund sources" sub="Part IV B.2" hint="LGU and GOCC budgets do not pass through the GAA.">
           {fundSegments.length > 0 ? (
             <Donut segments={fundSegments} centerValue={phpCompact(total)} centerLabel="proposed" format={phpCompact} size={160} stackLegend />
           ) : (
-            <p className="text-xs text-muted-foreground">Nothing matches the current filters.</p>
+            <p className="text-xs text-muted-foreground">No line items in scope.</p>
           )}
         </Panel>
       </div>

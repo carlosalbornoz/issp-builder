@@ -88,8 +88,8 @@ async function screen(url, { contains = [], lacks = [] }, label) {
 try {
   console.log("\n[1] Screens: one question each");
   await screen("/budget?view=posture", { contains: ["Posture by agency", "Agriculture and food"], lacks: ["Fund sources", "Agency drill-down"] }, "posture");
-  await screen("/budget?view=ask", { contains: ["₱4.82B", "Fund sources", "Projects with PAP code"], lacks: ["Agency drill-down", "Where the money goes"] }, "ask");
-  await screen("/budget?view=buys", { contains: ["Where the money goes"], lacks: ["Fund sources"] }, "buys");
+  await screen("/budget?view=ask", { contains: ["₱4.82B", "Fund sources", "Projects with PAP code"], lacks: ["Agency drill-down", "DICT expense categories"] }, "ask");
+  await screen("/budget?view=buys", { contains: ["DICT expense categories"], lacks: ["Fund sources"] }, "buys");
   await screen("/budget?view=agencies", { contains: ["Agency drill-down", "Line items (CSV)"], lacks: ["Fund sources"] }, "agencies");
   await screen("/budget?view=absorptive", { contains: ["Obligation rate"], lacks: ["Each fiscal year sits at a different stage"] }, "absorptive");
   await screen("/budget?view=money", { contains: ["Each fiscal year sits at a different stage"], lacks: ["Ask ÷ obligations"] }, "money");
@@ -178,7 +178,7 @@ try {
     check((await p.evaluate(() => location.search)).includes("sector=agricultureFood"), "sector dropdown sets ?sector=");
     await trySelect(p, '[data-scope-bar="full"] select[aria-label="Filter by fiscal year"]', "2027");
     await new Promise((r) => setTimeout(r, 500));
-    check(await has(p, "FY2027 ISSP ask"), "FY dropdown scopes the Investment summary KPI");
+    check(await has(p, "FY2027 ISSP request"), "FY dropdown scopes the Investment summary KPI");
     await p.evaluate(() => document.querySelector('[data-scope-bar="full"] button[data-filters-trigger]')?.click());
     await new Promise((r) => setTimeout(r, 400));
     const popover = await p.evaluate(() => !!document.querySelector('select[aria-label="Filter by fund source"]'));
@@ -282,6 +282,14 @@ try {
   await formal("/budget?view=posture&mode=current", "Government-wide posture", { lacks: ["Flip back to Revised form"] });
   await formal("/budget?view=sectors", "Sector comparison");
   await formal("/budget?view=domains", "ICT domains");
+
+  console.log("\n[5b] Formal tone: Investment");
+  await formal("/budget?view=ask", "Investment summary", {
+    contains: ["By Part IV strategic category", "Part IV B.2"],
+    lacks: ["stacked by", "across the selection", "ISSP ask"],
+  });
+  await formal("/budget?view=ask&mode=current", "Investment summary", { contains: ["Baseline and three targets set"] });
+  await formal("/budget?view=buys", "Expenditure by category", { contains: ["DICT expense categories"], lacks: ["Where the money goes"] });
 } finally {
   await browser.close();
 }
