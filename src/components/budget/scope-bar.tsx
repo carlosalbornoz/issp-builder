@@ -53,7 +53,7 @@ export function ScopeBar(props: ScopeBarProps) {
         <FySelect {...props} />
         <FiltersPopover {...props} count={secondaryCount} />
         {agency ? <AgencyChip agency={agency} onClear={onClearAgency} /> : null}
-        <span className="hidden 2xl:inline text-xs text-muted-foreground truncate min-w-0">{summary}</span>
+        <span className="hidden 2xl:inline text-xs text-muted-foreground truncate min-w-0 tabular-nums">{summary}</span>
         <ModeToggle {...props} className="ml-auto" />
       </div>
 
@@ -140,7 +140,7 @@ function FiltersPopover(props: ScopeBarProps & { count: number }) {
     <Popover.Root>
       <Popover.Trigger
         data-filters-trigger
-        className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+        className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 data-[popup-open]:bg-accent"
       >
         <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden /> Filters <CountBadge count={count} />
       </Popover.Trigger>
@@ -157,7 +157,7 @@ function FiltersPopover(props: ScopeBarProps & { count: number }) {
                   onType("all");
                   onFund("all");
                 }}
-                className="text-xs font-medium text-primary hover:underline"
+                className="text-xs font-medium text-primary hover:underline rounded-sm px-1.5 -mx-1.5 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
               >
                 Clear filters
               </button>
@@ -177,6 +177,8 @@ function ScopeSheet(props: ScopeBarProps & { count: number }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Scope${props.count ? `, ${props.count} active` : ""}`}
+        aria-expanded={open}
+        aria-haspopup="dialog"
         className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-2.5 sm:px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
       >
         <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden /> <span className="hidden sm:inline">Scope</span> <CountBadge count={props.count} />
@@ -208,7 +210,7 @@ function ScopeSheet(props: ScopeBarProps & { count: number }) {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="w-full h-10 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+              className="w-full h-10 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
             >
               Done
             </button>

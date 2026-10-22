@@ -58,6 +58,8 @@ export function BudgetFrame({
                 type="button"
                 onClick={() => setDrawerOpen(true)}
                 aria-label="Open dashboard menu"
+                aria-expanded={drawerOpen}
+                aria-haspopup="dialog"
                 className="xl:hidden inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-2.5 sm:px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
               >
                 <Menu className="w-4 h-4" aria-hidden /> <span className="hidden sm:inline">Menu</span>
@@ -155,7 +157,7 @@ function SidebarNav({ active, params, onNavigate }: { active: FrameActive; param
               const on = isCurrent(item, active);
               return (
                 <li key={item}>
-                  <Link href={itemHref(item, params)} onClick={onNavigate} aria-current={on ? "page" : undefined} className={linkCls(on)}>
+                  <Link href={itemHref(item, params)} onClick={onNavigate} aria-current={on ? (item === active ? "page" : "true") : undefined} className={linkCls(on)}>
                     {itemLabel(item)}
                   </Link>
                 </li>
@@ -193,7 +195,7 @@ function Breadcrumb({ active, params }: { active: FrameActive; params: URLSearch
           return (
             <li key={crumb.label} className="inline-flex items-center gap-1">
               {crumb.href && !last ? (
-                <Link href={crumb.href} className="hover:text-foreground hover:underline">
+                <Link href={crumb.href} className="hover:text-foreground hover:underline rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60">
                   {crumb.label}
                 </Link>
               ) : (

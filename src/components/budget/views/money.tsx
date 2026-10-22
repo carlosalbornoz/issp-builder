@@ -98,9 +98,9 @@ export function MoneyView({ corpus, profiles, mode, params }: ViewProps & { para
       <div className="flex flex-wrap justify-end">
         <Link
           href={withScope("/budget/trace/ncwtr-2026-2028/proj-sikap", params)}
-          className="inline-flex items-center justify-center gap-1.5 rounded-md bg-[var(--sidebar)] text-white px-3.5 h-9 text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto"
+          className="inline-flex items-center justify-center gap-1.5 rounded-md bg-[var(--sidebar)] text-white px-3.5 h-9 text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
         >
-          View a project trace <ChevronRight className="w-3.5 h-3.5" />
+          View a project trace <ChevronRight className="w-3.5 h-3.5" aria-hidden />
         </Link>
       </div>
 
@@ -253,7 +253,7 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
               .map((r) => (
                 <tr key={r.slug + r.projectId} className="border-b last:border-b-0 hover:bg-accent/20 align-top">
                   <td className="px-2 sm:px-3 py-2">
-                    <Link href={`/repository/${r.slug}`} className="font-medium hover:underline">
+                    <Link href={`/repository/${r.slug}`} className="font-medium hover:underline rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60">
                       {r.acronym}
                     </Link>
                   </td>

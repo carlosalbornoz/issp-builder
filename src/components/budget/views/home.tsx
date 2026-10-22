@@ -55,14 +55,14 @@ export function TaskCard({ href, title, summary, headline, mode }: { href: strin
       href={href}
       data-card
       data-locked={locked ? "" : undefined}
-      className="group flex flex-col rounded-xl ring-1 ring-foreground/10 bg-card p-4 hover:bg-accent/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+      className="group flex flex-col rounded-xl ring-1 ring-foreground/10 bg-card p-4 hover:bg-accent/40 active:bg-accent/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
     >
       <span className="text-sm font-semibold group-hover:text-primary transition-colors">{title}</span>
       <span className="text-xs text-muted-foreground leading-snug mt-1">{summary}</span>
       <span className="mt-auto pt-3 flex items-baseline gap-2 min-w-0">
         {locked ? (
-          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground" title="Requires the revised ISSP form">
-            <Lock className="w-3.5 h-3.5" aria-hidden /> Requires the revised form
+          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Lock className="w-3.5 h-3.5" aria-hidden /> Requires the revised ISSP form
           </span>
         ) : (
           <>

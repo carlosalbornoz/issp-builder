@@ -109,7 +109,7 @@ export function Kpi({
       <p className={cn("text-lg font-bold tabular-nums leading-tight truncate", highlight && "text-primary")} title={title ?? value}>
         {value}
       </p>
-      {sub ? <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">{sub}</p> : null}
+      {sub ? <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2" title={sub}>{sub}</p> : null}
     </div>
   );
 }
@@ -138,7 +138,7 @@ export function InsightsButton({ items }: { items: React.ReactNode[] }) {
               : "bg-card text-foreground border-foreground/15 hover:border-foreground/30"
           )}
         >
-          <span aria-hidden>✨</span> More insights <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", open && "rotate-180")} />
+          <span aria-hidden className="select-none">✨</span> More insights <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", open && "rotate-180")} />
         </button>
       </div>
       {open ? (
@@ -220,8 +220,8 @@ export function ProposedOnly({ mode, requires, children }: { mode: DataMode; req
 export function TodayBadge({ children }: { children: React.ReactNode }) {
   return (
       <p className="inline-flex items-center gap-1.5 rounded-full bg-success-bg text-success border border-success-border px-2.5 py-0.5 text-[10px] font-semibold">
-      ✓ {children}
-    </p>
+        <span aria-hidden className="select-none">✓</span> {children}
+      </p>
   );
 }
 
@@ -286,7 +286,7 @@ export function FilterSelect({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-label={ariaLabel}
-      className={cn("h-9 rounded-md border border-input bg-background px-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring/50", className)}
+      className={cn("h-9 rounded-md border border-input bg-background px-2.5 text-sm text-foreground hover:border-foreground/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50", className)}
     >
       {options.map(([v, l]) => (
         <option key={v} value={v}>

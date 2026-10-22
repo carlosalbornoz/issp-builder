@@ -364,6 +364,21 @@ try {
     await p.close();
   }
   {
+    // Disclosure triggers announce their open state; the trace page marks its parent
+    // entry as related, not as the current page.
+    const p = await open("/budget", 390, 844);
+    const triggers = await p.evaluate(() => ({
+      scope: document.querySelector('button[aria-label^="Scope"]')?.getAttribute("aria-expanded"),
+      menu: document.querySelector('button[aria-label="Open dashboard menu"]')?.getAttribute("aria-expanded"),
+    }));
+    check(triggers.scope === "false" && triggers.menu === "false", `390: scope and menu triggers expose aria-expanded (${JSON.stringify(triggers)})`);
+    await p.close();
+    const t = await open("/budget/trace/ncwtr-2026-2028/proj-sikap");
+    const moneyCurrent = await t.evaluate(() => document.querySelector('nav[aria-label="Dashboard"] a[aria-current]')?.getAttribute("aria-current"));
+    check(moneyCurrent === "true", `trace page marks Plan to obligation aria-current="true", not "page" (got "${moneyCurrent}")`);
+    await t.close();
+  }
+  {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");
     const href = await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("View a project trace"))?.getAttribute("href"));
@@ -383,7 +398,7 @@ try {
     const f = await p.evaluate(() => {
       const nav = document.querySelector('nav[aria-label="Dashboard"]');
       return {
-        current: nav?.querySelector('[aria-current="page"]')?.textContent?.trim() ?? null,
+        current: nav?.querySelector('[aria-current="page"], [aria-current="true"]')?.textContent?.trim() ?? null,
         home: !![...(nav?.querySelectorAll("a") ?? [])].find((a) => a.textContent?.trim() === "Home"),
         crumb: document.querySelector('nav[aria-label="Breadcrumb"]')?.textContent ?? "",
         budgetChip: document.querySelector("header nav a.bg-accent")?.innerText?.trim() ?? null,
