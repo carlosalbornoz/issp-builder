@@ -8,8 +8,9 @@
  * ten view files do not each redefine them.
  */
 
+import { useState } from "react";
 import Link from "next/link";
-import { Lock } from "lucide-react";
+import { ChevronDown, Info, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CorpusLineItem, CorpusProfile, RepositoryCorpus } from "@/lib/repository/corpus-types";
 
@@ -68,12 +69,15 @@ export interface ViewProps {
 export function Panel({
   title,
   sub,
+  hint,
   icon: Icon,
   className,
   children,
 }: {
   title: string;
   sub?: string;
+  /** Methodology note shown as an info-icon tooltip instead of a footnote. */
+  hint?: string;
   icon?: React.ComponentType<{ className?: string }>;
   className?: string;
   children: React.ReactNode;
@@ -84,6 +88,11 @@ export function Panel({
         <h2 className="text-sm font-semibold flex items-center gap-1.5">
           {Icon ? <Icon className="w-4 h-4 text-muted-foreground" /> : null}
           {title}
+          {hint ? (
+            <span title={hint} tabIndex={0} className="cursor-help inline-flex rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60">
+              <Info className="w-3.5 h-3.5 text-muted-foreground/80" aria-hidden />
+            </span>
+          ) : null}
         </h2>
         {sub ? <p className="text-xs text-muted-foreground mt-0.5">{sub}</p> : null}
       </div>
@@ -128,17 +137,78 @@ export function Kpi({
   );
 }
 
-export function InsightBox({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn("rounded-md bg-muted/60 px-3.5 py-2.5 text-xs leading-relaxed text-foreground", className)}>{children}</div>;
+/**
+ * The view's ✨ More insights affordance: the narrative prose that used to sit
+ * on the page as editorial boxes now opens on demand, presented as an
+ * auto-drafted summary (labelled illustrative, same convention as the mock
+ * layers). Items are computed from the live selection at render.
+ */
+export function InsightsButton({ items }: { items: React.ReactNode[] }) {
+  const [open, setOpen] = useState(false);
+  const visible = items.filter(Boolean);
+  if (visible.length === 0) return null;
+  return (
+    <div className="min-w-0 w-full">
+      <div className="flex justify-end">
+        <button
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="view-insights"
+          className={cn(
+            "inline-flex items-center gap-1.5 h-8 px-3 rounded-full border text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
+            open
+              ? "bg-primary text-primary-foreground border-primary"
+              : "bg-card text-foreground border-foreground/15 hover:border-foreground/30"
+          )}
+        >
+          <span aria-hidden>✨</span> More insights <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", open && "rotate-180")} />
+        </button>
+      </div>
+      {open ? (
+        <section id="view-insights" className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5 mt-3">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3">
+            <h3 className="text-sm font-semibold">Insights</h3>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+              Auto-drafted · illustrative
+            </span>
+          </div>
+          <ul className="space-y-2.5">
+            {visible.map((item, i) => (
+              <li key={i} className="flex gap-2.5 text-sm leading-relaxed">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0 mt-[9px]" aria-hidden />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+    </div>
+  );
 }
 
 /** Every view opens with one: the domain's name and its one-line framing. */
-export function ViewHeader({ eyebrow, title, lede }: { eyebrow: string; title: string; lede?: string }) {
+export function ViewHeader({
+  eyebrow,
+  title,
+  lede,
+  insights,
+}: {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  /** Optional ✨ More insights content for this view. */
+  insights?: React.ReactNode[];
+}) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">{eyebrow}</p>
-      <h2 className="font-display text-lg sm:text-xl font-bold tracking-tight">{title}</h2>
-      {lede ? <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mt-1">{lede}</p> : null}
+      <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">{eyebrow}</p>
+          <h2 className="font-display text-lg sm:text-xl font-bold tracking-tight">{title}</h2>
+          {lede ? <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mt-1">{lede}</p> : null}
+        </div>
+        {insights ? <InsightsButton items={insights} /> : null}
+      </div>
     </div>
   );
 }
