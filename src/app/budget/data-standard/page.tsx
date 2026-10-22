@@ -183,7 +183,7 @@ export default function DataStandardPage() {
           <section className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
             <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mb-1">One line item, as open data</p>
             <h2 className="font-display text-base font-bold tracking-tight mb-3">Sample record with join keys</h2>
-            <pre className="rounded-lg bg-[#0E1A33] text-[#E6ECF7] p-3.5 text-[11px] leading-relaxed font-mono overflow-x-auto">{SAMPLE_ROW}</pre>
+            <pre className="rounded-lg bg-[#0E1A33] text-[#E6ECF7] p-3.5 text-[11px] leading-relaxed font-mono overflow-x-auto whitespace-pre-wrap">{SAMPLE_ROW}</pre>
             <p className="text-[11px] text-muted-foreground mt-2.5">
               Codes are mock values. The same record also exports as one CSV row per line item: the dashboard&apos;s
               CSV button produces exactly that from the corpus.

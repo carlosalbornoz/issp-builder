@@ -413,6 +413,11 @@ try {
     const m = await open("/budget/data-standard", 390, 844);
     check(!(await m.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1)), "390: data standard does not overflow");
     check(await m.evaluate(() => !!document.querySelector('button[aria-label="Open dashboard menu"]')), "390: data standard has the dashboard menu");
+    const pre = await m.evaluate(() => {
+      const el = document.querySelector("pre");
+      return el ? { client: el.clientWidth, scroll: el.scrollWidth } : null;
+    });
+    check(pre === null || pre.scroll <= pre.client, `390: sample record code block shows every line (scroll ${pre?.scroll} vs client ${pre?.client})`);
     await m.close();
   }
 
