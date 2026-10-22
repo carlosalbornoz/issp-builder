@@ -127,7 +127,7 @@ export default function DataStandardPage() {
               <div key={s.who} className="rounded-lg ring-1 ring-foreground/10 bg-card p-4 flex flex-col gap-1.5">
                 <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">{s.who}</p>
                 <p className="text-sm font-semibold leading-snug text-balance">{s.q}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{s.detail}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed text-pretty">{s.detail}</p>
               </div>
             ))}
           </div>
@@ -258,7 +258,7 @@ export default function DataStandardPage() {
                 </span>
                 <div>
                   <p className="text-sm font-semibold leading-snug">{s.who}</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed mt-1">{s.what}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mt-1 text-pretty">{s.what}</p>
                 </div>
               </div>
             ))}

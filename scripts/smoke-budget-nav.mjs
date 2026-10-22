@@ -645,6 +645,18 @@ try {
     check(t26 === "(30 Jun)", `FY2026 tile keeps its date together (${t26})`);
     check(t27 === "the NEP", `FY2027 tile keeps its phrase together (${t27})`);
     await money.close();
+    const ds = await open("/budget/data-standard");
+    const detail = await lastLineWords(ds, "key.");
+    check(detail !== null && detail.split(" ").length >= 2, `question card detail ends with a full pair (${detail})`);
+    await ds.close();
+    const h = await open("/budget", 390, 844);
+    const delta = await h.evaluate(() => {
+      const footerBlock = [...document.querySelectorAll("footer a")].find((a) => a.textContent?.includes("View on GitHub"))?.parentElement?.previousElementSibling;
+      const card = document.querySelector("a[data-card]");
+      return footerBlock && card ? Math.round(Math.abs(footerBlock.getBoundingClientRect().left - card.getBoundingClientRect().left)) : null;
+    });
+    check(delta !== null && delta <= 2, `phone footer aligns with the page column (left delta ${delta}px)`);
+    await h.close();
   }
 
   console.log("\n[5l] Expense class filter (capital outlay vs MOOE)");

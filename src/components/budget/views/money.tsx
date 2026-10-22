@@ -15,7 +15,7 @@ import { SCREENS, withScope } from "../nav";
 import { CycleTile, FUNNEL, ProposedOnly, StageTile, ViewHeader, ViewProps, pct, pluralProjects } from "./shared";
 
 const STAGES = [
-  { n: "1", label: "Plan", system: "ISSP", detail: "3-year plan, DICT-endorsed. Projects, line items, KPIs.", source: ".issp file", ours: true },
+  { n: "1", label: "Plan", system: "ISSP", detail: "3-year plan, DICT‑endorsed. Projects, line items, KPIs.", source: ".issp file", ours: true },
   { n: "2", label: "Propose", system: "NEP", detail: "Executive budget proposal to Congress.", source: "COMPASS", ours: false },
   { n: "3", label: "Authorize", system: "GAA", detail: "Appropriation approved by Congress.", source: "COMPASS", ours: false },
   { n: "4", label: "Release", system: "Allotment", detail: "SARO / comprehensive release.", source: "COMPASS · BTMS", ours: false },
