@@ -54,7 +54,11 @@ export function BarList({
                 <span className="text-sm font-semibold tabular-nums text-foreground">{format(item.value)}</span>
                 {share !== null ? (
                   <span className="text-xs text-muted-foreground tabular-nums w-9 text-right">
-                    {share > 0 && share < 0.001 ? "<0.1%" : `${Math.round(share * 100)}%`}
+                    {share > 0 && share < 0.001
+                      ? "<0.1%"
+                      : share < 0.01
+                        ? `${(share * 100).toFixed(1)}%`
+                        : `${Math.round(share * 100)}%`}
                   </span>
                 ) : null}
               </span>

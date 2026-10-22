@@ -10,7 +10,7 @@
 import Link from "next/link";
 import { ChevronRight, Info } from "lucide-react";
 import type { CompassAgency, CompassYearRecord, CorpusProcurementRow, CorpusProcurementStage, CorpusProfile } from "@/lib/repository/corpus-types";
-import { cn, phpCompact } from "@/lib/utils";
+import { cn, php, phpCompact } from "@/lib/utils";
 import { CycleTile, FUNNEL, ProposedOnly, RatePill, StageTile, ViewHeader, ViewProps, pct, pluralProjects } from "./shared";
 
 const STAGES = [
@@ -216,6 +216,7 @@ function FunnelPanel({
 function AbsorptiveTable({ gaa, profiles }: { gaa: CompassAgency[]; profiles: CorpusProfile[] }) {
   const absorptive = absorptiveRows(gaa, profiles);
   const steepest = absorptive.filter((x) => x.ratio !== null).sort((x, y) => (y.ratio ?? 0) - (x.ratio ?? 0))[0];
+  const withoutY25 = gaa.length - absorptive.length;
   if (absorptive.length === 0) return null;
   return (
     <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
@@ -283,6 +284,11 @@ function AbsorptiveTable({ gaa, profiles }: { gaa: CompassAgency[]; profiles: Co
         ) : (
           <span>Every GAA agency&apos;s FY2027 ask sits below its FY2025 obligations.</span>
         )}
+        {withoutY25 > 0 ? (
+          <span>
+            {withoutY25 === 1 ? "1 GAA agency" : `${withoutY25} GAA agencies`} with no FY2025 record (no row)
+          </span>
+        ) : null}
       </div>
     </div>
   );
@@ -351,7 +357,9 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
                     </Link>
                   </td>
                   <td className="px-2 sm:px-3 py-2 max-w-64">{r.shortTitle}</td>
-                  <td className="px-2 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap">{phpCompact(r.amount)}</td>
+                  <td className="px-2 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap" title={php(r.amount)}>
+                    {phpCompact(r.amount)}
+                  </td>
                   <td className="px-2 sm:px-3 py-2">
                     <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap", STAGE_META[r.stage].cls)}>
                       {STAGE_META[r.stage].label}
