@@ -185,8 +185,8 @@ try {
     check(popover, "Filters popover opens with the fund-source filter");
     const fundValue = await p.evaluate(() => [...(document.querySelector('select[aria-label="Filter by fund source"]')?.options ?? [])].map((o) => o.value).find((v) => v !== "all"));
     await trySelect(p, 'select[aria-label="Filter by fund source"]', fundValue ?? "x");
-    await new Promise((r) => setTimeout(r, 400));
     await p.keyboard.press("Escape");
+    await p.waitForFunction(() => document.querySelector('[data-scope-bar="full"] [data-filter-count]')?.textContent?.trim() === "1", { timeout: 15000 }).catch(() => {});
     await new Promise((r) => setTimeout(r, 300));
     const badge = await p.evaluate(() => document.querySelector('[data-scope-bar="full"] [data-filter-count]')?.textContent?.trim());
     check(badge === "1", `Filters badge counts one active filter (got ${badge})`);
@@ -362,7 +362,8 @@ try {
     // The toolbar readout must follow the FY filter the screens apply (FY2027 = 172 lines, 1.48B).
     const p = await open("/budget");
     await p.select('select[aria-label="Filter by fiscal year"]', "2027");
-    await new Promise((r) => setTimeout(r, 700));
+    await p.waitForFunction(() => location.search.includes("fy=2027"), { timeout: 15000 }).catch(() => {});
+    await p.waitForFunction(() => [...document.querySelectorAll("span")].some((s) => s.textContent?.includes("172 line items")), { timeout: 15000 }).catch(() => {});
     const summary = await p.evaluate(() => [...document.querySelectorAll("span")].find((s) => s.textContent?.includes("line items"))?.textContent?.trim() ?? "");
     check(/172 line items · ₱1\.48B FY2027/.test(summary), `toolbar summary follows the FY filter (got "${summary}")`);
     await p.close();
