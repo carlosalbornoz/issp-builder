@@ -61,7 +61,7 @@ export function CybersecurityView({ corpus, profiles, mode }: ViewProps) {
       {/* Part II-B coverage grid: current form */}
       <Panel title="Cybersecurity control coverage" sub="Part II-B checklist · controls in place per group">
         <TodayBadge>Current form · no new fields required</TodayBadge>
-        <div className="overflow-x-auto rounded-lg border mt-3">
+        <div className="overflow-x-auto scroll-x-fade rounded-lg border mt-3">
           <table className="min-w-full text-xs border-collapse">
             <thead>
               <tr className="bg-muted/50">

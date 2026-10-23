@@ -58,7 +58,7 @@ export function DevicesView({ corpus, profiles, lines, fy, mode }: ViewProps) {
 
       <ProposedOnly mode={mode} requires="the Annex 1 asset inventory as structured fields (proposed)">
         <Panel title="Device estate" sub="Annex 1 inventory (proposed fields) · fictitious models">
-          <div className="overflow-x-auto rounded-lg border">
+          <div className="overflow-x-auto scroll-x-fade rounded-lg border">
             <table className="min-w-full text-xs sm:text-sm border-collapse">
               <thead>
                 <tr className="bg-muted/50">

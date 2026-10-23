@@ -169,7 +169,7 @@ export function InsightsButton({ items }: { items: React.ReactNode[] }) {
           aria-expanded={open}
           aria-controls="view-insights"
           className={cn(
-            "inline-flex items-center gap-1.5 h-8 px-3 rounded-full border text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
+            "inline-flex items-center gap-1.5 h-8 coarse:h-11 px-3 rounded-full border text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
             open
               ? "bg-primary text-primary-foreground border-primary"
               : "bg-card text-foreground border-foreground/15 hover:border-foreground/30"
@@ -322,7 +322,7 @@ export function FilterSelect({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         aria-label={ariaLabel}
-        className="h-9 w-full rounded-md border border-input bg-background pl-2.5 pr-7 text-sm text-foreground appearance-none hover:border-foreground/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+        className="h-9 coarse:h-11 w-full rounded-md border border-input bg-background pl-2.5 pr-7 text-sm text-foreground appearance-none hover:border-foreground/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
       >
         {options.map(([v, l]) => (
           <option key={v} value={v}>

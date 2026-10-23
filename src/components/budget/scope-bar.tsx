@@ -80,7 +80,7 @@ export function ScopeBar(props: ScopeBarProps) {
 
 const chipCls = (on: boolean) =>
   cn(
-    "min-h-8 px-2.5 rounded-full border text-xs font-medium whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
+    "min-h-8 coarse:min-h-11 px-2.5 rounded-full border text-xs font-medium whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
     on ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30"
   );
 
@@ -148,7 +148,7 @@ function FiltersPopover(props: ScopeBarProps & { count: number }) {
     <Popover.Root>
       <Popover.Trigger
         data-filters-trigger
-        className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 data-[popup-open]:bg-accent"
+        className="inline-flex items-center gap-1.5 h-9 coarse:h-11 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 data-[popup-open]:bg-accent"
       >
         <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden /> Filters <CountBadge count={count} />
       </Popover.Trigger>
@@ -187,7 +187,7 @@ function ScopeSheet(props: ScopeBarProps & { count: number }) {
         aria-label={`Scope${props.count ? `, ${props.count} active` : ""}`}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-2.5 sm:px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+        className="inline-flex items-center gap-1.5 h-9 coarse:h-11 rounded-md border border-input bg-background px-2.5 sm:px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
       >
         <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden /> <span className="hidden sm:inline">Scope</span> <CountBadge count={props.count} />
       </button>

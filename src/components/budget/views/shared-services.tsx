@@ -104,7 +104,7 @@ export function SharedServicesView({ corpus, profiles, highlightProgram }: ViewP
             <Info className="w-3.5 h-3.5 text-muted-foreground/80" aria-hidden />
           </span>
         </h3>
-        <div className="overflow-x-auto rounded-lg border">
+        <div className="overflow-x-auto scroll-x-fade rounded-lg border">
           <table className="min-w-full text-xs sm:text-sm border-collapse">
             <thead>
               <tr className="bg-muted/50">

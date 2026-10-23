@@ -98,7 +98,7 @@ export function MoneyView({ corpus, profiles, mode, params }: ViewProps & { para
       <div className="flex flex-wrap justify-end">
         <Link
           href={withScope("/budget/trace/ncwtr-2026-2028/proj-sikap", params)}
-          className="inline-flex items-center justify-center gap-1.5 rounded-md bg-[var(--sidebar)] text-white px-3.5 h-9 text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+          className="inline-flex items-center justify-center gap-1.5 rounded-md bg-[var(--sidebar)] text-white px-3.5 h-9 coarse:h-11 text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
         >
           View a project trace <ChevronRight className="w-3.5 h-3.5" aria-hidden />
         </Link>
@@ -239,7 +239,7 @@ function ProcurementPulse({ rows }: { rows: CorpusProcurementRow[] }) {
         <StageTile label="In bidding" value={phpCompact(sumOf(["bidding"]))} sub={pluralProjects(countOf(["bidding"]))} />
         <StageTile label="Pre-bid or earlier" value={phpCompact(sumOf(["pre-bid", "none"]))} sub={pluralProjects(countOf(["pre-bid", "none"]))} />
       </div>
-      <div className="overflow-x-auto rounded-lg border">
+      <div className="overflow-x-auto scroll-x-fade rounded-lg border">
         <table className="min-w-full text-xs sm:text-sm border-collapse">
           <thead>
             <tr className="bg-muted/50">

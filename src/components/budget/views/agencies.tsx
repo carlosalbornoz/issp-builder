@@ -34,7 +34,7 @@ export function AgenciesView({ corpus, profiles, lines, fy, mode, fund, exportCs
             <Download className="w-3.5 h-3.5" /> Line items (CSV)
           </button>
         </div>
-        <div className="overflow-x-auto rounded-lg border bg-card -m-1">
+        <div className="overflow-x-auto scroll-x-fade rounded-lg border bg-card -m-1">
           <table className="min-w-full text-sm border-collapse">
             <thead>
               <tr className="bg-muted/50">

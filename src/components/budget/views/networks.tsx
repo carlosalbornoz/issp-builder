@@ -68,7 +68,7 @@ export function NetworksView({ profiles, lines, fy }: ViewProps) {
         </div>
 
         <Panel title="Planned network links" sub="Subscription and broadband line items" className="lg:col-span-2">
-          <div className="overflow-x-auto rounded-lg border">
+          <div className="overflow-x-auto scroll-x-fade rounded-lg border">
             <table className="min-w-full text-xs sm:text-sm border-collapse">
               <thead>
                 <tr className="bg-muted/50">

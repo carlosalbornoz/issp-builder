@@ -15,8 +15,10 @@ import {
   Building2,
   Download,
   Gauge,
+  Hourglass,
   Layers3,
   MonitorSmartphone,
+  Network,
   Server,
   ShieldAlert,
   Users,
@@ -281,12 +283,13 @@ function AgencyDetailBody({
                 danger={fleet.serversEol > 0}
               />
               <FleetStat
+                icon={Network}
                 label="Network devices"
                 value={String(fleet.networkDevices)}
                 sub={`${fleet.networkEol} past vendor support`}
                 danger={fleet.networkEol / fleet.networkDevices > 0.3}
               />
-              <FleetStat label="Average fleet age" value={`${fleet.avgAgeYears.toFixed(1)} yrs`} sub="all ICT asset classes" />
+              <FleetStat icon={Hourglass} label="Average fleet age" value={`${fleet.avgAgeYears.toFixed(1)} yrs`} sub="all ICT asset classes" />
             </div>
             <div className="lg:col-span-3 space-y-3">
               <div className="overflow-x-auto rounded-lg border bg-card">

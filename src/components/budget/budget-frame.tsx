@@ -61,14 +61,14 @@ export function BudgetFrame({
                 aria-label="Open dashboard menu"
                 aria-expanded={drawerOpen}
                 aria-haspopup="dialog"
-                className="xl:hidden inline-flex items-center gap-1.5 h-9 rounded-md border border-input bg-background px-2.5 sm:px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+                className="xl:hidden inline-flex items-center gap-1.5 h-9 coarse:h-11 rounded-md border border-input bg-background px-2.5 sm:px-3 text-sm font-medium hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
               >
                 <Menu className="w-4 h-4" aria-hidden /> <span className="hidden sm:inline">Menu</span>
               </button>
               <Link
                 href={screenHref("home", params)}
                 aria-label="Dashboard home"
-                className="xl:hidden inline-flex items-center justify-center h-9 w-9 shrink-0 rounded-md border border-input bg-background hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+                className="xl:hidden inline-flex items-center justify-center h-9 w-9 coarse:h-11 coarse:w-11 shrink-0 rounded-md border border-input bg-background hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
               >
                 <House className="w-4 h-4" aria-hidden />
               </Link>
@@ -133,7 +133,7 @@ function isCurrent(item: ScreenKey | ExternalItem, active: FrameActive) {
 function SidebarNav({ active, params, onNavigate }: { active: FrameActive; params: URLSearchParams; onNavigate?: () => void }) {
   const linkCls = (on: boolean) =>
     cn(
-      "flex items-center gap-2 rounded-md px-2.5 py-1 text-sm text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
+      "flex items-center gap-2 rounded-md px-2.5 py-1 coarse:py-2.5 text-sm text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
       on ? "bg-accent text-primary font-medium" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
     );
 

@@ -33,7 +33,7 @@ function PostureGrid({ corpus, profiles, mode }: { corpus: ViewProps["corpus"]; 
 
   return (
     <Panel title="Posture by agency" sub="Grouped by PDP sector · five posture measures">
-      <div className="overflow-x-auto rounded-lg border">
+      <div className="overflow-x-auto scroll-x-fade rounded-lg border">
         <table className="min-w-full text-xs sm:text-sm border-collapse">
           <thead>
             <tr className="bg-muted/50">

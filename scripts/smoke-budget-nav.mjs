@@ -707,6 +707,35 @@ try {
     await p.close();
   }
   {
+    // Coarse pointers get the 44px effective target; the desktop smoke stays at 36px.
+    const p = await browser.newPage();
+    await p.setViewport({ width: 390, height: 844, hasTouch: true, isMobile: true });
+    await p.evaluateOnNewDocument(() => window.localStorage.setItem("issp-theme", "bettergov"));
+    await p.goto(`${BASE}/budget`, { waitUntil: "networkidle0", timeout: 60000 });
+    await p.waitForFunction(() => !document.querySelector("[aria-busy]"), { timeout: 30000 }).catch(() => {});
+    const chipH = await p.evaluate(() => {
+      const el = [...document.querySelectorAll("button")].find((b) => b.textContent?.trim() === "Revised");
+      return el ? Math.round(el.getBoundingClientRect().height) : null;
+    });
+    check(chipH !== null && chipH >= 42, `coarse pointer: the mode chip reaches the 44px target (${chipH}px)`);
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=absorptive", 390, 844);
+    const fade = await p.evaluate(() => {
+      const el = document.querySelector(".scroll-x-fade");
+      return el ? getComputedStyle(el, "::after").content : null;
+    });
+    check(fade !== null && fade !== "none", `390: scrollable tables show the edge fade cue (${fade})`);
+    await p.close();
+  }
+  {
+    const p = await open("/repository/ncra-2027-2029");
+    const icons = await p.evaluate(() => [...document.querySelectorAll("div.grid.grid-cols-2 div svg")].length);
+    check(icons >= 4, `repository fleet tiles all carry the icon pattern (${icons} icons)`);
+    await p.close();
+  }
+  {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");
     const href = await p.evaluate(() => [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("View a project trace"))?.getAttribute("href"));

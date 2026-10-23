@@ -15,6 +15,25 @@
 /* Touch-device affordance — bump tap targets only on coarse pointers (keeps desktop density) */
 @custom-variant coarse (@media (pointer: coarse));
 
+/* Phone tables: a right-edge fade on the horizontally scrolling tables, so the
+   clipped last column reads as scrollable rather than broken. Card token only. */
+@media (max-width: 767px) {
+  .scroll-x-fade {
+    position: relative;
+  }
+  .scroll-x-fade::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(to right, transparent, var(--card));
+    pointer-events: none;
+    border-radius: inherit;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
