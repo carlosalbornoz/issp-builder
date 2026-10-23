@@ -816,6 +816,20 @@ try {
     await p.close();
   }
 
+  console.log("\n[5n] Round 12 icons: drawer title");
+  {
+    const p = await open("/budget?view=cybersecurity", 390, 844);
+    await p.evaluate(() => document.querySelector('button[aria-label="Open dashboard menu"]')?.click());
+    await new Promise((r) => setTimeout(r, 500));
+    const title = await p.evaluate(() => {
+      const dlg = document.querySelector('[role="dialog"]');
+      const t = [...(dlg?.querySelectorAll("h1,h2,h3,[data-slot='sheet-title']") ?? [])].find((n) => n.textContent?.includes("ICT Budget Dashboard"));
+      return { found: !!t, icon: !!t?.querySelector("svg.lucide") };
+    });
+    check(title.found && title.icon, "drawer title carries the icon pattern");
+    await p.close();
+  }
+
   console.log("\n[6] Data standard and trace share the frame");
   for (const [url, current, crumb] of [
     ["/budget/data-standard", "Data standard", "Data standard"],

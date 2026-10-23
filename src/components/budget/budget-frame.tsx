@@ -10,7 +10,7 @@
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ChevronRight, House, Menu } from "lucide-react";
+import { ChevronRight, House, LayoutDashboard, Menu } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -85,7 +85,9 @@ export function BudgetFrame({
 
       <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
         <SheetContent side="left" className="w-72 max-w-[85vw] gap-0 overflow-y-auto p-4">
-          <SheetTitle className="text-sm font-semibold mb-2">ICT Budget Dashboard</SheetTitle>
+          <SheetTitle className="text-sm font-semibold mb-2 flex items-center gap-1.5">
+            <LayoutDashboard className="w-4 h-4 text-muted-foreground shrink-0 select-none" aria-hidden /> ICT Budget Dashboard
+          </SheetTitle>
           <SidebarNav active={active} params={params} onNavigate={() => setDrawerOpen(false)} />
         </SheetContent>
       </Sheet>
