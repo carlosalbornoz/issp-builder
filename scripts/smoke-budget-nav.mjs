@@ -746,6 +746,13 @@ try {
   console.log("\n[5e] Formal tone: Agencies");
   await formal("/budget?view=agencies", "Agency ISSPs", { contains: ["Budget by agency", "Select an agency to open its ISSP"], lacks: ["drill-down", "click through", "click the acronym"] });
 
+  console.log("\n[5n] Round 12: no literal unicode escapes in rendered text");
+  for (const view of ["ai", "sectors"]) {
+    const p = await open(`/budget?view=${view}`);
+    check(!(await has(p, "u00A0")), `${view}: panel subtitles render a real non-breaking space, not the literal escape`);
+    await p.close();
+  }
+
   console.log("\n[5n] Round 12 icons: sidebar group labels");
   {
     const p = await open("/budget?view=cybersecurity");

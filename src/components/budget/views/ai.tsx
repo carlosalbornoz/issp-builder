@@ -81,9 +81,11 @@ export function AiView({ corpus, lines, mode }: ViewProps) {
       />
 
       <ProposedOnly mode={mode} requires="an AI / compute tag per project (proposed field)">
+        {/* A JSX attribute string is raw text to the compiler: the \u00A0 escape
+            only resolves inside a JS expression, hence the braces on `sub`. */}
         <Panel
           title="AI and compute requests"
-          sub="Tagged projects in scope · the tag is a proposed ISSP\u00A0field"
+          sub={"Tagged projects in scope · the tag is a proposed ISSP\u00A0field"}
           hint="Shares are of each fiscal year's total line items in scope. Amounts are the tagged projects' Part IV line items."
           icon={Cpu}
         >
