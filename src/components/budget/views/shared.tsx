@@ -10,7 +10,7 @@
 
 import { useRef, useState } from "react";
 import { Tooltip } from "@base-ui/react/tooltip";
-import { ChevronDown, Info, Lock } from "lucide-react";
+import { ChevronDown, Info, Lock, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CorpusLineItem, CorpusProfile, RepositoryCorpus } from "@/lib/repository/corpus-types";
 import type { ScreenKey } from "../nav";
@@ -175,12 +175,17 @@ export function InsightsButton({ items }: { items: React.ReactNode[] }) {
               : "bg-card text-foreground border-foreground/15 hover:border-foreground/30"
           )}
         >
-          <span aria-hidden className="select-none">✨</span> More insights <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", open && "rotate-180")} />
+          <Sparkles className="w-3.5 h-3.5 shrink-0 select-none" aria-hidden /> More insights <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", open && "rotate-180")} />
         </button>
       </div>
       <section ref={panelRef} id="view-insights" hidden={!open} className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5 mt-3">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3">
-            <h3 className="text-sm font-semibold">Insights</h3>
+            <h3 className="text-sm font-semibold">
+              {/* Inline, not flex: this heading shares a baseline row with the
+                  Auto-drafted label, so the icon must not own the baseline. */}
+              <Sparkles className="w-4 h-4 inline-block align-[-3px] mr-1 text-muted-foreground select-none" aria-hidden />
+              Insights
+            </h3>
             <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
               Auto-drafted · illustrative
             </span>

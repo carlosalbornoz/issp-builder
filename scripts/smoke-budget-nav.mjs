@@ -798,6 +798,24 @@ try {
     await p.close();
   }
 
+  console.log("\n[5n] Round 12 icons: insights affordance");
+  {
+    const p = await open("/budget?view=cybersecurity");
+    const btn = await p.evaluate(() => {
+      const b = [...document.querySelectorAll("button")].find((x) => x.textContent?.includes("More insights"));
+      return { found: !!b, spark: !!b?.querySelector("svg.lucide-sparkles"), emoji: b?.textContent?.includes("\u2728") ?? false };
+    });
+    check(btn.found && btn.spark && !btn.emoji, "insights button uses the lucide sparkles (no emoji)");
+    await p.evaluate(() => [...document.querySelectorAll("button")].find((x) => x.textContent?.includes("More insights"))?.click());
+    await new Promise((r) => setTimeout(r, 500));
+    const panel = await p.evaluate(() => {
+      const h3 = [...document.querySelectorAll("h3")].find((x) => x.textContent?.includes("Insights"));
+      return { found: !!h3, icon: !!h3?.querySelector("svg") };
+    });
+    check(panel.found && panel.icon, "insights panel header carries the icon pattern");
+    await p.close();
+  }
+
   console.log("\n[6] Data standard and trace share the frame");
   for (const [url, current, crumb] of [
     ["/budget/data-standard", "Data standard", "Data standard"],
