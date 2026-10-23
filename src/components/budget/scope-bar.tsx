@@ -10,7 +10,7 @@
 
 import { useId, useState } from "react";
 import { Popover } from "@base-ui/react/popover";
-import { Info, Lock, SlidersHorizontal, X } from "lucide-react";
+import { Lock, SlidersHorizontal, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { FilterSelect, HintTip, type DataMode, type FyFilter } from "./views/shared";
