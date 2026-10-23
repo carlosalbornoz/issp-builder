@@ -35,6 +35,9 @@ export interface ScopeBarProps {
   expenseClass: string;
   onClass: (v: string) => void;
   classOptions: [string, string][];
+  bucket: string;
+  onBucket: (v: string) => void;
+  bucketOptions: [string, string][];
   agency?: { slug: string; acronym: string };
   onClearAgency: () => void;
   mode: DataMode;
@@ -44,8 +47,8 @@ export interface ScopeBarProps {
 }
 
 export function ScopeBar(props: ScopeBarProps) {
-  const { sector, fy, cycle, type, fund, expenseClass, agency, onClearAgency, summary } = props;
-  const secondaryCount = [cycle, type, fund, expenseClass].filter((v) => v !== "all").length;
+  const { sector, fy, cycle, type, fund, expenseClass, bucket, agency, onClearAgency, summary } = props;
+  const secondaryCount = [cycle, type, fund, expenseClass, bucket].filter((v) => v !== "all").length;
   const scopeCount = secondaryCount + (sector !== "all" ? 1 : 0) + (fy !== "all" ? 1 : 0) + (agency ? 1 : 0);
 
   return (
@@ -118,12 +121,13 @@ function FyChips({ fy, onFy, wrap }: ScopeBarProps & { wrap?: boolean }) {
   );
 }
 
-function SecondaryFilters({ cycle, onCycle, cycleOptions, type, onType, typeOptions, fund, onFund, fundOptions, expenseClass, onClass, classOptions }: ScopeBarProps) {
+function SecondaryFilters({ cycle, onCycle, cycleOptions, type, onType, typeOptions, fund, onFund, fundOptions, expenseClass, onClass, classOptions, bucket, onBucket, bucketOptions }: ScopeBarProps) {
   return (
     <>
       <FilterSelect ariaLabel="Filter by plan cycle" className="w-full" value={cycle} onChange={onCycle} options={cycleOptions} />
       <FilterSelect ariaLabel="Filter by agency type" className="w-full" value={type} onChange={onType} options={typeOptions} />
       <FilterSelect ariaLabel="Filter by expense class" className="w-full" value={expenseClass} onChange={onClass} options={classOptions} />
+      <FilterSelect ariaLabel="Filter by strategic bucket" className="w-full" value={bucket} onChange={onBucket} options={bucketOptions} />
       <FilterSelect ariaLabel="Filter by fund source" className="w-full" value={fund} onChange={onFund} options={fundOptions} />
     </>
   );

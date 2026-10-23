@@ -692,6 +692,20 @@ try {
     check(qs.includes("class=capitalOutlay") && summary.includes("₱3.84B"), `expense class filter scopes the corpus to capital outlay (${qs} / ${summary})`);
     await p.close();
   }
+
+  console.log("\n[5m] Open-item batch: bucket filter, coarse targets, table fade, fleet icons");
+  {
+    const p = await open("/budget");
+    await p.evaluate(() => document.querySelector("button[data-filters-trigger]")?.click());
+    await new Promise((r) => setTimeout(r, 400));
+    await p.select('select[aria-label="Filter by strategic bucket"]', "continuingCosts");
+    await p.keyboard.press("Escape");
+    await p.waitForFunction(() => location.search.includes("bucket=continuingCosts"), { timeout: 15000 }).catch(() => {});
+    await p.waitForFunction(() => [...document.querySelectorAll("span")].some((s) => s.textContent?.includes("line items · ₱424.5M")), { timeout: 15000 }).catch(() => {});
+    const summary = await p.evaluate(() => [...document.querySelectorAll("span")].find((s) => s.textContent?.includes("line items"))?.textContent?.trim() ?? "");
+    check(/137 line items · ₱424\.5M/.test(summary), `bucket filter scopes to continuing costs (${summary})`);
+    await p.close();
+  }
   {
     // The trace CTA must carry the scope so the round trip returns to the same lens.
     const p = await open("/budget?view=money&sector=agricultureFood&mode=current");

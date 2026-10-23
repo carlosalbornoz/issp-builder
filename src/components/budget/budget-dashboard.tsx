@@ -15,7 +15,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { BudgetFrame } from "./budget-frame";
 import { ScopeBar } from "./scope-bar";
 import { DemoNotice } from "@/components/repository/demo-notice";
-import { useCorpus, TYPE_LABELS, SECTORS } from "@/lib/repository/corpus";
+import { useCorpus, TYPE_LABELS, SECTORS, BUCKETS } from "@/lib/repository/corpus";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import type { CorpusProfile } from "@/lib/repository/corpus-types";
 import { phpCompact } from "@/lib/utils";
@@ -43,6 +43,7 @@ const categoryNameById = new Map(EXPENSE_CATEGORIES.map((c) => [c.id, c.name]));
 const EMPTY_AGENCIES: CorpusProfile[] = [];
 const FY_VALUES = [2026, 2027, 2028, 2029, 2030] as const satisfies readonly FyFilter[];
 const TYPE_KEYS = ["NGA", "GOCC", "LGU", "OTHER"] as const;
+const BUCKET_KEYS: readonly string[] = BUCKETS.map((b) => b.key);
 
 export function BudgetDashboard() {
   const params = useSearchParams();
@@ -86,6 +87,7 @@ export function BudgetDashboard() {
   const setType = (v: string) => setParam("type", v);
   const setFund = (v: string) => setParam("fund", v);
   const setClass = (v: string) => setParam("class", v);
+  const setBucket = (v: string) => setParam("bucket", v);
 
   const agencies = corpus?.agencies ?? EMPTY_AGENCIES;
 
@@ -122,9 +124,18 @@ export function BudgetDashboard() {
   // Expense class: the examiner's asset-vs-recurring split (Capital outlay / MOOE).
   const classParam = params.get("class");
   const expenseClass = classParam === "capitalOutlay" || classParam === "mooe" ? classParam : "all";
+  // Strategic bucket (Part IV B.x: new projects vs subscriptions we already pay).
+  const bucketParam = params.get("bucket");
+  const bucket = bucketParam !== null && BUCKET_KEYS.includes(bucketParam) ? bucketParam : "all";
   const lines: AgencyLine[] = useMemo(
-    () => allLines.filter((l) => (fund === "all" || l.fundSource === fund) && (expenseClass === "all" || l.expenseClass === expenseClass)),
-    [allLines, fund, expenseClass]
+    () =>
+      allLines.filter(
+        (l) =>
+          (fund === "all" || l.fundSource === fund) &&
+          (expenseClass === "all" || l.expenseClass === expenseClass) &&
+          (bucket === "all" || l.bucket === bucket)
+      ),
+    [allLines, fund, expenseClass, bucket]
   );
 
   const fyLabel = fy === "all" ? `across ${new Set(lines.map((l) => l.year)).size} fiscal years` : `FY${fy}`;
@@ -139,7 +150,7 @@ export function BudgetDashboard() {
     const header = ["agency", "acronym", "type", "cycle", "year", "category", "expense_class", "bucket", "project", "item", "office", "fund_source", "qty", "unit_cost", "total"];
     const rows = selected.flatMap((a) =>
       a.lineItems
-        .filter((l) => (fund === "all" || l.fundSource === fund) && (fy === "all" || l.year === fy) && (expenseClass === "all" || l.expenseClass === expenseClass))
+        .filter((l) => (fund === "all" || l.fundSource === fund) && (fy === "all" || l.year === fy) && (expenseClass === "all" || l.expenseClass === expenseClass) && (bucket === "all" || l.bucket === bucket))
         .map((l) => [
           a.name, a.acronym, a.type, a.cycleLabel, String(l.year),
           categoryNameById.get(l.categoryId) ?? l.categoryId, l.expenseClass, l.bucket, l.projectTitle ?? "",
@@ -178,6 +189,9 @@ export function BudgetDashboard() {
           expenseClass={expenseClass}
           onClass={setClass}
           classOptions={[["all", "All expense classes"], ["capitalOutlay", "Capital outlay"], ["mooe", "MOOE"]]}
+          bucket={bucket}
+          onBucket={setBucket}
+          bucketOptions={[["all", "All strategic buckets"], ...BUCKETS.map((b) => [b.key, b.label] as [string, string])]}
           agency={agencySlug ? { slug: agencySlug, acronym: agencies.find((a) => a.slug === agencySlug)?.acronym ?? agencySlug } : undefined}
           onClearAgency={() => setParam("agency", null)}
           mode={dataMode}
@@ -201,7 +215,7 @@ export function BudgetDashboard() {
               <button
                 className="font-medium text-primary hover:underline"
                 onClick={() => {
-                  replaceScope({ agency: null, sector: null, fy: "all", cycle: "all", type: "all", fund: "all", class: "all" });
+                  replaceScope({ agency: null, sector: null, fy: "all", cycle: "all", type: "all", fund: "all", class: "all", bucket: "all" });
                 }}
               >
                 Clear all filters
