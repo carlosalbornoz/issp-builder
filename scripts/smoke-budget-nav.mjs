@@ -658,6 +658,25 @@ try {
     check(delta !== null && delta <= 2, `phone footer aligns with the page column (left delta ${delta}px)`);
     await h.close();
   }
+  {
+    // The scope selects draw one custom caret, centred in the control (the native
+    // arrow sat off the text baseline and matched no other icon).
+    const p = await open("/budget");
+    const caret = await p.evaluate(() => {
+      const sel = document.querySelector('select[aria-label="Filter by PDP sector"]');
+      const chev = sel?.parentElement?.querySelector("svg");
+      if (!sel || !chev) return null;
+      const s = sel.getBoundingClientRect();
+      const c = chev.getBoundingClientRect();
+      return {
+        appearance: getComputedStyle(sel).appearance,
+        dCenter: Math.round(Math.abs(c.top + c.height / 2 - (s.top + s.height / 2))),
+        fromRight: Math.round(s.right - c.right),
+      };
+    });
+    check(caret?.appearance === "none" && caret.dCenter <= 1 && caret.fromRight >= 4 && caret.fromRight <= 12, `scope selects draw one centred caret (${JSON.stringify(caret)})`);
+    await p.close();
+  }
 
   console.log("\n[5l] Expense class filter (capital outlay vs MOOE)");
   {
