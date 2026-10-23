@@ -781,6 +781,23 @@ try {
     await p.close();
   }
 
+  console.log("\n[5n] Round 12 icons: empty states");
+  for (const [url, label, line] of [
+    ["/budget?view=buys&fy=2026&fund=Locally+funded", "buys BarList", "Nothing matches the current filters"],
+    ["/budget?view=ask&fy=2026&fund=Locally+funded", "ask fund panel", "No line items in scope"],
+    ["/budget?view=ai&sector=agricultureFood", "AI panel", "No tagged AI or compute requests in scope"],
+    ["/budget?view=money&sector=energy", "money", "No GAA agencies in scope"],
+    ["/budget?view=absorptive&sector=energy", "absorptive", "No GAA agencies in scope"],
+  ]) {
+    const p = await open(url);
+    const note = await p.evaluate((needle) => {
+      const el = [...document.querySelectorAll("[data-empty-note]")].find((n) => n.textContent?.includes(needle));
+      return { found: !!el, icon: !!el?.querySelector("svg") };
+    }, line);
+    check(note.found && note.icon, `${label}: empty note carries the shared icon pattern`);
+    await p.close();
+  }
+
   console.log("\n[6] Data standard and trace share the frame");
   for (const [url, current, crumb] of [
     ["/budget/data-standard", "Data standard", "Data standard"],

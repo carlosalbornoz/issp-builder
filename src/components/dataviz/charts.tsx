@@ -9,7 +9,27 @@
  */
 
 import Link from "next/link";
+import type { ReactNode } from "react";
+import { Inbox } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+// ─── Empty-data line ──────────────────────────────────────────────────────────
+
+/**
+ * The one empty-data line every surface shares: the current scope holds none of
+ * this content. The icon reinforces the state; its 1lh wrapper keeps it
+ * anchored to the first line when the text wraps.
+ */
+export function EmptyNote({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <p data-empty-note className={cn("text-xs text-muted-foreground flex items-start gap-1.5", className)}>
+      <span className="h-[1lh] inline-flex items-center shrink-0" aria-hidden>
+        <Inbox className="w-3.5 h-3.5 select-none" />
+      </span>
+      <span>{children}</span>
+    </p>
+  );
+}
 
 // ─── Ranked horizontal bar list ───────────────────────────────────────────────
 
@@ -36,7 +56,7 @@ export function BarList({
 }) {
   const max = Math.max(...items.map((i) => i.value), 1);
   if (items.length === 0) {
-    return <p className={cn("text-xs text-muted-foreground", className)}>Nothing matches the current filters.</p>;
+    return <EmptyNote className={className}>Nothing matches the current filters.</EmptyNote>;
   }
   return (
     <div className={cn("space-y-3", className)}>

@@ -11,7 +11,7 @@
 
 import { Cpu } from "lucide-react";
 import type { CorpusAiKind } from "@/lib/repository/corpus-types";
-import { BarList } from "@/components/dataviz/charts";
+import { BarList, EmptyNote } from "@/components/dataviz/charts";
 import { phpCompact } from "@/lib/utils";
 import { SCREENS } from "../nav";
 import { Panel, ProposedOnly, ViewHeader, ViewProps } from "./shared";
@@ -88,7 +88,7 @@ export function AiView({ corpus, lines, mode }: ViewProps) {
           icon={Cpu}
         >
           {scoped.length === 0 ? (
-            <p className="text-xs text-muted-foreground">No tagged AI or compute requests in scope.</p>
+            <EmptyNote>No tagged AI or compute requests in scope.</EmptyNote>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <BarList

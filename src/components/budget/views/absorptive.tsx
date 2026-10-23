@@ -8,6 +8,7 @@
 
 import Link from "next/link";
 import { Info } from "lucide-react";
+import { EmptyNote } from "@/components/dataviz/charts";
 import type { CompassAgency, CorpusProfile } from "@/lib/repository/corpus-types";
 import { cn, phpCompact } from "@/lib/utils";
 import { SCREENS } from "../nav";
@@ -21,9 +22,7 @@ export function AbsorptiveView({ corpus, profiles, mode }: ViewProps) {
       <ViewHeader title={SCREENS.absorptive.label} lede={`${SCREENS.absorptive.summary} Execution figures use a mock COMPASS layer (proposed link).`} />
       {gaa.length === 0 ? (
         <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            No GAA agencies in scope. GOCC and LGU budgets do not pass through the GAA.
-          </p>
+          <EmptyNote className="text-sm leading-relaxed">No GAA agencies in scope. GOCC and LGU budgets do not pass through the GAA.</EmptyNote>
         </div>
       ) : (
         <ProposedOnly mode={mode} requires="UACS join keys + a COMPASS execution feed (proposed)">

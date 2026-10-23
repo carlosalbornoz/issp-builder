@@ -9,6 +9,7 @@
 
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { EmptyNote } from "@/components/dataviz/charts";
 import type { CompassAgency, CompassYearRecord, CorpusProcurementRow, CorpusProcurementStage } from "@/lib/repository/corpus-types";
 import { cn, php, phpCompact } from "@/lib/utils";
 import { SCREENS, withScope } from "../nav";
@@ -109,9 +110,7 @@ export function MoneyView({ corpus, profiles, mode, params }: ViewProps & { para
           locks in current-form mode. */}
       {gaa.length === 0 ? (
         <div className="rounded-xl ring-1 ring-foreground/10 bg-card p-4 sm:p-5">
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            No GAA agencies in scope. GOCC and LGU budgets do not pass through the GAA.
-          </p>
+          <EmptyNote className="text-sm leading-relaxed">No GAA agencies in scope. GOCC and LGU budgets do not pass through the GAA.</EmptyNote>
         </div>
       ) : (
         <ProposedOnly mode={mode} requires="UACS join keys + a COMPASS execution feed (proposed)">

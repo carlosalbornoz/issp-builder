@@ -7,7 +7,7 @@
  */
 
 import { Banknote, Building2, Coins, Landmark, ReceiptText } from "lucide-react";
-import { Donut, StackedColumns, SwatchLegend } from "@/components/dataviz/charts";
+import { Donut, EmptyNote, StackedColumns, SwatchLegend } from "@/components/dataviz/charts";
 import { BUCKETS } from "@/lib/repository/corpus";
 import { EXPENSE_CATEGORIES } from "@/lib/expense-categories";
 import { php, phpCompact } from "@/lib/utils";
@@ -160,7 +160,7 @@ export function AskView({ profiles, lines, fy, mode, fyLabel }: ViewProps & { fy
           {fundSegments.length > 0 ? (
             <Donut segments={fundSegments} centerValue={phpCompact(total)} centerLabel="proposed" format={phpCompact} size={160} stackLegend />
           ) : (
-            <p className="text-xs text-muted-foreground">No line items in scope.</p>
+            <EmptyNote>No line items in scope.</EmptyNote>
           )}
         </Panel>
       </div>
