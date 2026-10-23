@@ -26,6 +26,8 @@ export type ScreenKey =
 
 export type NavGroup = "overview" | "investment" | "domains" | "execution" | "agencies" | "resources";
 
+import { BookOpen, Building2, Coins, Globe, LayoutGrid, Route } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { SECTOR_LABELS } from "@/lib/repository/corpus";
 
 /**
@@ -49,6 +51,16 @@ export const NAV_GROUP_LABELS: Record<NavGroup, string> = {
   execution: "Budget execution",
   agencies: "Agencies",
   resources: "Resources",
+};
+
+/** One icon per sidebar group; reinforces the label (KPI-eyebrow size), never replaces it. */
+export const NAV_GROUP_ICONS: Record<NavGroup, LucideIcon> = {
+  overview: Globe,
+  investment: Coins,
+  domains: LayoutGrid,
+  execution: Route,
+  agencies: Building2,
+  resources: BookOpen,
 };
 
 export const SCREENS: Record<ScreenKey, { label: string; group: NavGroup | null; summary: string }> = {

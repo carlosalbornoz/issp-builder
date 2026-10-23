@@ -14,7 +14,7 @@ import { ChevronRight, House, Menu } from "lucide-react";
 import { PublicShell } from "@/components/public-shell";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { EXTERNAL_ITEMS, NAV, NAV_GROUP_LABELS, SCREENS, externalHref, isScreenKey, scopeNote, screenHref, type ExternalItem, type ScreenKey } from "./nav";
+import { EXTERNAL_ITEMS, NAV, NAV_GROUP_ICONS, NAV_GROUP_LABELS, SCREENS, externalHref, isScreenKey, scopeNote, screenHref, type ExternalItem, type ScreenKey } from "./nav";
 import { SECTOR_LABELS } from "@/lib/repository/corpus";
 
 /** The surface the frame wraps: a dashboard screen, or one of the pages beside it. */
@@ -148,9 +148,12 @@ function SidebarNav({ active, params, onNavigate }: { active: FrameActive; param
         <House className="w-4 h-4" aria-hidden />
         Home
       </Link>
-      {NAV.map(({ group, items }) => (
+      {NAV.map(({ group, items }) => {
+        const GroupIcon = NAV_GROUP_ICONS[group];
+        return (
         <div key={group} className="mt-4">
-          <p className="px-2.5 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+          <p className="px-2.5 pb-1.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+            <GroupIcon className="w-3 h-3 shrink-0 select-none" aria-hidden />
             {NAV_GROUP_LABELS[group]}
           </p>
           <ul className="space-y-0.5">
@@ -166,7 +169,8 @@ function SidebarNav({ active, params, onNavigate }: { active: FrameActive; param
             })}
           </ul>
         </div>
-      ))}
+        );
+      })}
       <p className="px-2.5 mt-2 text-[11px] text-muted-foreground">Demonstration · fictitious data</p>
     </nav>
   );

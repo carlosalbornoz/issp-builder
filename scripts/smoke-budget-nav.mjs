@@ -746,6 +746,21 @@ try {
   console.log("\n[5e] Formal tone: Agencies");
   await formal("/budget?view=agencies", "Agency ISSPs", { contains: ["Budget by agency", "Select an agency to open its ISSP"], lacks: ["drill-down", "click through", "click the acronym"] });
 
+  console.log("\n[5n] Round 12 icons: sidebar group labels");
+  {
+    const p = await open("/budget?view=cybersecurity");
+    const groups = await p.evaluate(() => {
+      const nav = document.querySelector('nav[aria-label="Dashboard"]');
+      const labels = ["Overview", "Investment", "ICT domains", "Budget execution", "Agencies", "Resources"];
+      return labels.map((label) => {
+        const row = [...(nav?.querySelectorAll("p") ?? [])].find((n) => n.textContent?.trim() === label);
+        return { label, found: !!row, icon: !!row?.querySelector("svg") };
+      });
+    });
+    for (const g of groups) check(g.found && g.icon, `sidebar group "${g.label}" carries the icon pattern`);
+    await p.close();
+  }
+
   console.log("\n[6] Data standard and trace share the frame");
   for (const [url, current, crumb] of [
     ["/budget/data-standard", "Data standard", "Data standard"],
