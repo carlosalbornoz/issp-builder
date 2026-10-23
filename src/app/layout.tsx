@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono, Inter, Figtree, JetBrains_Mono, Lexend } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { IsspStoreProvider } from "@/lib/store";
 import { ThemeProvider } from "@/lib/theme";
@@ -26,51 +26,58 @@ import {
 } from "@/lib/seo";
 import "./globals.css";
 
-const fraunces = Fraunces({
+// Self-hosted (next/font/local): the files in ./fonts are the latin subsets
+// Google served for these exact family/weight requests. Self-hosting removes
+// the compile-time fetch — Turbopack's font mapping broke against Google's
+// current css2 responses (the same variable file served for every weight), and
+// the demo must not depend on venue network access.
+const fraunces = localFont({
+  src: "./fonts/Fraunces.woff2",
   variable: "--font-display",
-  subsets: ["latin"],
-  axes: ["opsz"],
+  weight: "100 900",
 });
 
-const ibmPlexSans = IBM_Plex_Sans({
+const ibmPlexSans = localFont({
+  src: "./fonts/IBMPlexSans.woff2",
   variable: "--font-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: "400 600",
 });
 
 // eGov theme only (see globals.css .theme-egov-light/.theme-egov-dark):
 // the vendored kit's own typeface, loaded globally like the others but
 // only referenced when that theme's --font-body/--font-display point to it.
-const lexend = Lexend({
+const lexend = localFont({
+  src: "./fonts/Lexend.woff2",
   variable: "--font-egov",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "300 700",
 });
 
 // Kapwa theme only (see globals.css .theme-bettergov):
 // BetterGov.ph's Kapwa design system typeface (--font-kapwa-sans).
-const inter = Inter({
+const inter = localFont({
+  src: "./fonts/Inter.woff2",
   variable: "--font-kapwa",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "400 700",
 });
 
-const figtree = Figtree({
+const figtree = localFont({
+  src: "./fonts/Figtree.woff2",
   variable: "--font-kapwa-display",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "500 700",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const jetbrainsMono = localFont({
+  src: "./fonts/JetBrainsMono.woff2",
   variable: "--font-kapwa-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: "400 600",
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
+const ibmPlexMono = localFont({
+  src: [
+    { path: "./fonts/IBMPlexMono-400.woff2", weight: "400" },
+    { path: "./fonts/IBMPlexMono-500.woff2", weight: "500" },
+  ],
   variable: "--font-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
 });
 
 // The list is inlined from THEMES rather than hand-written, so adding a theme
