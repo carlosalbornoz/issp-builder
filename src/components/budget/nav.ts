@@ -26,7 +26,7 @@ export type ScreenKey =
 
 export type NavGroup = "overview" | "investment" | "domains" | "execution" | "agencies" | "resources";
 
-import { BookOpen, Building2, Coins, Globe, LayoutGrid, Route } from "lucide-react";
+import { BookOpen, Building2, ChartPie, ClipboardCheck, Cloud, Coins, Cpu, FileJson, Gauge, Globe, Laptop, Layers3, LayoutGrid, MonitorSmartphone, Network, ReceiptText, Route, ShieldCheck, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SECTOR_LABELS } from "@/lib/repository/corpus";
 
@@ -63,42 +63,45 @@ export const NAV_GROUP_ICONS: Record<NavGroup, LucideIcon> = {
   resources: BookOpen,
 };
 
-export const SCREENS: Record<ScreenKey, { label: string; group: NavGroup | null; summary: string }> = {
+export const SCREENS: Record<ScreenKey, { label: string; group: NavGroup | null; summary: string; icon?: LucideIcon }> = {
   home: { label: "Home", group: null, summary: "ICT investment plans of the whole of government, by area." },
   posture: {
     label: "Government-wide posture",
     group: "overview",
     summary: "Cyber controls, cloud hosting, continuing costs, device support and execution, by agency.",
+    icon: ClipboardCheck,
   },
-  sectors: { label: "Sector comparison", group: "overview", summary: "Planned ICT investment by PDP 2023-2028 sector." },
-  ask: { label: "Investment summary", group: "investment", summary: "Proposed ICT investment by year, expense class and fund\u00A0source." },
-  buys: { label: "Expenditure by category", group: "investment", summary: "Proposed ICT investment by DICT expense category." },
-  domains: { label: "ICT domains", group: "domains", summary: "Spending and readiness in each ICT domain." },
-  cybersecurity: { label: "Cybersecurity", group: "domains", summary: "Part II-B controls, fleet exposure and advisory impact." },
-  devices: { label: "Devices", group: "domains", summary: "Device estate, unit prices and device spending." },
-  networks: { label: "Networks", group: "domains", summary: "Connectivity spending and planned network links." },
-  cloud: { label: "Cloud and software", group: "domains", summary: "Storage mix, hosting spending and cloud adoption." },
-  ai: { label: "AI and compute", group: "domains", summary: "Tagged AI and compute requests, own-build and shared." },
-  people: { label: "ICT workforce", group: "domains", summary: "ICT staff complement and capability spending." },
-  services: { label: "eGovernment services", group: "domains", summary: "eGovPH adoption, PNPKI use and online service\u00A0reach." },
-  shared: { label: "Shared services", group: "domains", summary: "Duplicate systems and cross-agency programs." },
+  sectors: { label: "Sector comparison", group: "overview", summary: "Planned ICT investment by PDP 2023-2028 sector.", icon: ChartPie },
+  ask: { label: "Investment summary", group: "investment", summary: "Proposed ICT investment by year, expense class and fund\u00A0source.", icon: Coins },
+  buys: { label: "Expenditure by category", group: "investment", summary: "Proposed ICT investment by DICT expense category.", icon: ReceiptText },
+  domains: { label: "ICT domains", group: "domains", summary: "Spending and readiness in each ICT domain.", icon: LayoutGrid },
+  cybersecurity: { label: "Cybersecurity", group: "domains", summary: "Part II-B controls, fleet exposure and advisory impact.", icon: ShieldCheck },
+  devices: { label: "Devices", group: "domains", summary: "Device estate, unit prices and device spending.", icon: Laptop },
+  networks: { label: "Networks", group: "domains", summary: "Connectivity spending and planned network links.", icon: Network },
+  cloud: { label: "Cloud and software", group: "domains", summary: "Storage mix, hosting spending and cloud adoption.", icon: Cloud },
+  ai: { label: "AI and compute", group: "domains", summary: "Tagged AI and compute requests, own-build and shared.", icon: Cpu },
+  people: { label: "ICT workforce", group: "domains", summary: "ICT staff complement and capability spending.", icon: Users },
+  services: { label: "eGovernment services", group: "domains", summary: "eGovPH adoption, PNPKI use and online service\u00A0reach.", icon: MonitorSmartphone },
+  shared: { label: "Shared services", group: "domains", summary: "Duplicate systems and cross-agency programs.", icon: Layers3 },
   money: {
     label: "Plan to obligation",
     group: "execution",
     summary: "ISSP request through NEP, GAA, allotment, obligation and\u00A0disbursement.",
+    icon: Route,
   },
-  absorptive: { label: "Absorptive capacity", group: "execution", summary: "FY2025 obligation rates against the FY2027 request." },
-  agencies: { label: "Agency ISSPs", group: "agencies", summary: "Proposed investment by agency, with links to each\u00A0ISSP." },
+  absorptive: { label: "Absorptive capacity", group: "execution", summary: "FY2025 obligation rates against the FY2027 request.", icon: Gauge },
+  agencies: { label: "Agency ISSPs", group: "agencies", summary: "Proposed investment by agency, with links to each\u00A0ISSP.", icon: Building2 },
 };
 
 /** Pages outside the ?view= switch that the sidebar also lists. */
 export type ExternalItem = "dataStandard" | "examiner" | "citizen";
 
-export const EXTERNAL_ITEMS: Record<ExternalItem, { label: string; href: string; summary: string }> = {
+export const EXTERNAL_ITEMS: Record<ExternalItem, { label: string; href: string; summary: string; icon?: LucideIcon }> = {
   dataStandard: {
     label: "Data standard",
     href: "/budget/data-standard",
     summary: "Fields each dashboard view reads, and the refinements that unlock the rest.",
+    icon: FileJson,
   },
   examiner: { label: "Examiner brief", href: "/budget/report/examiner", summary: "One-page agency brief for budget review." },
   citizen: { label: "Citizen summary", href: "/budget/report/citizen", summary: "Plain-language one-page summary." },

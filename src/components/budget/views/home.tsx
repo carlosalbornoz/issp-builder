@@ -7,6 +7,7 @@
 
 import Link from "next/link";
 import { Lock } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { phpCompact } from "@/lib/utils";
 import { EXTERNAL_ITEMS, SCREENS, externalHref, screenHref, type ScreenKey } from "../nav";
 import { homeHeadline, type Headline } from "./headlines";
@@ -32,9 +33,9 @@ export function HomeView({ params, fyLabel, ...props }: ViewProps & { params: UR
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {HOME_CARDS.map((key) =>
             key === "dataStandard" ? (
-              <TaskCard key={key} href={externalHref("dataStandard", params)} title={EXTERNAL_ITEMS.dataStandard.label} summary={EXTERNAL_ITEMS.dataStandard.summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} />
+              <TaskCard key={key} href={externalHref("dataStandard", params)} title={EXTERNAL_ITEMS.dataStandard.label} summary={EXTERNAL_ITEMS.dataStandard.summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} icon={EXTERNAL_ITEMS.dataStandard.icon} />
             ) : (
-              <TaskCard key={key} href={screenHref(key, params)} title={SCREENS[key].label} summary={SCREENS[key].summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} />
+              <TaskCard key={key} href={screenHref(key, params)} title={SCREENS[key].label} summary={SCREENS[key].summary} headline={homeHeadline(key, props, fyLabel)} mode={mode} icon={SCREENS[key].icon} />
             )
           )}
         </div>
@@ -48,7 +49,7 @@ export function HomeView({ params, fyLabel, ...props }: ViewProps & { params: UR
  * The whole card is the link. A figure that needs a proposed field shows the
  * lock in current-form mode, the same contract as ProposedOnly panels.
  */
-export function TaskCard({ href, title, summary, headline, mode }: { href: string; title: string; summary: string; headline: Headline; mode: ViewProps["mode"] }) {
+export function TaskCard({ href, title, summary, headline, mode, icon: Icon }: { href: string; title: string; summary: string; headline: Headline; mode: ViewProps["mode"]; icon?: LucideIcon }) {
   const locked = headline.proposed && mode === "current";
   return (
     <Link
@@ -57,7 +58,10 @@ export function TaskCard({ href, title, summary, headline, mode }: { href: strin
       data-locked={locked ? "" : undefined}
       className="group flex flex-col rounded-xl ring-1 ring-foreground/10 bg-card p-4 hover:bg-accent/40 active:bg-accent/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
     >
-      <span className="text-sm font-semibold group-hover:text-primary transition-colors">{title}</span>
+      <span className="text-sm font-semibold group-hover:text-primary transition-colors flex items-center gap-1.5">
+        {Icon ? <Icon className="w-4 h-4 text-muted-foreground shrink-0 select-none" aria-hidden /> : null}
+        {title}
+      </span>
       <span className="text-xs text-muted-foreground leading-snug mt-1 text-pretty">{summary}</span>
       <span className="mt-auto pt-3 flex items-baseline gap-2 min-w-0">
         {locked ? (

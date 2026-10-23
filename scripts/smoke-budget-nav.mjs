@@ -761,6 +761,26 @@ try {
     await p.close();
   }
 
+  console.log("\n[5n] Round 12 icons: task cards");
+  {
+    const p = await open("/budget");
+    const cards = await p.evaluate(() => {
+      const cards = [...document.querySelectorAll("a[data-card]")];
+      return { total: cards.length, withIcon: cards.filter((c) => c.querySelector(":scope > span:first-child svg")).length };
+    });
+    check(cards.total === 9 && cards.withIcon === 9, `all nine Home task cards carry the title icon (${cards.withIcon}/${cards.total})`);
+    await p.close();
+  }
+  {
+    const p = await open("/budget?view=domains");
+    const cards = await p.evaluate(() => {
+      const cards = [...document.querySelectorAll("a[data-card]")];
+      return { total: cards.length, withIcon: cards.filter((c) => c.querySelector(":scope > span:first-child svg")).length };
+    });
+    check(cards.total === 8 && cards.withIcon === 8, `all eight domain hub cards carry the title icon (${cards.withIcon}/${cards.total})`);
+    await p.close();
+  }
+
   console.log("\n[6] Data standard and trace share the frame");
   for (const [url, current, crumb] of [
     ["/budget/data-standard", "Data standard", "Data standard"],
