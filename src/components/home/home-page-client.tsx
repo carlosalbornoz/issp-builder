@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   FilePlus2, FolderOpen, BookOpen, FileText, AlertTriangle,
@@ -589,9 +590,11 @@ export default function HomePageClient({ aboutHtml, privacyHtml }: { aboutHtml: 
                   </div>
                   <h3 className="text-sm font-semibold text-muted-foreground mb-1.5">{f.title}</h3>
                   <p className="text-xs text-muted-foreground/70 leading-relaxed mb-3">{f.body}</p>
-                  <a href={f.href} className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:opacity-70 transition-opacity">
+                  {/* next/link, not a raw anchor: only it applies the /issp
+                      basePath that prod is served under. */}
+                  <Link href={f.href} className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:opacity-70 transition-opacity">
                     Open the preview <ArrowRight className="w-3 h-3" />
-                  </a>
+                  </Link>
                 </div>
               );
             })}
