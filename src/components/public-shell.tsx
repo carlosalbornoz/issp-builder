@@ -9,6 +9,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { ThemeMenu } from "@/components/theme-menu";
 
 // Part colors from sections.ts (same fixed brand artifact as home-page-client)
 const PART_COLORS = ["#2563EB", "#D97706", "#16A34A", "#7C3AED"];
@@ -59,16 +60,15 @@ export function PublicShell({
               <span className="sm:hidden">Budget</span>
               <span className="hidden sm:inline">Budget Dashboard</span>
             </Link>
-            {/* The dashboard frame lists the data standard in its sidebar and
-                drawer, so the header drops its chip there: one entry point. */}
-            {width === "dashboard" ? null : (
-              <Link href="/budget/data-standard" className={cn(navCls(active === "dataStandard"), "hidden md:block")}>
-                Data standard
-              </Link>
-            )}
+            {/* Same header on every public page; the dashboard sidebar also lists
+                the data standard under Resources. */}
+            <Link href="/budget/data-standard" className={cn(navCls(active === "dataStandard"), "hidden md:block")}>
+              Data standard
+            </Link>
             <Link href="/" className={cn(navCls(false), "hidden sm:block")}>
               ISSP Builder
             </Link>
+            <ThemeMenu />
           </nav>
         </div>
       </header>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -17,8 +17,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -54,7 +52,8 @@ import { IsspPropertiesDialog } from "./issp-properties-dialog";
 import { DistributeDialog } from "./distribute-dialog";
 import { ConsolidateDialog } from "./consolidate-dialog";
 import { syncPdfStyleFromUrl } from "@/lib/pdf-style";
-import { THEME_MIGRATED_KEY, THEMES, isThemeId, useTheme, type ThemeId } from "@/lib/theme";
+import { THEME_MIGRATED_KEY, useTheme } from "@/lib/theme";
+import { ThemeMenuItems } from "@/components/theme-menu";
 import { toast } from "sonner";
 
 type ExportState =
@@ -106,52 +105,6 @@ function useIsMobileViewport(): boolean {
   }, []);
 
   return isMobile;
-}
-
-function ThemeMenuItems({ onThemeSelected }: { onThemeSelected?: () => void }) {
-  const { theme, setTheme } = useTheme();
-
-  function handleThemeChange(value: string) {
-    if (!isThemeId(value)) return;
-    setTheme(value);
-    onThemeSelected?.();
-  }
-
-  return (
-    <DropdownMenuRadioGroup value={theme} onValueChange={handleThemeChange}>
-      {THEMES.map((item, index) => (
-        <Fragment key={item.id}>
-          {/* A rule between colour families (the light/dark pair of each), so a
-              ten-item menu still reads as a short list of choices. */}
-          {index > 0 &&
-            item.id.split("-")[0] !== THEMES[index - 1].id.split("-")[0] && (
-              <DropdownMenuSeparator />
-            )}
-          <DropdownMenuRadioItem value={item.id} className="gap-2">
-            <ThemePreview theme={item.id} />
-            {item.name}
-          </DropdownMenuRadioItem>
-        </Fragment>
-      ))}
-    </DropdownMenuRadioGroup>
-  );
-}
-
-function ThemePreview({ theme }: { theme: ThemeId }) {
-  const item = THEMES.find((candidate) => candidate.id === theme)!;
-
-  return (
-    <span
-      aria-hidden="true"
-      className="inline-flex h-4 w-4 items-center justify-center rounded-full border"
-      style={{ backgroundColor: item.background, borderColor: item.border }}
-    >
-      <span
-        className="h-2 w-2 rounded-full border border-black/10"
-        style={{ backgroundColor: item.secondary }}
-      />
-    </span>
-  );
 }
 
 const sidebarControlClass =
