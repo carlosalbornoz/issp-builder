@@ -82,8 +82,8 @@ export function ExaminerBrief() {
           <article className="report-page">
             <style>{`@media print { .no-print { display: none !important; } body { background: #fff; } .report-page { box-shadow: none; margin: 0; width: 100%; max-width: none; } } @page { size: A4; margin: 12mm; }`}</style>
 
-            <header className="flex justify-between items-center border-b-2 border-[var(--sidebar)] pb-2">
-              <span className="report-eyebrow text-[var(--sidebar)]">Budget Examiner Brief · FY{FOCUS_YEAR} Technical Budget Hearing</span>
+            <header className="flex justify-between items-center border-b-2 border-primary pb-2">
+              <span className="report-eyebrow text-primary">Budget Examiner Brief · FY{FOCUS_YEAR} Technical Budget Hearing</span>
               <span className="report-eyebrow text-destructive">Illustrative · fictitious data</span>
             </header>
 
@@ -166,7 +166,7 @@ export function ExaminerBrief() {
                       <span>{year === 2025 ? "FY2025 · closed" : "FY2026 · as of Q2"}</span>
                       <div className="h-3 rounded-sm bg-muted relative overflow-hidden">
                         <div className="absolute inset-y-0 left-0 rounded-sm" style={{ width: `${(rec.allotment / rec.allotment) * 100}%`, background: "var(--muted-foreground)", opacity: 0.25 }} />
-                        <div className="absolute inset-y-0 left-0 rounded-sm bg-[var(--sidebar)]" style={{ width: `${(oblig / rec.allotment) * 100}%` }} />
+                        <div className="absolute inset-y-0 left-0 rounded-sm bg-primary" style={{ width: `${(oblig / rec.allotment) * 100}%` }} />
                       </div>
                       <span className="tabular-nums text-right">
                         {phpCompact(oblig)} of {phpCompact(rec.allotment)} · {Math.round((oblig / rec.allotment) * 100)}%

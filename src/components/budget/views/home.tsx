@@ -104,12 +104,12 @@ function WhyNowBand({ corpus, mode }: { corpus: ViewProps["corpus"]; mode: ViewP
   const share29 = continuingShare(2029);
 
   return (
-    <section className="rounded-xl bg-[var(--sidebar)] text-white p-5 sm:p-6">
-      <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE] mb-1.5">ICT investment outlook</p>
+    <section className="rounded-xl bg-band text-band-foreground p-5 sm:p-6">
+      <p className="text-[10px] uppercase tracking-widest font-semibold text-band-foreground/75 mb-1.5">ICT investment outlook</p>
       <h2 className="font-display text-xl sm:text-2xl font-bold tracking-tight max-w-3xl">
         ICT spending is reaching infrastructure scale
       </h2>
-      <p className="text-sm text-[#E6ECF7] leading-relaxed max-w-3xl mt-2.5">
+      <p className="text-sm text-band-foreground/90 leading-relaxed max-w-3xl mt-2.5">
         AI services, government data centers and continuously operated platforms are raising public ICT budgets
         to infrastructure levels. This investment warrants line-item review at the planning stage, in the ISSP,
         before the NEP.
@@ -146,10 +146,10 @@ function WhyNowBand({ corpus, mode }: { corpus: ViewProps["corpus"]; mode: ViewP
 
 function WhyTile({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
-    <div className="h-full rounded-lg bg-white/10 border border-white/15 px-4 py-3 flex flex-col">
-      <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE]">{label}</p>
+    <div className="h-full rounded-lg bg-band-foreground/10 border border-band-foreground/15 px-4 py-3 flex flex-col">
+      <p className="text-[10px] uppercase tracking-widest font-semibold text-band-foreground/75">{label}</p>
       <p className="text-lg font-bold tabular-nums leading-tight mt-1">{value}</p>
-      <p className="text-[11px] text-[#E6ECF7]/85 leading-snug mt-1">{sub}</p>
+      <p className="text-[11px] text-band-foreground/80 leading-snug mt-1">{sub}</p>
     </div>
   );
 }

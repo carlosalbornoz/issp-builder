@@ -146,7 +146,7 @@ export function ProjectTrace() {
                                 step.source.includes("ISSP") || step.source.includes(".issp")
                                   ? "bg-primary text-primary-foreground"
                                   : step.source.includes("PhilGEPS") || step.source.includes("DICT")
-                                    ? "bg-[var(--sidebar)] text-white"
+                                    ? "bg-band text-band-foreground"
                                     : "bg-muted text-foreground"
                               )}
                             >
@@ -220,8 +220,8 @@ export function ProjectTrace() {
                       <p><span className="font-semibold">DIME</span> · <em>where it stands</em>: physical progress and site checks.</p>
                     </section>
 
-                    <section className="rounded-xl bg-[var(--sidebar)] text-white p-5">
-                      <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE] mb-2">The missing piece</p>
+                    <section className="rounded-xl bg-band text-band-foreground p-5">
+                      <p className="text-[10px] uppercase tracking-widest font-semibold text-band-foreground/75 mb-2">The missing piece</p>
                       <p className="text-sm font-semibold leading-relaxed">
                         One key per project, written into the ISSP, makes these four sources one story.
                       </p>

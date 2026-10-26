@@ -322,15 +322,15 @@ export default function DataStandardPage() {
         </section>
 
         {/* ── The ask ── */}
-        <section className="rounded-xl bg-[var(--sidebar)] text-white p-6 flex flex-wrap gap-6 items-center">
+        <section className="rounded-xl bg-band text-band-foreground p-6 flex flex-wrap gap-6 items-center">
           <div className="flex-1 min-w-72">
-            <p className="text-[10px] uppercase tracking-widest font-semibold text-[#B9C8EE] mb-1.5">Request</p>
+            <p className="text-[10px] uppercase tracking-widest font-semibold text-band-foreground/75 mb-1.5">Request</p>
             <p className="text-lg font-semibold leading-snug">
               Adopt the ISSP as the primary record of ICT spending in COMPASS: the plan against which the rest of the
               spending trail is checked.
             </p>
           </div>
-          <ol className="flex-1 min-w-64 list-decimal pl-5 space-y-1.5 text-sm leading-relaxed text-[#E6ECF7]">
+          <ol className="flex-1 min-w-64 list-decimal pl-5 space-y-1.5 text-sm leading-relaxed text-band-foreground/90">
             <li>Agree on the 7 join keys with DBM, DICT and COA.</li>
             <li>Pilot with 3–5 agencies in the FY2028 Budget Call.</li>
             <li>Publish endorsed ISSPs as open data beside COMPASS.</li>

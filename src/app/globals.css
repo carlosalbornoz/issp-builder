@@ -49,6 +49,8 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
+  --color-band: var(--band);
+  --color-band-foreground: var(--band-foreground);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
@@ -808,6 +810,29 @@
   --sidebar-accent-foreground: #FFFFFF;
   --sidebar-border: rgba(255, 255, 255, 0.16);
   --sidebar-ring: rgba(118, 205, 255, 0.45);
+}
+
+/* Band: the dark surface with light text behind the budget pages' highlight
+   blocks (Home outlook, data standard request, trace key, citizen summary).
+   Light themes use their primary; dark themes their raised secondary surface
+   with the page text colour; BetterGovPH its navy. The text stays legible on
+   every theme. */
+:root {
+  --band: var(--primary);
+  --band-foreground: var(--primary-foreground);
+}
+.theme-system-dark,
+.theme-warm-dark,
+.theme-ocean-dark,
+.theme-forest-dark,
+.theme-rose-dark,
+.theme-egov-dark {
+  --band: var(--secondary);
+  --band-foreground: var(--foreground);
+}
+.theme-bettergov {
+  --band: #062365;
+  --band-foreground: #FFFFFF;
 }
 
 /* Navy sidebar on the light page: the editor sidebar is built from the global

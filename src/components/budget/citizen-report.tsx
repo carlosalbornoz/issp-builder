@@ -78,8 +78,8 @@ export function CitizenReport() {
           <article className="report-page" lang="fil">
             <style>{`@media print { .no-print { display: none !important; } .report-page { box-shadow: none; margin: 0; width: 100%; max-width: none; } } @page { size: A4; margin: 12mm; }`}</style>
 
-            <header className="flex justify-between items-center border-b-2 border-[var(--sidebar)] pb-2">
-              <span className="report-eyebrow text-[var(--sidebar)]">Para sa mamamayan · For citizens · FY{FY}</span>
+            <header className="flex justify-between items-center border-b-2 border-primary pb-2">
+              <span className="report-eyebrow text-primary">Para sa mamamayan · For citizens · FY{FY}</span>
               <span className="report-eyebrow text-destructive" lang="en">Illustrative · fictitious data</span>
             </header>
 
@@ -154,7 +154,7 @@ export function CitizenReport() {
                   ["Mag-ulat.", "Report a delayed or poor project through the eGovPH app."],
                 ].map(([fil, en], i) => (
                   <div key={fil} className="grid grid-cols-[24px_1fr] gap-2.5">
-                    <b className="w-6 h-6 rounded-full bg-[var(--sidebar)] text-white flex items-center justify-center text-[11px]">{i + 1}</b>
+                    <b className="w-6 h-6 rounded-full bg-band text-band-foreground flex items-center justify-center text-[11px]">{i + 1}</b>
                     <span>
                       <b>{fil}</b> <span lang="en">{en}</span>
                     </span>
@@ -163,7 +163,7 @@ export function CitizenReport() {
               </div>
             </section>
 
-            <section className="mt-auto rounded-lg bg-[var(--sidebar)] text-white px-4 py-3.5 text-[12px] leading-relaxed">
+            <section className="mt-auto rounded-lg bg-band text-band-foreground px-4 py-3.5 text-[12px] leading-relaxed">
               <b className="text-[13px]">Bakit mahalaga ito?</b>{" "}
               <span lang="en">When plans are open data, anyone can check that the money buys what the agency promised, and that the promised service arrives.</span>
             </section>
