@@ -5,4 +5,3 @@ ignore:
   # Dev-tooling chain only: shadcn -> fast-glob -> micromatch -> braces. Never bundled at runtime.
   # Keep in sync with .trivyignore. Revisit when braces > 3.0.3 ships.
   - vulnerability: CVE-2026-93687
-  - vulnerability: GHSA-vfj7-8cjw-p6xm
