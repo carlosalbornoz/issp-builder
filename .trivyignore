@@ -3,4 +3,3 @@
 # Dev-tooling chain only: shadcn -> fast-glob -> micromatch -> braces. Never bundled at runtime.
 # Revisit when braces > 3.0.3 ships, then remove these entries.
 CVE-2026-93687
-GHSA-vfj7-8cjw-p6xm
